@@ -1,0 +1,9 @@
+{
+  "id": "mvs.report.pack",
+  "name": "MVS Report Pack",
+  "version": "1.0.0",
+  "author": "d1d2dopamine",
+  "type": "visualization",
+  "description": "Четыре шаблона для отчёта: ранжирование MVS Score, карта FPR/мощности, разброс значений и сравнение групп. Только декларативные JSON-файлы, без кода.",
+  "minAppVersion": "1.1.0"
+}

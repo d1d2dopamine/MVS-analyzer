@@ -1,0 +1,13 @@
+{
+  "id": "stress-test",
+  "name": "Стресс-тест (грязные данные)",
+  "values": {
+    "minMeasurements": 20,
+    "customRepetitions": 20000,
+    "alpha": 0.05,
+    "outlierRate": 0.12,
+    "simulationScenario": "location",
+    "outputPrefix": "STRESS",
+    "figureTemplates": "value_distribution,mvs_score,fpr_power,group_comparison,data_quality"
+  }
+}

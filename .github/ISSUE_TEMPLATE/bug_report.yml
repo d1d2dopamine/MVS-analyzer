@@ -1,0 +1,113 @@
+name: Bug report
+description: Something computes, exports or displays the wrong thing
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Please **do not attach real measurement data** — reduce the case to synthetic values first. The bug almost always survives that.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What did you expect, and what did you get instead?
+      placeholder: |
+        Expected: verdict "insufficient" for coefficient_of_variation
+        Actual:   verdict "difference" with an interval that covers zero
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      value: |
+        1. Load the dataset below
+        2. Settings: ...
+        3. Run calibration
+        4. Run analysis
+        5. Open Results
+    validations:
+      required: true
+
+  - type: input
+    id: app-version
+    attributes:
+      label: App version
+      description: Shown on the Home page, or `version` in run_manifest.json
+      placeholder: "1.3.2"
+    validations:
+      required: true
+
+  - type: input
+    id: engine-formula
+    attributes:
+      label: Engine version and formula hash
+      description: "`engineVersion` and `formula.hash` from run_manifest.json"
+      placeholder: "engine 1.2.0, formula MVS-1.2.0 / 70e1d577..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: settings
+    attributes:
+      label: Settings used
+      description: Seed, scenario, effect multiplier, alpha, outlier rate, missing rate, min measurements, split calibration on/off
+      placeholder: |
+        seed 20260719, scenario location, effect 1.15, alpha 0.05,
+        outliers 0.02, missing 0, minMeasurements 6, split calibration off
+    validations:
+      required: true
+
+  - type: textarea
+    id: dataset
+    attributes:
+      label: Dataset
+      description: A synthetic file that reproduces it, or the generator that produces one. One of the bundled `examples/` files is ideal.
+      render: csv
+    validations:
+      required: false
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Where does it happen?
+      options:
+        - Import (CSV, encodings, column roles)
+        - Calibration (FPR, power, MDE)
+        - Analysis (p-value, effect size, verdict)
+        - Score and candidates
+        - Exports (CSV, run manifest)
+        - Figures
+        - Audit and run journal
+        - Plugins
+        - Interface, theme, DPI, localization
+        - Build or startup
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: "Windows 11 23H2, 150% scaling, dark theme, RU interface"
+    validations:
+      required: true
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else
+      description: Audit codes you saw, exception text, screenshots (attach, do not commit).
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Before submitting
+      options:
+        - label: I am on the latest release, or I checked the changelog for a fix
+          required: true
+        - label: This report contains no real subject or device data
+          required: true

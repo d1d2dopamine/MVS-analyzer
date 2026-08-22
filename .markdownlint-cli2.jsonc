@@ -1,0 +1,21 @@
+{
+  // Documentation style for this repository.
+  // Run locally with:  npx markdownlint-cli2 "**/*.md"
+  "config": {
+    "default": true,
+    // Prose is written in long lines and wrapped by the renderer.
+    "MD013": false,
+    // The READMEs use centered HTML headers, <details> blocks and callouts.
+    "MD033": false,
+    // Some documents intentionally start with a badge/HTML block.
+    "MD041": false,
+    // Repeated section names ("Fixed", "Added") are expected in changelogs.
+    "MD024": { "siblings_only": true },
+    // Bare URLs appear inside code samples and manifests.
+    "MD034": false,
+    // Tables are written compactly; GitHub renders them identically.
+    "MD060": false
+  },
+  "globs": ["**/*.md"],
+  "ignores": ["bin/**", "obj/**", "node_modules/**"]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "mvs.stress.pack",
+  "name": "MVS Stress Test Pack",
+  "version": "1.0.0",
+  "author": "d1d2dopamine",
+  "type": "import-export",
+  "minAppVersion": "1.3.0",
+  "description": "Настройки и отчёт для стресс-теста MVS на файле MVS_stress_test.csv. Только данные, кода нет."
+}

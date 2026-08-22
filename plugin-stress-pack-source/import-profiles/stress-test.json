@@ -1,0 +1,26 @@
+{
+  "id": "stress-test",
+  "name": "Стресс-тест MVS (запятая, точка)",
+  "delimiter": ",",
+  "decimalComma": false,
+  "columns": {
+    "entity": [
+      "entity"
+    ],
+    "value": [
+      "value"
+    ],
+    "group": [
+      "group"
+    ],
+    "sequence": [
+      "sequence"
+    ],
+    "unit": [
+      "unit"
+    ],
+    "variable": [
+      "variable"
+    ]
+  }
+}

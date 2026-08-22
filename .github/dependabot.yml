@@ -1,0 +1,15 @@
+version: 2
+
+# The application itself has zero NuGet dependencies by design, so only the
+# GitHub Actions used by CI and releases are tracked here.
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "ci"
+    labels:
+      - "ci"
+      - "dependencies"

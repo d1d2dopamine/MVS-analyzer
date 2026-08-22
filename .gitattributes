@@ -1,0 +1,29 @@
+* text=auto
+
+*.cs        text diff=csharp
+*.csproj    text eol=crlf
+*.slnx      text eol=crlf
+*.manifest  text eol=crlf
+*.bat       text eol=crlf
+*.ps1       text eol=crlf
+*.md        text eol=lf
+*.yml       text eol=lf
+*.yaml      text eol=lf
+*.json      text eol=lf
+*.csv       text eol=lf
+*.cff       text eol=lf
+
+# Legacy lab export intentionally stored in Windows-1251 for the import test.
+examples/lab_device_ru_win1251.csv -text
+
+*.ico       binary
+*.png       binary
+*.jpg       binary
+*.gif       binary
+*.pdf       binary
+*.zip       binary
+*.mvsplugin binary
+
+# Keep generated/vendored noise out of language statistics.
+examples/**    linguist-documentation
+docs/**        linguist-documentation

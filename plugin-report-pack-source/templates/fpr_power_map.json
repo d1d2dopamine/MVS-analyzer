@@ -1,0 +1,11 @@
+{
+  "id": "fpr_power_map",
+  "name": "FPR vs power map",
+  "chart": "scatter",
+  "source": "calibration",
+  "x": "metric",
+  "y": "power",
+  "grouping": "metric",
+  "description": "Каждая метрика — точка: ложные срабатывания против мощности.",
+  "version": 1
+}

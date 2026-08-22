@@ -1,0 +1,14 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security or plugin-safety report
+    url: https://github.com/d1d2dopamine/MVS-Analyzer/security/advisories/new
+    about: Report privately. Please do not open a public issue for anything exploitable.
+  - name: Question about the statistics
+    url: https://github.com/d1d2dopamine/MVS-Analyzer/blob/main/docs/METHODS.md
+    about: Metrics, calibration, the MVS Score, effect sizes, verdicts and MDE are documented here first.
+  - name: My CSV will not load
+    url: https://github.com/d1d2dopamine/MVS-Analyzer/blob/main/docs/DATA_FORMAT.md
+    about: Column roles, delimiters, encodings, decimal commas and import profiles, with a troubleshooting table.
+  - name: Results changed after an update
+    url: https://github.com/d1d2dopamine/MVS-Analyzer/blob/main/docs/AUDIT.md
+    about: Compare formula.hash and engineVersion first. FORMULA_CHANGED is expected across formula versions.

@@ -1,0 +1,11 @@
+{
+  "id": "value_spread",
+  "name": "Value spread (histogram)",
+  "chart": "histogram",
+  "source": "trials",
+  "x": "rt",
+  "y": "rt",
+  "grouping": "none",
+  "description": "Распределение всех валидных измерений с единицами из файла данных.",
+  "version": 1
+}

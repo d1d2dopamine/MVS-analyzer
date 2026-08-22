@@ -1,0 +1,9 @@
+{
+  "id": "example.mvs.visualization",
+  "name": "Example MVS Visualization Pack",
+  "version": "1.0.0",
+  "author": "MVS Project",
+  "type": "visualization",
+  "description": "A safe declarative example template pack.",
+  "minAppVersion": "0.6.0"
+}

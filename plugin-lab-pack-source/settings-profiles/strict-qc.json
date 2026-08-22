@@ -1,0 +1,13 @@
+{
+  "id": "strict-qc",
+  "name": "Строгий контроль качества",
+  "values": {
+    "minMeasurements": 20,
+    "customRepetitions": 20000,
+    "alpha": 0.01,
+    "outlierRate": 0.05,
+    "simulationScenario": "location",
+    "outputPrefix": "QC",
+    "figureTemplates": "value_distribution,mvs_score,fpr_power,group_comparison,data_quality"
+  }
+}

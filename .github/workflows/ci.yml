@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+    paths-ignore:
+      - "**/*.md"
+      - "docs/**"
+      - "LICENSE"
+      - "CITATION.cff"
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: Build and test (windows-latest)
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Restore
+        run: |
+          dotnet restore MvsAnalyzer.csproj
+          dotnet restore MvsAnalyzer.Tests/MvsAnalyzer.Tests.csproj
+
+      - name: Build application
+        run: dotnet build MvsAnalyzer.csproj -c Release --no-restore /warnaserror:CS8600,CS8602,CS8618
+
+      - name: Build tests
+        run: dotnet build MvsAnalyzer.Tests/MvsAnalyzer.Tests.csproj -c Release --no-restore
+
+      - name: Run test harness
+        run: dotnet run --project MvsAnalyzer.Tests/MvsAnalyzer.Tests.csproj -c Release --no-build
+
+      - name: Publish self-contained build
+        run: >
+          dotnet publish MvsAnalyzer.csproj -c Release -r win-x64
+          --self-contained true
+          -p:PublishSingleFile=true
+          -p:DebugType=None
+          -p:DebugSymbols=false
+          -o publish
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MVS_Analyzer-win-x64
+          path: publish/MVS_Analyzer.exe
+          if-no-files-found: error
+          retention-days: 14
+
+  verify-formula:
+    name: Formula hash is frozen
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Formula version and hash must appear together
+        shell: pwsh
+        run: |
+          $source = Get-Content OutputExporter.cs -Raw
+          if ($source -notmatch 'MVS-\d+\.\d+\.\d+') {
+            Write-Error "FormulaVersion not found in OutputExporter.cs"
+            exit 1
+          }
+          if ($source -notmatch '[0-9a-f]{64}') {
+            Write-Error "FormulaHash not found in OutputExporter.cs"
+            exit 1
+          }
+          Write-Host "Formula version and hash are present. The FormulaHash test verifies that they match."

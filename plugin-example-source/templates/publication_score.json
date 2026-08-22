@@ -1,0 +1,10 @@
+{
+  "id": "publication_score",
+  "name": "Publication MVS Score",
+  "chart": "bar",
+  "source": "results",
+  "x": "metric",
+  "y": "mvs_score",
+  "grouping": "none",
+  "version": 1
+}

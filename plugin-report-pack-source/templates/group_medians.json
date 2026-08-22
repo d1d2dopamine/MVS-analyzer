@@ -1,0 +1,11 @@
+{
+  "id": "group_medians",
+  "name": "Group medians comparison",
+  "chart": "box",
+  "source": "participants",
+  "x": "group",
+  "y": "median_rt",
+  "grouping": "group",
+  "description": "Сравнение групп по медианам объектов.",
+  "version": 1
+}

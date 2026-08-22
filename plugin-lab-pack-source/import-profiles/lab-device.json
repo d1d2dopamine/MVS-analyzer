@@ -1,0 +1,38 @@
+{
+  "id": "lab-device",
+  "name": "Лабораторный прибор (CSV с ; и запятой)",
+  "delimiter": ";",
+  "decimalComma": true,
+  "columns": {
+    "entity": [
+      "Sample_ID",
+      "SampleId",
+      "Образец",
+      "Проба"
+    ],
+    "value": [
+      "Result",
+      "Значение",
+      "Результат"
+    ],
+    "group": [
+      "Cond",
+      "Группа",
+      "Серия"
+    ],
+    "sequence": [
+      "Rep",
+      "Повтор",
+      "N"
+    ],
+    "unit": [
+      "Units",
+      "Ед",
+      "Единицы"
+    ],
+    "variable": [
+      "Param",
+      "Параметр"
+    ]
+  }
+}

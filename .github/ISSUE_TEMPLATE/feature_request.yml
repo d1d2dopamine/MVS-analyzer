@@ -1,0 +1,77 @@
+name: Feature request
+description: Suggest a capability, metric, test, export or workflow
+title: "[feature] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Two constraints that shape every answer here: **no new dependencies** and **no network code**. Proposals that fit inside those tend to land quickly.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: Describe the analysis situation, not the implementation.
+      placeholder: "I have before/after measurements on the same devices and cannot use the tool at all."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What should the app do?
+      validations:
+        required: false
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Statistics (tests, effect sizes, designs)
+        - Metrics (new metric or definition)
+        - Calibration and power
+        - Import and data formats
+        - Exports and reporting
+        - Figures
+        - Audit and reproducibility
+        - Plugins
+        - Interface, accessibility, localization
+        - Automation (CLI, batch runs)
+    validations:
+      required: true
+
+  - type: textarea
+    id: statistics-impact
+    attributes:
+      label: Does this change existing numbers?
+      description: |
+        If it would alter anything in `results.csv`, `calibration.csv` or `run_manifest.json`, say so. Those changes require a formula version bump, a new hash and a documented break in comparability with older runs.
+      placeholder: "No — adds a new column only. / Yes — changes how repeatability is computed."
+    validations:
+      required: true
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Papers, standards or existing implementations. Especially valuable for statistical proposals.
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you considered
+      description: Including "do it outside the app in R/Python" — that is sometimes the right answer.
+
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Constraints
+      options:
+        - label: This can be implemented without new NuGet packages
+          required: false
+        - label: This requires no network access
+          required: true
+        - label: I am willing to help implement it
+          required: false

@@ -1,0 +1,18 @@
+{
+  "rules": [
+    {
+      "id": "min-measurements-40",
+      "target": "measurements",
+      "min": 40,
+      "message": "Entities with fewer than 40 usable measurements",
+      "messageRu": "Объекты с менее чем 40 годными измерениями"
+    },
+    {
+      "id": "group-size-25",
+      "target": "groupsize",
+      "min": 25,
+      "message": "Groups smaller than 25 entities",
+      "messageRu": "Группы меньше 25 объектов"
+    }
+  ]
+}

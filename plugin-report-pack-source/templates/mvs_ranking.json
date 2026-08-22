@@ -1,0 +1,11 @@
+{
+  "id": "mvs_ranking",
+  "name": "MVS ranking (all metrics)",
+  "chart": "bar",
+  "source": "results",
+  "x": "metric",
+  "y": "mvs_score",
+  "grouping": "none",
+  "description": "Все 10 метрик по MVS Score; кандидаты выделены цветом.",
+  "version": 1
+}

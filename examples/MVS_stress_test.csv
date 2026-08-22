@@ -1,0 +1,2881 @@
+entity,group,value,sequence,variable,unit
+control_01,Control,249.22,1,cycle_time,ms
+control_01,Control,265.91,2,cycle_time,ms
+control_01,Control,252.21,3,cycle_time,ms
+control_01,Control,253.63,4,cycle_time,ms
+control_01,Control,238.51,5,cycle_time,ms
+control_01,Control,213.19,6,cycle_time,ms
+control_01,Control,279.21,7,cycle_time,ms
+control_01,Control,264.61,8,cycle_time,ms
+control_01,Control,267.25,9,cycle_time,ms
+control_01,Control,262.71,10,cycle_time,ms
+control_01,Control,265.18,11,cycle_time,ms
+control_01,Control,257.73,12,cycle_time,ms
+control_01,Control,260.35,13,cycle_time,ms
+control_01,Control,267.79,14,cycle_time,ms
+control_01,Control,248.46,15,cycle_time,ms
+control_01,Control,254.27,16,cycle_time,ms
+control_01,Control,272.17,17,cycle_time,ms
+control_01,Control,259.81,18,cycle_time,ms
+control_01,Control,235.41,19,cycle_time,ms
+control_01,Control,271.19,20,cycle_time,ms
+control_01,Control,285.55,21,cycle_time,ms
+control_01,Control,283.43,22,cycle_time,ms
+control_01,Control,248.99,23,cycle_time,ms
+control_01,Control,239.08,24,cycle_time,ms
+control_01,Control,241.97,25,cycle_time,ms
+control_01,Control,241.62,26,cycle_time,ms
+control_01,Control,260.97,27,cycle_time,ms
+control_01,Control,232.10,28,cycle_time,ms
+control_01,Control,254.78,29,cycle_time,ms
+control_01,Control,262.34,30,cycle_time,ms
+control_01,Control,262.30,31,cycle_time,ms
+control_01,Control,249.87,32,cycle_time,ms
+control_01,Control,253.21,33,cycle_time,ms
+control_01,Control,236.20,34,cycle_time,ms
+control_01,Control,284.03,35,cycle_time,ms
+control_01,Control,249.20,36,cycle_time,ms
+control_01,Control,253.55,37,cycle_time,ms
+control_01,Control,253.42,38,cycle_time,ms
+control_01,Control,263.96,39,cycle_time,ms
+control_01,Control,283.27,40,cycle_time,ms
+control_02,Control,211.86,1,cycle_time,ms
+control_02,Control,277.39,2,cycle_time,ms
+control_02,Control,260.65,3,cycle_time,ms
+control_02,Control,269.50,4,cycle_time,ms
+control_02,Control,229.49,5,cycle_time,ms
+control_02,Control,240.75,6,cycle_time,ms
+control_02,Control,254.60,7,cycle_time,ms
+control_02,Control,279.77,8,cycle_time,ms
+control_02,Control,217.47,9,cycle_time,ms
+control_02,Control,243.76,10,cycle_time,ms
+control_02,Control,274.06,11,cycle_time,ms
+control_02,Control,273.82,12,cycle_time,ms
+control_02,Control,238.07,13,cycle_time,ms
+control_02,Control,261.93,14,cycle_time,ms
+control_02,Control,264.58,15,cycle_time,ms
+control_02,Control,235.46,16,cycle_time,ms
+control_02,Control,262.35,17,cycle_time,ms
+control_02,Control,246.83,18,cycle_time,ms
+control_02,Control,261.53,19,cycle_time,ms
+control_02,Control,237.97,20,cycle_time,ms
+control_02,Control,250.85,21,cycle_time,ms
+control_02,Control,263.42,22,cycle_time,ms
+control_02,Control,259.03,23,cycle_time,ms
+control_02,Control,271.26,24,cycle_time,ms
+control_02,Control,237.77,25,cycle_time,ms
+control_02,Control,251.97,26,cycle_time,ms
+control_02,Control,238.65,27,cycle_time,ms
+control_02,Control,251.61,28,cycle_time,ms
+control_02,Control,232.35,29,cycle_time,ms
+control_02,Control,264.07,30,cycle_time,ms
+control_02,Control,232.62,31,cycle_time,ms
+control_02,Control,258.48,32,cycle_time,ms
+control_02,Control,223.82,33,cycle_time,ms
+control_02,Control,261.87,34,cycle_time,ms
+control_02,Control,257.15,35,cycle_time,ms
+control_02,Control,269.46,36,cycle_time,ms
+control_02,Control,239.69,37,cycle_time,ms
+control_02,Control,227.46,38,cycle_time,ms
+control_02,Control,256.16,39,cycle_time,ms
+control_02,Control,253.34,40,cycle_time,ms
+control_03,Control,265.51,1,cycle_time,ms
+control_03,Control,249.89,2,cycle_time,ms
+control_03,Control,268.99,3,cycle_time,ms
+control_03,Control,259.75,4,cycle_time,ms
+control_03,Control,273.33,5,cycle_time,ms
+control_03,Control,259.89,6,cycle_time,ms
+control_03,Control,260.84,7,cycle_time,ms
+control_03,Control,248.10,8,cycle_time,ms
+control_03,Control,249.27,9,cycle_time,ms
+control_03,Control,251.79,10,cycle_time,ms
+control_03,Control,246.34,11,cycle_time,ms
+control_03,Control,261.84,12,cycle_time,ms
+control_03,Control,263.44,13,cycle_time,ms
+control_03,Control,255.78,14,cycle_time,ms
+control_03,Control,248.67,15,cycle_time,ms
+control_03,Control,294.52,16,cycle_time,ms
+control_03,Control,311.38,17,cycle_time,ms
+control_03,Control,256.10,18,cycle_time,ms
+control_03,Control,272.28,19,cycle_time,ms
+control_03,Control,271.97,20,cycle_time,ms
+control_03,Control,268.03,21,cycle_time,ms
+control_03,Control,246.13,22,cycle_time,ms
+control_03,Control,287.71,23,cycle_time,ms
+control_03,Control,226.01,24,cycle_time,ms
+control_03,Control,290.39,25,cycle_time,ms
+control_03,Control,248.97,26,cycle_time,ms
+control_03,Control,263.89,27,cycle_time,ms
+control_03,Control,276.43,28,cycle_time,ms
+control_03,Control,258.62,29,cycle_time,ms
+control_03,Control,248.25,30,cycle_time,ms
+control_03,Control,244.16,31,cycle_time,ms
+control_03,Control,258.26,32,cycle_time,ms
+control_03,Control,248.76,33,cycle_time,ms
+control_03,Control,261.22,34,cycle_time,ms
+control_03,Control,262.83,35,cycle_time,ms
+control_03,Control,258.15,36,cycle_time,ms
+control_03,Control,259.80,37,cycle_time,ms
+control_03,Control,275.61,38,cycle_time,ms
+control_03,Control,263.19,39,cycle_time,ms
+control_03,Control,257.52,40,cycle_time,ms
+control_04,Control,259.33,1,cycle_time,ms
+control_04,Control,258.86,2,cycle_time,ms
+control_04,Control,234.17,3,cycle_time,ms
+control_04,Control,252.70,4,cycle_time,ms
+control_04,Control,254.81,5,cycle_time,ms
+control_04,Control,247.81,6,cycle_time,ms
+control_04,Control,231.14,7,cycle_time,ms
+control_04,Control,234.51,8,cycle_time,ms
+control_04,Control,238.81,9,cycle_time,ms
+control_04,Control,243.25,10,cycle_time,ms
+control_04,Control,248.24,11,cycle_time,ms
+control_04,Control,252.87,12,cycle_time,ms
+control_04,Control,247.85,13,cycle_time,ms
+control_04,Control,233.67,14,cycle_time,ms
+control_04,Control,261.95,15,cycle_time,ms
+control_04,Control,261.37,16,cycle_time,ms
+control_04,Control,256.82,17,cycle_time,ms
+control_04,Control,258.81,18,cycle_time,ms
+control_04,Control,260.84,19,cycle_time,ms
+control_04,Control,246.56,20,cycle_time,ms
+control_04,Control,247.54,21,cycle_time,ms
+control_04,Control,237.58,22,cycle_time,ms
+control_04,Control,278.85,23,cycle_time,ms
+control_04,Control,249.89,24,cycle_time,ms
+control_04,Control,238.87,25,cycle_time,ms
+control_04,Control,235.73,26,cycle_time,ms
+control_04,Control,297.77,27,cycle_time,ms
+control_04,Control,220.76,28,cycle_time,ms
+control_04,Control,246.92,29,cycle_time,ms
+control_04,Control,233.30,30,cycle_time,ms
+control_04,Control,288.49,31,cycle_time,ms
+control_04,Control,234.07,32,cycle_time,ms
+control_04,Control,276.89,33,cycle_time,ms
+control_04,Control,276.36,34,cycle_time,ms
+control_04,Control,225.94,35,cycle_time,ms
+control_04,Control,241.23,36,cycle_time,ms
+control_04,Control,228.20,37,cycle_time,ms
+control_04,Control,256.32,38,cycle_time,ms
+control_04,Control,255.48,39,cycle_time,ms
+control_04,Control,212.82,40,cycle_time,ms
+control_05,Control,244.55,1,cycle_time,ms
+control_05,Control,222.01,2,cycle_time,ms
+control_05,Control,220.99,3,cycle_time,ms
+control_05,Control,228.99,4,cycle_time,ms
+control_05,Control,235.55,5,cycle_time,ms
+control_05,Control,245.08,6,cycle_time,ms
+control_05,Control,249.85,7,cycle_time,ms
+control_05,Control,271.93,8,cycle_time,ms
+control_05,Control,222.01,9,cycle_time,ms
+control_05,Control,250.40,10,cycle_time,ms
+control_05,Control,232.68,11,cycle_time,ms
+control_05,Control,249.58,12,cycle_time,ms
+control_05,Control,231.66,13,cycle_time,ms
+control_05,Control,248.22,14,cycle_time,ms
+control_05,Control,235.70,15,cycle_time,ms
+control_05,Control,272.47,16,cycle_time,ms
+control_05,Control,262.08,17,cycle_time,ms
+control_05,Control,249.80,18,cycle_time,ms
+control_05,Control,239.45,19,cycle_time,ms
+control_05,Control,257.33,20,cycle_time,ms
+control_05,Control,219.33,21,cycle_time,ms
+control_05,Control,218.60,22,cycle_time,ms
+control_05,Control,221.25,23,cycle_time,ms
+control_05,Control,256.37,24,cycle_time,ms
+control_05,Control,272.96,25,cycle_time,ms
+control_05,Control,242.91,26,cycle_time,ms
+control_05,Control,273.03,27,cycle_time,ms
+control_05,Control,265.98,28,cycle_time,ms
+control_05,Control,242.19,29,cycle_time,ms
+control_05,Control,254.53,30,cycle_time,ms
+control_05,Control,268.59,31,cycle_time,ms
+control_05,Control,232.93,32,cycle_time,ms
+control_05,Control,240.75,33,cycle_time,ms
+control_05,Control,239.31,34,cycle_time,ms
+control_05,Control,210.91,35,cycle_time,ms
+control_05,Control,229.46,36,cycle_time,ms
+control_05,Control,248.11,37,cycle_time,ms
+control_05,Control,262.48,38,cycle_time,ms
+control_05,Control,258.12,39,cycle_time,ms
+control_05,Control,241.35,40,cycle_time,ms
+control_06,Control,238.81,1,cycle_time,ms
+control_06,Control,222.72,2,cycle_time,ms
+control_06,Control,270.39,3,cycle_time,ms
+control_06,Control,237.20,4,cycle_time,ms
+control_06,Control,268.01,5,cycle_time,ms
+control_06,Control,244.41,6,cycle_time,ms
+control_06,Control,257.18,7,cycle_time,ms
+control_06,Control,229.29,8,cycle_time,ms
+control_06,Control,240.86,9,cycle_time,ms
+control_06,Control,246.87,10,cycle_time,ms
+control_06,Control,218.59,11,cycle_time,ms
+control_06,Control,234.74,12,cycle_time,ms
+control_06,Control,220.02,13,cycle_time,ms
+control_06,Control,233.38,14,cycle_time,ms
+control_06,Control,237.76,15,cycle_time,ms
+control_06,Control,255.25,16,cycle_time,ms
+control_06,Control,237.13,17,cycle_time,ms
+control_06,Control,242.19,18,cycle_time,ms
+control_06,Control,237.31,19,cycle_time,ms
+control_06,Control,223.52,20,cycle_time,ms
+control_06,Control,210.15,21,cycle_time,ms
+control_06,Control,230.72,22,cycle_time,ms
+control_06,Control,227.44,23,cycle_time,ms
+control_06,Control,238.55,24,cycle_time,ms
+control_06,Control,225.74,25,cycle_time,ms
+control_06,Control,236.49,26,cycle_time,ms
+control_06,Control,258.51,27,cycle_time,ms
+control_06,Control,244.26,28,cycle_time,ms
+control_06,Control,234.44,29,cycle_time,ms
+control_06,Control,248.29,30,cycle_time,ms
+control_06,Control,267.32,31,cycle_time,ms
+control_06,Control,270.11,32,cycle_time,ms
+control_06,Control,227.85,33,cycle_time,ms
+control_06,Control,276.06,34,cycle_time,ms
+control_06,Control,261.21,35,cycle_time,ms
+control_06,Control,239.04,36,cycle_time,ms
+control_06,Control,223.70,37,cycle_time,ms
+control_06,Control,261.79,38,cycle_time,ms
+control_06,Control,241.62,39,cycle_time,ms
+control_06,Control,266.76,40,cycle_time,ms
+control_07,Control,226.61,1,cycle_time,ms
+control_07,Control,248.10,2,cycle_time,ms
+control_07,Control,221.68,3,cycle_time,ms
+control_07,Control,250.37,4,cycle_time,ms
+control_07,Control,216.91,5,cycle_time,ms
+control_07,Control,233.95,6,cycle_time,ms
+control_07,Control,280.61,7,cycle_time,ms
+control_07,Control,257.35,8,cycle_time,ms
+control_07,Control,254.48,9,cycle_time,ms
+control_07,Control,262.95,10,cycle_time,ms
+control_07,Control,256.70,11,cycle_time,ms
+control_07,Control,276.61,12,cycle_time,ms
+control_07,Control,258.64,13,cycle_time,ms
+control_07,Control,237.14,14,cycle_time,ms
+control_07,Control,257.88,15,cycle_time,ms
+control_07,Control,259.74,16,cycle_time,ms
+control_07,Control,250.41,17,cycle_time,ms
+control_07,Control,257.89,18,cycle_time,ms
+control_07,Control,232.59,19,cycle_time,ms
+control_07,Control,247.36,20,cycle_time,ms
+control_07,Control,253.81,21,cycle_time,ms
+control_07,Control,232.13,22,cycle_time,ms
+control_07,Control,243.87,23,cycle_time,ms
+control_07,Control,246.79,24,cycle_time,ms
+control_07,Control,236.18,25,cycle_time,ms
+control_07,Control,223.31,26,cycle_time,ms
+control_07,Control,226.57,27,cycle_time,ms
+control_07,Control,255.12,28,cycle_time,ms
+control_07,Control,278.61,29,cycle_time,ms
+control_07,Control,267.95,30,cycle_time,ms
+control_07,Control,261.42,31,cycle_time,ms
+control_07,Control,287.63,32,cycle_time,ms
+control_07,Control,243.39,33,cycle_time,ms
+control_07,Control,242.52,34,cycle_time,ms
+control_07,Control,248.72,35,cycle_time,ms
+control_07,Control,240.83,36,cycle_time,ms
+control_07,Control,234.45,37,cycle_time,ms
+control_07,Control,246.46,38,cycle_time,ms
+control_07,Control,260.33,39,cycle_time,ms
+control_07,Control,225.51,40,cycle_time,ms
+control_08,Control,269.23,1,cycle_time,ms
+control_08,Control,263.06,2,cycle_time,ms
+control_08,Control,271.55,3,cycle_time,ms
+control_08,Control,247.11,4,cycle_time,ms
+control_08,Control,261.47,5,cycle_time,ms
+control_08,Control,264.39,6,cycle_time,ms
+control_08,Control,266.91,7,cycle_time,ms
+control_08,Control,256.17,8,cycle_time,ms
+control_08,Control,271.81,9,cycle_time,ms
+control_08,Control,273.27,10,cycle_time,ms
+control_08,Control,245.93,11,cycle_time,ms
+control_08,Control,259.27,12,cycle_time,ms
+control_08,Control,260.91,13,cycle_time,ms
+control_08,Control,291.37,14,cycle_time,ms
+control_08,Control,252.55,15,cycle_time,ms
+control_08,Control,249.13,16,cycle_time,ms
+control_08,Control,295.26,17,cycle_time,ms
+control_08,Control,246.66,18,cycle_time,ms
+control_08,Control,228.34,19,cycle_time,ms
+control_08,Control,225.19,20,cycle_time,ms
+control_08,Control,235.36,21,cycle_time,ms
+control_08,Control,226.34,22,cycle_time,ms
+control_08,Control,244.16,23,cycle_time,ms
+control_08,Control,264.13,24,cycle_time,ms
+control_08,Control,245.42,25,cycle_time,ms
+control_08,Control,260.72,26,cycle_time,ms
+control_08,Control,263.73,27,cycle_time,ms
+control_08,Control,279.44,28,cycle_time,ms
+control_08,Control,248.41,29,cycle_time,ms
+control_08,Control,271.15,30,cycle_time,ms
+control_08,Control,288.60,31,cycle_time,ms
+control_08,Control,247.51,32,cycle_time,ms
+control_08,Control,237.59,33,cycle_time,ms
+control_08,Control,278.30,34,cycle_time,ms
+control_08,Control,252.46,35,cycle_time,ms
+control_08,Control,230.73,36,cycle_time,ms
+control_08,Control,226.77,37,cycle_time,ms
+control_08,Control,295.80,38,cycle_time,ms
+control_08,Control,269.57,39,cycle_time,ms
+control_08,Control,245.91,40,cycle_time,ms
+control_09,Control,233.41,1,cycle_time,ms
+control_09,Control,252.34,2,cycle_time,ms
+control_09,Control,266.22,3,cycle_time,ms
+control_09,Control,251.72,4,cycle_time,ms
+control_09,Control,250.53,5,cycle_time,ms
+control_09,Control,251.70,6,cycle_time,ms
+control_09,Control,248.04,7,cycle_time,ms
+control_09,Control,247.71,8,cycle_time,ms
+control_09,Control,245.94,9,cycle_time,ms
+control_09,Control,258.65,10,cycle_time,ms
+control_09,Control,251.40,11,cycle_time,ms
+control_09,Control,226.96,12,cycle_time,ms
+control_09,Control,238.03,13,cycle_time,ms
+control_09,Control,202.41,14,cycle_time,ms
+control_09,Control,254.63,15,cycle_time,ms
+control_09,Control,239.84,16,cycle_time,ms
+control_09,Control,229.44,17,cycle_time,ms
+control_09,Control,227.86,18,cycle_time,ms
+control_09,Control,228.11,19,cycle_time,ms
+control_09,Control,251.79,20,cycle_time,ms
+control_09,Control,262.42,21,cycle_time,ms
+control_09,Control,257.45,22,cycle_time,ms
+control_09,Control,218.52,23,cycle_time,ms
+control_09,Control,245.15,24,cycle_time,ms
+control_09,Control,285.02,25,cycle_time,ms
+control_09,Control,245.32,26,cycle_time,ms
+control_09,Control,211.51,27,cycle_time,ms
+control_09,Control,251.62,28,cycle_time,ms
+control_09,Control,231.73,29,cycle_time,ms
+control_09,Control,241.64,30,cycle_time,ms
+control_09,Control,237.27,31,cycle_time,ms
+control_09,Control,244.08,32,cycle_time,ms
+control_09,Control,223.20,33,cycle_time,ms
+control_09,Control,226.18,34,cycle_time,ms
+control_09,Control,237.08,35,cycle_time,ms
+control_09,Control,241.03,36,cycle_time,ms
+control_09,Control,225.51,37,cycle_time,ms
+control_09,Control,240.86,38,cycle_time,ms
+control_09,Control,253.72,39,cycle_time,ms
+control_09,Control,236.14,40,cycle_time,ms
+control_10,Control,234.17,1,cycle_time,ms
+control_10,Control,246.39,2,cycle_time,ms
+control_10,Control,212.86,3,cycle_time,ms
+control_10,Control,212.34,4,cycle_time,ms
+control_10,Control,223.05,5,cycle_time,ms
+control_10,Control,242.98,6,cycle_time,ms
+control_10,Control,248.02,7,cycle_time,ms
+control_10,Control,252.60,8,cycle_time,ms
+control_10,Control,244.73,9,cycle_time,ms
+control_10,Control,244.33,10,cycle_time,ms
+control_10,Control,258.47,11,cycle_time,ms
+control_10,Control,258.48,12,cycle_time,ms
+control_10,Control,244.44,13,cycle_time,ms
+control_10,Control,246.60,14,cycle_time,ms
+control_10,Control,254.44,15,cycle_time,ms
+control_10,Control,237.67,16,cycle_time,ms
+control_10,Control,257.68,17,cycle_time,ms
+control_10,Control,272.16,18,cycle_time,ms
+control_10,Control,236.99,19,cycle_time,ms
+control_10,Control,260.73,20,cycle_time,ms
+control_10,Control,242.15,21,cycle_time,ms
+control_10,Control,242.89,22,cycle_time,ms
+control_10,Control,263.34,23,cycle_time,ms
+control_10,Control,236.99,24,cycle_time,ms
+control_10,Control,258.88,25,cycle_time,ms
+control_10,Control,225.79,26,cycle_time,ms
+control_10,Control,237.83,27,cycle_time,ms
+control_10,Control,248.05,28,cycle_time,ms
+control_10,Control,245.76,29,cycle_time,ms
+control_10,Control,269.87,30,cycle_time,ms
+control_10,Control,239.32,31,cycle_time,ms
+control_10,Control,224.96,32,cycle_time,ms
+control_10,Control,266.13,33,cycle_time,ms
+control_10,Control,246.32,34,cycle_time,ms
+control_10,Control,216.76,35,cycle_time,ms
+control_10,Control,244.95,36,cycle_time,ms
+control_10,Control,235.21,37,cycle_time,ms
+control_10,Control,228.63,38,cycle_time,ms
+control_10,Control,254.15,39,cycle_time,ms
+control_10,Control,220.58,40,cycle_time,ms
+control_11,Control,259.25,1,cycle_time,ms
+control_11,Control,243.40,2,cycle_time,ms
+control_11,Control,239.30,3,cycle_time,ms
+control_11,Control,277.99,4,cycle_time,ms
+control_11,Control,218.43,5,cycle_time,ms
+control_11,Control,194.65,6,cycle_time,ms
+control_11,Control,250.46,7,cycle_time,ms
+control_11,Control,254.49,8,cycle_time,ms
+control_11,Control,221.89,9,cycle_time,ms
+control_11,Control,250.58,10,cycle_time,ms
+control_11,Control,245.15,11,cycle_time,ms
+control_11,Control,234.92,12,cycle_time,ms
+control_11,Control,270.03,13,cycle_time,ms
+control_11,Control,254.81,14,cycle_time,ms
+control_11,Control,257.29,15,cycle_time,ms
+control_11,Control,246.16,16,cycle_time,ms
+control_11,Control,247.40,17,cycle_time,ms
+control_11,Control,255.17,18,cycle_time,ms
+control_11,Control,246.33,19,cycle_time,ms
+control_11,Control,244.29,20,cycle_time,ms
+control_11,Control,228.52,21,cycle_time,ms
+control_11,Control,228.09,22,cycle_time,ms
+control_11,Control,244.59,23,cycle_time,ms
+control_11,Control,259.85,24,cycle_time,ms
+control_11,Control,214.86,25,cycle_time,ms
+control_11,Control,275.63,26,cycle_time,ms
+control_11,Control,244.33,27,cycle_time,ms
+control_11,Control,238.95,28,cycle_time,ms
+control_11,Control,235.52,29,cycle_time,ms
+control_11,Control,252.72,30,cycle_time,ms
+control_11,Control,243.66,31,cycle_time,ms
+control_11,Control,255.52,32,cycle_time,ms
+control_11,Control,223.21,33,cycle_time,ms
+control_11,Control,251.13,34,cycle_time,ms
+control_11,Control,222.07,35,cycle_time,ms
+control_11,Control,273.96,36,cycle_time,ms
+control_11,Control,239.66,37,cycle_time,ms
+control_11,Control,245.53,38,cycle_time,ms
+control_11,Control,215.59,39,cycle_time,ms
+control_11,Control,251.08,40,cycle_time,ms
+control_12,Control,255.04,1,cycle_time,ms
+control_12,Control,242.96,2,cycle_time,ms
+control_12,Control,255.26,3,cycle_time,ms
+control_12,Control,256.60,4,cycle_time,ms
+control_12,Control,277.00,5,cycle_time,ms
+control_12,Control,262.65,6,cycle_time,ms
+control_12,Control,198.56,7,cycle_time,ms
+control_12,Control,250.68,8,cycle_time,ms
+control_12,Control,261.98,9,cycle_time,ms
+control_12,Control,244.41,10,cycle_time,ms
+control_12,Control,236.84,11,cycle_time,ms
+control_12,Control,249.70,12,cycle_time,ms
+control_12,Control,259.24,13,cycle_time,ms
+control_12,Control,287.46,14,cycle_time,ms
+control_12,Control,285.82,15,cycle_time,ms
+control_12,Control,245.03,16,cycle_time,ms
+control_12,Control,266.58,17,cycle_time,ms
+control_12,Control,283.11,18,cycle_time,ms
+control_12,Control,227.69,19,cycle_time,ms
+control_12,Control,234.30,20,cycle_time,ms
+control_12,Control,248.96,21,cycle_time,ms
+control_12,Control,236.24,22,cycle_time,ms
+control_12,Control,250.64,23,cycle_time,ms
+control_12,Control,229.88,24,cycle_time,ms
+control_12,Control,219.06,25,cycle_time,ms
+control_12,Control,243.15,26,cycle_time,ms
+control_12,Control,246.52,27,cycle_time,ms
+control_12,Control,247.89,28,cycle_time,ms
+control_12,Control,240.58,29,cycle_time,ms
+control_12,Control,247.10,30,cycle_time,ms
+control_12,Control,257.18,31,cycle_time,ms
+control_12,Control,257.89,32,cycle_time,ms
+control_12,Control,269.46,33,cycle_time,ms
+control_12,Control,254.38,34,cycle_time,ms
+control_12,Control,250.92,35,cycle_time,ms
+control_12,Control,263.98,36,cycle_time,ms
+control_12,Control,289.55,37,cycle_time,ms
+control_12,Control,257.86,38,cycle_time,ms
+control_12,Control,227.65,39,cycle_time,ms
+control_12,Control,245.14,40,cycle_time,ms
+control_13,Control,251.67,1,cycle_time,ms
+control_13,Control,242.72,2,cycle_time,ms
+control_13,Control,253.56,3,cycle_time,ms
+control_13,Control,250.79,4,cycle_time,ms
+control_13,Control,241.19,5,cycle_time,ms
+control_13,Control,230.45,6,cycle_time,ms
+control_13,Control,245.36,7,cycle_time,ms
+control_13,Control,251.23,8,cycle_time,ms
+control_13,Control,260.94,9,cycle_time,ms
+control_13,Control,263.85,10,cycle_time,ms
+control_13,Control,216.95,11,cycle_time,ms
+control_13,Control,236.53,12,cycle_time,ms
+control_13,Control,235.25,13,cycle_time,ms
+control_13,Control,263.84,14,cycle_time,ms
+control_13,Control,249.09,15,cycle_time,ms
+control_13,Control,211.12,16,cycle_time,ms
+control_13,Control,236.37,17,cycle_time,ms
+control_13,Control,242.14,18,cycle_time,ms
+control_13,Control,255.14,19,cycle_time,ms
+control_13,Control,263.80,20,cycle_time,ms
+control_13,Control,262.33,21,cycle_time,ms
+control_13,Control,236.55,22,cycle_time,ms
+control_13,Control,262.50,23,cycle_time,ms
+control_13,Control,259.35,24,cycle_time,ms
+control_13,Control,244.08,25,cycle_time,ms
+control_13,Control,246.50,26,cycle_time,ms
+control_13,Control,243.81,27,cycle_time,ms
+control_13,Control,227.82,28,cycle_time,ms
+control_13,Control,256.80,29,cycle_time,ms
+control_13,Control,237.10,30,cycle_time,ms
+control_13,Control,243.47,31,cycle_time,ms
+control_13,Control,258.60,32,cycle_time,ms
+control_13,Control,238.17,33,cycle_time,ms
+control_13,Control,241.42,34,cycle_time,ms
+control_13,Control,248.83,35,cycle_time,ms
+control_13,Control,232.66,36,cycle_time,ms
+control_13,Control,241.89,37,cycle_time,ms
+control_13,Control,223.72,38,cycle_time,ms
+control_13,Control,243.08,39,cycle_time,ms
+control_13,Control,286.70,40,cycle_time,ms
+control_14,Control,275.20,1,cycle_time,ms
+control_14,Control,257.56,2,cycle_time,ms
+control_14,Control,238.72,3,cycle_time,ms
+control_14,Control,282.58,4,cycle_time,ms
+control_14,Control,261.89,5,cycle_time,ms
+control_14,Control,239.99,6,cycle_time,ms
+control_14,Control,276.53,7,cycle_time,ms
+control_14,Control,278.22,8,cycle_time,ms
+control_14,Control,287.41,9,cycle_time,ms
+control_14,Control,226.82,10,cycle_time,ms
+control_14,Control,258.29,11,cycle_time,ms
+control_14,Control,260.05,12,cycle_time,ms
+control_14,Control,255.24,13,cycle_time,ms
+control_14,Control,235.97,14,cycle_time,ms
+control_14,Control,243.07,15,cycle_time,ms
+control_14,Control,252.73,16,cycle_time,ms
+control_14,Control,288.14,17,cycle_time,ms
+control_14,Control,264.13,18,cycle_time,ms
+control_14,Control,232.21,19,cycle_time,ms
+control_14,Control,243.61,20,cycle_time,ms
+control_14,Control,229.70,21,cycle_time,ms
+control_14,Control,258.32,22,cycle_time,ms
+control_14,Control,257.84,23,cycle_time,ms
+control_14,Control,240.68,24,cycle_time,ms
+control_14,Control,223.91,25,cycle_time,ms
+control_14,Control,256.03,26,cycle_time,ms
+control_14,Control,250.05,27,cycle_time,ms
+control_14,Control,234.60,28,cycle_time,ms
+control_14,Control,255.97,29,cycle_time,ms
+control_14,Control,220.16,30,cycle_time,ms
+control_14,Control,239.79,31,cycle_time,ms
+control_14,Control,269.16,32,cycle_time,ms
+control_14,Control,237.35,33,cycle_time,ms
+control_14,Control,247.79,34,cycle_time,ms
+control_14,Control,243.45,35,cycle_time,ms
+control_14,Control,236.37,36,cycle_time,ms
+control_14,Control,259.00,37,cycle_time,ms
+control_14,Control,245.75,38,cycle_time,ms
+control_14,Control,282.84,39,cycle_time,ms
+control_14,Control,270.96,40,cycle_time,ms
+control_15,Control,229.43,1,cycle_time,ms
+control_15,Control,230.07,2,cycle_time,ms
+control_15,Control,252.85,3,cycle_time,ms
+control_15,Control,245.23,4,cycle_time,ms
+control_15,Control,264.55,5,cycle_time,ms
+control_15,Control,257.25,6,cycle_time,ms
+control_15,Control,249.67,7,cycle_time,ms
+control_15,Control,238.44,8,cycle_time,ms
+control_15,Control,242.29,9,cycle_time,ms
+control_15,Control,282.48,10,cycle_time,ms
+control_15,Control,236.19,11,cycle_time,ms
+control_15,Control,238.95,12,cycle_time,ms
+control_15,Control,278.29,13,cycle_time,ms
+control_15,Control,245.69,14,cycle_time,ms
+control_15,Control,251.48,15,cycle_time,ms
+control_15,Control,217.61,16,cycle_time,ms
+control_15,Control,249.12,17,cycle_time,ms
+control_15,Control,252.46,18,cycle_time,ms
+control_15,Control,226.25,19,cycle_time,ms
+control_15,Control,215.61,20,cycle_time,ms
+control_15,Control,256.61,21,cycle_time,ms
+control_15,Control,267.96,22,cycle_time,ms
+control_15,Control,227.05,23,cycle_time,ms
+control_15,Control,232.52,24,cycle_time,ms
+control_15,Control,243.62,25,cycle_time,ms
+control_15,Control,247.92,26,cycle_time,ms
+control_15,Control,241.52,27,cycle_time,ms
+control_15,Control,248.52,28,cycle_time,ms
+control_15,Control,250.80,29,cycle_time,ms
+control_15,Control,220.57,30,cycle_time,ms
+control_15,Control,230.62,31,cycle_time,ms
+control_15,Control,261.65,32,cycle_time,ms
+control_15,Control,236.78,33,cycle_time,ms
+control_15,Control,242.71,34,cycle_time,ms
+control_15,Control,255.36,35,cycle_time,ms
+control_15,Control,254.63,36,cycle_time,ms
+control_15,Control,257.70,37,cycle_time,ms
+control_15,Control,225.83,38,cycle_time,ms
+control_15,Control,203.62,39,cycle_time,ms
+control_15,Control,263.26,40,cycle_time,ms
+control_16,Control,263.94,1,cycle_time,ms
+control_16,Control,285.37,2,cycle_time,ms
+control_16,Control,272.31,3,cycle_time,ms
+control_16,Control,268.43,4,cycle_time,ms
+control_16,Control,265.21,5,cycle_time,ms
+control_16,Control,246.01,6,cycle_time,ms
+control_16,Control,279.44,7,cycle_time,ms
+control_16,Control,261.27,8,cycle_time,ms
+control_16,Control,269.74,9,cycle_time,ms
+control_16,Control,230.28,10,cycle_time,ms
+control_16,Control,233.57,11,cycle_time,ms
+control_16,Control,228.60,12,cycle_time,ms
+control_16,Control,247.48,13,cycle_time,ms
+control_16,Control,272.81,14,cycle_time,ms
+control_16,Control,242.03,15,cycle_time,ms
+control_16,Control,272.55,16,cycle_time,ms
+control_16,Control,252.81,17,cycle_time,ms
+control_16,Control,239.49,18,cycle_time,ms
+control_16,Control,247.64,19,cycle_time,ms
+control_16,Control,246.14,20,cycle_time,ms
+control_16,Control,270.85,21,cycle_time,ms
+control_16,Control,273.76,22,cycle_time,ms
+control_16,Control,260.36,23,cycle_time,ms
+control_16,Control,299.83,24,cycle_time,ms
+control_16,Control,283.64,25,cycle_time,ms
+control_16,Control,290.49,26,cycle_time,ms
+control_16,Control,259.51,27,cycle_time,ms
+control_16,Control,244.60,28,cycle_time,ms
+control_16,Control,239.91,29,cycle_time,ms
+control_16,Control,273.42,30,cycle_time,ms
+control_16,Control,211.23,31,cycle_time,ms
+control_16,Control,237.17,32,cycle_time,ms
+control_16,Control,264.93,33,cycle_time,ms
+control_16,Control,250.58,34,cycle_time,ms
+control_16,Control,288.81,35,cycle_time,ms
+control_16,Control,252.92,36,cycle_time,ms
+control_16,Control,275.51,37,cycle_time,ms
+control_16,Control,278.58,38,cycle_time,ms
+control_16,Control,258.84,39,cycle_time,ms
+control_16,Control,228.98,40,cycle_time,ms
+control_17,Control,247.35,1,cycle_time,ms
+control_17,Control,251.59,2,cycle_time,ms
+control_17,Control,255.94,3,cycle_time,ms
+control_17,Control,248.22,4,cycle_time,ms
+control_17,Control,264.90,5,cycle_time,ms
+control_17,Control,273.49,6,cycle_time,ms
+control_17,Control,242.61,7,cycle_time,ms
+control_17,Control,249.04,8,cycle_time,ms
+control_17,Control,248.99,9,cycle_time,ms
+control_17,Control,254.11,10,cycle_time,ms
+control_17,Control,261.97,11,cycle_time,ms
+control_17,Control,234.53,12,cycle_time,ms
+control_17,Control,260.03,13,cycle_time,ms
+control_17,Control,236.12,14,cycle_time,ms
+control_17,Control,250.36,15,cycle_time,ms
+control_17,Control,256.35,16,cycle_time,ms
+control_17,Control,255.83,17,cycle_time,ms
+control_17,Control,254.79,18,cycle_time,ms
+control_17,Control,230.51,19,cycle_time,ms
+control_17,Control,263.69,20,cycle_time,ms
+control_17,Control,245.39,21,cycle_time,ms
+control_17,Control,274.39,22,cycle_time,ms
+control_17,Control,264.67,23,cycle_time,ms
+control_17,Control,262.25,24,cycle_time,ms
+control_17,Control,259.62,25,cycle_time,ms
+control_17,Control,279.18,26,cycle_time,ms
+control_17,Control,272.91,27,cycle_time,ms
+control_17,Control,251.49,28,cycle_time,ms
+control_17,Control,274.94,29,cycle_time,ms
+control_17,Control,261.03,30,cycle_time,ms
+control_17,Control,215.11,31,cycle_time,ms
+control_17,Control,267.43,32,cycle_time,ms
+control_17,Control,247.21,33,cycle_time,ms
+control_17,Control,228.27,34,cycle_time,ms
+control_17,Control,277.68,35,cycle_time,ms
+control_17,Control,262.77,36,cycle_time,ms
+control_17,Control,239.63,37,cycle_time,ms
+control_17,Control,288.04,38,cycle_time,ms
+control_17,Control,236.34,39,cycle_time,ms
+control_17,Control,248.30,40,cycle_time,ms
+control_18,Control,226.60,1,cycle_time,ms
+control_18,Control,247.28,2,cycle_time,ms
+control_18,Control,221.26,3,cycle_time,ms
+control_18,Control,222.13,4,cycle_time,ms
+control_18,Control,220.61,5,cycle_time,ms
+control_18,Control,272.65,6,cycle_time,ms
+control_18,Control,228.17,7,cycle_time,ms
+control_18,Control,221.28,8,cycle_time,ms
+control_18,Control,253.52,9,cycle_time,ms
+control_18,Control,235.26,10,cycle_time,ms
+control_18,Control,265.69,11,cycle_time,ms
+control_18,Control,233.49,12,cycle_time,ms
+control_18,Control,236.18,13,cycle_time,ms
+control_18,Control,210.84,14,cycle_time,ms
+control_18,Control,261.72,15,cycle_time,ms
+control_18,Control,257.51,16,cycle_time,ms
+control_18,Control,246.41,17,cycle_time,ms
+control_18,Control,225.26,18,cycle_time,ms
+control_18,Control,252.46,19,cycle_time,ms
+control_18,Control,272.56,20,cycle_time,ms
+control_18,Control,251.05,21,cycle_time,ms
+control_18,Control,261.92,22,cycle_time,ms
+control_18,Control,255.37,23,cycle_time,ms
+control_18,Control,255.95,24,cycle_time,ms
+control_18,Control,229.35,25,cycle_time,ms
+control_18,Control,240.98,26,cycle_time,ms
+control_18,Control,238.28,27,cycle_time,ms
+control_18,Control,266.35,28,cycle_time,ms
+control_18,Control,262.04,29,cycle_time,ms
+control_18,Control,239.32,30,cycle_time,ms
+control_18,Control,274.77,31,cycle_time,ms
+control_18,Control,271.41,32,cycle_time,ms
+control_18,Control,266.55,33,cycle_time,ms
+control_18,Control,245.97,34,cycle_time,ms
+control_18,Control,267.97,35,cycle_time,ms
+control_18,Control,232.58,36,cycle_time,ms
+control_18,Control,253.57,37,cycle_time,ms
+control_18,Control,259.66,38,cycle_time,ms
+control_18,Control,241.34,39,cycle_time,ms
+control_18,Control,244.76,40,cycle_time,ms
+control_19,Control,276.43,1,cycle_time,ms
+control_19,Control,291.13,2,cycle_time,ms
+control_19,Control,242.70,3,cycle_time,ms
+control_19,Control,259.67,4,cycle_time,ms
+control_19,Control,233.09,5,cycle_time,ms
+control_19,Control,244.10,6,cycle_time,ms
+control_19,Control,282.35,7,cycle_time,ms
+control_19,Control,251.09,8,cycle_time,ms
+control_19,Control,271.14,9,cycle_time,ms
+control_19,Control,250.02,10,cycle_time,ms
+control_19,Control,248.66,11,cycle_time,ms
+control_19,Control,250.38,12,cycle_time,ms
+control_19,Control,264.66,13,cycle_time,ms
+control_19,Control,198.49,14,cycle_time,ms
+control_19,Control,269.67,15,cycle_time,ms
+control_19,Control,253.07,16,cycle_time,ms
+control_19,Control,231.50,17,cycle_time,ms
+control_19,Control,271.09,18,cycle_time,ms
+control_19,Control,266.86,19,cycle_time,ms
+control_19,Control,261.49,20,cycle_time,ms
+control_19,Control,241.26,21,cycle_time,ms
+control_19,Control,255.71,22,cycle_time,ms
+control_19,Control,254.48,23,cycle_time,ms
+control_19,Control,229.02,24,cycle_time,ms
+control_19,Control,246.64,25,cycle_time,ms
+control_19,Control,220.82,26,cycle_time,ms
+control_19,Control,258.52,27,cycle_time,ms
+control_19,Control,270.55,28,cycle_time,ms
+control_19,Control,242.35,29,cycle_time,ms
+control_19,Control,275.60,30,cycle_time,ms
+control_19,Control,237.47,31,cycle_time,ms
+control_19,Control,234.55,32,cycle_time,ms
+control_19,Control,247.08,33,cycle_time,ms
+control_19,Control,242.80,34,cycle_time,ms
+control_19,Control,270.55,35,cycle_time,ms
+control_19,Control,233.30,36,cycle_time,ms
+control_19,Control,257.88,37,cycle_time,ms
+control_19,Control,277.17,38,cycle_time,ms
+control_19,Control,249.14,39,cycle_time,ms
+control_19,Control,240.11,40,cycle_time,ms
+control_20,Control,265.34,1,cycle_time,ms
+control_20,Control,264.34,2,cycle_time,ms
+control_20,Control,250.91,3,cycle_time,ms
+control_20,Control,246.16,4,cycle_time,ms
+control_20,Control,220.50,5,cycle_time,ms
+control_20,Control,248.11,6,cycle_time,ms
+control_20,Control,261.58,7,cycle_time,ms
+control_20,Control,243.76,8,cycle_time,ms
+control_20,Control,251.70,9,cycle_time,ms
+control_20,Control,262.17,10,cycle_time,ms
+control_20,Control,260.04,11,cycle_time,ms
+control_20,Control,238.21,12,cycle_time,ms
+control_20,Control,224.98,13,cycle_time,ms
+control_20,Control,230.09,14,cycle_time,ms
+control_20,Control,249.52,15,cycle_time,ms
+control_20,Control,276.31,16,cycle_time,ms
+control_20,Control,243.70,17,cycle_time,ms
+control_20,Control,267.37,18,cycle_time,ms
+control_20,Control,251.29,19,cycle_time,ms
+control_20,Control,271.29,20,cycle_time,ms
+control_20,Control,236.89,21,cycle_time,ms
+control_20,Control,271.37,22,cycle_time,ms
+control_20,Control,246.62,23,cycle_time,ms
+control_20,Control,297.13,24,cycle_time,ms
+control_20,Control,255.27,25,cycle_time,ms
+control_20,Control,269.31,26,cycle_time,ms
+control_20,Control,267.38,27,cycle_time,ms
+control_20,Control,254.25,28,cycle_time,ms
+control_20,Control,262.58,29,cycle_time,ms
+control_20,Control,217.61,30,cycle_time,ms
+control_20,Control,256.14,31,cycle_time,ms
+control_20,Control,268.49,32,cycle_time,ms
+control_20,Control,237.51,33,cycle_time,ms
+control_20,Control,266.40,34,cycle_time,ms
+control_20,Control,224.35,35,cycle_time,ms
+control_20,Control,268.10,36,cycle_time,ms
+control_20,Control,244.94,37,cycle_time,ms
+control_20,Control,237.17,38,cycle_time,ms
+control_20,Control,245.07,39,cycle_time,ms
+control_20,Control,246.34,40,cycle_time,ms
+control_21,Control,244.14,1,cycle_time,ms
+control_21,Control,262.74,2,cycle_time,ms
+control_21,Control,298.22,3,cycle_time,ms
+control_21,Control,261.60,4,cycle_time,ms
+control_21,Control,262.76,5,cycle_time,ms
+control_21,Control,231.13,6,cycle_time,ms
+control_21,Control,254.62,7,cycle_time,ms
+control_21,Control,278.30,8,cycle_time,ms
+control_21,Control,222.48,9,cycle_time,ms
+control_21,Control,209.46,10,cycle_time,ms
+control_21,Control,249.60,11,cycle_time,ms
+control_21,Control,247.18,12,cycle_time,ms
+control_21,Control,254.16,13,cycle_time,ms
+control_21,Control,272.31,14,cycle_time,ms
+control_21,Control,203.68,15,cycle_time,ms
+control_21,Control,242.84,16,cycle_time,ms
+control_21,Control,236.39,17,cycle_time,ms
+control_21,Control,263.88,18,cycle_time,ms
+control_21,Control,269.11,19,cycle_time,ms
+control_21,Control,238.14,20,cycle_time,ms
+control_21,Control,234.69,21,cycle_time,ms
+control_21,Control,254.90,22,cycle_time,ms
+control_21,Control,251.09,23,cycle_time,ms
+control_21,Control,245.96,24,cycle_time,ms
+control_21,Control,227.33,25,cycle_time,ms
+control_21,Control,233.70,26,cycle_time,ms
+control_21,Control,235.64,27,cycle_time,ms
+control_21,Control,241.47,28,cycle_time,ms
+control_21,Control,201.87,29,cycle_time,ms
+control_21,Control,252.03,30,cycle_time,ms
+control_21,Control,254.90,31,cycle_time,ms
+control_21,Control,251.23,32,cycle_time,ms
+control_21,Control,231.62,33,cycle_time,ms
+control_21,Control,255.74,34,cycle_time,ms
+control_21,Control,233.85,35,cycle_time,ms
+control_21,Control,229.90,36,cycle_time,ms
+control_21,Control,252.43,37,cycle_time,ms
+control_21,Control,286.08,38,cycle_time,ms
+control_21,Control,227.57,39,cycle_time,ms
+control_21,Control,264.42,40,cycle_time,ms
+control_22,Control,216.16,1,cycle_time,ms
+control_22,Control,239.00,2,cycle_time,ms
+control_22,Control,249.52,3,cycle_time,ms
+control_22,Control,240.79,4,cycle_time,ms
+control_22,Control,245.27,5,cycle_time,ms
+control_22,Control,246.92,6,cycle_time,ms
+control_22,Control,275.65,7,cycle_time,ms
+control_22,Control,244.65,8,cycle_time,ms
+control_22,Control,255.19,9,cycle_time,ms
+control_22,Control,228.11,10,cycle_time,ms
+control_22,Control,239.93,11,cycle_time,ms
+control_22,Control,189.79,12,cycle_time,ms
+control_22,Control,232.99,13,cycle_time,ms
+control_22,Control,261.46,14,cycle_time,ms
+control_22,Control,265.02,15,cycle_time,ms
+control_22,Control,241.74,16,cycle_time,ms
+control_22,Control,261.37,17,cycle_time,ms
+control_22,Control,263.17,18,cycle_time,ms
+control_22,Control,238.91,19,cycle_time,ms
+control_22,Control,249.60,20,cycle_time,ms
+control_22,Control,214.76,21,cycle_time,ms
+control_22,Control,241.43,22,cycle_time,ms
+control_22,Control,242.41,23,cycle_time,ms
+control_22,Control,227.87,24,cycle_time,ms
+control_22,Control,259.16,25,cycle_time,ms
+control_22,Control,231.23,26,cycle_time,ms
+control_22,Control,233.40,27,cycle_time,ms
+control_22,Control,223.56,28,cycle_time,ms
+control_22,Control,248.75,29,cycle_time,ms
+control_22,Control,259.10,30,cycle_time,ms
+control_22,Control,224.23,31,cycle_time,ms
+control_22,Control,225.86,32,cycle_time,ms
+control_22,Control,257.09,33,cycle_time,ms
+control_22,Control,270.99,34,cycle_time,ms
+control_22,Control,243.92,35,cycle_time,ms
+control_22,Control,238.61,36,cycle_time,ms
+control_22,Control,260.96,37,cycle_time,ms
+control_22,Control,250.08,38,cycle_time,ms
+control_22,Control,284.23,39,cycle_time,ms
+control_22,Control,264.49,40,cycle_time,ms
+control_23,Control,235.62,1,cycle_time,ms
+control_23,Control,260.97,2,cycle_time,ms
+control_23,Control,244.22,3,cycle_time,ms
+control_23,Control,235.23,4,cycle_time,ms
+control_23,Control,212.17,5,cycle_time,ms
+control_23,Control,268.12,6,cycle_time,ms
+control_23,Control,269.01,7,cycle_time,ms
+control_23,Control,248.67,8,cycle_time,ms
+control_23,Control,260.57,9,cycle_time,ms
+control_23,Control,272.79,10,cycle_time,ms
+control_23,Control,248.16,11,cycle_time,ms
+control_23,Control,242.37,12,cycle_time,ms
+control_23,Control,262.42,13,cycle_time,ms
+control_23,Control,236.73,14,cycle_time,ms
+control_23,Control,255.70,15,cycle_time,ms
+control_23,Control,235.79,16,cycle_time,ms
+control_23,Control,242.83,17,cycle_time,ms
+control_23,Control,256.36,18,cycle_time,ms
+control_23,Control,241.18,19,cycle_time,ms
+control_23,Control,267.54,20,cycle_time,ms
+control_23,Control,209.42,21,cycle_time,ms
+control_23,Control,259.05,22,cycle_time,ms
+control_23,Control,230.44,23,cycle_time,ms
+control_23,Control,244.60,24,cycle_time,ms
+control_23,Control,255.86,25,cycle_time,ms
+control_23,Control,263.94,26,cycle_time,ms
+control_23,Control,251.74,27,cycle_time,ms
+control_23,Control,250.68,28,cycle_time,ms
+control_23,Control,244.48,29,cycle_time,ms
+control_23,Control,228.42,30,cycle_time,ms
+control_23,Control,261.96,31,cycle_time,ms
+control_23,Control,244.34,32,cycle_time,ms
+control_23,Control,251.62,33,cycle_time,ms
+control_23,Control,241.24,34,cycle_time,ms
+control_23,Control,210.63,35,cycle_time,ms
+control_23,Control,231.07,36,cycle_time,ms
+control_23,Control,261.08,37,cycle_time,ms
+control_23,Control,220.22,38,cycle_time,ms
+control_23,Control,283.84,39,cycle_time,ms
+control_23,Control,283.58,40,cycle_time,ms
+control_24,Control,272.30,1,cycle_time,ms
+control_24,Control,254.50,2,cycle_time,ms
+control_24,Control,243.73,3,cycle_time,ms
+control_24,Control,234.54,4,cycle_time,ms
+control_24,Control,240.50,5,cycle_time,ms
+control_24,Control,243.17,6,cycle_time,ms
+control_24,Control,286.63,7,cycle_time,ms
+control_24,Control,254.48,8,cycle_time,ms
+control_24,Control,263.03,9,cycle_time,ms
+control_24,Control,244.28,10,cycle_time,ms
+control_24,Control,264.49,11,cycle_time,ms
+control_24,Control,268.75,12,cycle_time,ms
+control_24,Control,248.80,13,cycle_time,ms
+control_24,Control,255.05,14,cycle_time,ms
+control_24,Control,258.09,15,cycle_time,ms
+control_24,Control,270.97,16,cycle_time,ms
+control_24,Control,268.09,17,cycle_time,ms
+control_24,Control,249.62,18,cycle_time,ms
+control_24,Control,254.97,19,cycle_time,ms
+control_24,Control,274.75,20,cycle_time,ms
+control_24,Control,283.44,21,cycle_time,ms
+control_24,Control,251.33,22,cycle_time,ms
+control_24,Control,254.86,23,cycle_time,ms
+control_24,Control,226.69,24,cycle_time,ms
+control_24,Control,246.01,25,cycle_time,ms
+control_24,Control,244.14,26,cycle_time,ms
+control_24,Control,246.14,27,cycle_time,ms
+control_24,Control,250.50,28,cycle_time,ms
+control_24,Control,275.01,29,cycle_time,ms
+control_24,Control,278.04,30,cycle_time,ms
+control_24,Control,261.75,31,cycle_time,ms
+control_24,Control,233.54,32,cycle_time,ms
+control_24,Control,217.94,33,cycle_time,ms
+control_24,Control,221.23,34,cycle_time,ms
+control_24,Control,261.69,35,cycle_time,ms
+control_24,Control,256.83,36,cycle_time,ms
+control_24,Control,263.93,37,cycle_time,ms
+control_24,Control,245.78,38,cycle_time,ms
+control_24,Control,257.34,39,cycle_time,ms
+control_24,Control,251.89,40,cycle_time,ms
+shift_01,Shift +6%,254.87,1,cycle_time,ms
+shift_01,Shift +6%,286.06,2,cycle_time,ms
+shift_01,Shift +6%,248.21,3,cycle_time,ms
+shift_01,Shift +6%,264.58,4,cycle_time,ms
+shift_01,Shift +6%,288.77,5,cycle_time,ms
+shift_01,Shift +6%,280.90,6,cycle_time,ms
+shift_01,Shift +6%,254.59,7,cycle_time,ms
+shift_01,Shift +6%,299.08,8,cycle_time,ms
+shift_01,Shift +6%,268.30,9,cycle_time,ms
+shift_01,Shift +6%,298.79,10,cycle_time,ms
+shift_01,Shift +6%,252.69,11,cycle_time,ms
+shift_01,Shift +6%,250.70,12,cycle_time,ms
+shift_01,Shift +6%,301.26,13,cycle_time,ms
+shift_01,Shift +6%,257.90,14,cycle_time,ms
+shift_01,Shift +6%,285.56,15,cycle_time,ms
+shift_01,Shift +6%,257.05,16,cycle_time,ms
+shift_01,Shift +6%,261.79,17,cycle_time,ms
+shift_01,Shift +6%,240.82,18,cycle_time,ms
+shift_01,Shift +6%,264.10,19,cycle_time,ms
+shift_01,Shift +6%,299.31,20,cycle_time,ms
+shift_01,Shift +6%,260.47,21,cycle_time,ms
+shift_01,Shift +6%,280.77,22,cycle_time,ms
+shift_01,Shift +6%,299.43,23,cycle_time,ms
+shift_01,Shift +6%,259.76,24,cycle_time,ms
+shift_01,Shift +6%,258.00,25,cycle_time,ms
+shift_01,Shift +6%,258.04,26,cycle_time,ms
+shift_01,Shift +6%,248.98,27,cycle_time,ms
+shift_01,Shift +6%,259.68,28,cycle_time,ms
+shift_01,Shift +6%,265.81,29,cycle_time,ms
+shift_01,Shift +6%,278.48,30,cycle_time,ms
+shift_01,Shift +6%,269.62,31,cycle_time,ms
+shift_01,Shift +6%,282.69,32,cycle_time,ms
+shift_01,Shift +6%,273.64,33,cycle_time,ms
+shift_01,Shift +6%,291.17,34,cycle_time,ms
+shift_01,Shift +6%,252.11,35,cycle_time,ms
+shift_01,Shift +6%,271.61,36,cycle_time,ms
+shift_01,Shift +6%,289.77,37,cycle_time,ms
+shift_01,Shift +6%,240.97,38,cycle_time,ms
+shift_01,Shift +6%,260.66,39,cycle_time,ms
+shift_01,Shift +6%,265.18,40,cycle_time,ms
+shift_02,Shift +6%,248.52,1,cycle_time,ms
+shift_02,Shift +6%,277.08,2,cycle_time,ms
+shift_02,Shift +6%,235.79,3,cycle_time,ms
+shift_02,Shift +6%,277.60,4,cycle_time,ms
+shift_02,Shift +6%,237.89,5,cycle_time,ms
+shift_02,Shift +6%,272.78,6,cycle_time,ms
+shift_02,Shift +6%,254.21,7,cycle_time,ms
+shift_02,Shift +6%,237.40,8,cycle_time,ms
+shift_02,Shift +6%,261.52,9,cycle_time,ms
+shift_02,Shift +6%,260.03,10,cycle_time,ms
+shift_02,Shift +6%,223.33,11,cycle_time,ms
+shift_02,Shift +6%,273.96,12,cycle_time,ms
+shift_02,Shift +6%,255.76,13,cycle_time,ms
+shift_02,Shift +6%,251.01,14,cycle_time,ms
+shift_02,Shift +6%,222.41,15,cycle_time,ms
+shift_02,Shift +6%,264.84,16,cycle_time,ms
+shift_02,Shift +6%,232.38,17,cycle_time,ms
+shift_02,Shift +6%,273.46,18,cycle_time,ms
+shift_02,Shift +6%,241.41,19,cycle_time,ms
+shift_02,Shift +6%,239.11,20,cycle_time,ms
+shift_02,Shift +6%,238.60,21,cycle_time,ms
+shift_02,Shift +6%,287.48,22,cycle_time,ms
+shift_02,Shift +6%,247.22,23,cycle_time,ms
+shift_02,Shift +6%,291.08,24,cycle_time,ms
+shift_02,Shift +6%,240.43,25,cycle_time,ms
+shift_02,Shift +6%,238.63,26,cycle_time,ms
+shift_02,Shift +6%,252.98,27,cycle_time,ms
+shift_02,Shift +6%,246.94,28,cycle_time,ms
+shift_02,Shift +6%,216.71,29,cycle_time,ms
+shift_02,Shift +6%,266.58,30,cycle_time,ms
+shift_02,Shift +6%,268.21,31,cycle_time,ms
+shift_02,Shift +6%,269.94,32,cycle_time,ms
+shift_02,Shift +6%,242.06,33,cycle_time,ms
+shift_02,Shift +6%,269.19,34,cycle_time,ms
+shift_02,Shift +6%,255.95,35,cycle_time,ms
+shift_02,Shift +6%,256.27,36,cycle_time,ms
+shift_02,Shift +6%,219.10,37,cycle_time,ms
+shift_02,Shift +6%,273.82,38,cycle_time,ms
+shift_02,Shift +6%,247.79,39,cycle_time,ms
+shift_02,Shift +6%,225.59,40,cycle_time,ms
+shift_03,Shift +6%,272.80,1,cycle_time,ms
+shift_03,Shift +6%,272.88,2,cycle_time,ms
+shift_03,Shift +6%,244.14,3,cycle_time,ms
+shift_03,Shift +6%,288.41,4,cycle_time,ms
+shift_03,Shift +6%,265.97,5,cycle_time,ms
+shift_03,Shift +6%,285.38,6,cycle_time,ms
+shift_03,Shift +6%,275.62,7,cycle_time,ms
+shift_03,Shift +6%,274.94,8,cycle_time,ms
+shift_03,Shift +6%,262.84,9,cycle_time,ms
+shift_03,Shift +6%,277.84,10,cycle_time,ms
+shift_03,Shift +6%,271.32,11,cycle_time,ms
+shift_03,Shift +6%,248.02,12,cycle_time,ms
+shift_03,Shift +6%,300.07,13,cycle_time,ms
+shift_03,Shift +6%,257.75,14,cycle_time,ms
+shift_03,Shift +6%,271.90,15,cycle_time,ms
+shift_03,Shift +6%,252.95,16,cycle_time,ms
+shift_03,Shift +6%,256.08,17,cycle_time,ms
+shift_03,Shift +6%,249.22,18,cycle_time,ms
+shift_03,Shift +6%,257.06,19,cycle_time,ms
+shift_03,Shift +6%,260.25,20,cycle_time,ms
+shift_03,Shift +6%,274.63,21,cycle_time,ms
+shift_03,Shift +6%,264.83,22,cycle_time,ms
+shift_03,Shift +6%,273.79,23,cycle_time,ms
+shift_03,Shift +6%,259.57,24,cycle_time,ms
+shift_03,Shift +6%,283.63,25,cycle_time,ms
+shift_03,Shift +6%,270.12,26,cycle_time,ms
+shift_03,Shift +6%,268.57,27,cycle_time,ms
+shift_03,Shift +6%,283.99,28,cycle_time,ms
+shift_03,Shift +6%,287.07,29,cycle_time,ms
+shift_03,Shift +6%,228.06,30,cycle_time,ms
+shift_03,Shift +6%,281.21,31,cycle_time,ms
+shift_03,Shift +6%,244.74,32,cycle_time,ms
+shift_03,Shift +6%,269.08,33,cycle_time,ms
+shift_03,Shift +6%,275.49,34,cycle_time,ms
+shift_03,Shift +6%,247.53,35,cycle_time,ms
+shift_03,Shift +6%,268.90,36,cycle_time,ms
+shift_03,Shift +6%,279.26,37,cycle_time,ms
+shift_03,Shift +6%,290.13,38,cycle_time,ms
+shift_03,Shift +6%,231.03,39,cycle_time,ms
+shift_03,Shift +6%,256.34,40,cycle_time,ms
+shift_04,Shift +6%,239.45,1,cycle_time,ms
+shift_04,Shift +6%,234.21,2,cycle_time,ms
+shift_04,Shift +6%,246.22,3,cycle_time,ms
+shift_04,Shift +6%,249.32,4,cycle_time,ms
+shift_04,Shift +6%,269.42,5,cycle_time,ms
+shift_04,Shift +6%,294.05,6,cycle_time,ms
+shift_04,Shift +6%,278.90,7,cycle_time,ms
+shift_04,Shift +6%,275.49,8,cycle_time,ms
+shift_04,Shift +6%,295.65,9,cycle_time,ms
+shift_04,Shift +6%,273.26,10,cycle_time,ms
+shift_04,Shift +6%,243.22,11,cycle_time,ms
+shift_04,Shift +6%,294.86,12,cycle_time,ms
+shift_04,Shift +6%,290.38,13,cycle_time,ms
+shift_04,Shift +6%,275.46,14,cycle_time,ms
+shift_04,Shift +6%,281.71,15,cycle_time,ms
+shift_04,Shift +6%,278.97,16,cycle_time,ms
+shift_04,Shift +6%,236.04,17,cycle_time,ms
+shift_04,Shift +6%,263.23,18,cycle_time,ms
+shift_04,Shift +6%,280.14,19,cycle_time,ms
+shift_04,Shift +6%,256.02,20,cycle_time,ms
+shift_04,Shift +6%,220.98,21,cycle_time,ms
+shift_04,Shift +6%,275.21,22,cycle_time,ms
+shift_04,Shift +6%,294.40,23,cycle_time,ms
+shift_04,Shift +6%,253.72,24,cycle_time,ms
+shift_04,Shift +6%,278.05,25,cycle_time,ms
+shift_04,Shift +6%,282.27,26,cycle_time,ms
+shift_04,Shift +6%,251.61,27,cycle_time,ms
+shift_04,Shift +6%,278.68,28,cycle_time,ms
+shift_04,Shift +6%,276.71,29,cycle_time,ms
+shift_04,Shift +6%,257.37,30,cycle_time,ms
+shift_04,Shift +6%,286.39,31,cycle_time,ms
+shift_04,Shift +6%,290.96,32,cycle_time,ms
+shift_04,Shift +6%,256.94,33,cycle_time,ms
+shift_04,Shift +6%,267.10,34,cycle_time,ms
+shift_04,Shift +6%,240.77,35,cycle_time,ms
+shift_04,Shift +6%,264.49,36,cycle_time,ms
+shift_04,Shift +6%,248.02,37,cycle_time,ms
+shift_04,Shift +6%,239.94,38,cycle_time,ms
+shift_04,Shift +6%,291.10,39,cycle_time,ms
+shift_04,Shift +6%,296.78,40,cycle_time,ms
+shift_05,Shift +6%,289.64,1,cycle_time,ms
+shift_05,Shift +6%,268.19,2,cycle_time,ms
+shift_05,Shift +6%,268.31,3,cycle_time,ms
+shift_05,Shift +6%,271.41,4,cycle_time,ms
+shift_05,Shift +6%,277.68,5,cycle_time,ms
+shift_05,Shift +6%,259.06,6,cycle_time,ms
+shift_05,Shift +6%,281.97,7,cycle_time,ms
+shift_05,Shift +6%,258.14,8,cycle_time,ms
+shift_05,Shift +6%,238.34,9,cycle_time,ms
+shift_05,Shift +6%,261.90,10,cycle_time,ms
+shift_05,Shift +6%,240.76,11,cycle_time,ms
+shift_05,Shift +6%,251.25,12,cycle_time,ms
+shift_05,Shift +6%,266.13,13,cycle_time,ms
+shift_05,Shift +6%,283.32,14,cycle_time,ms
+shift_05,Shift +6%,242.59,15,cycle_time,ms
+shift_05,Shift +6%,246.59,16,cycle_time,ms
+shift_05,Shift +6%,270.39,17,cycle_time,ms
+shift_05,Shift +6%,278.69,18,cycle_time,ms
+shift_05,Shift +6%,262.09,19,cycle_time,ms
+shift_05,Shift +6%,269.36,20,cycle_time,ms
+shift_05,Shift +6%,278.83,21,cycle_time,ms
+shift_05,Shift +6%,301.31,22,cycle_time,ms
+shift_05,Shift +6%,271.73,23,cycle_time,ms
+shift_05,Shift +6%,264.84,24,cycle_time,ms
+shift_05,Shift +6%,265.00,25,cycle_time,ms
+shift_05,Shift +6%,301.66,26,cycle_time,ms
+shift_05,Shift +6%,268.80,27,cycle_time,ms
+shift_05,Shift +6%,281.93,28,cycle_time,ms
+shift_05,Shift +6%,252.19,29,cycle_time,ms
+shift_05,Shift +6%,267.45,30,cycle_time,ms
+shift_05,Shift +6%,264.18,31,cycle_time,ms
+shift_05,Shift +6%,241.76,32,cycle_time,ms
+shift_05,Shift +6%,283.10,33,cycle_time,ms
+shift_05,Shift +6%,271.28,34,cycle_time,ms
+shift_05,Shift +6%,285.29,35,cycle_time,ms
+shift_05,Shift +6%,230.71,36,cycle_time,ms
+shift_05,Shift +6%,244.04,37,cycle_time,ms
+shift_05,Shift +6%,278.70,38,cycle_time,ms
+shift_05,Shift +6%,292.38,39,cycle_time,ms
+shift_05,Shift +6%,263.93,40,cycle_time,ms
+shift_06,Shift +6%,237.91,1,cycle_time,ms
+shift_06,Shift +6%,280.38,2,cycle_time,ms
+shift_06,Shift +6%,266.07,3,cycle_time,ms
+shift_06,Shift +6%,240.80,4,cycle_time,ms
+shift_06,Shift +6%,303.05,5,cycle_time,ms
+shift_06,Shift +6%,248.11,6,cycle_time,ms
+shift_06,Shift +6%,254.74,7,cycle_time,ms
+shift_06,Shift +6%,249.56,8,cycle_time,ms
+shift_06,Shift +6%,245.42,9,cycle_time,ms
+shift_06,Shift +6%,255.39,10,cycle_time,ms
+shift_06,Shift +6%,259.31,11,cycle_time,ms
+shift_06,Shift +6%,256.68,12,cycle_time,ms
+shift_06,Shift +6%,241.42,13,cycle_time,ms
+shift_06,Shift +6%,254.53,14,cycle_time,ms
+shift_06,Shift +6%,231.67,15,cycle_time,ms
+shift_06,Shift +6%,268.27,16,cycle_time,ms
+shift_06,Shift +6%,245.66,17,cycle_time,ms
+shift_06,Shift +6%,282.90,18,cycle_time,ms
+shift_06,Shift +6%,284.52,19,cycle_time,ms
+shift_06,Shift +6%,286.81,20,cycle_time,ms
+shift_06,Shift +6%,239.89,21,cycle_time,ms
+shift_06,Shift +6%,260.89,22,cycle_time,ms
+shift_06,Shift +6%,286.86,23,cycle_time,ms
+shift_06,Shift +6%,282.06,24,cycle_time,ms
+shift_06,Shift +6%,255.66,25,cycle_time,ms
+shift_06,Shift +6%,242.36,26,cycle_time,ms
+shift_06,Shift +6%,226.85,27,cycle_time,ms
+shift_06,Shift +6%,285.87,28,cycle_time,ms
+shift_06,Shift +6%,251.62,29,cycle_time,ms
+shift_06,Shift +6%,239.39,30,cycle_time,ms
+shift_06,Shift +6%,282.01,31,cycle_time,ms
+shift_06,Shift +6%,284.89,32,cycle_time,ms
+shift_06,Shift +6%,292.74,33,cycle_time,ms
+shift_06,Shift +6%,264.37,34,cycle_time,ms
+shift_06,Shift +6%,271.81,35,cycle_time,ms
+shift_06,Shift +6%,283.77,36,cycle_time,ms
+shift_06,Shift +6%,283.29,37,cycle_time,ms
+shift_06,Shift +6%,253.29,38,cycle_time,ms
+shift_06,Shift +6%,263.73,39,cycle_time,ms
+shift_06,Shift +6%,269.40,40,cycle_time,ms
+shift_07,Shift +6%,228.53,1,cycle_time,ms
+shift_07,Shift +6%,274.60,2,cycle_time,ms
+shift_07,Shift +6%,257.36,3,cycle_time,ms
+shift_07,Shift +6%,255.66,4,cycle_time,ms
+shift_07,Shift +6%,260.59,5,cycle_time,ms
+shift_07,Shift +6%,242.85,6,cycle_time,ms
+shift_07,Shift +6%,256.44,7,cycle_time,ms
+shift_07,Shift +6%,256.70,8,cycle_time,ms
+shift_07,Shift +6%,258.13,9,cycle_time,ms
+shift_07,Shift +6%,249.62,10,cycle_time,ms
+shift_07,Shift +6%,239.72,11,cycle_time,ms
+shift_07,Shift +6%,247.26,12,cycle_time,ms
+shift_07,Shift +6%,271.78,13,cycle_time,ms
+shift_07,Shift +6%,285.98,14,cycle_time,ms
+shift_07,Shift +6%,268.04,15,cycle_time,ms
+shift_07,Shift +6%,253.04,16,cycle_time,ms
+shift_07,Shift +6%,253.96,17,cycle_time,ms
+shift_07,Shift +6%,258.97,18,cycle_time,ms
+shift_07,Shift +6%,259.50,19,cycle_time,ms
+shift_07,Shift +6%,263.74,20,cycle_time,ms
+shift_07,Shift +6%,261.83,21,cycle_time,ms
+shift_07,Shift +6%,242.14,22,cycle_time,ms
+shift_07,Shift +6%,235.69,23,cycle_time,ms
+shift_07,Shift +6%,272.80,24,cycle_time,ms
+shift_07,Shift +6%,236.49,25,cycle_time,ms
+shift_07,Shift +6%,239.01,26,cycle_time,ms
+shift_07,Shift +6%,246.63,27,cycle_time,ms
+shift_07,Shift +6%,265.76,28,cycle_time,ms
+shift_07,Shift +6%,268.80,29,cycle_time,ms
+shift_07,Shift +6%,262.71,30,cycle_time,ms
+shift_07,Shift +6%,301.50,31,cycle_time,ms
+shift_07,Shift +6%,264.17,32,cycle_time,ms
+shift_07,Shift +6%,313.14,33,cycle_time,ms
+shift_07,Shift +6%,254.76,34,cycle_time,ms
+shift_07,Shift +6%,259.14,35,cycle_time,ms
+shift_07,Shift +6%,264.28,36,cycle_time,ms
+shift_07,Shift +6%,262.22,37,cycle_time,ms
+shift_07,Shift +6%,242.94,38,cycle_time,ms
+shift_07,Shift +6%,218.36,39,cycle_time,ms
+shift_07,Shift +6%,229.78,40,cycle_time,ms
+shift_08,Shift +6%,265.35,1,cycle_time,ms
+shift_08,Shift +6%,250.93,2,cycle_time,ms
+shift_08,Shift +6%,256.24,3,cycle_time,ms
+shift_08,Shift +6%,236.06,4,cycle_time,ms
+shift_08,Shift +6%,272.41,5,cycle_time,ms
+shift_08,Shift +6%,244.85,6,cycle_time,ms
+shift_08,Shift +6%,256.36,7,cycle_time,ms
+shift_08,Shift +6%,257.66,8,cycle_time,ms
+shift_08,Shift +6%,252.80,9,cycle_time,ms
+shift_08,Shift +6%,257.13,10,cycle_time,ms
+shift_08,Shift +6%,267.35,11,cycle_time,ms
+shift_08,Shift +6%,262.98,12,cycle_time,ms
+shift_08,Shift +6%,248.66,13,cycle_time,ms
+shift_08,Shift +6%,270.85,14,cycle_time,ms
+shift_08,Shift +6%,290.82,15,cycle_time,ms
+shift_08,Shift +6%,265.13,16,cycle_time,ms
+shift_08,Shift +6%,259.00,17,cycle_time,ms
+shift_08,Shift +6%,250.11,18,cycle_time,ms
+shift_08,Shift +6%,232.83,19,cycle_time,ms
+shift_08,Shift +6%,253.66,20,cycle_time,ms
+shift_08,Shift +6%,277.79,21,cycle_time,ms
+shift_08,Shift +6%,276.82,22,cycle_time,ms
+shift_08,Shift +6%,275.05,23,cycle_time,ms
+shift_08,Shift +6%,252.06,24,cycle_time,ms
+shift_08,Shift +6%,277.87,25,cycle_time,ms
+shift_08,Shift +6%,261.89,26,cycle_time,ms
+shift_08,Shift +6%,260.17,27,cycle_time,ms
+shift_08,Shift +6%,252.06,28,cycle_time,ms
+shift_08,Shift +6%,266.36,29,cycle_time,ms
+shift_08,Shift +6%,255.15,30,cycle_time,ms
+shift_08,Shift +6%,253.06,31,cycle_time,ms
+shift_08,Shift +6%,281.25,32,cycle_time,ms
+shift_08,Shift +6%,257.05,33,cycle_time,ms
+shift_08,Shift +6%,292.61,34,cycle_time,ms
+shift_08,Shift +6%,252.89,35,cycle_time,ms
+shift_08,Shift +6%,233.02,36,cycle_time,ms
+shift_08,Shift +6%,247.29,37,cycle_time,ms
+shift_08,Shift +6%,274.70,38,cycle_time,ms
+shift_08,Shift +6%,254.93,39,cycle_time,ms
+shift_08,Shift +6%,252.48,40,cycle_time,ms
+shift_09,Shift +6%,278.23,1,cycle_time,ms
+shift_09,Shift +6%,298.87,2,cycle_time,ms
+shift_09,Shift +6%,281.37,3,cycle_time,ms
+shift_09,Shift +6%,262.76,4,cycle_time,ms
+shift_09,Shift +6%,227.68,5,cycle_time,ms
+shift_09,Shift +6%,274.98,6,cycle_time,ms
+shift_09,Shift +6%,260.53,7,cycle_time,ms
+shift_09,Shift +6%,274.10,8,cycle_time,ms
+shift_09,Shift +6%,221.90,9,cycle_time,ms
+shift_09,Shift +6%,256.78,10,cycle_time,ms
+shift_09,Shift +6%,220.86,11,cycle_time,ms
+shift_09,Shift +6%,257.55,12,cycle_time,ms
+shift_09,Shift +6%,261.16,13,cycle_time,ms
+shift_09,Shift +6%,278.95,14,cycle_time,ms
+shift_09,Shift +6%,280.70,15,cycle_time,ms
+shift_09,Shift +6%,292.13,16,cycle_time,ms
+shift_09,Shift +6%,294.15,17,cycle_time,ms
+shift_09,Shift +6%,263.39,18,cycle_time,ms
+shift_09,Shift +6%,277.95,19,cycle_time,ms
+shift_09,Shift +6%,270.28,20,cycle_time,ms
+shift_09,Shift +6%,242.86,21,cycle_time,ms
+shift_09,Shift +6%,260.88,22,cycle_time,ms
+shift_09,Shift +6%,267.52,23,cycle_time,ms
+shift_09,Shift +6%,261.22,24,cycle_time,ms
+shift_09,Shift +6%,299.04,25,cycle_time,ms
+shift_09,Shift +6%,260.81,26,cycle_time,ms
+shift_09,Shift +6%,243.75,27,cycle_time,ms
+shift_09,Shift +6%,278.42,28,cycle_time,ms
+shift_09,Shift +6%,257.95,29,cycle_time,ms
+shift_09,Shift +6%,279.99,30,cycle_time,ms
+shift_09,Shift +6%,289.91,31,cycle_time,ms
+shift_09,Shift +6%,295.73,32,cycle_time,ms
+shift_09,Shift +6%,287.07,33,cycle_time,ms
+shift_09,Shift +6%,257.45,34,cycle_time,ms
+shift_09,Shift +6%,251.13,35,cycle_time,ms
+shift_09,Shift +6%,234.37,36,cycle_time,ms
+shift_09,Shift +6%,264.91,37,cycle_time,ms
+shift_09,Shift +6%,274.32,38,cycle_time,ms
+shift_09,Shift +6%,252.51,39,cycle_time,ms
+shift_09,Shift +6%,248.05,40,cycle_time,ms
+shift_10,Shift +6%,285.54,1,cycle_time,ms
+shift_10,Shift +6%,247.61,2,cycle_time,ms
+shift_10,Shift +6%,248.01,3,cycle_time,ms
+shift_10,Shift +6%,282.47,4,cycle_time,ms
+shift_10,Shift +6%,244.78,5,cycle_time,ms
+shift_10,Shift +6%,257.75,6,cycle_time,ms
+shift_10,Shift +6%,266.71,7,cycle_time,ms
+shift_10,Shift +6%,247.64,8,cycle_time,ms
+shift_10,Shift +6%,240.31,9,cycle_time,ms
+shift_10,Shift +6%,281.36,10,cycle_time,ms
+shift_10,Shift +6%,272.82,11,cycle_time,ms
+shift_10,Shift +6%,258.30,12,cycle_time,ms
+shift_10,Shift +6%,257.78,13,cycle_time,ms
+shift_10,Shift +6%,232.08,14,cycle_time,ms
+shift_10,Shift +6%,247.70,15,cycle_time,ms
+shift_10,Shift +6%,267.97,16,cycle_time,ms
+shift_10,Shift +6%,258.03,17,cycle_time,ms
+shift_10,Shift +6%,245.69,18,cycle_time,ms
+shift_10,Shift +6%,290.40,19,cycle_time,ms
+shift_10,Shift +6%,266.98,20,cycle_time,ms
+shift_10,Shift +6%,296.83,21,cycle_time,ms
+shift_10,Shift +6%,287.47,22,cycle_time,ms
+shift_10,Shift +6%,225.31,23,cycle_time,ms
+shift_10,Shift +6%,260.33,24,cycle_time,ms
+shift_10,Shift +6%,279.81,25,cycle_time,ms
+shift_10,Shift +6%,272.64,26,cycle_time,ms
+shift_10,Shift +6%,269.28,27,cycle_time,ms
+shift_10,Shift +6%,274.59,28,cycle_time,ms
+shift_10,Shift +6%,255.08,29,cycle_time,ms
+shift_10,Shift +6%,273.36,30,cycle_time,ms
+shift_10,Shift +6%,249.01,31,cycle_time,ms
+shift_10,Shift +6%,266.06,32,cycle_time,ms
+shift_10,Shift +6%,258.38,33,cycle_time,ms
+shift_10,Shift +6%,233.65,34,cycle_time,ms
+shift_10,Shift +6%,281.58,35,cycle_time,ms
+shift_10,Shift +6%,264.33,36,cycle_time,ms
+shift_10,Shift +6%,269.03,37,cycle_time,ms
+shift_10,Shift +6%,245.20,38,cycle_time,ms
+shift_10,Shift +6%,259.58,39,cycle_time,ms
+shift_10,Shift +6%,241.13,40,cycle_time,ms
+shift_11,Shift +6%,276.48,1,cycle_time,ms
+shift_11,Shift +6%,263.75,2,cycle_time,ms
+shift_11,Shift +6%,280.32,3,cycle_time,ms
+shift_11,Shift +6%,259.06,4,cycle_time,ms
+shift_11,Shift +6%,258.77,5,cycle_time,ms
+shift_11,Shift +6%,260.69,6,cycle_time,ms
+shift_11,Shift +6%,256.45,7,cycle_time,ms
+shift_11,Shift +6%,253.70,8,cycle_time,ms
+shift_11,Shift +6%,257.16,9,cycle_time,ms
+shift_11,Shift +6%,272.12,10,cycle_time,ms
+shift_11,Shift +6%,290.02,11,cycle_time,ms
+shift_11,Shift +6%,261.09,12,cycle_time,ms
+shift_11,Shift +6%,278.77,13,cycle_time,ms
+shift_11,Shift +6%,277.86,14,cycle_time,ms
+shift_11,Shift +6%,255.77,15,cycle_time,ms
+shift_11,Shift +6%,269.34,16,cycle_time,ms
+shift_11,Shift +6%,268.37,17,cycle_time,ms
+shift_11,Shift +6%,277.46,18,cycle_time,ms
+shift_11,Shift +6%,242.66,19,cycle_time,ms
+shift_11,Shift +6%,260.33,20,cycle_time,ms
+shift_11,Shift +6%,277.78,21,cycle_time,ms
+shift_11,Shift +6%,248.83,22,cycle_time,ms
+shift_11,Shift +6%,271.47,23,cycle_time,ms
+shift_11,Shift +6%,260.55,24,cycle_time,ms
+shift_11,Shift +6%,238.91,25,cycle_time,ms
+shift_11,Shift +6%,264.12,26,cycle_time,ms
+shift_11,Shift +6%,279.38,27,cycle_time,ms
+shift_11,Shift +6%,265.16,28,cycle_time,ms
+shift_11,Shift +6%,289.62,29,cycle_time,ms
+shift_11,Shift +6%,283.66,30,cycle_time,ms
+shift_11,Shift +6%,255.54,31,cycle_time,ms
+shift_11,Shift +6%,280.14,32,cycle_time,ms
+shift_11,Shift +6%,273.61,33,cycle_time,ms
+shift_11,Shift +6%,269.05,34,cycle_time,ms
+shift_11,Shift +6%,251.21,35,cycle_time,ms
+shift_11,Shift +6%,270.94,36,cycle_time,ms
+shift_11,Shift +6%,270.31,37,cycle_time,ms
+shift_11,Shift +6%,266.46,38,cycle_time,ms
+shift_11,Shift +6%,239.95,39,cycle_time,ms
+shift_11,Shift +6%,278.24,40,cycle_time,ms
+shift_12,Shift +6%,301.27,1,cycle_time,ms
+shift_12,Shift +6%,283.34,2,cycle_time,ms
+shift_12,Shift +6%,301.19,3,cycle_time,ms
+shift_12,Shift +6%,263.38,4,cycle_time,ms
+shift_12,Shift +6%,278.45,5,cycle_time,ms
+shift_12,Shift +6%,287.42,6,cycle_time,ms
+shift_12,Shift +6%,284.75,7,cycle_time,ms
+shift_12,Shift +6%,262.50,8,cycle_time,ms
+shift_12,Shift +6%,272.22,9,cycle_time,ms
+shift_12,Shift +6%,295.98,10,cycle_time,ms
+shift_12,Shift +6%,252.36,11,cycle_time,ms
+shift_12,Shift +6%,250.59,12,cycle_time,ms
+shift_12,Shift +6%,272.35,13,cycle_time,ms
+shift_12,Shift +6%,272.91,14,cycle_time,ms
+shift_12,Shift +6%,268.01,15,cycle_time,ms
+shift_12,Shift +6%,241.57,16,cycle_time,ms
+shift_12,Shift +6%,301.85,17,cycle_time,ms
+shift_12,Shift +6%,264.36,18,cycle_time,ms
+shift_12,Shift +6%,278.20,19,cycle_time,ms
+shift_12,Shift +6%,257.98,20,cycle_time,ms
+shift_12,Shift +6%,249.87,21,cycle_time,ms
+shift_12,Shift +6%,256.71,22,cycle_time,ms
+shift_12,Shift +6%,234.11,23,cycle_time,ms
+shift_12,Shift +6%,256.03,24,cycle_time,ms
+shift_12,Shift +6%,267.65,25,cycle_time,ms
+shift_12,Shift +6%,254.71,26,cycle_time,ms
+shift_12,Shift +6%,243.61,27,cycle_time,ms
+shift_12,Shift +6%,265.67,28,cycle_time,ms
+shift_12,Shift +6%,265.39,29,cycle_time,ms
+shift_12,Shift +6%,291.84,30,cycle_time,ms
+shift_12,Shift +6%,270.37,31,cycle_time,ms
+shift_12,Shift +6%,249.95,32,cycle_time,ms
+shift_12,Shift +6%,264.34,33,cycle_time,ms
+shift_12,Shift +6%,268.52,34,cycle_time,ms
+shift_12,Shift +6%,266.01,35,cycle_time,ms
+shift_12,Shift +6%,250.08,36,cycle_time,ms
+shift_12,Shift +6%,271.28,37,cycle_time,ms
+shift_12,Shift +6%,243.14,38,cycle_time,ms
+shift_12,Shift +6%,290.00,39,cycle_time,ms
+shift_12,Shift +6%,274.48,40,cycle_time,ms
+shift_13,Shift +6%,254.24,1,cycle_time,ms
+shift_13,Shift +6%,278.16,2,cycle_time,ms
+shift_13,Shift +6%,252.95,3,cycle_time,ms
+shift_13,Shift +6%,275.29,4,cycle_time,ms
+shift_13,Shift +6%,241.10,5,cycle_time,ms
+shift_13,Shift +6%,250.86,6,cycle_time,ms
+shift_13,Shift +6%,268.80,7,cycle_time,ms
+shift_13,Shift +6%,258.10,8,cycle_time,ms
+shift_13,Shift +6%,266.82,9,cycle_time,ms
+shift_13,Shift +6%,232.97,10,cycle_time,ms
+shift_13,Shift +6%,246.74,11,cycle_time,ms
+shift_13,Shift +6%,244.46,12,cycle_time,ms
+shift_13,Shift +6%,237.57,13,cycle_time,ms
+shift_13,Shift +6%,229.07,14,cycle_time,ms
+shift_13,Shift +6%,300.10,15,cycle_time,ms
+shift_13,Shift +6%,223.08,16,cycle_time,ms
+shift_13,Shift +6%,298.56,17,cycle_time,ms
+shift_13,Shift +6%,237.67,18,cycle_time,ms
+shift_13,Shift +6%,288.12,19,cycle_time,ms
+shift_13,Shift +6%,266.57,20,cycle_time,ms
+shift_13,Shift +6%,255.69,21,cycle_time,ms
+shift_13,Shift +6%,269.46,22,cycle_time,ms
+shift_13,Shift +6%,256.51,23,cycle_time,ms
+shift_13,Shift +6%,264.84,24,cycle_time,ms
+shift_13,Shift +6%,259.03,25,cycle_time,ms
+shift_13,Shift +6%,269.96,26,cycle_time,ms
+shift_13,Shift +6%,267.46,27,cycle_time,ms
+shift_13,Shift +6%,271.32,28,cycle_time,ms
+shift_13,Shift +6%,276.37,29,cycle_time,ms
+shift_13,Shift +6%,278.56,30,cycle_time,ms
+shift_13,Shift +6%,283.17,31,cycle_time,ms
+shift_13,Shift +6%,259.47,32,cycle_time,ms
+shift_13,Shift +6%,243.02,33,cycle_time,ms
+shift_13,Shift +6%,292.75,34,cycle_time,ms
+shift_13,Shift +6%,263.92,35,cycle_time,ms
+shift_13,Shift +6%,244.57,36,cycle_time,ms
+shift_13,Shift +6%,311.01,37,cycle_time,ms
+shift_13,Shift +6%,297.96,38,cycle_time,ms
+shift_13,Shift +6%,244.90,39,cycle_time,ms
+shift_13,Shift +6%,249.17,40,cycle_time,ms
+shift_14,Shift +6%,226.08,1,cycle_time,ms
+shift_14,Shift +6%,236.14,2,cycle_time,ms
+shift_14,Shift +6%,278.80,3,cycle_time,ms
+shift_14,Shift +6%,242.76,4,cycle_time,ms
+shift_14,Shift +6%,241.33,5,cycle_time,ms
+shift_14,Shift +6%,239.32,6,cycle_time,ms
+shift_14,Shift +6%,245.12,7,cycle_time,ms
+shift_14,Shift +6%,276.22,8,cycle_time,ms
+shift_14,Shift +6%,272.09,9,cycle_time,ms
+shift_14,Shift +6%,280.43,10,cycle_time,ms
+shift_14,Shift +6%,262.79,11,cycle_time,ms
+shift_14,Shift +6%,264.95,12,cycle_time,ms
+shift_14,Shift +6%,257.04,13,cycle_time,ms
+shift_14,Shift +6%,256.96,14,cycle_time,ms
+shift_14,Shift +6%,264.12,15,cycle_time,ms
+shift_14,Shift +6%,234.05,16,cycle_time,ms
+shift_14,Shift +6%,259.31,17,cycle_time,ms
+shift_14,Shift +6%,267.01,18,cycle_time,ms
+shift_14,Shift +6%,260.87,19,cycle_time,ms
+shift_14,Shift +6%,265.80,20,cycle_time,ms
+shift_14,Shift +6%,224.27,21,cycle_time,ms
+shift_14,Shift +6%,267.68,22,cycle_time,ms
+shift_14,Shift +6%,256.23,23,cycle_time,ms
+shift_14,Shift +6%,251.57,24,cycle_time,ms
+shift_14,Shift +6%,267.46,25,cycle_time,ms
+shift_14,Shift +6%,251.73,26,cycle_time,ms
+shift_14,Shift +6%,282.40,27,cycle_time,ms
+shift_14,Shift +6%,288.38,28,cycle_time,ms
+shift_14,Shift +6%,268.19,29,cycle_time,ms
+shift_14,Shift +6%,272.10,30,cycle_time,ms
+shift_14,Shift +6%,270.88,31,cycle_time,ms
+shift_14,Shift +6%,274.17,32,cycle_time,ms
+shift_14,Shift +6%,239.58,33,cycle_time,ms
+shift_14,Shift +6%,273.07,34,cycle_time,ms
+shift_14,Shift +6%,263.56,35,cycle_time,ms
+shift_14,Shift +6%,260.85,36,cycle_time,ms
+shift_14,Shift +6%,273.74,37,cycle_time,ms
+shift_14,Shift +6%,276.06,38,cycle_time,ms
+shift_14,Shift +6%,275.33,39,cycle_time,ms
+shift_14,Shift +6%,244.19,40,cycle_time,ms
+shift_15,Shift +6%,247.24,1,cycle_time,ms
+shift_15,Shift +6%,275.70,2,cycle_time,ms
+shift_15,Shift +6%,286.24,3,cycle_time,ms
+shift_15,Shift +6%,261.11,4,cycle_time,ms
+shift_15,Shift +6%,236.95,5,cycle_time,ms
+shift_15,Shift +6%,264.72,6,cycle_time,ms
+shift_15,Shift +6%,250.25,7,cycle_time,ms
+shift_15,Shift +6%,233.49,8,cycle_time,ms
+shift_15,Shift +6%,246.86,9,cycle_time,ms
+shift_15,Shift +6%,288.78,10,cycle_time,ms
+shift_15,Shift +6%,253.08,11,cycle_time,ms
+shift_15,Shift +6%,261.94,12,cycle_time,ms
+shift_15,Shift +6%,279.73,13,cycle_time,ms
+shift_15,Shift +6%,246.61,14,cycle_time,ms
+shift_15,Shift +6%,313.91,15,cycle_time,ms
+shift_15,Shift +6%,263.49,16,cycle_time,ms
+shift_15,Shift +6%,262.56,17,cycle_time,ms
+shift_15,Shift +6%,260.91,18,cycle_time,ms
+shift_15,Shift +6%,233.69,19,cycle_time,ms
+shift_15,Shift +6%,261.90,20,cycle_time,ms
+shift_15,Shift +6%,262.13,21,cycle_time,ms
+shift_15,Shift +6%,273.35,22,cycle_time,ms
+shift_15,Shift +6%,249.31,23,cycle_time,ms
+shift_15,Shift +6%,289.23,24,cycle_time,ms
+shift_15,Shift +6%,263.57,25,cycle_time,ms
+shift_15,Shift +6%,290.00,26,cycle_time,ms
+shift_15,Shift +6%,290.86,27,cycle_time,ms
+shift_15,Shift +6%,254.55,28,cycle_time,ms
+shift_15,Shift +6%,245.83,29,cycle_time,ms
+shift_15,Shift +6%,279.88,30,cycle_time,ms
+shift_15,Shift +6%,269.55,31,cycle_time,ms
+shift_15,Shift +6%,231.46,32,cycle_time,ms
+shift_15,Shift +6%,273.99,33,cycle_time,ms
+shift_15,Shift +6%,255.10,34,cycle_time,ms
+shift_15,Shift +6%,263.09,35,cycle_time,ms
+shift_15,Shift +6%,258.07,36,cycle_time,ms
+shift_15,Shift +6%,247.85,37,cycle_time,ms
+shift_15,Shift +6%,277.45,38,cycle_time,ms
+shift_15,Shift +6%,247.82,39,cycle_time,ms
+shift_15,Shift +6%,253.71,40,cycle_time,ms
+shift_16,Shift +6%,283.07,1,cycle_time,ms
+shift_16,Shift +6%,253.27,2,cycle_time,ms
+shift_16,Shift +6%,245.22,3,cycle_time,ms
+shift_16,Shift +6%,253.04,4,cycle_time,ms
+shift_16,Shift +6%,271.70,5,cycle_time,ms
+shift_16,Shift +6%,260.79,6,cycle_time,ms
+shift_16,Shift +6%,249.53,7,cycle_time,ms
+shift_16,Shift +6%,254.04,8,cycle_time,ms
+shift_16,Shift +6%,267.71,9,cycle_time,ms
+shift_16,Shift +6%,276.40,10,cycle_time,ms
+shift_16,Shift +6%,292.19,11,cycle_time,ms
+shift_16,Shift +6%,264.86,12,cycle_time,ms
+shift_16,Shift +6%,261.85,13,cycle_time,ms
+shift_16,Shift +6%,267.09,14,cycle_time,ms
+shift_16,Shift +6%,282.51,15,cycle_time,ms
+shift_16,Shift +6%,259.46,16,cycle_time,ms
+shift_16,Shift +6%,263.67,17,cycle_time,ms
+shift_16,Shift +6%,256.41,18,cycle_time,ms
+shift_16,Shift +6%,266.15,19,cycle_time,ms
+shift_16,Shift +6%,300.47,20,cycle_time,ms
+shift_16,Shift +6%,320.40,21,cycle_time,ms
+shift_16,Shift +6%,305.95,22,cycle_time,ms
+shift_16,Shift +6%,263.87,23,cycle_time,ms
+shift_16,Shift +6%,260.97,24,cycle_time,ms
+shift_16,Shift +6%,297.57,25,cycle_time,ms
+shift_16,Shift +6%,270.15,26,cycle_time,ms
+shift_16,Shift +6%,248.94,27,cycle_time,ms
+shift_16,Shift +6%,275.89,28,cycle_time,ms
+shift_16,Shift +6%,283.75,29,cycle_time,ms
+shift_16,Shift +6%,240.79,30,cycle_time,ms
+shift_16,Shift +6%,265.40,31,cycle_time,ms
+shift_16,Shift +6%,245.90,32,cycle_time,ms
+shift_16,Shift +6%,282.11,33,cycle_time,ms
+shift_16,Shift +6%,286.69,34,cycle_time,ms
+shift_16,Shift +6%,268.00,35,cycle_time,ms
+shift_16,Shift +6%,260.84,36,cycle_time,ms
+shift_16,Shift +6%,253.72,37,cycle_time,ms
+shift_16,Shift +6%,264.61,38,cycle_time,ms
+shift_16,Shift +6%,249.43,39,cycle_time,ms
+shift_16,Shift +6%,250.49,40,cycle_time,ms
+shift_17,Shift +6%,295.73,1,cycle_time,ms
+shift_17,Shift +6%,272.69,2,cycle_time,ms
+shift_17,Shift +6%,254.85,3,cycle_time,ms
+shift_17,Shift +6%,271.36,4,cycle_time,ms
+shift_17,Shift +6%,273.16,5,cycle_time,ms
+shift_17,Shift +6%,270.79,6,cycle_time,ms
+shift_17,Shift +6%,270.09,7,cycle_time,ms
+shift_17,Shift +6%,296.91,8,cycle_time,ms
+shift_17,Shift +6%,269.70,9,cycle_time,ms
+shift_17,Shift +6%,289.88,10,cycle_time,ms
+shift_17,Shift +6%,299.83,11,cycle_time,ms
+shift_17,Shift +6%,239.08,12,cycle_time,ms
+shift_17,Shift +6%,255.24,13,cycle_time,ms
+shift_17,Shift +6%,246.60,14,cycle_time,ms
+shift_17,Shift +6%,262.74,15,cycle_time,ms
+shift_17,Shift +6%,271.17,16,cycle_time,ms
+shift_17,Shift +6%,269.91,17,cycle_time,ms
+shift_17,Shift +6%,239.97,18,cycle_time,ms
+shift_17,Shift +6%,234.00,19,cycle_time,ms
+shift_17,Shift +6%,266.00,20,cycle_time,ms
+shift_17,Shift +6%,278.57,21,cycle_time,ms
+shift_17,Shift +6%,268.01,22,cycle_time,ms
+shift_17,Shift +6%,264.45,23,cycle_time,ms
+shift_17,Shift +6%,324.67,24,cycle_time,ms
+shift_17,Shift +6%,255.12,25,cycle_time,ms
+shift_17,Shift +6%,303.94,26,cycle_time,ms
+shift_17,Shift +6%,271.80,27,cycle_time,ms
+shift_17,Shift +6%,277.64,28,cycle_time,ms
+shift_17,Shift +6%,280.78,29,cycle_time,ms
+shift_17,Shift +6%,272.59,30,cycle_time,ms
+shift_17,Shift +6%,258.47,31,cycle_time,ms
+shift_17,Shift +6%,257.09,32,cycle_time,ms
+shift_17,Shift +6%,309.09,33,cycle_time,ms
+shift_17,Shift +6%,281.95,34,cycle_time,ms
+shift_17,Shift +6%,262.53,35,cycle_time,ms
+shift_17,Shift +6%,282.00,36,cycle_time,ms
+shift_17,Shift +6%,277.56,37,cycle_time,ms
+shift_17,Shift +6%,248.23,38,cycle_time,ms
+shift_17,Shift +6%,245.60,39,cycle_time,ms
+shift_17,Shift +6%,261.73,40,cycle_time,ms
+shift_18,Shift +6%,239.15,1,cycle_time,ms
+shift_18,Shift +6%,250.43,2,cycle_time,ms
+shift_18,Shift +6%,233.40,3,cycle_time,ms
+shift_18,Shift +6%,270.63,4,cycle_time,ms
+shift_18,Shift +6%,248.86,5,cycle_time,ms
+shift_18,Shift +6%,267.75,6,cycle_time,ms
+shift_18,Shift +6%,265.51,7,cycle_time,ms
+shift_18,Shift +6%,234.45,8,cycle_time,ms
+shift_18,Shift +6%,250.84,9,cycle_time,ms
+shift_18,Shift +6%,252.80,10,cycle_time,ms
+shift_18,Shift +6%,256.82,11,cycle_time,ms
+shift_18,Shift +6%,276.80,12,cycle_time,ms
+shift_18,Shift +6%,234.29,13,cycle_time,ms
+shift_18,Shift +6%,255.90,14,cycle_time,ms
+shift_18,Shift +6%,267.78,15,cycle_time,ms
+shift_18,Shift +6%,275.04,16,cycle_time,ms
+shift_18,Shift +6%,267.88,17,cycle_time,ms
+shift_18,Shift +6%,277.96,18,cycle_time,ms
+shift_18,Shift +6%,255.07,19,cycle_time,ms
+shift_18,Shift +6%,267.85,20,cycle_time,ms
+shift_18,Shift +6%,260.60,21,cycle_time,ms
+shift_18,Shift +6%,254.81,22,cycle_time,ms
+shift_18,Shift +6%,223.58,23,cycle_time,ms
+shift_18,Shift +6%,215.98,24,cycle_time,ms
+shift_18,Shift +6%,273.63,25,cycle_time,ms
+shift_18,Shift +6%,243.93,26,cycle_time,ms
+shift_18,Shift +6%,294.03,27,cycle_time,ms
+shift_18,Shift +6%,314.43,28,cycle_time,ms
+shift_18,Shift +6%,263.12,29,cycle_time,ms
+shift_18,Shift +6%,267.31,30,cycle_time,ms
+shift_18,Shift +6%,223.43,31,cycle_time,ms
+shift_18,Shift +6%,242.82,32,cycle_time,ms
+shift_18,Shift +6%,267.84,33,cycle_time,ms
+shift_18,Shift +6%,254.83,34,cycle_time,ms
+shift_18,Shift +6%,280.72,35,cycle_time,ms
+shift_18,Shift +6%,290.02,36,cycle_time,ms
+shift_18,Shift +6%,272.25,37,cycle_time,ms
+shift_18,Shift +6%,273.81,38,cycle_time,ms
+shift_18,Shift +6%,259.46,39,cycle_time,ms
+shift_18,Shift +6%,239.81,40,cycle_time,ms
+shift_19,Shift +6%,263.13,1,cycle_time,ms
+shift_19,Shift +6%,259.94,2,cycle_time,ms
+shift_19,Shift +6%,268.06,3,cycle_time,ms
+shift_19,Shift +6%,255.71,4,cycle_time,ms
+shift_19,Shift +6%,301.93,5,cycle_time,ms
+shift_19,Shift +6%,279.48,6,cycle_time,ms
+shift_19,Shift +6%,300.23,7,cycle_time,ms
+shift_19,Shift +6%,299.42,8,cycle_time,ms
+shift_19,Shift +6%,304.46,9,cycle_time,ms
+shift_19,Shift +6%,322.23,10,cycle_time,ms
+shift_19,Shift +6%,253.63,11,cycle_time,ms
+shift_19,Shift +6%,276.96,12,cycle_time,ms
+shift_19,Shift +6%,305.60,13,cycle_time,ms
+shift_19,Shift +6%,288.55,14,cycle_time,ms
+shift_19,Shift +6%,281.07,15,cycle_time,ms
+shift_19,Shift +6%,306.10,16,cycle_time,ms
+shift_19,Shift +6%,275.24,17,cycle_time,ms
+shift_19,Shift +6%,290.85,18,cycle_time,ms
+shift_19,Shift +6%,258.83,19,cycle_time,ms
+shift_19,Shift +6%,233.08,20,cycle_time,ms
+shift_19,Shift +6%,300.24,21,cycle_time,ms
+shift_19,Shift +6%,259.08,22,cycle_time,ms
+shift_19,Shift +6%,303.32,23,cycle_time,ms
+shift_19,Shift +6%,301.76,24,cycle_time,ms
+shift_19,Shift +6%,269.29,25,cycle_time,ms
+shift_19,Shift +6%,281.53,26,cycle_time,ms
+shift_19,Shift +6%,252.71,27,cycle_time,ms
+shift_19,Shift +6%,273.71,28,cycle_time,ms
+shift_19,Shift +6%,296.49,29,cycle_time,ms
+shift_19,Shift +6%,282.77,30,cycle_time,ms
+shift_19,Shift +6%,269.51,31,cycle_time,ms
+shift_19,Shift +6%,253.09,32,cycle_time,ms
+shift_19,Shift +6%,271.71,33,cycle_time,ms
+shift_19,Shift +6%,296.47,34,cycle_time,ms
+shift_19,Shift +6%,296.65,35,cycle_time,ms
+shift_19,Shift +6%,280.45,36,cycle_time,ms
+shift_19,Shift +6%,295.43,37,cycle_time,ms
+shift_19,Shift +6%,284.54,38,cycle_time,ms
+shift_19,Shift +6%,292.29,39,cycle_time,ms
+shift_19,Shift +6%,275.79,40,cycle_time,ms
+shift_20,Shift +6%,271.71,1,cycle_time,ms
+shift_20,Shift +6%,266.59,2,cycle_time,ms
+shift_20,Shift +6%,240.41,3,cycle_time,ms
+shift_20,Shift +6%,288.80,4,cycle_time,ms
+shift_20,Shift +6%,242.06,5,cycle_time,ms
+shift_20,Shift +6%,284.84,6,cycle_time,ms
+shift_20,Shift +6%,240.58,7,cycle_time,ms
+shift_20,Shift +6%,272.33,8,cycle_time,ms
+shift_20,Shift +6%,227.04,9,cycle_time,ms
+shift_20,Shift +6%,260.19,10,cycle_time,ms
+shift_20,Shift +6%,243.17,11,cycle_time,ms
+shift_20,Shift +6%,281.08,12,cycle_time,ms
+shift_20,Shift +6%,239.76,13,cycle_time,ms
+shift_20,Shift +6%,283.94,14,cycle_time,ms
+shift_20,Shift +6%,267.81,15,cycle_time,ms
+shift_20,Shift +6%,257.98,16,cycle_time,ms
+shift_20,Shift +6%,257.72,17,cycle_time,ms
+shift_20,Shift +6%,278.06,18,cycle_time,ms
+shift_20,Shift +6%,247.04,19,cycle_time,ms
+shift_20,Shift +6%,283.21,20,cycle_time,ms
+shift_20,Shift +6%,253.61,21,cycle_time,ms
+shift_20,Shift +6%,254.58,22,cycle_time,ms
+shift_20,Shift +6%,262.78,23,cycle_time,ms
+shift_20,Shift +6%,253.87,24,cycle_time,ms
+shift_20,Shift +6%,277.42,25,cycle_time,ms
+shift_20,Shift +6%,275.29,26,cycle_time,ms
+shift_20,Shift +6%,255.84,27,cycle_time,ms
+shift_20,Shift +6%,308.28,28,cycle_time,ms
+shift_20,Shift +6%,272.52,29,cycle_time,ms
+shift_20,Shift +6%,267.27,30,cycle_time,ms
+shift_20,Shift +6%,248.06,31,cycle_time,ms
+shift_20,Shift +6%,268.41,32,cycle_time,ms
+shift_20,Shift +6%,260.53,33,cycle_time,ms
+shift_20,Shift +6%,285.66,34,cycle_time,ms
+shift_20,Shift +6%,243.89,35,cycle_time,ms
+shift_20,Shift +6%,267.77,36,cycle_time,ms
+shift_20,Shift +6%,246.26,37,cycle_time,ms
+shift_20,Shift +6%,242.00,38,cycle_time,ms
+shift_20,Shift +6%,288.98,39,cycle_time,ms
+shift_20,Shift +6%,258.17,40,cycle_time,ms
+shift_21,Shift +6%,261.89,1,cycle_time,ms
+shift_21,Shift +6%,250.75,2,cycle_time,ms
+shift_21,Shift +6%,253.91,3,cycle_time,ms
+shift_21,Shift +6%,272.33,4,cycle_time,ms
+shift_21,Shift +6%,279.77,5,cycle_time,ms
+shift_21,Shift +6%,254.76,6,cycle_time,ms
+shift_21,Shift +6%,268.74,7,cycle_time,ms
+shift_21,Shift +6%,267.72,8,cycle_time,ms
+shift_21,Shift +6%,243.97,9,cycle_time,ms
+shift_21,Shift +6%,245.56,10,cycle_time,ms
+shift_21,Shift +6%,245.35,11,cycle_time,ms
+shift_21,Shift +6%,279.25,12,cycle_time,ms
+shift_21,Shift +6%,283.60,13,cycle_time,ms
+shift_21,Shift +6%,266.10,14,cycle_time,ms
+shift_21,Shift +6%,267.35,15,cycle_time,ms
+shift_21,Shift +6%,270.17,16,cycle_time,ms
+shift_21,Shift +6%,234.70,17,cycle_time,ms
+shift_21,Shift +6%,257.65,18,cycle_time,ms
+shift_21,Shift +6%,264.55,19,cycle_time,ms
+shift_21,Shift +6%,247.04,20,cycle_time,ms
+shift_21,Shift +6%,285.63,21,cycle_time,ms
+shift_21,Shift +6%,254.06,22,cycle_time,ms
+shift_21,Shift +6%,279.24,23,cycle_time,ms
+shift_21,Shift +6%,225.62,24,cycle_time,ms
+shift_21,Shift +6%,264.56,25,cycle_time,ms
+shift_21,Shift +6%,239.31,26,cycle_time,ms
+shift_21,Shift +6%,251.48,27,cycle_time,ms
+shift_21,Shift +6%,251.56,28,cycle_time,ms
+shift_21,Shift +6%,251.94,29,cycle_time,ms
+shift_21,Shift +6%,249.15,30,cycle_time,ms
+shift_21,Shift +6%,268.71,31,cycle_time,ms
+shift_21,Shift +6%,241.66,32,cycle_time,ms
+shift_21,Shift +6%,247.23,33,cycle_time,ms
+shift_21,Shift +6%,238.81,34,cycle_time,ms
+shift_21,Shift +6%,264.43,35,cycle_time,ms
+shift_21,Shift +6%,281.17,36,cycle_time,ms
+shift_21,Shift +6%,260.13,37,cycle_time,ms
+shift_21,Shift +6%,254.43,38,cycle_time,ms
+shift_21,Shift +6%,267.25,39,cycle_time,ms
+shift_21,Shift +6%,218.99,40,cycle_time,ms
+shift_22,Shift +6%,277.91,1,cycle_time,ms
+shift_22,Shift +6%,241.16,2,cycle_time,ms
+shift_22,Shift +6%,253.30,3,cycle_time,ms
+shift_22,Shift +6%,244.21,4,cycle_time,ms
+shift_22,Shift +6%,257.19,5,cycle_time,ms
+shift_22,Shift +6%,296.32,6,cycle_time,ms
+shift_22,Shift +6%,280.70,7,cycle_time,ms
+shift_22,Shift +6%,246.76,8,cycle_time,ms
+shift_22,Shift +6%,235.65,9,cycle_time,ms
+shift_22,Shift +6%,262.01,10,cycle_time,ms
+shift_22,Shift +6%,258.99,11,cycle_time,ms
+shift_22,Shift +6%,296.75,12,cycle_time,ms
+shift_22,Shift +6%,273.48,13,cycle_time,ms
+shift_22,Shift +6%,235.80,14,cycle_time,ms
+shift_22,Shift +6%,250.07,15,cycle_time,ms
+shift_22,Shift +6%,256.19,16,cycle_time,ms
+shift_22,Shift +6%,266.04,17,cycle_time,ms
+shift_22,Shift +6%,276.91,18,cycle_time,ms
+shift_22,Shift +6%,236.03,19,cycle_time,ms
+shift_22,Shift +6%,307.18,20,cycle_time,ms
+shift_22,Shift +6%,251.06,21,cycle_time,ms
+shift_22,Shift +6%,258.90,22,cycle_time,ms
+shift_22,Shift +6%,238.32,23,cycle_time,ms
+shift_22,Shift +6%,271.94,24,cycle_time,ms
+shift_22,Shift +6%,245.43,25,cycle_time,ms
+shift_22,Shift +6%,245.91,26,cycle_time,ms
+shift_22,Shift +6%,259.54,27,cycle_time,ms
+shift_22,Shift +6%,277.69,28,cycle_time,ms
+shift_22,Shift +6%,262.91,29,cycle_time,ms
+shift_22,Shift +6%,243.00,30,cycle_time,ms
+shift_22,Shift +6%,297.20,31,cycle_time,ms
+shift_22,Shift +6%,260.28,32,cycle_time,ms
+shift_22,Shift +6%,247.21,33,cycle_time,ms
+shift_22,Shift +6%,265.82,34,cycle_time,ms
+shift_22,Shift +6%,240.03,35,cycle_time,ms
+shift_22,Shift +6%,226.19,36,cycle_time,ms
+shift_22,Shift +6%,292.88,37,cycle_time,ms
+shift_22,Shift +6%,246.86,38,cycle_time,ms
+shift_22,Shift +6%,240.17,39,cycle_time,ms
+shift_22,Shift +6%,235.16,40,cycle_time,ms
+shift_23,Shift +6%,296.12,1,cycle_time,ms
+shift_23,Shift +6%,265.00,2,cycle_time,ms
+shift_23,Shift +6%,266.22,3,cycle_time,ms
+shift_23,Shift +6%,303.09,4,cycle_time,ms
+shift_23,Shift +6%,266.92,5,cycle_time,ms
+shift_23,Shift +6%,277.11,6,cycle_time,ms
+shift_23,Shift +6%,267.67,7,cycle_time,ms
+shift_23,Shift +6%,285.55,8,cycle_time,ms
+shift_23,Shift +6%,246.53,9,cycle_time,ms
+shift_23,Shift +6%,275.62,10,cycle_time,ms
+shift_23,Shift +6%,282.00,11,cycle_time,ms
+shift_23,Shift +6%,270.49,12,cycle_time,ms
+shift_23,Shift +6%,261.77,13,cycle_time,ms
+shift_23,Shift +6%,297.87,14,cycle_time,ms
+shift_23,Shift +6%,264.15,15,cycle_time,ms
+shift_23,Shift +6%,280.51,16,cycle_time,ms
+shift_23,Shift +6%,293.22,17,cycle_time,ms
+shift_23,Shift +6%,282.53,18,cycle_time,ms
+shift_23,Shift +6%,279.40,19,cycle_time,ms
+shift_23,Shift +6%,303.77,20,cycle_time,ms
+shift_23,Shift +6%,277.13,21,cycle_time,ms
+shift_23,Shift +6%,270.53,22,cycle_time,ms
+shift_23,Shift +6%,270.16,23,cycle_time,ms
+shift_23,Shift +6%,263.75,24,cycle_time,ms
+shift_23,Shift +6%,274.67,25,cycle_time,ms
+shift_23,Shift +6%,274.64,26,cycle_time,ms
+shift_23,Shift +6%,276.51,27,cycle_time,ms
+shift_23,Shift +6%,285.27,28,cycle_time,ms
+shift_23,Shift +6%,262.49,29,cycle_time,ms
+shift_23,Shift +6%,280.43,30,cycle_time,ms
+shift_23,Shift +6%,252.05,31,cycle_time,ms
+shift_23,Shift +6%,254.70,32,cycle_time,ms
+shift_23,Shift +6%,299.14,33,cycle_time,ms
+shift_23,Shift +6%,287.07,34,cycle_time,ms
+shift_23,Shift +6%,277.86,35,cycle_time,ms
+shift_23,Shift +6%,265.25,36,cycle_time,ms
+shift_23,Shift +6%,271.91,37,cycle_time,ms
+shift_23,Shift +6%,273.94,38,cycle_time,ms
+shift_23,Shift +6%,301.80,39,cycle_time,ms
+shift_23,Shift +6%,295.11,40,cycle_time,ms
+shift_24,Shift +6%,239.29,1,cycle_time,ms
+shift_24,Shift +6%,271.35,2,cycle_time,ms
+shift_24,Shift +6%,305.27,3,cycle_time,ms
+shift_24,Shift +6%,278.19,4,cycle_time,ms
+shift_24,Shift +6%,253.92,5,cycle_time,ms
+shift_24,Shift +6%,241.96,6,cycle_time,ms
+shift_24,Shift +6%,257.49,7,cycle_time,ms
+shift_24,Shift +6%,247.35,8,cycle_time,ms
+shift_24,Shift +6%,244.65,9,cycle_time,ms
+shift_24,Shift +6%,277.08,10,cycle_time,ms
+shift_24,Shift +6%,266.10,11,cycle_time,ms
+shift_24,Shift +6%,278.71,12,cycle_time,ms
+shift_24,Shift +6%,320.99,13,cycle_time,ms
+shift_24,Shift +6%,289.10,14,cycle_time,ms
+shift_24,Shift +6%,251.38,15,cycle_time,ms
+shift_24,Shift +6%,234.92,16,cycle_time,ms
+shift_24,Shift +6%,280.87,17,cycle_time,ms
+shift_24,Shift +6%,283.08,18,cycle_time,ms
+shift_24,Shift +6%,246.97,19,cycle_time,ms
+shift_24,Shift +6%,263.80,20,cycle_time,ms
+shift_24,Shift +6%,264.91,21,cycle_time,ms
+shift_24,Shift +6%,255.66,22,cycle_time,ms
+shift_24,Shift +6%,275.04,23,cycle_time,ms
+shift_24,Shift +6%,293.44,24,cycle_time,ms
+shift_24,Shift +6%,272.36,25,cycle_time,ms
+shift_24,Shift +6%,279.53,26,cycle_time,ms
+shift_24,Shift +6%,257.48,27,cycle_time,ms
+shift_24,Shift +6%,278.84,28,cycle_time,ms
+shift_24,Shift +6%,291.98,29,cycle_time,ms
+shift_24,Shift +6%,321.07,30,cycle_time,ms
+shift_24,Shift +6%,311.75,31,cycle_time,ms
+shift_24,Shift +6%,256.26,32,cycle_time,ms
+shift_24,Shift +6%,250.57,33,cycle_time,ms
+shift_24,Shift +6%,263.57,34,cycle_time,ms
+shift_24,Shift +6%,272.94,35,cycle_time,ms
+shift_24,Shift +6%,274.63,36,cycle_time,ms
+shift_24,Shift +6%,263.55,37,cycle_time,ms
+shift_24,Shift +6%,277.95,38,cycle_time,ms
+shift_24,Shift +6%,243.44,39,cycle_time,ms
+shift_24,Shift +6%,254.10,40,cycle_time,ms
+noise_01,Noise,207.95,1,cycle_time,ms
+noise_01,Noise,206.92,2,cycle_time,ms
+noise_01,Noise,254.02,3,cycle_time,ms
+noise_01,Noise,210.90,4,cycle_time,ms
+noise_01,Noise,292.48,5,cycle_time,ms
+noise_01,Noise,275.15,6,cycle_time,ms
+noise_01,Noise,261.33,7,cycle_time,ms
+noise_01,Noise,175.97,8,cycle_time,ms
+noise_01,Noise,263.35,9,cycle_time,ms
+noise_01,Noise,345.12,10,cycle_time,ms
+noise_01,Noise,238.54,11,cycle_time,ms
+noise_01,Noise,338.84,12,cycle_time,ms
+noise_01,Noise,331.57,13,cycle_time,ms
+noise_01,Noise,342.10,14,cycle_time,ms
+noise_01,Noise,254.02,15,cycle_time,ms
+noise_01,Noise,251.32,16,cycle_time,ms
+noise_01,Noise,261.29,17,cycle_time,ms
+noise_01,Noise,277.98,18,cycle_time,ms
+noise_01,Noise,441.97,19,cycle_time,ms
+noise_01,Noise,252.19,20,cycle_time,ms
+noise_01,Noise,240.54,21,cycle_time,ms
+noise_01,Noise,234.11,22,cycle_time,ms
+noise_01,Noise,245.62,23,cycle_time,ms
+noise_01,Noise,314.78,24,cycle_time,ms
+noise_01,Noise,286.56,25,cycle_time,ms
+noise_01,Noise,256.69,26,cycle_time,ms
+noise_01,Noise,302.91,27,cycle_time,ms
+noise_01,Noise,313.99,28,cycle_time,ms
+noise_01,Noise,282.86,29,cycle_time,ms
+noise_01,Noise,330.27,30,cycle_time,ms
+noise_01,Noise,279.57,31,cycle_time,ms
+noise_01,Noise,248.52,32,cycle_time,ms
+noise_01,Noise,281.43,33,cycle_time,ms
+noise_01,Noise,281.08,34,cycle_time,ms
+noise_01,Noise,244.71,35,cycle_time,ms
+noise_01,Noise,276.43,36,cycle_time,ms
+noise_01,Noise,282.30,37,cycle_time,ms
+noise_01,Noise,270.25,38,cycle_time,ms
+noise_01,Noise,133.04,39,cycle_time,ms
+noise_01,Noise,247.53,40,cycle_time,ms
+noise_02,Noise,288.15,1,cycle_time,ms
+noise_02,Noise,325.65,2,cycle_time,ms
+noise_02,Noise,269.58,3,cycle_time,ms
+noise_02,Noise,180.56,4,cycle_time,ms
+noise_02,Noise,226.21,5,cycle_time,ms
+noise_02,Noise,251.86,6,cycle_time,ms
+noise_02,Noise,257.11,7,cycle_time,ms
+noise_02,Noise,326.59,8,cycle_time,ms
+noise_02,Noise,232.60,9,cycle_time,ms
+noise_02,Noise,232.05,10,cycle_time,ms
+noise_02,Noise,240.28,11,cycle_time,ms
+noise_02,Noise,262.35,12,cycle_time,ms
+noise_02,Noise,193.37,13,cycle_time,ms
+noise_02,Noise,255.69,14,cycle_time,ms
+noise_02,Noise,231.94,15,cycle_time,ms
+noise_02,Noise,257.80,16,cycle_time,ms
+noise_02,Noise,166.34,17,cycle_time,ms
+noise_02,Noise,250.43,18,cycle_time,ms
+noise_02,Noise,198.97,19,cycle_time,ms
+noise_02,Noise,198.80,20,cycle_time,ms
+noise_02,Noise,282.48,21,cycle_time,ms
+noise_02,Noise,177.34,22,cycle_time,ms
+noise_02,Noise,193.90,23,cycle_time,ms
+noise_02,Noise,148.69,24,cycle_time,ms
+noise_02,Noise,250.93,25,cycle_time,ms
+noise_02,Noise,280.87,26,cycle_time,ms
+noise_02,Noise,151.37,27,cycle_time,ms
+noise_02,Noise,216.04,28,cycle_time,ms
+noise_02,Noise,247.28,29,cycle_time,ms
+noise_02,Noise,377.99,30,cycle_time,ms
+noise_02,Noise,280.86,31,cycle_time,ms
+noise_02,Noise,203.82,32,cycle_time,ms
+noise_02,Noise,191.71,33,cycle_time,ms
+noise_02,Noise,183.12,34,cycle_time,ms
+noise_02,Noise,179.62,35,cycle_time,ms
+noise_02,Noise,261.63,36,cycle_time,ms
+noise_02,Noise,316.49,37,cycle_time,ms
+noise_02,Noise,226.52,38,cycle_time,ms
+noise_02,Noise,229.20,39,cycle_time,ms
+noise_02,Noise,216.90,40,cycle_time,ms
+noise_03,Noise,239.61,1,cycle_time,ms
+noise_03,Noise,175.46,2,cycle_time,ms
+noise_03,Noise,175.32,3,cycle_time,ms
+noise_03,Noise,275.54,4,cycle_time,ms
+noise_03,Noise,269.72,5,cycle_time,ms
+noise_03,Noise,263.80,6,cycle_time,ms
+noise_03,Noise,214.73,7,cycle_time,ms
+noise_03,Noise,165.31,8,cycle_time,ms
+noise_03,Noise,229.13,9,cycle_time,ms
+noise_03,Noise,273.72,10,cycle_time,ms
+noise_03,Noise,298.25,11,cycle_time,ms
+noise_03,Noise,265.22,12,cycle_time,ms
+noise_03,Noise,229.38,13,cycle_time,ms
+noise_03,Noise,278.12,14,cycle_time,ms
+noise_03,Noise,211.35,15,cycle_time,ms
+noise_03,Noise,241.29,16,cycle_time,ms
+noise_03,Noise,285.09,17,cycle_time,ms
+noise_03,Noise,312.87,18,cycle_time,ms
+noise_03,Noise,199.99,19,cycle_time,ms
+noise_03,Noise,287.49,20,cycle_time,ms
+noise_03,Noise,214.20,21,cycle_time,ms
+noise_03,Noise,187.20,22,cycle_time,ms
+noise_03,Noise,275.63,23,cycle_time,ms
+noise_03,Noise,252.71,24,cycle_time,ms
+noise_03,Noise,323.24,25,cycle_time,ms
+noise_03,Noise,350.97,26,cycle_time,ms
+noise_03,Noise,288.31,27,cycle_time,ms
+noise_03,Noise,186.84,28,cycle_time,ms
+noise_03,Noise,172.66,29,cycle_time,ms
+noise_03,Noise,284.08,30,cycle_time,ms
+noise_03,Noise,236.56,31,cycle_time,ms
+noise_03,Noise,220.47,32,cycle_time,ms
+noise_03,Noise,270.25,33,cycle_time,ms
+noise_03,Noise,203.65,34,cycle_time,ms
+noise_03,Noise,294.07,35,cycle_time,ms
+noise_03,Noise,264.91,36,cycle_time,ms
+noise_03,Noise,212.83,37,cycle_time,ms
+noise_03,Noise,286.36,38,cycle_time,ms
+noise_03,Noise,190.61,39,cycle_time,ms
+noise_03,Noise,225.04,40,cycle_time,ms
+noise_04,Noise,284.80,1,cycle_time,ms
+noise_04,Noise,204.23,2,cycle_time,ms
+noise_04,Noise,173.08,3,cycle_time,ms
+noise_04,Noise,149.48,4,cycle_time,ms
+noise_04,Noise,273.26,5,cycle_time,ms
+noise_04,Noise,280.41,6,cycle_time,ms
+noise_04,Noise,312.88,7,cycle_time,ms
+noise_04,Noise,214.18,8,cycle_time,ms
+noise_04,Noise,241.43,9,cycle_time,ms
+noise_04,Noise,136.62,10,cycle_time,ms
+noise_04,Noise,269.77,11,cycle_time,ms
+noise_04,Noise,220.47,12,cycle_time,ms
+noise_04,Noise,224.87,13,cycle_time,ms
+noise_04,Noise,308.54,14,cycle_time,ms
+noise_04,Noise,225.25,15,cycle_time,ms
+noise_04,Noise,199.26,16,cycle_time,ms
+noise_04,Noise,233.60,17,cycle_time,ms
+noise_04,Noise,213.12,18,cycle_time,ms
+noise_04,Noise,256.69,19,cycle_time,ms
+noise_04,Noise,244.06,20,cycle_time,ms
+noise_04,Noise,236.25,21,cycle_time,ms
+noise_04,Noise,284.07,22,cycle_time,ms
+noise_04,Noise,252.08,23,cycle_time,ms
+noise_04,Noise,234.78,24,cycle_time,ms
+noise_04,Noise,290.55,25,cycle_time,ms
+noise_04,Noise,215.52,26,cycle_time,ms
+noise_04,Noise,194.87,27,cycle_time,ms
+noise_04,Noise,279.77,28,cycle_time,ms
+noise_04,Noise,218.01,29,cycle_time,ms
+noise_04,Noise,254.06,30,cycle_time,ms
+noise_04,Noise,229.04,31,cycle_time,ms
+noise_04,Noise,262.34,32,cycle_time,ms
+noise_04,Noise,157.20,33,cycle_time,ms
+noise_04,Noise,286.66,34,cycle_time,ms
+noise_04,Noise,263.13,35,cycle_time,ms
+noise_04,Noise,222.24,36,cycle_time,ms
+noise_04,Noise,151.58,37,cycle_time,ms
+noise_04,Noise,250.35,38,cycle_time,ms
+noise_04,Noise,301.83,39,cycle_time,ms
+noise_04,Noise,340.34,40,cycle_time,ms
+noise_05,Noise,211.83,1,cycle_time,ms
+noise_05,Noise,228.98,2,cycle_time,ms
+noise_05,Noise,317.74,3,cycle_time,ms
+noise_05,Noise,318.53,4,cycle_time,ms
+noise_05,Noise,303.26,5,cycle_time,ms
+noise_05,Noise,214.77,6,cycle_time,ms
+noise_05,Noise,226.98,7,cycle_time,ms
+noise_05,Noise,321.28,8,cycle_time,ms
+noise_05,Noise,185.13,9,cycle_time,ms
+noise_05,Noise,272.46,10,cycle_time,ms
+noise_05,Noise,341.04,11,cycle_time,ms
+noise_05,Noise,300.61,12,cycle_time,ms
+noise_05,Noise,278.99,13,cycle_time,ms
+noise_05,Noise,287.78,14,cycle_time,ms
+noise_05,Noise,308.47,15,cycle_time,ms
+noise_05,Noise,324.55,16,cycle_time,ms
+noise_05,Noise,282.30,17,cycle_time,ms
+noise_05,Noise,215.44,18,cycle_time,ms
+noise_05,Noise,339.67,19,cycle_time,ms
+noise_05,Noise,227.88,20,cycle_time,ms
+noise_05,Noise,282.67,21,cycle_time,ms
+noise_05,Noise,207.49,22,cycle_time,ms
+noise_05,Noise,369.68,23,cycle_time,ms
+noise_05,Noise,256.75,24,cycle_time,ms
+noise_05,Noise,228.88,25,cycle_time,ms
+noise_05,Noise,269.92,26,cycle_time,ms
+noise_05,Noise,313.12,27,cycle_time,ms
+noise_05,Noise,289.86,28,cycle_time,ms
+noise_05,Noise,396.84,29,cycle_time,ms
+noise_05,Noise,238.89,30,cycle_time,ms
+noise_05,Noise,239.13,31,cycle_time,ms
+noise_05,Noise,329.95,32,cycle_time,ms
+noise_05,Noise,210.74,33,cycle_time,ms
+noise_05,Noise,192.27,34,cycle_time,ms
+noise_05,Noise,267.44,35,cycle_time,ms
+noise_05,Noise,345.40,36,cycle_time,ms
+noise_05,Noise,269.52,37,cycle_time,ms
+noise_05,Noise,296.39,38,cycle_time,ms
+noise_05,Noise,291.02,39,cycle_time,ms
+noise_05,Noise,263.61,40,cycle_time,ms
+noise_06,Noise,150.00,1,cycle_time,ms
+noise_06,Noise,220.57,2,cycle_time,ms
+noise_06,Noise,326.19,3,cycle_time,ms
+noise_06,Noise,175.86,4,cycle_time,ms
+noise_06,Noise,309.99,5,cycle_time,ms
+noise_06,Noise,279.59,6,cycle_time,ms
+noise_06,Noise,150.14,7,cycle_time,ms
+noise_06,Noise,193.07,8,cycle_time,ms
+noise_06,Noise,158.51,9,cycle_time,ms
+noise_06,Noise,271.85,10,cycle_time,ms
+noise_06,Noise,192.04,11,cycle_time,ms
+noise_06,Noise,297.33,12,cycle_time,ms
+noise_06,Noise,145.30,13,cycle_time,ms
+noise_06,Noise,182.96,14,cycle_time,ms
+noise_06,Noise,279.71,15,cycle_time,ms
+noise_06,Noise,231.00,16,cycle_time,ms
+noise_06,Noise,117.71,17,cycle_time,ms
+noise_06,Noise,236.29,18,cycle_time,ms
+noise_06,Noise,216.72,19,cycle_time,ms
+noise_06,Noise,229.90,20,cycle_time,ms
+noise_06,Noise,311.96,21,cycle_time,ms
+noise_06,Noise,246.35,22,cycle_time,ms
+noise_06,Noise,264.20,23,cycle_time,ms
+noise_06,Noise,230.88,24,cycle_time,ms
+noise_06,Noise,181.69,25,cycle_time,ms
+noise_06,Noise,195.61,26,cycle_time,ms
+noise_06,Noise,196.55,27,cycle_time,ms
+noise_06,Noise,248.62,28,cycle_time,ms
+noise_06,Noise,204.76,29,cycle_time,ms
+noise_06,Noise,211.53,30,cycle_time,ms
+noise_06,Noise,298.16,31,cycle_time,ms
+noise_06,Noise,258.79,32,cycle_time,ms
+noise_06,Noise,219.85,33,cycle_time,ms
+noise_06,Noise,179.21,34,cycle_time,ms
+noise_06,Noise,231.98,35,cycle_time,ms
+noise_06,Noise,310.43,36,cycle_time,ms
+noise_06,Noise,261.17,37,cycle_time,ms
+noise_06,Noise,254.68,38,cycle_time,ms
+noise_06,Noise,164.15,39,cycle_time,ms
+noise_06,Noise,197.26,40,cycle_time,ms
+noise_07,Noise,177.80,1,cycle_time,ms
+noise_07,Noise,237.04,2,cycle_time,ms
+noise_07,Noise,327.69,3,cycle_time,ms
+noise_07,Noise,227.36,4,cycle_time,ms
+noise_07,Noise,283.12,5,cycle_time,ms
+noise_07,Noise,241.74,6,cycle_time,ms
+noise_07,Noise,313.52,7,cycle_time,ms
+noise_07,Noise,252.01,8,cycle_time,ms
+noise_07,Noise,253.25,9,cycle_time,ms
+noise_07,Noise,207.08,10,cycle_time,ms
+noise_07,Noise,208.51,11,cycle_time,ms
+noise_07,Noise,213.51,12,cycle_time,ms
+noise_07,Noise,339.16,13,cycle_time,ms
+noise_07,Noise,279.84,14,cycle_time,ms
+noise_07,Noise,219.79,15,cycle_time,ms
+noise_07,Noise,217.94,16,cycle_time,ms
+noise_07,Noise,232.98,17,cycle_time,ms
+noise_07,Noise,296.73,18,cycle_time,ms
+noise_07,Noise,222.89,19,cycle_time,ms
+noise_07,Noise,333.12,20,cycle_time,ms
+noise_07,Noise,252.78,21,cycle_time,ms
+noise_07,Noise,291.76,22,cycle_time,ms
+noise_07,Noise,265.89,23,cycle_time,ms
+noise_07,Noise,239.19,24,cycle_time,ms
+noise_07,Noise,161.03,25,cycle_time,ms
+noise_07,Noise,263.50,26,cycle_time,ms
+noise_07,Noise,262.44,27,cycle_time,ms
+noise_07,Noise,362.15,28,cycle_time,ms
+noise_07,Noise,210.78,29,cycle_time,ms
+noise_07,Noise,261.08,30,cycle_time,ms
+noise_07,Noise,282.79,31,cycle_time,ms
+noise_07,Noise,268.00,32,cycle_time,ms
+noise_07,Noise,242.58,33,cycle_time,ms
+noise_07,Noise,233.86,34,cycle_time,ms
+noise_07,Noise,220.10,35,cycle_time,ms
+noise_07,Noise,289.74,36,cycle_time,ms
+noise_07,Noise,267.87,37,cycle_time,ms
+noise_07,Noise,307.64,38,cycle_time,ms
+noise_07,Noise,220.85,39,cycle_time,ms
+noise_07,Noise,233.36,40,cycle_time,ms
+noise_08,Noise,242.10,1,cycle_time,ms
+noise_08,Noise,215.66,2,cycle_time,ms
+noise_08,Noise,303.99,3,cycle_time,ms
+noise_08,Noise,297.36,4,cycle_time,ms
+noise_08,Noise,283.65,5,cycle_time,ms
+noise_08,Noise,224.73,6,cycle_time,ms
+noise_08,Noise,222.96,7,cycle_time,ms
+noise_08,Noise,161.21,8,cycle_time,ms
+noise_08,Noise,215.96,9,cycle_time,ms
+noise_08,Noise,179.96,10,cycle_time,ms
+noise_08,Noise,202.93,11,cycle_time,ms
+noise_08,Noise,122.86,12,cycle_time,ms
+noise_08,Noise,211.12,13,cycle_time,ms
+noise_08,Noise,257.64,14,cycle_time,ms
+noise_08,Noise,207.83,15,cycle_time,ms
+noise_08,Noise,71.61,16,cycle_time,ms
+noise_08,Noise,149.91,17,cycle_time,ms
+noise_08,Noise,272.06,18,cycle_time,ms
+noise_08,Noise,207.11,19,cycle_time,ms
+noise_08,Noise,237.98,20,cycle_time,ms
+noise_08,Noise,280.27,21,cycle_time,ms
+noise_08,Noise,247.37,22,cycle_time,ms
+noise_08,Noise,192.73,23,cycle_time,ms
+noise_08,Noise,238.24,24,cycle_time,ms
+noise_08,Noise,209.96,25,cycle_time,ms
+noise_08,Noise,181.37,26,cycle_time,ms
+noise_08,Noise,222.33,27,cycle_time,ms
+noise_08,Noise,233.60,28,cycle_time,ms
+noise_08,Noise,270.18,29,cycle_time,ms
+noise_08,Noise,291.49,30,cycle_time,ms
+noise_08,Noise,215.84,31,cycle_time,ms
+noise_08,Noise,233.85,32,cycle_time,ms
+noise_08,Noise,272.07,33,cycle_time,ms
+noise_08,Noise,203.12,34,cycle_time,ms
+noise_08,Noise,216.98,35,cycle_time,ms
+noise_08,Noise,182.71,36,cycle_time,ms
+noise_08,Noise,280.50,37,cycle_time,ms
+noise_08,Noise,156.52,38,cycle_time,ms
+noise_08,Noise,225.29,39,cycle_time,ms
+noise_08,Noise,198.68,40,cycle_time,ms
+noise_09,Noise,172.57,1,cycle_time,ms
+noise_09,Noise,225.68,2,cycle_time,ms
+noise_09,Noise,211.03,3,cycle_time,ms
+noise_09,Noise,268.80,4,cycle_time,ms
+noise_09,Noise,235.12,5,cycle_time,ms
+noise_09,Noise,175.76,6,cycle_time,ms
+noise_09,Noise,274.02,7,cycle_time,ms
+noise_09,Noise,168.86,8,cycle_time,ms
+noise_09,Noise,209.95,9,cycle_time,ms
+noise_09,Noise,215.56,10,cycle_time,ms
+noise_09,Noise,208.16,11,cycle_time,ms
+noise_09,Noise,193.58,12,cycle_time,ms
+noise_09,Noise,164.45,13,cycle_time,ms
+noise_09,Noise,274.69,14,cycle_time,ms
+noise_09,Noise,143.29,15,cycle_time,ms
+noise_09,Noise,269.88,16,cycle_time,ms
+noise_09,Noise,377.71,17,cycle_time,ms
+noise_09,Noise,293.82,18,cycle_time,ms
+noise_09,Noise,159.65,19,cycle_time,ms
+noise_09,Noise,268.66,20,cycle_time,ms
+noise_09,Noise,216.53,21,cycle_time,ms
+noise_09,Noise,180.35,22,cycle_time,ms
+noise_09,Noise,222.12,23,cycle_time,ms
+noise_09,Noise,156.28,24,cycle_time,ms
+noise_09,Noise,222.07,25,cycle_time,ms
+noise_09,Noise,216.44,26,cycle_time,ms
+noise_09,Noise,296.64,27,cycle_time,ms
+noise_09,Noise,242.65,28,cycle_time,ms
+noise_09,Noise,212.05,29,cycle_time,ms
+noise_09,Noise,221.68,30,cycle_time,ms
+noise_09,Noise,229.62,31,cycle_time,ms
+noise_09,Noise,250.00,32,cycle_time,ms
+noise_09,Noise,260.01,33,cycle_time,ms
+noise_09,Noise,268.08,34,cycle_time,ms
+noise_09,Noise,240.53,35,cycle_time,ms
+noise_09,Noise,268.35,36,cycle_time,ms
+noise_09,Noise,316.96,37,cycle_time,ms
+noise_09,Noise,204.15,38,cycle_time,ms
+noise_09,Noise,268.66,39,cycle_time,ms
+noise_09,Noise,241.55,40,cycle_time,ms
+noise_10,Noise,233.93,1,cycle_time,ms
+noise_10,Noise,162.57,2,cycle_time,ms
+noise_10,Noise,288.00,3,cycle_time,ms
+noise_10,Noise,196.20,4,cycle_time,ms
+noise_10,Noise,207.09,5,cycle_time,ms
+noise_10,Noise,214.07,6,cycle_time,ms
+noise_10,Noise,143.10,7,cycle_time,ms
+noise_10,Noise,246.45,8,cycle_time,ms
+noise_10,Noise,265.08,9,cycle_time,ms
+noise_10,Noise,247.02,10,cycle_time,ms
+noise_10,Noise,260.65,11,cycle_time,ms
+noise_10,Noise,249.79,12,cycle_time,ms
+noise_10,Noise,111.25,13,cycle_time,ms
+noise_10,Noise,210.86,14,cycle_time,ms
+noise_10,Noise,261.55,15,cycle_time,ms
+noise_10,Noise,180.20,16,cycle_time,ms
+noise_10,Noise,272.49,17,cycle_time,ms
+noise_10,Noise,314.85,18,cycle_time,ms
+noise_10,Noise,285.77,19,cycle_time,ms
+noise_10,Noise,187.20,20,cycle_time,ms
+noise_10,Noise,145.91,21,cycle_time,ms
+noise_10,Noise,265.46,22,cycle_time,ms
+noise_10,Noise,301.67,23,cycle_time,ms
+noise_10,Noise,336.01,24,cycle_time,ms
+noise_10,Noise,278.64,25,cycle_time,ms
+noise_10,Noise,228.28,26,cycle_time,ms
+noise_10,Noise,226.88,27,cycle_time,ms
+noise_10,Noise,278.71,28,cycle_time,ms
+noise_10,Noise,185.93,29,cycle_time,ms
+noise_10,Noise,234.15,30,cycle_time,ms
+noise_10,Noise,164.53,31,cycle_time,ms
+noise_10,Noise,215.39,32,cycle_time,ms
+noise_10,Noise,229.26,33,cycle_time,ms
+noise_10,Noise,218.42,34,cycle_time,ms
+noise_10,Noise,290.17,35,cycle_time,ms
+noise_10,Noise,256.20,36,cycle_time,ms
+noise_10,Noise,257.40,37,cycle_time,ms
+noise_10,Noise,161.74,38,cycle_time,ms
+noise_10,Noise,166.86,39,cycle_time,ms
+noise_10,Noise,290.34,40,cycle_time,ms
+noise_11,Noise,239.35,1,cycle_time,ms
+noise_11,Noise,320.32,2,cycle_time,ms
+noise_11,Noise,250.26,3,cycle_time,ms
+noise_11,Noise,375.75,4,cycle_time,ms
+noise_11,Noise,340.15,5,cycle_time,ms
+noise_11,Noise,261.49,6,cycle_time,ms
+noise_11,Noise,244.24,7,cycle_time,ms
+noise_11,Noise,306.78,8,cycle_time,ms
+noise_11,Noise,270.99,9,cycle_time,ms
+noise_11,Noise,292.55,10,cycle_time,ms
+noise_11,Noise,195.04,11,cycle_time,ms
+noise_11,Noise,290.37,12,cycle_time,ms
+noise_11,Noise,318.27,13,cycle_time,ms
+noise_11,Noise,350.58,14,cycle_time,ms
+noise_11,Noise,345.24,15,cycle_time,ms
+noise_11,Noise,245.95,16,cycle_time,ms
+noise_11,Noise,157.00,17,cycle_time,ms
+noise_11,Noise,275.96,18,cycle_time,ms
+noise_11,Noise,292.05,19,cycle_time,ms
+noise_11,Noise,335.95,20,cycle_time,ms
+noise_11,Noise,264.62,21,cycle_time,ms
+noise_11,Noise,341.39,22,cycle_time,ms
+noise_11,Noise,267.27,23,cycle_time,ms
+noise_11,Noise,314.41,24,cycle_time,ms
+noise_11,Noise,219.57,25,cycle_time,ms
+noise_11,Noise,322.16,26,cycle_time,ms
+noise_11,Noise,254.37,27,cycle_time,ms
+noise_11,Noise,188.32,28,cycle_time,ms
+noise_11,Noise,208.84,29,cycle_time,ms
+noise_11,Noise,273.88,30,cycle_time,ms
+noise_11,Noise,218.49,31,cycle_time,ms
+noise_11,Noise,323.92,32,cycle_time,ms
+noise_11,Noise,345.06,33,cycle_time,ms
+noise_11,Noise,328.21,34,cycle_time,ms
+noise_11,Noise,177.05,35,cycle_time,ms
+noise_11,Noise,259.00,36,cycle_time,ms
+noise_11,Noise,313.67,37,cycle_time,ms
+noise_11,Noise,208.99,38,cycle_time,ms
+noise_11,Noise,213.88,39,cycle_time,ms
+noise_11,Noise,148.88,40,cycle_time,ms
+noise_12,Noise,338.26,1,cycle_time,ms
+noise_12,Noise,180.89,2,cycle_time,ms
+noise_12,Noise,264.43,3,cycle_time,ms
+noise_12,Noise,257.01,4,cycle_time,ms
+noise_12,Noise,330.95,5,cycle_time,ms
+noise_12,Noise,224.82,6,cycle_time,ms
+noise_12,Noise,256.75,7,cycle_time,ms
+noise_12,Noise,127.39,8,cycle_time,ms
+noise_12,Noise,265.06,9,cycle_time,ms
+noise_12,Noise,184.84,10,cycle_time,ms
+noise_12,Noise,243.51,11,cycle_time,ms
+noise_12,Noise,305.88,12,cycle_time,ms
+noise_12,Noise,311.31,13,cycle_time,ms
+noise_12,Noise,267.51,14,cycle_time,ms
+noise_12,Noise,181.34,15,cycle_time,ms
+noise_12,Noise,311.92,16,cycle_time,ms
+noise_12,Noise,323.53,17,cycle_time,ms
+noise_12,Noise,295.06,18,cycle_time,ms
+noise_12,Noise,173.46,19,cycle_time,ms
+noise_12,Noise,220.21,20,cycle_time,ms
+noise_12,Noise,250.83,21,cycle_time,ms
+noise_12,Noise,114.46,22,cycle_time,ms
+noise_12,Noise,298.81,23,cycle_time,ms
+noise_12,Noise,169.26,24,cycle_time,ms
+noise_12,Noise,110.72,25,cycle_time,ms
+noise_12,Noise,252.26,26,cycle_time,ms
+noise_12,Noise,325.23,27,cycle_time,ms
+noise_12,Noise,220.48,28,cycle_time,ms
+noise_12,Noise,290.55,29,cycle_time,ms
+noise_12,Noise,239.30,30,cycle_time,ms
+noise_12,Noise,176.41,31,cycle_time,ms
+noise_12,Noise,236.42,32,cycle_time,ms
+noise_12,Noise,180.31,33,cycle_time,ms
+noise_12,Noise,194.06,34,cycle_time,ms
+noise_12,Noise,185.33,35,cycle_time,ms
+noise_12,Noise,239.47,36,cycle_time,ms
+noise_12,Noise,199.11,37,cycle_time,ms
+noise_12,Noise,201.09,38,cycle_time,ms
+noise_12,Noise,240.27,39,cycle_time,ms
+noise_12,Noise,298.84,40,cycle_time,ms
+noise_13,Noise,180.72,1,cycle_time,ms
+noise_13,Noise,179.36,2,cycle_time,ms
+noise_13,Noise,347.13,3,cycle_time,ms
+noise_13,Noise,232.58,4,cycle_time,ms
+noise_13,Noise,277.79,5,cycle_time,ms
+noise_13,Noise,262.60,6,cycle_time,ms
+noise_13,Noise,314.24,7,cycle_time,ms
+noise_13,Noise,332.32,8,cycle_time,ms
+noise_13,Noise,223.90,9,cycle_time,ms
+noise_13,Noise,338.88,10,cycle_time,ms
+noise_13,Noise,211.63,11,cycle_time,ms
+noise_13,Noise,268.66,12,cycle_time,ms
+noise_13,Noise,254.83,13,cycle_time,ms
+noise_13,Noise,224.50,14,cycle_time,ms
+noise_13,Noise,227.60,15,cycle_time,ms
+noise_13,Noise,283.78,16,cycle_time,ms
+noise_13,Noise,239.96,17,cycle_time,ms
+noise_13,Noise,223.68,18,cycle_time,ms
+noise_13,Noise,301.16,19,cycle_time,ms
+noise_13,Noise,178.21,20,cycle_time,ms
+noise_13,Noise,187.33,21,cycle_time,ms
+noise_13,Noise,251.82,22,cycle_time,ms
+noise_13,Noise,298.32,23,cycle_time,ms
+noise_13,Noise,265.45,24,cycle_time,ms
+noise_13,Noise,194.18,25,cycle_time,ms
+noise_13,Noise,279.05,26,cycle_time,ms
+noise_13,Noise,236.15,27,cycle_time,ms
+noise_13,Noise,231.94,28,cycle_time,ms
+noise_13,Noise,197.02,29,cycle_time,ms
+noise_13,Noise,340.30,30,cycle_time,ms
+noise_13,Noise,280.34,31,cycle_time,ms
+noise_13,Noise,239.08,32,cycle_time,ms
+noise_13,Noise,277.42,33,cycle_time,ms
+noise_13,Noise,222.51,34,cycle_time,ms
+noise_13,Noise,371.42,35,cycle_time,ms
+noise_13,Noise,344.47,36,cycle_time,ms
+noise_13,Noise,297.70,37,cycle_time,ms
+noise_13,Noise,293.10,38,cycle_time,ms
+noise_13,Noise,226.61,39,cycle_time,ms
+noise_13,Noise,170.31,40,cycle_time,ms
+noise_14,Noise,145.02,1,cycle_time,ms
+noise_14,Noise,305.39,2,cycle_time,ms
+noise_14,Noise,301.54,3,cycle_time,ms
+noise_14,Noise,166.27,4,cycle_time,ms
+noise_14,Noise,272.01,5,cycle_time,ms
+noise_14,Noise,246.13,6,cycle_time,ms
+noise_14,Noise,195.05,7,cycle_time,ms
+noise_14,Noise,277.98,8,cycle_time,ms
+noise_14,Noise,295.98,9,cycle_time,ms
+noise_14,Noise,270.47,10,cycle_time,ms
+noise_14,Noise,305.85,11,cycle_time,ms
+noise_14,Noise,234.27,12,cycle_time,ms
+noise_14,Noise,262.29,13,cycle_time,ms
+noise_14,Noise,225.23,14,cycle_time,ms
+noise_14,Noise,147.39,15,cycle_time,ms
+noise_14,Noise,248.36,16,cycle_time,ms
+noise_14,Noise,226.36,17,cycle_time,ms
+noise_14,Noise,259.24,18,cycle_time,ms
+noise_14,Noise,263.68,19,cycle_time,ms
+noise_14,Noise,299.87,20,cycle_time,ms
+noise_14,Noise,297.99,21,cycle_time,ms
+noise_14,Noise,269.39,22,cycle_time,ms
+noise_14,Noise,197.18,23,cycle_time,ms
+noise_14,Noise,320.35,24,cycle_time,ms
+noise_14,Noise,311.46,25,cycle_time,ms
+noise_14,Noise,367.35,26,cycle_time,ms
+noise_14,Noise,198.58,27,cycle_time,ms
+noise_14,Noise,176.00,28,cycle_time,ms
+noise_14,Noise,235.57,29,cycle_time,ms
+noise_14,Noise,197.35,30,cycle_time,ms
+noise_14,Noise,261.82,31,cycle_time,ms
+noise_14,Noise,234.89,32,cycle_time,ms
+noise_14,Noise,273.37,33,cycle_time,ms
+noise_14,Noise,256.80,34,cycle_time,ms
+noise_14,Noise,246.05,35,cycle_time,ms
+noise_14,Noise,307.05,36,cycle_time,ms
+noise_14,Noise,279.19,37,cycle_time,ms
+noise_14,Noise,263.66,38,cycle_time,ms
+noise_14,Noise,258.05,39,cycle_time,ms
+noise_14,Noise,197.40,40,cycle_time,ms
+noise_15,Noise,302.27,1,cycle_time,ms
+noise_15,Noise,283.53,2,cycle_time,ms
+noise_15,Noise,181.12,3,cycle_time,ms
+noise_15,Noise,182.46,4,cycle_time,ms
+noise_15,Noise,174.17,5,cycle_time,ms
+noise_15,Noise,206.00,6,cycle_time,ms
+noise_15,Noise,314.01,7,cycle_time,ms
+noise_15,Noise,246.89,8,cycle_time,ms
+noise_15,Noise,258.19,9,cycle_time,ms
+noise_15,Noise,254.20,10,cycle_time,ms
+noise_15,Noise,209.84,11,cycle_time,ms
+noise_15,Noise,214.98,12,cycle_time,ms
+noise_15,Noise,141.99,13,cycle_time,ms
+noise_15,Noise,160.57,14,cycle_time,ms
+noise_15,Noise,249.78,15,cycle_time,ms
+noise_15,Noise,218.52,16,cycle_time,ms
+noise_15,Noise,238.73,17,cycle_time,ms
+noise_15,Noise,241.62,18,cycle_time,ms
+noise_15,Noise,287.04,19,cycle_time,ms
+noise_15,Noise,263.92,20,cycle_time,ms
+noise_15,Noise,216.20,21,cycle_time,ms
+noise_15,Noise,195.36,22,cycle_time,ms
+noise_15,Noise,216.06,23,cycle_time,ms
+noise_15,Noise,235.04,24,cycle_time,ms
+noise_15,Noise,253.96,25,cycle_time,ms
+noise_15,Noise,291.36,26,cycle_time,ms
+noise_15,Noise,258.98,27,cycle_time,ms
+noise_15,Noise,267.57,28,cycle_time,ms
+noise_15,Noise,307.37,29,cycle_time,ms
+noise_15,Noise,257.50,30,cycle_time,ms
+noise_15,Noise,285.50,31,cycle_time,ms
+noise_15,Noise,205.37,32,cycle_time,ms
+noise_15,Noise,246.68,33,cycle_time,ms
+noise_15,Noise,393.56,34,cycle_time,ms
+noise_15,Noise,207.38,35,cycle_time,ms
+noise_15,Noise,263.68,36,cycle_time,ms
+noise_15,Noise,296.66,37,cycle_time,ms
+noise_15,Noise,249.11,38,cycle_time,ms
+noise_15,Noise,323.90,39,cycle_time,ms
+noise_15,Noise,234.20,40,cycle_time,ms
+noise_16,Noise,286.50,1,cycle_time,ms
+noise_16,Noise,246.79,2,cycle_time,ms
+noise_16,Noise,311.29,3,cycle_time,ms
+noise_16,Noise,228.39,4,cycle_time,ms
+noise_16,Noise,284.74,5,cycle_time,ms
+noise_16,Noise,248.16,6,cycle_time,ms
+noise_16,Noise,288.70,7,cycle_time,ms
+noise_16,Noise,189.48,8,cycle_time,ms
+noise_16,Noise,283.24,9,cycle_time,ms
+noise_16,Noise,309.12,10,cycle_time,ms
+noise_16,Noise,281.55,11,cycle_time,ms
+noise_16,Noise,233.92,12,cycle_time,ms
+noise_16,Noise,257.70,13,cycle_time,ms
+noise_16,Noise,258.71,14,cycle_time,ms
+noise_16,Noise,354.30,15,cycle_time,ms
+noise_16,Noise,310.19,16,cycle_time,ms
+noise_16,Noise,229.39,17,cycle_time,ms
+noise_16,Noise,240.96,18,cycle_time,ms
+noise_16,Noise,216.22,19,cycle_time,ms
+noise_16,Noise,294.90,20,cycle_time,ms
+noise_16,Noise,219.08,21,cycle_time,ms
+noise_16,Noise,190.49,22,cycle_time,ms
+noise_16,Noise,260.15,23,cycle_time,ms
+noise_16,Noise,232.98,24,cycle_time,ms
+noise_16,Noise,174.22,25,cycle_time,ms
+noise_16,Noise,198.64,26,cycle_time,ms
+noise_16,Noise,234.87,27,cycle_time,ms
+noise_16,Noise,228.56,28,cycle_time,ms
+noise_16,Noise,199.56,29,cycle_time,ms
+noise_16,Noise,348.24,30,cycle_time,ms
+noise_16,Noise,323.43,31,cycle_time,ms
+noise_16,Noise,208.58,32,cycle_time,ms
+noise_16,Noise,228.84,33,cycle_time,ms
+noise_16,Noise,242.94,34,cycle_time,ms
+noise_16,Noise,257.33,35,cycle_time,ms
+noise_16,Noise,314.94,36,cycle_time,ms
+noise_16,Noise,297.89,37,cycle_time,ms
+noise_16,Noise,262.10,38,cycle_time,ms
+noise_16,Noise,250.63,39,cycle_time,ms
+noise_16,Noise,206.19,40,cycle_time,ms
+noise_17,Noise,310.20,1,cycle_time,ms
+noise_17,Noise,287.38,2,cycle_time,ms
+noise_17,Noise,386.33,3,cycle_time,ms
+noise_17,Noise,392.33,4,cycle_time,ms
+noise_17,Noise,221.95,5,cycle_time,ms
+noise_17,Noise,251.81,6,cycle_time,ms
+noise_17,Noise,227.72,7,cycle_time,ms
+noise_17,Noise,323.58,8,cycle_time,ms
+noise_17,Noise,317.39,9,cycle_time,ms
+noise_17,Noise,300.27,10,cycle_time,ms
+noise_17,Noise,203.86,11,cycle_time,ms
+noise_17,Noise,205.54,12,cycle_time,ms
+noise_17,Noise,278.94,13,cycle_time,ms
+noise_17,Noise,370.70,14,cycle_time,ms
+noise_17,Noise,243.20,15,cycle_time,ms
+noise_17,Noise,240.68,16,cycle_time,ms
+noise_17,Noise,335.74,17,cycle_time,ms
+noise_17,Noise,342.37,18,cycle_time,ms
+noise_17,Noise,320.92,19,cycle_time,ms
+noise_17,Noise,200.32,20,cycle_time,ms
+noise_17,Noise,215.97,21,cycle_time,ms
+noise_17,Noise,237.91,22,cycle_time,ms
+noise_17,Noise,160.91,23,cycle_time,ms
+noise_17,Noise,278.12,24,cycle_time,ms
+noise_17,Noise,267.49,25,cycle_time,ms
+noise_17,Noise,259.83,26,cycle_time,ms
+noise_17,Noise,209.57,27,cycle_time,ms
+noise_17,Noise,284.09,28,cycle_time,ms
+noise_17,Noise,267.01,29,cycle_time,ms
+noise_17,Noise,276.00,30,cycle_time,ms
+noise_17,Noise,201.23,31,cycle_time,ms
+noise_17,Noise,266.68,32,cycle_time,ms
+noise_17,Noise,326.18,33,cycle_time,ms
+noise_17,Noise,395.18,34,cycle_time,ms
+noise_17,Noise,345.11,35,cycle_time,ms
+noise_17,Noise,291.85,36,cycle_time,ms
+noise_17,Noise,288.03,37,cycle_time,ms
+noise_17,Noise,369.28,38,cycle_time,ms
+noise_17,Noise,219.82,39,cycle_time,ms
+noise_17,Noise,224.83,40,cycle_time,ms
+noise_18,Noise,268.61,1,cycle_time,ms
+noise_18,Noise,224.06,2,cycle_time,ms
+noise_18,Noise,310.51,3,cycle_time,ms
+noise_18,Noise,275.01,4,cycle_time,ms
+noise_18,Noise,325.68,5,cycle_time,ms
+noise_18,Noise,304.94,6,cycle_time,ms
+noise_18,Noise,256.32,7,cycle_time,ms
+noise_18,Noise,193.02,8,cycle_time,ms
+noise_18,Noise,372.14,9,cycle_time,ms
+noise_18,Noise,382.00,10,cycle_time,ms
+noise_18,Noise,385.12,11,cycle_time,ms
+noise_18,Noise,339.56,12,cycle_time,ms
+noise_18,Noise,186.19,13,cycle_time,ms
+noise_18,Noise,252.38,14,cycle_time,ms
+noise_18,Noise,258.02,15,cycle_time,ms
+noise_18,Noise,264.41,16,cycle_time,ms
+noise_18,Noise,266.40,17,cycle_time,ms
+noise_18,Noise,283.44,18,cycle_time,ms
+noise_18,Noise,261.60,19,cycle_time,ms
+noise_18,Noise,234.82,20,cycle_time,ms
+noise_18,Noise,258.66,21,cycle_time,ms
+noise_18,Noise,310.20,22,cycle_time,ms
+noise_18,Noise,283.42,23,cycle_time,ms
+noise_18,Noise,307.09,24,cycle_time,ms
+noise_18,Noise,304.24,25,cycle_time,ms
+noise_18,Noise,216.14,26,cycle_time,ms
+noise_18,Noise,388.40,27,cycle_time,ms
+noise_18,Noise,217.90,28,cycle_time,ms
+noise_18,Noise,345.56,29,cycle_time,ms
+noise_18,Noise,245.23,30,cycle_time,ms
+noise_18,Noise,204.70,31,cycle_time,ms
+noise_18,Noise,233.36,32,cycle_time,ms
+noise_18,Noise,230.49,33,cycle_time,ms
+noise_18,Noise,169.82,34,cycle_time,ms
+noise_18,Noise,275.43,35,cycle_time,ms
+noise_18,Noise,283.09,36,cycle_time,ms
+noise_18,Noise,201.63,37,cycle_time,ms
+noise_18,Noise,185.47,38,cycle_time,ms
+noise_18,Noise,340.34,39,cycle_time,ms
+noise_18,Noise,214.49,40,cycle_time,ms
+noise_19,Noise,211.80,1,cycle_time,ms
+noise_19,Noise,181.64,2,cycle_time,ms
+noise_19,Noise,232.96,3,cycle_time,ms
+noise_19,Noise,250.85,4,cycle_time,ms
+noise_19,Noise,206.02,5,cycle_time,ms
+noise_19,Noise,222.92,6,cycle_time,ms
+noise_19,Noise,268.96,7,cycle_time,ms
+noise_19,Noise,343.62,8,cycle_time,ms
+noise_19,Noise,341.61,9,cycle_time,ms
+noise_19,Noise,146.84,10,cycle_time,ms
+noise_19,Noise,298.57,11,cycle_time,ms
+noise_19,Noise,198.22,12,cycle_time,ms
+noise_19,Noise,212.93,13,cycle_time,ms
+noise_19,Noise,257.62,14,cycle_time,ms
+noise_19,Noise,243.79,15,cycle_time,ms
+noise_19,Noise,174.07,16,cycle_time,ms
+noise_19,Noise,230.41,17,cycle_time,ms
+noise_19,Noise,308.25,18,cycle_time,ms
+noise_19,Noise,216.29,19,cycle_time,ms
+noise_19,Noise,399.26,20,cycle_time,ms
+noise_19,Noise,226.98,21,cycle_time,ms
+noise_19,Noise,267.46,22,cycle_time,ms
+noise_19,Noise,316.95,23,cycle_time,ms
+noise_19,Noise,202.99,24,cycle_time,ms
+noise_19,Noise,155.84,25,cycle_time,ms
+noise_19,Noise,176.51,26,cycle_time,ms
+noise_19,Noise,234.30,27,cycle_time,ms
+noise_19,Noise,188.94,28,cycle_time,ms
+noise_19,Noise,238.96,29,cycle_time,ms
+noise_19,Noise,213.27,30,cycle_time,ms
+noise_19,Noise,213.51,31,cycle_time,ms
+noise_19,Noise,194.60,32,cycle_time,ms
+noise_19,Noise,248.02,33,cycle_time,ms
+noise_19,Noise,164.42,34,cycle_time,ms
+noise_19,Noise,256.46,35,cycle_time,ms
+noise_19,Noise,259.30,36,cycle_time,ms
+noise_19,Noise,153.49,37,cycle_time,ms
+noise_19,Noise,185.85,38,cycle_time,ms
+noise_19,Noise,197.69,39,cycle_time,ms
+noise_19,Noise,208.93,40,cycle_time,ms
+noise_20,Noise,214.16,1,cycle_time,ms
+noise_20,Noise,255.50,2,cycle_time,ms
+noise_20,Noise,141.49,3,cycle_time,ms
+noise_20,Noise,228.75,4,cycle_time,ms
+noise_20,Noise,250.47,5,cycle_time,ms
+noise_20,Noise,289.60,6,cycle_time,ms
+noise_20,Noise,277.82,7,cycle_time,ms
+noise_20,Noise,168.52,8,cycle_time,ms
+noise_20,Noise,283.89,9,cycle_time,ms
+noise_20,Noise,187.71,10,cycle_time,ms
+noise_20,Noise,276.89,11,cycle_time,ms
+noise_20,Noise,172.62,12,cycle_time,ms
+noise_20,Noise,197.10,13,cycle_time,ms
+noise_20,Noise,232.92,14,cycle_time,ms
+noise_20,Noise,210.30,15,cycle_time,ms
+noise_20,Noise,232.55,16,cycle_time,ms
+noise_20,Noise,223.19,17,cycle_time,ms
+noise_20,Noise,212.44,18,cycle_time,ms
+noise_20,Noise,232.14,19,cycle_time,ms
+noise_20,Noise,164.93,20,cycle_time,ms
+noise_20,Noise,329.02,21,cycle_time,ms
+noise_20,Noise,191.13,22,cycle_time,ms
+noise_20,Noise,205.53,23,cycle_time,ms
+noise_20,Noise,181.48,24,cycle_time,ms
+noise_20,Noise,229.67,25,cycle_time,ms
+noise_20,Noise,225.09,26,cycle_time,ms
+noise_20,Noise,244.68,27,cycle_time,ms
+noise_20,Noise,234.28,28,cycle_time,ms
+noise_20,Noise,192.50,29,cycle_time,ms
+noise_20,Noise,264.04,30,cycle_time,ms
+noise_20,Noise,251.33,31,cycle_time,ms
+noise_20,Noise,172.21,32,cycle_time,ms
+noise_20,Noise,138.31,33,cycle_time,ms
+noise_20,Noise,254.03,34,cycle_time,ms
+noise_20,Noise,215.91,35,cycle_time,ms
+noise_20,Noise,273.77,36,cycle_time,ms
+noise_20,Noise,214.92,37,cycle_time,ms
+noise_20,Noise,329.15,38,cycle_time,ms
+noise_20,Noise,107.72,39,cycle_time,ms
+noise_20,Noise,246.96,40,cycle_time,ms
+noise_21,Noise,249.43,1,cycle_time,ms
+noise_21,Noise,186.19,2,cycle_time,ms
+noise_21,Noise,200.67,3,cycle_time,ms
+noise_21,Noise,269.26,4,cycle_time,ms
+noise_21,Noise,258.94,5,cycle_time,ms
+noise_21,Noise,254.16,6,cycle_time,ms
+noise_21,Noise,227.09,7,cycle_time,ms
+noise_21,Noise,201.85,8,cycle_time,ms
+noise_21,Noise,309.46,9,cycle_time,ms
+noise_21,Noise,222.61,10,cycle_time,ms
+noise_21,Noise,269.59,11,cycle_time,ms
+noise_21,Noise,279.09,12,cycle_time,ms
+noise_21,Noise,155.71,13,cycle_time,ms
+noise_21,Noise,246.10,14,cycle_time,ms
+noise_21,Noise,202.46,15,cycle_time,ms
+noise_21,Noise,210.21,16,cycle_time,ms
+noise_21,Noise,224.03,17,cycle_time,ms
+noise_21,Noise,107.81,18,cycle_time,ms
+noise_21,Noise,272.54,19,cycle_time,ms
+noise_21,Noise,243.62,20,cycle_time,ms
+noise_21,Noise,165.80,21,cycle_time,ms
+noise_21,Noise,207.08,22,cycle_time,ms
+noise_21,Noise,161.51,23,cycle_time,ms
+noise_21,Noise,178.32,24,cycle_time,ms
+noise_21,Noise,315.84,25,cycle_time,ms
+noise_21,Noise,211.68,26,cycle_time,ms
+noise_21,Noise,312.18,27,cycle_time,ms
+noise_21,Noise,167.85,28,cycle_time,ms
+noise_21,Noise,221.98,29,cycle_time,ms
+noise_21,Noise,217.56,30,cycle_time,ms
+noise_21,Noise,391.02,31,cycle_time,ms
+noise_21,Noise,293.88,32,cycle_time,ms
+noise_21,Noise,247.62,33,cycle_time,ms
+noise_21,Noise,168.75,34,cycle_time,ms
+noise_21,Noise,193.14,35,cycle_time,ms
+noise_21,Noise,295.66,36,cycle_time,ms
+noise_21,Noise,210.85,37,cycle_time,ms
+noise_21,Noise,219.56,38,cycle_time,ms
+noise_21,Noise,266.20,39,cycle_time,ms
+noise_21,Noise,230.75,40,cycle_time,ms
+noise_22,Noise,262.39,1,cycle_time,ms
+noise_22,Noise,223.41,2,cycle_time,ms
+noise_22,Noise,184.62,3,cycle_time,ms
+noise_22,Noise,351.68,4,cycle_time,ms
+noise_22,Noise,233.22,5,cycle_time,ms
+noise_22,Noise,305.74,6,cycle_time,ms
+noise_22,Noise,230.99,7,cycle_time,ms
+noise_22,Noise,257.05,8,cycle_time,ms
+noise_22,Noise,233.98,9,cycle_time,ms
+noise_22,Noise,272.74,10,cycle_time,ms
+noise_22,Noise,286.10,11,cycle_time,ms
+noise_22,Noise,250.81,12,cycle_time,ms
+noise_22,Noise,183.25,13,cycle_time,ms
+noise_22,Noise,240.22,14,cycle_time,ms
+noise_22,Noise,289.09,15,cycle_time,ms
+noise_22,Noise,137.09,16,cycle_time,ms
+noise_22,Noise,277.71,17,cycle_time,ms
+noise_22,Noise,307.76,18,cycle_time,ms
+noise_22,Noise,197.19,19,cycle_time,ms
+noise_22,Noise,132.53,20,cycle_time,ms
+noise_22,Noise,179.56,21,cycle_time,ms
+noise_22,Noise,194.97,22,cycle_time,ms
+noise_22,Noise,263.79,23,cycle_time,ms
+noise_22,Noise,348.88,24,cycle_time,ms
+noise_22,Noise,247.19,25,cycle_time,ms
+noise_22,Noise,212.69,26,cycle_time,ms
+noise_22,Noise,239.55,27,cycle_time,ms
+noise_22,Noise,116.62,28,cycle_time,ms
+noise_22,Noise,301.24,29,cycle_time,ms
+noise_22,Noise,211.18,30,cycle_time,ms
+noise_22,Noise,239.19,31,cycle_time,ms
+noise_22,Noise,163.14,32,cycle_time,ms
+noise_22,Noise,209.20,33,cycle_time,ms
+noise_22,Noise,169.11,34,cycle_time,ms
+noise_22,Noise,219.02,35,cycle_time,ms
+noise_22,Noise,288.48,36,cycle_time,ms
+noise_22,Noise,214.72,37,cycle_time,ms
+noise_22,Noise,277.61,38,cycle_time,ms
+noise_22,Noise,190.83,39,cycle_time,ms
+noise_22,Noise,208.12,40,cycle_time,ms
+noise_23,Noise,263.56,1,cycle_time,ms
+noise_23,Noise,240.69,2,cycle_time,ms
+noise_23,Noise,234.45,3,cycle_time,ms
+noise_23,Noise,216.48,4,cycle_time,ms
+noise_23,Noise,240.43,5,cycle_time,ms
+noise_23,Noise,236.60,6,cycle_time,ms
+noise_23,Noise,320.19,7,cycle_time,ms
+noise_23,Noise,207.33,8,cycle_time,ms
+noise_23,Noise,278.66,9,cycle_time,ms
+noise_23,Noise,147.32,10,cycle_time,ms
+noise_23,Noise,287.76,11,cycle_time,ms
+noise_23,Noise,259.87,12,cycle_time,ms
+noise_23,Noise,288.84,13,cycle_time,ms
+noise_23,Noise,187.00,14,cycle_time,ms
+noise_23,Noise,260.09,15,cycle_time,ms
+noise_23,Noise,232.02,16,cycle_time,ms
+noise_23,Noise,199.86,17,cycle_time,ms
+noise_23,Noise,278.31,18,cycle_time,ms
+noise_23,Noise,219.39,19,cycle_time,ms
+noise_23,Noise,143.21,20,cycle_time,ms
+noise_23,Noise,235.92,21,cycle_time,ms
+noise_23,Noise,155.70,22,cycle_time,ms
+noise_23,Noise,220.86,23,cycle_time,ms
+noise_23,Noise,343.50,24,cycle_time,ms
+noise_23,Noise,326.59,25,cycle_time,ms
+noise_23,Noise,251.20,26,cycle_time,ms
+noise_23,Noise,328.95,27,cycle_time,ms
+noise_23,Noise,234.83,28,cycle_time,ms
+noise_23,Noise,202.26,29,cycle_time,ms
+noise_23,Noise,285.99,30,cycle_time,ms
+noise_23,Noise,332.68,31,cycle_time,ms
+noise_23,Noise,343.62,32,cycle_time,ms
+noise_23,Noise,220.82,33,cycle_time,ms
+noise_23,Noise,219.03,34,cycle_time,ms
+noise_23,Noise,313.79,35,cycle_time,ms
+noise_23,Noise,243.81,36,cycle_time,ms
+noise_23,Noise,341.59,37,cycle_time,ms
+noise_23,Noise,254.18,38,cycle_time,ms
+noise_23,Noise,160.78,39,cycle_time,ms
+noise_23,Noise,309.74,40,cycle_time,ms
+noise_24,Noise,326.17,1,cycle_time,ms
+noise_24,Noise,329.95,2,cycle_time,ms
+noise_24,Noise,211.33,3,cycle_time,ms
+noise_24,Noise,233.14,4,cycle_time,ms
+noise_24,Noise,211.06,5,cycle_time,ms
+noise_24,Noise,230.85,6,cycle_time,ms
+noise_24,Noise,312.30,7,cycle_time,ms
+noise_24,Noise,352.32,8,cycle_time,ms
+noise_24,Noise,215.14,9,cycle_time,ms
+noise_24,Noise,274.93,10,cycle_time,ms
+noise_24,Noise,269.38,11,cycle_time,ms
+noise_24,Noise,322.01,12,cycle_time,ms
+noise_24,Noise,179.67,13,cycle_time,ms
+noise_24,Noise,396.35,14,cycle_time,ms
+noise_24,Noise,288.77,15,cycle_time,ms
+noise_24,Noise,237.22,16,cycle_time,ms
+noise_24,Noise,260.59,17,cycle_time,ms
+noise_24,Noise,315.63,18,cycle_time,ms
+noise_24,Noise,294.53,19,cycle_time,ms
+noise_24,Noise,305.23,20,cycle_time,ms
+noise_24,Noise,183.26,21,cycle_time,ms
+noise_24,Noise,244.02,22,cycle_time,ms
+noise_24,Noise,125.84,23,cycle_time,ms
+noise_24,Noise,228.04,24,cycle_time,ms
+noise_24,Noise,174.46,25,cycle_time,ms
+noise_24,Noise,198.46,26,cycle_time,ms
+noise_24,Noise,407.53,27,cycle_time,ms
+noise_24,Noise,279.09,28,cycle_time,ms
+noise_24,Noise,238.54,29,cycle_time,ms
+noise_24,Noise,240.36,30,cycle_time,ms
+noise_24,Noise,216.34,31,cycle_time,ms
+noise_24,Noise,358.76,32,cycle_time,ms
+noise_24,Noise,331.11,33,cycle_time,ms
+noise_24,Noise,274.96,34,cycle_time,ms
+noise_24,Noise,189.47,35,cycle_time,ms
+noise_24,Noise,257.49,36,cycle_time,ms
+noise_24,Noise,311.75,37,cycle_time,ms
+noise_24,Noise,240.12,38,cycle_time,ms
+noise_24,Noise,258.62,39,cycle_time,ms
+noise_24,Noise,275.14,40,cycle_time,ms

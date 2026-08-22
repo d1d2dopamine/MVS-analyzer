@@ -1,0 +1,18 @@
+MVS — отчёт о запуске
+=========================
+Проект: {project}
+Дата: {date}
+Запуск: {runId}
+Данные: {dataset}
+Объектов: {entities}   Группы: {groups}
+Измерение: {measurement} {unit}
+
+Движок: {engine}   Формула: {formula}   Seed: {seed}
+
+Лучшая метрика: {best} (MVS {bestScore}, FPR {bestFpr}, power {bestPower})
+Кандидаты: {candidates}
+
+Рейтинг:
+{ranking}
+
+Файл создан шаблоном плагина MVS Lab Pack. Плагин не меняет ни метрики, ни формулу.
