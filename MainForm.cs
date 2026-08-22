@@ -54,7 +54,7 @@ internal sealed partial class MainForm : Form
 
     public MainForm(AppSettings appSettings)
     {
-        settings = appSettings; projectName = T("Untitled project", "Безымянный проект"); Text = "MVS Analyzer — Universal Engine v1.3.2"; try { Icon = System.Drawing.Icon.ExtractAssociatedIcon(Application.ExecutablePath); } catch { } StartPosition = FormStartPosition.CenterScreen; AutoScaleMode = AutoScaleMode.Dpi;
+        settings = appSettings; projectName = T("Untitled project", "Безымянный проект"); Text = "MVS Analyzer — Universal Engine v1.3.2"; try { Icon = Branding.AppIcon ?? System.Drawing.Icon.ExtractAssociatedIcon(Application.ExecutablePath); } catch { } StartPosition = FormStartPosition.CenterScreen; AutoScaleMode = AutoScaleMode.Dpi;
         MinimumSize = new Size(1040, 680); ClientSize = new Size(1240, 780); Font = new Font("Segoe UI", 10);
         DoubleBuffered = true; KeyPreview = true; RestoreWindow();
         host.Resize += (_, _) => FitContentWidth();

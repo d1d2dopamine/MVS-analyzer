@@ -15,4 +15,9 @@
   <ItemGroup>
     <Compile Remove="MvsAnalyzer.Tests/**/*.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <!-- Branding travels inside the published single file: window icon and in-app wordmark. -->
+    <EmbeddedResource Include="app.ico" />
+    <EmbeddedResource Include="Assets\inapp_logo.png" />
+  </ItemGroup>
 </Project>

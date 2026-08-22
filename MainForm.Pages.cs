@@ -9,6 +9,7 @@ internal sealed partial class MainForm
     private void ShowHome()
     {
         var page = Page(T("Home", "Главная"), T("Start a project or continue local work. Nothing is uploaded.", "Создайте проект или продолжите локальную работу. Ничего не загружается в сеть."));
+        var banner = BrandBanner(); if (banner != null) page.Controls.Add(banner);
         var start = Card(T("Start", "Начало"), T("Use a guided workflow for a new MVS analysis.", "Используйте пошаговый сценарий для нового анализа MVS."), 170);
         var newProject = Button(T("New project", "Новый проект"), true); newProject.Click += (_, _) => { projectName = T("Untitled project", "Безымянный проект"); data = null; calibration = null; results = null; Navigate("project"); };
         var demo = Button(T("Guided example", "Демонстрационный пример")); demo.Location = new Point(225, 96); demo.Click += (_, _) => LoadDemo();
@@ -22,6 +23,18 @@ internal sealed partial class MainForm
         steps.Controls.Add(WorkflowStep(results != null ? T("✓  Analysis", "✓  Анализ") : T("4  Analysis", "4  Анализ"), results != null ? SuccessBg : NeutralBadge), 3, 0);
         steps.Controls.Add(WorkflowStep(results != null ? T("✓  Results", "✓  Результаты") : T("5  Results", "5  Результаты"), results != null ? SuccessBg : NeutralBadge), 4, 0); workflow.Controls.Add(steps); page.Controls.Add(workflow);
         var principle = Card(T("What MVS does", "Что делает MVS"), T("MVS evaluates metric suitability for the current data context. Observed p-values are reported separately and never determine the MVS Score.", "MVS оценивает пригодность метрик для текущего контекста данных. Наблюдаемые p-value выводятся отдельно и не определяют MVS Score."), 120); page.Controls.Add(principle);
+    }
+
+    // Optional branding: when the embedded wordmark is missing the page simply starts with its first card.
+    private Panel? BrandBanner()
+    {
+        Image? art = Branding.Banner;
+        if (art == null) return null;
+        int height = 96;
+        int width = (int)Math.Round(art.Width * (height / (double)art.Height));
+        var holder = new Panel { Width = ContentWidth, Height = height + 12, Margin = new Padding(0, 0, 0, 4) };
+        holder.Controls.Add(new PictureBox { Image = art, SizeMode = PictureBoxSizeMode.Zoom, Size = new Size(width, height), Location = new Point(0, 0), BackColor = Color.Transparent });
+        return holder;
     }
 
     private void ShowProject()
@@ -333,7 +346,7 @@ internal sealed partial class MainForm
         }
         if (contributions.Errors.Count > 0) extra.Controls.Add(new Label { Text = T("Rejected files: ", "Отклонённые файлы: ") + string.Join("   ·   ", contributions.Errors.Select(x => $"{x.Plugin}/{x.File}: {x.Message}")), AutoSize = true, MaximumSize = new Size(860, 0), ForeColor = Color.FromArgb(176, 66, 27), Location = new Point(20, 292) });
         page.Controls.Add(extra);
-        page.Controls.Add(Card(T("Security boundary", "Граница безопасности"), T("Packages may contain JSON templates, icons and declarative import/export schemas. DLL, EXE, scripts and commands are not allowed and cannot modify the ten built-in metrics or frozen MVS formula.", "Пакеты могут содержать JSON-шаблоны, иконки и декларативные схемы импорта/экспорта. DLL, EXE, скрипты и команды запрещены и не могут менять десять встроенных метрик или фиксированную формулу MVS."), 135));
+        page.Controls.Add(Card(T("Security boundary", "Граница безопасности"), T("Packages may contain JSON templates, icons and declarative import/export schemas. DLL, EXE, scripts and commands are not allowed and cannot modify the ten built-in metrics or frozen MVS formula.", "Пакеты могут содержать JSON-шаблоны, иконки �� декларативные схемы импорта/экспорта. DLL, EXE, скрипты и команды запрещены и не могут менять десять встроенных метрик или фиксированную формулу MVS."), 135));
     }
 
     private void ShowOutputs()
@@ -380,7 +393,7 @@ internal sealed partial class MainForm
         var modeCard = Card(T("Interface mode", "Режим интерфейса"), T("All modes use the same analysis engine; they expose different levels of detail.", "Все режимы используют одно вычислительное ядро и отличаются уровнем детализации."), 230);
         var interfaceMode = new ThemedComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Location = new Point(20, 88), Width = 220 };
         interfaceMode.Items.AddRange(new object[] { "Guided", "Laboratory", "Expert" }); interfaceMode.SelectedIndex = settings.InterfaceMode switch { "laboratory" => 1, "expert" => 2, _ => 0 };
-        var modeExplanation = new Label { Text = settings.InterfaceMode switch { "laboratory" => T("Cleaning protocol, calibration profiles, history and reproducibility.", "Протокол очистки, профили калибровки, история и воспроизводимость."), "expert" => T("Adds seed, simulation count, effect settings and full diagnostics.", "Добавляет seed, число симуляций, эффект и полную диагностику."), _ => T("Only required steps and safe defaults are shown.", "Показываются только обязательные шаги и безопасные значения.") }, AutoSize = true, MaximumSize = new Size(620, 0), Location = new Point(260, 91), ForeColor = Secondary };
+        var modeExplanation = new Label { Text = settings.InterfaceMode switch { "laboratory" => T("Cleaning protocol, calibration profiles, history and reproducibility.", "Протокол очистки, профили калибровки, история и воспроизводимость."), "expert" => T("Adds seed, simulation count, effect settings and full diagnostics.", "Добавляет seed, число си��уляций, эффект и полную диагностику."), _ => T("Only required steps and safe defaults are shown.", "Показываются только обязательные шаги и безопасные значения.") }, AutoSize = true, MaximumSize = new Size(620, 0), Location = new Point(260, 91), ForeColor = Secondary };
         interfaceMode.SelectedIndexChanged += (_, _) => modeExplanation.Text = interfaceMode.SelectedIndex switch { 1 => T("Cleaning protocol, calibration profiles, history and reproducibility.", "Протокол очистки, профили калибровки, история и воспроизводимость."), 2 => T("Adds seed, simulation count, effect settings and full diagnostics.", "Добавляет seed, число симуляций, эффект и полную диагностику."), _ => T("Only required steps and safe defaults are shown.", "Показываются только обязательные шаги и безопасные значения.") };
         interfaceMode.SelectedIndexChanged += (_, _) => { settings.InterfaceMode = interfaceMode.SelectedIndex switch { 1 => "laboratory", 2 => "expert", _ => "guided" }; settings.Save(); ApplyModeVisibility(); BeginInvoke(new Action(() => Navigate("settings"))); };
         modeCard.Controls.Add(interfaceMode); modeCard.Controls.Add(modeExplanation); page.Controls.Add(modeCard);
@@ -402,7 +415,7 @@ internal sealed partial class MainForm
         about.Controls.Add(new Label { Text = $"MVS Analyzer 1.3.2   ·   {AnalysisEngine.EngineVersion}   ·   {OutputExporter.FormulaVersion}", AutoSize = true, Font = new Font("Segoe UI", 10, FontStyle.Bold), Location = new Point(20, 92) });
         about.Controls.Add(new Label { Text = $"Formula hash: {OutputExporter.FormulaHash}", AutoSize = true, ForeColor = Secondary, Location = new Point(20, 116) });
         page.Controls.Add(about);
-        var general = Card(T("General and appearance", "Общие и оформление"), T("Language and theme changes apply immediately.", "Изменения языка и темы применяются сразу."), 310);
+        var general = Card(T("General and appearance", "Общие и оформ��ение"), T("Language and theme changes apply immediately.", "Изменения языка и темы применяются сразу."), 310);
         general.Controls.Add(new Label { Text = T("Language", "Язык"), AutoSize = true, Location = new Point(20, 84) }); var language = new ThemedComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Location = new Point(20, 108), Width = 180 }; language.Items.AddRange(new object[] { "English", "Русский" }); language.SelectedIndex = settings.Language == "ru" ? 1 : 0;
         general.Controls.Add(new Label { Text = T("Theme", "Тема"), AutoSize = true, Location = new Point(230, 84) }); var theme = new ThemedComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Location = new Point(230, 108), Width = 180 }; theme.Items.AddRange(new object[] { "System", "Light", "Dark" }); theme.SelectedIndex = settings.Theme switch { "light" => 1, "dark" => 2, _ => 0 };
         general.Controls.Add(new Label { Text = T("Complete language packs: English, Russian. Deutsch, Español, Français and Português are planned.", "Полные языковые пакеты: английский и русский. Немецкий, испанский, французский и португальский запланированы."), AutoSize = true, MaximumSize = new Size(820, 0), ForeColor = Secondary, Location = new Point(20, 150) });
@@ -419,7 +432,7 @@ internal sealed partial class MainForm
         minRt.ValueChanged += (_, _) => SaveProcessing(); maxRt.ValueChanged += (_, _) => SaveProcessing(); minTrials.ValueChanged += (_, _) => SaveProcessing();
         processing.Controls.Add(minRt); processing.Controls.Add(maxRt); processing.Controls.Add(minTrials); processing.Controls.Add(processingHint); page.Controls.Add(processing);
         var privacy = Card(T("Privacy and integrity", "Конфиденциальность и целостность"), T("No server, telemetry or account. Reports can hide local dataset names.", "Нет сервера, телеметрии и аккаунта. В отчётах можно скрывать локальные имена файлов."), 165);
-        var anonymous = new CheckBox { Text = T("Hide dataset names and pseudonymize participant IDs", "Скрывать имена датасетов и псевдонимизировать объектов"), Checked = settings.AnonymousReports, AutoSize = true, Location = new Point(20, 86) }; anonymous.CheckedChanged += (_, _) => { settings.AnonymousReports = anonymous.Checked; settings.Save(); }; privacy.Controls.Add(anonymous); page.Controls.Add(privacy);
+        var anonymous = new CheckBox { Text = T("Hide dataset names and pseudonymize participant IDs", "Скрывать имена дат��сетов и псевдонимизировать объектов"), Checked = settings.AnonymousReports, AutoSize = true, Location = new Point(20, 86) }; anonymous.CheckedChanged += (_, _) => { settings.AnonymousReports = anonymous.Checked; settings.Save(); }; privacy.Controls.Add(anonymous); page.Controls.Add(privacy);
         var advanced = Card(T("Advanced scientific settings", "Расширенные научные настройки"), T("Formula weights are frozen and cannot be changed in normal mode. Custom models must receive a new version and formula hash.", "Веса формулы зафиксированы и не меняются в обычном режиме. Пользовательская модель должна получить новую версию и хеш формулы."), 120); page.Controls.Add(advanced);
         {
             var expert = Card(T("Calibration and simulation", "Калибровка и симуляция"), T("Configure a raw-value scenario. The effect is applied to the last group.", "Настройте сценарий на исходных значениях. Эффект применяется к последней группе."), 385);

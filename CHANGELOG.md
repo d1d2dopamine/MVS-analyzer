@@ -17,6 +17,16 @@ reasoning behind every fix — are in the [second half of this file](#русск
 
 ## [Unreleased]
 
+### Added
+
+- Application icon: multi-size `app.ico` (16 to 256 px, transparent background,
+  generated from the master logo) is now embedded in the executable and used for
+  the window, the taskbar and Explorer.
+- Logo in the README header, stored as `docs/assets/logo.png`.
+- In-app wordmark on the Home page, loaded from the embedded
+  `Assets/inapp_logo.png`. Missing or damaged branding never blocks startup:
+  the loader fails soft and the page simply starts with its first card.
+
 ### Planned
 
 - Paired and repeated-measures designs.
@@ -136,7 +146,7 @@ A correctness release. Both fixes were found while writing the stress dataset th
 ## MVS Analyzer — исправления (engine 1.0.2)
 
 Формула MVS Score и её хеш НЕ изменились (MVS-1.0.0).
-Изменился порядок генерации случайных чисел и расчёт coverage, поэтому engineVersion = 1.0.2:
+Изменился порядок ��енерации случайных чисел и расчёт coverage, поэтому engineVersion = 1.0.2:
 числа старых и новых запусков сравнивать напрямую нельзя.
 
 ### КРИТИЧНОЕ

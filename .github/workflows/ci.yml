@@ -66,21 +66,55 @@ jobs:
 
   verify-formula:
     name: Formula hash is frozen
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Formula version and hash must appear together
-        shell: pwsh
+      - name: Formula version and frozen hash must match the docs
+        shell: bash
         run: |
-          $source = Get-Content OutputExporter.cs -Raw
-          if ($source -notmatch 'MVS-\d+\.\d+\.\d+') {
-            Write-Error "FormulaVersion not found in OutputExporter.cs"
+          set -euo pipefail
+
+          # FormulaHash is computed at runtime from FormulaSpecification, so the
+          # literal never appears in OutputExporter.cs. The frozen value lives in
+          # the test harness; this job only checks that code and docs agree.
+          grep -q 'const string FormulaVersion' OutputExporter.cs || {
+            echo "::error file=OutputExporter.cs::FormulaVersion constant not found"
             exit 1
           }
-          if ($source -notmatch '[0-9a-f]{64}') {
-            Write-Error "FormulaHash not found in OutputExporter.cs"
+
+          version=$(grep -oE 'MVS-[0-9]+\.[0-9]+\.[0-9]+' OutputExporter.cs | head -1 || true)
+          hash=$(grep -oE '"[0-9a-f]{64}"' MvsAnalyzer.Tests/Program.cs | tr -d '"' | head -1 || true)
+
+          if [ -z "$version" ]; then
+            echo "::error file=OutputExporter.cs::formula version could not be read"
             exit 1
-          }
-          Write-Host "Formula version and hash are present. The FormulaHash test verifies that they match."
+          fi
+
+          if [ -z "$hash" ]; then
+            echo "::error file=MvsAnalyzer.Tests/Program.cs::the frozen formula hash is not pinned in the test harness"
+            exit 1
+          fi
+
+          echo "Formula version: $version"
+          echo "Frozen hash:     $hash"
+
+          status=0
+          for file in README.md docs/METHODS.md CITATION.cff; do
+            grep -qF "$version" "$file" || {
+              echo "::error file=$file::formula version $version is not documented here"
+              status=1
+            }
+            grep -qF "$hash" "$file" || {
+              echo "::error file=$file::frozen hash $hash is not documented here"
+              status=1
+            }
+          done
+
+          if [ "$status" -ne 0 ]; then
+            exit 1
+          fi
+
+          echo "Formula version and frozen hash match the documentation."

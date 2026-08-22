@@ -1,7 +1,6 @@
-<!--
-  Logo goes here when it is ready:
-  <img src="docs/assets/logo.svg" width="128" alt="MVS Analyzer" />
--->
+<p align="center">
+  <img src="docs/assets/logo.png" width="176" alt="MVS Analyzer logo">
+</p>
 
 <h1 align="center" id="mvs-analyzer">MVS Analyzer</h1>
 
@@ -297,6 +296,7 @@ MVS-Analyzer/
 ├─ FigureGenerator.cs            figure rendering (System.Drawing)
 ├─ PluginManager.cs              install / verify / enable plugin packages
 ├─ PluginAssets.cs               profiles, report templates, validation rules, terms
+├─ Assets/                       in-app branding embedded into the executable
 ├─ MvsAnalyzer.Tests/            dependency-free test harness (12 checks)
 ├─ examples/                     ready-to-load datasets
 ├─ docs/                         methods, data format, outputs, audit, plugins, architecture
@@ -383,10 +383,9 @@ If MVS Analyzer influenced a published result, cite it with the metadata in [CIT
 
 ---
 
-<!--
-  Логотип будет здесь, когда будет готов:
-  <img src="docs/assets/logo.svg" width="128" alt="MVS Analyzer" />
--->
+<p align="center">
+  <img src="docs/assets/logo.png" width="176" alt="Логотип MVS Analyzer">
+</p>
 
 <h1 align="center" id="русский">MVS Analyzer</h1>
 
@@ -639,6 +638,7 @@ MVS-Analyzer/
 ├─ FigureGenerator.cs            отрисовка графиков (System.Drawing)
 ├─ PluginManager.cs              установка / проверка / включение плагинов
 ├─ PluginAssets.cs               профили, шаблоны отчётов, правила проверки, термины
+├─ Assets/                       брендинг, встраиваемый в исполняемый файл
 ├─ MvsAnalyzer.Tests/            собственный тест-раннер без зависимостей (12 проверок)
 ├─ examples/                     готовые датасеты для загрузки
 ├─ docs/                         методы, формат данных, вывод, аудит, плагины, архитектура
@@ -726,6 +726,6 @@ MVS-Analyzer/
 ---
 
 <p align="center">
-  <sub>Сделано для тех, кто сначала измеряет свой инструмент, а потом — мир.<br>
+  <sub>Сделано для тех, кто сначала измеряет свой инст��умент, а потом — мир.<br>
   <a href="#mvs-analyzer">↑ Наверх / Back to top</a></sub>
 </p>
