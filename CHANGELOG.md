@@ -26,9 +26,47 @@ reasoning behind every fix — are in the [second half of this file](#русск
 - In-app wordmark on the Home page, loaded from the embedded
   `Assets/inapp_logo.png`. Missing or damaged branding never blocks startup:
   the loader fails soft and the page simply starts with its first card.
+- `validation/` — a validation suite with seven synthetic datasets whose correct
+  answer is known by construction, the seven data-generating mechanisms behind
+  them (`dgp.py`), an independent Monte-Carlo reference implementation
+  (`reference_simulation.py`) that computes which statistic actually wins in
+  each world, and `analyze_results.py`, which measures weight sensitivity and
+  discriminant validity of any finished run. Python + numpy only; nothing ships
+  with the application.
+- `docs/VALIDATION.md` — the reference truth table on two effect-size grids and
+  six experiments (ground-truth recovery, pipeline false-positive rate, weight
+  sensitivity, discriminant validity, seed stability, degenerate input) with
+  the numeric threshold that decides each one.
+- `docs/PREREGISTRATION.md` — mechanisms, hypotheses H1–H7, pass/fail
+  thresholds and the conditions under which the composite would be abandoned,
+  all frozen before the first run.
+- `docs/METHODS.md` — new sections: the three modes the tool can be used in and
+  which of them are safe; the simulation design written out in ADEMP form; the
+  dimensional analysis of the score and the declaration that its scale is
+  ordinal; where the weights came from; and eight open methodological
+  questions.
+
+### Changed
+
+- Documentation now states plainly that selecting a metric on the same data you
+  report inflates the error rate — measured at **0.205** against a nominal 0.05
+  for "any of the ten metrics" under a pure null — and that the score is a
+  dimensionless, ordinal, non-compensatory index in which differences are not
+  interpretable.
+- The `score >= 60` candidate rule is documented as on notice for removal.
+  No code has changed yet: `engine 1.2.0` and `formula MVS-1.2.0` are
+  untouched, so every existing run remains valid and comparable.
 
 ### Planned
 
+- Drop the `score >= 60` gate, keep the false-alarm and power gates, and report
+  the score as a rank with an uncertainty band (bumps the formula version).
+- Add the geometric mean — and a trimmed mean — to the metric set.
+- Add estimation-quality components (bias, MSE, relative efficiency) to the
+  score, which today measures detection only.
+- Explicit mode selection (design / multiverse / exploratory) when a project is
+  created, with exploratory runs labelled as such in every export.
+- Warn instead of ranking when every applicable metric is at ceiling power.
 - Paired and repeated-measures designs.
 - Post-hoc pairwise comparisons after a significant Kruskal–Wallis test.
 - `TableLayoutPanel` relayout inside cards and DPI hardening for 125–150 % scaling.
@@ -139,7 +177,7 @@ A correctness release. Both fixes were found while writing the stress dataset th
 Это подробный журнал разработки: что именно было сломано, почему и как исправлено. Короткая версия по релизам — в [английской части выше](#changelog).
 
 > [!NOTE]
-> Текст сохранён как есть и только размечен в Markdown. Нумерация пунктов — авторская и сквозная, поэтому в разных разделах она продолжается, а не начинается заново.
+> Текст сохранён как есть и только размечен в Markdown. Нумерация пунктов — авторская и сквозная, по��тому в разных разделах она продолжается, а не начинается заново.
 
 ---
 

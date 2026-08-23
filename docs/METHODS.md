@@ -2,6 +2,8 @@
 
 Everything the engine computes, in the order it computes it. Implementation: `AnalysisEngine.cs` (engine version **1.2.0**), frozen specification: `OutputExporter.cs`.
 
+- [Three modes, and only one of them is safe](#three-modes-and-only-one-of-them-is-safe)
+- [Simulation study design](#simulation-study-design)
 - [Entity-level metrics](#entity-level-metrics)
 - [Statistical tests](#statistical-tests)
 - [Calibration](#calibration)
@@ -12,6 +14,49 @@ Everything the engine computes, in the order it computes it. Implementation: `An
 - [Minimum detectable effect](#minimum-detectable-effect)
 - [Determinism](#determinism)
 - [Assumptions and limits](#assumptions-and-limits)
+- [Open methodological questions](#open-methodological-questions)
+
+---
+
+## Three modes, and only one of them is safe
+
+The engine does one thing: it measures how ten summary statistics behave on data shaped like yours. What that measurement *means* depends entirely on **when** you run it, and the same output supports three very different claims.
+
+| Mode | When you run it | What the output licenses |
+|---|---|---|
+| **Design** | before the real analysis, on pilot or simulated data | a pre-specified choice of statistic, made from the structure you expect the data to have. Fully legitimate. |
+| **Multiverse** | after a pre-specified analysis | a robustness display: here is how the conclusion moves across every reasonable statistic. Legitimate, and more informative than one number. |
+| **Exploratory** | on the same data you are going to report | a hypothesis, not a result. |
+
+The failure mode this design has to be honest about: pick the statistic *because* it scored best on this dataset, then report that statistic's *p*-value as if it had been fixed in advance. The nominal error rate does not survive that, and the cost is measurable. Under a pure null, the probability that at least one of the ten metrics comes out significant is **0.205**, not 0.05 — see [VALIDATION.md](VALIDATION.md#the-reference-truth-table).
+
+That number is an upper bound on what this tool costs you, because the ranking is computed from calibration components rather than from the observed *p*-value. The lower bound is the nominal 0.05. Where the tool actually sits between them is experiment V2 in [VALIDATION.md](VALIDATION.md#the-experiments), and it is not answered yet.
+
+Two remedies exist today, one is planned:
+
+- **Split calibration** (Settings → Scientific rigour) selects the metric on one half of the entities and reports on the other. This is the honest way to run the exploratory mode.
+- **Pre-registration** of the metric before looking. The tool cannot enforce it; the manifest can record it.
+- **Planned for 1.4.0:** the mode is chosen explicitly when a project is created, and exploratory runs are labelled as such in every export.
+
+Version 1.3.2 never asks which mode you are in. It should, and until it does, the safe assumption in any report is *exploratory*.
+
+---
+
+## Simulation study design
+
+Calibration is a simulation study, so it is described the way simulation studies are described — the ADEMP structure of Morris, White & Crowther (2019). A reader who has seen one methods paper can then audit the design instead of reverse-engineering it from the source.
+
+**Aims.** For each candidate summary statistic, on data with the structure of the user's file, estimate its false-alarm rate, its power against a declared effect, its stability under contamination, its split-half repeatability and the coverage of its bootstrap interval; then rank the statistics by a declared aggregation of those five quantities.
+
+**Data-generating mechanisms.** Resampling of the user's own rows rather than a parametric model. The null world pools all groups and redraws synthetic groups of the original sizes; the effect world does the same and then applies the configured multiplier to the last group. Configured contamination (default 2 % outliers) and missingness (default 0 %) are applied to the raw values before the metrics are recomputed. Entities — never individual measurements — are the resampling unit.
+
+**Estimands.** Two, and they are different things. Per metric: the group-level value of that statistic. Per comparison: the between-group contrast, reported as Cliff's delta on entity-level values. The five components of the score are properties of the *procedure*, not estimands of the data.
+
+**Methods.** Ten entity-level reductions crossed with one global rank test (Mann–Whitney for two groups, Kruskal–Wallis for three to ten).
+
+**Performance measures.** False-alarm rate and power as rejection rates at α; robustness as stability under injected contamination; repeatability as split-half agreement over 50 splits; coverage as the empirical coverage of the 95 % bootstrap interval over 200 × 200 resamples. At the default 5 000 repetitions the Monte-Carlo standard error of a rate near 0.05 is about 0.3 pp, and near 0.5 about 0.7 pp — so differences of one or two points between metrics are noise, and the UI should stop presenting them as a ranking.
+
+**The known weakness of this design.** Mechanisms derived from the user's own data inherit that data's idiosyncrasies and cannot represent a world the file does not contain. If your file has no heavy tails, the robustness column cannot tell you which metric would survive them. Real-data-based simulation is convenient and partly circular; the fixed synthetic mechanisms in [`validation/`](../validation/README.md) exist precisely to cover the part it cannot.
 
 ---
 
@@ -102,6 +147,32 @@ $$\mathrm{MVS} = 100 \cdot P^{0.30} \cdot F^{0.25} \cdot R^{0.20} \cdot S^{0.15}
 
 **Why is $F$ exponential rather than linear?** A false-alarm rate at the nominal $\alpha$ costs nothing ($F = 1$). Beyond it the penalty grows quickly: at $\mathrm{FPR} = 2\alpha$ the factor is $e^{-1} \approx 0.37$. Over-firing is treated as a much worse sin than under-detecting, because a false positive gets published and a missed effect usually does not.
 
+### Dimensional analysis and what the scale is
+
+The exponents sum to one: 0.30 + 0.25 + 0.20 + 0.15 + 0.10 = 1. That single fact settles most of what can be asked about units.
+
+- Every component is a probability or a bounded ratio between 0 and 1, so every component is **dimensionless**. The score inherits that: MVS has no units, and no unit can be assigned to it. "78" is not 78 of anything.
+- Because the exponents sum to one, the aggregation is a **weighted geometric mean** and is therefore **homogeneous of degree one**: multiply every component by a constant and the score multiplies by the same constant. That is the minimum coherence requirement for an index, and it holds.
+- The range is exactly 0 to 100 and both ends are attainable: all components 1 gives 100, any component 0 gives 0.
+- It is **non-compensatory**. A zero anywhere zeroes the score, and near-zero components are punished hard. This is deliberate and it is the main reason the aggregation is geometric rather than arithmetic — a metric with power 0.95 and a false-alarm rate of 0.30 is not a good metric, and an average would let it look like one.
+- It is invariant to the order of the components, and it is **not** invariant to monotone rescaling of a single component. Replacing power $P$ by $P^2$ is not a cosmetic change, it is a different index. Any future change to how a component is measured is a formula change and must bump the version.
+
+**So what scale is the result on?** Ordinal, and nothing stronger. The five components are heterogeneous constructs — a rejection rate, a penalty function, a stability ratio, an agreement coefficient and a coverage probability — measured in incommensurable ways and combined with judgement weights. The ordering they produce can be defended. Distances between the numbers cannot.
+
+Three consequences the project accepts:
+
+1. No arithmetic on score differences, anywhere. "Metric A scores 8 points higher" is not a statement about the world; "metric A ranks above metric B" is.
+2. The fixed cut at `score >= 60` is a distance claim on an ordinal scale. It is on notice — see [Candidate rules](#candidate-rules).
+3. Any published comparison should be a **rank with an uncertainty band**, not a single number. The band is computable today from an exported run with `validation/analyze_results.py`.
+
+### Where the weights came from
+
+Honestly: judgement. They encode the position that a false alarm is worse than a missed effect and that both matter more than convenience. There was no elicitation protocol, no data, and no external panel. That is a fair criticism of the index, and the answer to it is not a better story — it is measurement.
+
+`validation/analyze_results.py` recomputes the ranking of any finished run under equal weights, rank-order-centroid weights, power-only weights, false-alarm-first weights, arithmetic instead of geometric aggregation, and 5 000 Dirichlet draws around the current vector. It reports top-1 stability, the pairwise rank-flip rate and Kendall's tau against the current ranking. If the ordering survives that, the weights are not doing the work; if it does not, the honest output is a rank interval and the index needs rebuilding. This is the uncertainty-and-sensitivity step of the OECD/JRC composite-indicator protocol, applied to our own index.
+
+One piece of luck in the existing architecture: because the weights live inside the frozen formula string, any change to them already forces a version bump, a new hash and a `FORMULA_CHANGED` flag on old runs. Multi-version sensitivity work needs no new audit machinery.
+
 ### The frozen specification
 
 The full definition is stored as a single string and hashed:
@@ -138,6 +209,11 @@ calibrated_fpr   <= 0.075
 calibrated_power >= 0.70
 mvs_score        >= 60
 ```
+
+> [!IMPORTANT]
+> The third rule is on notice. `score >= 60` is a cut on an ordinal composite, which is the one thing an ordinal scale does not support: 60 was chosen because it looked reasonable, not because anything was calibrated at it. The first two rules are cuts on quantities that have a meaning — a false-alarm rate and a detection rate — and they can be defended on their own terms.
+>
+> Planned for 1.4.0: drop `score >= 60`, keep the FPR and power gates, and report the score as a rank with an uncertainty band instead of a number with a threshold. That is a change to the formula definition, so it bumps the formula version and hash, and old runs will be flagged `FORMULA_CHANGED` — by design.
 
 At most **four** candidates are reported. A metric that satisfies every rule but misses the cap, or trails the last candidate by less than 2 points, is reported as a **near miss** rather than dropped.
 
@@ -197,3 +273,25 @@ Same input file + same settings + same engine version = byte-identical outputs, 
 - **No post-hoc tests** after Kruskal–Wallis yet.
 - **Ten metrics on one dataset.** Selection is treated as calibration — judged by measured FPR, with inflation flagged per metric — not as ten independent hypothesis tests. For a strictly pre-registered answer, use split calibration.
 - **Not a clinical or safety authority.** Use it as an input to a decision, alongside independent validation.
+
+---
+
+## Open methodological questions
+
+A project that lists only its features is advertising. These are the unresolved problems, in the order they would change the product. Progress against them is tracked in [VALIDATION.md](VALIDATION.md).
+
+1. **The composite may not be earning its keep.** If the score correlates with the power component at 0.95 or above on every dataset, then four of the five components are decoration and the right response is to delete them, not to defend them. Measured by experiment V4.
+
+2. **The five components measure detection, not estimation.** There is nothing in the score about bias, mean squared error or relative efficiency — nothing about whether the number a metric produces is *right*, only about whether a test on it fires. The reference simulation showed why that gap matters: on a multiplicative mechanism the arithmetic mean and the median differ by about 3 pp in power, which the score can see, but they estimate genuinely different quantities, which the score cannot. Adding estimation-quality components is the largest planned change to the formula.
+
+3. **The geometric mean is not implemented.** It is the textbook summary for multiplicative processes and it is the best-performing statistic on the multiplicative mechanism in the reference table — ahead of all ten shipped metrics. Searching for "the best metric" from a menu that omits the right answer is a real limitation, not a rounding error.
+
+4. **The metric families are not clean.** `rms` responds to a pure scale change, `coefficient_of_variation` responds to a pure level shift, and under a multiplicative effect every spread metric detects the level change. "Level" and "spread" are properties of the metric, not of the effect, and the UI currently implies otherwise.
+
+5. **No multiplicity control across metrics.** Ten metrics are examined and the framework treats selection as calibration rather than as ten tests. Under the null, the chance that at least one metric fires is 0.205. Whether an FDR-style adjustment or split-sample discipline is the better answer is open.
+
+6. **Mechanisms built from the user's own data are partly circular.** They cannot exhibit structure the file does not already contain, so the robustness and power columns are conditional on the file being representative.
+
+7. **Neutrality.** Every experiment here was designed by the author of the tool, which is the single strongest predictor of an over-optimistic benchmark. Independent replication is welcome and the datasets, seeds and reference implementation are in the repository specifically so that it costs an outsider nothing.
+
+8. **Ranking at ceiling power is not identified.** When every applicable metric exceeds about 0.9 power, the ordering among them is Monte-Carlo noise and the app should say so instead of printing a leaderboard.

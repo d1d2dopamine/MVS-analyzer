@@ -28,6 +28,7 @@
 <p align="center">
   <a href="CHANGELOG.md">Changelog</a> ·
   <a href="docs/METHODS.md">Methods</a> ·
+  <a href="docs/VALIDATION.md">Validation</a> ·
   <a href="docs/ARCHITECTURE.md">Developer docs</a> ·
   <a href="examples/">Example data</a>
 </p>
@@ -152,6 +153,10 @@ MVS-1.2.0   sha256 = 70e1d57723df1ca2bbc1b7856357f04d844cd77f36a83ad5fefd02565e4
 It is written into every `run_manifest.json`, checked by a unit test, and compared during audit. Change the formula and old runs report `FORMULA_CHANGED` — deliberately, loudly.
 
 **Candidate rules.** A metric becomes a *candidate* when `FPR ≤ 0.075`, `power ≥ 0.70` and `score ≥ 60`, capped at four candidates. A metric that passes every rule but loses the cap (or trails the last candidate by < 2 points) is reported as a **near miss** rather than quietly dropped. **The candidate set is allowed to be empty** — that is a result, not a bug.
+
+**What the score is not.** It has no units — every component is dimensionless, the exponents sum to 1, so the result is a weighted geometric mean bounded in [0, 100]. It is an **ordinal** scale: a metric ranking above another means something, a gap of eight points does not. The `score ≥ 60` gate is a distance claim on that ordinal scale and is on notice for removal in 1.4.0. Full argument: [docs/METHODS.md](docs/METHODS.md#dimensional-analysis-and-what-the-scale-is).
+
+**The weights are judgement calls,** and rather than defend them the project measures them: `validation/analyze_results.py` recomputes any finished run under equal, rank-order-centroid, power-only and 5 000 Dirichlet weight vectors and reports how often the winner changes.
 
 ---
 
@@ -299,6 +304,7 @@ MVS-Analyzer/
 ├─ Assets/                       in-app branding embedded into the executable
 ├─ MvsAnalyzer.Tests/            dependency-free test harness (12 checks)
 ├─ examples/                     ready-to-load datasets
+├─ validation/                   ground-truth datasets, reference simulation, weight analysis
 ├─ docs/                         methods, data format, outputs, audit, plugins, architecture
 └─ plugin-*-source/              source of the bundled plugin packs
 ```
@@ -315,6 +321,16 @@ MVS-Analyzer/
 - layout inside cards still uses absolute coordinates, so 125–150 % scaling can shift elements;
 - run history is kept for the session only (the audit journal is permanent);
 - for clinical, industrial or safety-critical decisions this tool is an input, not an authority — get independent validation.
+
+**Open methodological questions — the honest list.** After a public review of the method in August 2026, the following are unresolved and are being measured rather than argued:
+
+- **Selecting a metric on the same data you report inflates the error rate.** Under a pure null, the chance that at least one of the ten metrics comes out significant is **0.205**, not 0.05. Use split calibration, or fix the metric before looking. See [docs/METHODS.md](docs/METHODS.md#three-modes-and-only-one-of-them-is-safe).
+- **A summary statistic should be chosen a priori** from the structure you expect the data to have. This tool is at its most defensible *before* the analysis (choosing a design) or *after* a pre-specified one (showing robustness), and at its least defensible in between.
+- **The weights are judgement, not evidence** — quantified by the sensitivity analysis in [`validation/`](validation/README.md).
+- **The score measures detection, not estimation.** Bias, MSE and relative efficiency are not in it yet, so it cannot distinguish statistics that estimate different quantities equally well.
+- **The geometric mean is missing**, and in the reference table it is the best statistic on multiplicative data — better than all ten shipped metrics.
+
+The experiments, thresholds and current results are in [docs/VALIDATION.md](docs/VALIDATION.md), frozen in advance in [docs/PREREGISTRATION.md](docs/PREREGISTRATION.md). Independent replication is welcome: datasets, seeds and an independent reference implementation are in the repository for exactly that.
 
 **Roadmap:** paired / repeated designs · post-hoc pairwise comparisons · `TableLayoutPanel` relayout and DPI hardening · persistent run history · accessibility (mnemonics, screen readers) · more localizations.
 
@@ -413,6 +429,7 @@ If MVS Analyzer influenced a published result, cite it with the metadata in [CIT
 <p align="center">
   <a href="CHANGELOG.md">Изменения</a> ·
   <a href="docs/METHODS.md">Методы</a> ·
+  <a href="docs/VALIDATION.md">Валидация</a> ·
   <a href="docs/ARCHITECTURE.md">Документация</a> ·
   <a href="examples/">Примеры данных</a>
 </p>
@@ -444,7 +461,7 @@ If MVS Analyzer influenced a published result, cite it with the metadata in [CIT
 | **MDE** | минимальная разница, которую эти данные вообще способны заметить при мощности 0.80 |
 | **Замороженная формула** | `MVS-1.2.0`, SHA-256 `70e1d577…e401e2f` — любое изменение видно в аудите |
 | **Прогоны с печатью** | хешируются входные *и* выходные файлы, журнал — цепочка хешей |
-| **Плагины без кода** | шаблоны, профили импорта, отчёты, правила проверки — исполняемые файлы запрещены |
+| **Плагины без кода** | шаблоны, профили импорта, отчёты, правила проверки — исполняемые файлы запр��щены |
 | **Ноль зависимостей** | чистый .NET 8 + WinForms, без NuGet, без сети, без аккаунтов |
 
 ---
@@ -535,6 +552,10 @@ MVS-1.2.0   sha256 = 70e1d57723df1ca2bbc1b7856357f04d844cd77f36a83ad5fefd02565e4
 Она попадает в каждый `run_manifest.json`, проверяется тестом и сверяется при аудите. Измените формулу — старые прогоны честно покажут `FORMULA_CHANGED`.
 
 **Правила кандидата:** `FPR ≤ 0.075`, `мощность ≥ 0.70`, `score ≥ 60`, не более четырёх кандидатов. Метрика, которая прошла все правила, но не попала в лимит (или отстала меньше чем на 2 балла), помечается как **«почти кандидат»**. **Набор кандидатов может быть пустым** — это результат, а не ошибка.
+
+**Чем этот балл не является.** У него нет единиц измерения: все компоненты безразмерны, показатели степени в сумме дают 1, то есть это взвешенное среднее геометрическое в диапазоне [0, 100]. Шкала **порядковая**: «метрика A выше метрики B» — осмысленно, «на 8 баллов лучше» — нет. Порог `score ≥ 60` — это утверждение о расстоянии на порядковой шкале, и он снимается в 1.4.0. Подробно: [docs/METHODS.md](docs/METHODS.md#dimensional-analysis-and-what-the-scale-is).
+
+**Веса — экспертное решение,** и вместо защиты этого решения проект его измеряет: `validation/analyze_results.py` пересчитывает любой готовый запуск с равными весами, ROC-весами, весами «только мощность» и 5 000 случайных векторов Дирихле и показывает, как часто меняется победитель.
 
 ---
 
@@ -641,6 +662,7 @@ MVS-Analyzer/
 ├─ Assets/                       брендинг, встраиваемый в исполняемый файл
 ├─ MvsAnalyzer.Tests/            собственный тест-раннер без зависимостей (12 проверок)
 ├─ examples/                     готовые датасеты для загрузки
+├─ validation/                   датасеты с известной истиной, эталонная симуляция, анализ весов
 ├─ docs/                         методы, формат данных, вывод, аудит, плагины, архитектура
 └─ plugin-*-source/              исходники встроенных плагин-пакетов
 ```
@@ -655,6 +677,16 @@ MVS-Analyzer/
 - внутри карточек остались абсолютные координаты — на масштабе 125–150 % вёрстка может поехать;
 - история запусков живёт только в текущей сессии (журнал аудита — постоянен);
 - для клинических, промышленных и безопасностно-критичных решений нужна независимая валидация.
+
+**Открытые методологические вопросы — честный список.** После публичного разбора метода в августе 2026 нерешённым остаётся следующее, и это измеряется, а не обсуждается:
+
+- **Выбор метрики на тех же данных, по которым потом делается вывод, завышает ошибку I рода.** При полном отсутствии эффекта вероятность того, что хотя бы одна из десяти метрик окажется значимой, равна **0.205**, а не 0.05. Помогает раздельная калибровка или выбор метрики до просмотра данных. См. [docs/METHODS.md](docs/METHODS.md#three-modes-and-only-one-of-them-is-safe).
+- **Сводную статистику следует выбирать априорно** — из той структуры, которую вы ожидаете от данных. Инструмент наиболее уместен *до* анализа (планирование) или *после* заранее заданного анализа (проверка устойчивости вывода), и наименее уместен между этими двумя моментами.
+- **Веса — экспертное решение, а не измерение**; их влияние оценивается анализом чувствительности в [`validation/`](validation/README.md).
+- **Балл измеряет обнаружение, а не оценивание.** Смещения, MSE и относительной эффективности в нём пока нет, поэтому он не различает статистики, оценивающие разные величины.
+- **Среднего геометрического нет в списке метрик**, а в эталонной таблице именно оно лучше всех десяти реализованных на мультипликативных данных.
+
+Эксперименты, пороги и текущие результаты — в [docs/VALIDATION.md](docs/VALIDATION.md), зафиксированы заранее в [docs/PREREGISTRATION.md](docs/PREREGISTRATION.md). Независимая перепроверка приветствуется: датасеты, зерна генератора и независимая эталонная реализация лежат в репозитории именно для этого.
 
 Планы: парные/повторные дизайны · post-hoc сравнения · переход на `TableLayoutPanel` и DPI · постоянная история запусков · доступность · новые локализации.
 
@@ -709,7 +741,7 @@ MVS-Analyzer/
 - Безопасность и проблемы с плагинами → [SECURITY.md](SECURITY.md)
 - Правила общения → [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 
-Документация в `docs/` ведётся на английском.
+Документация в `docs/` вед��тся на английском.
 
 ---
 
