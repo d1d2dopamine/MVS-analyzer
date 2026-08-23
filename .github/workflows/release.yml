@@ -46,12 +46,21 @@ jobs:
           if ([string]::IsNullOrWhiteSpace($version) -or $version -eq "main") {
             $version = "${{ github.event.inputs.tag }}"
           }
-          New-Item -ItemType Directory -Force -Path staging | Out-Null
-          Copy-Item publish/MVS_Analyzer.exe staging/
-          Copy-Item README.md, LICENSE, CHANGELOG.md staging/
-          Copy-Item -Recurse examples staging/examples
-          Copy-Item *.mvsplugin staging/ -ErrorAction SilentlyContinue
-          Compress-Archive -Path staging/* -DestinationPath "MVS_Analyzer_$version`_win-x64.zip"
+          $folder = "MVS_Analyzer_" + $version + "_win-x64"
+          $root = Join-Path "staging" $folder
+          New-Item -ItemType Directory -Force -Path $root | Out-Null
+          Copy-Item publish/MVS_Analyzer.exe $root/
+          Copy-Item README.md, LICENSE, CHANGELOG.md $root/
+          Copy-Item -Recurse examples (Join-Path $root "examples")
+          Copy-Item *.mvsplugin $root/ -ErrorAction SilentlyContinue
+          # Archive the folder itself, not its contents, so unzipping creates
+          # one root directory instead of scattering files into the target.
+          Compress-Archive -Path $root -DestinationPath "$folder.zip"
+          Write-Host "Archive root check:"
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          $zip = [System.IO.Compression.ZipFile]::OpenRead((Resolve-Path "$folder.zip"))
+          $zip.Entries | Select-Object -First 5 -ExpandProperty FullName
+          $zip.Dispose()
 
       - name: Compute checksums
         shell: pwsh
