@@ -26,6 +26,10 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/d1d2dopamine/MVS-Analyzer/releases/latest"><img src="https://img.shields.io/github/v/release/d1d2dopamine/MVS-Analyzer?style=for-the-badge&label=download%20for%20Windows&color=0078D6&logo=windows&logoColor=white" alt="download for Windows"></a>
+</p>
+
+<p align="center">
   <a href="CHANGELOG.md">Changelog</a> ·
   <a href="docs/METHODS.md">Methods</a> ·
   <a href="docs/VALIDATION.md">Validation</a> ·
@@ -69,7 +73,11 @@ The intended use is choosing a metric **before** you analyse, or checking that a
 
 ## ⚡ Quick start
 
-### Run from source (recommended while there is no signed release)
+### Download the build
+
+[Latest release](https://github.com/d1d2dopamine/MVS-Analyzer/releases/latest) → `MVS_Analyzer_<version>_win-x64.zip`. Unzip, run `MVS_Analyzer.exe`. Windows 10 or later, x64; no .NET installation required. The build is not code-signed, so SmartScreen warns on first run — verify the SHA-256 against `SHA256SUMS.txt` in the release, or build from source below.
+
+### Run from source
 
 ```powershell
 git clone https://github.com/d1d2dopamine/MVS-Analyzer.git
@@ -429,6 +437,10 @@ If MVS Analyzer influenced a published result, cite it with the metadata in [CIT
 </p>
 
 <p align="center">
+  <a href="https://github.com/d1d2dopamine/MVS-Analyzer/releases/latest"><img src="https://img.shields.io/github/v/release/d1d2dopamine/MVS-Analyzer?style=for-the-badge&label=%D1%81%D0%BA%D0%B0%D1%87%D0%B0%D1%82%D1%8C%20%D0%B4%D0%BB%D1%8F%20Windows&color=0078D6&logo=windows&logoColor=white" alt="скачать для Windows"></a>
+</p>
+
+<p align="center">
   <a href="CHANGELOG.md">Изменения</a> ·
   <a href="docs/METHODS.md">Методы</a> ·
   <a href="docs/VALIDATION.md">Валидация</a> ·
@@ -472,6 +484,12 @@ If MVS Analyzer influenced a published result, cite it with the metadata in [CIT
 
 ## ⚡ Быстрый старт
 
+### Скачать сборку
+
+[Последний релиз](https://github.com/d1d2dopamine/MVS-Analyzer/releases/latest) → `MVS_Analyzer_<версия>_win-x64.zip`. Распакуйте и запустите `MVS_Analyzer.exe`. Нужна Windows 10+ x64, устанавливать .NET не требуется. Сборка не подписана, поэтому при первом запуске SmartScreen покажет предупреждение — сверьте SHA-256 архива с `SHA256SUMS.txt` из релиза или соберите сами.
+
+### Сборка из исходников
+
 ```powershell
 git clone https://github.com/d1d2dopamine/MVS-Analyzer.git
 cd MVS-Analyzer
@@ -499,7 +517,7 @@ dotnet run  --project MvsAnalyzer.csproj       # запуск приложени
 5. «Результаты» → карточка вердикта, затем `results.csv` и `run_manifest.json`.
 6. «Аудит» → укажите папку вывода и убедитесь, что прогон проверяется.
 
-Хотите увидеть, как программа ловит сама себя? Загрузите [`examples/MVS_stress_test.csv`](examples/) — *Control / Shift +6 % / Noise*. Метрики уровня и метрики разброса там указывают на **разные** группы, и карточка результатов обязана это сказать, а не называть согласием.
+Хотите увидеть, как программа ловит сама себя? Загрузите [`examples/MVS_stress_test.csv`](examples/) — *Control / Shift +6 % / Noise*. Метрики уровня и метрики разброса там указывают н�� **разные** группы, и карточка результатов обязана это сказать, а не называть согласием.
 
 ---
 
@@ -635,7 +653,7 @@ CSV или TSV, одна переменная за запуск, раздели�
 
 ---
 
-## ⌨️ Горячие клавиши
+## ⌨️ Гор��чие клавиши
 
 | | | | |
 |---|---|---|---|
@@ -675,7 +693,7 @@ MVS-Analyzer/
 
 ## 🚧 Ограничения и планы
 
-- только независимые группы; парные и повторные дизайны запланированы;
+- только независимые гру��пы; парные и повторные дизайны запланированы;
 - у Kruskal–Wallis пока нет post-hoc попарных тестов;
 - универсальная модель выбросов не заменяет физическую модель прибора;
 - внутри карточек остались абсолютные координаты — на масштабе 125–150 % вёрстка может поехать;
