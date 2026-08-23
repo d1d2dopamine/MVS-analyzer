@@ -41,7 +41,9 @@ You measured something — cycle time, optical density, reaction time, yield, er
 
 The usual answer is "whatever the previous paper used". That choice silently decides whether you will see the effect at all, how often you will announce an effect that is not there, and whether the same analysis on a second half of your data would agree with itself.
 
-**MVS Analyzer turns that choice into a measurement.** It replays your own data thousands of times — once in a world where the groups genuinely do not differ, and once in a world where a difference of a known size was planted — and reports, per metric: false-alarm rate, power, robustness to outliers, split-half repeatability, and interval coverage. Then it says which metric you should be using, and how confident that recommendation is.
+**MVS Analyzer turns that choice into a measurement.** It replays your own data thousands of times — once in a world where the groups genuinely do not differ, and once in a world where a difference of a known size was planted — and reports, per metric: false-alarm rate, power, robustness to outliers, split-half repeatability, and interval coverage. Then it ranks the metrics and says how much of that ranking the data can actually support.
+
+The intended use is choosing a metric **before** you analyse, or checking that a conclusion does not rest on one lucky metric. Picking the winner *after* looking at the same data you will draw conclusions from costs up to four times the nominal false-alarm rate — see [Validation](docs/VALIDATION.md) for the measured number.
 
 > [!NOTE]
 > MVS Analyzer does **not** verify a metric against a gold standard, and it does not know your ground truth. It ranks metrics by how well they behave **on your dataset**, and it is loud about the cases where the data cannot decide.
@@ -442,7 +444,9 @@ If MVS Analyzer influenced a published result, cite it with the metadata in [CIT
 
 Обычно ответ звучит как «так делали в прошлой статье». Но именно этот выбор решает, увидите ли вы эффект вообще, как часто вы объявите эффект, которого нет, и совпадёт ли анализ сам с собой на второй половине данных.
 
-**MVS Analyzer превращает этот выбор в измерение.** Он тысячи раз переигрывает ваши же данные — в мире, где разницы между группами точно нет, и в мире, где разница известного размера вписана искусственно, — и для каждой метрики измеряет: частоту ложных тревог, мощность, устойчивость, повторяемость и покрытие интервалов.
+**MVS Analyzer превращает этот выбор в измерение.** Он тысячи раз переигрывает ваши же данные — в мире, где разницы между группами точно нет, и в мире, где разница известного размера вписана искусственно, — и для каждой метрики измеряет: частоту ложных тревог, мощность, устойчивость, повторяемость и покрытие интервалов. Затем он ранжирует метрики и говорит, насколько этот порядок вообще подкреплён данными.
+
+Программа рассчитана на то, что метрику выбирают **до** анализа — либо на проверку того, что вывод не держится на одной удачной метрике. Если выбирать победителя по тем же данным, по которым потом делается вывод, цена ошибки вырастает до четырёх раз против номинальной — измеренное число см. в [Валидации](docs/VALIDATION.md).
 
 > [!NOTE]
 > Программа **не** сверяет метрику с эталоном и не знает истины. Она ранжирует метрики по тому, как они ведут себя **на вашем датасете**, и громко сообщает, когда данных не хватает для вывода.
@@ -514,7 +518,7 @@ flowchart LR
 1. **Данные.** Одна переменная, 2–10 независимых групп, ≥ 4 объектов в группе, ≥ 6 годных измерений на объект (настраивается).
 2. **Калибровка.** Для каждой метрики строятся два мира из ваших же строк:
    - **нулевой** — группы объединяются и перевыбираются, разницы там нет по построению. Доля значимых результатов — измеренная **частота ложных тревог**;
-   - **мир с эффектом** — к последней группе применяется известный множитель (сдвиг уровня вверх/вниз или рост вариативности) плюс ваши выбросы и пропуски. Доля значимых результатов — **мощность**.
+   - **мир с эффектом** — к последней групп�� применяется известный множитель (сдвиг уровня вверх/вниз или рост вариативности) плюс ваши выбросы и пропуски. Доля значимых результатов — **мощность**.
 3. **Запуск.** Конфигурация фиксируется, входной файл хешируется, расчёт идёт по настоящим меткам групп.
 4. **Результаты.** Сначала одно предложение — какая метрика, какая группа выше и на сколько процентов, — потом статистика, потом файлы.
 
@@ -727,7 +731,7 @@ MVS-Analyzer/
 <details>
 <summary><b>Linux или macOS?</b></summary>
 
-Движок — переносимый .NET, но интерфейс на WinForms и `System.Drawing`, поэтому сегодня приложение только для Windows. Логичный следующий шаг — консольный режим поверх того же движка.
+Движок — переносимый .NET, но интерфейс на WinForms и `System.Drawing`, поэтому сегодня приложение только для Windows. Логичный следующий шаг — консольный режим повер�� того же движка.
 
 </details>
 
