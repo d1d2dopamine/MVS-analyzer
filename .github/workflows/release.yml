@@ -87,7 +87,7 @@ jobs:
           $lines = Get-ChildItem MVS_Analyzer_*.zip | ForEach-Object { "{0}  {1}" -f (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower(), $_.Name }
           $lines | Set-Content -Encoding ascii SHA256SUMS.txt
       - name: Create draft release for the requested tag
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ env.RELEASE_TAG }}
           name: MVS Analyzer ${{ env.RELEASE_TAG }}
