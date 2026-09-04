@@ -225,6 +225,32 @@ Numbers are formatted round-trip (`R`) and culture-invariant, so `0.0477` stays 
 
 ---
 
+## 🧪 Benchmark
+
+**Settings → scroll to the bottom → "Developer — benchmark"**, or headless:
+
+```powershell
+MVS_Analyzer.exe --benchmark --profile full --seed 20260904 --out C:\bench
+```
+
+The benchmark answers one question with the pass marks written down first: **does choosing a metric after seeing the data inflate the error rate, and does the gated MVS path remove that inflation without costing all the power?** Seven selection rules — cherry-picking, Bonferroni, two fixed metrics, a locked pilot metric, and the MVS path with and without its gate — see exactly the same data in every repetition, alongside an oracle that picks the best metric with hindsight.
+
+The protocol (`MVS-BENCH-1.0.0`, SHA-256 `5557f86f…c36294`) is frozen in source, checked by the test suite, and printed on every figure, so a threshold cannot be moved after seeing a result without the change being visible on images that were already published.
+
+| # | Pre-registered claim | Pass |
+|---|---|---|
+| A | Metric shopping inflates error; the gate removes it | cherry-pick FPR ≥ .15 **and** MVS FPR ≤ .075 |
+| B | The gate is not expensive | oracle power − MVS power ≤ .07 |
+| C | The choice is stable, not a coin flip | Kendall τ ≥ .70, top-1 agreement ≥ .60 |
+| D | Contamination does not break it | MVS FPR ≤ .075 at 10 % contamination |
+| E | The run is reproducible | identical SHA-256 on a repeat with the same seed |
+
+A run writes 14 publication-ready PNG figures (print, story, square and wide sizes, Okabe-Ito palette), five CSV tables, the verbatim protocol, a manifest and `SHA256SUMS.txt`, then opens the folder. The verdict — **go**, **conditional** or **no-go** — is printed whichever way it lands, and each run is appended to a hash-chained journal so a disappointing result cannot be quietly deleted.
+
+Full protocol, figure guide and the honest list of what it does *not* prove: **[`docs/BENCHMARK.md`](docs/BENCHMARK.md)**. Optional real-recording stage: [`benchmark_data/README.md`](benchmark_data/README.md).
+
+---
+
 ## 🛡️ Privacy by construction
 
 No accounts, no telemetry, no network calls, no cloud — none of it is implemented and none of it is planned. Everything lives in `%LocalAppData%\MVS_Analyzer\`:
@@ -577,7 +603,7 @@ MVS-1.2.0   sha256 = 70e1d57723df1ca2bbc1b7856357f04d844cd77f36a83ad5fefd02565e4
 
 **Чем этот балл не является.** У него нет единиц измерения: все компоненты безразмерны, показатели степени в сумме дают 1, то есть это взвешенное среднее геометрическое в диапазоне [0, 100]. Шкала **порядковая**: «метрика A выше метрики B» — осмысленно, «на 8 баллов лучше» — нет. Порог `score ≥ 60` — это утверждение о расстоянии на порядковой шкале, и он снимается в 1.4.0. Подробно: [docs/METHODS.md](docs/METHODS.md#dimensional-analysis-and-what-the-scale-is).
 
-**Веса — экспертное решение,** и вместо защиты этого решения проект его измеряет: `validation/analyze_results.py` пересчитывает любой готовый запуск с равными весами, ROC-весами, весами «только мощность» и 5 000 случайных векторов Дирихле и показывает, как часто меняется победитель.
+**Веса — экспертное решение,** и вместо защиты этого решения проект его измеряет: `validation/analyze_results.py` пересчитывает любой готовый запуск с равными весами, ROC-весами, весами «только мощность» и 5 000 случайных ве��торов Дирихле и показывает, как часто меняется победитель.
 
 ---
 
@@ -619,6 +645,32 @@ MVS-1.2.0   sha256 = 70e1d57723df1ca2bbc1b7856357f04d844cd77f36a83ad5fefd02565e4
 
 > [!IMPORTANT]
 > Хеши доказывают **целостность, а не честность**. Они ловят правку и удаление задним числом и спрятанные прогоны. Если человек с самого начала делает всё в чистой копии на другом компьютере — никакая программа этого не увидит.
+
+---
+
+## 🧪 Бенчмарк
+
+**Настройки → в самый низ → «Для разработчика — бенчмарк»**, либо без окна:
+
+```powershell
+MVS_Analyzer.exe --benchmark --profile full --seed 20260904 --out C:\bench
+```
+
+Бенчмарк отвечает на один вопрос, причём пороги записаны заранее: **завышает ли ошибку выбор метрики уже после взгляда на данные и убирает ли это завышение путь MVS с порогом — не теряя при этом всю мощность?** Семь правил выбора — перебор, Bonferroni, две фиксированные метрики, метрика, зафиксированная на пилоте, и путь MVS с порогом и без — видят в каждом повторении одни и те же данные; рядом считается оракул, выбирающий лучшую метрику задним числом.
+
+Протокол (`MVS-BENCH-1.0.0`, SHA-256 `5557f86f…c36294`) заморожен в исходниках, проверяется тестами и печатается на каждом графике: подвинуть порог после результата, не оставив следа на уже опубликованных картинках, нельзя.
+
+| # | Заранее записанное утверждение | Порог |
+|---|---|---|
+| A | Перебор метрик завышает ошибку, порог MVS её убирает | FPR перебора ≥ .15 **и** FPR MVS ≤ .075 |
+| B | Порог стоит недорого | мощность оракула − мощность MVS ≤ .07 |
+| C | Выбор устойчив, а не подброс монеты | τ Кендалла ≥ .70, совпадение топ-1 ≥ .60 |
+| D | Загрязнение данных его не ломает | FPR MVS ≤ .075 при 10 % загрязнения |
+| E | Прогон воспроизводим | тот же SHA-256 при повторе с тем же seed |
+
+Прогон сохраняет 14 готовых к публикации PNG (печать, сторис, квадрат, широкий; палитра Okabe-Ito), пять CSV-таблиц, дословный текст протокола, манифест и `SHA256SUMS.txt`, после чего открывает папку. Вердикт — **go**, **conditional** или **no-go** — печатается в любом случае, а каждый прогон дописывается в журнал с цепочкой хешей, так что неудобный результат нельзя молча удалить.
+
+Полный протокол, разбор графиков и честный список того, что бенчмарк **не** доказывает: **[`docs/BENCHMARK.md`](docs/BENCHMARK.md)**. Необязательная стадия на реальных записях: [`benchmark_data/README.md`](benchmark_data/README.md).
 
 ---
 

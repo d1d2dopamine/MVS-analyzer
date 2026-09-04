@@ -3,8 +3,10 @@ namespace MvsAnalyzer;
 internal static class Program
 {
     [STAThread]
-    private static void Main()
+    private static int Main(string[] args)
     {
+        // Checked before any window exists, so a reviewer or a build server can run the benchmark headless.
+        if (Benchmarking.BenchmarkCommandLine.Handles(args)) return Benchmarking.BenchmarkCommandLine.Run(args);
         ApplicationConfiguration.Initialize();
         // A stray exception now shows a message instead of killing the process.
         Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
@@ -15,11 +17,12 @@ internal static class Program
         if (!File.Exists(marker))
         {
             using var dialog = new LanguageDialog();
-            if (dialog.ShowDialog() != DialogResult.OK) return;
+            if (dialog.ShowDialog() != DialogResult.OK) return 0;
             settings.Language = dialog.LanguageCode; settings.Save();
             Directory.CreateDirectory(Path.GetDirectoryName(marker)!); File.WriteAllText(marker, settings.Language);
         }
         Application.Run(new MainForm(settings));
+        return 0;
     }
 }
 

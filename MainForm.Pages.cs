@@ -226,7 +226,7 @@ internal sealed partial class MainForm
             if (runnerUp != null) techText += "\n" + T("Next", "Следующая") + ": " + runnerUp.Metric + " (" + T("gap", "отрыв") + " " + (best.Score - runnerUp.Score).ToString("0.0") + ")";
             int nearMiss = results.Count(x => x.NearMiss);
             if (nearMiss > 0) techText += "\n" + nearMiss + T(" more metrics came close, read the table.", " метрик подошли вплотную — смотрите таблицу.");
-            if (!best.Candidate) techText += "\n" + T("No metric passed the candidate rules, this is only the highest scoring one.", "Ни одна метрика не прошла правила кандидата — показана просто лучшая по баллу.");
+            if (!best.Candidate) techText += "\n" + T("No metric passed the candidate rules, this is only the highest scoring one.", "Ни одна метрика не прош��а правила кандидата — показана просто лучшая по баллу.");
         }
         var tech = new Label { Text = techText, AutoSize = true, MaximumSize = new Size(ContentWidth - 60, 0), ForeColor = Secondary, Location = new Point(20, 226), Visible = false };
         var techToggle = Button(T("How this was computed", "Как это посчитано"), false, 220);
@@ -411,7 +411,7 @@ internal sealed partial class MainForm
         rigour.Controls.Add(margin);
         rigour.Controls.Add(new Label { Text = T("A difference smaller than this counts as practically zero (Cliffs delta).", "Разница меньше этого значения считается практически нулём (дельта Клиффа)."), AutoSize = true, MaximumSize = new Size(ContentWidth - marginX - 160, 0), ForeColor = Secondary, Location = new Point(marginX + 112, 158) });
         page.Controls.Add(rigour);
-        var about = Card(T("About", "О программе"), T("MVS — Metrics Value System. The program does not validate a metric against a reference; it shows which metric carries more value on your data.", "MVS — Metrics Value System, система оценки ценности метрик. Программа не валидирует метрику по эталону, а показывает, какая метрика ценнее на ваших данных."), 150);
+        var about = Card(T("About", "О программе"), T("MVS — Metrics Value System. The program does not validate a metric against a reference; it shows which metric carries more value on your data.", "MVS — Metrics Value System, система оц��нки ценности метрик. Программа не валидирует метрику по эталону, а показывает, какая метрика ценнее на ваших данных."), 150);
         about.Controls.Add(new Label { Text = $"MVS Analyzer 1.3.2   ·   {AnalysisEngine.EngineVersion}   ·   {OutputExporter.FormulaVersion}", AutoSize = true, Font = new Font("Segoe UI", 10, FontStyle.Bold), Location = new Point(20, 92) });
         about.Controls.Add(new Label { Text = $"Formula hash: {OutputExporter.FormulaHash}", AutoSize = true, ForeColor = Secondary, Location = new Point(20, 116) });
         page.Controls.Add(about);
@@ -428,7 +428,7 @@ internal sealed partial class MainForm
         processing.Controls.Add(new Label { Text = T("Maximum value", "Максимальное значение"), AutoSize = true, Location = new Point(245, 88) }); var maxRt = new ThemedNumericUpDown { Minimum = -999999, Maximum = 1000000, Value = Math.Clamp(settings.MaxValue, -999999, 1000000), Location = new Point(245, 114), Width = 180 };
         processing.Controls.Add(new Label { Text = T("Minimum valid measurements", "Минимум валидных измерений"), AutoSize = true, Location = new Point(470, 88) }); var minTrials = new ThemedNumericUpDown { Minimum = 2, Maximum = 10000, Value = settings.MinMeasurements, Location = new Point(470, 114), Width = 180 };
         var processingHint = new Label { Text = T("Changes are saved immediately.", "Изменения сохраняются сразу."), AutoSize = true, MaximumSize = new Size(820, 0), ForeColor = Secondary, Location = new Point(20, 178) };
-        void SaveProcessing() { if (minRt.Value >= maxRt.Value) { processingHint.ForeColor = Color.FromArgb(176, 66, 27); processingHint.Text = T("Minimum value must be lower than maximum value - not saved.", "Минимум должен быть меньше максимума — не сохранено."); return; } settings.MinValue = (int)minRt.Value; settings.MaxValue = (int)maxRt.Value; settings.MinMeasurements = (int)minTrials.Value; settings.Save(); processingHint.ForeColor = Secondary; processingHint.Text = T("Saved.", "Сохранено."); }
+        void SaveProcessing() { if (minRt.Value >= maxRt.Value) { processingHint.ForeColor = Color.FromArgb(176, 66, 27); processingHint.Text = T("Minimum value must be lower than maximum value - not saved.", "Минимум должен быть меньше максиму��а — не сохранено."); return; } settings.MinValue = (int)minRt.Value; settings.MaxValue = (int)maxRt.Value; settings.MinMeasurements = (int)minTrials.Value; settings.Save(); processingHint.ForeColor = Secondary; processingHint.Text = T("Saved.", "Сохранено."); }
         minRt.ValueChanged += (_, _) => SaveProcessing(); maxRt.ValueChanged += (_, _) => SaveProcessing(); minTrials.ValueChanged += (_, _) => SaveProcessing();
         processing.Controls.Add(minRt); processing.Controls.Add(maxRt); processing.Controls.Add(minTrials); processing.Controls.Add(processingHint); page.Controls.Add(processing);
         var privacy = Card(T("Privacy and integrity", "Конфиденциальность и целостность"), T("No server, telemetry or account. Reports can hide local dataset names.", "Нет сервера, телеметрии и аккаунта. В отчётах можно скрывать локальные имена файлов."), 165);
@@ -453,6 +453,7 @@ internal sealed partial class MainForm
             expert.Controls.Add(new Label { Text = T("Changes are saved immediately and used by the next calibration.", "Изменения сохраняются сразу и применяются к следующей калибровке."), AutoSize = true, MaximumSize = new Size(820, 0), ForeColor = Secondary, Location = new Point(20, 248) });
             expert.Controls.Add(seed); expert.Controls.Add(repetitions); expert.Controls.Add(effect); expert.Controls.Add(scenario); expert.Controls.Add(outliers); expert.Controls.Add(missing); page.Controls.Add(expert);
         }
+        AddDeveloperCard(page);
     }
 
     private void ShowHelp()

@@ -1,4 +1,5 @@
 using MvsAnalyzer;
+using MvsAnalyzer.Benchmarking;
 
 var tests = new (string Name, Action Run)[]
 {
@@ -13,7 +14,11 @@ var tests = new (string Name, Action Run)[]
     ("Equivalent groups are not reported as different", EquivalenceVerdict),
     ("A wide interval is reported as not enough data", InsufficientVerdict),
     ("MDE is interpolated from the power curve", MdeCurve),
-    ("Split calibration keeps the halves disjoint", SplitHalves)
+    ("Split calibration keeps the halves disjoint", SplitHalves),
+    ("Benchmark protocol text is unchanged", BenchmarkProtocolFrozen),
+    ("Benchmark random stream is reproducible", BenchmarkRandomStream),
+    ("Benchmark data generator has the planned shape", BenchmarkDatasetShape),
+    ("Kendall tau and the Wilson interval behave", BenchmarkStatistics)
 };
 int failed=0;foreach(var test in tests){try{test.Run();Console.WriteLine($"PASS  {test.Name}");}catch(Exception ex){failed++;Console.WriteLine($"FAIL  {test.Name}: {ex.Message}");}}
 Console.WriteLine($"{tests.Length-failed}/{tests.Length} tests passed");return failed==0?0:1;
@@ -31,6 +36,10 @@ static void EquivalenceVerdict(){Assert(AnalysisEngine.Verdict(true,.6,.05,-.05,
 static void InsufficientVerdict(){Assert(AnalysisEngine.Verdict(true,.30,.05,-.40,.55,.147)=="insufficient","A wide interval cannot decide");Assert(AnalysisEngine.Verdict(true,.001,.05,.20,.60,.147)=="difference","A significant interval away from zero is a difference");Assert(AnalysisEngine.Verdict(false,.001,.05,.20,.60,.147)=="not_applicable","An unusable metric stays not applicable");}
 static void MdeCurve(){double[] effects={1.00,1.02,1.05,1.10,1.20},power={.05,.20,.60,1.00,1.00};double mde=AnalysisEngine.MdeFromCurve(effects,power,.80);Assert(mde>.05&&mde<.10,"MDE must fall between the bracketing grid points");Assert(!double.IsFinite(AnalysisEngine.MdeFromCurve(effects,new double[]{.01,.02,.03,.04,.05},.80)),"A flat curve has no MDE");}
 static void SplitHalves(){var rows=Data(10,8,300,4).Concat(Data(10,8,340,4,"B")).ToList();var data=AnalysisEngine.Build(rows);var halves=AnalysisEngine.SplitEntities(data,20260719);var left=halves.Calibration.Entities.Select(x=>x.Group+"/"+x.Entity).ToHashSet();var right=halves.Analysis.Entities.Select(x=>x.Group+"/"+x.Entity).ToHashSet();Assert(!left.Overlaps(right),"The two halves must not share an entity");Assert(left.Count>0&&right.Count>0,"Both halves must hold entities");}
+static void BenchmarkProtocolFrozen(){Assert(BenchmarkProtocol.HashIsFrozen,"The benchmark protocol text changed - already published runs are no longer comparable");Assert(BenchmarkProtocol.Hash.Length==64,"The protocol hash must be a SHA-256 digest");Assert(BenchmarkProtocol.ProfileById("full").PrimaryReplications>=BenchmarkProtocol.ProfileById("quick").PrimaryReplications,"A deeper profile must not run fewer repetitions");}
+static void BenchmarkRandomStream(){var random=new BenchmarkRandom(20260904UL);ulong[] expected={8419501177352733710UL,9045835510591893074UL,9237519410920844811UL,9973926479834897958UL,14688187863013897198UL};for(int i=0;i<expected.Length;i++)Assert(random.NextUInt64()==expected[i],$"The benchmark random stream changed at draw {i+1}");Assert(BenchmarkRandom.Derive(7,1,2,3)==BenchmarkRandom.Derive(7,1,2,3),"A derived seed must depend only on its coordinates");Assert(BenchmarkRandom.Derive(7,1,2,3)!=BenchmarkRandom.Derive(7,1,2,4),"Neighbouring replications must not share a stream");}
+static void BenchmarkDatasetShape(){var rows=BenchmarkDatasets.Generate(BenchmarkDatasets.Gait,InjectionMode.None,1,0,new BenchmarkRandom(11UL));var data=AnalysisEngine.Build(rows);Assert(data.GroupNames.Length==2,"A benchmark condition always has two groups");Assert(data.GroupCounts.All(x=>x==BenchmarkDatasets.Gait.EntitiesPerGroup),"Every group must hold the planned number of entities");Assert(rows.All(x=>x.Value>0),"Measurements of a positive quantity must stay positive");var shifted=BenchmarkDatasets.Generate(BenchmarkDatasets.Gait,InjectionMode.Location,1.20,0,new BenchmarkRandom(11UL));double before=rows.Where(x=>x.Group=="case").Average(x=>x.Value),after=shifted.Where(x=>x.Group=="case").Average(x=>x.Value);Assert(after>before,"A location effect must raise the treated group");Assert(Math.Abs(rows.Where(x=>x.Group=="control").Average(x=>x.Value)-shifted.Where(x=>x.Group=="control").Average(x=>x.Value))<1e-12,"The untreated group must be untouched by the injected effect");}
+static void BenchmarkStatistics(){double[] a={1,2,3,4,5};Near(BenchmarkMath.KendallTau(a,a),1,1e-12);Near(BenchmarkMath.KendallTau(a,new double[]{5,4,3,2,1}),-1,1e-12);var interval=BenchmarkMath.WilsonInterval(5,100);Assert(interval.Low<.05&&interval.High>.05,"The Wilson interval must cover the observed rate");Assert(interval.Low>0&&interval.High<1,"The Wilson interval must stay inside the unit interval");}
 static IEnumerable<Observation> Data(int entities,int measurements,double baseline,double step,string group="A"){for(int e=1;e<=entities;e++)for(int m=1;m<=measurements;m++)yield return new Observation(group+e,group,baseline+e*step+m,m,"test","unit");}
 static void Assert(bool condition,string message){if(!condition)throw new Exception(message);}static void Near(double a,double b,double tolerance)=>Assert(Math.Abs(a-b)<=tolerance,$"{a} != {b}");
 sealed class ImmediateProgress:IProgress<ProgressInfo>{public void Report(ProgressInfo value){}}

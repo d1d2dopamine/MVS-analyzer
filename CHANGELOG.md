@@ -19,6 +19,40 @@ reasoning behind every fix — are in the [second half of this file](#русск
 
 ### Added
 
+- **Benchmark (`MVS-BENCH-1.0.0`).** A pre-registered protocol that measures
+  what the program claims: seven ways of getting from ten candidate metrics to
+  one answer (cherry-picking, Bonferroni, two fixed metrics, a pilot-locked
+  metric, and the MVS path with and without its gate) are run against data whose
+  truth is known by construction, alongside an oracle that chooses with
+  hindsight. Reported per condition: false-discovery rate with Wilson intervals
+  and Monte-Carlo standard errors, power across the effect grid, the gap to the
+  oracle, split-half Kendall tau, top-1 agreement, behaviour under 2/5/10 %
+  contamination, and a determinism digest. The protocol text, the five pass/fail
+  thresholds and the seeds are frozen in `Benchmark/BenchmarkProtocol.cs`; its
+  SHA-256 is verified by the test suite and printed on every figure, so a
+  threshold cannot be moved after a result without the change being visible on
+  images that were already published.
+- **Settings -> Developer -> benchmark.** Depth (quick / standard / full), seed,
+  results folder and an optional folder of real recordings. Progress is
+  cancellable, and the figures folder opens by itself when the run ends.
+- **Headless mode**: `MVS_Analyzer.exe --benchmark --profile full --seed N --out
+  <folder>`, with `--real-data`, `--lang` and `--quiet`. Exit code 2 when a
+  pre-registered threshold is missed, so a regression in error control can fail
+  a build pipeline.
+- **Benchmark output**: 14 PNG figures in print, story, square and wide sizes
+  (Okabe-Ito palette, safe zones respected, every figure footed with seed,
+  protocol hash and formula hash), five CSV tables, the verbatim protocol, a
+  manifest and `SHA256SUMS.txt`. Each run is also appended to a hash-chained
+  `benchmark_journal.jsonl`; the application's own run journal is untouched.
+- `docs/BENCHMARK.md` - the full protocol, the figure guide, instructions for
+  checking somebody else's run, and an explicit list of what the benchmark does
+  *not* prove.
+- `benchmark_data/prepare_physionet.py` and `benchmark_data/README.md` - an
+  optional plasmode stage on real gait recordings (PhysioNet gaitndd, ODC-BY).
+  Standard-library Python only; no recordings are committed to the repository.
+- Four benchmark tests in the suite: the protocol hash is unchanged, the random
+  stream reproduces its golden values, the data generator has the planned shape,
+  and Kendall tau and the Wilson interval behave.
 - Application icon: multi-size `app.ico` (16 to 256 px, transparent background,
   generated from the master logo) is now embedded in the executable and used for
   the window, the taskbar and Explorer.
@@ -251,7 +285,7 @@ A correctness release. Both fixes were found while writing the stress dataset th
   на масштабе 125–150 % вёрстка может поехать. Нужен TableLayoutPanel.
 - История запусков всё ещё только в памяти сессии.
 - Код не был скомпилирован: в моём окружении нет .NET SDK.
-  Перед использованием выполните: dotnet build и dotnet run --project MvsAnalyzer.Tests
+  Перед использованием выполн��те: dotnet build и dotnet run --project MvsAnalyzer.Tests
 
 ## 1.0.3 — ПРОВЕРКА РАБОТЫ (АУДИТ)
 
