@@ -135,6 +135,9 @@ internal static class PluginAssets
 
     // Applies only known settings keys and reports how many were accepted, so a
     // typo in a profile cannot silently change nothing.
+    /// <summary>Settings a profile asked for but could not be given. Empty after a clean load.</summary>
+    public static readonly List<string> SettingsWarnings = new();
+
     public static int Apply(SettingsProfile profile, AppSettings settings)
     {
         int applied = 0;
@@ -152,7 +155,7 @@ internal static class PluginAssets
                 case "outlierrate": if (Dbl(value, out double outlier)) { settings.OutlierRate = Math.Clamp(outlier, 0, .25); applied++; } break;
                 case "missingrate": if (Dbl(value, out double missing)) { settings.MissingRate = Math.Clamp(missing, 0, .50); applied++; } break;
                 case "alpha": if (Dbl(value, out double alpha)) { settings.Alpha = Math.Clamp(alpha, .001, .20); applied++; } break;
-                case "simulationscenario": if (value.Length > 0) { settings.SimulationScenario = value; applied++; } break;
+                case "simulationscenario": if (SimulationScenarios.TryCanonical(value, out string scenarioName)) { settings.SimulationScenario = scenarioName; applied++; } else if (value.Length > 0) SettingsWarnings.Add("simulationScenario=" + value + " was rejected: unknown scenario, the previous setting was kept."); break;
                 case "figuretemplates": if (value.Length > 0) { settings.FigureTemplates = value; applied++; } break;
                 case "outputprefix": if (value.Length > 0) { settings.OutputPrefix = value; applied++; } break;
                 case "generatefigures": settings.GenerateFigures = value == "true"; applied++; break;

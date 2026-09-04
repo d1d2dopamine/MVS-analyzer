@@ -10,6 +10,11 @@ var tests = new (string Name, Action Run)[]
     ("Weak calibration produces an empty candidate set", CandidateThresholds),
     ("Run folders never overwrite", UniqueRunFolders),
     ("Formula hash is deterministic", FormulaHash),
+    ("Legacy Cyrillic CSV is decoded", LegacyCyrillicDecode),
+    ("Encodings are detected from their marks", EncodingDetection),
+    ("Numbers survive locale noise", NumericNoiseParsing),
+    ("Unknown simulation scenarios are rejected", ScenarioWhitelist),
+    ("Scenario labels carry no lost glyphs", GlyphCoverage),
     ("Cliffs delta is antisymmetric and bounded", DeltaSymmetry),
     ("Equivalent groups are not reported as different", EquivalenceVerdict),
     ("A wide interval is reported as not enough data", InsufficientVerdict),
@@ -42,4 +47,33 @@ static void BenchmarkDatasetShape(){var rows=BenchmarkDatasets.Generate(Benchmar
 static void BenchmarkStatistics(){double[] a={1,2,3,4,5};Near(BenchmarkMath.KendallTau(a,a),1,1e-12);Near(BenchmarkMath.KendallTau(a,new double[]{5,4,3,2,1}),-1,1e-12);var interval=BenchmarkMath.WilsonInterval(5,100);Assert(interval.Low<.05&&interval.High>.05,"The Wilson interval must cover the observed rate");Assert(interval.Low>0&&interval.High<1,"The Wilson interval must stay inside the unit interval");}
 static IEnumerable<Observation> Data(int entities,int measurements,double baseline,double step,string group="A"){for(int e=1;e<=entities;e++)for(int m=1;m<=measurements;m++)yield return new Observation(group+e,group,baseline+e*step+m,m,"test","unit");}
 static void Assert(bool condition,string message){if(!condition)throw new Exception(message);}static void Near(double a,double b,double tolerance)=>Assert(Math.Abs(a-b)<=tolerance,$"{a} != {b}");
+// A real Windows-1251 export, byte for byte. The expected text is written as escapes so
+// that this test keeps working even if the test file itself is ever saved in a wrong encoding.
+static void LegacyCyrillicDecode(){byte[] bytes={227,240,243,239,239,224,59,231,237,224,247,229,237,232,229,10,234,238,237,242,240,238,235,252,59,49,50,44,53,10};string expected="\u0433\u0440\u0443\u043F\u043F\u0430;\u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435\u000A\u043A\u043E\u043D\u0442\u0440\u043E\u043B\u044C;12,5\u000A";string text=CsvImporter.Decode(bytes,out string name);Assert(text==expected,"Windows-1251 Cyrillic must survive import unchanged");Assert(name=="windows-1251",$"The reported code page was {name}");Assert(!text.Contains('\uFFFD'),"A successful decode must leave no replacement characters");}
+static void EncodingDetection(){
+    byte[] utf8Bom={0xEF,0xBB,0xBF,0x61,0x2C,0x62};Assert(CsvImporter.Decode(utf8Bom,out string a)=="a,b"&&a=="utf-8-bom","A UTF-8 BOM must be consumed, not parsed as data");
+    byte[] utf16Bom={0xFF,0xFE,0x61,0x00,0x2C,0x00,0x62,0x00};Assert(CsvImporter.Decode(utf16Bom,out string b)=="a,b"&&b=="utf-16le-bom","A UTF-16 BOM must be consumed");
+    byte[] naked={0x61,0x00,0x2C,0x00,0x62,0x00,0x63,0x00};Assert(CsvImporter.Decode(naked,out string c)=="a,bc"&&c=="utf-16le","BOM-less UTF-16 must be recognised from its zero bytes");
+    byte[] plain={0x61,0x2C,0x62};Assert(CsvImporter.Decode(plain,out string d)=="a,b"&&d=="utf-8","Plain ASCII must stay UTF-8");
+}
+// Spreadsheets export digit group separators as invisible spaces and minus as U+2212.
+static void NumericNoiseParsing(){
+    Assert(CsvImporter.TryDouble("1\u00A0234,5",true,out double a),"A non breaking space must not break a number");Near(a,1234.5,1e-9);
+    Assert(CsvImporter.TryDouble("\u202F12,25",true,out double b),"A narrow non breaking space must not break a number");Near(b,12.25,1e-9);
+    Assert(CsvImporter.TryDouble("1.234,56",true,out double c),"A thousands dot with a decimal comma must parse");Near(c,1234.56,1e-9);
+    Assert(CsvImporter.TryDouble("\u22125,5",true,out double d),"A Unicode minus must parse as a negative number");Near(d,-5.5,1e-9);
+    Assert(!CsvImporter.TryDouble("n/a",false,out _),"Text must not be read as a measurement");
+}
+static void ScenarioWhitelist(){
+    Assert(SimulationScenarios.Canonicalize("scale")==SimulationScenarios.Variability,"docs/METHODS.md spells the dispersion scenario as scale");
+    Assert(SimulationScenarios.Canonicalize("LOCATION_DOWN")==SimulationScenarios.Decrease,"Scenario names are case insensitive");
+    bool threw=false;try{SimulationScenarios.Canonicalize("variabilty");}catch(ArgumentException){threw=true;}
+    Assert(threw,"A misspelled scenario must fail loudly instead of silently running a location shift");
+    threw=false;try{SimulationScenarios.Canonicalize(null);}catch(ArgumentException){threw=true;}Assert(threw,"A missing scenario must fail too");
+}
+static void GlyphCoverage(){
+    foreach(string scenario in SimulationScenarios.All)
+        foreach(bool russian in new[]{false,true}){string text=SimulationScenarios.Describe(scenario,russian);Assert(text.Length>0,"Every scenario needs a label");Assert(!text.Contains('\uFFFD'),"A label must not contain a replacement character");}
+    Assert(SimulationScenarios.Describe(SimulationScenarios.Variability,true).Contains('\u0432'),"The Russian label must really be Cyrillic");
+}
 sealed class ImmediateProgress:IProgress<ProgressInfo>{public void Report(ProgressInfo value){}}

@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Text;
 using System.Runtime.InteropServices;
 
 namespace MvsAnalyzer.Benchmarking;
@@ -29,6 +30,11 @@ internal static class BenchmarkCommandLine
         try { AttachConsole(AttachParentProcess); }
         catch (EntryPointNotFoundException) { }
         catch (DllNotFoundException) { }
+        // The attached console inherits the OEM code page, which turned every Russian
+        // --lang ru line into question marks. Failures here are cosmetic, never fatal.
+        try { Console.OutputEncoding = Encoding.UTF8; }
+        catch (IOException) { }
+        catch (System.Security.SecurityException) { }
 
         if (Flag(args, "--help") || Flag(args, "-h"))
         {

@@ -32,7 +32,7 @@ internal static class OutputExporter
             var prior = existing.Concat(artifacts).Select(a => new { a.Kind, a.FileName, a.SizeBytes, sha256 = Hash(a.FullPath) }).ToArray();
             var manifest = new
             {
-                application = "MVS Analyzer", version = "1.3.2", engineVersion = AnalysisEngine.EngineVersion, runId, created = DateTimeOffset.Now,
+                application = "MVS Analyzer", version = "1.3.3", engineVersion = AnalysisEngine.EngineVersion, runId, created = DateTimeOffset.Now,
                 project = new { name = project, description = projectDescription, mode = projectMode }, dataset = settings.AnonymousReports ? "[hidden]" : dataset,
                 // Without a hash of the INPUT file a run cannot be tied to the data it claims to describe.
                 inputData = new { file = settings.AnonymousReports ? "[hidden]" : dataset, sha256 = datasetHash },

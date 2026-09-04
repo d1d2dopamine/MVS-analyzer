@@ -46,7 +46,7 @@ internal sealed class AppSettings
     public int CalibrationSeed { get; set; } = 20260719;
     public double CalibrationEffect { get; set; } = 1.15;
     public int CustomRepetitions { get; set; } = 5000;
-    public string SimulationScenario { get; set; } = "location";
+    public string SimulationScenario { get; set; } = SimulationScenarios.Default;
     public double OutlierRate { get; set; } = .02;
     public double MissingRate { get; set; } = 0;
     public double Alpha { get; set; } = .05;
@@ -83,7 +83,7 @@ internal sealed class AppSettings
                 case "calibrationSeed": if (int.TryParse(pair[1], out int seed)) value.CalibrationSeed = seed; break;
                 case "calibrationEffect": if (double.TryParse(pair[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double effect)) value.CalibrationEffect = effect; break;
                 case "customRepetitions": if (int.TryParse(pair[1], out int repetitions)) value.CustomRepetitions = repetitions; break;
-                case "simulationScenario": value.SimulationScenario = pair[1]; break;
+                case "simulationScenario": value.SimulationScenario = SimulationScenarios.TryCanonical(pair[1], out string scenarioName) ? scenarioName : SimulationScenarios.Default; break;
                 case "outlierRate": if (double.TryParse(pair[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double outlier)) value.OutlierRate = outlier; break;
                 case "missingRate": if (double.TryParse(pair[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double missing)) value.MissingRate = missing; break;
                 case "alpha": if (double.TryParse(pair[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out double alpha)) value.Alpha = alpha; break; case "generateFigures": value.GenerateFigures = pair[1] == "true"; break;

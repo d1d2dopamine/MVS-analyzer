@@ -38,7 +38,7 @@ Two remedies exist today, one is planned:
 - **Pre-registration** of the metric before looking. The tool cannot enforce it; the manifest can record it.
 - **Planned for 1.4.0:** the mode is chosen explicitly when a project is created, and exploratory runs are labelled as such in every export.
 
-Version 1.3.2 never asks which mode you are in. It should, and until it does, the safe assumption in any report is *exploratory*.
+Version 1.3.3 never asks which mode you are in. It should, and until it does, the safe assumption in any report is *exploratory*.
 
 ---
 

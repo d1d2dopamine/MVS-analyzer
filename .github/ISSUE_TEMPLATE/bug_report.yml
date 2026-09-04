@@ -37,7 +37,7 @@ body:
     attributes:
       label: App version
       description: Shown on the Home page, or `version` in run_manifest.json
-      placeholder: "1.3.2"
+      placeholder: "1.3.3"
     validations:
       required: true
 

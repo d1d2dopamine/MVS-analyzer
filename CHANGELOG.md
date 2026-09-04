@@ -109,6 +109,48 @@ reasoning behind every fix — are in the [second half of this file](#русск
 
 ---
 
+## [1.3.3] - 2026-09-05
+
+`engine 1.2.0` * `formula MVS-1.2.0` (unchanged)
+
+An encoding and input-validation release. No statistic changed, so runs exported by
+1.3.2 stay comparable: `formulaHash` and the benchmark `protocolHash` are untouched.
+
+### Fixed
+
+- **An unknown simulation scenario silently became a location shift.** `ApplyScenario`
+  compared the scenario name against two string literals and treated everything else,
+  including a typo or the `scale` spelling used in `docs/METHODS.md`, as *raise the
+  level of the last group*. A plugin profile asking for a dispersion scenario therefore
+  did not fail; it measured the wrong thing and reported the answer as if the requested
+  scenario had run. Scenario names now live in one place, accept the documented
+  aliases (`scale`, `dispersion`, `spread`, `location_up`, `location_down`), and an
+  unrecognised name raises an error before any simulation starts.
+- **Legacy CSV imports were decoded by assumption.** Anything that was not valid UTF-8
+  was declared Windows-1251, so a CP866 or KOI8-R export arrived as garbage that looked
+  like data. The importer now scores the candidate code pages against each other and
+  keeps the most plausible reading, also recognising UTF-16 that carries no BOM. The
+  chosen encoding is recorded in `CsvImporter.LastEncodingName` instead of being hidden.
+- **Numbers carrying invisible separators were discarded as text.** Exports that group
+  digits with a narrow or thin space, or that use a real Unicode minus sign instead of
+  an ASCII hyphen, lost those measurements silently. They now parse.
+- **Nine characters had been lost from the sources themselves.** `MainForm.Pages.cs`,
+  `README.md` and `CHANGELOG.md` contained replacement characters committed by an
+  earlier tool that had read them in the wrong encoding, so the interface displayed
+  broken words. The letters were restored and a test now fails if any come back.
+- **Benchmark CSV files opened as mojibake in Excel.** They are written with a BOM now,
+  while markdown, txt and json stay BOM free so diffs and hashes do not change.
+- **`--benchmark --lang ru` printed question marks.** The attached console inherited the
+  OEM code page; it is switched to UTF-8, and a failure to do so is not fatal.
+
+### Added
+
+- Manifest declares `PerMonitorV2` DPI awareness and `activeCodePage=UTF-8`, which
+  keeps the interface sharp on mixed-DPI setups and the process code page predictable.
+- Five tests: a byte-exact Windows-1251 import, encoding detection, locale-noisy
+  numbers, rejection of unknown scenarios, and glyph coverage of the scenario labels.
+
+---
 ## [1.3.2] — 2026-08-22
 
 `engine 1.2.0` · `formula MVS-1.2.0` (unchanged)
@@ -193,7 +235,8 @@ A correctness release. Both fixes were found while writing the stress dataset th
 - Exports: `results.csv`, `calibration.csv`, `data_quality.csv`, `run_manifest.json` and figures.
 - WinForms interface with guided and expert modes, light/dark/system themes, English and Russian localization, `Ctrl`+`1`…`Ctrl`+`0` navigation, and fully local storage under `%LocalAppData%\MVS_Analyzer\`.
 
-[Unreleased]: https://github.com/d1d2dopamine/MVS-Analyzer/compare/v1.3.2...HEAD
+[Unreleased]: https://github.com/d1d2dopamine/MVS-Analyzer/compare/v1.3.3...HEAD
+[1.3.3]: https://github.com/d1d2dopamine/MVS-Analyzer/releases/tag/v1.3.3
 [1.3.2]: https://github.com/d1d2dopamine/MVS-Analyzer/releases/tag/v1.3.2
 [1.3.0]: https://github.com/d1d2dopamine/MVS-Analyzer/releases/tag/v1.3.0
 [1.2.0]: https://github.com/d1d2dopamine/MVS-Analyzer/releases/tag/v1.2.0
@@ -211,14 +254,14 @@ A correctness release. Both fixes were found while writing the stress dataset th
 Это подробный журнал разработки: что именно было сломано, почему и как исправлено. Короткая версия по релизам — в [английской части выше](#changelog).
 
 > [!NOTE]
-> Текст сохранён как есть и только размечен в Markdown. Нумерация пунктов — авторская и сквозная, по��тому в разных разделах она продолжается, а не начинается заново.
+> Текст сохранён как есть и только размечен в Markdown. Нумерация пунктов — авторская и сквозная, поэтому в разных разделах она продолжается, а не начинается заново.
 
 ---
 
 ## MVS Analyzer — исправления (engine 1.0.2)
 
 Формула MVS Score и её хеш НЕ изменились (MVS-1.0.0).
-Изменился порядок ��енерации случайных чисел и расчёт coverage, поэтому engineVersion = 1.0.2:
+Изменился порядок генерации случайных чисел и расчёт coverage, поэтому engineVersion = 1.0.2:
 числа старых и новых запусков сравнивать напрямую нельзя.
 
 ### КРИТИЧНОЕ
@@ -285,7 +328,7 @@ A correctness release. Both fixes were found while writing the stress dataset th
   на масштабе 125–150 % вёрстка может поехать. Нужен TableLayoutPanel.
 - История запусков всё ещё только в памяти сессии.
 - Код не был скомпилирован: в моём окружении нет .NET SDK.
-  Перед использованием выполн��те: dotnet build и dotnet run --project MvsAnalyzer.Tests
+  Перед использованием выполните: dotnet build и dotnet run --project MvsAnalyzer.Tests
 
 ## 1.0.3 — ПРОВЕРКА РАБОТЫ (АУДИТ)
 
@@ -508,3 +551,20 @@ repeatability теперь разная у разных метрик: 0.949 ... 
 - **91.** Если часть метрик указывает на другую пару - оранжевая подсказка, что они могут ловить разброс, а не сдвиг.
 - **92.** Красное предупреждение о противоречии теперь только там, где оно есть: одна и та же пара групп с противоположными направлениями.
 - **93.** Оба бага найдены стресс-тестом MVS_stress_test.csv (Control / Shift +6 % / Noise без сдвига).
+
+## 1.3.3 - кодировки и белый список сценариев
+
+- **94.** Главный баг. `ApplyScenario` сравнивал имя сценария с двумя строками, а всё остальное считал сценарием «поднять уровень последней группе». То есть опечатка в имени или написание `scale`, которое стоит в `docs/METHODS.md`, не давали ошибки: программа молча измеряла не то, что просили, и выдавала результат как ответ на заданный вопрос. Это ровно тот класс ошибок, против которого написана вся остальная программа, поэтому он исправлен первым.
+- **95.** Имена сценариев вынесены в один файл `SimulationScenarios.cs`. Принимаются документированные синонимы (`scale`, `dispersion`, `spread`, `location_up`, `location_down`), неизвестное имя падает с ошибкой до начала симуляции, а не подменяется молча.
+- **96.** Профиль плагина с неизвестным сценарием больше не применяется: настройка остаётся прежней, а причина отказа пишется в `PluginAssets.SettingsWarnings`.
+- **97.** Импорт CSV больше не угадывает кодировку по одной ветке. Раньше всё, что не разобралось как UTF-8, объявлялось Windows-1251, и выгрузка в CP866 или KOI8-R приходила мусором, похожим на данные. Теперь варианты кодовых страниц оцениваются друг против друга, и берётся самое правдоподобное чтение. Плюс распознаётся UTF-16 без BOM.
+- **98.** Выбранная кодировка перестала быть невидимой: она пишется в `CsvImporter.LastEncodingName`, так что неверную догадку видно, а не приходится подозревать.
+- **99.** Таблицы кодовых страниц записаны escape-последовательностями, а не буквами. Иначе декодер, который лечит порчу кодировок, сам зависел бы от того, прочитан ли его собственный файл как UTF-8 - то есть ломался бы от той самой болезни, которую лечит.
+- **100.** Числа с невидимыми разделителями разрядов (узкий и тонкий пробел, неразрывный пробел, мягкий перенос) и с настоящим минусом U+2212 вместо дефиса больше не выбрасываются как текст. Раньше такие измерения тихо терялись.
+- **101.** В самих исходниках нашлось девять потерянных символов: `MainForm.Pages.cs`, `README.md` и `CHANGELOG.md` содержали символы замены, закоммиченные каким-то прошлым инструментом, который прочитал файлы не в той кодировке. Интерфейс из-за этого показывал слова с дырами. Буквы восстановлены, добавлен тест, который упадёт, если они вернутся.
+- **102.** CSV бенчмарка пишутся с BOM, потому что Excel иначе угадывает системную кодовую страницу и портит кириллические заголовки. Markdown, txt и json остаются без BOM: там он был бы шумом в диффах и хешах.
+- **103.** `--benchmark --lang ru` печатал вопросительные знаки: присоединённая консоль наследовала OEM-кодировку. Теперь выставляется UTF-8, и неудача этой попытки не считается фатальной.
+- **104.** В манифесте объявлены `PerMonitorV2` и `activeCodePage=UTF-8`, в проекте `ApplicationHighDpiMode` приведён в соответствие с манифестом - иначе `ApplicationConfiguration.Initialize()` спорит с ним.
+- **105.** Пять новых тестов: побайтовый импорт Windows-1251, определение кодировок, числа с локальным шумом, отказ на неизвестном сценарии, покрытие глифов в подписях сценариев.
+- **106.** Статистика не менялась. `formulaHash` и `protocolHash` те же, выгрузки версии 1.3.2 остаются сравнимыми.
+

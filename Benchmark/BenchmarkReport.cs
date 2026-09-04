@@ -101,7 +101,10 @@ internal static class BenchmarkReport
     private static string Write(string folder, string name, string content)
     {
         string path = Path.Combine(folder, name);
-        File.WriteAllText(path, content, new UTF8Encoding(false));
+        // Excel guesses the system code page for BOM-less CSV and mangles Cyrillic headers.
+        // Markdown, txt and json stay BOM free, where a BOM would be noise in diffs and hashes.
+        bool csv = name.EndsWith(".csv", StringComparison.OrdinalIgnoreCase);
+        File.WriteAllText(path, content, new UTF8Encoding(csv));
         return path;
     }
 

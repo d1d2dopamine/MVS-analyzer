@@ -58,6 +58,9 @@ internal static class AnalysisEngine
         if (repetitions < 100) throw new ArgumentOutOfRangeException(nameof(repetitions), "At least 100 simulations are required.");
         if (effect <= 1) throw new ArgumentOutOfRangeException(nameof(effect), "The effect multiplier must be greater than 1.");
         if (alpha is <= 0 or >= 1) throw new ArgumentOutOfRangeException(nameof(alpha), "Alpha must be between 0 and 1.");
+        // An unknown scenario name used to fall through to a location shift, so a run could
+        // answer a question nobody asked. Reject it here, before any simulation happens.
+        scenario = SimulationScenarios.Canonicalize(scenario);
 
         // Raw measurements are indexed once. Without this cache every simulated entity
         // scanned the full observation list, which made calibration quadratic.
@@ -238,10 +241,11 @@ internal static class AnalysisEngine
     {
         if (x.Length == 0) return;
         double center = x.Average(), sd = Math.Sqrt(x.Sum(v => (v - center) * (v - center)) / Math.Max(1, x.Length - 1));
+        string mode = SimulationScenarios.Canonicalize(scenario);
         for (int i = 0; i < x.Length; i++)
         {
-            if (scenario == "variability") x[i] = center + (x[i] - center) * effect;
-            else if (scenario == "decrease") x[i] -= Math.Max(Math.Abs(center), sd) * (effect - 1);
+            if (mode == SimulationScenarios.Variability) x[i] = center + (x[i] - center) * effect;
+            else if (mode == SimulationScenarios.Decrease) x[i] -= Math.Max(Math.Abs(center), sd) * (effect - 1);
             else x[i] += Math.Max(Math.Abs(center), sd) * (effect - 1);
             if (r.NextDouble() < outlierRate) x[i] += (r.Next(2) == 0 ? -1 : 1) * Math.Max(sd, 1) * 5;
         }
@@ -257,7 +261,7 @@ internal static class AnalysisEngine
         {
             if (!values.TryGetValue(Key(e.Group, e.Entity), out double[]? source) || source.Length == 0) continue;
             double[] x = (double[])source.Clone();
-            ApplyScenario(x, 1, "location", r, .05);
+            ApplyScenario(x, 1, SimulationScenarios.Location, r, .05);
             double v = Metrics(x)[metric];
             if (double.IsFinite(v)) contaminated.Add(v);
         }
