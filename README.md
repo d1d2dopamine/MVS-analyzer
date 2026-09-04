@@ -15,7 +15,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/github/actions/workflow/status/d1d2dopamine/MVS-Analyzer/ci.yml?branch=main&label=build&style=flat-square" alt="build">
-  <img src="https://img.shields.io/badge/app-1.4.0-1f6feb?style=flat-square" alt="app 1.4.0">
+  <img src="https://img.shields.io/badge/app-1.5.0-1f6feb?style=flat-square" alt="app 1.5.0">
   <img src="https://img.shields.io/badge/engine-1.2.0-6f42c1?style=flat-square" alt="engine 1.2.0">
   <img src="https://img.shields.io/badge/formula-MVS--1.3.0%20frozen-brightgreen?style=flat-square" alt="formula MVS-1.3.0 frozen">
   <img src="https://img.shields.io/badge/made%20with-.NET%208-512BD4?style=flat-square" alt="made with .NET 8">
@@ -32,6 +32,7 @@
 <p align="center">
   <a href="CHANGELOG.md">Changelog</a> ·
   <a href="docs/METHODS.md">Methods</a> ·
+  <a href="docs/REMOTE.md">Remote</a> ·
   <a href="docs/VALIDATION.md">Validation</a> ·
   <a href="docs/ARCHITECTURE.md">Developer docs</a> ·
   <a href="examples/">Example data</a>
@@ -164,7 +165,7 @@ It is written into every `run_manifest.json`, checked by a unit test, and compar
 
 **Candidate rules.** A metric becomes a *candidate* when `FPR ≤ 0.075`, `power ≥ 0.70` and `score ≥ 60`, capped at four candidates. A metric that passes every rule but loses the cap (or trails the last candidate by < 2 points) is reported as a **near miss** rather than quietly dropped. **The candidate set is allowed to be empty** — that is a result, not a bug.
 
-**What the score is not.** It has no units — every component is dimensionless, the exponents sum to 1, so the result is a weighted geometric mean bounded in [0, 100]. It is an **ordinal** scale: a metric ranking above another means something, a gap of eight points does not. The `score ≥ 60` gate is a distance claim on that ordinal scale and is on notice for removal in 1.4.0. Full argument: [docs/METHODS.md](docs/METHODS.md#dimensional-analysis-and-what-the-scale-is).
+**What the score is not.** It has no units — every component is dimensionless, the exponents sum to 1, so the result is a weighted geometric mean bounded in [0, 100]. It is an **ordinal** scale: a metric ranking above another means something, a gap of eight points does not. The `score ≥ 60` gate is a distance claim on that ordinal scale and is on notice for removal in 1.6.0. Full argument: [docs/METHODS.md](docs/METHODS.md#dimensional-analysis-and-what-the-scale-is).
 
 **The weights are judgement calls,** and rather than defend them the project measures them: `validation/analyze_results.py` recomputes any finished run under equal, rank-order-centroid, power-only and 5 000 Dirichlet weight vectors and reports how often the winner changes.
 
@@ -250,6 +251,27 @@ A run writes 14 publication-ready PNG figures (print, story, square and wide siz
 Full protocol, figure guide and the honest list of what it does *not* prove: **[`docs/BENCHMARK.md`](docs/BENCHMARK.md)**. Optional real-recording stage: [`benchmark_data/README.md`](benchmark_data/README.md).
 
 ---
+
+
+## 🛰️ Remote run (1.5.0)
+
+A calibration is thousands of simulations and the honest benchmark profiles take hours. On one laptop that means choosing between the analysis and using the computer. Since 1.5.0 the same engine also runs without a window, so the work can be handed to hardware you borrow.
+
+```bash
+mvs calibrate --in data.csv --out folder --repetitions 5000 --seed 20260719
+mvs analyze   --in data.csv --calibration folder --out folder
+mvs benchmark --profile quick --out folder --threads 4
+```
+
+Exit codes: `0` done, `2` a benchmark threshold was missed, `1` error. The middle one is a result, not a crash.
+
+In the application, **Settings -> Remote run** opens a prepared notebook with three cells: **calibrate**, **analyse**, **download a zip of the results**. One button also builds a *job archive* that carries a dataset together with every current setting, so a remote run is the same analysis rather than a similar one.
+
+**Two honest limits.** A link cannot create a filled-in notebook in your account; it opens the notebook from this repository, which then fetches the source itself. And a free session gives out two vCPUs, so for the quick profile it is likely *slower* than a laptop with eight cores. What it buys is twelve uninterrupted hours on a machine you can walk away from, and no installation at all.
+
+**The offline mode is not going away.** Everything here is additive. Measurements uploaded to a hosted notebook leave your computer, which for identifiable recordings is usually unacceptable; the window still does the whole analysis locally. The benchmark is the safe case: it generates every observation from the seed, so nothing of yours is involved.
+
+Full guide, including what determinism now means across platforms: **[`docs/REMOTE.md`](docs/REMOTE.md)**.
 
 ## 🛡️ Privacy by construction
 
@@ -452,7 +474,7 @@ If MVS Analyzer influenced a published result, cite it with the metadata in [CIT
 
 <p align="center">
   <img src="https://img.shields.io/github/actions/workflow/status/d1d2dopamine/MVS-Analyzer/ci.yml?branch=main&label=build&style=flat-square" alt="build">
-  <img src="https://img.shields.io/badge/app-1.4.0-1f6feb?style=flat-square" alt="app 1.4.0">
+  <img src="https://img.shields.io/badge/app-1.5.0-1f6feb?style=flat-square" alt="app 1.5.0">
   <img src="https://img.shields.io/badge/engine-1.2.0-6f42c1?style=flat-square" alt="engine 1.2.0">
   <img src="https://img.shields.io/badge/formula-MVS--1.3.0%20frozen-brightgreen?style=flat-square" alt="formula MVS-1.3.0 frozen">
   <img src="https://img.shields.io/badge/made%20with-.NET%208-512BD4?style=flat-square" alt="made with .NET 8">
@@ -469,6 +491,7 @@ If MVS Analyzer influenced a published result, cite it with the metadata in [CIT
 <p align="center">
   <a href="CHANGELOG.md">Изменения</a> ·
   <a href="docs/METHODS.md">Методы</a> ·
+  <a href="docs/REMOTE.md">Удалённо</a> ·
   <a href="docs/VALIDATION.md">Валидация</a> ·
   <a href="docs/ARCHITECTURE.md">Документация</a> ·
   <a href="examples/">Примеры данных</a>
@@ -601,7 +624,7 @@ MVS-1.3.0   sha256 = dcc0ef643ff071d8c4c6e5d33a4329f86c49294d156a3463ee639828570
 
 **Правила кандидата:** `FPR ≤ 0.075`, `мощность ≥ 0.70`, `score ≥ 60`, не более четырёх кандидатов. Метрика, которая прошла все правила, но не попала в лимит (или отстала меньше чем на 2 балла), помечается как **«почти кандидат»**. **Набор кандидатов может быть пустым** — это результат, а не ошибка.
 
-**Чем этот балл не является.** У него нет единиц измерения: все компоненты безразмерны, показатели степени в сумме дают 1, то есть это взвешенное среднее геометрическое в диапазоне [0, 100]. Шкала **порядковая**: «метрика A выше метрики B» — осмысленно, «на 8 баллов лучше» — нет. Порог `score ≥ 60` — это утверждение о расстоянии на порядковой шкале, и он снимается в 1.4.0. Подробно: [docs/METHODS.md](docs/METHODS.md#dimensional-analysis-and-what-the-scale-is).
+**Чем этот балл не является.** У него нет единиц измерения: все компоненты безразмерны, показатели степени в сумме дают 1, то есть это взвешенное среднее геометрическое в диапазоне [0, 100]. Шкала **порядковая**: «метрика A выше метрики B» — осмысленно, «на 8 баллов лучше» — нет. Порог `score ≥ 60` — это утверждение о расстоянии на порядковой шкале, и он снимается в 1.6.0. Подробно: [docs/METHODS.md](docs/METHODS.md#dimensional-analysis-and-what-the-scale-is).
 
 **Веса — экспертное решение,** и вместо защиты этого решения проект его измеряет: `validation/analyze_results.py` пересчитывает любой готовый запуск с равными весами, ROC-весами, весами «только мощность» и 5 000 случайных векторов Дирихле и показывает, как часто меняется победитель.
 
@@ -671,6 +694,26 @@ MVS_Analyzer.exe --benchmark --profile full --seed 20260904 --out C:\bench
 Прогон сохраняет 14 готовых к публикации PNG (печать, сторис, квадрат, широкий; палитра Okabe-Ito), пять CSV-таблиц, дословный текст протокола, манифест и `SHA256SUMS.txt`, после чего открывает папку. Вердикт — **go**, **conditional** или **no-go** — печатается в любом случае, а каждый прогон дописывается в журнал с цепочкой хешей, так что неудобный результат нельзя молча удалить.
 
 Полный протокол, разбор графиков и честный список того, что бенчмарк **не** доказывает: **[`docs/BENCHMARK.md`](docs/BENCHMARK.md)**. Необязательная стадия на реальных записях: [`benchmark_data/README.md`](benchmark_data/README.md).
+
+## 🛰️ Удалённый запуск (1.5.0)
+
+Калибровка — это тысячи симуляций, а честные профили бенчмарка идут часами. На одном ноутбуке это означает выбор между анализом и возможностью пользоваться компьютером. С 1.5.0 тот же движок работает без окна, и работу можно отдать чужим мощностям.
+
+```bash
+mvs calibrate --in data.csv --out folder --repetitions 5000 --seed 20260719
+mvs analyze   --in data.csv --calibration folder --out folder
+mvs benchmark --profile quick --out folder --threads 4
+```
+
+Коды выхода: `0` готово, `2` порог бенчмарка не взят, `1` ошибка. Средний — это результат, а не падение.
+
+В приложении: **Настройки -> Удалённый запуск** открывает готовый ноутбук из трёх ячеек: **калибровка**, **анализ**, **скачать zip с результатами**. Отдельная кнопка собирает *задание*: данные вместе со всеми текущими настройками, чтобы удалённый запуск был тем же анализом, а не похожим.
+
+**Два честных ограничения.** Ссылка не может создать в вашем аккаунте заполненный ноутбук — она открывает ноутбук из этого репозитория, а тот уже сам скачивает исходники. И бесплатная сессия даёт два ядра, так что на профиле quick она скорее *медленнее* ноутбука с восьмью ядрами. Выигрыш в другом: двенадцать непрерывных часов на машине, от которой можно отойти, и нулевая установка.
+
+**От офлайн-режима никто не отказывается.** Всё выше — добавка. Данные, загруженные в чужой ноутбук, покидают ваш компьютер, а для персональных записей это чаще всего недопустимо; окно по-прежнему делает весь анализ локально. Бенчмарк — безопасный случай: он создаёт каждое наблюдение из зерна, ваших данных там нет вообще.
+
+Полное руководство, включая то, что теперь значит детерминизм между платформами: **[`docs/REMOTE.md`](docs/REMOTE.md)**.
 
 ---
 

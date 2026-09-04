@@ -199,6 +199,16 @@ internal static class BenchmarkRunner
         public int Done => Volatile.Read(ref done);
     }
 
+    /// <summary>
+    /// Overrides the worker count. Zero means decide from the machine.
+    ///
+    /// This is safe to expose because the thread count cannot change a result: every replication
+    /// owns its own random stream, so the parallel loops are bit-identical however the work is
+    /// scheduled. It is needed because the default leaves one core free for a desktop, and a
+    /// hosted notebook with two cores has no desktop and would run on a single worker.
+    /// </summary>
+    public static int ThreadOverride { get; set; }
+
     public static BenchmarkOutcome Run(
         BenchmarkProfile profile,
         int seed,
@@ -210,7 +220,7 @@ internal static class BenchmarkRunner
         DateTime started = DateTime.UtcNow;
         var notes = new List<string>();
         ulong runSeed = (ulong)(uint)seed;
-        int threads = Math.Max(1, Environment.ProcessorCount - 1);
+        int threads = ThreadOverride > 0 ? ThreadOverride : Math.Max(1, Environment.ProcessorCount - 1);
         int calibrations = profile.CalibrationRepetitions;
 
         if (!BenchmarkProtocol.HashIsFrozen)

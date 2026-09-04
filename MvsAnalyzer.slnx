@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="MvsAnalyzer.csproj" />
+  <Project Path="MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj" />
   <Project Path="MvsAnalyzer.Tests/MvsAnalyzer.Tests.csproj" />
 </Solution>

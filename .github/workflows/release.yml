@@ -39,6 +39,15 @@ jobs:
           -p:DebugSymbols=false
           -o publish
 
+      - name: Publish the headless analyzer for Linux
+        run: >
+          dotnet publish MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj -c Release -r linux-x64
+          --self-contained true
+          -p:PublishSingleFile=true
+          -p:DebugType=None
+          -p:DebugSymbols=false
+          -o publish-linux-cli
+
       - name: Package release archive
         shell: pwsh
         run: |
@@ -61,11 +70,21 @@ jobs:
           $zip = [System.IO.Compression.ZipFile]::OpenRead((Resolve-Path "$folder.zip"))
           $zip.Entries | Select-Object -First 5 -ExpandProperty FullName
           $zip.Dispose()
+          # The notebooks fetch this archive when a session has no build tools, so the two
+          # ship together or a hosted run silently falls back to compiling from source.
+          $cli = "MVS_Analyzer_" + $version + "_linux-x64-cli"
+          $cliRoot = Join-Path "staging" $cli
+          New-Item -ItemType Directory -Force -Path $cliRoot | Out-Null
+          Copy-Item publish-linux-cli/mvs $cliRoot/
+          Copy-Item README.md, LICENSE, CHANGELOG.md $cliRoot/
+          Copy-Item docs/REMOTE.md $cliRoot/ -ErrorAction SilentlyContinue
+          Copy-Item -Recurse notebooks (Join-Path $cliRoot "notebooks")
+          Compress-Archive -Path $cliRoot -DestinationPath "$cli.zip"
 
       - name: Compute checksums
         shell: pwsh
         run: |
-          Get-ChildItem -Filter "MVS_Analyzer_*_win-x64.zip" | ForEach-Object {
+          Get-ChildItem -Filter "MVS_Analyzer_*.zip" | ForEach-Object {
             $hash = (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower()
             "$hash  $($_.Name)" | Out-File -Append -Encoding ascii SHA256SUMS.txt
           }
@@ -78,11 +97,17 @@ jobs:
           generate_release_notes: true
           files: |
             MVS_Analyzer_*_win-x64.zip
+            MVS_Analyzer_*_linux-x64-cli.zip
             SHA256SUMS.txt
           body: |
             ## MVS Analyzer ${{ github.ref_name }}
 
             Self-contained Windows x64 build. No .NET runtime installation required.
+
+            The `linux-x64-cli` archive is the same engine without a window: `mvs`
+            runs calibration, analysis and the benchmark headless, which is what the
+            Colab and Kaggle notebooks in `notebooks/` use. Figures are the one thing
+            it cannot draw. See `docs/REMOTE.md`.
 
             **Verify before you trust:** compare the SHA-256 in `SHA256SUMS.txt`
             with the hash of the archive you downloaded.

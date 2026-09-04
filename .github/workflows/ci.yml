@@ -118,3 +118,50 @@ jobs:
           fi
 
           echo "Formula version and frozen hash match the documentation."
+
+  linux-cli:
+    name: Headless build (linux-x64)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Publish the headless analyzer
+        run: dotnet publish MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj -c Release -r linux-x64 --self-contained false -o publish/linux-cli
+
+      - name: It starts and says where it is running
+        run: |
+          ./publish/linux-cli/mvs --help
+          ./publish/linux-cli/mvs version
+          ./publish/linux-cli/mvs env
+
+      - name: Calibration and analysis finish on the bundled example
+        run: |
+          ./publish/linux-cli/mvs calibrate --in examples/demo_three_groups.csv --out artifacts/calibration --repetitions 150 --seed 20260719
+          test -f artifacts/calibration/calibration_state.json
+          ./publish/linux-cli/mvs analyze --in examples/demo_three_groups.csv --calibration artifacts/calibration --out artifacts/analysis
+
+      # A calibration describes one dataset. Reusing it on other bytes must fail loudly,
+      # because the failure mode is a number that looks like a result and is not one.
+      - name: A calibration measured on other data is refused
+        run: |
+          if ./publish/linux-cli/mvs analyze --in examples/MVS_stress_test.csv --calibration artifacts/calibration --out artifacts/wrong; then
+            echo "Analysis accepted a calibration measured on a different dataset"
+            exit 1
+          fi
+
+      - name: Every notebook is valid JSON with exactly three cells
+        run: python3 -c "import json,glob;books=sorted(glob.glob(chr(39)+chr(39)+chr(39)PLACEHOLDER"
+
+      - name: No desktop-only code leaked into the headless project
+        run: |
+          if grep -q -e BenchmarkFigures -e FigureGenerator -e ThemedControls -e MainForm MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj; then
+            echo "The headless project references code that needs a desktop"
+            exit 1
+          fi

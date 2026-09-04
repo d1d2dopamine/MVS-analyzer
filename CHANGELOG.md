@@ -109,6 +109,81 @@ reasoning behind every fix — are in the [second half of this file](#русск
 
 ---
 
+## [1.5.0] - 2026-09-05
+
+`engine 1.2.0` · `formula MVS-1.3.0` · `protocol MVS-BENCH-1.1.0` — **all three unchanged.** This
+release adds a place to run the program; it does not change a single number the program produces.
+Runs exported by 1.4.0 stay comparable.
+
+### Added
+
+- **A headless engine (`mvs`).** The same analysis without a window: `mvs calibrate`,
+  `mvs analyze`, `mvs benchmark`, `mvs env`, `mvs version`. It lives in its own project whose
+  source files are listed one by one instead of globbed, so the next form somebody adds cannot
+  quietly break the Linux build. Exit codes are `0` done, `2` a benchmark threshold was missed,
+  `1` error — the middle one is a result, not a crash, and CI treats it that way. Published for
+  `linux-x64` on every commit and attached to every release.
+- **Calibration is a file now.** `calibrate` writes `calibration_state.json`, and `analyze` reads
+  its settings from that file rather than from its own command line, so the two phases cannot
+  disagree about the seed. This matters most in a hosted session that can be reclaimed at any
+  moment: losing one costs a cell, not the whole run.
+- **A calibration measured on other data is refused.** `analyze` compares the dataset hash with
+  the one recorded in the calibration and stops. A calibration is a statement about one dataset
+  and is worthless attached to another; the failure it prevents is a number that looks like a
+  result and is not one. `--force` exists for when you know why the bytes changed, and both
+  hashes go into the manifest either way.
+- **Three notebooks (`notebooks/`).** Colab for calibration and analysis, Colab for the
+  benchmark, Kaggle for the longer profiles. Each is exactly three cells: **calibrate**,
+  **analyse**, **download a zip of the results**. The first cell fetches the source, installs the
+  .NET build tools and compiles the engine, which takes a minute or two once per session.
+- **Remote run card in Settings.** Buttons that open the prepared notebook, open Kaggle, open the
+  repository, and build a **job archive** — a dataset packed together with every current setting,
+  so a remote run is *the same analysis* rather than a similar one. The privacy warning sits next
+  to the buttons rather than in a document nobody opens.
+- **`--threads n` for the benchmark.** Two vCPUs is what a free session gives out, and a default
+  of `ProcessorCount - 1` is wrong on a machine that small. Thread count cannot change a result:
+  every replication owns its own random stream, so the parallel loops stay bit-identical however
+  the work is scheduled.
+- **Determinism has a scope.** Every benchmark manifest now records `environment`,
+  `environmentHash` and `determinismScope: withinEnvironment`. Bit-identical replay was always an
+  *inside one environment* claim: `Math.Log`, `Math.Exp`, `Math.Pow` and `Math.Cos` are not
+  required to be correctly rounded and .NET makes no cross-platform promise about them, while
+  `Math.Sqrt` is exact by specification. The hash covers the architecture, the runtime and a
+  twelve-value probe of those functions — deliberately **not** the operating system build string,
+  because a Windows patch changes that without changing any arithmetic, and a hash that moves for
+  cosmetic reasons teaches its reader to ignore it.
+- **`docs/REMOTE.md`**, plus CI that publishes the headless build on Linux, runs a calibration and
+  an analysis on the bundled example, checks that a foreign calibration is refused, and verifies
+  that every notebook is valid JSON with exactly three cells.
+
+### Fixed
+
+- **Four tests added in 1.4.0 never ran.** `TrackNormalisation`, `PerTrackGate`,
+  `SpreadTrackCandidate` and `HeldOutOracle` were written and then never registered in the test
+  list, so the suite reported 21 passes while 25 methods existed. They are registered now,
+  together with the three added this release: 28 tests. A test that is not in the list is worse
+  than no test, because it buys confidence without providing any.
+- **Windows-only console attachment guarded.** `AttachConsole` is a `kernel32` import and ran
+  unconditionally; the headless build would have died on Linux at the first `--benchmark`.
+- **Figure code excluded from the headless project.** `System.Drawing.Common` does not draw
+  outside Windows, so the figure step becomes a no-op there. Every table, report and manifest is
+  still written, and the images can be produced later from the same folder on Windows.
+
+### Not done, on purpose
+
+- **The statistics planned for 1.6.0 are still in 1.6.0.** Permutation p-values, the Cucconi
+  gatekeeper, closed testing and the two-gate selection cannot be *validated* without running the
+  benchmark many times over, and running it many times over is what this release makes possible.
+  The order is the reverse of how it looks: infrastructure first, because the statistics depend on
+  it.
+- **The offline mode is not removed.** Everything here is additive. Removing the local path would
+  take the program away from exactly the people who cannot upload their measurements anywhere.
+- **Sharding and resume.** One benchmark still runs inside one session. `--shard`, `merge` and
+  `--resume` are 1.6.0 work; the quick profile fits in a session with room to spare.
+- **The notebook link 404s until `notebooks/` is pushed.** A button cannot create a filled-in
+  notebook in an account it holds no token for. What does work is the deep link Colab provides for
+  public repositories, and that needs the files on the default branch first.
+
 ## [1.4.0] - 2026-09-05
 
 Two tracks. Until this release the program calibrated every metric against a shift of the centre
@@ -282,7 +357,8 @@ A correctness release. Both fixes were found while writing the stress dataset th
 - Exports: `results.csv`, `calibration.csv`, `data_quality.csv`, `run_manifest.json` and figures.
 - WinForms interface with guided and expert modes, light/dark/system themes, English and Russian localization, `Ctrl`+`1`…`Ctrl`+`0` navigation, and fully local storage under `%LocalAppData%\MVS_Analyzer\`.
 
-[Unreleased]: https://github.com/d1d2dopamine/MVS-Analyzer/compare/v1.4.0...HEAD
+[Unreleased]: https://github.com/d1d2dopamine/MVS-Analyzer/compare/v1.5.0...HEAD
+[1.5.0]: https://github.com/d1d2dopamine/MVS-Analyzer/releases/tag/v1.5.0
 [1.4.0]: https://github.com/d1d2dopamine/MVS-Analyzer/releases/tag/v1.4.0
 [1.3.3]: https://github.com/d1d2dopamine/MVS-Analyzer/releases/tag/v1.3.3
 [1.3.2]: https://github.com/d1d2dopamine/MVS-Analyzer/releases/tag/v1.3.2
@@ -638,3 +714,71 @@ repeatability теперь разная у разных метрик: 0.949 ... 
 - `mad` по-прежнему без константы 1.4826. Умножение всех значений на одну константу — монотонное преобразование, а тесты ранговые, так что p-value не изменится ни на бит. На мощность и FPR это не влияет вообще — только на чтение абсолютного значения.
 - Совместный тест Cucconi, перестановочные p-value и геометрическое среднее — 1.5.0.
 
+
+## 1.5.0 — удалённые вычисления
+
+Формула, движок и протокол бенчмарка не тронуты. Эта версия не меняет ни одного числа, которое
+выдаёт программа, — она меняет только то, где программа может работать. Запуски 1.4.0 остаются
+сравнимыми.
+
+**Почему инфраструктура раньше статистики.** План был обратный, и я его поменял. Перестановочные
+p-значения, критерий Куккони, closed testing и двухгейтный отбор невозможно *проверить* без
+многократного прогона бенчмарка, а многократный прогон — это ровно то, что даёт эта версия.
+Статистика без мощностей — это код, который нельзя проверить.
+
+**Что появилось.**
+
+- Движок без окна: `mvs calibrate`, `mvs analyze`, `mvs benchmark`, `mvs env`, `mvs version`.
+  Отдельный проект с явным перечислением файлов, а не по маске, чтобы следующая добавленная
+  форма не сломала тихо сборку под Linux. Коды выхода: `0` готово, `2` порог бенчмарка не взят,
+  `1` ошибка. Средний — это результат, а не падение.
+- Калибровка теперь файл (`calibration_state.json`). Анализ берёт настройки из калибровки, а не
+  из своей командной строки, — две фазы больше не могут разойтись в зерне. В арендованной
+  сессии, которую могут забрать в любой момент, это стоит одной ячейки вместо всего прогона.
+- Анализ отказывается работать, если калибровка сделана на других данных (сверка хеша).
+  Калибровка — это утверждение об одном наборе данных и бесполезна, приклеенная к другому.
+  Флаг `--force` есть для случая, когда вы знаете, почему байты изменились; оба хеша всё равно
+  попадают в манифест.
+- Три ноутбука в `notebooks/`: Colab для калибровки и анализа, Colab для бенчмарка, Kaggle для
+  длинных профилей. Ровно три ячейки: калибровка, анализ, скачивание zip с результатами.
+- Карточка «Удалённый запуск» в настройках и сборка *задания*: данные вместе со всеми текущими
+  настройками, чтобы удалённый прогон был тем же анализом, а не похожим. Предупреждение о
+  приватности стоит рядом с кнопками, а не в документе, который никто не открывает.
+- `--threads n` для бенчмарка. Бесплатная сессия даёт два ядра, и дефолтный `ProcessorCount - 1`
+  там неверен. Количество потоков не влияет на результат: у каждой репликации свой поток
+  случайных чисел.
+- У детерминизма появилась область действия: `environment`, `environmentHash` и
+  `determinismScope: withinEnvironment` в каждом манифесте. Побитовая воспроизводимость всегда
+  была утверждением *внутри одного окружения*: `Math.Log`, `Math.Exp`, `Math.Pow` и `Math.Cos`
+  не обязаны совпадать побитово на разных платформах (`Math.Sqrt` — исключение, он точен по
+  стандарту). В хеш входят архитектура, версия рантайма и зонд из двенадцати значений этих
+  функций. Строка сборки ОС в хеш сознательно **не** входит: патч Windows меняет её, не меняя ни
+  одного арифметического результата, а хеш, который дёргается по косметическим причинам, учит
+  своего читателя себя игнорировать.
+- `docs/REMOTE.md` и job в CI, который собирает движок под Linux, прогоняет калибровку и анализ
+  на встроенном примере, проверяет отказ от чужой калибровки и валидность всех трёх ноутбуков.
+
+**Что исправлено.**
+
+- Четыре теста, добавленные в 1.4.0, никогда не запускались. `TrackNormalisation`,
+  `PerTrackGate`, `SpreadTrackCandidate` и `HeldOutOracle` были написаны и не зарегистрированы в
+  списке тестов: харнесс докладывал 21 успех при 25 существующих методах. Теперь
+  зарегистрированы, вместе с тремя новыми — 28 тестов. Тест, которого нет в списке, хуже
+  отсутствующего теста: он даёт уверенность, ничего не проверяя.
+- `AttachConsole` — это импорт из `kernel32`, и он вызывался безусловно; сборка без окна умерла
+  бы под Linux на первом же `--benchmark`.
+- Код графиков исключён из проекта без окна: `System.Drawing.Common` не рисует вне Windows.
+  Таблицы, отчёты и манифест пишутся как обычно, картинки можно построить позже из той же папки
+  на Windows.
+
+**Что сознательно не сделано.**
+
+- Статистика, запланированная на 1.6.0, там и осталась — по причине выше.
+- Офлайн-режим не убран. Всё перечисленное — добавка. Убрать локальный путь означало бы забрать
+  программу ровно у тех, кому нельзя никуда загружать свои измерения.
+- Шардирование и возобновление. Один бенчмарк по-прежнему идёт внутри одной сессии. `--shard`,
+  `merge` и `--resume` — работа для 1.6.0; профиль quick укладывается в сессию с запасом.
+- Ссылка на ноутбук будет отдавать 404, пока `notebooks/` не выложены в публичный репозиторий.
+  Кнопка не может создать заполненный ноутбук в аккаунте, к которому у неё нет токена. Работает
+  только deep link, который Colab даёт для публичных репозиториев, а для этого файлы должны
+  лежать в ветке по умолчанию.

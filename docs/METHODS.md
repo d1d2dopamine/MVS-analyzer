@@ -36,9 +36,9 @@ Two remedies exist today, one is planned:
 
 - **Split calibration** (Settings → Scientific rigour) selects the metric on one half of the entities and reports on the other. This is the honest way to run the exploratory mode.
 - **Pre-registration** of the metric before looking. The tool cannot enforce it; the manifest can record it.
-- **Planned for 1.4.0:** the mode is chosen explicitly when a project is created, and exploratory runs are labelled as such in every export.
+- **Planned for 1.6.0:** the mode is chosen explicitly when a project is created, and exploratory runs are labelled as such in every export.
 
-Version 1.4.0 never asks which mode you are in. It should, and until it does, the safe assumption in any report is *exploratory*.
+Version 1.5.0 never asks which mode you are in. It should, and until it does, the safe assumption in any report is *exploratory*.
 
 ---
 
@@ -213,7 +213,7 @@ mvs_score        >= 60
 > [!IMPORTANT]
 > The third rule is on notice. `score >= 60` is a cut on an ordinal composite, which is the one thing an ordinal scale does not support: 60 was chosen because it looked reasonable, not because anything was calibrated at it. The first two rules are cuts on quantities that have a meaning — a false-alarm rate and a detection rate — and they can be defended on their own terms.
 >
-> Planned for 1.4.0: drop `score >= 60`, keep the FPR and power gates, and report the score as a rank with an uncertainty band instead of a number with a threshold. That is a change to the formula definition, so it bumps the formula version and hash, and old runs will be flagged `FORMULA_CHANGED` — by design.
+> Planned for 1.6.0: drop `score >= 60`, keep the FPR and power gates, and report the score as a rank with an uncertainty band instead of a number with a threshold. That is a change to the formula definition, so it bumps the formula version and hash, and old runs will be flagged `FORMULA_CHANGED` — by design.
 
 At most **four** candidates are reported. A metric that satisfies every rule but misses the cap, or trails the last candidate by less than 2 points, is reported as a **near miss** rather than dropped.
 

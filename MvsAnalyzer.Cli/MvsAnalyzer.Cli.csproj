@@ -1,0 +1,65 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The same engine, without a window.
+
+    This project exists because the window cannot follow the work. A benchmark profile that takes
+    an evening on a laptop can be handed to a hosted notebook or a rented machine, and neither of
+    those has a desktop. WinForms is Windows only, so anything that draws is left out and the
+    computation is compiled a second time for a plain net8.0 target.
+
+    The source files are listed one by one rather than globbed. That is deliberate: a glob would
+    quietly pull in the next form somebody adds and break the Linux build at the worst moment,
+    while an explicit list fails loudly in a pull request instead. It also documents, in one place,
+    exactly how much of this program is free of the desktop.
+
+    Figures are the one capability that is missing here. System.Drawing.Common does not draw on
+    Linux, so BenchmarkFigures.cs and FigureGenerator.cs are excluded and MVS_NO_FIGURES turns the
+    figure step into a no-op. The tables, the report and the manifest are all written as usual, and
+    the figures can be produced afterwards from the same folder on a Windows machine.
+  -->
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>mvs</AssemblyName>
+    <RootNamespace>MvsAnalyzer</RootNamespace>
+    <Version>1.5.0</Version>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <DefineConstants>$(DefineConstants);MVS_NO_FIGURES</DefineConstants>
+    <PublishTrimmed>false</PublishTrimmed>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="HeadlessRun.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="../AnalysisEngine.cs" />
+    <Compile Include="../Models.cs" />
+    <Compile Include="../SimulationScenarios.cs" />
+    <Compile Include="../CsvImporter.cs" />
+    <Compile Include="../OutputExporter.cs" />
+    <Compile Include="../RunAuditor.cs" />
+    <Compile Include="../PluginManager.cs" />
+    <Compile Include="../PluginAssets.cs" />
+    <Compile Include="../CliArguments.cs" />
+    <Compile Include="../RemoteJob.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="../Benchmark/BenchmarkMath.cs" />
+    <Compile Include="../Benchmark/BenchmarkRandom.cs" />
+    <Compile Include="../Benchmark/BenchmarkProtocol.cs" />
+    <Compile Include="../Benchmark/BenchmarkEnvironment.cs" />
+    <Compile Include="../Benchmark/BenchmarkDatasets.cs" />
+    <Compile Include="../Benchmark/BenchmarkOptions.cs" />
+    <Compile Include="../Benchmark/BenchmarkRunner.cs" />
+    <Compile Include="../Benchmark/BenchmarkReport.cs" />
+    <Compile Include="../Benchmark/BenchmarkCommandLine.cs" />
+  </ItemGroup>
+
+</Project>

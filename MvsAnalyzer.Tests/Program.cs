@@ -23,7 +23,11 @@ var tests = new (string Name, Action Run)[]
     ("Benchmark protocol text is unchanged", BenchmarkProtocolFrozen),
     ("Benchmark random stream is reproducible", BenchmarkRandomStream),
     ("Benchmark data generator has the planned shape", BenchmarkDatasetShape),
-    ("Kendall tau and the Wilson interval behave", BenchmarkStatistics)
+    ("Kendall tau and the Wilson interval behave", BenchmarkStatistics),
+    ("The oracle is chosen on held-out replications", HeldOutOracle),
+    ("The environment fingerprint is stable and honest", EnvironmentFingerprint),
+    ("A remote job survives the round trip", RemoteJobRoundTrip),
+    ("Command line options are read the same way twice", CliArgumentReading)
 };
 int failed=0;foreach(var test in tests){try{test.Run();Console.WriteLine($"PASS  {test.Name}");}catch(Exception ex){failed++;Console.WriteLine($"FAIL  {test.Name}: {ex.Message}");}}
 Console.WriteLine($"{tests.Length-failed}/{tests.Length} tests passed");return failed==0?0:1;
@@ -95,5 +99,53 @@ static void HeldOutOracle(){
     Assert(summary.OracleMetric()==1,"The old oracle picks the winner over all replications at once");
     Near(summary.MetricRate(summary.OracleMetric()),.90,1e-9);
     Assert(summary.OraclePowerHeldOut()<summary.MetricRate(summary.OracleMetric()),"Choosing and scoring on the same replications inflates the oracle, and that inflation was charged to MVS");
+}
+static void EnvironmentFingerprint(){
+    Assert(BenchmarkEnvironment.Scope=="withinEnvironment","The manifest has to say what replay guarantees");
+    string first=BenchmarkEnvironment.Hash, second=BenchmarkEnvironment.Hash;
+    Assert(first==second,"The environment id must not change between two reads on one machine");
+    Assert(first.Length==64,"The environment id is a SHA-256 in hex");
+    Assert(BenchmarkEnvironment.ShortHash.Length==16 && first.StartsWith(BenchmarkEnvironment.ShortHash),"The short id must be a prefix of the full one, or two reports cannot be compared");
+    double[] probe=BenchmarkEnvironment.ProbeValues();
+    Assert(probe.Length>=10,"The probe must cover the functions that are allowed to differ across platforms");
+    foreach(double value in probe) Assert(double.IsFinite(value),"A probe value must be a real number");
+    string fingerprint=BenchmarkEnvironment.Fingerprint();
+    Assert(fingerprint.Contains("runtime=") && fingerprint.Contains("probe="),"The fingerprint must be readable enough to diff");
+    Assert(!fingerprint.Contains(Environment.OSVersion.VersionString),"The operating system build string must stay out of the hash: a patch changes it without changing any arithmetic");
+    Assert(BenchmarkEnvironment.Describe().Length>0,"A report needs the environment in words too");
+}
+static void RemoteJobRoundTrip(){
+    var settings=new AppSettings{CalibrationSeed=4242,CalibrationEffect=1.22,Alpha=.01,SplitCalibration=true,MinMeasurements=9};
+    var job=RemoteJob.Describe("calibrate_analyze","data/measurements.csv","abc123","Project","Notes",settings,777);
+    string path=Path.Combine(Path.GetTempPath(),"mvs_job_"+Guid.NewGuid().ToString("N")+".json");
+    File.WriteAllText(path,RemoteJob.Serialize(job));
+    RemoteJobFile read=RemoteJob.Read(path);
+    File.Delete(path);
+    Assert(read.Dataset=="measurements.csv","Only the file name travels, never the local path");
+    Assert(read.Seed==4242 && read.Repetitions==777,"A remote run must use the seed it was given, not a default");
+    Near(read.Effect,1.22,1e-12); Near(read.Alpha,.01,1e-12);
+    Assert(read.SplitCalibration,"Split calibration has to survive the trip or the remote run answers a different question");
+    Assert(read.FormulaHash==OutputExporter.FormulaHash,"The job records which formula it was built for");
+    var target=new AppSettings();
+    RemoteJob.Apply(read,target);
+    Assert(target.CalibrationSeed==4242 && target.MinMeasurements==9,"Applying a job must overwrite the local settings");
+    Near(target.CalibrationEffect,1.22,1e-12);
+    string url=RemoteJob.ColabUrl("analysis");
+    Assert(url.Contains(RemoteJob.Repository) && url.Contains("/blob/"+RemoteJob.Branch+"/") && url.EndsWith(".ipynb"),"The notebook link is the only one-click route into Colab, so its shape is load bearing");
+    Assert(RemoteJob.ColabUrl("benchmark")!=url,"The benchmark and the analysis are different notebooks");
+}
+static void CliArgumentReading(){
+    var args=new CliArguments(new[]{"calibrate","--in","data.csv","--out=folder","--split","--effect","1.15"});
+    Assert(args.Command=="calibrate","The first token is the command");
+    Assert(args.Value("--in")=="data.csv","--name value has to work");
+    Assert(args.Value("--out")=="folder","--name=value has to work too, because that is what gets typed into notebook cells");
+    Assert(args.Flag("--split"),"A switch with no value is still a switch");
+    Near(args.Number("--effect",1),1.15,1e-12);
+    Assert(args.Int("--seed",7)==7,"A missing option falls back instead of throwing");
+    bool threw=false; try{args.Require("--missing");}catch(ArgumentException){threw=true;}
+    Assert(threw,"A required option that is absent must fail loudly");
+    var greedy=new CliArguments(new[]{"--in","--out","folder"});
+    Assert(greedy.Value("--in")==null,"An option must not swallow the next option as its value");
+    Assert(greedy.Command=="","Options alone mean no command was given");
 }
 sealed class ImmediateProgress:IProgress<ProgressInfo>{public void Report(ProgressInfo value){}}

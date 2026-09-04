@@ -27,9 +27,14 @@ internal static class BenchmarkCommandLine
 
     public static int Run(string[] args)
     {
-        try { AttachConsole(AttachParentProcess); }
-        catch (EntryPointNotFoundException) { }
-        catch (DllNotFoundException) { }
+        // There is no parent console to attach to outside Windows, and the P/Invoke would only
+        // throw to be swallowed. Asking first says why the call is skipped.
+        if (OperatingSystem.IsWindows())
+        {
+            try { AttachConsole(AttachParentProcess); }
+            catch (EntryPointNotFoundException) { }
+            catch (DllNotFoundException) { }
+        }
         // The attached console inherits the OEM code page, which turned every Russian
         // --lang ru line into question marks. Failures here are cosmetic, never fatal.
         try { Console.OutputEncoding = Encoding.UTF8; }
@@ -69,6 +74,16 @@ internal static class BenchmarkCommandLine
             bool russian = string.Equals(Value(args, "--lang"), "ru", StringComparison.OrdinalIgnoreCase);
             bool quiet = Flag(args, "--quiet");
 
+            int threads = 0;
+            string? threadText = Value(args, "--threads");
+            if (threadText != null &&
+                (!int.TryParse(threadText, NumberStyles.Integer, CultureInfo.InvariantCulture, out threads) || threads < 1))
+            {
+                Console.Error.WriteLine("The thread count must be a whole number of at least 1.");
+                return 1;
+            }
+            BenchmarkRunner.ThreadOverride = threads;
+
             Console.WriteLine();
             Console.WriteLine("MVS benchmark " + BenchmarkProtocol.Version);
             Console.WriteLine("  protocol hash   " + BenchmarkProtocol.Hash);
@@ -76,6 +91,9 @@ internal static class BenchmarkCommandLine
             Console.WriteLine("  profile         " + profile.Id + "  (" + profile.Estimate + ")");
             Console.WriteLine("  seed            " + seed.ToString(CultureInfo.InvariantCulture));
             Console.WriteLine("  output          " + output);
+            Console.WriteLine("  threads         " + (threads > 0 ? threads.ToString(CultureInfo.InvariantCulture) : "auto"));
+            Console.WriteLine("  environment     " + BenchmarkEnvironment.Describe());
+            Console.WriteLine("  environment id  " + BenchmarkEnvironment.ShortHash + "   (replay is bit-identical within one environment)");
             if (!string.IsNullOrWhiteSpace(realData)) Console.WriteLine("  real data       " + realData);
             Console.WriteLine();
 
@@ -147,6 +165,7 @@ internal static class BenchmarkCommandLine
         Console.WriteLine("  --out <folder>     where to write the results folder");
         Console.WriteLine("  --real-data <dir>  optional folder of CSV recordings for the plasmode stage");
         Console.WriteLine("  --lang <en|ru>     language of the report and the figures");
+        Console.WriteLine("  --threads <n>      workers to use; default is processors minus one");
         Console.WriteLine("  --quiet            do not print progress");
         Console.WriteLine();
         Console.WriteLine("Exit codes: 0 met or inconclusive, 2 at least one threshold missed, 1 error.");

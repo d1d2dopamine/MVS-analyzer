@@ -252,7 +252,7 @@ internal sealed partial class MainForm
         }
         var g = ResultsGrid(); g.Dock = DockStyle.Fill; all.Controls.Add(g);
         diagnostics.Controls.Add(new Label { Text = $"{T("Entities", "Объекты")}: {data.TotalEntities}\n{T("Valid rows", "Валидные строки")}: {data.ValidRows:N0}\n{T("Median measurements", "Медиана измерений")}: {data.MedianMeasurements:0}\n{T("Distribution proxy", "Оценка распределения")}: {data.DistributionProxy}\n\n{T("Interpret calibrated FPR and power together with uncertainty. Coverage and repeatability are measured, not assumed: coverage from bootstrap intervals, repeatability from split-half resampling of the entities.", "Интерпретируйте FPR и мощность вместе с неопределённостью. Coverage и повторяемость теперь измеряются, а не постулируются: coverage — через бутстреп-интервалы, повторяемость — через разбиение объектов пополам.")}", AutoSize = true, MaximumSize = new Size(820, 0), Location = new Point(24, 24) });
-        reproducibility.Controls.Add(new Label { Text = $"Application: MVS Analyzer v1.4.0\nProject: {projectName}\nDataset: {(settings.AnonymousReports ? "[hidden]" : datasetName)}\nInterface mode: {settings.InterfaceMode}\nStudy mode: {projectMode}\nSeed: {settings.CalibrationSeed}\nMetrics: 10\nCalibration: raw-value bootstrap scenarios\nNetwork: disabled\nFormula: {OutputExporter.FormulaVersion}\nFormula weights: frozen", AutoSize = true, Font = new Font("Consolas", 10), Location = new Point(24, 24) });
+        reproducibility.Controls.Add(new Label { Text = $"Application: MVS Analyzer v1.5.0\nProject: {projectName}\nDataset: {(settings.AnonymousReports ? "[hidden]" : datasetName)}\nInterface mode: {settings.InterfaceMode}\nStudy mode: {projectMode}\nSeed: {settings.CalibrationSeed}\nMetrics: 10\nCalibration: raw-value bootstrap scenarios\nNetwork: disabled\nFormula: {OutputExporter.FormulaVersion}\nFormula weights: frozen", AutoSize = true, Font = new Font("Consolas", 10), Location = new Point(24, 24) });
         if (lastArtifacts.Count == 0) savedFiles.Controls.Add(new Label { Text = T("No files were saved automatically for this run. Configure Outputs before the next analysis.", "В этом запуске файлы автоматически не сохранялись. Настройте раздел «Файлы» перед следующим анализом."), AutoSize = true, MaximumSize = new Size(820, 0), Location = new Point(24, 24) });
         else
         {
@@ -412,7 +412,7 @@ internal sealed partial class MainForm
         rigour.Controls.Add(new Label { Text = T("A difference smaller than this counts as practically zero (Cliffs delta).", "Разница меньше этого значения считается практически нулём (дельта Клиффа)."), AutoSize = true, MaximumSize = new Size(ContentWidth - marginX - 160, 0), ForeColor = Secondary, Location = new Point(marginX + 112, 158) });
         page.Controls.Add(rigour);
         var about = Card(T("About", "О программе"), T("MVS — Metrics Value System. The program does not validate a metric against a reference; it shows which metric carries more value on your data.", "MVS — Metrics Value System, система оценки ценности метрик. Программа не валидирует метрику по эталону, а показывает, какая метрика ценнее на ваших данных."), 150);
-        about.Controls.Add(new Label { Text = $"MVS Analyzer 1.4.0   ·   {AnalysisEngine.EngineVersion}   ·   {OutputExporter.FormulaVersion}", AutoSize = true, Font = new Font("Segoe UI", 10, FontStyle.Bold), Location = new Point(20, 92) });
+        about.Controls.Add(new Label { Text = $"MVS Analyzer 1.5.0   ·   {AnalysisEngine.EngineVersion}   ·   {OutputExporter.FormulaVersion}", AutoSize = true, Font = new Font("Segoe UI", 10, FontStyle.Bold), Location = new Point(20, 92) });
         about.Controls.Add(new Label { Text = $"Formula hash: {OutputExporter.FormulaHash}", AutoSize = true, ForeColor = Secondary, Location = new Point(20, 116) });
         page.Controls.Add(about);
         var general = Card(T("General and appearance", "Общие и оформление"), T("Language and theme changes apply immediately.", "Изменения языка и темы применяются сразу."), 310);
@@ -453,6 +453,7 @@ internal sealed partial class MainForm
             expert.Controls.Add(new Label { Text = T("Changes are saved immediately and used by the next calibration.", "Изменения сохраняются сразу и применяются к следующей калибровке."), AutoSize = true, MaximumSize = new Size(820, 0), ForeColor = Secondary, Location = new Point(20, 248) });
             expert.Controls.Add(seed); expert.Controls.Add(repetitions); expert.Controls.Add(effect); expert.Controls.Add(scenario); expert.Controls.Add(outliers); expert.Controls.Add(missing); page.Controls.Add(expert);
         }
+        AddRemoteCard(page);
         AddDeveloperCard(page);
     }
 

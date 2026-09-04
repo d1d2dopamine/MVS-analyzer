@@ -50,7 +50,13 @@ internal static class BenchmarkReport
 
         progress?.Report(new ProgressInfo(.99,
             russian ? "Сохранение графиков" : "Saving the figures", figuresFolder));
+#if MVS_NO_FIGURES
+        // System.Drawing.Common does not draw on Linux. Everything else is still written, so a
+        // headless run produces the tables, the report and the manifest and skips only the images.
+        List<string> figures = new();
+#else
         List<string> figures = BenchmarkFigures.Generate(outcome, figuresFolder, russian);
+#endif
 
         progress?.Report(new ProgressInfo(.995,
             russian ? "Сохранение таблиц и отчёта" : "Saving the tables and the report", folder));
@@ -263,6 +269,9 @@ internal static class BenchmarkReport
         text.Append("  \"threads\": ").Append(I(outcome.Threads)).Append(",\n");
         text.Append("  \"runtime\": \"").Append(J(Environment.Version.ToString())).Append("\",\n");
         text.Append("  \"os\": \"").Append(J(Environment.OSVersion.VersionString)).Append("\",\n");
+        text.Append("  \"environment\": \"").Append(J(BenchmarkEnvironment.Describe())).Append("\",\n");
+        text.Append("  \"environmentHash\": \"").Append(J(BenchmarkEnvironment.Hash)).Append("\",\n");
+        text.Append("  \"determinismScope\": \"").Append(J(BenchmarkEnvironment.Scope)).Append("\",\n");
         text.Append("  \"overall\": \"").Append(J(outcome.Overall)).Append("\",\n");
 
         text.Append("  \"replications\": { \"primary\": ").Append(I(outcome.Profile.PrimaryReplications))
@@ -383,6 +392,7 @@ internal static class BenchmarkReport
         text.Append(T(russian, "| Formula | ", "| Формула | ")).Append(OutputExporter.FormulaVersion)
             .Append(" (`").Append(OutputExporter.FormulaHash).Append("`) |\n");
         text.Append(T(russian, "| Application | ", "| Приложение | ")).Append(AppVersion).Append(" |\n");
+        text.Append(T(russian, "| Environment | ", "| Окружение | ")).Append(BenchmarkEnvironment.ShortHash).Append(" |\n");
         text.Append(T(russian, "| Threads | ", "| Потоков | ")).Append(I(outcome.Threads)).Append(" |\n\n");
 
         text.Append(T(russian, "## Verdict\n\n", "## Итог\n\n"));
