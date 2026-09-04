@@ -5,7 +5,7 @@ using System.Text.Json;
 namespace MvsAnalyzer;
 
 // Declarative contributions a plugin may add. None of them can execute code or
-// touch the ten metrics or the frozen MVS formula.
+// touch the registered metrics or the frozen MVS formula.
 internal sealed record ImportProfile(string Id, string Name, string Plugin, char Delimiter, bool DecimalComma, Dictionary<string, string[]> Columns);
 internal sealed record SettingsProfile(string Id, string Name, string Plugin, Dictionary<string, string> Values);
 internal sealed record ReportTemplate(string Id, string Name, string Plugin, string Body);
@@ -207,7 +207,7 @@ internal static class PluginAssets
             ["bestScore"] = best == null ? "-" : best.Score.ToString("0.0", CultureInfo.InvariantCulture),
             ["bestFpr"] = best == null ? "-" : best.Fpr.ToString("0.000", CultureInfo.InvariantCulture),
             ["bestPower"] = best == null ? "-" : best.Power.ToString("0.000", CultureInfo.InvariantCulture),
-            ["candidates"] = string.Join(", ", results.Where(x => x.Candidate).Select(x => x.Metric)),
+            ["candidates"] = string.Join(", ", results.Where(x => x.CandidateInAnyTrack).Select(x => x.Metric)),
             ["ranking"] = string.Join(Environment.NewLine, ranked.Select((x, i) => (i + 1) + ". " + x.Metric + " — " + x.Score.ToString("0.0", CultureInfo.InvariantCulture)))
         };
         foreach (ReportTemplate template in Current.ReportTemplates)
@@ -217,7 +217,7 @@ internal static class PluginAssets
                 var body = new StringBuilder(template.Body);
                 foreach (KeyValuePair<string, string> pair in map) body.Replace("{" + pair.Key + "}", pair.Value);
                 string path = Path.Combine(folder, "report_" + Safe(template.Id) + ".txt");
-                File.WriteAllText(path, body.ToString(), new UTF8Encoding(true));
+                ScientificJson.AtomicText(path, "MVS " + ReleaseInfo.Version + " / engine " + ReleaseInfo.EngineVersion + "\nLegacy/custom template: ranking placeholders describe the PRIMARY sensitivity track, not estimation quality. Read core JSON/CSV for all tracks and corrected inference.\n\n" + body.ToString());
                 written.Add(path);
             }
             catch (Exception ex) { Current.Errors.Add(new PluginAssetError(template.Plugin, template.Id, ex.Message)); }

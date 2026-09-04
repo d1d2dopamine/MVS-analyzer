@@ -59,7 +59,7 @@ internal static class PluginManager
         if (manifest == null || !Regex.IsMatch(manifest.Id, "^[a-z0-9][a-z0-9._-]{2,63}$")) throw new InvalidDataException("Plugin id must contain 3–64 lowercase letters, digits, dots, underscores or hyphens.");
         if (manifest.Type is not ("visualization" or "import-export")) throw new InvalidDataException("Only visualization and import-export plugins are allowed.");
         if (!Version.TryParse(manifest.MinAppVersion, out Version? required)) required = new Version(0, 0);
-        if (required > Version.Parse(AnalysisEngine.EngineVersion)) throw new InvalidDataException($"This plugin requires MVS Analyzer {manifest.MinAppVersion} or newer.");
+        if (required > Version.Parse(ReleaseInfo.Version)) throw new InvalidDataException($"This plugin requires MVS Analyzer {manifest.MinAppVersion} or newer.");
         string target = Path.Combine(Root, manifest.Id); string temp = target + ".installing"; if (Directory.Exists(temp)) Directory.Delete(temp, true); Directory.CreateDirectory(temp);
         foreach (ZipArchiveEntry entry in archive.Entries)
         {

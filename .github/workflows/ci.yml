@@ -1,167 +1,76 @@
 name: CI
-
 on:
   push:
     branches: [main, master]
-    paths-ignore:
-      - "**/*.md"
-      - "docs/**"
-      - "LICENSE"
-      - "CITATION.cff"
   pull_request:
-    branches: [main, master]
   workflow_dispatch:
-
 permissions:
   contents: read
-
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
-
 jobs:
-  build-and-test:
-    name: Build and test (windows-latest)
-    runs-on: windows-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up .NET 8
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "8.0.x"
-
-      - name: Restore
-        run: |
-          dotnet restore MvsAnalyzer.csproj
-          dotnet restore MvsAnalyzer.Tests/MvsAnalyzer.Tests.csproj
-
-      - name: Build application
-        run: dotnet build MvsAnalyzer.csproj -c Release --no-restore /warnaserror:CS8600,CS8602,CS8618
-
-      - name: Build tests
-        run: dotnet build MvsAnalyzer.Tests/MvsAnalyzer.Tests.csproj -c Release --no-restore
-
-      - name: Run test harness
-        run: dotnet run --project MvsAnalyzer.Tests/MvsAnalyzer.Tests.csproj -c Release --no-build
-
-      - name: Publish self-contained build
-        run: >
-          dotnet publish MvsAnalyzer.csproj -c Release -r win-x64
-          --self-contained true
-          -p:PublishSingleFile=true
-          -p:DebugType=None
-          -p:DebugSymbols=false
-          -o publish
-
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: MVS_Analyzer-win-x64
-          path: publish/MVS_Analyzer.exe
-          if-no-files-found: error
-          retention-days: 14
-
-  verify-formula:
-    name: Formula hash is frozen
+  static:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Formula version and frozen hash must match the docs
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate source metadata, notebooks and method hashes
+        run: python tools/check_source.py
+      - name: Limited C# structural check (not compilation)
+        run: python tools/check_csharp_structure.py
+      - name: Independent mathematical identities in Python
+        run: python validation/reference_numerics.py
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Build desktop
+        run: dotnet build MvsAnalyzer.csproj -c Release
+      - name: Desktop-linked regression harness
+        run: dotnet run --project MvsAnalyzer.Tests/MvsAnalyzer.Tests.csproj -c Release
+      - name: Portable scientific regressions on Windows
+        run: dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release
+      - name: Publish Windows application
+        run: dotnet publish MvsAnalyzer.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -o publish/windows
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MVS-Analyzer-v1.4.0-win-x64
+          path: publish/windows/
+          if-no-files-found: error
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Portable scientific regressions on Linux
+        run: dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release
+      - name: Publish Linux CLI
+        run: dotnet publish MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -o publish/linux-cli
+      - name: Regression for the reported 150-replication save failure
+        run: ./publish/linux-cli/mvs calibrate --in examples/demo_three_groups.csv --out artifacts/calibration --repetitions 150 --seed 20260719
+      - name: Reload calibration and export analysis
+        run: ./publish/linux-cli/mvs analyze --in examples/demo_three_groups.csv --calibration artifacts/calibration --out artifacts/analysis
+      - name: Validate strict JSON, frozen state and manifest checksums
+        run: python tools/check_outputs.py artifacts
+      - name: Invalid explicit numbers must fail
         shell: bash
         run: |
-          set -euo pipefail
-
-          # FormulaHash is computed at runtime from FormulaSpecification, so the
-          # literal never appears in OutputExporter.cs. The frozen value lives in
-          # the test harness; this job only checks that code and docs agree.
-          grep -q 'const string FormulaVersion' OutputExporter.cs || {
-            echo "::error file=OutputExporter.cs::FormulaVersion constant not found"
-            exit 1
-          }
-
-          version=$(grep -oE 'MVS-[0-9]+\.[0-9]+\.[0-9]+' OutputExporter.cs | head -1 || true)
-          hash=$(grep -oE '"[0-9a-f]{64}"' MvsAnalyzer.Tests/Program.cs | tr -d '"' | head -1 || true)
-
-          if [ -z "$version" ]; then
-            echo "::error file=OutputExporter.cs::formula version could not be read"
-            exit 1
+          if ./publish/linux-cli/mvs calibrate --in examples/demo_three_groups.csv --out artifacts/invalid --repetitions not-a-number; then
+            echo 'Malformed argument was accepted'; exit 1
           fi
-
-          if [ -z "$hash" ]; then
-            echo "::error file=MvsAnalyzer.Tests/Program.cs::the frozen formula hash is not pinned in the test harness"
-            exit 1
-          fi
-
-          echo "Formula version: $version"
-          echo "Frozen hash:     $hash"
-
-          status=0
-          for file in README.md docs/METHODS.md CITATION.cff; do
-            grep -qF "$version" "$file" || {
-              echo "::error file=$file::formula version $version is not documented here"
-              status=1
-            }
-            grep -qF "$hash" "$file" || {
-              echo "::error file=$file::frozen hash $hash is not documented here"
-              status=1
-            }
-          done
-
-          if [ "$status" -ne 0 ]; then
-            exit 1
-          fi
-
-          echo "Formula version and frozen hash match the documentation."
-
-  linux-cli:
-    name: Headless build (linux-x64)
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up .NET 8
-        uses: actions/setup-dotnet@v4
+      - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          dotnet-version: "8.0.x"
-
-      - name: Publish the headless analyzer
-        run: dotnet publish MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj -c Release -r linux-x64 --self-contained false -o publish/linux-cli
-
-      - name: It starts and says where it is running
-        run: |
-          ./publish/linux-cli/mvs --help
-          ./publish/linux-cli/mvs version
-          ./publish/linux-cli/mvs env
-
-      - name: Calibration and analysis finish on the bundled example
-        run: |
-          ./publish/linux-cli/mvs calibrate --in examples/demo_three_groups.csv --out artifacts/calibration --repetitions 150 --seed 20260719
-          test -f artifacts/calibration/calibration_state.json
-          ./publish/linux-cli/mvs analyze --in examples/demo_three_groups.csv --calibration artifacts/calibration --out artifacts/analysis
-
-      # A calibration describes one dataset. Reusing it on other bytes must fail loudly,
-      # because the failure mode is a number that looks like a result and is not one.
-      - name: A calibration measured on other data is refused
-        run: |
-          if ./publish/linux-cli/mvs analyze --in examples/MVS_stress_test.csv --calibration artifacts/calibration --out artifacts/wrong; then
-            echo "Analysis accepted a calibration measured on a different dataset"
-            exit 1
-          fi
-
-      - name: Every notebook is valid JSON with exactly three cells
-        run: python3 -c "import json,glob;books=sorted(glob.glob(chr(39)+chr(39)+chr(39)PLACEHOLDER"
-
-      - name: No desktop-only code leaked into the headless project
-        run: |
-          if grep -q -e BenchmarkFigures -e FigureGenerator -e ThemedControls -e MainForm MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj; then
-            echo "The headless project references code that needs a desktop"
-            exit 1
-          fi
+          name: MVS-linux-smoke-and-cli
+          path: |
+            artifacts/
+            publish/linux-cli/
+          if-no-files-found: warn

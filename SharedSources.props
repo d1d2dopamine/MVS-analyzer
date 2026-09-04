@@ -1,0 +1,31 @@
+<Project>
+  <!-- Explicit, identical source registry for the Linux CLI and portable regression harness. -->
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AnalysisEngine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SimulationScenarios.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ScientificInfrastructure.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ScientificTables.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CalibrationPersistence.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NumericalMethods.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VarianceAnalysis.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EstimationStudy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MelsmAnalysis.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CsvImporter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OutputExporter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RunAuditor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PluginManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PluginAssets.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CliArguments.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RemoteJob.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Benchmark/BenchmarkMath.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Benchmark/BenchmarkRandom.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Benchmark/BenchmarkProtocol.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Benchmark/BenchmarkEnvironment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Benchmark/BenchmarkDatasets.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Benchmark/BenchmarkOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Benchmark/BenchmarkRunner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Benchmark/BenchmarkReport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Benchmark/BenchmarkCommandLine.cs" />
+  </ItemGroup>
+</Project>

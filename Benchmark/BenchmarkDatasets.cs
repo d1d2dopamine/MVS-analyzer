@@ -103,7 +103,7 @@ internal static class BenchmarkDatasets
                 if (level < design.BaseLevel * .25) level = design.BaseLevel * .25;
                 double cv = design.WithinCv * Math.Exp(design.CvHeterogeneity * random.NextGaussian());
                 bool treated = g == 1;
-                if (treated && mode == InjectionMode.Location) level *= effect;
+                double shift = treated && mode == InjectionMode.Location ? design.BaseLevel * (effect - 1) : 0;
                 if (treated && mode == InjectionMode.Dispersion) cv *= effect;
                 string entity = groups[g] + "_" + e.ToString("00", CultureInfo.InvariantCulture);
                 for (int s = 1; s <= design.MeasurementsPerEntity; s++)
@@ -121,6 +121,7 @@ internal static class BenchmarkDatasets
                         value += (side < .5 ? -1 : 1) * 5 * level * cv;
                     double floor = design.BaseLevel * .02;
                     if (value < floor) value = floor;
+                    value += shift; // additive AFTER flooring; residual spread is identical under a shared seed
                     rows.Add(new Observation(entity, groups[g], value, s, design.Variable, design.Unit));
                 }
             }
@@ -131,7 +132,7 @@ internal static class BenchmarkDatasets
     /// <summary>
     /// Plasmode design for real recordings. Real data never comes with a known truth, so the truth
     /// is manufactured instead of assumed: entities from a single real group are shuffled and split
-    /// into two pseudo-groups, which guarantees there is no real difference between them, and then
+    /// into two pseudo-groups, which defines an exchangeable randomization null, not equality in each realised split, and then
     /// the effect under test is injected into one half. The within-entity noise, the skew and the
     /// tails stay exactly as they were measured in the laboratory.
     /// </summary>
@@ -157,6 +158,7 @@ internal static class BenchmarkDatasets
             int j = random.Next(i + 1);
             (usable[i], usable[j]) = (usable[j], usable[i]);
         }
+        double commonShiftScale = Math.Abs(dataset.Pool.Average(x => x.Value));
         string[] groups = { "control", "case" };
         var rows = new List<Observation>(entitiesPerGroup * 2 * measurements);
         for (int g = 0; g < groups.Length; g++)
@@ -168,13 +170,13 @@ internal static class BenchmarkDatasets
                 int start = values.Count > measurements ? random.Next(values.Count - measurements + 1) : 0;
                 var window = new double[measurements];
                 for (int s = 0; s < measurements; s++) window[s] = values[start + s];
-                double centre = BenchmarkMath.Median(window);
+                double centre = window.Average();
                 string entity = groups[g] + "_" + (e + 1).ToString("00", CultureInfo.InvariantCulture);
                 bool treated = g == 1;
                 for (int s = 0; s < measurements; s++)
                 {
                     double value = window[s];
-                    if (treated && mode == InjectionMode.Location) value *= effect;
+                    if (treated && mode == InjectionMode.Location) value += commonShiftScale * (effect - 1);
                     if (treated && mode == InjectionMode.Dispersion) value = centre + (value - centre) * effect;
                     rows.Add(new Observation(entity, groups[g], value, s + 1, "plasmode_value", ""));
                 }

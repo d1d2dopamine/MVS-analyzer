@@ -50,7 +50,7 @@ internal sealed class ConditionSummary
     /// The metric a truth-aware oracle would fix in advance, chosen on one half of the replications
     /// and scored on the other.
     ///
-    /// OracleMetric below chooses and scores on the same replications. That takes the maximum of ten
+    /// OracleMetric below chooses and scores on the same replications. That takes the maximum of several
     /// noisy rates, so it reports a power the oracle does not actually have: at thirty replications,
     /// where the Monte Carlo standard error is about 4.6 points, the winner is inflated by roughly
     /// one to two of those. The whole of that inflation was being charged to MVS as lost power, which
@@ -548,7 +548,7 @@ internal static class BenchmarkRunner
                 outcome.Chosen[procedure] = -1;
             }
 
-            // Try all ten and report whichever looks best: the habit the program exists to replace.
+            // Try all registered metrics and report whichever looks best: the habit the program exists to replace.
             outcome.Rejected[BenchmarkProcedures.CherryPick] = double.IsFinite(smallest) && smallest < alpha;
             outcome.Chosen[BenchmarkProcedures.CherryPick] = ArgMinFinite(p);
 
@@ -573,24 +573,13 @@ internal static class BenchmarkRunner
                 outcome.Chosen[BenchmarkProcedures.MvsStrict] = -1;
             }
 
-            // 1.4.0: the two-track procedure. Each track picks its own metric under its own
-            // calibration and is tested at half alpha. Two chances to reject at the full level
-            // would just buy power with false alarms, so the second track is paid for, not free.
-            double split = alpha / AnalysisEngine.DefaultTracks.Length;
-            bool twoTrackClaimed = false;
-            bool twoTrackRejected = false;
-            int twoTrackChoice = -1;
-            foreach (string track in AnalysisEngine.DefaultTracks)
-            {
-                int pick = SelectMetricForTrack(calibration, track);
-                if (pick < 0) continue;
-                twoTrackClaimed = true;
-                if (twoTrackChoice < 0) twoTrackChoice = pick;
-                if (double.IsFinite(p[pick]) && p[pick] < split) { twoTrackRejected = true; twoTrackChoice = pick; }
-            }
-            outcome.Claimed[BenchmarkProcedures.MvsTwoTrack] = twoTrackClaimed;
-            outcome.Rejected[BenchmarkProcedures.MvsTwoTrack] = twoTrackRejected;
-            outcome.Chosen[BenchmarkProcedures.MvsTwoTrack] = twoTrackChoice;
+            // Shipped inference reports every applicable metric with full-registry correction.
+            // Candidate labels prioritize measures; they do NOT filter away the other displayed tests.
+            // MvsTwoTrack is retained as an internal legacy slot, not the public procedure name.
+            int[] applicable = Enumerable.Range(0, metrics).Where(i => calibration[i].Applicable && double.IsFinite(p[i])).ToArray();
+            outcome.Claimed[BenchmarkProcedures.MvsTwoTrack] = applicable.Length > 0;
+            outcome.Rejected[BenchmarkProcedures.MvsTwoTrack] = applicable.Any(i => DecisionPolicy.Reject(p[i], alpha, metrics));
+            outcome.Chosen[BenchmarkProcedures.MvsTwoTrack] = applicable.OrderBy(i => p[i]).DefaultIfEmpty(-1).First();
 
             int fallback = lenient >= 0 ? lenient : 0;
             Decide(outcome, BenchmarkProcedures.MvsLenient, fallback, p, alpha);
@@ -702,8 +691,7 @@ internal static class BenchmarkRunner
             BenchmarkProtocol.Alpha, AnalysisEngine.DefaultTracks);
 
     /// <summary>
-    /// Keeps the engine's own seeds small. The engine multiplies its seed internally, and a value
-    /// near the top of the integer range would wrap around and quietly collide.
+    /// Keeps the engine's own seeds small. The current engine derives streams with SHA-256; this historical bound is retained for stable benchmark stream allocation.
     /// </summary>
     private static int NextSeed(BenchmarkRandom random) => (int)(random.NextUInt64() % 50000000UL) + 1;
 
@@ -726,7 +714,7 @@ internal static class BenchmarkRunner
                 arrays[g] = column.ToArray();
             }
             bool usable = true;
-            foreach (double[] array in arrays) if (array.Length < 2) usable = false;
+            foreach (double[] array in arrays) if (array.Length < 4) usable = false;
             if (!usable) { values[metric] = double.NaN; continue; }
             values[metric] = groups.Length == 2
                 ? AnalysisEngine.MannWhitneyP(arrays[0], arrays[1])
@@ -751,10 +739,7 @@ internal static class BenchmarkRunner
             CalibrationRow row = calibration[i];
             if (!row.Applicable || !double.IsFinite(row.Score)) continue;
             if (row.Score > bestScore) { bestScore = row.Score; best = i; }
-            bool passes = double.IsFinite(row.Fpr) && double.IsFinite(row.Power)
-                && row.Fpr <= AnalysisEngine.CandidateMaxFpr
-                && row.Power >= AnalysisEngine.CandidateMinPower
-                && row.Score >= AnalysisEngine.CandidateMinScore;
+            bool passes = row.PassesGateIn(SimulationScenarios.Location);
             if (passes && row.Score > gatedScore) { gatedScore = row.Score; gated = i; }
         }
         return (gated, best);
@@ -816,7 +801,7 @@ internal static class BenchmarkRunner
         return Convert.ToHexString(digest).ToLowerInvariant();
     }
 
-    // ---------------- pre-registered scoring ----------------
+    // ---------------- declared scoring ----------------
 
     public static List<HypothesisVerdict> Evaluate(BenchmarkOutcome outcome)
     {

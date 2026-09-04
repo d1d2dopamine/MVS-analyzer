@@ -1,8 +1,8 @@
 @echo off
 setlocal
 cd /d "%~dp0"
-echo Building MVS Analyzer v1.3.2 for Windows x64...
-dotnet restore
+echo Building MVS Analyzer v1.4.0 for Windows x64...
+dotnet restore MvsAnalyzer.csproj
 if errorlevel 1 goto error
 dotnet publish MvsAnalyzer.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false
 if errorlevel 1 goto error

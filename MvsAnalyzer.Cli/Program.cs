@@ -3,118 +3,77 @@ using MvsAnalyzer.Benchmarking;
 
 namespace MvsAnalyzer.Cli;
 
-/// <summary>
-/// The headless entry point. One executable, five commands, no window.
-///
-/// The benchmark subcommand hands straight over to the parser the desktop build already uses, so
-/// there is exactly one implementation of the protocol and one place where its flags are defined.
-/// A second copy would drift, and a benchmark whose flags mean different things on two machines is
-/// not a benchmark.
-/// </summary>
 internal static class CliProgram
 {
     private static int Main(string[] arguments)
     {
-        try { Console.OutputEncoding = Encoding.UTF8; }
-        catch (IOException) { }
-        catch (System.Security.SecurityException) { }
-
+        try { Console.OutputEncoding = Encoding.UTF8; } catch (IOException) { }
+        Console.CancelKeyPress += (_, e) => { e.Cancel = true; CliCancellation.Source.Cancel(); };
         var args = new CliArguments(arguments);
-        string command = args.Command;
-
-        if (arguments.Length == 0 || command == "help" || args.Flag("--help") || args.Flag("-h"))
-        {
-            Usage();
-            return 0;
-        }
-
+        if (arguments.Length == 0 || args.Command == "help" || args.Flag("--help") || args.Flag("-h")) { Usage(); return 0; }
         try
         {
-            switch (command)
-            {
-                case "calibrate":
-                    return HeadlessRun.Calibrate(args);
-                case "analyze":
-                case "analyse":
-                    return HeadlessRun.Analyze(args);
-                case "benchmark":
-                    return BenchmarkCommandLine.Run(arguments);
-                case "env":
-                    return HeadlessRun.ShowEnvironment();
-                case "version":
-                    return HeadlessRun.ShowVersions();
-                default:
-                    Console.Error.WriteLine("Unknown command: " + command);
-                    Usage();
-                    return 1;
-            }
+            return args.Command switch {
+                "calibrate" => HeadlessRun.Calibrate(args), "analyze" or "analyse" => HeadlessRun.Analyze(args),
+                "variance" => ScientificCommands.Variance(args), "estimation" => ScientificCommands.Estimation(args),
+                "melsm" => ScientificCommands.Melsm(args), "benchmark" => BenchmarkCommandLine.Run(arguments),
+                "version" => HeadlessRun.ShowVersions(), "env" => HeadlessRun.ShowEnvironment(),
+                _ => throw new ArgumentException("Unknown command: " + args.Command) };
         }
-        catch (ArgumentException error)
-        {
-            Console.Error.WriteLine(error.Message);
-            return 1;
-        }
-        catch (FileNotFoundException error)
-        {
-            Console.Error.WriteLine(error.Message);
-            return 1;
-        }
-        catch (InvalidDataException error)
-        {
-            Console.Error.WriteLine(error.Message);
-            return 1;
-        }
-        catch (OperationCanceledException)
-        {
-            Console.Error.WriteLine("Cancelled. Nothing was written.");
-            return 1;
-        }
+        catch (OperationCanceledException) { Console.Error.WriteLine("Cancelled. Incomplete output may remain; only a completed manifest identifies a finished run."); return 1; }
         catch (Exception error)
         {
-            Console.Error.WriteLine("Failed: " + error.Message);
+            Console.Error.WriteLine(error.GetType().Name + ": " + error.Message);
+            if (System.Environment.GetEnvironmentVariable("MVS_DEBUG") == "1") Console.Error.WriteLine(error.StackTrace);
             return 1;
         }
     }
-
     private static void Usage()
     {
-        Console.WriteLine();
-        Console.WriteLine("mvs - MVS Analyzer without a window   (" + RemoteJob.AppVersion + ")");
-        Console.WriteLine();
-        Console.WriteLine("  mvs calibrate --in <file.csv> --out <folder> [options]");
-        Console.WriteLine("      Measures how each metric behaves on this dataset, in every track.");
-        Console.WriteLine("      --repetitions <n>     simulations per metric (default 5000, minimum 100)");
-        Console.WriteLine("      --seed <n>            the same seed reproduces the calibration exactly");
-        Console.WriteLine("      --effect <x>          simulated effect size, for example 1.15");
-        Console.WriteLine("      --scenario <id>       location | decrease | variability");
-        Console.WriteLine("      --alpha <x>           significance level (default 0.05)");
-        Console.WriteLine("      --outliers <x>        contamination rate used while calibrating");
-        Console.WriteLine("      --missing <x>         missing data rate used while calibrating");
-        Console.WriteLine("      --split               calibrate on one half of the entities, analyse the other");
-        Console.WriteLine("      --job <job.json>      take every setting from a job file instead");
-        Console.WriteLine();
-        Console.WriteLine("  mvs analyze --in <file.csv> --calibration <folder> --out <folder> [options]");
-        Console.WriteLine("      Applies a calibration to the data and writes the tables and the manifest.");
-        Console.WriteLine("      --project <name>      recorded in the manifest");
-        Console.WriteLine("      --margin <x>          equivalence margin (default 0.147)");
-        Console.WriteLine("      --force               proceed even if the data no longer matches the calibration");
-        Console.WriteLine();
-        Console.WriteLine("  mvs benchmark --profile <id> --out <folder> [options]");
-        Console.WriteLine("      Runs the pre-registered protocol against data whose truth is known.");
-        Console.WriteLine("      --seed <n>            the same seed reproduces the run exactly");
-        Console.WriteLine("      --threads <n>         workers to use (default: processors minus one)");
-        Console.WriteLine("      --real-data <dir>     optional folder of CSV recordings for the plasmode stage");
-        Console.WriteLine("      --lang <en|ru>        language of the report");
-        Console.WriteLine("      --quiet               do not print progress");
-        Console.WriteLine();
-        Console.WriteLine("  mvs env        where this build runs and whether replay can be compared");
-        Console.WriteLine("  mvs version    versions and frozen hashes");
-        Console.WriteLine();
-        Console.WriteLine("Figures are not drawn here. System.Drawing.Common does not draw on Linux, so a");
-        Console.WriteLine("headless run writes every table, report and manifest, and the images can be made");
-        Console.WriteLine("afterwards from the same folder on a Windows machine.");
-        Console.WriteLine();
-        Console.WriteLine("Exit codes: 0 done, 2 a benchmark threshold was missed, 1 error.");
-        Console.WriteLine();
+        Console.WriteLine("MVS Analyzer " + ReleaseInfo.Version + " | scientific engine " + ReleaseInfo.EngineVersion);
+        Console.WriteLine(@"
+Summary-metric workflow (independent groups):
+  mvs calibrate --in data.csv --out calibration [--repetitions 5000] [--seed 20260719]
+      [--scenario location|decrease|variability|heterogeneity] [--effect 1.15]
+      [--alpha .05] [--outliers .02] [--missing 0] [--split] [--margin .147]
+      [--min-measurements 6] [--min-value -1000000] [--max-value 1000000]
+      [--job job.json] [--overwrite] [--allow-group-scoped-ids]
+  mvs analyze --in data.csv --calibration calibration --out analysis [--project name]
+      [--description text] [--force] [--allow-group-scoped-ids]
+  Statistical settings are frozen in calibration; analyze does not accept overrides.
+  --force only allows different input bytes, never incompatible methods or schemas.
+  Defaults are independent of saved desktop settings; --local-settings opts in explicitly.
+
+Separate Gaussian within/between variance components:
+  mvs variance --in data.csv --out variance [--repetitions 200] [--bootstrap 199]
+      [--within-effect 1.3] [--between-effect 1.3] [--alpha .05] [--seed 20260719]
+      [--min-measurements 3] [--overwrite] [--allow-group-scoped-ids]
+  Effects multiply SD, not variance. Evaluation and reference simulations are independent.
+  This model can be expensive; a small budget is not a publication-quality validation.
+
+Known-truth estimation study (not the unknown bias of an uploaded CSV):
+  mvs estimation --out estimation --target mean|median|geometric_mean|within_variance|between_variance
+      [--shape normal|lognormal|student_t5] [--entities 20] [--measurements 12]
+      [--repetitions 500] [--bootstrap 199] [--seed 20260719]
+      [--location 100] [--within-sd 10] [--between-sd 5] [--overwrite]
+  Lognormal defaults are location=1, within-sd=.3, between-sd=.2, all on the log scale.
+  Variance targets currently support Gaussian data only.
+
+Optional experimental mixed-effects location-scale model:
+  mvs melsm --in repeated.csv --out melsm [--mean-time] [--scale-time] [--correlate]
+      [--no-random-scale] [--quadrature 15] [--max-iterations 4000] [--overwrite]
+      [--include-entity-ids]
+  Entity IDs are GLOBAL in this mode; conditions can change within an entity.
+  Time effects require a real integer sequence/timepoint column. No AR(1) or random slopes.
+
+Benchmark and diagnostics:
+  mvs benchmark --profile quick|standard|full --out folder [--seed N] [--threads N]
+  mvs version
+  mvs env
+
+Exit codes: 0 completed, 1 input/runtime error or cancellation, 2 a numerical diagnostic
+or benchmark threshold was not satisfied (inspect the saved report).
+No figures are rendered on Linux. Ctrl+C cancels cooperative calculations.
+MELSM and variance components are model-based; review assumptions and diagnostics.");
     }
 }

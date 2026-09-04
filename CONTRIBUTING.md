@@ -81,3 +81,8 @@ Use the [bug report form](.github/ISSUE_TEMPLATE/bug_report.yml). The three thin
 ## Code of conduct
 
 Participation is governed by [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). Disagree with the statistics as much as you like; be decent to the person on the other side of the thread.
+
+
+## Engine 1.6.0 acceptance gates
+
+Use `python tools/check_source.py` and `python tools/check_csharp_structure.py` for limited static contracts, then run both .NET regression projects and the Linux save/reload workflow. The structure checker is not a C# compiler. New model code remains experimental until independently checked. Keep tests and declared specifications synchronized; do not relabel a smoke check as scientific validation. Preserve the protected asset manifest when making intentional image/branding changes in a future release.

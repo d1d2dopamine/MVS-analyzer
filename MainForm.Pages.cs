@@ -46,7 +46,7 @@ internal sealed partial class MainForm
         card.Controls.Add(new Label { Text = T("Description", "Описание"), AutoSize = true, Location = new Point(20, 153) });
         var description = new TextBox { Text = projectDescription, Location = new Point(20, 177), Width = 650, Height = 48, Multiline = true };
         card.Controls.Add(new Label { Text = T("Mode", "Режим"), AutoSize = true, Location = new Point(690, 90) });
-        var mode = new ThemedComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Location = new Point(690, 115), Width = 190 }; mode.Items.AddRange(new object[] { "Exploratory", "Confirmatory" }); mode.SelectedItem = projectMode;
+        var mode = new ThemedComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Location = new Point(690, 115), Width = 190 }; mode.Items.AddRange(new object[] { "Exploratory", "Design / pilot", "Pre-specified / corrected" }); mode.SelectedItem = projectMode;
         void SaveProject() { projectName = string.IsNullOrWhiteSpace(name.Text) ? "Untitled project" : name.Text.Trim(); projectDescription = description.Text.Trim(); projectMode = mode.SelectedItem?.ToString() ?? "Exploratory"; projectStatus.Text = $"{projectName}   ·   {ProjectStage()}"; }
         name.TextChanged += (_, _) => SaveProject(); description.TextChanged += (_, _) => SaveProject(); mode.SelectedIndexChanged += (_, _) => SaveProject();
         card.Controls.Add(new Label { Text = T("Changes are saved as you type.", "Изменения сохраняются сразу."), AutoSize = true, ForeColor = Secondary, Location = new Point(20, 252) });
@@ -105,13 +105,14 @@ internal sealed partial class MainForm
         profile.Controls.Add(new Label { Text = T("Depth", "Глубина"), AutoSize = true, Location = new Point(20, 86) });
         var repetitionOptions = Guided ? new List<int> { 2000 } : Expert ? new List<int> { 500, 2000, 10000, settings.CustomRepetitions } : new List<int> { 500, 2000, 10000 };
         var depth = new ThemedComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Location = new Point(20, 110), Width = 250 };
-        if (Guided) depth.Items.Add(T("Standard — 2,000 (recommended)", "Стандартно — 2 000 (рекомендуется)"));
+        if (Guided) depth.Items.Add(T("Standard — 2,000", "Стандартно — 2 000"));
         else { depth.Items.Add(T("Quick — 500", "Быстро — 500")); depth.Items.Add(T("Standard — 2,000", "Стандартно — 2 000")); depth.Items.Add(T("Thorough — 10,000", "Тщательно — 10 000")); if (Expert) depth.Items.Add($"Custom — {settings.CustomRepetitions:N0}"); }
         depth.SelectedIndex = Guided ? 0 : 1;
-        var hint = new Label { Text = Guided ? T("Safe defaults are locked in Guided mode.", "В режиме Guided используются безопасные значения по умолчанию.") : T("Standard is recommended for ordinary laboratory work.", "Standard рекомендуется для обычной лабораторной работы."), AutoSize = true, ForeColor = Secondary, Location = new Point(290, 114) };
+        var hint = new Label { Text = Guided ? T("Depth is simplified here; scientific settings still apply.", "Здесь упрощён выбор глубины; научные настройки продолжают действовать.") : T("Choose depth using Monte Carlo uncertainty, not a quality label.", "Выбирайте глубину по неопределённости Monte Carlo, а не по названию режима."), AutoSize = true, ForeColor = Secondary, Location = new Point(290, 114) };
         if (Expert) profile.Controls.Add(new Label { Text = $"Seed: {settings.CalibrationSeed}   ·   Effect multiplier: {settings.CalibrationEffect:0.00}", AutoSize = true, ForeColor = Secondary, Location = new Point(20, 153) });
         var run = Button(T("Run calibration", "Запустить калибровку"), true); run.Location = new Point(20, Expert ? 190 : 160); run.Click += async (_, _) => await RunCalibrationAsync(repetitionOptions[depth.SelectedIndex]);
-        profile.Controls.Add(depth); profile.Controls.Add(hint); profile.Controls.Add(run); page.Controls.Add(profile);
+        var restore = Button(T("Load calibration JSON", "Загрузить калибровку JSON"), false, 250); restore.Location = new Point(220, Expert ? 190 : 160); restore.Click += (_, _) => LoadCalibrationSnapshot();
+        profile.Controls.Add(restore); profile.Controls.Add(depth); profile.Controls.Add(hint); profile.Controls.Add(run); page.Controls.Add(profile);
         if (calibration != null)
         {
             var output = Card(T("Local calibration results", "Результаты локальной калибровки"), T("Observed p-values are not used in these scores.", "Наблюдаемые p-value не используются в этих оценках."), 350);
@@ -127,9 +128,9 @@ internal sealed partial class MainForm
         {
             var missing = Card(T("Calibration required", "Требуется калибровка"), T("Analysis remains locked until a local calibration profile is complete.", "Анализ недоступен, пока не завершён локальный профиль калибровки."), 160); var go = Button(T("Go to Calibration", "Перейти к калибровке"), true, 210); go.Location = new Point(20, 108); go.Click += (_, _) => Navigate("calibration"); missing.Controls.Add(go); page.Controls.Add(missing); return;
         }
-        var summary = Card(T("Run summary", "Сводка запуска"), T("All ten metrics will be calculated. Candidate selection uses calibration only.", "Будут рассчитаны все десять метрик. Выбор кандидатов использует только калибровку."), 300);
+        var summary = Card(T("Run summary", "Сводка запуска"), T("All registered metrics will be calculated. Candidate selection uses calibration only.", "Будут рассчитаны все зарегистрированные метрики. Выбор кандидатов использует только калибровку."), 300);
         var grid = Grid(); grid.Location = new Point(20, 82); grid.Size = new Size(885, 162); grid.Columns.Add("item", T("Item", "Параметр")); grid.Columns.Add("value", T("Value", "Значение"));
-        grid.Rows.Add(T("Project", "Проект"), projectName); grid.Rows.Add(T("Dataset", "Датасет"), datasetName); grid.Rows.Add(T("Design", "Дизайн"), data.GroupNames.Length + " independent groups"); grid.Rows.Add(T("Mode", "Режим"), projectMode); grid.Rows.Add(T("Metrics", "Метрики"), "All 10");
+        grid.Rows.Add(T("Project", "Проект"), projectName); grid.Rows.Add(T("Dataset", "Датасет"), datasetName); grid.Rows.Add(T("Design", "Дизайн"), data.GroupNames.Length + " independent groups"); grid.Rows.Add(T("Mode", "Режим"), projectMode); grid.Rows.Add(T("Metrics", "Метрики"), AnalysisEngine.MetricKeys.Length.ToString());
         // The figure state has to be visible BEFORE the run, not discovered in an empty folder afterwards.
         int templateCount = settings.FigureTemplates.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Length;
         grid.Rows.Add(T("Figures", "Графики"), settings.GenerateFigures ? $"{T("on", "вкл")} · {templateCount} {T("templates", "шаблон(ов)")} · {settings.FigureFormat.ToUpperInvariant()} · {settings.FigureExportMode}" : T("off", "выкл"));
@@ -148,122 +149,6 @@ internal sealed partial class MainForm
         void SaveFigureRun() { settings.GenerateFigures = enabled.Checked; settings.FigureExportMode = mode.SelectedIndex switch { 1 => "dashboard", 2 => "both", _ => "separate" }; settings.FigureFormat = format.SelectedIndex == 1 ? "svg" : "png"; settings.FigureOutputFolder = folder.Text.Trim(); settings.FigureFolderConfirmed = !string.IsNullOrWhiteSpace(folder.Text); settings.Save(); figureHint.Text = FigureRunHint(); }
         enabled.CheckedChanged += (_, _) => SaveFigureRun(); mode.SelectedIndexChanged += (_, _) => SaveFigureRun(); format.SelectedIndexChanged += (_, _) => SaveFigureRun(); folder.TextChanged += (_, _) => SaveFigureRun();
         figures.Controls.Add(enabled); figures.Controls.Add(mode); figures.Controls.Add(format); figures.Controls.Add(folder); figures.Controls.Add(browse); figures.Controls.Add(configure); figures.Controls.Add(figureHint); page.Controls.Add(figures);
-    }
-
-    private void ShowResults()
-    {
-        var page = Page(T("Results", "Результаты"), T("Review the overview first, then inspect every metric and diagnostic field.", "Сначала просмотрите обзор, затем изучите все метрики и диагностику."));
-        if (results == null || data == null)
-        {
-            var missing = Card(T("No completed analysis", "Нет завершённого анализа"), T("Complete calibration and analysis to generate results.", "Завершите калибровку и анализ для получения результатов."), 160); var go = Button(T("Go to Analysis", "Перейти к анализу"), true); go.Location = new Point(20, 108); go.Click += (_, _) => Navigate("analysis"); missing.Controls.Add(go); page.Controls.Add(missing); return;
-        }
-        // One card answers the question. Everything a statistician needs hides behind one button.
-        ResultRow? best = results.FirstOrDefault(x => x.Candidate) ?? results.FirstOrDefault(x => x.Applicable);
-        int said = results.Count(x => x.Verdict == "difference"), same = results.Count(x => x.Verdict == "equivalent"), unsure = results.Count(x => x.Verdict == "insufficient");
-        int judged = results.Count(x => x.Applicable);
-        // Two metrics both saying "difference" is not agreement if they point at different groups.
-        // On dirty data the spread metrics single out the noisiest group while the level metrics
-        // single out the shifted one, and calling that a consensus hides the disagreement.
-        string leadPair = best?.EffectPair ?? "";
-        string leadReversed = string.IsNullOrEmpty(leadPair) ? "" : string.Join(" > ", leadPair.Split(new[] { " > " }, StringSplitOptions.None).Reverse());
-        int samePair = results.Count(x => x.Verdict == "difference" && x.EffectPair == leadPair && !string.IsNullOrEmpty(leadPair));
-        int otherPair = results.Count(x => x.Verdict == "difference" && !string.IsNullOrEmpty(x.EffectPair) && x.EffectPair != leadPair);
-        bool reversed = results.Any(x => x.Verdict == "difference" && x.EffectPair == leadReversed && !string.IsNullOrEmpty(leadReversed));
-        var card = Card(T("Verdict", "Вердикт"), "", 262);
-        string answer, stateText; Color stateColor;
-        if (best == null)
-        {
-            answer = T("No metric can be judged on this data.", "Ни одну метрику на этих данных оценить нельзя.");
-            stateText = T("Not enough data", "Данных не хватает"); stateColor = Color.FromArgb(176, 66, 27);
-        }
-        else if (best.Verdict == "difference")
-        {
-            string where = string.IsNullOrEmpty(best.EffectPair) ? "" : ": " + best.EffectPair.Replace(" > ", T(" above ", " выше "));
-            string howMuch = double.IsFinite(best.EffectPercent) ? T(" by about ", " примерно на ") + best.EffectPercent.ToString("0.#") + " %" : "";
-            answer = T("Groups differ on metric ", "Группы различаются по метрике ") + best.Metric + where + howMuch + ".";
-            bool strong = best.Candidate && double.IsFinite(best.PValue) && best.PValue < settings.Alpha / 5 && !best.FprInflated;
-            stateText = strong ? T("Confident", "Уверенно") : T("Weak", "Слабо");
-            stateColor = strong ? Color.FromArgb(16, 124, 16) : Color.FromArgb(176, 66, 27);
-        }
-        else if (best.Verdict == "equivalent")
-        {
-            answer = T("Groups are practically the same on metric ", "Группы практически одинаковы по метрике ") + best.Metric + ".";
-            stateText = T("No difference", "Разницы нет"); stateColor = Secondary;
-        }
-        else
-        {
-            answer = T("The data cannot decide on metric ", "Данные не позволяют решить по метрике ") + best.Metric + ".";
-            stateText = T("Not enough data", "Данных не хватает"); stateColor = Color.FromArgb(176, 66, 27);
-        }
-        card.Controls.Add(new Label { Text = answer, Font = new Font("Segoe UI", 15, FontStyle.Bold), AutoSize = true, MaximumSize = new Size(ContentWidth - 60, 0), Location = new Point(20, 54) });
-        card.Controls.Add(new Label { Text = stateText, Font = new Font("Segoe UI", 10, FontStyle.Bold), ForeColor = stateColor, AutoSize = true, Location = new Point(20, 100) });
-        string stats = "";
-        if (best != null)
-        {
-            string interval = double.IsFinite(best.EffectLow) && double.IsFinite(best.EffectHigh) ? "  95% " + T("CI", "ДИ") + " " + best.EffectLow.ToString("0.00") + " … " + best.EffectHigh.ToString("0.00") : "";
-            string pText = double.IsFinite(best.PValue) ? (best.PValue < .0001 ? "p < 0.0001" : "p = " + best.PValue.ToString("0.0000")) : "";
-            stats = T("Cliffs delta ", "дельта Клиффа ") + (double.IsFinite(best.Effect) ? best.Effect.ToString("0.00") : "") + interval + "  " + pText;
-        }
-        card.Controls.Add(new Label { Text = stats, AutoSize = true, ForeColor = Secondary, Location = new Point(140, 101) });
-        string agreement;
-        if (reversed) agreement = T("Warning: the metrics contradict each other, the same pair of groups got opposite directions.", "Внимание: метрики противоречат друг другу — одна и та же пара групп получила разные направления.");
-        else if (best == null) agreement = "";
-        else agreement = samePair + T(" metrics point at the same pair ", " метрик указывают на ту же пару ") + leadPair + T(", another pair is named by ", ", другую пару называют ") + otherPair + T(", could not decide ", ", не смогли решить ") + unsure + ".";
-        bool mixed = reversed || otherPair > 0;
-        card.Controls.Add(new Label { Text = agreement, AutoSize = true, MaximumSize = new Size(ContentWidth - 60, 0), ForeColor = mixed ? Color.FromArgb(176, 66, 27) : TextColor, Font = mixed ? new Font("Segoe UI", 10, FontStyle.Bold) : new Font("Segoe UI", 10), Location = new Point(20, 132) });
-        if (mixed && !reversed) card.Controls.Add(new Label { Text = T("Some metrics report a different pair of groups, they may be catching spread rather than a shift.", "Часть метрик говорит о другой паре групп — возможно, они ловят разброс, а не сдвиг."), AutoSize = true, MaximumSize = new Size(ContentWidth - 60, 0), ForeColor = Color.FromArgb(176, 66, 27), Location = new Point(20, 152) });
-        string sensitivity;
-        if (best != null && best.FprInflated) sensitivity = T("Calibration is unreliable: the metric fires even where there is no difference. Do not trust this verdict.", "Калибровка ненадёжна: метрика срабатывает и там, где разницы нет. Вердикту доверять нельзя.");
-        else if (best != null && double.IsFinite(best.Mde)) sensitivity = T("A difference smaller than ", "Разницу меньше ") + MdeText(best.Mde) + T(" would have gone unnoticed on this data.", " эти данные бы не заметили.");
-        else sensitivity = T("Even a 20 % difference would have gone unnoticed on this data.", "Даже разницу в 20 % эти данные бы не заметили.");
-        bool alarm = best != null && best.FprInflated;
-        card.Controls.Add(new Label { Text = sensitivity, AutoSize = true, MaximumSize = new Size(ContentWidth - 60, 0), ForeColor = alarm ? Color.FromArgb(176, 66, 27) : Secondary, Location = new Point(20, 160) });
-        string techText = calibrationSource == "split_half" ? T("The metric was chosen on one half of the entities and the answer computed on the other.", "Метрика выбрана на одной половине объектов, ответ посчитан на другой.") : T("Calibration and answer were built on the same entities.", "Калибровка и ответ построены на одних и тех же объектах.");
-        if (best != null)
-        {
-            techText += "\n" + $"MVS Score {best.Score:0.0}   \u00b7   power {best.Power:0.00}   \u00b7   FPR {best.Fpr:0.000}   \u00b7   robustness {best.Robustness:0.00}   \u00b7   repeatability {best.Repeatability:0.00}   \u00b7   coverage {best.Coverage:0.00}";
-            ResultRow? runnerUp = results.FirstOrDefault(x => x != best && x.Applicable);
-            if (runnerUp != null) techText += "\n" + T("Next", "Следующая") + ": " + runnerUp.Metric + " (" + T("gap", "отрыв") + " " + (best.Score - runnerUp.Score).ToString("0.0") + ")";
-            int nearMiss = results.Count(x => x.NearMiss);
-            if (nearMiss > 0) techText += "\n" + nearMiss + T(" more metrics came close, read the table.", " метрик подошли вплотную — смотрите таблицу.");
-            if (!best.Candidate) techText += "\n" + T("No metric passed the candidate rules, this is only the highest scoring one.", "Ни одна метрика не прошла правила кандидата — показана просто лучшая по баллу.");
-        }
-        var tech = new Label { Text = techText, AutoSize = true, MaximumSize = new Size(ContentWidth - 60, 0), ForeColor = Secondary, Location = new Point(20, 226), Visible = false };
-        var techToggle = Button(T("How this was computed", "Как это посчитано"), false, 220);
-        techToggle.Location = new Point(20, 190);
-        techToggle.Click += (_, _) =>
-        {
-            tech.Visible = !tech.Visible;
-            techToggle.Text = tech.Visible ? T("Hide the computation", "Скрыть расчёт") : T("How this was computed", "Как это посчитано");
-            card.Height = tech.Visible ? 246 + tech.PreferredHeight : 262;
-        };
-        card.Controls.Add(techToggle); card.Controls.Add(tech);
-        page.Controls.Add(card);
-        var tabs = new ThemedTabControl { Width = ContentWidth, Height = 510, Margin = new Padding(0, 0, 0, 12) };
-        var overview = new TabPage(T("Overview", "Обзор")); var all = new TabPage(T("All metrics", "Все метрики")); var diagnostics = new TabPage(T("Diagnostics", "Диагностика")); var reproducibility = new TabPage(T("Reproducibility", "Воспроизводимость")); var savedFiles = new TabPage(T("Saved files", "Сохранённые файлы"));
-        overview.Controls.Add(new Label { Text = T("Candidate Set", "Набор кандидатов"), Font = new Font("Segoe UI", 16, FontStyle.Bold), AutoSize = true, Location = new Point(22, 22) });
-        overview.Controls.Add(new Label { Text = (results.Any(x => x.Candidate) ? string.Join("   ·   ", results.Where(x => x.Candidate).Select(x => x.Metric)) : T("No metric passed the quality thresholds", "Ни одна метрика не прошла пороги качества")), AutoSize = true, BackColor = SuccessBg, Padding = new Padding(12, 8, 12, 8), Location = new Point(24, 65) });
-        overview.Controls.Add(new Label { Text = T("Candidate membership requires FPR ≤ 0.075, power ≥ 0.70 and MVS Score ≥ 60. The set may be empty; observed p-values remain separate.", "Кандидат должен иметь FPR ≤ 0,075, мощность ≥ 0,70 и MVS Score ≥ 60. Набор может быть пустым; наблюдаемые p-value остаются отдельно."), AutoSize = true, MaximumSize = new Size(820, 0), ForeColor = Secondary, Location = new Point(24, 125) });
-        var export = Button(T("Export CSV", "Экспорт CSV"), true, 150); export.Location = new Point(24, 185); export.Click += (_, _) => ExportResults(); overview.Controls.Add(export);
-        if (lastFigureFiles.Count > 0)
-        {
-            overview.Controls.Add(new Label { Text = $"{T("Figures", "Графики")}: {lastFigureFiles.Count}\n{settings.FigureOutputFolder}", AutoSize = true, MaximumSize = new Size(780, 0), ForeColor = Secondary, Location = new Point(24, 245) });
-            var changeFolder = Button(T("Change figure folder", "Изменить папку графиков"), false, 190); changeFolder.Location = new Point(24, 300); changeFolder.Click += (_, _) => Navigate("figures"); overview.Controls.Add(changeFolder);
-        }
-        var g = ResultsGrid(); g.Dock = DockStyle.Fill; all.Controls.Add(g);
-        diagnostics.Controls.Add(new Label { Text = $"{T("Entities", "Объекты")}: {data.TotalEntities}\n{T("Valid rows", "Валидные строки")}: {data.ValidRows:N0}\n{T("Median measurements", "Медиана измерений")}: {data.MedianMeasurements:0}\n{T("Distribution proxy", "Оценка распределения")}: {data.DistributionProxy}\n\n{T("Interpret calibrated FPR and power together with uncertainty. Coverage and repeatability are measured, not assumed: coverage from bootstrap intervals, repeatability from split-half resampling of the entities.", "Интерпретируйте FPR и мощность вместе с неопределённостью. Coverage и повторяемость теперь измеряются, а не постулируются: coverage — через бутстреп-интервалы, повторяемость — через разбиение объектов пополам.")}", AutoSize = true, MaximumSize = new Size(820, 0), Location = new Point(24, 24) });
-        reproducibility.Controls.Add(new Label { Text = $"Application: MVS Analyzer v1.5.0\nProject: {projectName}\nDataset: {(settings.AnonymousReports ? "[hidden]" : datasetName)}\nInterface mode: {settings.InterfaceMode}\nStudy mode: {projectMode}\nSeed: {settings.CalibrationSeed}\nMetrics: 10\nCalibration: raw-value bootstrap scenarios\nNetwork: disabled\nFormula: {OutputExporter.FormulaVersion}\nFormula weights: frozen", AutoSize = true, Font = new Font("Consolas", 10), Location = new Point(24, 24) });
-        if (lastArtifacts.Count == 0) savedFiles.Controls.Add(new Label { Text = T("No files were saved automatically for this run. Configure Outputs before the next analysis.", "В этом запуске файлы автоматически не сохранялись. Настройте раздел «Файлы» перед следующим анализом."), AutoSize = true, MaximumSize = new Size(820, 0), Location = new Point(24, 24) });
-        else
-        {
-            var filesGrid = Grid(); filesGrid.Location = new Point(18, 18); filesGrid.Size = new Size(870, 330); filesGrid.Columns.Add("kind", T("Type", "Тип")); filesGrid.Columns.Add("name", T("File name", "Имя файла")); filesGrid.Columns.Add("path", T("Full path", "Полный путь")); filesGrid.Columns.Add("size", T("Size", "Размер"));
-            foreach (OutputArtifact artifact in lastArtifacts) filesGrid.Rows.Add(artifact.Kind, artifact.FileName, artifact.FullPath, $"{artifact.SizeBytes / 1024d:0.0} KB"); savedFiles.Controls.Add(filesGrid);
-            var copy = Button(T("Copy selected path", "Копировать выбранный путь"), true, 210); copy.Location = new Point(18, 365); copy.Click += (_, _) => { if (filesGrid.SelectedRows.Count > 0) Clipboard.SetText(filesGrid.SelectedRows[0].Cells[2].Value?.ToString() ?? ""); }; savedFiles.Controls.Add(copy);
-            var copyFolder = Button(T("Copy output folder", "Копировать путь папки"), false, 210); copyFolder.Location = new Point(245, 365); copyFolder.Click += (_, _) => Clipboard.SetText(Path.GetDirectoryName(lastArtifacts[0].FullPath) ?? ""); savedFiles.Controls.Add(copyFolder);
-        }
-        tabs.TabPages.Add(overview); tabs.TabPages.Add(all); tabs.TabPages.Add(savedFiles);
-        if (!Guided) { tabs.TabPages.Add(diagnostics); tabs.TabPages.Add(reproducibility); }
-        page.Controls.Add(tabs);
     }
 
     private void ShowFigures()
@@ -397,7 +282,7 @@ internal sealed partial class MainForm
         interfaceMode.SelectedIndexChanged += (_, _) => modeExplanation.Text = interfaceMode.SelectedIndex switch { 1 => T("Cleaning protocol, calibration profiles, history and reproducibility.", "Протокол очистки, профили калибровки, история и воспроизводимость."), 2 => T("Adds seed, simulation count, effect settings and full diagnostics.", "Добавляет seed, число симуляций, эффект и полную диагностику."), _ => T("Only required steps and safe defaults are shown.", "Показываются только обязательные шаги и безопасные значения.") };
         interfaceMode.SelectedIndexChanged += (_, _) => { settings.InterfaceMode = interfaceMode.SelectedIndex switch { 1 => "laboratory", 2 => "expert", _ => "guided" }; settings.Save(); ApplyModeVisibility(); BeginInvoke(new Action(() => Navigate("settings"))); };
         modeCard.Controls.Add(interfaceMode); modeCard.Controls.Add(modeExplanation); page.Controls.Add(modeCard);
-        var rigour = Card(T("Scientific rigour", "Научная строгость"), T("Split calibration and the equivalence margin change the verdict, not the score.", "Раздельная калибровка и граница эквивалентности влияют на вердикт, но не на балл."), 210);
+        var rigour = Card(T("Scientific rigour", "Научная строгость"), T("Split calibration changes the calibration sample. The margin changes the approximate equivalence criterion.", "Раздельная калибровка меняет выборку калибровки. Граница влияет на приближённый критерий эквивалентности."), 210);
         var split = new CheckBox { Text = T("Split calibration: choose the metric and compute the answer on different halves of the entities", "Раздельная калибровка: выбирать метрику и считать ответ на разных половинах объектов"), Checked = settings.SplitCalibration, AutoSize = true, Location = new Point(20, 86) };
         split.CheckedChanged += (_, _) => { settings.SplitCalibration = split.Checked; settings.Save(); };
         rigour.Controls.Add(split);
@@ -412,7 +297,7 @@ internal sealed partial class MainForm
         rigour.Controls.Add(new Label { Text = T("A difference smaller than this counts as practically zero (Cliffs delta).", "Разница меньше этого значения считается практически нулём (дельта Клиффа)."), AutoSize = true, MaximumSize = new Size(ContentWidth - marginX - 160, 0), ForeColor = Secondary, Location = new Point(marginX + 112, 158) });
         page.Controls.Add(rigour);
         var about = Card(T("About", "О программе"), T("MVS — Metrics Value System. The program does not validate a metric against a reference; it shows which metric carries more value on your data.", "MVS — Metrics Value System, система оценки ценности метрик. Программа не валидирует метрику по эталону, а показывает, какая метрика ценнее на ваших данных."), 150);
-        about.Controls.Add(new Label { Text = $"MVS Analyzer 1.5.0   ·   {AnalysisEngine.EngineVersion}   ·   {OutputExporter.FormulaVersion}", AutoSize = true, Font = new Font("Segoe UI", 10, FontStyle.Bold), Location = new Point(20, 92) });
+        about.Controls.Add(new Label { Text = $"MVS Analyzer 1.4.0   ·   {AnalysisEngine.EngineVersion}   ·   {OutputExporter.FormulaVersion}", AutoSize = true, Font = new Font("Segoe UI", 10, FontStyle.Bold), Location = new Point(20, 92) });
         about.Controls.Add(new Label { Text = $"Formula hash: {OutputExporter.FormulaHash}", AutoSize = true, ForeColor = Secondary, Location = new Point(20, 116) });
         page.Controls.Add(about);
         var general = Card(T("General and appearance", "Общие и оформление"), T("Language and theme changes apply immediately.", "Изменения языка и темы применяются сразу."), 310);
@@ -443,12 +328,12 @@ internal sealed partial class MainForm
             expert.Controls.Add(new Label { Text = T("Effect multiplier", "Множитель эффекта"), AutoSize = true, Location = new Point(460, 82) });
             var effect = new ThemedNumericUpDown { DecimalPlaces = 2, Minimum = 1.01M, Maximum = 3.00M, Increment = .01M, Value = Math.Clamp((decimal)settings.CalibrationEffect, 1.01M, 3.00M), Location = new Point(460, 106), Width = 180 };
             expert.Controls.Add(new Label { Text = T("Scenario", "Сценарий"), AutoSize = true, Location = new Point(20, 158) });
-            var scenario = new ThemedComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Location = new Point(20, 182), Width = 250 }; scenario.Items.AddRange(new object[] { T("Increase level", "Рост уровня"), T("Decrease level", "Снижение уровня"), T("Increase variability", "Рост вариативности") }); scenario.SelectedIndex = settings.SimulationScenario switch { SimulationScenarios.Decrease => 1, SimulationScenarios.Variability => 2, _ => 0 };
+            var scenario = new ThemedComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Location = new Point(20, 182), Width = 250 }; scenario.Items.AddRange(new object[] { T("Increase level", "Рост уровня"), T("Decrease level", "Снижение уровня"), T("Within variability", "Внутрисущностный разброс"), T("Between heterogeneity", "Межсущностная гетерогенность") }); scenario.SelectedIndex = settings.SimulationScenario switch { SimulationScenarios.Decrease => 1, SimulationScenarios.Variability => 2, SimulationScenarios.Heterogeneity => 3, _ => 0 };
             expert.Controls.Add(new Label { Text = T("Outliers, %", "Выбросы, %"), AutoSize = true, Location = new Point(300, 158) });
             var outliers = new ThemedNumericUpDown { DecimalPlaces = 1, Minimum = 0, Maximum = 25, Increment = .5M, Value = Math.Clamp((decimal)(settings.OutlierRate * 100), 0, 25), Location = new Point(300, 182), Width = 150 };
             expert.Controls.Add(new Label { Text = T("Missing, %", "Пропуски, %"), AutoSize = true, Location = new Point(480, 158) });
             var missing = new ThemedNumericUpDown { DecimalPlaces = 1, Minimum = 0, Maximum = 50, Increment = .5M, Value = Math.Clamp((decimal)(settings.MissingRate * 100), 0, 50), Location = new Point(480, 182), Width = 150 };
-            void SaveExpert() { settings.CalibrationSeed = (int)seed.Value; settings.CustomRepetitions = (int)repetitions.Value; settings.CalibrationEffect = (double)effect.Value; settings.SimulationScenario = scenario.SelectedIndex switch { 1 => SimulationScenarios.Decrease, 2 => SimulationScenarios.Variability, _ => SimulationScenarios.Location }; settings.OutlierRate = (double)outliers.Value / 100; settings.MissingRate = (double)missing.Value / 100; settings.Save(); }
+            void SaveExpert() { settings.CalibrationSeed = (int)seed.Value; settings.CustomRepetitions = (int)repetitions.Value; settings.CalibrationEffect = (double)effect.Value; settings.SimulationScenario = scenario.SelectedIndex switch { 1 => SimulationScenarios.Decrease, 2 => SimulationScenarios.Variability, 3 => SimulationScenarios.Heterogeneity, _ => SimulationScenarios.Location }; settings.OutlierRate = (double)outliers.Value / 100; settings.MissingRate = (double)missing.Value / 100; settings.Save(); }
             seed.ValueChanged += (_, _) => SaveExpert(); repetitions.ValueChanged += (_, _) => SaveExpert(); effect.ValueChanged += (_, _) => SaveExpert(); scenario.SelectedIndexChanged += (_, _) => SaveExpert(); outliers.ValueChanged += (_, _) => SaveExpert(); missing.ValueChanged += (_, _) => SaveExpert();
             expert.Controls.Add(new Label { Text = T("Changes are saved immediately and used by the next calibration.", "Изменения сохраняются сразу и применяются к следующей калибровке."), AutoSize = true, MaximumSize = new Size(820, 0), ForeColor = Secondary, Location = new Point(20, 248) });
             expert.Controls.Add(seed); expert.Controls.Add(repetitions); expert.Controls.Add(effect); expert.Controls.Add(scenario); expert.Controls.Add(outliers); expert.Controls.Add(missing); page.Controls.Add(expert);
@@ -464,7 +349,7 @@ internal sealed partial class MainForm
             (T("1. Import data", "1. Импортируйте данные"), T("Use trial-level CSV or TSV with participant, RT and group columns.", "Используйте CSV или TSV по пробам со столбцами участника, RT и группы.")),
             (T("2. Review quality", "2. Проверьте качество"), T("Confirm recognized fields, valid Value range and participant counts.", "Проверьте распознанные поля, диапазон RT и число объектов.")),
             (T("3. Calibrate", "3. Выполните калибровку"), T("Calibration estimates metric behavior for the current data structure.", "Калибровка оценивает поведение метрик для текущей структуры данных.")),
-            (T("4. Analyze", "4. Запустите анализ"), T("All ten metrics are calculated; observed p-values remain separate.", "Рассчитываются все десять метрик; наблюдаемые p-value остаются отдельно.")),
+            (T("4. Analyze", "4. Запустите анализ"), T("Twelve metrics are reported with raw and registry-adjusted p-values.", "Для двенадцати метрик показаны исходные и скорректированные p-value.")),
             (T("5. Export", "5. Экспортируйте"), T("Export the full result table and retain the project source separately.", "Экспортируйте полную таблицу и отдельно сохраняйте исходники проекта.")) }) page.Controls.Add(Card(item.Item1, item.Item2, 105));
     }
 
@@ -485,7 +370,7 @@ internal sealed partial class MainForm
 
         if (auditReport == null)
         {
-            page.Controls.Add(Card(T("What this can and cannot prove", "Что это доказывает, а что нет"), T("Matching hashes prove that saved results were not edited after the run. The journal additionally exposes runs that were deleted or hidden. Neither can prove that a study was honest \u2014 only that the record is complete and untouched.", "Совпадение хешей доказывает, что сохранённые результаты не правили после прогона. Журнал дополнительно показывает удалённые или скрытые прогоны. Ни то, ни другое не доказывает честность исследования \u2014 только полноту и неизменность записи."), 160));
+            page.Controls.Add(Card(T("What this can and cannot prove", "Что это доказывает, а что нет"), T("Matching hashes show agreement with the current manifest. A local journal can reveal missing recorded runs, but can itself be rewritten or deleted. Neither proves authenticity, complete reporting or scientific correctness.", "Хеши показывают согласованность с текущим манифестом. Локальный журнал может выявить пропажу записанного прогона, но его тоже можно переписать или удалить. Это не доказательство подлинности, полноты отчётности или научной корректности."), 160));
             return;
         }
 

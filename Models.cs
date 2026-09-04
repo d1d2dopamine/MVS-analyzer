@@ -8,7 +8,7 @@ internal record EntityResult(string Entity, string Group, double[] Metrics, int 
 /// the values for the primary track, kept as plain properties so older readers still work,
 /// while TrackPowers and friends carry the full per-track picture added in 1.4.0.
 /// </summary>
-internal record CalibrationRow(string Metric, double Fpr, double Power, double Score, double Robustness = 1, double Repeatability = 1, double Coverage = .95, bool Applicable = true, double Mde = double.NaN, bool FprInflated = false, string PowerCurve = "", string[]? Tracks = null, double[]? TrackPowers = null, double[]? TrackScores = null, double[]? TrackMdes = null, string[]? TrackCurves = null)
+internal record CalibrationRow(string Metric, double Fpr, double Power, double Score, double Robustness = 1, double Repeatability = 1, double Coverage = .95, bool Applicable = true, double Mde = double.NaN, bool FprInflated = false, string PowerCurve = "", string[]? Tracks = null, double[]? TrackPowers = null, double[]? TrackScores = null, double[]? TrackMdes = null, string[]? TrackCurves = null, int Repetitions = 0, double FprLow = double.NaN, double FprHigh = double.NaN, double[]? TrackPowerLow = null, double[]? TrackPowerHigh = null, int[]? TrackFailures = null, string[]? TrackMdeStatus = null, double Alpha = .05, int NullFailures = 0)
 {
     /// <summary>Index of a track name, or -1. Names are canonical SimulationScenarios values.</summary>
     public int TrackIndex(string track)
@@ -21,26 +21,29 @@ internal record CalibrationRow(string Metric, double Fpr, double Power, double S
 
     private static double At(double[]? values, int index, double fallback) => values != null && index >= 0 && index < values.Length ? values[index] : fallback;
 
-    public double PowerIn(string track) => At(TrackPowers, TrackIndex(track), Power);
-    public double ScoreIn(string track) => At(TrackScores, TrackIndex(track), Score);
-    public double MdeIn(string track) => At(TrackMdes, TrackIndex(track), Mde);
+    public double PowerIn(string track) => At(TrackPowers, TrackIndex(track), Tracks == null ? Power : double.NaN);
+    public double ScoreIn(string track) => At(TrackScores, TrackIndex(track), Tracks == null ? Score : double.NaN);
+    public double MdeIn(string track) => At(TrackMdes, TrackIndex(track), Tracks == null ? Mde : double.NaN);
     public string CurveIn(string track) { int i = TrackIndex(track); return TrackCurves != null && i >= 0 && i < TrackCurves.Length ? TrackCurves[i] : PowerCurve; }
 
     /// <summary>The shipped gate, asked separately for each track instead of once for all of them.</summary>
     public bool PassesGateIn(string track)
     {
         double power = PowerIn(track), score = ScoreIn(track);
-        return Applicable && double.IsFinite(Fpr) && double.IsFinite(power) && double.IsFinite(score)
-            && Fpr <= AnalysisEngine.CandidateMaxFpr && power >= AnalysisEngine.CandidateMinPower && score >= AnalysisEngine.CandidateMinScore;
+        int index = TrackIndex(track);
+        double lower = At(TrackPowerLow, index, power), upperFpr = double.IsFinite(FprHigh) ? FprHigh : Fpr;
+        return Applicable && !FprInflated && double.IsFinite(Fpr) && double.IsFinite(power) && double.IsFinite(score)
+            && upperFpr <= DecisionPolicy.FprLimit(Alpha / AnalysisEngine.MetricKeys.Length)
+            && lower >= AnalysisEngine.CandidateMinPower;
     }
 }
 /// <summary>
 /// One metric on the results page. Power, Score, Mde and Candidate carry the primary track so
 /// that anything written before 1.4.0 keeps its meaning. TrackCandidates is the honest answer
-/// for a two-track run: a metric can be a candidate for the spread question and not for the
+/// for a multi-track run: a metric can be a candidate for the spread question and not for the
 /// centre question, and saying so is the whole point of splitting the tracks.
 /// </summary>
-internal record ResultRow(string Metric, double FirstGroupMedian, double SecondGroupMedian, double MedianRange, double PValue, double Fpr, double Power, double Score, bool Candidate, string GroupSummary = "", double Robustness = 1, double Repeatability = 1, double Coverage = .95, bool Applicable = true, bool NearMiss = false, double Effect = double.NaN, double EffectLow = double.NaN, double EffectHigh = double.NaN, double EquivalenceP = double.NaN, double Mde = double.NaN, bool FprInflated = false, string Verdict = "insufficient", string EffectPair = "", double EffectPercent = double.NaN, string[]? Tracks = null, double[]? TrackPowers = null, double[]? TrackScores = null, double[]? TrackMdes = null, bool[]? TrackCandidates = null)
+internal record ResultRow(string Metric, double FirstGroupMedian, double SecondGroupMedian, double MedianRange, double PValue, double Fpr, double Power, double Score, bool Candidate, string GroupSummary = "", double Robustness = 1, double Repeatability = 1, double Coverage = .95, bool Applicable = true, bool NearMiss = false, double Effect = double.NaN, double EffectLow = double.NaN, double EffectHigh = double.NaN, double EquivalenceP = double.NaN, double Mde = double.NaN, bool FprInflated = false, string Verdict = "insufficient", string EffectPair = "", double EffectPercent = double.NaN, string[]? Tracks = null, double[]? TrackPowers = null, double[]? TrackScores = null, double[]? TrackMdes = null, bool[]? TrackCandidates = null, double AdjustedP = double.NaN, string EffectIntervalStatus = "", double EquivalenceLow = double.NaN, double EquivalenceHigh = double.NaN)
 {
     public int TrackIndex(string track)
     {
@@ -50,10 +53,10 @@ internal record ResultRow(string Metric, double FirstGroupMedian, double SecondG
         return -1;
     }
 
-    public double PowerIn(string track) { int i = TrackIndex(track); return TrackPowers != null && i >= 0 && i < TrackPowers.Length ? TrackPowers[i] : Power; }
-    public double ScoreIn(string track) { int i = TrackIndex(track); return TrackScores != null && i >= 0 && i < TrackScores.Length ? TrackScores[i] : Score; }
-    public double MdeIn(string track) { int i = TrackIndex(track); return TrackMdes != null && i >= 0 && i < TrackMdes.Length ? TrackMdes[i] : Mde; }
-    public bool CandidateIn(string track) { int i = TrackIndex(track); return TrackCandidates != null && i >= 0 && i < TrackCandidates.Length ? TrackCandidates[i] : Candidate; }
+    public double PowerIn(string track) { int i = TrackIndex(track); return TrackPowers != null && i >= 0 && i < TrackPowers.Length ? TrackPowers[i] : Tracks == null ? Power : double.NaN; }
+    public double ScoreIn(string track) { int i = TrackIndex(track); return TrackScores != null && i >= 0 && i < TrackScores.Length ? TrackScores[i] : Tracks == null ? Score : double.NaN; }
+    public double MdeIn(string track) { int i = TrackIndex(track); return TrackMdes != null && i >= 0 && i < TrackMdes.Length ? TrackMdes[i] : Tracks == null ? Mde : double.NaN; }
+    public bool CandidateIn(string track) { int i = TrackIndex(track); return TrackCandidates != null && i >= 0 && i < TrackCandidates.Length ? TrackCandidates[i] : Tracks == null && Candidate; }
 
     /// <summary>True when the metric answers at least one of the questions that were asked.</summary>
     public bool CandidateInAnyTrack => TrackCandidates == null ? Candidate : TrackCandidates.Any(x => x);
@@ -85,6 +88,8 @@ internal sealed record AuditReport(List<RunAudit> Runs, List<AuditFinding> Findi
 
 internal sealed class AnalysisData
 {
+    public string[] Warnings { get; init; } = Array.Empty<string>();
+    public string ImportSummary { get; set; } = "Direct in-memory input; consult retained counts and processing rules.";
     public required List<Observation> Observations { get; init; }
     public required List<EntityResult> Entities { get; init; }
     public int TotalEntities => Entities.Count;
@@ -166,6 +171,12 @@ internal sealed class AppSettings
             }
         }
         if (value.MinValue >= value.MaxValue) { value.MinValue = -1000000; value.MaxValue = 1000000; }
+        if (!double.IsFinite(value.CalibrationEffect) || value.CalibrationEffect <= 1) value.CalibrationEffect = 1.15;
+        if (!double.IsFinite(value.OutlierRate)) value.OutlierRate = .02;
+        if (!double.IsFinite(value.MissingRate)) value.MissingRate = 0;
+        if (!double.IsFinite(value.Alpha)) value.Alpha = .05;
+        if (!double.IsFinite(value.EquivalenceMargin)) value.EquivalenceMargin = .147;
+        value.CustomRepetitions = Math.Clamp(value.CustomRepetitions, 100, 100000);
         value.MinMeasurements = Math.Clamp(value.MinMeasurements, 2, 100000);
         value.OutlierRate = Math.Clamp(value.OutlierRate, 0, .25); value.MissingRate = Math.Clamp(value.MissingRate, 0, .50); value.Alpha = Math.Clamp(value.Alpha, .001, .20); value.EquivalenceMargin = Math.Clamp(value.EquivalenceMargin, .02, .60);
         return value;

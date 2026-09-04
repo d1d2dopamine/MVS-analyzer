@@ -1,0 +1,28 @@
+name: Extended scientific diagnostics
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  diagnostics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Build portable analyzer
+        run: dotnet publish MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj -c Release -o publish/cli
+      - name: Gaussian variance component diagnostics
+        run: dotnet publish/cli/mvs.dll variance --in examples/variance_demo.csv --out diagnostics/variance --repetitions 500 --bootstrap 399 --seed 20260719
+      - name: Known-truth mean study
+        run: dotnet publish/cli/mvs.dll estimation --out diagnostics/estimation --target mean --shape normal --repetitions 1000 --bootstrap 399
+      - name: MELSM fit diagnostics (experimental)
+        run: dotnet publish/cli/mvs.dll melsm --in examples/repeated_conditions.csv --out diagnostics/melsm --quadrature 15
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scientific-diagnostics-not-a-validation-certificate
+          path: diagnostics/
+          if-no-files-found: warn

@@ -36,46 +36,46 @@ internal static class BenchmarkProcedures
     public const int MvsPilot = 4;
     public const int MvsStrict = 5;
     public const int MvsLenient = 6;
-    /// <summary>Added in 1.4.0: calibrates a centre track and a spread track, each at half alpha.</summary>
+    /// <summary>Legacy internal slot; public procedure now mirrors full-registry adjusted Results inference.</summary>
     public const int MvsTwoTrack = 7;
 
     public static readonly string[] Ids =
     {
-        "cherry_pick", "bonferroni", "fixed_median", "fixed_cv", "mvs_pilot", "mvs_strict", "mvs_lenient", "mvs_two_track"
+        "cherry_pick", "bonferroni", "fixed_median", "fixed_cv", "mvs_pilot", "mvs_strict", "mvs_lenient", "mvs_registry_corrected"
     };
 
     public static readonly string[] Labels =
     {
-        "Try all ten, report the best",
-        "Try all ten, Bonferroni",
+        "Try all twelve, report the best",
+        "Try all twelve, Bonferroni",
         "Median, fixed in advance",
         "Coefficient of variation, fixed in advance",
         "MVS, metric locked on a pilot",
         "MVS, gate respected",
         "MVS, gate ignored",
-        "MVS, centre and spread tracks at half alpha each"
+        "MVS, all applicable metrics with registry correction"
     };
 
     public static readonly string[] LabelsRu =
     {
-        "Все десять, выбрать лучшую",
-        "Все десять, поправка Бонферрони",
+        "Все двенадцать, выбрать лучшую",
+        "Все двенадцать, поправка Бонферрони",
         "Медиана, выбрана заранее",
         "Коэффициент вариации, выбран заранее",
         "MVS, метрика закреплена на пилоте",
         "MVS, порог соблюдён",
         "MVS, порог проигнорирован",
-        "MVS, треки центра и разброса, по половине альфы"
+        "MVS, все применимые метрики с поправкой по реестру"
     };
 
     public static readonly string[] Short =
     {
-        "cherry-pick", "Bonferroni", "median", "CV", "MVS pilot", "MVS gated", "MVS ungated", "MVS 2-track"
+        "cherry-pick", "Bonferroni", "median", "CV", "MVS pilot", "MVS gated", "MVS ungated", "MVS corrected"
     };
 
     public static readonly string[] ShortRu =
     {
-        "перебор", "Бонферрони", "медиана", "КВ", "MVS пилот", "MVS с порогом", "MVS без порога", "MVS 2 трека"
+        "перебор", "Бонферрони", "медиана", "КВ", "MVS пилот", "MVS с порогом", "MVS без порога", "MVS с поправкой"
     };
 
     public static int Count => Ids.Length;
@@ -96,30 +96,30 @@ internal static class BenchmarkProcedures
 /// </summary>
 internal static class BenchmarkProtocol
 {
-    public const string Version = "MVS-BENCH-1.1.0";
+    public const string Version = "MVS-BENCH-1.2.0";
 
     /// <summary>SHA-256 of <see cref="Specification"/>, frozen before the first run of the protocol.</summary>
-    public const string FrozenHash = "3bb871b666c189fd8b9188f920108e92b67542b7d63bfe2f1d24393dad5e9723";
+    public const string FrozenHash = "b81be4a1a86e8ba4b013eb63b75256d16e439fb824e7fa68efae5f28e48de268";
 
     public const string Specification =
-        "protocol=MVS-BENCH-1.1.0;" +
+        "protocol=MVS-BENCH-1.2.0;" +
         "question=doesMetricSelectionInflateTypeIError;" +
         "designs=gait_stride_like(16x40),voice_jitter_like(20x26);" +
         "shapes=normal,heavy_tail,lognormal;primaryShape=heavy_tail;groups=2;" +
         "test=mannWhitneyTwoSided;alpha=.05;" +
-        "injection=location(entityMeanTimesK),dispersion(entityCvTimesK);" +
+        "injection=location(constantBaseLevelShiftAfterFloor),dispersion(entityCvTimesK);" +
         "effectGrid=1.00,1.02,1.05,1.10,1.20;primaryLocationK=1.05;primaryDispersionK=1.30;" +
         "contaminationGrid=0,.02,.05,.10;" +
-        "procedures=cherry_pick,bonferroni,fixed_median,fixed_cv,mvs_pilot,mvs_strict,mvs_lenient,mvs_two_track;" +
-        "shippedDefault=mvs_two_track;" +
-        "tracks=location,variability;" +
+        "procedures=cherry_pick,bonferroni,fixed_median,fixed_cv,mvs_pilot,mvs_strict,mvs_lenient,mvs_registry_corrected;" +
+        "shippedDefault=mvs_registry_corrected;" +
+        "tracks=location,variability,heterogeneity;" +
         "trackCalibration=powerPerTrack,nullAndRobustnessAndRepeatabilityAndCoverageShared;" +
-        "twoTrackTest=eachTrackAtAlphaDividedByTrackCount;" +
+        "shippedTest=allApplicableRegistryMetricsAtAlphaDividedByRegistryCount;candidateLabelsDoNotGateDisplayedTests;" +
         "gateAppliedPerTrack;" +
         "oracle=bestFixedMetricPerCondition;oracleSelection=oddReplications;oracleScoring=evenReplications;" +
         "calibration=engine defaults scenario=location effect=1.15 outlierRate=.02 missingRate=0 alpha=.05;" +
         "selection=maxScoreAmongApplicableTieBrokenByMetricOrder;" +
-        "strictGate=fpr<=.075 and power>=.70 and score>=60;" +
+        "strictGate=fprWilsonUpper<=max(1.5alpha/M,alpha/M+.02) and powerWilsonLower>=.70;strictAndLenientAreUncorrectedDiagnosticComparators;" +
         "lenientFallback=highestScoringApplicableMetric;" +
         "pilotLockedOnSeparateNullPilotDataset;" +
         "rng=xoshiro256starstar;seedDerivation=splitmix64(seed,stage,condition,replication);" +
@@ -129,9 +129,9 @@ internal static class BenchmarkProtocol
         "hypothesisD=mvsStrictFprAtContamination.10<=.075 pass, atContamination.02>.10 fail;" +
         "hypothesisE=identicalSha256AcrossRepeatedRunWithSameSeed;" +
         "monteCarloSe=binomialAndReportedWithEveryRate;" +
-        "noResultDependentEdits=protocolHashFrozenInSourceBeforeAnyRun";
+        "sourceChecksumPinsDeclaredProtocol;notExternalPreregistration;summaryEngine=1.6.0;metricCount=12;legacyRunComparability=false";
 
-    // ---- pre-registered numbers. Changing any line below changes Hash. ----
+    // ---- declared numbers. Keep the specification/hash synchronized when changing these values. ----
 
     public const double Alpha = .05;
     public const double CalibrationEffect = 1.15;
@@ -160,13 +160,13 @@ internal static class BenchmarkProtocol
     public static readonly BenchmarkProfile[] Profiles =
     {
         new("quick", "Quick — sanity check", "Быстрый — проверка работоспособности",
-            "about 2-5 minutes", "примерно 2-5 минут",
+            "runtime depends on hardware", "время зависит от оборудования",
             150, 30, 250, 24, 24),
-        new("standard", "Standard — publishable", "Стандартный — можно публиковать",
-            "about 15-30 minutes", "примерно 15-30 минут",
+        new("standard", "Standard — higher budget", "Стандартный — увеличенный бюджет",
+            "runtime depends on hardware", "время зависит от оборудования",
             500, 100, 500, 60, 40),
-        new("full", "Full — the pre-registered run", "Полный — предзарегистрированный прогон",
-            "about 1-2 hours", "примерно 1-2 часа",
+        new("full", "Full — largest included budget", "Полный — максимальный встроенный бюджет",
+            "runtime depends on hardware", "время зависит от оборудования",
             1000, 250, 1000, 120, 60)
     };
 

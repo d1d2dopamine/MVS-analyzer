@@ -69,8 +69,8 @@ internal sealed partial class MainForm
 
         card.Controls.Add(new Label
         {
-            Text = T("A job archive carries the data together with every setting, so the remote run is the same analysis rather than a similar one. Upload it in the first cell; the notebook reads the settings from it instead of asking.",
-                     "Задание содержит данные вместе со всеми настройками, поэтому удалённый запуск — тот же анализ, а не похожий. Загрузите его в первую ячейку: ноутбук возьмёт настройки оттуда и не будет спрашивать."),
+            Text = T("A job archive carries the data together with all recorded scientific settings, so the remote run is the same analysis rather than a similar one. Upload it in the first cell; the notebook reads the settings from it instead of asking.",
+                     "Задание содержит данные вместе со записанными научными настройками, поэтому удалённый запуск — тот же анализ, а не похожий. Загрузите его в первую ячейку: ноутбук возьмёт настройки оттуда и не будет спрашивать."),
             AutoSize = true,
             MaximumSize = new Size(760, 0),
             ForeColor = Secondary,

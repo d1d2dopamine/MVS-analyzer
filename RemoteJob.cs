@@ -39,12 +39,12 @@ internal sealed record RemoteJobFile(
     string EngineVersion,
     string FormulaVersion,
     string FormulaHash,
-    string CreatedUtc);
+    string CreatedUtc, ProcessingSnapshot? Processing = null, int SchemaVersion = 2);
 
 internal static class RemoteJob
 {
     /// <summary>The single place the shipped version number is written for remote work.</summary>
-    public const string AppVersion = "1.5.0";
+    public const string AppVersion = "1.4.0";
 
     public const string JobFileName = "job.json";
 
@@ -115,7 +115,7 @@ internal static class RemoteJob
             EngineVersion: AnalysisEngine.EngineVersion,
             FormulaVersion: OutputExporter.FormulaVersion,
             FormulaHash: OutputExporter.FormulaHash,
-            CreatedUtc: DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture));
+            CreatedUtc: DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture), Processing: ProcessingSnapshot.From(settings));
     }
 
     public static string Serialize(RemoteJobFile job) => JsonSerializer.Serialize(job, Json);
@@ -124,12 +124,17 @@ internal static class RemoteJob
     {
         RemoteJobFile? job = JsonSerializer.Deserialize<RemoteJobFile>(File.ReadAllText(path), Json);
         if (job == null) throw new InvalidDataException("The job file could not be read: " + path);
+        if (job.Dataset != Path.GetFileName(job.Dataset) || job.Dataset.Contains('\\') || job.DatasetHash.Length == 0)
+            throw new InvalidDataException("Unsafe or incomplete job dataset reference.");
         return job;
     }
 
     /// <summary>Copies the job settings over a settings object so both phases use identical values.</summary>
     public static void Apply(RemoteJobFile job, AppSettings settings)
     {
+        if (job.SchemaVersion != 2 || job.Processing == null || job.EngineVersion != AnalysisEngine.EngineVersion || job.FormulaHash != OutputExporter.FormulaHash)
+            throw new InvalidDataException("Legacy or incompatible remote job. Re-export it with this version.");
+        job.Processing.Apply(settings);
         settings.MinValue = job.MinValue;
         settings.MaxValue = job.MaxValue;
         settings.MinMeasurements = job.MinMeasurements;

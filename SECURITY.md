@@ -32,7 +32,7 @@ Please do not send datasets containing personal or confidential measurements. Re
 - zip-bomb limits: max 2000 entries and 64 MB unpacked;
 - `minAppVersion` above the running engine is refused;
 - the package SHA-256 is stored next to the installed files and recorded in every run manifest;
-- installation is atomic (`*.installing` → rename), so a failed install cannot leave a half-written plugin behind.
+- installation uses a staging directory and path checks; replacement/removal is not a fully transactional rollback. Keep the original package if you need to reinstall after failure.
 
 **Datasets** are parsed with a hand-written reader: no formula evaluation, no macro execution, no external references. Values outside the configured min/max range are dropped rather than trusted.
 
@@ -50,3 +50,8 @@ Please do not send datasets containing personal or confidential measurements. Re
 - Keep run folders on a share that only the analyst can write to, and audit them from a second machine.
 - Enable **Settings → Anonymous reports** (default) so exported identifiers are pseudonymized.
 - Archive the input dataset next to the run folder — `inputData.sha256` is only useful if the file still exists.
+
+
+## Scientific/output scope in 1.4.0
+
+A checksummed local record is not authenticated or externally immutable. Pseudonyms are not guaranteed anonymization. Core CSV text is spreadsheet-escaped, but inspect custom report templates before opening their output in other applications. Optional hosted notebooks transfer uploaded data to their provider. Native MELSM is experimental and model diagnostics are not security or scientific certification.

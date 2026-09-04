@@ -15,7 +15,7 @@ internal sealed partial class MainForm
     {
         var card = Card(
             T("Developer — benchmark", "Для разработчика — бенчмарк"),
-            T("Runs the pre-registered protocol against data whose truth is known, then writes the figures, the tables and a signed manifest into a folder that opens when the run ends. Nothing leaves this machine.",
+            T("Runs the declared protocol against data whose truth is known, then writes the figures, the tables and a checksummed manifest into a folder that opens when the run ends. Nothing leaves this machine.",
               "Прогоняет заранее записанный протокол на данных с известной истиной и сохраняет графики, таблицы и манифест в папку, которая откроется по окончании. Ничто не покидает этот компьютер."),
             440);
 
@@ -197,14 +197,14 @@ internal sealed partial class MainForm
         ConditionSummary? primary = outcome.Find("primary_null");
         string headline = primary == null
             ? ""
-            : T("Picking the best of ten metrics: ", "Выбор лучшей из десяти метрик: ") +
+            : T("Picking the best of twelve metrics: ", "Выбор лучшей из двенадцати метрик: ") +
               BenchmarkRunner.Pct(primary.Rate(BenchmarkProcedures.CherryPick)) +
               T(" false discoveries. Same data through MVS: ", " ложных открытий. Те же данные через MVS: ") +
               BenchmarkRunner.Pct(primary.Rate(BenchmarkProcedures.MvsStrict)) + ".";
 
         string verdict = outcome.Overall switch
         {
-            "go" => T("Every pre-registered threshold was met.", "Все заранее записанные пороги выполнены."),
+            "go" => T("Every declared threshold was met.", "Все заранее записанные пороги выполнены."),
             "no-go" => T("At least one threshold was missed.", "Не выполнен как минимум один порог."),
             _ => T("Nothing failed, but not everything cleared the bar.", "Провалов нет, но не всё прошло порог."),
         };

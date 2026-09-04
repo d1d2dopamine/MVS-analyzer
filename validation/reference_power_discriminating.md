@@ -1,3 +1,5 @@
+> HISTORICAL SNAPSHOT REPORT: retained for traceability, not validation of engine 1.6.0. See ../docs/VALIDATION.md.
+
 # Reference truth table (discriminating grid)
 
 Grid: **discriminating**. Replications: 2000 per mechanism (4000 for the null). alpha = 0.05. Two-sided Mann-Whitney U on entity-level values. Rows marked * are not implemented in the engine and are shown for comparison only.

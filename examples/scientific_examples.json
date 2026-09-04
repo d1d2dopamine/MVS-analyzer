@@ -1,0 +1,41 @@
+{
+  "purpose": "Synthetic input demonstrations, not validation results",
+  "variance_demo": {
+    "pythonRandomSeed": 20260719,
+    "groups": 2,
+    "entitiesPerGroup": 20,
+    "repeats": 8,
+    "means": [
+      100,
+      103
+    ],
+    "withinSd": [
+      1,
+      1.35
+    ],
+    "betweenSd": [
+      0.7,
+      1.1
+    ]
+  },
+  "repeated_conditions": {
+    "pythonRandomSeed": 20260720,
+    "subjects": 48,
+    "conditions": [
+      "A",
+      "B"
+    ],
+    "repeatsPerCondition": 6,
+    "means": [
+      100,
+      101.8
+    ],
+    "conditionalResidualSdAtV0": [
+      1,
+      1.2
+    ],
+    "randomInterceptSd": 1.5,
+    "randomLogVarianceSd": 0.35,
+    "locationScaleCorrelation": 0
+  }
+}

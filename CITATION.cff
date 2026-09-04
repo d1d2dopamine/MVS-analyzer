@@ -1,35 +1,23 @@
 cff-version: 1.2.0
-message: "If you use MVS Analyzer in research, please cite it as below, together with the formula hash and engine version from your run_manifest.json."
-title: "MVS Analyzer: measuring which metric detects a change on your own data"
+message: "Cite the application, engine, method hash and source revision used for your run. This source package does not claim independent scientific validation."
+title: "MVS Analyzer: sensitivity of repeated-measurement summaries and model-based variance analysis"
 abstract: >-
-  MVS Analyzer is an offline Windows application that ranks candidate summary
-  metrics (median, mean, SD, CV, MAD, IQR, normalized MAD/IQR, RMS, range) by
-  measured false-alarm rate, power, robustness, split-half repeatability and
-  bootstrap interval coverage, using resampling of the user's own measurements.
-  It reports an explicit verdict per metric (difference, equivalence via TOST,
-  insufficient data, not applicable), Cliff's delta with a bootstrap interval,
-  the minimum detectable effect, and a tamper-evident run manifest.
+  MVS Analyzer provides empirical sensitivity calibration for entity summaries,
+  Gaussian within/between variance-component analysis, known-truth estimation
+  studies, and an optional experimental mixed-effects location-scale model.
+  Public application 1.4.0 uses engine 1.6.0. Inference and numerical assumptions
+  are documented; local checksums do not establish scientific validity.
 type: software
 authors:
   - name: "d1d2dopamine"
     website: "https://github.com/d1d2dopamine"
 repository-code: "https://github.com/d1d2dopamine/MVS-Analyzer"
 url: "https://github.com/d1d2dopamine/MVS-Analyzer"
-version: "1.5.0"
-date-released: "2026-08-23"
+version: "1.4.0"
 license: MIT
 keywords:
-  - metrology
-  - metric selection
+  - variance components
+  - mixed-effects location-scale model
+  - estimation quality
   - statistical power
-  - false positive rate
-  - bootstrap
-  - equivalence testing
   - reproducibility
-  - open science
-references:
-  - type: generic
-    title: "MVS Score specification MVS-1.3.0"
-    notes: "score=100*power^.30*falseAlarm^.25*robustness^.20*repeatability^.15*coverage^.10; sha256 dcc0ef643ff071d8c4c6e5d33a4329f86c49294d156a3463ee6398285709f9da"
-    authors:
-      - name: "d1d2dopamine"

@@ -1,3 +1,5 @@
+> Version 1.4.0 note: original packaged plugins are preserved unchanged. Primary-track report placeholders are labelled as such by the renderer; core JSON/CSV is authoritative for all tracks and corrected inference. Import profiles are fingerprinted for calibration replay.
+
 # Plugins
 
 Plugins extend MVS Analyzer with **data, never code**. Implementation: `PluginManager.cs` (install, verify, enable) and `PluginAssets.cs` (profiles, templates, rules, terms).

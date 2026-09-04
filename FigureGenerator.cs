@@ -357,7 +357,7 @@ internal static class FigureGenerator
     private static double MetricValue(string y, ResultRow r) => y switch
     {
         "power" => r.Power, "fpr" => r.Fpr, "robustness" => r.Robustness, "repeatability" => r.Repeatability,
-        "coverage" => r.Coverage, "p" or "p_value" or "global_p" => r.PValue, "median" or "median_rt" => r.FirstGroupMedian, _ => r.Score
+        "coverage" => r.Coverage, "adjusted_p" => r.AdjustedP, "p" or "p_value" or "global_p" => r.PValue, "median" or "median_rt" => r.FirstGroupMedian, _ => r.Score
     };
     private static double EntityValue(string y, EntityResult e) => y switch
     {

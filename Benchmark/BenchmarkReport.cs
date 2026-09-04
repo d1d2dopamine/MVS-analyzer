@@ -15,7 +15,7 @@ internal sealed class BenchmarkReportResult
 
 /// <summary>
 /// Runs the benchmark and writes everything a sceptical reader would ask for: the figures, the raw
-/// rates behind every bar, the pre-registered scorecard, a manifest that pins the protocol and the
+/// rates behind every bar, the declared scorecard, a manifest that pins the protocol and the
 /// engine, and a checksum file so a downloaded copy can be verified.
 /// </summary>
 internal static class BenchmarkReport

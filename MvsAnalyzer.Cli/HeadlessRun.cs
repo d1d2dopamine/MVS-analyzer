@@ -1,434 +1,138 @@
 using System.Globalization;
-using System.Text.Json;
 using MvsAnalyzer.Benchmarking;
 
 namespace MvsAnalyzer.Cli;
 
-/// <summary>
-/// What a calibration is, written down so that a second machine can finish the work a first one
-/// started. A calibration is a measurement of how ten metrics behave on one specific dataset under
-/// one specific set of settings, and it is worthless attached to anything else. So the dataset hash
-/// and every setting that shaped it travel with the numbers, and analysis refuses to proceed when
-/// they do not match what is in front of it.
-/// </summary>
-internal sealed record CalibrationState(
-    string Dataset,
-    string DatasetHash,
-    string CalibrationSource,
-    int Repetitions,
-    double Effect,
-    int Seed,
-    string Scenario,
-    double OutlierRate,
-    double MissingRate,
-    double Alpha,
-    double EquivalenceMargin,
-    bool SplitCalibration,
-    string[] Tracks,
-    string AppVersion,
-    string EngineVersion,
-    string FormulaVersion,
-    string FormulaHash,
-    string EnvironmentHash,
-    string CreatedUtc,
-    List<CalibrationRow> Rows);
-
-/// <summary>
-/// Calibration and analysis without a window.
-///
-/// The two phases are separate commands on purpose. In a hosted notebook the expensive phase is
-/// calibration, and a session can be reclaimed before the work is used; writing the calibration to
-/// disk means a lost session costs one cell instead of the whole run. It also makes the split that
-/// the window performs silently visible: the numbers the analysis leans on are a file that can be
-/// read, checked and archived.
-/// </summary>
+internal static class CliCancellation
+{
+    internal static readonly CancellationTokenSource Source = new();
+    internal static CancellationToken Token => Source.Token;
+}
+internal sealed class CliProgress : IProgress<ProgressInfo>
+{
+    private int last = -1;
+    public void Report(ProgressInfo info)
+    {
+        int pct = (int)(100 * info.Fraction);
+        if (pct == 0 && info.Action.StartsWith("MELSM", StringComparison.Ordinal)) { Console.WriteLine(info.Action); return; }
+        if (pct == last || (pct != 100 && pct % 5 != 0)) return;
+        last = pct; Console.WriteLine($"{pct,3}%  {info.Action} — {info.Details}");
+    }
+}
 internal static class HeadlessRun
 {
-    public const string StateFileName = "calibration_state.json";
-
-    private static readonly JsonSerializerOptions Json = new()
-    {
-        WriteIndented = true,
-        PropertyNameCaseInsensitive = true,
-    };
-
+    public const string StateFileName = CalibrationPersistence.FileName;
+    private static readonly string[] Common = { "--in", "--out", "--job", "--seed", "--effect", "--scenario", "--alpha", "--outliers", "--missing", "--margin", "--min-measurements", "--min-value", "--max-value", "--split", "--local-settings", "--allow-group-scoped-ids" };
     public static int Calibrate(CliArguments args)
     {
-        AppSettings settings = Settings(args, out RemoteJobFile? job);
-        string input = Input(args, job);
-        string output = args.Require("--out");
+        args.Validate(Common.Concat(new[] { "--repetitions", "--overwrite" }));
+        AppSettings settings = Settings(args, out RemoteJobFile? job); string input = Input(args, job), output = args.Require("--out");
         int repetitions = args.Int("--repetitions", job?.Repetitions ?? settings.CustomRepetitions);
-        if (repetitions < 100)
-        {
-            Console.Error.WriteLine("Use at least 100 repetitions; below that the false alarm rate is noise.");
-            return 1;
-        }
-
-        Console.WriteLine();
-        Console.WriteLine("MVS calibration");
-        Environment(settings);
-        Console.WriteLine("  data            " + input);
-        Console.WriteLine("  output          " + output);
-        Console.WriteLine("  repetitions     " + repetitions.ToString(CultureInfo.InvariantCulture));
-        Console.WriteLine("  seed            " + settings.CalibrationSeed.ToString(CultureInfo.InvariantCulture));
-        Console.WriteLine("  effect          " + Num(settings.CalibrationEffect));
-        Console.WriteLine("  scenario        " + settings.SimulationScenario);
-        Console.WriteLine("  tracks          " + string.Join(", ", AnalysisEngine.DefaultTracks));
-        Console.WriteLine("  alpha           " + Num(settings.Alpha));
-        Console.WriteLine();
-
-        List<Observation> observations = CsvImporter.Read(input, settings.MinValue, settings.MaxValue, Profile(settings));
-        AnalysisData data = AnalysisEngine.Build(observations, settings.MinValue, settings.MaxValue, settings.MinMeasurements);
-        string datasetHash = OutputExporter.HashFile(input);
-
-        Console.WriteLine("  encoding read   " + CsvImporter.LastEncodingName);
-        Console.WriteLine("  entities        " + data.TotalEntities.ToString(CultureInfo.InvariantCulture));
-        Console.WriteLine("  groups          " + string.Join(", ", data.GroupNames));
-        Console.WriteLine("  valid rows      " + data.ValidRows.ToString(CultureInfo.InvariantCulture));
-        Console.WriteLine("  dataset sha256  " + datasetHash);
-        if (job != null && !string.Equals(job.DatasetHash, datasetHash, StringComparison.OrdinalIgnoreCase))
-            Console.WriteLine("  note            the data does not match the hash recorded in the job file");
-        Console.WriteLine();
-
-        AnalysisData source = data;
-        string calibrationSource = "same_dataset";
-        if (settings.SplitCalibration)
-        {
-            var halves = AnalysisEngine.SplitEntities(data, settings.CalibrationSeed);
-            source = halves.Calibration;
-            calibrationSource = "split_half";
-            Console.WriteLine("  calibrating on the first half of the entities, analysing the second");
-        }
-
-        var progress = new ConsoleProgress();
-        List<CalibrationRow> calibration = AnalysisEngine.Calibrate(
-            source,
-            repetitions,
-            settings.CalibrationEffect,
-            settings.CalibrationSeed,
-            progress,
-            CancellationToken.None,
-            settings.SimulationScenario,
-            settings.OutlierRate,
-            settings.MissingRate,
-            settings.Alpha,
-            AnalysisEngine.DefaultTracks);
-
-        Directory.CreateDirectory(output);
-        var state = new CalibrationState(
-            Dataset: Path.GetFileName(input),
-            DatasetHash: datasetHash,
-            CalibrationSource: calibrationSource,
-            Repetitions: repetitions,
-            Effect: settings.CalibrationEffect,
-            Seed: settings.CalibrationSeed,
-            Scenario: settings.SimulationScenario,
-            OutlierRate: settings.OutlierRate,
-            MissingRate: settings.MissingRate,
-            Alpha: settings.Alpha,
-            EquivalenceMargin: settings.EquivalenceMargin,
-            SplitCalibration: settings.SplitCalibration,
-            Tracks: AnalysisEngine.DefaultTracks,
-            AppVersion: RemoteJob.AppVersion,
-            EngineVersion: AnalysisEngine.EngineVersion,
-            FormulaVersion: OutputExporter.FormulaVersion,
-            FormulaHash: OutputExporter.FormulaHash,
-            EnvironmentHash: BenchmarkEnvironment.Hash,
-            CreatedUtc: DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture),
-            Rows: calibration);
-
+        if (repetitions < 100) throw new ArgumentException("Use at least 100 repetitions. Small budgets are smoke checks, not scientific validation.");
         string statePath = Path.Combine(output, StateFileName);
-        File.WriteAllText(statePath, JsonSerializer.Serialize(state, Json));
-        File.WriteAllText(Path.Combine(output, "calibration.csv"), OutputExporter.CalibrationCsv(calibration));
-
-        Console.WriteLine();
-        Console.WriteLine("Calibration written.");
-        Console.WriteLine("  " + statePath);
-        Console.WriteLine();
-        Tracks(calibration);
-        Console.WriteLine();
-        Console.WriteLine("Next: mvs analyze --in " + Path.GetFileName(input) + " --calibration " + output + " --out <folder>");
-        Console.WriteLine();
+        if (File.Exists(statePath) && !args.Flag("--overwrite")) throw new InvalidDataException("A calibration already exists here. Choose another output folder or pass --overwrite.");
+        Console.WriteLine("MVS calibration"); ShowVersions(); Console.WriteLine("Environment: " + BenchmarkEnvironment.Describe());
+        List<Observation> observations = CsvImporter.Read(input, settings.MinValue, settings.MaxValue, Profile(settings));
+        CheckIndependentIds(observations, args.Flag("--allow-group-scoped-ids"));
+        AnalysisData data = AnalysisEngine.Build(observations, settings.MinValue, settings.MaxValue, settings.MinMeasurements);
+        data.ImportSummary = CsvImporter.LastImportSummary;
+        Console.WriteLine(CsvImporter.LastImportSummary);
+        string hash = OutputExporter.HashFile(input);
+        if (job != null && job.DatasetHash != hash) throw new InvalidDataException("The input does not match the job's dataset checksum.");
+        string[] tracks = AnalysisEngine.NormalizeTracks(settings.SimulationScenario, AnalysisEngine.DefaultTracks);
+        Console.WriteLine("Data: " + Path.GetFileName(input) + " | " + data.TotalEntities + " entities | " + data.ValidRows + " rows | " + CsvImporter.LastEncodingName);
+        Console.WriteLine("Tracks: " + string.Join(", ", tracks)); Console.WriteLine("Seed: " + settings.CalibrationSeed + " | repetitions: " + repetitions);
+        Console.WriteLine("Input SHA256: " + hash);
+        foreach (string warning in data.Warnings) Console.WriteLine("Warning: " + warning);
+        AnalysisData source = settings.SplitCalibration ? AnalysisEngine.SplitEntities(data, settings.CalibrationSeed).Calibration : data;
+        string calibrationSource = settings.SplitCalibration ? "split_half" : "same_dataset";
+        List<CalibrationRow> calibration = AnalysisEngine.Calibrate(source, repetitions, settings.CalibrationEffect, settings.CalibrationSeed,
+            new CliProgress(), CliCancellation.Token, settings.SimulationScenario, settings.OutlierRate, settings.MissingRate, settings.Alpha, tracks);
+        var state = new CalibrationState(Path.GetFileName(input), hash, calibrationSource, repetitions, settings.CalibrationEffect,
+            settings.CalibrationSeed, settings.SimulationScenario, settings.OutlierRate, settings.MissingRate, settings.Alpha, settings.EquivalenceMargin,
+            settings.SplitCalibration, tracks, ReleaseInfo.Version, AnalysisEngine.EngineVersion, OutputExporter.FormulaVersion, OutputExporter.FormulaHash,
+            BenchmarkEnvironment.Hash, DateTime.UtcNow.ToString("O", CultureInfo.InvariantCulture), calibration, ProcessingSnapshot.From(settings),
+            SettingsHash: SettingsContract.Fingerprint(settings));
+        Directory.CreateDirectory(output);
+        ScientificJson.AtomicText(Path.Combine(output, "calibration.csv"), OutputExporter.CalibrationCsv(calibration));
+        ScientificJson.AtomicText(Path.Combine(output, "calibration_tracks.csv"), OutputExporter.TrackCsv(calibration));
+        CalibrationPersistence.Write(statePath, state);
+        Console.WriteLine("Calibration saved: " + statePath);
         return 0;
     }
-
     public static int Analyze(CliArguments args)
     {
-        AppSettings settings = Settings(args, out RemoteJobFile? job);
-        string input = Input(args, job);
-        string output = args.Require("--out");
-        string calibrationPath = args.Require("--calibration");
-        if (Directory.Exists(calibrationPath)) calibrationPath = Path.Combine(calibrationPath, StateFileName);
-        if (!File.Exists(calibrationPath))
-            throw new FileNotFoundException("No calibration was found at " + calibrationPath);
-
-        CalibrationState? state = JsonSerializer.Deserialize<CalibrationState>(File.ReadAllText(calibrationPath), Json);
-        if (state == null || state.Rows.Count == 0)
-            throw new InvalidDataException("The calibration file is empty: " + calibrationPath);
-
-        // The calibration decides the settings, not the command line. Anything else would let a
-        // typed flag quietly describe a run that did not happen.
-        settings.CalibrationSeed = state.Seed;
-        settings.CalibrationEffect = state.Effect;
-        settings.SimulationScenario = state.Scenario;
-        settings.OutlierRate = state.OutlierRate;
-        settings.MissingRate = state.MissingRate;
-        settings.Alpha = state.Alpha;
-        settings.EquivalenceMargin = state.EquivalenceMargin;
-        settings.SplitCalibration = state.SplitCalibration;
-
-        Console.WriteLine();
-        Console.WriteLine("MVS analysis");
-        Environment(settings);
-        Console.WriteLine("  data            " + input);
-        Console.WriteLine("  calibration     " + calibrationPath);
-        Console.WriteLine("  measured with   " + state.Repetitions.ToString(CultureInfo.InvariantCulture) + " repetitions, seed " + state.Seed.ToString(CultureInfo.InvariantCulture));
-        Console.WriteLine("  formula         " + state.FormulaVersion + "  " + state.FormulaHash);
-        if (!string.Equals(state.EnvironmentHash, BenchmarkEnvironment.Hash, StringComparison.OrdinalIgnoreCase))
-            Console.WriteLine("  note            the calibration was measured in a different environment");
-        Console.WriteLine();
-
+        args.Validate(Common.Concat(new[] { "--calibration", "--project", "--description", "--force" }));
+        AppSettings settings = Settings(args, out RemoteJobFile? job); string input = Input(args, job), output = args.Require("--out");
+        string statePath = args.Require("--calibration"); if (Directory.Exists(statePath)) statePath = Path.Combine(statePath, StateFileName);
+        CalibrationState state = CalibrationPersistence.Read(statePath);
+        if (state.EnvironmentHash != BenchmarkEnvironment.Hash) Console.Error.WriteLine("Warning: calibration came from a different arithmetic environment. Exact cross-platform replay is not guaranteed; both environments remain recorded.");
+        // No silently ignored statistical overrides. Supply them when calibrating, not afterwards.
+        foreach (string flag in new[] { "--seed", "--effect", "--scenario", "--alpha", "--outliers", "--missing", "--margin", "--min-measurements", "--min-value", "--max-value", "--split" })
+            if (args.Has(flag)) throw new ArgumentException(flag + " is fixed by the calibration. Recalibrate to change it.");
+        CalibrationPersistence.Apply(state, settings);
         List<Observation> observations = CsvImporter.Read(input, settings.MinValue, settings.MaxValue, Profile(settings));
+        CheckIndependentIds(observations, args.Flag("--allow-group-scoped-ids"));
+        Console.WriteLine(CsvImporter.LastImportSummary);
+        string hash = OutputExporter.HashFile(input); bool mismatch = !hash.Equals(state.DatasetHash, StringComparison.OrdinalIgnoreCase);
+        if (mismatch && !args.Flag("--force")) throw new InvalidDataException("Calibration belongs to different input bytes. Recalibrate, or explicitly use --force for an exploratory comparison.");
+        if (mismatch) Console.Error.WriteLine("Warning: forced calibration reuse. Both input hashes will be recorded; compatibility is not established.");
         AnalysisData data = AnalysisEngine.Build(observations, settings.MinValue, settings.MaxValue, settings.MinMeasurements);
-        string datasetHash = OutputExporter.HashFile(input);
-
-        if (!string.Equals(datasetHash, state.DatasetHash, StringComparison.OrdinalIgnoreCase))
-        {
-            Console.Error.WriteLine("This calibration was measured on different data.");
-            Console.Error.WriteLine("  calibration expects  " + state.DatasetHash);
-            Console.Error.WriteLine("  this file is         " + datasetHash);
-            if (!args.Flag("--force"))
-            {
-                Console.Error.WriteLine("Calibrate again, or pass --force if you know why the bytes changed.");
-                return 1;
-            }
-            Console.Error.WriteLine("Continuing because --force was passed. The manifest records both hashes.");
-        }
-
-        AnalysisData analysed = data;
-        if (state.SplitCalibration)
-        {
-            var halves = AnalysisEngine.SplitEntities(data, state.Seed);
-            analysed = halves.Analysis;
-            Console.WriteLine("  analysing the half that was held out of calibration");
-        }
-
-        var progress = new ConsoleProgress();
-        List<ResultRow> results = AnalysisEngine.Results(
-            analysed,
-            state.Rows,
-            progress,
-            CancellationToken.None,
-            settings.Alpha,
-            settings.EquivalenceMargin,
-            state.Seed);
-
-        // Figures are the one thing a headless run cannot produce, so the flag is forced off
-        // rather than left to fail later inside an exporter.
-        settings.GenerateFigures = false;
-        settings.FigureOutputFolder = output;
-        settings.FigureFolderConfirmed = true;
-        Directory.CreateDirectory(output);
-
-        string project = args.Value("--project") ?? job?.Project ?? "Headless run";
+        data.ImportSummary = CsvImporter.LastImportSummary;
+        AnalysisData analysed = settings.SplitCalibration ? AnalysisEngine.SplitEntities(data, settings.CalibrationSeed).Analysis : data;
+        analysed.ImportSummary = data.ImportSummary;
+        List<ResultRow> results = AnalysisEngine.Results(analysed, state.Rows, new CliProgress(), CliCancellation.Token, settings.Alpha, settings.EquivalenceMargin, state.Seed);
+        settings.GenerateFigures = false; settings.FigureOutputFolder = output; settings.FigureFolderConfirmed = true;
+        settings.AutoExportResults = settings.AutoExportCalibration = settings.AutoExportQuality = settings.AutoExportManifest = true;
+        string runId = DateTime.UtcNow.ToString("yyyy-MM-dd_HHmmss", CultureInfo.InvariantCulture);
+        string folder = OutputExporter.PrepareRunFolder(settings, runId);
+        string project = args.Value("--project") ?? job?.Project ?? "Headless analysis";
         string description = args.Value("--description") ?? job?.Description ?? "";
-        string runId = DateTime.Now.ToString("yyyy-MM-dd_HHmmss", CultureInfo.InvariantCulture);
-        string runFolder = OutputExporter.PrepareRunFolder(settings, runId);
-
-        var artifacts = new List<OutputArtifact>();
-        try
-        {
-            foreach (string report in PluginAssets.WriteReports(runFolder, runId, project, state.Dataset, analysed, results, settings))
-                artifacts.Add(OutputExporter.FromFile("Report", report));
-        }
-        catch (Exception error)
-        {
-            Console.Error.WriteLine("A plugin report template failed and was skipped: " + error.Message);
-        }
-
-        artifacts.AddRange(OutputExporter.Export(
-            runFolder, runId, project, description, settings.InterfaceMode,
-            state.Dataset, datasetHash, analysed, state.Rows, results, settings,
-            state.Repetitions, artifacts, state.CalibrationSource));
-
-        File.Copy(calibrationPath, Path.Combine(runFolder, StateFileName), true);
-
-        try
-        {
-            RunAuditor.AppendJournal(runId, runFolder, datasetHash, settings, state.Repetitions,
-                string.Join(", ", results.Where(x => x.Candidate).Select(x => x.Metric)));
-        }
-        catch (Exception error)
-        {
-            Console.Error.WriteLine("The run journal could not be updated: " + error.Message);
-        }
-
-        Console.WriteLine();
-        Console.WriteLine("Analysis written.");
-        Console.WriteLine("  " + runFolder);
-        Console.WriteLine("  " + artifacts.Count.ToString(CultureInfo.InvariantCulture) + " files");
-        Console.WriteLine();
-        Results(results);
-        Console.WriteLine();
+        string copy = Path.Combine(folder, StateFileName); File.Copy(statePath, copy, true);
+        var artifacts = new List<OutputArtifact> { OutputExporter.FromFile("Calibration state", copy) };
+        try { artifacts.AddRange(PluginAssets.WriteReports(folder, runId, project, Path.GetFileName(input), analysed, results, settings).Select(x => OutputExporter.FromFile("Report", x))); }
+        catch (Exception error) { Console.Error.WriteLine("Plugin report was skipped: " + error.Message); }
+        artifacts.AddRange(OutputExporter.Export(folder, runId, project, description, "Exploratory; full-registry multiplicity correction",
+            Path.GetFileName(input), hash, analysed, state.Rows, results, settings, state.Repetitions, artifacts,
+            state.CalibrationSource, state.DatasetHash, mismatch));
+        try { RunAuditor.AppendJournal(runId, folder, hash, settings, state.Repetitions, string.Join(",", results.Where(r => r.CandidateInAnyTrack).Select(r => r.Metric))); }
+        catch (Exception error) { Console.Error.WriteLine("Warning: journal write failed: " + error.Message); }
+        Console.WriteLine("Analysis saved: " + folder);
+        foreach (ResultRow row in results) Console.WriteLine(row.Metric.PadRight(25) + row.Verdict.PadRight(16) + " adjusted p=" + Num(row.AdjustedP));
         return 0;
     }
-
-    public static int ShowEnvironment()
+    internal static void CheckIndependentIds(List<Observation> rows, bool explicitlyScoped)
     {
-        Console.WriteLine();
-        Console.WriteLine("Environment");
-        Console.WriteLine("  " + BenchmarkEnvironment.Describe());
-        Console.WriteLine("  processors      " + System.Environment.ProcessorCount.ToString(CultureInfo.InvariantCulture));
-        Console.WriteLine("  environment id  " + BenchmarkEnvironment.Hash);
-        Console.WriteLine("  replay scope    " + BenchmarkEnvironment.Scope);
-        Console.WriteLine();
-        Console.WriteLine("  Replay is bit-identical inside one environment. Math.Log, Math.Exp, Math.Pow");
-        Console.WriteLine("  and Math.Cos are not required to be correctly rounded, so a run repeated on a");
-        Console.WriteLine("  different operating system or architecture can differ in the last bits. When");
-        Console.WriteLine("  two determinism hashes disagree, compare the environment id first.");
-        Console.WriteLine();
-        Console.WriteLine("  fingerprint     " + BenchmarkEnvironment.Fingerprint());
-        Console.WriteLine();
-        return 0;
+        bool overlap = rows.GroupBy(o => o.Entity, StringComparer.OrdinalIgnoreCase).Any(g => g.Select(o => o.Group).Distinct(StringComparer.OrdinalIgnoreCase).Count() > 1);
+        if (overlap && !explicitlyScoped) throw new InvalidDataException("Entity IDs repeat across groups. Use melsm for the same subjects in different conditions. If IDs merely restart for INDEPENDENT groups, explicitly pass --allow-group-scoped-ids.");
     }
-
-    public static int ShowVersions()
-    {
-        Console.WriteLine();
-        Console.WriteLine("  application     " + RemoteJob.AppVersion);
-        Console.WriteLine("  engine          " + AnalysisEngine.EngineVersion);
-        Console.WriteLine("  formula         " + OutputExporter.FormulaVersion);
-        Console.WriteLine("  formula hash    " + OutputExporter.FormulaHash);
-        Console.WriteLine("  protocol        " + BenchmarkProtocol.Version);
-        Console.WriteLine("  protocol hash   " + BenchmarkProtocol.Hash);
-        Console.WriteLine("  protocol frozen " + (BenchmarkProtocol.HashIsFrozen ? "yes" : "NO - results are not comparable"));
-        Console.WriteLine("  environment id  " + BenchmarkEnvironment.ShortHash);
-        Console.WriteLine();
-        return 0;
-    }
-
-    private static void Environment(AppSettings settings)
-    {
-        Console.WriteLine("  version         " + RemoteJob.AppVersion + "   engine " + AnalysisEngine.EngineVersion + "   formula " + OutputExporter.FormulaVersion);
-        Console.WriteLine("  environment     " + BenchmarkEnvironment.Describe());
-        Console.WriteLine("  environment id  " + BenchmarkEnvironment.ShortHash);
-        if (settings.Language == "ru")
-            Console.WriteLine("  note            the headless output is English only for now");
-    }
-
-    /// <summary>Loads settings, then lets a job file and then the command line override them.</summary>
     private static AppSettings Settings(CliArguments args, out RemoteJobFile? job)
     {
-        AppSettings settings = AppSettings.Load();
-        job = null;
-
-        string? jobPath = args.Value("--job");
-        if (jobPath != null)
-        {
-            if (Directory.Exists(jobPath)) jobPath = Path.Combine(jobPath, RemoteJob.JobFileName);
-            job = RemoteJob.Read(jobPath);
-            RemoteJob.Apply(job, settings);
-        }
-
-        settings.CalibrationSeed = args.Int("--seed", settings.CalibrationSeed);
-        settings.CalibrationEffect = args.Number("--effect", settings.CalibrationEffect);
-        settings.Alpha = args.Number("--alpha", settings.Alpha);
-        settings.OutlierRate = args.Number("--outliers", settings.OutlierRate);
-        settings.MissingRate = args.Number("--missing", settings.MissingRate);
-        settings.EquivalenceMargin = args.Number("--margin", settings.EquivalenceMargin);
-        settings.MinMeasurements = args.Int("--min-measurements", settings.MinMeasurements);
+        // CLI runs do not secretly inherit a desktop configuration unless explicitly requested.
+        AppSettings settings = args.Flag("--local-settings") ? AppSettings.Load() : new AppSettings(); job = null;
+        if (args.Value("--job") is string path) { if (Directory.Exists(path)) path = Path.Combine(path, RemoteJob.JobFileName); job = RemoteJob.Read(path); RemoteJob.Apply(job, settings); }
+        settings.CalibrationSeed = args.Int("--seed", settings.CalibrationSeed); settings.CalibrationEffect = args.Number("--effect", settings.CalibrationEffect);
+        settings.Alpha = args.Number("--alpha", settings.Alpha); settings.OutlierRate = args.Number("--outliers", settings.OutlierRate); settings.MissingRate = args.Number("--missing", settings.MissingRate);
+        settings.EquivalenceMargin = args.Number("--margin", settings.EquivalenceMargin); settings.MinMeasurements = args.Int("--min-measurements", settings.MinMeasurements);
+        settings.MinValue = args.Int("--min-value", settings.MinValue); settings.MaxValue = args.Int("--max-value", settings.MaxValue);
         if (args.Flag("--split")) settings.SplitCalibration = true;
-
-        string? scenario = args.Value("--scenario");
-        if (scenario != null)
-        {
-            if (!SimulationScenarios.TryCanonical(scenario, out string canonical))
-                throw new ArgumentException("Unknown scenario: " + scenario + ". Use one of " + string.Join(", ", SimulationScenarios.All) + ".");
-            settings.SimulationScenario = canonical;
-        }
-
-        return settings;
+        if (args.Value("--scenario") is string scenario) settings.SimulationScenario = SimulationScenarios.Canonicalize(scenario);
+        SettingsContract.Validate(settings); return settings;
     }
-
     private static string Input(CliArguments args, RemoteJobFile? job)
     {
         string? input = args.Value("--in");
         if (input == null && job != null)
         {
-            string? folder = Path.GetDirectoryName(args.Value("--job") ?? "");
-            input = string.IsNullOrEmpty(folder) ? job.Dataset : Path.Combine(folder, job.Dataset);
+            string jobPath = args.Require("--job"); string folder = Directory.Exists(jobPath) ? jobPath : Path.GetDirectoryName(Path.GetFullPath(jobPath))!;
+            if (job.Dataset != Path.GetFileName(job.Dataset)) throw new InvalidDataException("A job dataset must be a file name, not a path.");
+            input = Path.Combine(folder, job.Dataset);
         }
-        if (string.IsNullOrWhiteSpace(input)) throw new ArgumentException("Pass --in <file.csv>.");
-        if (!File.Exists(input)) throw new FileNotFoundException("The data file was not found: " + input);
+        if (string.IsNullOrWhiteSpace(input) || !File.Exists(input)) throw new FileNotFoundException("Pass --in with an existing CSV file.");
         return input;
     }
-
-    private static ImportProfile? Profile(AppSettings settings) =>
-        PluginAssets.Current.ImportProfiles.FirstOrDefault(
-            x => string.Equals(x.Id, settings.ImportProfileId, StringComparison.OrdinalIgnoreCase));
-
-    /// <summary>
-    /// Prints the calibration one track at a time, because that is the shape of the decision. A
-    /// single ranked list is what used to hide the spread metrics below the fold.
-    /// </summary>
-    private static void Tracks(List<CalibrationRow> calibration)
-    {
-        foreach (string track in AnalysisEngine.DefaultTracks)
-        {
-            Console.WriteLine("  " + track);
-            foreach (CalibrationRow row in calibration
-                .OrderByDescending(x => x.ScoreIn(track))
-                .ThenBy(x => x.Metric, StringComparer.Ordinal)
-                .Take(4))
-            {
-                Console.WriteLine("    " + row.Metric.PadRight(26) +
-                    "power " + Pct(row.PowerIn(track)).PadLeft(6) +
-                    "   score " + Num(row.ScoreIn(track)).PadLeft(6) +
-                    "   fpr " + Pct(row.Fpr).PadLeft(6) +
-                    (row.PassesGateIn(track) ? "   passes the gate" : ""));
-            }
-        }
-    }
-
-    private static void Results(List<ResultRow> results)
-    {
-        Console.WriteLine("  metric                    verdict         p        effect    candidate in");
-        foreach (ResultRow row in results.Take(12))
-        {
-            Console.WriteLine("  " + row.Metric.PadRight(26) +
-                row.Verdict.PadRight(16) +
-                Num(row.PValue).PadRight(9) +
-                Num(row.Effect).PadRight(10) +
-                (string.IsNullOrEmpty(row.CandidateTracks) ? "-" : row.CandidateTracks));
-        }
-    }
-
-    private static string Pct(double value) =>
-        double.IsFinite(value) ? (value * 100).ToString("0.0", CultureInfo.InvariantCulture) + "%" : "-";
-
-    private static string Num(double value) =>
-        double.IsFinite(value) ? value.ToString("0.###", CultureInfo.InvariantCulture) : "-";
-
-    /// <summary>
-    /// Progress on one line per five percent. A notebook keeps every line that is printed, so a
-    /// per-repetition counter would bury the result under thousands of rows of scrollback.
-    /// </summary>
-    private sealed class ConsoleProgress : IProgress<ProgressInfo>
-    {
-        private readonly object gate = new();
-        private int lastPrinted = -1;
-
-        public void Report(ProgressInfo value)
-        {
-            int percent = (int)Math.Round(Math.Clamp(value.Fraction, 0, 1) * 100);
-            int bucket = percent / 5;
-            lock (gate)
-            {
-                if (bucket <= lastPrinted && percent < 100) return;
-                lastPrinted = bucket;
-                Console.WriteLine("  " + percent.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "%  " +
-                    value.Action + (string.IsNullOrEmpty(value.Details) ? "" : "  -  " + value.Details));
-            }
-        }
-    }
+    private static ImportProfile? Profile(AppSettings s) => PluginAssets.Current.ImportProfiles.FirstOrDefault(p => p.Id.Equals(s.ImportProfileId, StringComparison.OrdinalIgnoreCase));
+    private static string Num(double value) => double.IsFinite(value) ? value.ToString("0.######", CultureInfo.InvariantCulture) : "unavailable";
+    public static int ShowVersions() { Console.WriteLine("MVS Analyzer " + ReleaseInfo.Version + " | engine " + AnalysisEngine.EngineVersion + " | formula " + OutputExporter.FormulaVersion); Console.WriteLine("Formula SHA256: " + OutputExporter.FormulaHash); return 0; }
+    public static int ShowEnvironment() { ShowVersions(); Console.WriteLine(BenchmarkEnvironment.Describe()); Console.WriteLine("Replay scope: " + BenchmarkEnvironment.Scope); Console.WriteLine("Environment fingerprint: " + BenchmarkEnvironment.Hash); return 0; }
 }

@@ -9,7 +9,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AssemblyName>MVS_Analyzer</AssemblyName>
     <RootNamespace>MvsAnalyzer</RootNamespace>
-    <Version>1.5.0</Version>
+    <Version>1.4.0</Version>
     <ApplicationIcon>app.ico</ApplicationIcon>
     <!-- Must agree with app.manifest, otherwise ApplicationConfiguration.Initialize fights it. -->
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
@@ -17,6 +17,7 @@
   <ItemGroup>
     <Compile Remove="MvsAnalyzer.Tests/**/*.cs" />
     <Compile Remove="MvsAnalyzer.Cli/**/*.cs" />
+    <Compile Remove="MvsAnalyzer.Core.Tests/**/*.cs" />
   </ItemGroup>
   <ItemGroup>
     <!-- Branding travels inside the published single file: window icon and in-app wordmark. -->

@@ -13,9 +13,10 @@ internal static class SimulationScenarios
     public const string Location = "location";
     public const string Decrease = "decrease";
     public const string Variability = "variability";
+    public const string Heterogeneity = "heterogeneity";
     public const string Default = Location;
 
-    internal static readonly string[] All = { Location, Decrease, Variability };
+    internal static readonly string[] All = { Location, Decrease, Variability, Heterogeneity };
 
     // docs/METHODS.md documented these as scale and location_down while the code only
     // answered to variability and decrease. Both spellings are accepted and normalised.
@@ -29,7 +30,12 @@ internal static class SimulationScenarios
         ["variability"] = Variability,
         ["scale"] = Variability,
         ["dispersion"] = Variability,
-        ["spread"] = Variability
+        ["spread"] = Variability,
+        ["within"] = Variability,
+        ["within_variability"] = Variability,
+        ["heterogeneity"] = Heterogeneity,
+        ["between"] = Heterogeneity,
+        ["between_heterogeneity"] = Heterogeneity
     };
 
     public static bool TryCanonical(string? value, out string canonical)
@@ -49,7 +55,8 @@ internal static class SimulationScenarios
     {
         TryCanonical(value, out string canonical);
         if (canonical == Decrease) return russian ? "снижение уровня" : "decrease level";
-        if (canonical == Variability) return russian ? "рост вариативности" : "increase variability";
+        if (canonical == Variability) return russian ? "внутрисущностная вариативность" : "within-entity variability";
+        if (canonical == Heterogeneity) return russian ? "межсущностная гетерогенность" : "between-entity heterogeneity";
         return russian ? "рост уровня" : "increase level";
     }
 }

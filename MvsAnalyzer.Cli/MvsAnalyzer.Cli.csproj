@@ -26,7 +26,7 @@
     <Nullable>enable</Nullable>
     <AssemblyName>mvs</AssemblyName>
     <RootNamespace>MvsAnalyzer</RootNamespace>
-    <Version>1.5.0</Version>
+    <Version>1.4.0</Version>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <DefineConstants>$(DefineConstants);MVS_NO_FIGURES</DefineConstants>
     <PublishTrimmed>false</PublishTrimmed>
@@ -37,29 +37,6 @@
     <Compile Include="HeadlessRun.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Include="../AnalysisEngine.cs" />
-    <Compile Include="../Models.cs" />
-    <Compile Include="../SimulationScenarios.cs" />
-    <Compile Include="../CsvImporter.cs" />
-    <Compile Include="../OutputExporter.cs" />
-    <Compile Include="../RunAuditor.cs" />
-    <Compile Include="../PluginManager.cs" />
-    <Compile Include="../PluginAssets.cs" />
-    <Compile Include="../CliArguments.cs" />
-    <Compile Include="../RemoteJob.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="../Benchmark/BenchmarkMath.cs" />
-    <Compile Include="../Benchmark/BenchmarkRandom.cs" />
-    <Compile Include="../Benchmark/BenchmarkProtocol.cs" />
-    <Compile Include="../Benchmark/BenchmarkEnvironment.cs" />
-    <Compile Include="../Benchmark/BenchmarkDatasets.cs" />
-    <Compile Include="../Benchmark/BenchmarkOptions.cs" />
-    <Compile Include="../Benchmark/BenchmarkRunner.cs" />
-    <Compile Include="../Benchmark/BenchmarkReport.cs" />
-    <Compile Include="../Benchmark/BenchmarkCommandLine.cs" />
-  </ItemGroup>
-
+  <Import Project="../SharedSources.props" />
+  <ItemGroup><Compile Include="ScientificCommands.cs" /></ItemGroup>
 </Project>

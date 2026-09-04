@@ -29,6 +29,10 @@ internal static class RunAuditor
     /// </summary>
     public static void AppendJournal(string runId, string folder, string datasetHash, AppSettings settings, int repetitions, string candidateSet)
     {
+        using var mutex = new Mutex(false, "MVSAnalyzerJournalV2");
+        bool acquired;
+        try { acquired = mutex.WaitOne(TimeSpan.FromSeconds(10)); } catch (AbandonedMutexException) { acquired = true; }
+        if (!acquired) throw new IOException("The run journal is busy.");
         try
         {
             Directory.CreateDirectory(Folder);
@@ -59,10 +63,7 @@ internal static class RunAuditor
             };
             File.AppendAllText(JournalPath, JsonSerializer.Serialize(entry) + "\n", new UTF8Encoding(false));
         }
-        catch
-        {
-            // The journal must never break an otherwise successful analysis.
-        }
+        finally { mutex.ReleaseMutex(); }
     }
 
     private static List<JournalEntry> ReadJournal(List<AuditFinding> findings)
@@ -124,7 +125,7 @@ internal static class RunAuditor
         string folder = Path.GetDirectoryName(manifestPath)!;
         var findings = new List<AuditFinding>();
         JsonElement root;
-        try { root = JsonDocument.Parse(File.ReadAllText(manifestPath)).RootElement; }
+        try { using JsonDocument document = JsonDocument.Parse(File.ReadAllText(manifestPath)); root = document.RootElement.Clone(); }
         catch
         {
             findings.Add(new AuditFinding(Fail, "MANIFEST_UNREADABLE", "run_manifest.json is damaged.", "Файл run_manifest.json повреждён."));
@@ -144,6 +145,8 @@ internal static class RunAuditor
             foreach (JsonElement file in files.EnumerateArray())
             {
                 string name = Text(file, "FileName"), recorded = Text(file, "sha256");
+                if (string.IsNullOrWhiteSpace(name) || name != Path.GetFileName(name) || name.Contains('\\'))
+                { findings.Add(new AuditFinding(Fail, "UNSAFE_FILE_PATH", "Unsafe path in manifest.", "Небезопасный путь в манифесте.")); continue; }
                 string path = Path.Combine(folder, name);
                 if (!File.Exists(path)) { findings.Add(new AuditFinding(Fail, "FILE_MISSING", "Recorded file is missing: " + name, "Записанный файл отсутствует: " + name)); continue; }
                 string actual = HashFile(path);
@@ -154,7 +157,7 @@ internal static class RunAuditor
 
         // 2. Was the scoring formula itself altered?
         if (formulaHash.Length > 0 && !string.Equals(formulaHash, OutputExporter.FormulaHash, StringComparison.OrdinalIgnoreCase))
-            findings.Add(new AuditFinding(Fail, "FORMULA_CHANGED", "The MVS formula of this run differs from the frozen formula.", "Формула MVS этого прогона отличается от замороженной."));
+            findings.Add(new AuditFinding(Warn, "FORMULA_CHANGED", "Historical result: the formula differs from this release; this is not by itself evidence of tampering.", "Исторический результат: другая версия формулы сама по себе не доказывает подмену."));
 
         // 3. Can the run be tied to specific input data?
         if (datasetHash.Length == 0)

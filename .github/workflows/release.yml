@@ -1,117 +1,100 @@
 name: Release
-
 on:
   push:
-    tags:
-      - "v*"
+    tags: ['v*']
   workflow_dispatch:
     inputs:
       tag:
-        description: "Tag to build (for example v1.3.2)"
+        description: 'Existing tag to build, e.g. v1.4.0'
         required: true
-
+        type: string
 permissions:
   contents: write
-
 jobs:
-  release:
-    name: Build and publish Windows release
-    runs-on: windows-latest
-
+  linux-check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up .NET 8
-        uses: actions/setup-dotnet@v4
+      - uses: actions/checkout@v4
         with:
-          dotnet-version: "8.0.x"
-
-      - name: Run test harness
-        run: dotnet run --project MvsAnalyzer.Tests/MvsAnalyzer.Tests.csproj -c Release
-
-      - name: Publish self-contained single file
-        run: >
-          dotnet publish MvsAnalyzer.csproj -c Release -r win-x64
-          --self-contained true
-          -p:PublishSingleFile=true
-          -p:DebugType=None
-          -p:DebugSymbols=false
-          -o publish
-
-      - name: Publish the headless analyzer for Linux
-        run: >
-          dotnet publish MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj -c Release -r linux-x64
-          --self-contained true
-          -p:PublishSingleFile=true
-          -p:DebugType=None
-          -p:DebugSymbols=false
-          -o publish-linux-cli
-
-      - name: Package release archive
+          ref: ${{ inputs.tag || github.ref }}
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Portable regressions
+        run: dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release
+      - name: Build Linux CLI
+        run: dotnet publish MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj -c Release -o publish/cli
+      - name: Calibration save and replay smoke
+        run: |
+          dotnet publish/cli/mvs.dll calibrate --in examples/demo_three_groups.csv --out artifacts/calibration --repetitions 150 --seed 20260719
+          dotnet publish/cli/mvs.dll analyze --in examples/demo_three_groups.csv --calibration artifacts/calibration --out artifacts/analysis
+          python tools/check_outputs.py artifacts
+  release:
+    needs: linux-check
+    runs-on: windows-latest
+    env:
+      RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+          fetch-depth: 0
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify checked-out version and static contracts
         shell: pwsh
         run: |
-          $version = "${{ github.ref_name }}"
-          if ([string]::IsNullOrWhiteSpace($version) -or $version -eq "main") {
-            $version = "${{ github.event.inputs.tag }}"
-          }
-          $folder = "MVS_Analyzer_" + $version + "_win-x64"
-          $root = Join-Path "staging" $folder
-          New-Item -ItemType Directory -Force -Path $root | Out-Null
-          Copy-Item publish/MVS_Analyzer.exe $root/
-          Copy-Item README.md, LICENSE, CHANGELOG.md $root/
-          Copy-Item -Recurse examples (Join-Path $root "examples")
-          Copy-Item *.mvsplugin $root/ -ErrorAction SilentlyContinue
-          # Archive the folder itself, not its contents, so unzipping creates
-          # one root directory instead of scattering files into the target.
-          Compress-Archive -Path $root -DestinationPath "$folder.zip"
-          Write-Host "Archive root check:"
-          Add-Type -AssemblyName System.IO.Compression.FileSystem
-          $zip = [System.IO.Compression.ZipFile]::OpenRead((Resolve-Path "$folder.zip"))
-          $zip.Entries | Select-Object -First 5 -ExpandProperty FullName
-          $zip.Dispose()
-          # The notebooks fetch this archive when a session has no build tools, so the two
-          # ship together or a hosted run silently falls back to compiling from source.
-          $cli = "MVS_Analyzer_" + $version + "_linux-x64-cli"
-          $cliRoot = Join-Path "staging" $cli
-          New-Item -ItemType Directory -Force -Path $cliRoot | Out-Null
-          Copy-Item publish-linux-cli/mvs $cliRoot/
-          Copy-Item README.md, LICENSE, CHANGELOG.md $cliRoot/
-          Copy-Item docs/REMOTE.md $cliRoot/ -ErrorAction SilentlyContinue
-          Copy-Item -Recurse notebooks (Join-Path $cliRoot "notebooks")
-          Compress-Archive -Path $cliRoot -DestinationPath "$cli.zip"
-
-      - name: Compute checksums
+          [xml]$project = Get-Content MvsAnalyzer.csproj
+          $version = [string]$project.Project.PropertyGroup.Version
+          if ($env:RELEASE_TAG -ne "v$version") { throw "Tag and application version disagree" }
+          python tools/check_source.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Run both regression harnesses
         shell: pwsh
         run: |
-          Get-ChildItem -Filter "MVS_Analyzer_*.zip" | ForEach-Object {
-            $hash = (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower()
-            "$hash  $($_.Name)" | Out-File -Append -Encoding ascii SHA256SUMS.txt
+          dotnet run --project MvsAnalyzer.Tests/MvsAnalyzer.Tests.csproj -c Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Publish Windows
+        run: dotnet publish MvsAnalyzer.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -o publish/windows
+      - name: Publish Linux CLI
+        run: dotnet publish MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -o publish/linux
+      - name: Package release assets
+        shell: pwsh
+        run: |
+          $tag = $env:RELEASE_TAG
+          $win = "MVS_Analyzer_${tag}_win-x64"
+          $cli = "MVS_Analyzer_${tag}_linux-x64-cli"
+          New-Item -ItemType Directory -Force "staging/$win", "staging/$cli" | Out-Null
+          Copy-Item publish/windows/MVS_Analyzer.exe "staging/$win/"
+          Copy-Item publish/linux/mvs "staging/$cli/"
+          foreach ($folder in @($win, $cli)) {
+            Copy-Item README.md, LICENSE, CHANGELOG.md, RELEASE_NOTES_v1.4.0.md "staging/$folder/"
+            Copy-Item -Recurse docs, examples, notebooks "staging/$folder/"
+            Copy-Item *.mvsplugin "staging/$folder/"
           }
-          Get-Content SHA256SUMS.txt
-
-      - name: Create GitHub release
+          Compress-Archive -Path "staging/$win" -DestinationPath "$win.zip"
+          Compress-Archive -Path "staging/$cli" -DestinationPath "$cli.zip"
+          git archive --format=zip --prefix="MVS-Analyzer-$tag/" HEAD -o "MVS_Analyzer_${tag}_source.zip"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $lines = Get-ChildItem MVS_Analyzer_*.zip | ForEach-Object { "{0}  {1}" -f (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower(), $_.Name }
+          $lines | Set-Content -Encoding ascii SHA256SUMS.txt
+      - name: Create draft release for the requested tag
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ env.RELEASE_TAG }}
+          name: MVS Analyzer ${{ env.RELEASE_TAG }}
           draft: true
-          generate_release_notes: true
+          body_path: RELEASE_NOTES_v1.4.0.md
           files: |
             MVS_Analyzer_*_win-x64.zip
             MVS_Analyzer_*_linux-x64-cli.zip
+            MVS_Analyzer_*_source.zip
             SHA256SUMS.txt
-          body: |
-            ## MVS Analyzer ${{ github.ref_name }}
-
-            Self-contained Windows x64 build. No .NET runtime installation required.
-
-            The `linux-x64-cli` archive is the same engine without a window: `mvs`
-            runs calibration, analysis and the benchmark headless, which is what the
-            Colab and Kaggle notebooks in `notebooks/` use. Figures are the one thing
-            it cannot draw. See `docs/REMOTE.md`.
-
-            **Verify before you trust:** compare the SHA-256 in `SHA256SUMS.txt`
-            with the hash of the archive you downloaded.
-
-            Engine and formula versions for this build are recorded in every
-            `run_manifest.json` the app writes. See `CHANGELOG.md` for whether
-            existing runs need to be repeated.

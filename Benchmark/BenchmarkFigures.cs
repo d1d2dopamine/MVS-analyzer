@@ -87,7 +87,7 @@ internal static class BenchmarkFigures
         int replications = primary != null ? primary.Completed : 0;
 
         float top = Header(board,
-            L(russian, "There is no difference in this data at all", "В этих данных разницы нет вообще"),
+            L(russian, "These groups share the same generating distribution", "Группы имеют одинаковое распределение в генераторе"),
             L(russian,
                 "Two groups drawn from one population. How often does each way of choosing a metric announce a discovery that is not there? The honest answer is five percent.",
                 "Две группы из одной генеральной совокупности. Как часто каждый способ выбора метрики объявляет открытие, которого нет? Честный ответ — пять процентов."));
@@ -107,7 +107,7 @@ internal static class BenchmarkFigures
             SizeF leftSize = board.G.MeasureString(left, bigFont);
             SizeF rightSize = board.G.MeasureString(right, bigFont);
             board.G.DrawString(left, bigFont, alarmBrush, side, top);
-            board.G.DrawString(L(russian, "picking the best of ten metrics", "выбор лучшей из десяти метрик"),
+            board.G.DrawString(L(russian, "picking the best of twelve metrics", "выбор лучшей из двенадцати метрик"),
                 capFont, mutedBrush, side, top + leftSize.Height - 4 * board.S);
             float secondX = side + Math.Max(leftSize.Width + 60 * board.S, board.Width * .42f);
             if (secondX + rightSize.Width + side > board.Width) secondX = side;
@@ -390,7 +390,7 @@ internal static class BenchmarkFigures
         Footer(board, stamp, brand);
     }
 
-    // ---------------- figure 7: the pre-registered scorecard ----------------
+    // ---------------- figure 7: the declared scorecard ----------------
 
     private static void Verdicts(Board board, BenchmarkOutcome outcome, bool russian, string stamp, string brand)
     {
@@ -440,7 +440,7 @@ internal static class BenchmarkFigures
         }
 
         string overall = outcome.Overall == "go"
-            ? L(russian, "Every pre-registered threshold was met", "Все заранее записанные пороги выполнены")
+            ? L(russian, "Every declared threshold was met", "Все заранее записанные пороги выполнены")
             : outcome.Overall == "no-go"
                 ? L(russian, "At least one threshold was missed", "Не выполнен как минимум один порог")
                 : L(russian, "Nothing failed, but not everything cleared the bar", "Провалов нет, но не всё прошло порог");
