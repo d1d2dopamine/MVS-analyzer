@@ -109,6 +109,53 @@ reasoning behind every fix — are in the [second half of this file](#русск
 
 ---
 
+## [1.4.0] - 2026-09-05
+
+Two tracks. Until this release the program calibrated every metric against a shift of the centre
+and then applied the winner to whatever the data actually contained. In the benchmark condition
+where only the spread changed, that cost 40 percentage points of power against an oracle.
+
+### Changed
+
+- Calibration runs one track per question. `AnalysisEngine.Calibrate` accepts a list of tracks and
+  defaults to `location` and `variability`. Power, the power curve, the score and the MDE are now
+  estimated separately in each track.
+- The null sample, robustness, repeatability and coverage are computed once and shared by all
+  tracks. They do not depend on the injected effect, so estimating them per track would only have
+  added noise. The false alarm rate is therefore the same number as before, not a second estimate
+  of it.
+- The candidate gate is evaluated inside each track, with its own cap of four candidates, so one
+  question cannot crowd the other off the results page.
+- Results are ordered by whether a metric answers any of the asked questions, then by the best
+  score it reaches in any track. Ordering by the centre track alone buried the spread answer.
+- Formula refrozen as `MVS-1.3.0`, SHA-256 `dcc0ef643ff071d8c4c6e5d33a4329f86c49294d156a3463ee6398285709f9da`.
+  The gate really did change, so the version and the hash had to change with it.
+- Benchmark protocol refrozen as `MVS-BENCH-1.1.0`, SHA-256 `3bb871b666c189fd8b9188f920108e92b67542b7d63bfe2f1d24393dad5e9723`.
+- Hypotheses A and B are judged on the procedure the program actually ships, which is now the
+  two-track one. A second chance to reject is not free, so the two-track false alarm rate is
+  measured rather than inherited from the single-track number.
+
+### Added
+
+- Procedure `mvs_two_track` in the benchmark. Each track selects its own metric and is tested at
+  alpha divided by the number of tracks. The single-track procedures are kept, so the report shows
+  the old and the new behaviour side by side instead of asserting an improvement.
+- `results.csv` gains `tracks`, `track_powers`, `track_scores`, `track_mdes` and `candidate_tracks`.
+  `calibration.csv` gains `tracks`, `track_powers`, `track_scores`, `track_mdes` and `track_curves`.
+  Track values are pipe joined, so the column layout does not change shape when the number of
+  tracks changes and an existing reader sees the file it saw before.
+- `run_manifest.json` records the track list under `calibration.tracks`.
+- Four tests: track normalisation, the per-track gate, a spread metric winning its own track, and
+  the held-out oracle.
+
+### Fixed
+
+- The benchmark oracle was selection biased. `OracleMetric` chose the best of ten metrics and
+  scored it on the same replications, which takes the maximum of ten noisy rates. At thirty
+  replications the Monte Carlo standard error is about 4.6 points, so the oracle was inflated by
+  roughly one to two of those, and all of that inflation was charged to MVS as lost power.
+  `OracleMetricHeldOut` chooses on odd replications and scores on even ones. The biased figure is
+  still printed next to it so the size of the old error stays visible.
 ## [1.3.3] - 2026-09-05
 
 `engine 1.2.0` * `formula MVS-1.2.0` (unchanged)
@@ -235,7 +282,8 @@ A correctness release. Both fixes were found while writing the stress dataset th
 - Exports: `results.csv`, `calibration.csv`, `data_quality.csv`, `run_manifest.json` and figures.
 - WinForms interface with guided and expert modes, light/dark/system themes, English and Russian localization, `Ctrl`+`1`…`Ctrl`+`0` navigation, and fully local storage under `%LocalAppData%\MVS_Analyzer\`.
 
-[Unreleased]: https://github.com/d1d2dopamine/MVS-Analyzer/compare/v1.3.3...HEAD
+[Unreleased]: https://github.com/d1d2dopamine/MVS-Analyzer/compare/v1.4.0...HEAD
+[1.4.0]: https://github.com/d1d2dopamine/MVS-Analyzer/releases/tag/v1.4.0
 [1.3.3]: https://github.com/d1d2dopamine/MVS-Analyzer/releases/tag/v1.3.3
 [1.3.2]: https://github.com/d1d2dopamine/MVS-Analyzer/releases/tag/v1.3.2
 [1.3.0]: https://github.com/d1d2dopamine/MVS-Analyzer/releases/tag/v1.3.0
@@ -567,4 +615,26 @@ repeatability теперь разная у разных метрик: 0.949 ... 
 - **104.** В манифесте объявлены `PerMonitorV2` и `activeCodePage=UTF-8`, в проекте `ApplicationHighDpiMode` приведён в соответствие с манифестом - иначе `ApplicationConfiguration.Initialize()` спорит с ним.
 - **105.** Пять новых тестов: побайтовый импорт Windows-1251, определение кодировок, числа с локальным шумом, отказ на неизвестном сценарии, покрытие глифов в подписях сценариев.
 - **106.** Статистика не менялась. `formulaHash` и `protocolHash` те же, выгрузки версии 1.3.2 остаются сравнимыми.
+
+## 1.4.0 — два трека
+
+До этой версии калибровка всегда искала сдвиг центра, а победителя применяли к любым данным. В условии, где менялся только разброс, это стоило 40 пунктов мощности.
+
+- Калибровка идёт в два трека: `location` и `variability`. Мощность, кривая мощности, балл и MDE считаются в каждом треке отдельно.
+- Нулевая выборка, устойчивость, повторяемость и покрытие считаются один раз и делятся между треками: они не зависят от внесённого эффекта, и вторая оценка добавила бы только шум.
+- Порог кандидата проверяется внутри трека, со своим лимитом в четыре метрики.
+- Сортировка результатов учитывает лучший балл в любом треке, иначе ответ про разброс оказывался внизу страницы.
+- Формула перезаморожена: `MVS-1.3.0`. Правило отбора действительно изменилось, значит и версия с хешем должны были смениться.
+- Протокол бенчмарка перезаморожен: `MVS-BENCH-1.1.0`.
+- Новая процедура `mvs_two_track`: каждый трек выбирает свою метрику и проверяется на альфе, поделённой на число треков. Второй шанс отклонить гипотезу не бесплатен.
+- Старые однотрековые процедуры остались в отчёте рядом с новой, чтобы улучшение можно было проверить, а не принимать на веру.
+
+### Исправлено
+
+- Оракул бенчмарка был смещён: он выбирал лучшую из десяти метрик и оценивал её на тех же репликациях. Теперь выбор идёт по нечётным репликациям, а оценка по чётным. Старое число печатается рядом.
+
+### Не сделано
+
+- `mad` по-прежнему без константы 1.4826. Умножение всех значений на одну константу — монотонное преобразование, а тесты ранговые, так что p-value не изменится ни на бит. На мощность и FPR это не влияет вообще — только на чтение абсолютного значения.
+- Совместный тест Cucconi, перестановочные p-value и геометрическое среднее — 1.5.0.
 

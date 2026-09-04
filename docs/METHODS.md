@@ -38,7 +38,7 @@ Two remedies exist today, one is planned:
 - **Pre-registration** of the metric before looking. The tool cannot enforce it; the manifest can record it.
 - **Planned for 1.4.0:** the mode is chosen explicitly when a project is created, and exploratory runs are labelled as such in every export.
 
-Version 1.3.3 never asks which mode you are in. It should, and until it does, the safe assumption in any report is *exploratory*.
+Version 1.4.0 never asks which mode you are in. It should, and until it does, the safe assumption in any report is *exploratory*.
 
 ---
 
@@ -191,8 +191,8 @@ inflatedFpr=nullGridPointAboveAlpha
 ```
 
 ```text
-FormulaVersion  MVS-1.2.0
-FormulaHash     70e1d57723df1ca2bbc1b7856357f04d844cd77f36a83ad5fefd02565e401e2f
+FormulaVersion  MVS-1.3.0
+FormulaHash     dcc0ef643ff071d8c4c6e5d33a4329f86c49294d156a3463ee6398285709f9da
 Previous        MVS-1.1.0  1aab2c38b5127fa911ffd38416b4ac499217cb5b7459800f28014c107f5ab909
 ```
 

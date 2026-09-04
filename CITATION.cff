@@ -15,7 +15,7 @@ authors:
     website: "https://github.com/d1d2dopamine"
 repository-code: "https://github.com/d1d2dopamine/MVS-Analyzer"
 url: "https://github.com/d1d2dopamine/MVS-Analyzer"
-version: "1.3.3"
+version: "1.4.0"
 date-released: "2026-08-23"
 license: MIT
 keywords:
@@ -29,7 +29,7 @@ keywords:
   - open science
 references:
   - type: generic
-    title: "MVS Score specification MVS-1.2.0"
-    notes: "score=100*power^.30*falseAlarm^.25*robustness^.20*repeatability^.15*coverage^.10; sha256 70e1d57723df1ca2bbc1b7856357f04d844cd77f36a83ad5fefd02565e401e2f"
+    title: "MVS Score specification MVS-1.3.0"
+    notes: "score=100*power^.30*falseAlarm^.25*robustness^.20*repeatability^.15*coverage^.10; sha256 dcc0ef643ff071d8c4c6e5d33a4329f86c49294d156a3463ee6398285709f9da"
     authors:
       - name: "d1d2dopamine"

@@ -23,6 +23,10 @@ internal sealed class ConditionSummary
     public required int[] Rejections { get; init; }
     public required int[] Claims { get; init; }
     public required int[] MetricRejections { get; init; }
+    /// <summary>Completed replications per half, split by replication index parity.</summary>
+    public required int[] CompletedHalf { get; init; }
+    /// <summary>Per-metric rejections per half, so the oracle can be chosen and scored on different data.</summary>
+    public required int[][] MetricRejectionsHalf { get; init; }
     public required int[][] ChosenCounts { get; init; }
     public required string DecisionDigest { get; init; }
     public required string FirstError { get; init; }
@@ -39,7 +43,40 @@ internal sealed class ConditionSummary
 
     public (double Low, double High) Interval(int procedure) => BenchmarkMath.WilsonInterval(Rejections[procedure], Completed);
 
-    /// <summary>The metric a truth-aware oracle would have fixed in advance for this condition.</summary>
+    public double MetricRateIn(int half, int metric) =>
+        CompletedHalf[half] == 0 ? double.NaN : MetricRejectionsHalf[half][metric] / (double)CompletedHalf[half];
+
+    /// <summary>
+    /// The metric a truth-aware oracle would fix in advance, chosen on one half of the replications
+    /// and scored on the other.
+    ///
+    /// OracleMetric below chooses and scores on the same replications. That takes the maximum of ten
+    /// noisy rates, so it reports a power the oracle does not actually have: at thirty replications,
+    /// where the Monte Carlo standard error is about 4.6 points, the winner is inflated by roughly
+    /// one to two of those. The whole of that inflation was being charged to MVS as lost power, which
+    /// made hypothesis B look worse than the truth. It is kept only so the two can be printed side by
+    /// side and the size of the old bias stays visible.
+    /// </summary>
+    public int OracleMetricHeldOut()
+    {
+        int best = -1;
+        double bestRate = double.NegativeInfinity;
+        for (int m = 0; m < MetricRejectionsHalf[0].Length; m++)
+        {
+            double rate = MetricRateIn(0, m);
+            if (double.IsFinite(rate) && rate > bestRate) { bestRate = rate; best = m; }
+        }
+        return best;
+    }
+
+    /// <summary>Power of the held-out oracle, measured on the half that did not choose it.</summary>
+    public double OraclePowerHeldOut()
+    {
+        int oracle = OracleMetricHeldOut();
+        return oracle < 0 ? double.NaN : MetricRateIn(1, oracle);
+    }
+
+    /// <summary>Selection-biased oracle, kept for comparison only. See OracleMetricHeldOut.</summary>
     public int OracleMetric()
     {
         int best = -1;
@@ -401,6 +438,13 @@ internal static class BenchmarkRunner
         var rejections = new int[procedures];
         var claims = new int[procedures];
         var metricRejections = new int[metrics];
+        // Replications are split by index parity so the oracle can be chosen on one half and
+        // scored on the other. Parity is fixed by the replication index, not by arrival order,
+        // so the split stays identical no matter how the parallel loop schedules the work.
+        var completedHalf = new int[2];
+        var metricRejectionsHalf = new int[2][];
+        metricRejectionsHalf[0] = new int[metrics];
+        metricRejectionsHalf[1] = new int[metrics];
         var chosen = new int[procedures][];
         for (int p = 0; p < procedures; p++) chosen[p] = new int[metrics + 1];
         int completed = 0;
@@ -418,6 +462,8 @@ internal static class BenchmarkRunner
                 continue;
             }
             completed++;
+            int half = i % 2;
+            completedHalf[half]++;
             for (int p = 0; p < procedures; p++)
             {
                 if (item.Rejected[p]) rejections[p]++;
@@ -432,7 +478,7 @@ internal static class BenchmarkRunner
             digest.Append('|');
             for (int m = 0; m < metrics; m++)
             {
-                if (item.MetricRejected[m]) metricRejections[m]++;
+                if (item.MetricRejected[m]) { metricRejections[m]++; metricRejectionsHalf[half][m]++; }
                 digest.Append(item.MetricRejected[m] ? '1' : '0');
             }
             digest.Append('\n');
@@ -446,6 +492,8 @@ internal static class BenchmarkRunner
             Rejections = rejections,
             Claims = claims,
             MetricRejections = metricRejections,
+            CompletedHalf = completedHalf,
+            MetricRejectionsHalf = metricRejectionsHalf,
             ChosenCounts = chosen,
             DecisionDigest = Sha256(digest.ToString()),
             FirstError = firstError
@@ -514,6 +562,25 @@ internal static class BenchmarkRunner
                 outcome.Rejected[BenchmarkProcedures.MvsStrict] = false;
                 outcome.Chosen[BenchmarkProcedures.MvsStrict] = -1;
             }
+
+            // 1.4.0: the two-track procedure. Each track picks its own metric under its own
+            // calibration and is tested at half alpha. Two chances to reject at the full level
+            // would just buy power with false alarms, so the second track is paid for, not free.
+            double split = alpha / AnalysisEngine.DefaultTracks.Length;
+            bool twoTrackClaimed = false;
+            bool twoTrackRejected = false;
+            int twoTrackChoice = -1;
+            foreach (string track in AnalysisEngine.DefaultTracks)
+            {
+                int pick = SelectMetricForTrack(calibration, track);
+                if (pick < 0) continue;
+                twoTrackClaimed = true;
+                if (twoTrackChoice < 0) twoTrackChoice = pick;
+                if (double.IsFinite(p[pick]) && p[pick] < split) { twoTrackRejected = true; twoTrackChoice = pick; }
+            }
+            outcome.Claimed[BenchmarkProcedures.MvsTwoTrack] = twoTrackClaimed;
+            outcome.Rejected[BenchmarkProcedures.MvsTwoTrack] = twoTrackRejected;
+            outcome.Chosen[BenchmarkProcedures.MvsTwoTrack] = twoTrackChoice;
 
             int fallback = lenient >= 0 ? lenient : 0;
             Decide(outcome, BenchmarkProcedures.MvsLenient, fallback, p, alpha);
@@ -622,7 +689,7 @@ internal static class BenchmarkRunner
             data, repetitions, BenchmarkProtocol.CalibrationEffect, seed,
             NullProgress.Instance, token, BenchmarkProtocol.CalibrationScenario,
             BenchmarkProtocol.CalibrationOutlierRate, BenchmarkProtocol.CalibrationMissingRate,
-            BenchmarkProtocol.Alpha);
+            BenchmarkProtocol.Alpha, AnalysisEngine.DefaultTracks);
 
     /// <summary>
     /// Keeps the engine's own seeds small. The engine multiplies its seed internally, and a value
@@ -683,6 +750,25 @@ internal static class BenchmarkRunner
         return (gated, best);
     }
 
+    /// <summary>
+    /// The winner inside one track: highest score among the metrics that clear the gate for that
+    /// track. A spread metric is judged on its spread power, never on how well it detects a shift
+    /// of the centre, which is the question it was losing before 1.4.0.
+    /// </summary>
+    private static int SelectMetricForTrack(List<CalibrationRow> calibration, string track)
+    {
+        int gated = -1;
+        double gatedScore = double.NegativeInfinity;
+        for (int i = 0; i < calibration.Count; i++)
+        {
+            CalibrationRow row = calibration[i];
+            if (!row.PassesGateIn(track)) continue;
+            double score = row.ScoreIn(track);
+            if (double.IsFinite(score) && score > gatedScore) { gatedScore = score; gated = i; }
+        }
+        return gated;
+    }
+
     private static double[] Scores(List<CalibrationRow> calibration, int metrics)
     {
         var scores = new double[metrics];
@@ -732,18 +818,22 @@ internal static class BenchmarkRunner
         {
             double cherry = primary.Rate(BenchmarkProcedures.CherryPick);
             double gated = primary.Rate(BenchmarkProcedures.MvsStrict);
+            double twoTrack = primary.Rate(BenchmarkProcedures.MvsTwoTrack);
+            // A is judged on whatever the program actually ships, which from 1.4.0 is the
+            // two-track procedure. Adding a second track adds a second chance to reject, so its
+            // false alarm rate has to be measured, not assumed to be inherited from one track.
             string result = "inconclusive";
-            if (double.IsFinite(cherry) && double.IsFinite(gated))
+            if (double.IsFinite(cherry) && double.IsFinite(twoTrack))
             {
-                if (gated > BenchmarkProtocol.MvsFprFail) result = "fail";
-                else if (cherry >= BenchmarkProtocol.CherryPickFprPass && gated <= BenchmarkProtocol.MvsFprPass) result = "pass";
+                if (twoTrack > BenchmarkProtocol.MvsFprFail) result = "fail";
+                else if (cherry >= BenchmarkProtocol.CherryPickFprPass && twoTrack <= BenchmarkProtocol.MvsFprPass) result = "pass";
             }
             verdicts.Add(new HypothesisVerdict("A",
                 "Metric shopping inflates the false-positive rate and the MVS gate holds it at the nominal level",
                 "Перебор метрик разгоняет долю ложных открытий, а порог MVS держит её на заявленном уровне",
-                "cherry-pick >= 0.15 and MVS <= 0.075; fail if MVS > 0.10",
+                "cherry-pick >= 0.15 and the shipped MVS default <= 0.075; fail above 0.10",
                 "перебор >= 0,15 и MVS <= 0,075; провал при MVS > 0,10",
-                "cherry-pick " + Pct(cherry) + ", MVS gated " + Pct(gated),
+                "cherry-pick " + Pct(cherry) + ", MVS two-track " + Pct(twoTrack) + ", single-track " + Pct(gated),
                 result));
         }
 
@@ -755,13 +845,22 @@ internal static class BenchmarkRunner
         {
             ConditionSummary? condition = outcome.Find(id);
             if (condition == null) continue;
-            int oracle = condition.OracleMetric();
-            double oraclePower = oracle >= 0 ? condition.MetricRate(oracle) : double.NaN;
+            // The oracle is chosen on one half of the replications and scored on the other, and
+            // MVS is represented by the shipped default. The old same-data oracle and the old
+            // single-track power are printed alongside, so the change in the gap can be read off
+            // rather than taken on trust.
+            int oracle = condition.OracleMetricHeldOut();
+            double oraclePower = condition.OraclePowerHeldOut();
+            int biasedOracle = condition.OracleMetric();
+            double biasedPower = biasedOracle >= 0 ? condition.MetricRate(biasedOracle) : double.NaN;
             double gatedPower = condition.Rate(BenchmarkProcedures.MvsStrict);
-            double loss = oraclePower - gatedPower;
+            double twoTrackPower = condition.Rate(BenchmarkProcedures.MvsTwoTrack);
+            double loss = oraclePower - twoTrackPower;
             if (double.IsFinite(loss) && (!double.IsFinite(worstLoss) || loss > worstLoss)) worstLoss = loss;
-            lossParts.Add(condition.Condition.Mode + " " + Pct(gatedPower) + " vs oracle " +
-                (oracle >= 0 ? AnalysisEngine.MetricKeys[oracle] : "n/a") + " " + Pct(oraclePower));
+            lossParts.Add(condition.Condition.Mode + " two-track " + Pct(twoTrackPower) +
+                ", single-track " + Pct(gatedPower) + " vs held-out oracle " +
+                (oracle >= 0 ? AnalysisEngine.MetricKeys[oracle] : "n/a") + " " + Pct(oraclePower) +
+                " (same-data oracle " + Pct(biasedPower) + ")");
         }
         if (double.IsFinite(worstLoss))
             powerResult = worstLoss > BenchmarkProtocol.PowerLossFail ? "fail"

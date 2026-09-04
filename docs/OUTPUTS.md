@@ -89,7 +89,7 @@ The provenance record. If you keep one file from a run, keep this one.
 ```jsonc
 {
   "application": "MVS Analyzer",
-  "version": "1.3.3",
+  "version": "1.4.0",
   "engineVersion": "1.2.0",
   "runId": "20260822T193014Z_a91c",
   "createdUtc": "2026-08-22T19:30:14Z",

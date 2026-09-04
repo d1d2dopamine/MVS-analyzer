@@ -54,7 +54,7 @@ internal sealed partial class MainForm : Form
 
     public MainForm(AppSettings appSettings)
     {
-        settings = appSettings; projectName = T("Untitled project", "Безымянный проект"); Text = "MVS Analyzer — Universal Engine v1.3.3"; try { Icon = Branding.AppIcon ?? System.Drawing.Icon.ExtractAssociatedIcon(Application.ExecutablePath); } catch { } StartPosition = FormStartPosition.CenterScreen; AutoScaleMode = AutoScaleMode.Dpi;
+        settings = appSettings; projectName = T("Untitled project", "Безымянный проект"); Text = "MVS Analyzer — Universal Engine v1.4.0"; try { Icon = Branding.AppIcon ?? System.Drawing.Icon.ExtractAssociatedIcon(Application.ExecutablePath); } catch { } StartPosition = FormStartPosition.CenterScreen; AutoScaleMode = AutoScaleMode.Dpi;
         MinimumSize = new Size(1040, 680); ClientSize = new Size(1240, 780); Font = new Font("Segoe UI", 10);
         DoubleBuffered = true; KeyPreview = true; RestoreWindow();
         host.Resize += (_, _) => FitContentWidth();
@@ -65,7 +65,7 @@ internal sealed partial class MainForm : Form
     private void BuildShell()
     {
         var brand = new Label { Text = "MVS Analyzer", Font = new Font("Segoe UI", 12, FontStyle.Bold), AutoSize = false, Size = new Size(188, 26), Location = new Point(14, 10) };
-        var brandSub = new Label { Text = "Universal Engine v1.3.3", Font = new Font("Segoe UI", 8), AutoSize = false, Size = new Size(188, 18), Location = new Point(15, 34), ForeColor = Secondary };
+        var brandSub = new Label { Text = "Universal Engine v1.4.0", Font = new Font("Segoe UI", 8), AutoSize = false, Size = new Size(188, 18), Location = new Point(15, 34), ForeColor = Secondary };
         sidebar.Controls.Add(brand); sidebar.Controls.Add(brandSub);
         int y = 62;
         AddNav("home", "\uE80F", T("Home", "Главная"), y, () => Navigate("home")); y += 46;
@@ -86,7 +86,7 @@ internal sealed partial class MainForm : Form
         topbar.Paint += (_, e) => { using var pen = new Pen(Border); e.Graphics.DrawLine(pen, 0, topbar.Height - 1, topbar.Width, topbar.Height - 1); };
         statusbar.Paint += (_, e) => { using var pen = new Pen(Border); e.Graphics.DrawLine(pen, 0, 0, statusbar.Width, 0); };
         topbar.Controls.Add(projectStatus);
-        statusLabel.Text = T("Local mode  ·  Offline  ·  Data never leaves this computer  ·  v1.3.3", "Локальный режим  ·  Офлайн  ·  Данные не покидают компьютер  ·  v1.3.3");
+        statusLabel.Text = T("Local mode  ·  Offline  ·  Data never leaves this computer  ·  v1.4.0", "Локальный режим  ·  Офлайн  ·  Данные не покидают компьютер  ·  v1.4.0");
         statusbar.Controls.Add(statusLabel);
         Controls.Add(host); Controls.Add(statusbar); Controls.Add(topbar); Controls.Add(sidebar);
     }
@@ -115,7 +115,7 @@ internal sealed partial class MainForm : Form
         {
             var label = navItems[pair.Key].Controls.Find("navText", false).FirstOrDefault(); if (label != null) label.Text = pair.Value;
         }
-        statusLabel.Text = T("Local mode  ·  Offline  ·  Data never leaves this computer  ·  v1.3.3", "Локальный режим  ·  Офлайн  ·  Данные не покидают компьютер  ·  v1.3.3");
+        statusLabel.Text = T("Local mode  ·  Offline  ·  Data never leaves this computer  ·  v1.4.0", "Локальный режим  ·  Офлайн  ·  Данные не покидают компьютер  ·  v1.4.0");
     }
 
     private void ApplyModeVisibility()
@@ -197,7 +197,7 @@ internal sealed partial class MainForm : Form
                 source = halves.Calibration; analysisHalf = halves.Analysis; calibrationSource = "split_half";
             }
             var reporter = new Progress<ProgressInfo>(progress.UpdateProgress);
-            calibration = await Task.Run(() => AnalysisEngine.Calibrate(source, repetitions, settings.CalibrationEffect, settings.CalibrationSeed, reporter, progress.Token, settings.SimulationScenario, settings.OutlierRate, settings.MissingRate, settings.Alpha));
+            calibration = await Task.Run(() => AnalysisEngine.Calibrate(source, repetitions, settings.CalibrationEffect, settings.CalibrationSeed, reporter, progress.Token, settings.SimulationScenario, settings.OutlierRate, settings.MissingRate, settings.Alpha, AnalysisEngine.DefaultTracks));
             lastCalibrationRepetitions = repetitions;
             progress.UpdateProgress(new ProgressInfo(1, T("Calibration complete", "Калибровка завершена"), $"{repetitions:N0} / {repetitions:N0}"));
             int remaining = Math.Max(0, 400 - (int)(DateTime.UtcNow - shownAt).TotalMilliseconds); if (remaining > 0) await Task.Delay(remaining);

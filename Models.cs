@@ -2,8 +2,79 @@ namespace MvsAnalyzer;
 
 internal record Observation(string Entity, string Group, double Value, int Sequence, string Variable = "measurement", string Unit = "");
 internal record EntityResult(string Entity, string Group, double[] Metrics, int Measurements);
-internal record CalibrationRow(string Metric, double Fpr, double Power, double Score, double Robustness = 1, double Repeatability = 1, double Coverage = .95, bool Applicable = true, double Mde = double.NaN, bool FprInflated = false, string PowerCurve = "");
-internal record ResultRow(string Metric, double FirstGroupMedian, double SecondGroupMedian, double MedianRange, double PValue, double Fpr, double Power, double Score, bool Candidate, string GroupSummary = "", double Robustness = 1, double Repeatability = 1, double Coverage = .95, bool Applicable = true, bool NearMiss = false, double Effect = double.NaN, double EffectLow = double.NaN, double EffectHigh = double.NaN, double EquivalenceP = double.NaN, double Mde = double.NaN, bool FprInflated = false, string Verdict = "insufficient", string EffectPair = "", double EffectPercent = double.NaN);
+/// <summary>
+/// One metric after calibration. Fpr, Robustness, Repeatability and Coverage do not depend on
+/// the injected effect, so they hold for every track. Power, Score, Mde and PowerCurve are
+/// the values for the primary track, kept as plain properties so older readers still work,
+/// while TrackPowers and friends carry the full per-track picture added in 1.4.0.
+/// </summary>
+internal record CalibrationRow(string Metric, double Fpr, double Power, double Score, double Robustness = 1, double Repeatability = 1, double Coverage = .95, bool Applicable = true, double Mde = double.NaN, bool FprInflated = false, string PowerCurve = "", string[]? Tracks = null, double[]? TrackPowers = null, double[]? TrackScores = null, double[]? TrackMdes = null, string[]? TrackCurves = null)
+{
+    /// <summary>Index of a track name, or -1. Names are canonical SimulationScenarios values.</summary>
+    public int TrackIndex(string track)
+    {
+        if (Tracks == null) return -1;
+        SimulationScenarios.TryCanonical(track, out string canonical);
+        for (int i = 0; i < Tracks.Length; i++) if (Tracks[i] == canonical) return i;
+        return -1;
+    }
+
+    private static double At(double[]? values, int index, double fallback) => values != null && index >= 0 && index < values.Length ? values[index] : fallback;
+
+    public double PowerIn(string track) => At(TrackPowers, TrackIndex(track), Power);
+    public double ScoreIn(string track) => At(TrackScores, TrackIndex(track), Score);
+    public double MdeIn(string track) => At(TrackMdes, TrackIndex(track), Mde);
+    public string CurveIn(string track) { int i = TrackIndex(track); return TrackCurves != null && i >= 0 && i < TrackCurves.Length ? TrackCurves[i] : PowerCurve; }
+
+    /// <summary>The shipped gate, asked separately for each track instead of once for all of them.</summary>
+    public bool PassesGateIn(string track)
+    {
+        double power = PowerIn(track), score = ScoreIn(track);
+        return Applicable && double.IsFinite(Fpr) && double.IsFinite(power) && double.IsFinite(score)
+            && Fpr <= AnalysisEngine.CandidateMaxFpr && power >= AnalysisEngine.CandidateMinPower && score >= AnalysisEngine.CandidateMinScore;
+    }
+}
+/// <summary>
+/// One metric on the results page. Power, Score, Mde and Candidate carry the primary track so
+/// that anything written before 1.4.0 keeps its meaning. TrackCandidates is the honest answer
+/// for a two-track run: a metric can be a candidate for the spread question and not for the
+/// centre question, and saying so is the whole point of splitting the tracks.
+/// </summary>
+internal record ResultRow(string Metric, double FirstGroupMedian, double SecondGroupMedian, double MedianRange, double PValue, double Fpr, double Power, double Score, bool Candidate, string GroupSummary = "", double Robustness = 1, double Repeatability = 1, double Coverage = .95, bool Applicable = true, bool NearMiss = false, double Effect = double.NaN, double EffectLow = double.NaN, double EffectHigh = double.NaN, double EquivalenceP = double.NaN, double Mde = double.NaN, bool FprInflated = false, string Verdict = "insufficient", string EffectPair = "", double EffectPercent = double.NaN, string[]? Tracks = null, double[]? TrackPowers = null, double[]? TrackScores = null, double[]? TrackMdes = null, bool[]? TrackCandidates = null)
+{
+    public int TrackIndex(string track)
+    {
+        if (Tracks == null) return -1;
+        SimulationScenarios.TryCanonical(track, out string canonical);
+        for (int i = 0; i < Tracks.Length; i++) if (Tracks[i] == canonical) return i;
+        return -1;
+    }
+
+    public double PowerIn(string track) { int i = TrackIndex(track); return TrackPowers != null && i >= 0 && i < TrackPowers.Length ? TrackPowers[i] : Power; }
+    public double ScoreIn(string track) { int i = TrackIndex(track); return TrackScores != null && i >= 0 && i < TrackScores.Length ? TrackScores[i] : Score; }
+    public double MdeIn(string track) { int i = TrackIndex(track); return TrackMdes != null && i >= 0 && i < TrackMdes.Length ? TrackMdes[i] : Mde; }
+    public bool CandidateIn(string track) { int i = TrackIndex(track); return TrackCandidates != null && i >= 0 && i < TrackCandidates.Length ? TrackCandidates[i] : Candidate; }
+
+    /// <summary>True when the metric answers at least one of the questions that were asked.</summary>
+    public bool CandidateInAnyTrack => TrackCandidates == null ? Candidate : TrackCandidates.Any(x => x);
+
+    /// <summary>Best score across the tracks, used only for ordering the page.</summary>
+    public double BestTrackScore
+    {
+        get
+        {
+            if (TrackScores == null) return Score;
+            double best = double.NegativeInfinity;
+            foreach (double value in TrackScores) if (double.IsFinite(value) && value > best) best = value;
+            return double.IsFinite(best) ? best : Score;
+        }
+    }
+
+    /// <summary>Comma separated canonical names of the tracks this metric is a candidate for.</summary>
+    public string CandidateTracks => Tracks == null || TrackCandidates == null
+        ? (Candidate ? SimulationScenarios.Default : "")
+        : string.Join(",", Tracks.Where((_, i) => i < TrackCandidates.Length && TrackCandidates[i]));
+}
 internal record ProgressInfo(double Fraction, string Action, string Details);
 internal record RunRecord(DateTime Time, string Project, string Dataset, int Entities, string Profile, string CandidateSet);
 internal sealed record FigureTemplateChoice(string Id, string Name) { public override string ToString() => Name; }

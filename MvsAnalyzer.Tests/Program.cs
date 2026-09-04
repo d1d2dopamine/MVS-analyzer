@@ -34,7 +34,7 @@ static void MannWhitneySymmetry(){double[] a={1,2,2,4,5},b={2,3,3,6,7};Near(Anal
 static void KruskalWallisSeparation(){double p=AnalysisEngine.KruskalWallisP(new[]{new double[]{1,2,3,4,5},new double[]{20,21,22,23,24},new double[]{40,41,42,43,44}});Assert(p<.01,$"Expected p < .01, got {p}");}
 static void CandidateThresholds(){var data=AnalysisEngine.Build(Data(6,12,400,5).Concat(Data(6,12,450,5,"B")).ToList());var calibration=AnalysisEngine.MetricKeys.Select(m=>new CalibrationRow(m,.10,.20,30)).ToList();var rows=AnalysisEngine.Results(data,calibration,new ImmediateProgress(),CancellationToken.None);Assert(rows.All(x=>!x.Candidate),"Candidates were forced despite failing thresholds");}
 static void UniqueRunFolders(){string root=Path.Combine(Path.GetTempPath(),"mvs-v1-test-"+Guid.NewGuid().ToString("N"));Directory.CreateDirectory(root);try{var settings=new AppSettings{FigureOutputFolder=root,OutputPrefix="MVS"};string a=OutputExporter.PrepareRunFolder(settings,"same"),b=OutputExporter.PrepareRunFolder(settings,"same");Assert(a!=b,"Folder collision was not resolved");}finally{Directory.Delete(root,true);}}
-static void FormulaHash()=>Assert(OutputExporter.FormulaHash=="70e1d57723df1ca2bbc1b7856357f04d844cd77f36a83ad5fefd02565e401e2f","Invalid formula hash");
+static void FormulaHash()=>Assert(OutputExporter.FormulaHash=="dcc0ef643ff071d8c4c6e5d33a4329f86c49294d156a3463ee6398285709f9da","Invalid formula hash");
 
 static void DeltaSymmetry(){double[] a={1,2,3,4,5,6},b={4,5,6,7,8,9};double ab=AnalysisEngine.CliffsDelta(a,b),ba=AnalysisEngine.CliffsDelta(b,a);Near(ab,-ba,1e-12);Assert(Math.Abs(ab)<=1,"Delta out of range");Assert(AnalysisEngine.CliffsDelta(a,a)==0,"Identical groups must give zero");}
 static void EquivalenceVerdict(){Assert(AnalysisEngine.Verdict(true,.6,.05,-.05,.05,.147)=="equivalent","A tight interval inside the margin is equivalence");}
@@ -75,5 +75,25 @@ static void GlyphCoverage(){
     foreach(string scenario in SimulationScenarios.All)
         foreach(bool russian in new[]{false,true}){string text=SimulationScenarios.Describe(scenario,russian);Assert(text.Length>0,"Every scenario needs a label");Assert(!text.Contains('\uFFFD'),"A label must not contain a replacement character");}
     Assert(SimulationScenarios.Describe(SimulationScenarios.Variability,true).Contains('\u0432'),"The Russian label must really be Cyrillic");
+}
+static void HeldOutOracle(){
+    int metrics=AnalysisEngine.MetricKeys.Length;
+    int procedures=BenchmarkProcedures.MvsTwoTrack+1;
+    var choosing=new int[metrics]; choosing[0]=5; choosing[1]=4;
+    var scoring=new int[metrics]; scoring[0]=1; scoring[1]=5;
+    var summary=new ConditionSummary{
+        Condition=new BenchmarkCondition("t","power","gait_stride_like","normal","dispersion",1.30,0,10,"synthetic"),
+        Completed=10, Failed=0,
+        Rejections=new int[procedures], Claims=new int[procedures],
+        MetricRejections=Enumerable.Range(0,metrics).Select(m=>choosing[m]+scoring[m]).ToArray(),
+        CompletedHalf=new[]{5,5},
+        MetricRejectionsHalf=new[]{choosing,scoring},
+        ChosenCounts=Enumerable.Range(0,procedures).Select(_=>new int[metrics]).ToArray(),
+        DecisionDigest="", FirstError=""};
+    Assert(summary.OracleMetricHeldOut()==0,"The oracle must be chosen on the half that does not score it");
+    Near(summary.OraclePowerHeldOut(),.20,1e-9);
+    Assert(summary.OracleMetric()==1,"The old oracle picks the winner over all replications at once");
+    Near(summary.MetricRate(summary.OracleMetric()),.90,1e-9);
+    Assert(summary.OraclePowerHeldOut()<summary.MetricRate(summary.OracleMetric()),"Choosing and scoring on the same replications inflates the oracle, and that inflation was charged to MVS");
 }
 sealed class ImmediateProgress:IProgress<ProgressInfo>{public void Report(ProgressInfo value){}}

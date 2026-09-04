@@ -9,7 +9,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AssemblyName>MVS_Analyzer</AssemblyName>
     <RootNamespace>MvsAnalyzer</RootNamespace>
-    <Version>1.3.3</Version>
+    <Version>1.4.0</Version>
     <ApplicationIcon>app.ico</ApplicationIcon>
     <!-- Must agree with app.manifest, otherwise ApplicationConfiguration.Initialize fights it. -->
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>

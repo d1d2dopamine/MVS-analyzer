@@ -15,9 +15,9 @@
 
 <p align="center">
   <img src="https://img.shields.io/github/actions/workflow/status/d1d2dopamine/MVS-Analyzer/ci.yml?branch=main&label=build&style=flat-square" alt="build">
-  <img src="https://img.shields.io/badge/app-1.3.3-1f6feb?style=flat-square" alt="app 1.3.3">
+  <img src="https://img.shields.io/badge/app-1.4.0-1f6feb?style=flat-square" alt="app 1.4.0">
   <img src="https://img.shields.io/badge/engine-1.2.0-6f42c1?style=flat-square" alt="engine 1.2.0">
-  <img src="https://img.shields.io/badge/formula-MVS--1.2.0%20frozen-brightgreen?style=flat-square" alt="formula MVS-1.2.0 frozen">
+  <img src="https://img.shields.io/badge/formula-MVS--1.3.0%20frozen-brightgreen?style=flat-square" alt="formula MVS-1.3.0 frozen">
   <img src="https://img.shields.io/badge/made%20with-.NET%208-512BD4?style=flat-square" alt="made with .NET 8">
   <img src="https://img.shields.io/badge/Windows-10%2B%20x64-0078D6?style=flat-square" alt="Windows 10+ x64">
   <img src="https://img.shields.io/badge/NuGet%20dependencies-0-4b4b4b?style=flat-square" alt="zero NuGet dependencies">
@@ -64,7 +64,7 @@ The intended use is choosing a metric **before** you analyse, or checking that a
 | **An honest verdict** | *difference · no difference (TOST) · not enough data · not applicable* |
 | **Effect size, not just p** | Cliff's delta with a 95 % percentile bootstrap interval (400 resamples) |
 | **MDE** | the smallest effect these data could have detected at power 0.80 |
-| **Frozen, hashed formula** | `MVS-1.2.0`, SHA-256 `70e1d577…e401e2f` — any change is visible in the audit |
+| **Frozen, hashed formula** | `MVS-1.3.0`, SHA-256 `dcc0ef64…709f9da` — any change is visible in the audit |
 | **Tamper-evident runs** | every run folder carries hashes of its inputs *and* outputs, chained in a local journal |
 | **Data-only plugins** | templates, import profiles, report templates, validation rules — executables are rejected |
 | **Zero dependencies** | pure .NET 8 + WinForms, no NuGet packages, no network, no accounts |
@@ -157,7 +157,7 @@ $$\mathrm{MVS} = 100 \cdot P^{0.30} \cdot F^{0.25} \cdot R^{0.20} \cdot S^{0.15}
 The formula string is **frozen and hashed**:
 
 ```text
-MVS-1.2.0   sha256 = 70e1d57723df1ca2bbc1b7856357f04d844cd77f36a83ad5fefd02565e401e2f
+MVS-1.3.0   sha256 = dcc0ef643ff071d8c4c6e5d33a4329f86c49294d156a3463ee6398285709f9da
 ```
 
 It is written into every `run_manifest.json`, checked by a unit test, and compared during audit. Change the formula and old runs report `FORMULA_CHANGED` — deliberately, loudly.
@@ -452,9 +452,9 @@ If MVS Analyzer influenced a published result, cite it with the metadata in [CIT
 
 <p align="center">
   <img src="https://img.shields.io/github/actions/workflow/status/d1d2dopamine/MVS-Analyzer/ci.yml?branch=main&label=build&style=flat-square" alt="build">
-  <img src="https://img.shields.io/badge/app-1.3.3-1f6feb?style=flat-square" alt="app 1.3.3">
+  <img src="https://img.shields.io/badge/app-1.4.0-1f6feb?style=flat-square" alt="app 1.4.0">
   <img src="https://img.shields.io/badge/engine-1.2.0-6f42c1?style=flat-square" alt="engine 1.2.0">
-  <img src="https://img.shields.io/badge/formula-MVS--1.2.0%20frozen-brightgreen?style=flat-square" alt="formula MVS-1.2.0 frozen">
+  <img src="https://img.shields.io/badge/formula-MVS--1.3.0%20frozen-brightgreen?style=flat-square" alt="formula MVS-1.3.0 frozen">
   <img src="https://img.shields.io/badge/made%20with-.NET%208-512BD4?style=flat-square" alt="made with .NET 8">
   <img src="https://img.shields.io/badge/Windows-10%2B%20x64-0078D6?style=flat-square" alt="Windows 10+ x64">
   <img src="https://img.shields.io/badge/NuGet%20dependencies-0-4b4b4b?style=flat-square" alt="zero NuGet dependencies">
@@ -501,7 +501,7 @@ If MVS Analyzer influenced a published result, cite it with the metadata in [CIT
 | **Честный вердикт** | *есть разница · разницы нет (TOST) · данных не хватает · неприменима* |
 | **Размер эффекта, а не только p** | дельта Клиффа с 95 %-м бутстрэп-интервалом (400 повторов) |
 | **MDE** | минимальная разница, которую эти данные вообще способны заметить при мощности 0.80 |
-| **Замороженная формула** | `MVS-1.2.0`, SHA-256 `70e1d577…e401e2f` — любое изменение видно в аудите |
+| **Замороженная формула** | `MVS-1.3.0`, SHA-256 `dcc0ef64…709f9da` — любое изменение видно в аудите |
 | **Прогоны с печатью** | хешируются входные *и* выходные файлы, журнал — цепочка хешей |
 | **Плагины без кода** | шаблоны, профили импорта, отчёты, правила проверки — исполняемые файлы запрещены |
 | **Ноль зависимостей** | чистый .NET 8 + WinForms, без NuGet, без сети, без аккаунтов |
@@ -594,7 +594,7 @@ $$\mathrm{MVS} = 100 \cdot P^{0.30} \cdot F^{0.25} \cdot R^{0.20} \cdot S^{0.15}
 Строка формулы **заморожена и захеширована**:
 
 ```text
-MVS-1.2.0   sha256 = 70e1d57723df1ca2bbc1b7856357f04d844cd77f36a83ad5fefd02565e401e2f
+MVS-1.3.0   sha256 = dcc0ef643ff071d8c4c6e5d33a4329f86c49294d156a3463ee6398285709f9da
 ```
 
 Она попадает в каждый `run_manifest.json`, проверяется тестом и сверяется при аудите. Измените формулу — старые прогоны честно покажут `FORMULA_CHANGED`.

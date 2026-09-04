@@ -53,7 +53,46 @@ internal static class AnalysisEngine
         return output;
     }
 
-    public static List<CalibrationRow> Calibrate(AnalysisData data, int repetitions, double effect, int seed, IProgress<ProgressInfo> progress, CancellationToken token, string scenario = "location", double outlierRate = .02, double missingRate = 0, double alpha = .05)
+    /// <summary>The two effect tracks 1.4.0 calibrates by default: one for the centre, one for the spread.</summary>
+    internal static readonly string[] DefaultTracks = { SimulationScenarios.Location, SimulationScenarios.Variability };
+
+    /// <summary>
+    /// Canonicalises a track list, drops duplicates and keeps the primary scenario first. The
+    /// primary track is the one whose numbers fill the plain Power, Score, Mde and PowerCurve
+    /// fields, so a caller that knows nothing about tracks still reads what it always read.
+    /// </summary>
+    internal static string[] NormalizeTracks(string primary, string[]? tracks)
+    {
+        var ordered = new List<string> { SimulationScenarios.Canonicalize(primary) };
+        if (tracks != null)
+            foreach (string track in tracks)
+            {
+                string canonical = SimulationScenarios.Canonicalize(track);
+                if (!ordered.Contains(canonical)) ordered.Add(canonical);
+            }
+        return ordered.ToArray();
+    }
+
+    /// <summary>The frozen composite. Only power differs between tracks, so the other four terms are shared.</summary>
+    internal static double Composite(double power, double falseAlarm, double robustness, double repeatability, double coverage) =>
+        100 * Math.Pow(Math.Max(power, 1e-9), .30) * Math.Pow(falseAlarm, .25) * Math.Pow(robustness, .20) * Math.Pow(repeatability, .15) * Math.Pow(coverage, .10);
+
+    /// <summary>
+    /// Calibrates every metric against one or more effect tracks.
+    ///
+    /// Until 1.4.0 power was measured under a single scenario. With the default location
+    /// scenario a spread metric was asked to detect a level shift, scored badly on a question
+    /// it was never meant to answer, and so never cleared the gate. A dataset whose real
+    /// difference lived in the spread was therefore left with no metric able to find it. That
+    /// is not a threshold that needs tuning, it is the wrong question being asked.
+    ///
+    /// The false alarm rate, robustness, repeatability and coverage do not depend on the
+    /// injected effect, so they are still measured once and shared across tracks. Only the
+    /// detection half runs per track, which is why two tracks cost far less than two
+    /// calibrations. The null draw is also shared, so the false alarm rate is identical to
+    /// the single-track value it replaces rather than being a second noisy estimate of it.
+    /// </summary>
+    public static List<CalibrationRow> Calibrate(AnalysisData data, int repetitions, double effect, int seed, IProgress<ProgressInfo> progress, CancellationToken token, string scenario = "location", double outlierRate = .02, double missingRate = 0, double alpha = .05, string[]? tracks = null)
     {
         if (repetitions < 100) throw new ArgumentOutOfRangeException(nameof(repetitions), "At least 100 simulations are required.");
         if (effect <= 1) throw new ArgumentOutOfRangeException(nameof(effect), "The effect multiplier must be greater than 1.");
@@ -61,6 +100,8 @@ internal static class AnalysisEngine
         // An unknown scenario name used to fall through to a location shift, so a run could
         // answer a question nobody asked. Reject it here, before any simulation happens.
         scenario = SimulationScenarios.Canonicalize(scenario);
+        string[] trackNames = NormalizeTracks(scenario, tracks);
+        int tc = trackNames.Length;
 
         // Raw measurements are indexed once. Without this cache every simulated entity
         // scanned the full observation list, which made calibration quadratic.
@@ -68,9 +109,11 @@ internal static class AnalysisEngine
         EntityResult[][] groupEntities = GroupEntities(data);
         double[][][] observed = GroupMetricArrays(data);
         int m = MetricKeys.Length;
-        int[] falsePositives = new int[m], detections = new int[m], evaluated = new int[m];
-        int[][] gridDetections = Enumerable.Range(0, m).Select(_ => new int[EffectGrid.Length]).ToArray();
-        int[][] gridEvaluated = Enumerable.Range(0, m).Select(_ => new int[EffectGrid.Length]).ToArray();
+        int[] falsePositives = new int[m], nullEvaluated = new int[m];
+        int[][] detections = Enumerable.Range(0, m).Select(_ => new int[tc]).ToArray();
+        int[][] evaluated = Enumerable.Range(0, m).Select(_ => new int[tc]).ToArray();
+        int[][][] gridDetections = Enumerable.Range(0, m).Select(_ => Enumerable.Range(0, tc).Select(_ => new int[EffectGrid.Length]).ToArray()).ToArray();
+        int[][][] gridEvaluated = Enumerable.Range(0, m).Select(_ => Enumerable.Range(0, tc).Select(_ => new int[EffectGrid.Length]).ToArray()).ToArray();
         double[][] pooled = new double[m][];
         bool[] usable = new bool[m];
         for (int metric = 0; metric < m; metric++)
@@ -92,75 +135,96 @@ internal static class AnalysisEngine
                 Random r = random[metric];
                 double[][] nullGroups = observed.Select(g => Sample(pooled[metric], g[metric].Length, r)).ToArray();
                 if (GlobalP(nullGroups) < alpha) falsePositives[metric]++;
-                double[][] alternative = SimulatedMetricGroups(data, values, groupEntities, metric, r, effect, scenario, outlierRate, missingRate);
-                if (alternative.All(x => x.Length >= 4) && GlobalP(alternative) < alpha) detections[metric]++;
-                evaluated[metric]++;
-                // Deep calibration: each repetition also tests one point of the effect grid, so the
-                // cost stays close to the old single-effect run while a full power curve is collected.
+                nullEvaluated[metric]++;
                 int gp = rep % EffectGrid.Length;
-                double[][] gridGroups = SimulatedMetricGroups(data, values, groupEntities, metric, r, EffectGrid[gp], scenario, outlierRate, missingRate);
-                if (gridGroups.All(x => x.Length >= 4)) { gridEvaluated[metric][gp]++; if (GlobalP(gridGroups) < alpha) gridDetections[metric][gp]++; }
+                for (int track = 0; track < tc; track++)
+                {
+                    double[][] alternative = SimulatedMetricGroups(data, values, groupEntities, metric, r, effect, trackNames[track], outlierRate, missingRate);
+                    if (alternative.All(x => x.Length >= 4) && GlobalP(alternative) < alpha) detections[metric][track]++;
+                    evaluated[metric][track]++;
+                    // Deep calibration: each repetition also tests one point of the effect grid, so the
+                    // cost stays close to the old single-effect run while a full power curve is collected.
+                    double[][] gridGroups = SimulatedMetricGroups(data, values, groupEntities, metric, r, EffectGrid[gp], trackNames[track], outlierRate, missingRate);
+                    if (gridGroups.All(x => x.Length >= 4)) { gridEvaluated[metric][track][gp]++; if (GlobalP(gridGroups) < alpha) gridDetections[metric][track][gp]++; }
+                }
             }
-            if ((rep + 1) % every == 0 || rep + 1 == repetitions) progress.Report(new ProgressInfo((rep + 1d) / repetitions, $"Simulation {rep + 1:N0} of {repetitions:N0}", "Raw-value scenarios, false alarms and sensitivity"));
+            if ((rep + 1) % every == 0 || rep + 1 == repetitions) progress.Report(new ProgressInfo((rep + 1d) / repetitions, $"Simulation {rep + 1:N0} of {repetitions:N0}", tc > 1 ? "Centre and spread tracks, false alarms and sensitivity" : "Raw-value scenarios, false alarms and sensitivity"));
         }
 
         var rows = new List<CalibrationRow>();
         for (int metric = 0; metric < m; metric++)
         {
-            if (evaluated[metric] == 0)
+            if (nullEvaluated[metric] == 0)
             {
                 // Not applicable to this dataset (for example a ratio metric on values centred at zero).
                 rows.Add(new CalibrationRow(MetricKeys[metric], double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, double.NaN, false));
                 continue;
             }
-            double f = falsePositives[metric] / (double)evaluated[metric], p = detections[metric] / (double)evaluated[metric];
+            double f = falsePositives[metric] / (double)nullEvaluated[metric];
             double falseAlarm = Math.Exp(-Math.Max(0, f - alpha) / Math.Max(alpha, 1e-9));
-            // Repeatability is now measured by split-half resampling instead of being derived from power.
+            // Repeatability is measured by split-half resampling instead of being derived from power.
             double repeatability = EstimateRepeatability(observed.Select(g => g[metric]).ToArray(), new Random(unchecked(seed + 15486071 * (metric + 1))));
+            // Robustness injects outliers at effect 1, where every track is the identity transform,
+            // so it is genuinely track neutral and is measured once.
             double robustness = EstimateRobustness(data, values, metric, seed + metric);
             // Coverage used to be the constant 0.95, which could not tell metrics apart.
             // It is now measured: how often a 95% bootstrap interval really contains the truth.
             double coverage = EstimateCoverage(pooled[metric], new Random(unchecked(seed + 104729 * (metric + 1))));
-            if (double.IsNaN(repeatability) || double.IsNaN(coverage))
+            bool judgeable = !double.IsNaN(repeatability) && !double.IsNaN(coverage);
+            double[] trackPowers = new double[tc], trackScores = new double[tc], trackMdes = new double[tc];
+            string[] trackCurves = new string[tc];
+            for (int track = 0; track < tc; track++)
             {
-                // Cannot be judged on this dataset; report it instead of publishing a NaN score.
-                rows.Add(new CalibrationRow(MetricKeys[metric], f, p, double.NaN, robustness, repeatability, coverage, false));
-                continue;
+                double p = evaluated[metric][track] == 0 ? double.NaN : detections[metric][track] / (double)evaluated[metric][track];
+                trackPowers[track] = p;
+                double[] curve = new double[EffectGrid.Length];
+                for (int point = 0; point < EffectGrid.Length; point++) curve[point] = gridEvaluated[metric][track][point] == 0 ? double.NaN : gridDetections[metric][track][point] / (double)gridEvaluated[metric][track][point];
+                trackMdes[track] = MdeFromCurve(EffectGrid, curve, MdePowerTarget);
+                trackCurves[track] = string.Join("|", EffectGrid.Select((e, point) => string.Format(CultureInfo.InvariantCulture, "{0:0.##}:{1:0.###}", e, curve[point])));
+                trackScores[track] = judgeable && double.IsFinite(p) ? Composite(p, falseAlarm, robustness, repeatability, coverage) : double.NaN;
             }
-            double score = 100 * Math.Pow(Math.Max(p, 1e-9), .30) * Math.Pow(falseAlarm, .25) * Math.Pow(robustness, .20) * Math.Pow(repeatability, .15) * Math.Pow(coverage, .10);
-            double[] curve = new double[EffectGrid.Length];
-            for (int point = 0; point < EffectGrid.Length; point++) curve[point] = gridEvaluated[metric][point] == 0 ? double.NaN : gridDetections[metric][point] / (double)gridEvaluated[metric][point];
             // A metric that fires on the zero-effect grid point is not merely weak, it is wrong.
             // The first grid point is NOT a null: it resimulates the real groups with effect 1.00,
             // so any genuine difference in the data stays in it. Judging inflation by that point
             // marked healthy runs as broken. The honest false alarm rate is f, measured by pooling
             // all groups together and resampling, where no difference can exist by construction.
             bool inflated = double.IsFinite(f) && f > Math.Max(alpha * 1.5, alpha + .02);
-            double mde = MdeFromCurve(EffectGrid, curve, MdePowerTarget);
-            string curveText = string.Join("|", EffectGrid.Select((e, point) => string.Format(CultureInfo.InvariantCulture, "{0:0.##}:{1:0.###}", e, curve[point])));
-            rows.Add(new CalibrationRow(MetricKeys[metric], f, p, score, robustness, repeatability, coverage, true, mde, inflated, curveText));
+            rows.Add(new CalibrationRow(MetricKeys[metric], f, trackPowers[0], trackScores[0], robustness, repeatability, coverage, judgeable, trackMdes[0], inflated, trackCurves[0], trackNames, trackPowers, trackScores, trackMdes, trackCurves));
         }
         return rows;
     }
 
+    /// <summary>
+    /// Builds the results page. Each track runs its own contest: a metric that answers the
+    /// spread question is judged on its spread power and spread score, never on how well it
+    /// detects a level shift. The four-candidate cap applies per track, so one question cannot
+    /// crowd the other one off the page.
+    /// </summary>
     public static List<ResultRow> Results(AnalysisData data, List<CalibrationRow> calibration, IProgress<ProgressInfo> progress, CancellationToken token, double alpha = .05, double equivalenceMargin = .147, int seed = 20260719)
     {
         progress.Report(new ProgressInfo(.2, "Calculating entity metrics", "Stage 1 of 4"));
         double[][][] arrays = GroupMetricArrays(data);
-        var rows = new List<ResultRow>();
-        for (int metric = 0; metric < MetricKeys.Length; metric++)
+        int m = MetricKeys.Length;
+        string[] trackNames = calibration.Select(x => x.Tracks).FirstOrDefault(x => x != null && x.Length > 0) ?? new[] { SimulationScenarios.Default };
+        int tc = trackNames.Length;
+        var rows = new List<ResultRow>(m);
+        var candidacy = new bool[m][];
+        var scores = new double[m][];
+        var applicable = new bool[m];
+
+        for (int metric = 0; metric < m; metric++)
         {
             token.ThrowIfCancellationRequested();
             CalibrationRow c = calibration.Single(x => x.Metric == MetricKeys[metric]);
             double[] med = arrays.Select(g => Median(g[metric])).ToArray();
-            bool applicable = c.Applicable && arrays.All(g => g[metric].Length > 0);
+            bool ok = c.Applicable && arrays.All(g => g[metric].Length > 0);
+            applicable[metric] = ok;
             double low = med.Min(), high = med.Max();
-            double p = applicable ? GlobalP(arrays.Select(g => g[metric]).ToArray()) : double.NaN;
-            bool candidate = applicable && c.Fpr <= CandidateMaxFpr && c.Power >= CandidateMinPower && c.Score >= CandidateMinScore;
+            double p = ok ? GlobalP(arrays.Select(g => g[metric]).ToArray()) : double.NaN;
             string summary = string.Join("; ", data.GroupNames.Select((g, i) => string.Format(CultureInfo.InvariantCulture, "{0}={1:0.###}", g, med[i])));
             double effectValue = double.NaN, effectLow = double.NaN, effectHigh = double.NaN, tost = double.NaN;
             string pairText = ""; double pairPercent = double.NaN;
-            if (applicable)
+            if (ok)
             {
                 double[][] metricGroups = arrays.Select(g => g[metric]).ToArray();
                 var pair = LargestPair(metricGroups);
@@ -176,22 +240,63 @@ internal static class AnalysisEngine
                     pairPercent = basis > 1e-12 ? Math.Abs(med[hi] - med[lo]) / basis * 100 : double.NaN;
                 }
             }
-            string verdict = Verdict(applicable, p, alpha, effectLow, effectHigh, equivalenceMargin);
-            rows.Add(new ResultRow(MetricKeys[metric], med[0], med.Length > 1 ? med[1] : double.NaN, high - low, p, c.Fpr, c.Power, c.Score, candidate, summary, c.Robustness, c.Repeatability, c.Coverage, applicable, false, effectValue, effectLow, effectHigh, tost, c.Mde, c.FprInflated, verdict, pairText, pairPercent));
+            string verdict = Verdict(ok, p, alpha, effectLow, effectHigh, equivalenceMargin);
+            candidacy[metric] = new bool[tc];
+            var trackPowers = new double[tc];
+            var trackScores = new double[tc];
+            var trackMdes = new double[tc];
+            for (int track = 0; track < tc; track++)
+            {
+                trackPowers[track] = c.PowerIn(trackNames[track]);
+                trackScores[track] = c.ScoreIn(trackNames[track]);
+                trackMdes[track] = c.MdeIn(trackNames[track]);
+            }
+            scores[metric] = trackScores;
+            rows.Add(new ResultRow(MetricKeys[metric], med[0], med.Length > 1 ? med[1] : double.NaN, high - low, p, c.Fpr, c.Power, c.Score, false, summary, c.Robustness, c.Repeatability, c.Coverage, ok, false, effectValue, effectLow, effectHigh, tost, c.Mde, c.FprInflated, verdict, pairText, pairPercent, trackNames, trackPowers, trackScores, trackMdes, candidacy[metric]));
         }
-        var ordered = rows.OrderByDescending(x => double.IsNaN(x.Score) ? double.NegativeInfinity : x.Score).ToList();
-        int accepted = 0; double lastAccepted = double.NaN;
-        for (int i = 0; i < ordered.Count; i++)
+
+        // One contest per track. candidacy holds the arrays that were handed to the rows above,
+        // so filling them in here updates the rows in place.
+        var lastAccepted = new double[tc];
+        for (int track = 0; track < tc; track++)
         {
-            bool passesRules = ordered[i].Candidate;
-            bool keep = passesRules && accepted < 4;
-            if (keep) { accepted++; lastAccepted = ordered[i].Score; }
-            // A metric can pass every rule and still be cut by the four-candidate cap, or land
-            // within noise of the last accepted one. Hiding that invites cherry picking.
-            bool nearMiss = !keep && ordered[i].Applicable && (passesRules ||
-                (double.IsFinite(lastAccepted) && double.IsFinite(ordered[i].Score) && ordered[i].Score >= lastAccepted - 2));
-            ordered[i] = ordered[i] with { Candidate = keep, NearMiss = nearMiss };
+            lastAccepted[track] = double.NaN;
+            string name = trackNames[track];
+            int accepted = 0;
+            foreach (int metric in Enumerable.Range(0, m).Where(x => applicable[x])
+                .OrderByDescending(x => double.IsFinite(scores[x][track]) ? scores[x][track] : double.NegativeInfinity)
+                .ThenBy(x => x))
+            {
+                if (accepted >= 4) break;
+                if (!calibration.Single(x => x.Metric == MetricKeys[metric]).PassesGateIn(name)) continue;
+                candidacy[metric][track] = true;
+                lastAccepted[track] = scores[metric][track];
+                accepted++;
+            }
         }
+
+        for (int metric = 0; metric < m; metric++)
+        {
+            bool any = candidacy[metric].Any(x => x);
+            CalibrationRow c = calibration.Single(x => x.Metric == MetricKeys[metric]);
+            // A metric can pass every rule in some track and still be cut by the cap, or land
+            // within noise of the last accepted one. Hiding that invites cherry picking.
+            bool nearMiss = false;
+            if (!any && applicable[metric])
+                for (int track = 0; track < tc; track++)
+                    if (c.PassesGateIn(trackNames[track]) ||
+                        (double.IsFinite(lastAccepted[track]) && double.IsFinite(scores[metric][track]) && scores[metric][track] >= lastAccepted[track] - 2))
+                        nearMiss = true;
+            rows[metric] = rows[metric] with { Candidate = candidacy[metric][0], NearMiss = nearMiss };
+        }
+
+        // Metrics that answer one of the questions asked come first, then the best score they
+        // reach in any track. Ordering by the primary track alone buried the spread answer at
+        // the bottom of the page, which is exactly what 1.3.3 did.
+        var ordered = rows
+            .OrderByDescending(x => x.CandidateInAnyTrack)
+            .ThenByDescending(x => double.IsFinite(x.BestTrackScore) ? x.BestTrackScore : double.NegativeInfinity)
+            .ToList();
         progress.Report(new ProgressInfo(1, "Results ready", "Global comparison of all groups"));
         return ordered;
     }

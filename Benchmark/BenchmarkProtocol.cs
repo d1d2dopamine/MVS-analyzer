@@ -36,10 +36,12 @@ internal static class BenchmarkProcedures
     public const int MvsPilot = 4;
     public const int MvsStrict = 5;
     public const int MvsLenient = 6;
+    /// <summary>Added in 1.4.0: calibrates a centre track and a spread track, each at half alpha.</summary>
+    public const int MvsTwoTrack = 7;
 
     public static readonly string[] Ids =
     {
-        "cherry_pick", "bonferroni", "fixed_median", "fixed_cv", "mvs_pilot", "mvs_strict", "mvs_lenient"
+        "cherry_pick", "bonferroni", "fixed_median", "fixed_cv", "mvs_pilot", "mvs_strict", "mvs_lenient", "mvs_two_track"
     };
 
     public static readonly string[] Labels =
@@ -50,7 +52,8 @@ internal static class BenchmarkProcedures
         "Coefficient of variation, fixed in advance",
         "MVS, metric locked on a pilot",
         "MVS, gate respected",
-        "MVS, gate ignored"
+        "MVS, gate ignored",
+        "MVS, centre and spread tracks at half alpha each"
     };
 
     public static readonly string[] LabelsRu =
@@ -61,17 +64,18 @@ internal static class BenchmarkProcedures
         "Коэффициент вариации, выбран заранее",
         "MVS, метрика закреплена на пилоте",
         "MVS, порог соблюдён",
-        "MVS, порог проигнорирован"
+        "MVS, порог проигнорирован",
+        "MVS, треки центра и разброса, по половине альфы"
     };
 
     public static readonly string[] Short =
     {
-        "cherry-pick", "Bonferroni", "median", "CV", "MVS pilot", "MVS gated", "MVS ungated"
+        "cherry-pick", "Bonferroni", "median", "CV", "MVS pilot", "MVS gated", "MVS ungated", "MVS 2-track"
     };
 
     public static readonly string[] ShortRu =
     {
-        "перебор", "Бонферрони", "медиана", "КВ", "MVS пилот", "MVS с порогом", "MVS без порога"
+        "перебор", "Бонферрони", "медиана", "КВ", "MVS пилот", "MVS с порогом", "MVS без порога", "MVS 2 трека"
     };
 
     public static int Count => Ids.Length;
@@ -92,13 +96,13 @@ internal static class BenchmarkProcedures
 /// </summary>
 internal static class BenchmarkProtocol
 {
-    public const string Version = "MVS-BENCH-1.0.0";
+    public const string Version = "MVS-BENCH-1.1.0";
 
     /// <summary>SHA-256 of <see cref="Specification"/>, frozen before the first run of the protocol.</summary>
-    public const string FrozenHash = "5557f86fb9e99391bab9b9acdeca724fa11b2d34264d471eb656ac4519c36294";
+    public const string FrozenHash = "3bb871b666c189fd8b9188f920108e92b67542b7d63bfe2f1d24393dad5e9723";
 
     public const string Specification =
-        "protocol=MVS-BENCH-1.0.0;" +
+        "protocol=MVS-BENCH-1.1.0;" +
         "question=doesMetricSelectionInflateTypeIError;" +
         "designs=gait_stride_like(16x40),voice_jitter_like(20x26);" +
         "shapes=normal,heavy_tail,lognormal;primaryShape=heavy_tail;groups=2;" +
@@ -106,16 +110,21 @@ internal static class BenchmarkProtocol
         "injection=location(entityMeanTimesK),dispersion(entityCvTimesK);" +
         "effectGrid=1.00,1.02,1.05,1.10,1.20;primaryLocationK=1.05;primaryDispersionK=1.30;" +
         "contaminationGrid=0,.02,.05,.10;" +
-        "procedures=cherry_pick,bonferroni,fixed_median,fixed_cv,mvs_pilot,mvs_strict,mvs_lenient;" +
-        "oracle=bestFixedMetricPerCondition;" +
+        "procedures=cherry_pick,bonferroni,fixed_median,fixed_cv,mvs_pilot,mvs_strict,mvs_lenient,mvs_two_track;" +
+        "shippedDefault=mvs_two_track;" +
+        "tracks=location,variability;" +
+        "trackCalibration=powerPerTrack,nullAndRobustnessAndRepeatabilityAndCoverageShared;" +
+        "twoTrackTest=eachTrackAtAlphaDividedByTrackCount;" +
+        "gateAppliedPerTrack;" +
+        "oracle=bestFixedMetricPerCondition;oracleSelection=oddReplications;oracleScoring=evenReplications;" +
         "calibration=engine defaults scenario=location effect=1.15 outlierRate=.02 missingRate=0 alpha=.05;" +
         "selection=maxScoreAmongApplicableTieBrokenByMetricOrder;" +
         "strictGate=fpr<=.075 and power>=.70 and score>=60;" +
         "lenientFallback=highestScoringApplicableMetric;" +
         "pilotLockedOnSeparateNullPilotDataset;" +
         "rng=xoshiro256starstar;seedDerivation=splitmix64(seed,stage,condition,replication);" +
-        "hypothesisA=cherryPickFpr>=.15 and mvsStrictFpr<=.075 pass, mvsStrictFpr>.10 fail;" +
-        "hypothesisB=oraclePowerMinusMvsStrictPower<=.07 pass, >.15 fail;" +
+        "hypothesisA=cherryPickFpr>=.15 and shippedDefaultFpr<=.075 pass, shippedDefaultFpr>.10 fail;" +
+        "hypothesisB=heldOutOraclePowerMinusShippedDefaultPower<=.07 pass, >.15 fail;" +
         "hypothesisC=kendallTauSplitHalf>=.70 and top1Agreement>=.60 pass, tau<.40 fail;" +
         "hypothesisD=mvsStrictFprAtContamination.10<=.075 pass, atContamination.02>.10 fail;" +
         "hypothesisE=identicalSha256AcrossRepeatedRunWithSameSeed;" +
