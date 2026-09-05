@@ -31,7 +31,7 @@ var tests = new (string Name, Action Run)[]
     ("The environment fingerprint is stable and honest", EnvironmentFingerprint),
     ("A remote job survives the round trip", RemoteJobRoundTrip),
     ("Command line options are read the same way twice", CliArgumentReading)
-}.Concat(ScientificChecks.All).Concat(SerializationChecks.All).ToArray();
+}.Concat(ScientificChecks.All).Concat(SerializationChecks.All).Concat(ColabChecks.All).ToArray();
 int failed=0;foreach(var test in tests){try{test.Run();Console.WriteLine($"PASS  {test.Name}");}catch(Exception ex){failed++;Console.WriteLine($"FAIL  {test.Name}: {ex.Message}");}}
 Console.WriteLine($"{tests.Length-failed}/{tests.Length} tests passed");return failed==0?0:1;
 

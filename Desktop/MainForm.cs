@@ -75,6 +75,7 @@ internal sealed partial class MainForm : Form
         AddNav("data", "\uE80A", T("Data", "Данные"), y, () => Navigate("data")); y += 46;
         AddNav("calibration", "\uE9D9", T("Calibration", "Калибровка"), y, () => Navigate("calibration")); y += 46;
         AddNav("analysis", "\uE768", T("Run", "Запуск"), y, () => Navigate("analysis")); y += 46;
+        AddNav("colab", "\uE753", "Google Colab", y, () => ShowColabPanel()); y += 46;
         AddNav("results", "\uE9D2", T("Results", "Результаты"), y, () => Navigate("results")); y += 46;
         AddNav("figures", "\uEB9F", T("Figures", "Графики"), y, () => Navigate("figures")); y += 46;
         AddNav("outputs", "\uE74E", T("Outputs", "Файлы"), y, () => Navigate("outputs")); y += 46;
@@ -112,7 +113,7 @@ internal sealed partial class MainForm : Form
         var labels = new Dictionary<string, string> {
             ["home"] = T("Home", "Главная"), ["project"] = T("Project", "Проект"), ["data"] = T("Data", "Данные"),
             ["calibration"] = T("Calibration", "Калибровка"), ["analysis"] = T("Analysis", "Анализ"), ["results"] = T("Results", "Результаты"),
-            ["figures"] = T("Figures", "Графики"), ["outputs"] = T("Outputs", "Файлы"), ["history"] = T("History", "История"), ["audit"] = T("Audit", "Аудит"), ["plugins"] = T("Plugins", "Плагины"), ["settings"] = T("Settings", "Настройки"), ["help"] = T("Help", "Справка") };
+            ["colab"] = "Google Colab", ["figures"] = T("Figures", "Графики"), ["outputs"] = T("Outputs", "Файлы"), ["history"] = T("History", "История"), ["audit"] = T("Audit", "Аудит"), ["plugins"] = T("Plugins", "Плагины"), ["settings"] = T("Settings", "Настройки"), ["help"] = T("Help", "Справка") };
         foreach (var pair in labels)
         {
             var label = navItems[pair.Key].Controls.Find("navText", false).FirstOrDefault(); if (label != null) label.Text = pair.Value;
@@ -143,6 +144,7 @@ internal sealed partial class MainForm : Form
         switch (key)
         {
             case "home": ShowHome(); break; case "project": ShowProject(); break; case "data": ShowData(); break;
+            case "colab": ShowColab(); break;
             case "calibration": ShowCalibration(); break; case "analysis": ShowAnalysis(); break; case "results": ShowResults(); break; case "advanced": ShowAdvancedMethods(); break;
             case "figures": ShowFigures(); break; case "outputs": ShowOutputs(); break; case "history": ShowHistory(); break; case "audit": ShowAudit(); break; case "plugins": ShowPlugins(); break; case "settings": ShowSettings(); break; case "help": ShowHelp(); break;
         }

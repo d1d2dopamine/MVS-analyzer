@@ -22,6 +22,16 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Colab offline regressions
+        run: |
+          python tools/check_source.py
+          python tools/build_notebooks.py --check
+          python tools/test_colab.py
+          python tools/test_colab_control.py
+          python tools/test_source.py
       - name: Portable regressions
         run: dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release
       - name: Build Linux CLI

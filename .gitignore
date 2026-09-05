@@ -76,3 +76,14 @@ report_*.txt
 # ...but the curated sample datasets are part of the repository.
 !examples/
 !examples/**
+
+## Generated Python files and private handoff artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+/validation/PACKAGE_QA.md
+/validation/qa_logs/
+/RELEASE_NOTES_v*.md
+/MVS_Analyzer_*_source.zip
+/MVS_Analyzer_*_technical_files.zip
+/MVS_Analyzer_*_SHA256SUMS.txt

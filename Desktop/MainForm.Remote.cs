@@ -14,7 +14,8 @@ internal sealed partial class MainForm
     private ColabBridge? colabBridge;
     private ColabSessionStore? colabSessions;
     private readonly ConcurrentDictionary<string, ColabRunPlan> colabPlans = new();
-    private readonly ConcurrentDictionary<string, string> colabBindings = new();
+    private readonly object colabGate = new();
+    private string colabPanelKey = "";
     private readonly List<(Button Button, Label Status, string Action, Func<int> Repetitions)> colabButtons = new();
     private bool layoutTestMode;
     private ColabSessionStore Sessions => colabSessions ??= new ColabSessionStore(Path.Combine(
@@ -33,14 +34,18 @@ internal sealed partial class MainForm
     private void AddColabRunCard(FlowLayoutPanel page, string action, Func<int> repetitions)
     {
         var status = new Label { Text = T("No data has been sent. Local execution remains available above.", "Данные не отправлены. Локальный запуск доступен выше."), ForeColor = Secondary, AutoSize = false };
-        var run = ColabButton(() => StartColab(action, repetitions()));
-        var reopen = Button(T("Open linked notebook", "Открыть связанный ноутбук"), false, 285);
-        reopen.Click += (_, _) => OpenLinkedColab(repetitions());
+        var run = ColabButton(() => {
+            string key = data == null ? "" : CalibrationKey(repetitions());
+            if (key.Length > 0 && Sessions.Find(key) != null) ShowColabPanel(key);
+            else StartColab(action, repetitions());
+        });
+        var reopen = Button(T("Colab control panel", "Панель управления Colab"), false, 285);
+        reopen.Click += (_, _) => ShowColabPanel();
         var import = Button(T("Import Colab result…", "Импортировать результат Colab…"), false, 285);
         import.Click += (_, _) => ImportColabBundle();
         page.Controls.Add(FlowCard("Google Colab", T(
-            "Use Google's runtime instead of this PC. Pair once in the first cell using the connection code copied by the button. Afterwards the app tracks this MVS job; completed calibration is reused rather than repeated.",
-            "Расчёт на стороне Google вместо этого ПК. Один раз вставьте в первую ячейку код подключения, который копирует кнопка. После этого приложение отслеживает задание MVS; готовая калибровка используется повторно."), run, reopen, import, status));
+            "Connect the first notebook cell once, then control calibration, analysis and downloads from the Colab panel. You can always reopen the code or reconnect; saved calibration is retained.",
+            "Подключите первую ячейку блокнота, затем управляйте калибровкой, анализом и скачиванием из панели Colab. Код можно открыть снова; переподключение не удаляет калибровку."), run, reopen, import, status));
         colabButtons.Add((run, status, action, repetitions));
         var timer = new System.Windows.Forms.Timer { Interval = 2500 };
         timer.Tick += (_, _) => RefreshColabButtons(); run.Disposed += (_, _) => { timer.Stop(); timer.Dispose(); };
@@ -56,15 +61,16 @@ internal sealed partial class MainForm
             {
                 int n = item.Repetitions(); string key = CalibrationKey(n); ColabSession? session = Sessions.Find(key);
                 bool complete = Sessions.HasCalibration(key, datasetHash, SettingsContract.Fingerprint(settings), n);
-                bool busy = Sessions.Live(session, DateTime.UtcNow) && session!.Phase is "preparing" or "calibrating" or "analyzing" or "running";
+                bool busy = Sessions.Busy(session, DateTime.UtcNow);
                 bool opening = Sessions.Pending(session, DateTime.UtcNow);
-                item.Button.Enabled = !busy && !opening && !(item.Action == "calibrate" && complete);
-                item.Status.Text = complete && item.Action == "calibrate"
-                    ? T("✓ Calibration is complete and verified. Re-running this same calibration in Colab is disabled.", "✓ Калибровка завершена и проверена. Повторный запуск этой же калибровки в Colab отключён.")
-                    : busy ? T("Colab is working. Use Open linked notebook to return to it.", "Colab выполняет расчёт. Вернуться можно кнопкой «Открыть связанный ноутбук».")
-                    : opening ? T("Waiting for the notebook's first cell. The connection code is on the clipboard.", "Ожидание первой ячейки ноутбука. Код подключения находится в буфере обмена.")
-                    : Sessions.Live(session, DateTime.UtcNow) ? T("Linked MVS runtime is available. The same notebook will be reused.", "Связанный runtime MVS доступен. Будет открыт тот же ноутбук.")
-                    : session != null ? T("No live confirmation from Colab. Stored calibration is retained; reconnect or import the downloaded result.", "Нет подтверждения активного Colab. Сохранённая калибровка не потеряна; переподключитесь или импортируйте скачанный результат.")
+                // The entry point is also the recovery path. Never disable it because of a lease.
+                item.Button.Enabled = true;
+                item.Button.Text = session != null ? T("Open Colab panel", "Открыть панель Colab") : T("Run via Colab", "Запустить через Colab");
+                item.Status.Text = busy ? T("MVS is calculating in Colab. Progress and Stop are available in the control panel.", "MVS считает в Colab. Прогресс и остановка доступны в панели управления.")
+                    : opening ? T("Waiting for the first cell. The code can be copied again from the Colab panel.", "Ожидается первая ячейка. Код можно снова скопировать из панели Colab.")
+                    : complete ? T("Calibration is verified and retained, even when the notebook is disconnected.", "Калибровка проверена и сохранена, даже если блокнот отключён.")
+                    : Sessions.Live(session, DateTime.UtcNow) ? T("The MVS runtime is connected. Use the control panel.", "Среда MVS подключена. Откройте панель управления.")
+                    : session != null ? T("No live confirmation. Reopen the same notebook or reconnect; a new copy is not required.", "Нет подтверждения связи. Откройте тот же блокнот или переподключитесь — новая копия не нужна.")
                     : T("No data has been sent. Local execution remains available.", "Данные не отправлены. Локальный запуск остаётся доступен.");
             }
             catch (Exception error) { item.Button.Enabled = false; item.Status.Text = error.Message; }
@@ -74,10 +80,7 @@ internal sealed partial class MainForm
     {
         try
         {
-            ColabSession? session = Sessions.Find(CalibrationKey(repetitions));
-            if (session == null || !ColabSessionStore.ValidNotebookUrl(session.NotebookUrl))
-            { MessageBox.Show(this, T("No notebook has registered yet. Run the first Colab cell and keep the MVS application open.", "Ноутбук ещё не зарегистрирован. Выполните первую ячейку Colab и оставьте приложение MVS открытым.")); return; }
-            OpenBrowser(session.NotebookUrl);
+            OpenBrowser(Sessions.NotebookFor(CalibrationKey(repetitions)));
         }
         catch (Exception error) { MessageBox.Show(this, error.Message, "MVS"); }
     }
@@ -117,35 +120,35 @@ internal sealed partial class MainForm
             string fingerprint = SettingsContract.Fingerprint(settings);
             // Group-scoped ID acknowledgement affects interpretation, not the calibrated numeric settings.
             string key = ColabSessionStore.KeyFor(inputHash, fingerprint, repetitions, kind, kind == "standard" ? null : arguments);
-            if (kind == "standard" && action == "calibrate" && Sessions.HasCalibration(key, inputHash, fingerprint, repetitions)) { RefreshColabButtons(); return; }
+            colabPanelKey = key;
             ColabSession? prior = Sessions.Find(key);
-            if (Sessions.Pending(prior, DateTime.UtcNow) || Sessions.Live(prior, DateTime.UtcNow) && prior!.Phase is "preparing" or "calibrating" or "analyzing" or "running")
-            { if (prior != null && ColabSessionStore.ValidNotebookUrl(prior.NotebookUrl)) OpenBrowser(prior.NotebookUrl); return; }
+            if (Sessions.Pending(prior, DateTime.UtcNow) || Sessions.Busy(prior, DateTime.UtcNow))
+            { ShowColabPanel(key); return; }
+            if (kind == "standard" && action == "calibrate" && Sessions.HasCalibration(key, inputHash, fingerprint, repetitions))
+            { ReceiveColabState(new ColabRunPlan(key, kind, action, inputHash, fingerprint, repetitions, arguments)); ShowColabPanel(key); return; }
+            if (Sessions.Live(prior, DateTime.UtcNow) && prior!.ControlsReady && colabPlans.ContainsKey(key))
+            { lock (colabGate) Sessions.QueueAction(key, action); ShowColabPanel(key); return; }
             if (MessageBox.Show(this, needsData
                 ? T("The selected measurements and settings will be uploaded to your Google Colab runtime when you run its first cell. Allow this job?", "Выбранные измерения и настройки будут переданы в ваш Google Colab при запуске первой ячейки. Разрешить это задание?")
                 : T("Open a synthetic study in Google Colab? Your measurements will not be included.", "Открыть синтетическое исследование в Google Colab? Ваши измерения передаваться не будут."), "Google Colab", MessageBoxButtons.YesNo, MessageBoxIcon.Information) != DialogResult.Yes) return;
-            ColabSession? reusable = Sessions.Live(prior, DateTime.UtcNow) && prior != null && ColabSessionStore.ValidNotebookUrl(prior.NotebookUrl) ? prior : Sessions.Reusable();
-            if (reusable != null && !colabPlans.ContainsKey(reusable.Key)) reusable = null;
-            ColabSession session = Sessions.GetOrCreate(key, kind, action);
-            if (reusable != null)
+            string url;
+            lock (colabGate)
             {
-                foreach (var binding in colabBindings.Where(x => x.Value == reusable.Key).ToArray()) colabBindings[binding.Key] = key;
-                colabBindings[reusable.Token] = key;
+                Sessions.GetOrCreate(key, kind, action);
+                string directory = Sessions.DirectoryFor(key); Directory.CreateDirectory(directory);
+                if (kind == "standard" && calibration != null && data != null && inputHash == datasetHash &&
+                    calibrationSettingsHash == fingerprint && lastCalibrationRepetitions == repetitions)
+                    CalibrationPersistence.Write(Sessions.CalibrationPath(key), DesktopState());
+                var plan = new ColabRunPlan(key, kind, action, inputHash, fingerprint, repetitions, arguments);
+                BuildColabArchive(plan, source);
+                colabPlans[key] = plan;
+                colabBridge ??= new ColabBridge(HandleColabRequest);
+                url = Sessions.Launch(key, action);
             }
-            colabBindings[session.Token] = key;
-            string directory = Sessions.DirectoryFor(key); Directory.CreateDirectory(directory);
-            if (kind == "standard" && calibration != null && data != null && inputHash == datasetHash &&
-                calibrationSettingsHash == fingerprint && lastCalibrationRepetitions == repetitions)
-                CalibrationPersistence.Write(Sessions.CalibrationPath(key), DesktopState());
-            var plan = new ColabRunPlan(key, kind, action, inputHash, fingerprint, repetitions, arguments);
-            colabPlans[key] = plan;
-            BuildColabArchive(plan, source);
-            colabBridge ??= new ColabBridge(HandleColabRequest);
-            string code = $"http://127.0.0.1:{colabBridge.Port}/v1/{session.Token}";
-            Clipboard.SetText(code);
-            string url = Sessions.Launch(key, action, reusable); OpenBrowser(url); RefreshColabButtons();
-            if (reusable == null) MessageBox.Show(this, T("The connection code has been copied. Run the first Colab cell and paste it into the connection prompt. Allow browser access to this computer if asked. This is needed only once per notebook connection. Keep MVS open. If automatic connection is blocked, upload the job ZIP instead.",
-                "Код подключения скопирован. Выполните первую ячейку Colab и вставьте код в появившееся поле подключения. Если браузер спросит о доступе к этому компьютеру — разрешите. Это нужно один раз на подключение ноутбука. Оставьте MVS открытым. Если соединение блокируется, загрузите ZIP задания вручную.") + "\n\n" + Sessions.ArchivePath(key), "Google Colab");
+            ShowColabPanel(key);
+            TryCopyColabCode(key);
+            OpenBrowser(url);
+            ShowColabConnection(key);
         }
         catch (Exception error) { MessageBox.Show(this, error.Message, "MVS · Colab", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
     }
@@ -190,38 +193,80 @@ internal sealed partial class MainForm
 
     private ColabHttpReply HandleColabRequest(string token, string route, byte[] bytes)
     {
-        ColabSession? session = Sessions.ByToken(token);
-        if (session == null || !colabPlans.TryGetValue(colabBindings.GetValueOrDefault(token, session.Key), out ColabRunPlan? plan)) return new(Array.Empty<byte>(), Status: 403);
-        if (route == "job") return new(Encoding.UTF8.GetBytes(ScientificJson.Serialize(new { archive = Convert.ToBase64String(File.ReadAllBytes(Sessions.ArchivePath(plan.Key))) })));
-        if (route == "request") return new(Encoding.UTF8.GetBytes(ScientificJson.Serialize(plan with { RequestedAction = Sessions.Find(plan.Key)!.RequestedAction })));
-        using JsonDocument doc = JsonDocument.Parse(bytes); JsonElement root = doc.RootElement;
-        string Value(string name) => root.TryGetProperty(name, out var value) && value.ValueKind == JsonValueKind.String ? value.GetString()! : "";
-        if (Value("key") != plan.Key) throw new InvalidDataException("Wrong job identity.");
-        string calibrationBytes = Value("calibrationBase64");
-        if (calibrationBytes.Length > 0)
+        // Status import, token revocation and command changes are serialized together.
+        lock (colabGate)
         {
-            byte[] decoded = Convert.FromBase64String(calibrationBytes);
-            string path = Sessions.CalibrationPath(plan.Key) + ".incoming-" + Guid.NewGuid().ToString("N");
+            ColabSession? session = Sessions.ByToken(token);
+            if (session == null || session.Phase == "disconnected" || !colabPlans.TryGetValue(session.Key, out ColabRunPlan? plan))
+                return new(Array.Empty<byte>(), Status: 403);
+            if (route == "job") return new(Encoding.UTF8.GetBytes(ScientificJson.Serialize(new { archive = Convert.ToBase64String(File.ReadAllBytes(Sessions.ArchivePath(plan.Key))) })));
+            if (route == "request") return new(Encoding.UTF8.GetBytes(ScientificJson.Serialize(plan with {
+                RequestedAction = session.RequestedAction, CommandId = session.CommandId })));
+            using JsonDocument doc = JsonDocument.Parse(bytes); JsonElement root = doc.RootElement;
+            string Value(string name) => root.TryGetProperty(name, out var value) && value.ValueKind == JsonValueKind.String ? value.GetString()! : "";
+            if (Value("key") != plan.Key) throw new InvalidDataException("Wrong job identity.");
+            if (Value("revision") != ColabSessionStore.Protocol) throw new InvalidDataException("Update the notebook and desktop together before connecting.");
+            long sequence = root.GetProperty("sequence").GetInt64();
+            int? percent = root.TryGetProperty("percent", out var pct) && pct.ValueKind != JsonValueKind.Null ? pct.GetInt32() : null;
+            bool controls = root.TryGetProperty("controlsReady", out var ready) && ready.ValueKind == JsonValueKind.True;
+            Sessions.CheckObservation(token, plan.Key, Value("epoch"), Value("commandId"), sequence);
+            string calibrationBytes = Value("calibrationBase64"), result = Value("resultsBase64");
+            string incoming = Sessions.CalibrationPath(plan.Key) + ".incoming-" + Guid.NewGuid().ToString("N");
+            byte[]? resultBytes = null, manifestBytes = null;
             try
             {
-                File.WriteAllBytes(path, decoded); CalibrationState state = CalibrationPersistence.Read(path);
-                if (state.DatasetHash != plan.DatasetHash || state.SettingsHash != plan.SettingsHash || state.Repetitions != plan.Repetitions) throw new InvalidDataException("Calibration belongs to a different job.");
-                File.Move(path, Sessions.CalibrationPath(plan.Key), true);
+                if (calibrationBytes.Length > 0)
+                {
+                    byte[] decoded = Convert.FromBase64String(calibrationBytes);
+                    if (decoded.Length > 8 * 1024 * 1024) throw new InvalidDataException("Unexpected calibration size.");
+                    File.WriteAllBytes(incoming, decoded); CalibrationState state = CalibrationPersistence.Read(incoming);
+                    if (state.DatasetHash != plan.DatasetHash || state.SettingsHash != plan.SettingsHash || state.Repetitions != plan.Repetitions)
+                        throw new InvalidDataException("Calibration belongs to a different job.");
+                }
+                if (result.Length > 0)
+                {
+                    resultBytes = Convert.FromBase64String(result); manifestBytes = Convert.FromBase64String(Value("manifestBase64"));
+                    ValidateColabResults(resultBytes, manifestBytes, plan);
+                }
+                // A rejected result cannot create a successful completion state.
+                if (File.Exists(incoming)) File.Move(incoming, Sessions.CalibrationPath(plan.Key), true);
+                if (resultBytes != null && manifestBytes != null)
+                {
+                    ScientificJson.AtomicText(Path.Combine(Sessions.DirectoryFor(plan.Key), "results.json"), Encoding.UTF8.GetString(resultBytes));
+                    ScientificJson.AtomicText(Path.Combine(Sessions.DirectoryFor(plan.Key), "run_manifest.json"), Encoding.UTF8.GetString(manifestBytes));
+                }
+                Sessions.Observe(token, plan.Key, Value("notebookUrl"), Value("epoch"), Value("phase"), Value("commandId"), sequence,
+                    percent, Value("message"), Value("runtime"), controls);
             }
-            finally { if (File.Exists(path)) File.Delete(path); }
+            finally { if (File.Exists(incoming)) File.Delete(incoming); }
+            if (!IsDisposed && IsHandleCreated)
+            {
+                try { BeginInvoke(new Action(() => {
+                    if (IsDisposed) return;
+                    if (calibrationBytes.Length > 0 || result.Length > 0) ReceiveColabState(plan);
+                    RefreshColabButtons(); RefreshColabPanel();
+                })); }
+                catch (InvalidOperationException) { /* Window closed after dispatch; the verified files are retained. */ }
+            }
+            return new(Encoding.UTF8.GetBytes("{\"ok\":true}"));
         }
-        string result = Value("resultsBase64");
-        if (result.Length > 0)
+    }
+    private void RefreshColabArchiveCalibration(ColabRunPlan plan)
+    {
+        if (!Sessions.HasCalibration(plan.Key, plan.DatasetHash, plan.SettingsHash, plan.Repetitions)) return;
+        string archive = Sessions.ArchivePath(plan.Key), temporary = archive + ".refresh-" + Guid.NewGuid().ToString("N");
+        try
         {
-            byte[] decoded = Convert.FromBase64String(result);
-            byte[] manifest = Convert.FromBase64String(Value("manifestBase64"));
-            ValidateColabResults(decoded, manifest, plan);
-            ScientificJson.AtomicText(Path.Combine(Sessions.DirectoryFor(plan.Key), "results.json"), Encoding.UTF8.GetString(decoded));
-            ScientificJson.AtomicText(Path.Combine(Sessions.DirectoryFor(plan.Key), "run_manifest.json"), Encoding.UTF8.GetString(manifest));
+            File.Copy(archive, temporary);
+            using (ZipArchive zip = ZipFile.Open(temporary, ZipArchiveMode.Update))
+            {
+                string name = "calibration/" + CalibrationPersistence.FileName;
+                zip.GetEntry(name)?.Delete();
+                zip.CreateEntryFromFile(Sessions.CalibrationPath(plan.Key), name, CompressionLevel.Optimal);
+            }
+            File.Move(temporary, archive, true);
         }
-        Sessions.Observe(plan.Key, Value("notebookUrl"), Value("epoch"), Value("phase"));
-        if (!IsDisposed && IsHandleCreated) BeginInvoke(new Action(() => ReceiveColabState(plan)));
-        return new(Encoding.UTF8.GetBytes("{\"ok\":true}"));
+        finally { if (File.Exists(temporary)) File.Delete(temporary); }
     }
     private void ReceiveColabState(ColabRunPlan plan)
     {

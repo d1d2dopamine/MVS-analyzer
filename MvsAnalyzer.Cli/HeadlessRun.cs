@@ -157,6 +157,6 @@ internal static class HeadlessRun
         if (args.Flag("--normalize") && File.ReadAllText(path) != ScientificJson.Serialize(state)) CalibrationPersistence.Write(path, state);
         Console.WriteLine("Calibration checksum, method, settings and input identity verified."); return 0;
     }
-    public static int ShowVersions() { Console.WriteLine("MVS Analyzer " + ReleaseInfo.Version + " | engine " + AnalysisEngine.EngineVersion + " | formula " + OutputExporter.FormulaVersion); Console.WriteLine("Formula SHA256: " + OutputExporter.FormulaHash); Console.WriteLine("UI/Colab revision: ui-colab-2"); return 0; }
+    public static int ShowVersions() { Console.WriteLine("MVS Analyzer " + ReleaseInfo.Version + " | engine " + AnalysisEngine.EngineVersion + " | formula " + OutputExporter.FormulaVersion); Console.WriteLine("Formula SHA256: " + OutputExporter.FormulaHash); Console.WriteLine("UI/Colab revision: ui-colab-3"); return 0; }
     public static int ShowEnvironment() { ShowVersions(); Console.WriteLine(BenchmarkEnvironment.Describe()); Console.WriteLine("Replay scope: " + BenchmarkEnvironment.Scope); Console.WriteLine("Environment fingerprint: " + BenchmarkEnvironment.Hash); return 0; }
 }

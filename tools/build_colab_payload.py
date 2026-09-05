@@ -34,7 +34,7 @@ def source_files():
 
 def payload_bytes():
     files = source_files()
-    metadata = {"appVersion": "1.4.0", "engineVersion": "1.6.0", "revision": "ui-colab-2", "kind": "portable-cli-source-not-a-binary",
+    metadata = {"appVersion": "1.4.0", "engineVersion": "1.6.0", "revision": "ui-colab-3", "kind": "portable-cli-source-not-a-binary",
                 "sha256": {name: hashlib.sha256(data).hexdigest() for name, data in sorted(files.items())}}
     files["SOURCE_PAYLOAD.json"] = (json.dumps(metadata, indent=2, sort_keys=True) + "\n").encode()
     memory = io.BytesIO()

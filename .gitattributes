@@ -55,3 +55,5 @@ validation/reference_power_discriminating.csv export-ignore
 validation/reference_power_discriminating.md export-ignore
 validation/reference_power_primary.csv export-ignore
 validation/reference_power_primary.md export-ignore
+
+validation/qa_logs/** export-ignore

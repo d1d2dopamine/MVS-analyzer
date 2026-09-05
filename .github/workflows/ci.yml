@@ -18,10 +18,13 @@ jobs:
         with:
           python-version: '3.12'
       - name: Validate source metadata, notebooks and method hashes
-        run: python tools/check_source.py
+        run: |
+          python tools/check_source.py
+          python tools/build_notebooks.py --check
       - name: Offline Colab and source-check regressions
         run: |
           python tools/test_colab.py
+          python tools/test_colab_control.py
           python tools/test_source.py
       - name: Limited C# structural check (not compilation)
         run: python tools/check_csharp_structure.py

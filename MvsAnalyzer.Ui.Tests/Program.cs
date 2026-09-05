@@ -12,7 +12,7 @@ internal static class UiChecks
         Application.EnableVisualStyles(); Application.SetCompatibleTextRenderingDefault(false);
         string output = args.Length > 0 ? Path.GetFullPath(args[0]) : Path.GetFullPath("artifacts/ui-layout");
         Directory.CreateDirectory(output);
-        string[] pages = { "home", "project", "data", "calibration", "analysis", "results", "figures", "outputs", "history", "audit", "plugins", "settings", "help", "advanced" };
+        string[] pages = { "home", "project", "data", "calibration", "analysis", "colab", "results", "figures", "outputs", "history", "audit", "plugins", "settings", "help", "advanced" };
         int failures = 0, checkedViews = 0;
         foreach (string language in new[] { "en", "ru" })
         foreach (string theme in new[] { "light", "dark" })
@@ -28,7 +28,7 @@ internal static class UiChecks
                     form.ShowLayoutFixture(page); form.PerformLayout(); Application.DoEvents(); checkedViews++;
                     foreach (string failure in form.InspectLayout())
                     { Console.WriteLine($"FAIL {language}/{theme}/{size}/{page}: {failure}"); failures++; }
-                    if (page is "results" or "advanced" or "calibration" or "settings")
+                    if (page is "colab" or "results" or "advanced" or "calibration" or "settings")
                     {
                         using var bitmap = new Bitmap(form.Width, form.Height);
                         form.DrawToBitmap(bitmap, new Rectangle(Point.Empty, bitmap.Size));
@@ -43,7 +43,7 @@ internal static class UiChecks
                             if (grid.Width < 300 || grid.Height < 200) { Console.WriteLine("FAIL collapsed metric grid"); failures++; }
                     }
                 }
-                foreach (string page in new[] { "calibration", "analysis", "results" })
+                foreach (string page in new[] { "calibration", "analysis", "colab", "results" })
                 {
                     form.ShowLayoutFixture(page, populated: false); Application.DoEvents(); checkedViews++;
                     failures += form.InspectLayout().Count;

@@ -1,38 +1,90 @@
-# Run via Colab
+# Google Colab — MVS Analyzer 1.4.0
 
-Colab is optional cloud computation using Google's service. Local analysis remains available without it. Only upload data you are permitted to process there.
+## Обновите оба компонента
 
-## Start a job
+Нужны приложение 1.4.0 и блокнот с протоколом `ui-colab-3`. Сохранённые старые копии в Drive не обновляются автоматически.
 
-1. Load data and choose the calculation in MVS, then select **Run via Colab / Запустить через Colab**.
-2. Approve transfer of that job. Keep the desktop application open.
-3. Run the notebook's first cell. On first pairing, paste the connection code copied by MVS into the hidden prompt and allow the browser's local-network permission if requested.
-4. Use the second cell for analysis and the third cell to download the results ZIP.
+- Используйте `notebooks/MVS_Colab.ipynb` из этого пакета. Его можно сохранить из приложения кнопкой **Сохранить новый блокнот…** и открыть в Colab через **Файл → Открыть блокнот → Загрузка**.
+- Можно обновить ячейки существующего блокнота, предварительно скачав результаты. Не вставляйте новый код соединения в старую первую ячейку.
+- Ссылка GitHub станет открывать новую версию только после публикации обновлённых файлов в репозитории. Содержимое ZIP само не меняет GitHub.
+- В окне **Код подключения…** можно сохранить адрес существующего `https://colab.research.google.com/drive/…` блокнота. Приложение будет открывать его, даже когда среда неактивна.
 
-The first cell prepares the selected operation and performs standard calibration. Additional models run in the second cell. A verified matching calibration is reused rather than repeated.
+## Первый запуск
 
-## Reusing a notebook
+1. Загрузите данные в MVS и настройте калибровку.
+2. Нажмите **Запустить через Colab** и подтвердите передачу подготовленного задания.
+3. В Colab выберите **Среда выполнения → Сменить среду выполнения → Python 3 → CPU**. Этот движок .NET не использует GPU/TPU.
+4. Запустите первую ячейку с `DESKTOP_CONTROL = True` и вставьте код из MVS в скрытое поле ввода. Разрешите доступ браузера к локальной сети/этому компьютеру, если он запрошен для вашего Colab-сеанса.
+5. Оставьте приложение и вкладку открытыми. Первая ячейка продолжает работать как **контроллер**, даже когда расчёт не выполняется.
+6. Используйте раздел **Google Colab** в приложении: **Калибровать → Анализировать → Скачать результаты**. Исходно выбранная команда будет получена после подготовки.
 
-A live paired notebook can be reopened for another job. Run its first cell to accept the newly selected job. Matching includes data, preprocessing, statistical settings and repetition count. A changed job must not reuse an incompatible calibration.
+Ячейки 2/3 предназначены для ручного режима. Не запускайте их параллельно работающему контроллеру; используйте кнопки приложения либо остановите первую ячейку для перехода к ручной работе.
 
-An open browser tab alone does not mean a kernel is still running. Google controls runtime availability and session duration. MVS can track notebooks paired with the application, not every notebook in your Google account.
+## Что делают кнопки
 
-If address detection fails, enter the saved `https://colab.research.google.com/drive/...` address in the notebook's **Notebook URL** field. You do not need to make the notebook public.
+- **Калибровать** — расчёт для подготовленных данных/настроек. Проверенная готовая калибровка повторно не рассчитывается.
+- **Анализировать** — анализ на основе калибровки. Дополнительные методы готовятся на их собственных страницах и затем отображаются в панели.
+- **Остановить** — запрос завершения текущего процесса. Остановка считается выполненной после подтверждения среды, а не сразу после нажатия.
+- **Скачать результаты** — при живой связи скачивание полного ZIP в браузере Colab. Разрешите скачивание в браузере. Без связи можно сохранить только проверенные файлы, уже полученные приложением; такой ZIP явно помечается как неполный.
+- **Выбрать среду…** — подсказка и открытие блокнота. Реальный выбор и квоты управляются Google, не приложением.
+- **Код подключения…** — повторный просмотр/копирование кода и сохранение адреса блокнота. Код скрыт по умолчанию, но его можно показать для ручного копирования.
+- **Переподключить** — новый код для того же подготовленного задания. Старый код отзывается, файлы сохраняются. Калибровка автоматически не повторяется.
+- **Отключить связь** — отзыв локального кода, **не остановка среды Google**.
+- **Сохранить ZIP задания…**, **Импорт результатов…** — резервный обмен файлами.
 
-## Manual file exchange
+Полоса прогресса показывает текущий этап по сообщениям CLI. На подготовке и шагах без процентных сообщений нет выдуманного процента или времени окончания. 100% не используется как подтверждение завершения до проверки выходных файлов.
 
-If browser policy blocks the local connection, use the job ZIP shown by MVS. Leave the notebook connection prompt empty and upload that ZIP. After computation, download the results ZIP and choose **Import Colab result** with the matching data and settings loaded in MVS.
+## Восстановление после проблем
 
-Standalone CSV/TSV upload is also available. Synthetic estimation and benchmark studies do not require a measurement file.
+### Закрыли окно с кодом или перезаписали буфер
 
-## Saved calibration and errors
+Откройте **Google Colab → Код подключения… → Скопировать код**. Закрытие окна не удаляет код. Если буфер занят, включите **Показать код** и скопируйте вручную. Не публикуйте код или скриншоты с ним.
 
-Use the current application and notebook together; an old application may carry an older analyzer in its exported job. The notebook shows the application and engine versions before running.
+### Закрыли вкладку, пропала связь или зависло ожидание
 
-Compatible saved calibration from Windows or Linux is verified before reuse. Updating line-ending-dependent legacy fingerprints does not repeat simulations or change their numerical results. Corrupted files, mismatched data/settings or incompatible methods are rejected, not silently repaired or overwritten.
+Закрытие вкладки нельзя надёжно определить мгновенно. Старая связь перестаёт считаться активной примерно через **45 секунд после последнего принятого сообщения**, с учётом таймера интерфейса.
 
-If checksum verification still fails, keep the original state and result ZIP for diagnosis. Do not edit the checksum manually. Re-export a verified job from the updated application or choose a fresh calibration if the original file is genuinely damaged.
+1. Нажмите **Открыть блокнот**: будет использован тот же адрес, а не принудительная новая копия.
+2. При необходимости остановите прежний контроллер. Облачный процесс мог продолжить работу после потери связи.
+3. Для нового кода нажмите **Переподключить**, включите `RESET_CONNECTION = True` в первой ячейке и вставьте актуальный код.
+4. После подготовки используйте команды в панели MVS. Переподключение само не запускает расчёт.
 
-## Privacy
+Старые сообщения и сообщения другой среды отклоняются. Перезапуск приложения также не восстанавливает вымышленную активную сессию: загрузите соответствующие данные/настройки и подготовьте связь заново. Сохранённый адрес и проверенная калибровка остаются на диске.
 
-The job includes its measurements. Results omit the source job and connection code but may still contain sensitive reports. Clear notebook outputs before sharing; never publish an active connection code. MVS does not request your Google password or API secrets.
+При смене данных подготовьте новое задание и вставьте его код в тот же блокнот, остановив старый контроллер. Новое задание не подменяет данные старой сессии незаметно.
+
+### Colab всё равно предлагает копию или не даёт среду
+
+MVS больше не добавляет `copy=true`. Но приложение не управляет Google Drive, правами доступа, лимитами аккаунта или выделением сред. Google может самостоятельно предложить сохранить/скопировать документ. Сама копия не является ошибкой; опасно повторно использовать один код одновременно в разных средах.
+
+Для постоянного собственного блокнота сохраните его адрес `/drive/…` в окне подключения. Не создавайте новые копии для восстановления связи. Освободите ненужные сессии в интерфейсе Colab либо используйте локальный расчёт, если Google ограничивает ресурсы.
+
+При смене/сбросе среды несохранённые облачные файлы могут исчезнуть. Сначала скачайте результаты. Адрес блокнота не является резервной копией файлов среды.
+
+## Ручной режим
+
+Не отключайте защиту браузера ради локального подключения.
+
+1. Подготовьте задание в MVS и сохраните его ZIP. Он содержит данные, точные настройки, исходники CLI и совместимую калибровку, если она уже есть.
+2. В первой ячейке задайте `DESKTOP_CONTROL = False`, `RESET_CONNECTION = True`, оставьте код пустым и загрузите ZIP. Отдельный CSV/TSV тоже допустим, но не переносит точные настройки приложения.
+3. Выполните первую ячейку для подготовки/калибровки, вторую для анализа, третью для скачивания.
+4. В MVS загрузите соответствующие данные/настройки и выберите **Импорт результатов…**.
+
+Импорт проверяет данные, настройки, глубину калибровки, формат и контрольные суммы. Отчёты дополнительных методов сохраняются как файлы; импорт стандартной калибровки и результатов — отдельная возможность.
+
+## Хранение, совместимость и приватность
+
+- Локальные файлы: `%LOCALAPPDATA%\MVS_Analyzer\Colab`. Облачные: `/content/mvs-work` текущей среды, не постоянное хранилище Drive.
+- Движок 1.6.0, формула MVS-1.4.0 и контрольные суммы методов не изменены. Совместимые калибровки 1.4.0 используются после native-проверки, а не путём обхода контрольных сумм.
+- Подключение слушает только `127.0.0.1` на случайном порте, использует случайный токен и разрешённые источники Colab. Нет удалённой оболочки, Google-паролей, Google cookies или публичного сервера MVS.
+- Полный выходной ZIP не включает исходный CSV задания, код подключения или архив исходников CLI. **ZIP задания содержит исходные данные**: не публикуйте его без необходимости.
+- Не публикуйте `sessions.json` или код подключения. Новое подключение отзывает старый код.
+- Таймаут связи не означает завершения облачного процесса и не восстанавливает файлы удалённой среды.
+
+## English quick guide
+
+Update both the desktop and notebook. Old Drive copies do not auto-update. Prepare and approve a job in MVS, choose Python 3 / CPU in Colab, run the first cell with `DESKTOP_CONTROL = True`, paste the private code and leave that cell running as the controller. Use the app's Colab panel to calibrate, analyze, cancel and download. Cells 2/3 are manual fallbacks.
+
+The app reopens the same notebook without forced copying. Leases expire about 45 seconds after the last valid status. Reconnect revokes the old token, keeps verified outputs and only prepares the controller. It does not stop Google's runtime, select GPU through an unofficial API or bypass quotas. Recover the code from the panel at any time; for a new code use `RESET_CONNECTION = True`.
+
+Full downloads occur in the Colab browser. Offline MVS can save only verified files already received, clearly marked as a subset. If local access is blocked, use manual job ZIP upload and result import without weakening browser security. See [validation and limitations](VALIDATION.md) for the scope of automated checks and scientific interpretation.

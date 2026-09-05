@@ -97,8 +97,19 @@ class ColabTests(unittest.TestCase):
         workspace.root = Path(directory)
         workspace.folder = workspace.root / "job"
         workspace.folder.mkdir()
-        workspace.plan = {"Key": "a" * 64, "DatasetHash": "b" * 64, "SettingsHash": "c" * 64, "Repetitions": 150, "Kind": "standard"}
+        workspace.plan = {"Key": "a" * 64, "DatasetHash": "b" * 64, "SettingsHash": "c" * 64, "Repetitions": 150, "Kind": "standard", "Revision": m.REVISION}
         workspace.connection = ""
+        workspace.epoch = "test-epoch-123"
+        workspace.url = ""
+        workspace.sequence = 0
+        workspace.command_id = ""
+        workspace.controls_ready = False
+        workspace.percent = None
+        workspace.message = ""
+        workspace.runtime_label = "Python test · CPU"
+        workspace._monitor = None
+        workspace._files_pending = False
+        workspace.last_notice = ""
         workspace.phase = "ready"
         workspace.input = workspace.folder / "data.csv"
         workspace.input.write_text("input")
@@ -161,7 +172,7 @@ class ColabTests(unittest.TestCase):
 
     def test_connection_code_is_loopback_only(self):
         # Validation runs before evaluating browser JavaScript.
-        fake_output = type("Output", (), {"eval_js": staticmethod(lambda script: {"ok": True, "value": {}})})
+        fake_output = type("Output", (), {"eval_js": staticmethod(lambda script, **kwargs: {"ok": True, "value": {}})})
         fake_colab = type("Colab", (), {"output": fake_output})
         with patch.dict(sys.modules, {"google.colab": fake_colab}):
             for base in ("https://example.com", "http://0.0.0.0:80/v1/" + "a" * 64, "http://127.0.0.1:80/v1/short"):
@@ -207,8 +218,10 @@ class ColabTests(unittest.TestCase):
             workspace, _ = self.fixture(directory)
             folder = workspace.folder / "analysis/nested-run"
             folder.mkdir(parents=True)
-            (folder / "run_manifest.json").write_text('{"files":[]}')
             (folder / "results.json").write_text('{"rows":[]}')
+            (folder / "run_manifest.json").write_text(json.dumps({"files": [{"fileName": "results.json", "sha256": m.sha(folder / "results.json")}],
+                "inputData": {"sha256": "b" * 64}, "calibration": {"settingsHash": "c" * 64}}))
+            workspace.native_state_check = lambda: None
             workspace.send = lambda **kwargs: None
             downloaded = []
             fake_files = type("Files", (), {"download": staticmethod(downloaded.append)})

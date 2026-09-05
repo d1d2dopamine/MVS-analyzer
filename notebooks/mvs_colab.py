@@ -7,6 +7,7 @@ from __future__ import annotations
 import base64
 import contextlib
 import hashlib
+import html
 import io
 import json
 import os
@@ -15,6 +16,7 @@ import queue
 import re
 import shlex
 import shutil
+import signal
 import socket
 import subprocess
 import threading
@@ -24,8 +26,9 @@ import urllib.request
 import uuid
 import zipfile
 
-REVISION = "ui-colab-2"
+REVISION = "ui-colab-3"
 APP_VERSION = "1.4.0"
+COMPATIBLE_CALIBRATION_VERSIONS = {APP_VERSION}
 ENGINE_VERSION = "1.6.0"
 FORMULA_HASH = "10a1e72218bd65ec024fc981aab9b9d0a9de8ac00db9188f9d80d54e1170598c"
 
@@ -87,7 +90,7 @@ def cli_command(dotnet, dll, *arguments):
 def validate_calibration(path, plan):
     try:
         state = strict_json(path)
-        if ci(state, "SchemaVersion") != 2 or ci(state, "AppVersion") != APP_VERSION or ci(state, "EngineVersion") != ENGINE_VERSION:
+        if ci(state, "SchemaVersion") != 2 or ci(state, "AppVersion") not in COMPATIBLE_CALIBRATION_VERSIONS or ci(state, "EngineVersion") != ENGINE_VERSION:
             return False
         if ci(state, "FormulaHash") != FORMULA_HASH or ci(state, "DatasetHash") != ci(plan, "DatasetHash"):
             return False
@@ -188,6 +191,9 @@ def browser_request(base, route, packet=None):
     from google.colab import output
     if not re.fullmatch(r"http://127\.0\.0\.1:\d{1,5}/v1/[0-9a-f]{64}", base):
         raise ValueError("Invalid MVS connection code")
+    port = int(urllib.parse.urlsplit(base).port or 0)
+    if not 1 <= port <= 65535 or route not in {"job", "request", "status"}:
+        raise ValueError("Invalid MVS endpoint")
     payload = json.dumps(packet, separators=(",", ":")) if packet is not None else None
     script = """(async () => {
       const controller = new AbortController();
@@ -202,10 +208,14 @@ def browser_request(base, route, packet=None):
     })()"""
     script = script.replace("URL", json.dumps(base + "/" + route)).replace("METHOD", json.dumps("POST" if packet is not None else "GET"))
     script = script.replace("HEADERS", json.dumps({"Content-Type": "application/json"} if packet is not None else {})).replace("BODY", json.dumps(payload) if payload is not None else "undefined")
-    reply = output.eval_js(script)
+    reply = output.eval_js(script, timeout_sec=8)
     if not reply or not reply.get("ok"):
         raise ConnectionError((reply or {}).get("error", "Browser connection unavailable"))
     return reply["value"]
+
+
+class RunCancelled(Exception):
+    """An explicitly acknowledged desktop cancellation, not a notebook interruption."""
 
 
 class Workspace:
@@ -224,6 +234,15 @@ class Workspace:
         self.folder = None
         self.dotnet = None
         self.dll = None
+        self.protocol = REVISION
+        self.sequence = 0
+        self.command_id = ""
+        self.percent = None
+        self.message = ""
+        self.controls_ready = False
+        self.runtime_label = f"Python {os.sys.version_info.major}.{os.sys.version_info.minor} · CPU: {os.cpu_count() or 1}"
+        self._monitor = None
+        self._files_pending = False
 
     def activate(self):
         if self.connection:
@@ -260,6 +279,8 @@ class Workspace:
                     job = json.loads(z.read(names[0]))
                     plan = {"Key": hashlib.sha256(archive_bytes).hexdigest(), "Kind": "standard", "DatasetHash": ci(job, "DatasetHash"),
                             "SettingsHash": "", "Repetitions": ci(job, "Repetitions"), "Arguments": [], "RequestedAction": "calibrate"}
+            if ci(plan, "Revision", REVISION) != REVISION:
+                raise RuntimeError("Update the desktop and notebook together. Their Colab protocols differ.")
             key = ci(plan, "Key", "")
             if not re.fullmatch("[0-9a-f]{64}", key):
                 raise ValueError("Invalid job identity")
@@ -301,7 +322,10 @@ class Workspace:
             self.plan = {"Key": key, "Kind": self.mode, "DatasetHash": digest, "SettingsHash": "", "Repetitions": 2000,
                          "Arguments": [], "RequestedAction": "calibrate"}
         self.phase = "preparing"
-        self.send()
+        self.percent = None
+        self.message = "Preparing the exact CLI from this job / Подготовка CLI задания"
+        if not self.send():
+            raise ConnectionError("MVS rejected this runtime. Reconnect from the panel; do not use a copied connection code in another runtime.")
         try:
             self.install_cli()
             self.prepare_calibration()
@@ -321,7 +345,11 @@ class Workspace:
         return bool(self.folder) and validate_calibration(self.state_path, self.plan)
 
     def packet(self, phase=None, include_files=False):
-        packet = {"key": ci(self.plan, "Key"), "epoch": self.epoch, "phase": phase or self.phase, "notebookUrl": self.url}
+        self.sequence += 1
+        packet = {"key": ci(self.plan, "Key"), "epoch": self.epoch, "phase": phase or self.phase,
+                  "notebookUrl": self.url, "revision": REVISION, "commandId": self.command_id,
+                  "sequence": self.sequence, "percent": self.percent, "message": self.message[:500],
+                  "runtime": self.runtime_label[:200], "controlsReady": self.controls_ready}
         if include_files and self.has_calibration():
             packet["calibrationBase64"] = base64.b64encode(self.state_path.read_bytes()).decode()
         result_folder = find_run_folder(self.folder / "analysis")
@@ -334,35 +362,88 @@ class Workspace:
 
     def send(self, include_files=False):
         if not self.connection or not self.plan:
-            return
+            return True
+        self._files_pending = self._files_pending or include_files
         try:
-            browser_request(self.connection, "status", self.packet(include_files=include_files))
+            browser_request(self.connection, "status", self.packet(include_files=self._files_pending))
+            self._files_pending = False
             self.last_notice = ""
-        except Exception as error:
-            notice = "Desktop status is not connected. Keep MVS open and allow local access, or import the final results ZIP manually."
+            if self._monitor is not None:
+                self.show_monitor()
+            return True
+        except Exception:
+            notice = "MVS is not connected. The tab may be closed or local access blocked. Results stay in this runtime; reconnect or download them manually."
             if notice != self.last_notice:
                 print(notice)
                 self.last_notice = notice
+            return False
+
+    def progress_line(self, line):
+        match = re.match(r"^\s*(\d{1,3})%\s+(.+)$", line.strip())
+        if match and 0 <= int(match.group(1)) <= 100:
+            # 100% is reserved for validated output, not the last arithmetic iteration.
+            self.percent = min(99, int(match.group(1)))
+            self.message = match.group(2)[:500]
+
+    def poll_cancel(self):
+        if not self.connection or not self.controls_ready:
+            return
+        try:
+            pending = browser_request(self.connection, "request")
+        except (ConnectionError, TimeoutError):
+            return  # Connection loss is not permission to discard a running calculation.
+        if ci(pending, "Key") != ci(self.plan, "Key"):
+            raise RuntimeError("The connected job changed unexpectedly; reconnect explicitly.")
+        command = ci(pending, "CommandId", "")
+        if ci(pending, "RequestedAction") == "cancel" and command != self.command_id and re.fullmatch(r"[0-9a-f]{64}", command):
+            self.command_id = command
+            self.phase = "cancelling"
+            self.message = "Stopping the process / Остановка процесса"
+            self.send()
+            raise RunCancelled("Cancelled from MVS / Отменено в MVS")
+
+    @staticmethod
+    def stop_process(process):
+        if process.poll() is not None:
+            return
+        for sig, wait in ((signal.SIGINT, 3), (signal.SIGTERM, 2), (signal.SIGKILL, 2)):
+            try:
+                os.killpg(process.pid, sig)
+            except ProcessLookupError:
+                return
+            try:
+                process.wait(timeout=wait)
+                return
+            except subprocess.TimeoutExpired:
+                continue
+        raise RuntimeError("The child process did not stop; interrupt the Colab runtime.")
 
     def run_process(self, command, allow_diagnostic=False):
         print("$", shlex.join(list(map(str, command))))
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
-                                   encoding="utf-8", errors="replace", env=dotnet_environment(self.dotnet) if self.dotnet else None)
+                                   encoding="utf-8", errors="replace", start_new_session=True,
+                                   env=dotnet_environment(self.dotnet) if self.dotnet else None)
         output_queue = queue.Queue()
         def read_lines():
-            for line in process.stdout:
-                output_queue.put(line)
+            try:
+                for line in process.stdout:
+                    output_queue.put(line)
+            finally:
+                process.stdout.close()
         reader = threading.Thread(target=read_lines, daemon=True)
         reader.start()
         last_ping = 0
         try:
             while process.poll() is None or reader.is_alive() or not output_queue.empty():
                 try:
-                    print(output_queue.get(timeout=.3), end="")
+                    line = output_queue.get(timeout=.2)
+                    print(line, end="")
+                    self.progress_line(line)
                 except queue.Empty:
                     pass
-                if time.monotonic() - last_ping > 15:
+                if time.monotonic() - last_ping > 2:
                     self.send()
+                    self.poll_cancel()
                     last_ping = time.monotonic()
             code = process.wait()
             if code != 0 and not (allow_diagnostic and code == 2):
@@ -371,13 +452,10 @@ class Workspace:
                 print("Diagnostic report saved; a model diagnostic/benchmark threshold was not satisfied. Inspect it before use.")
             return code
         except BaseException:
-            process.terminate()
-            try:
-                process.wait(timeout=5)
-            except subprocess.TimeoutExpired:
-                process.kill()
-                process.wait()
+            self.stop_process(process)
             raise
+        finally:
+            reader.join(timeout=2)
 
     def install_cli(self):
         self.dotnet = Path("/content/dotnet/dotnet")
@@ -410,14 +488,127 @@ class Workspace:
 
     def refresh(self):
         if self.connection:
-            try:
-                pending = browser_request(self.connection, "request")
-                if ci(pending, "Key") != ci(self.plan, "Key"):
-                    self.activate()
-                else:
-                    self.plan = pending
-            except ConnectionError:
-                print("Cannot refresh the desktop request; keeping the current, already loaded job.")
+            pending = browser_request(self.connection, "request")
+            if ci(pending, "Key") != ci(self.plan, "Key"):
+                raise RuntimeError("The job identity changed. Reconnect; the old job will not run silently.")
+            self.plan = pending
+
+    def command_receipt(self, command_id):
+        if not re.fullmatch(r"[0-9a-f]{64}", command_id):
+            raise ValueError("Invalid command identity")
+        return self.folder / ".commands" / (command_id + ".json")
+
+    def save_receipt(self, command_id, action, phase):
+        receipt = self.command_receipt(command_id)
+        receipt.parent.mkdir(exist_ok=True)
+        temporary = receipt.with_suffix(".tmp")
+        temporary.write_text(json.dumps({"commandId": command_id, "action": action, "phase": phase}), encoding="utf-8")
+        temporary.replace(receipt)
+
+    def dispatch_command(self, pending):
+        if ci(pending, "Key") != ci(self.plan, "Key") or ci(pending, "Revision") != REVISION:
+            raise ValueError("The desktop job/protocol does not match this notebook")
+        command = ci(pending, "CommandId", "")
+        if not command or command == self.command_id:
+            return False
+        receipt = self.command_receipt(command)
+        action = ci(pending, "RequestedAction")
+        if action not in {"prepare", "calibrate", "analyze", "download", "cancel"}:
+            raise ValueError("Unknown MVS command")
+        self.command_id = command
+        if receipt.exists():
+            saved = strict_json(receipt)
+            phase = ci(saved, "phase", "failed")
+            self.phase = phase if phase in {"calibrated", "complete", "failed", "cancelled", "ready"} else "failed"
+            self.message = "Command already accepted; it was not replayed / Команда не запускается повторно"
+            self.send()
+            return False
+        previous_phase = self.phase
+        self.plan = pending
+        self.phase = {"prepare": "preparing", "calibrate": "calibrating", "analyze": "analyzing", "download": "downloading", "cancel": "cancelling"}[action]
+        self.percent = None
+        self.message = "Command accepted / Команда принята"
+        self.save_receipt(command, action, "accepted")
+        # Fail closed: an unacknowledged command never starts computation.
+        if not self.send():
+            self.phase = "failed"
+            self.message = "Acknowledgement failed. Reconnect and explicitly retry from MVS."
+            self.save_receipt(command, action, self.phase)
+            raise ConnectionError(self.message)
+        try:
+            if action == "prepare":
+                self.prepare_calibration()
+                self.message = "Connected; choose a command in MVS / Подключено; выберите команду в MVS"
+            elif action == "calibrate":
+                self.calibrate()
+            elif action == "analyze":
+                self.analyze()
+            elif action == "download":
+                self.download()
+                self.phase = previous_phase if previous_phase in {"calibrated", "complete", "failed"} else "ready"
+                self.message = "Download requested in your Colab browser / Скачивание передано браузеру Colab"
+            else:
+                self.phase = "cancelled"
+                self.message = "Pending command cancelled / Ожидающая команда отменена"
+        except RunCancelled:
+            self.phase = "cancelled"
+            self.percent = None
+            self.message = "Process stopped / Процесс остановлен"
+        except KeyboardInterrupt:
+            self.phase = "cancelled"
+            self.percent = None
+            self.message = "Notebook cell interrupted / Ячейка остановлена"
+            self.save_receipt(command, action, self.phase)
+            self.send()
+            raise
+        except Exception as error:
+            self.phase = "failed"
+            self.percent = None
+            self.message = str(error)[:500]
+            print(self.message)
+        if self.phase in {"calibrated", "complete"}:
+            self.percent = 100
+        self.save_receipt(command, action, self.phase)
+        if self.command_id != command:  # Cancellation has its own acknowledgement.
+            self.save_receipt(self.command_id, "cancel", self.phase)
+        self.send(include_files=self.phase in {"calibrated", "complete"})
+        self.show_monitor()
+        return True
+
+    def serve(self):
+        """The first cell stays running as a bounded-I/O command loop, not as a calculation.
+
+        No hidden JS intervals and no callbacks into a busy Python kernel. Closing the tab
+        stops browser round trips; the desktop lease expires even if computation continues.
+        """
+        if not self.connection:
+            raise RuntimeError("Desktop control needs a connection code")
+        self.controls_ready = True
+        failures = 0
+        self.show_monitor()
+        print("MVS control is ready. Leave this first cell running and use the buttons in the MVS app.")
+        print("Управление готово. Оставьте первую ячейку работающей; кнопки расчёта находятся в MVS.")
+        try:
+            while True:
+                try:
+                    if not self.send():
+                        raise ConnectionError("Desktop unavailable")
+                    pending = browser_request(self.connection, "request")
+                    self.dispatch_command(pending)
+                    failures = 0
+                except (ConnectionError, TimeoutError) as error:
+                    failures += 1
+                    if failures >= 3:
+                        print("Connection lost. Results are retained. Reopen this notebook and reconnect the first cell.")
+                        break
+                time.sleep(2)
+        finally:
+            self.controls_ready = False
+            self.phase = "offline"
+            self.percent = None
+            self.message = "Controller stopped; saved outputs retained / Связь остановлена, результаты сохранены"
+            self.send()
+            self.show_monitor()
 
     @contextlib.contextmanager
     def phase_lock(self):
@@ -445,6 +636,8 @@ class Workspace:
                 self.send(include_files=True)
                 return
             self.phase = "calibrating"
+            self.percent = 0
+            self.message = "Calibrating / Калибровка"
             self.send()
             args = ["calibrate", "--in", str(self.input), "--out", str(self.state_path.parent)]
             if self.job:
@@ -459,7 +652,7 @@ class Workspace:
                 self.native_state_check()
                 self.phase = "calibrated"
                 self.send(include_files=True)
-            except KeyboardInterrupt:
+            except (KeyboardInterrupt, RunCancelled):
                 self.phase = "cancelled"; self.send(); raise
             except Exception:
                 self.phase = "failed"; self.send(); raise
@@ -505,6 +698,8 @@ class Workspace:
             if kind == "standard" and not self.has_calibration():
                 raise RuntimeError("Run the first cell to calibrate before starting the analysis")
             self.phase = "analyzing" if kind == "standard" else "running"
+            self.percent = None
+            self.message = "Analyzing / Анализ"
             self.send()
             if kind == "standard":
                 if not self.has_calibration():
@@ -529,61 +724,48 @@ class Workspace:
                 (folder / "completion.json").write_text(json.dumps({"exitCode": code, "key": ci(self.plan, "Key")}))
                 self.phase = "complete" if code == 0 else "failed"
                 self.send(include_files=True)
-            except KeyboardInterrupt:
+            except (KeyboardInterrupt, RunCancelled):
                 self.phase = "cancelled"; self.send(); raise
             except Exception:
                 self.phase = "failed"; self.send(); raise
         self.show_monitor()
 
+    def monitor_html(self):
+        labels = {"preparing": "Подготовка / Preparing", "ready": "Готов к командам / Ready",
+                  "calibrating": "Калибровка / Calibrating", "analyzing": "Анализ / Analyzing",
+                  "running": "Расчёт / Running", "calibrated": "Калибровка готова / Calibrated",
+                  "complete": "Результаты готовы / Complete", "failed": "Ошибка / Failed",
+                  "cancelled": "Остановлено / Cancelled", "downloading": "Скачивание / Downloading",
+                  "cancelling": "Остановка / Stopping", "offline": "Нет подключения / Disconnected"}
+        percent = self.percent
+        progress = ('<progress max="100" value="' + str(percent) + '" aria-label="Progress"></progress>'
+                    if percent is not None else ('<progress aria-label="Waiting for progress"></progress>'
+                        if self.phase in {"preparing", "calibrating", "analyzing", "running", "downloading", "cancelling"}
+                        else '<progress max="100" value="0" aria-label="No active calculation"></progress>'))
+        number = str(percent) + "%" if percent is not None else "—"
+        return """<style>
+        .mvs-panel{font:16px/1.5 system-ui,-apple-system,sans-serif;color:#242424;background:#fff;border:1px solid #ddd;border-radius:10px;padding:24px;max-width:780px;box-sizing:border-box}
+        .mvs-panel *{box-sizing:border-box}.mvs-panel h3{font-size:22px;line-height:1.3;margin:0 0 8px}.mvs-panel p{margin:8px 0;overflow-wrap:anywhere}
+        .mvs-panel .meta{font-size:14px;color:#616161}.mvs-panel .state{display:flex;gap:16px;justify-content:space-between;margin:24px 0 8px}
+        .mvs-panel progress{width:100%;height:12px;accent-color:#0f6cbd}.mvs-panel .hint{padding:12px 16px;background:#e8f2fc;border-radius:8px;margin-top:20px}
+        @media(prefers-color-scheme:dark){.mvs-panel{color:#f5f5f5;background:#2b2b2b;border-color:#525252}.mvs-panel .meta{color:#bebebe}.mvs-panel .hint{background:#1f4a6c}}
+        @media(prefers-reduced-motion:reduce){.mvs-panel progress{animation:none}}
+        </style><section class="mvs-panel" aria-label="MVS Colab control">
+        <h3>MVS · Google Colab</h3><p class="meta">RUNTIME</p>
+        <div class="state"><strong>PHASE</strong><span>NUMBER</span></div>PROGRESS
+        <p>MESSAGE</p><p class="hint">Калибровать → Анализировать → Скачать результаты<br>Используйте панель Google Colab в приложении MVS.</p>
+        <p class="meta">Первая ячейка ожидает команды. Её работа сама по себе не означает, что идёт расчёт. Выбор CPU/GPU: меню Colab «Среда выполнения» → «Сменить среду выполнения».</p>
+        </section>""".replace("RUNTIME", html.escape(self.runtime_label)).replace("PHASE", html.escape(labels.get(self.phase, self.phase))).replace("NUMBER", number).replace("PROGRESS", progress).replace("MESSAGE", html.escape(self.message or "Оставьте эту вкладку и MVS открытыми / Keep this tab and MVS open"))
+
     def show_monitor(self):
-        if not self.connection:
-            return
-        from google.colab import output
-        from IPython.display import HTML, JSON, display
-        def heartbeat():
-            return JSON(self.packet())
-        output.register_callback("mvs.colab_heartbeat", heartbeat)
-        # The kernel callback must answer before the desktop is pinged. A tab being open
-        # alone is deliberately NOT treated as a live Python runtime.
-        script = """<div id="mvs-state" style="font:14px system-ui;padding:12px;border:1px solid #ddd;border-radius:8px">MVS · connected notebook status</div>
-        <script>(function(){
-          const destination = DESTINATION;
-          let busy = false, failures = 0;
-          async function ping(){
-            if(busy || failures > 8) return; busy = true;
-            try {
-              const result = await google.colab.kernel.invokeFunction('mvs.colab_heartbeat', [], {});
-              const packet = result.data['application/json'];
-              const control = new AbortController(); const timeout = setTimeout(()=>control.abort(),5000);
-              try {
-                const reply=await fetch(destination,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(packet),credentials:'omit',cache:'no-store',signal:control.signal});
-                if(!reply.ok) throw Error(reply.status);
-                document.getElementById('mvs-state').textContent='MVS · '+packet.phase+' · desktop connected'; failures=0;
-              } finally {clearTimeout(timeout);}
-            } catch(error){failures++;document.getElementById('mvs-state').textContent='MVS · desktop not connected; manual result import remains available';}
-            finally{busy=false;}
-          }
-          setInterval(ping,30000); ping();
-        })();</script>""".replace("DESTINATION", json.dumps(self.connection + "/status"))
-        display(HTML(script))
-        if not self.url:
-            try:
-                import ipywidgets as widgets
-                url_box = widgets.Text(placeholder="https://colab.research.google.com/drive/…", description="Notebook URL", layout=widgets.Layout(width="95%"))
-                bind = widgets.Button(description="Link this notebook")
-                notice = widgets.Label("If automatic URL detection failed, paste this notebook's address once. It does not need to be public.")
-                def connect_url(_):
-                    if not re.fullmatch(r"https://colab\.research\.google\.com/drive/[A-Za-z0-9_-]{10,}(?:[?#].*)?", url_box.value.strip()):
-                        notice.value = "Use the saved notebook's /drive/ address, not a GitHub or public-share link."
-                        return
-                    self.url = url_box.value.strip().split("#")[0].split("?")[0]
-                    self.send(include_files=True)
-                    notice.value = "Notebook linked. The desktop can reopen this same notebook."
-                    bind.disabled = True
-                bind.on_click(connect_url)
-                display(widgets.VBox([notice, url_box, bind]))
-            except ImportError:
-                print("Notebook URL unavailable; automatic notebook reuse is not confirmed. Keep this browser tab or use manual result import.")
+        try:
+            from IPython.display import HTML, display
+            if self._monitor is None:
+                self._monitor = display(HTML(self.monitor_html()), display_id=True)
+            else:
+                self._monitor.update(HTML(self.monitor_html()))
+        except ImportError:
+            pass
 
     def download(self):
         allowed = ["calibration", "analysis", "variance", "melsm", "estimation", "benchmark"]
@@ -592,7 +774,19 @@ class Workspace:
         with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as z:
             for name in allowed:
                 original = self.folder / name
-                directory = original if name == "calibration" else find_run_folder(original) or original
+                if name == "calibration":
+                    if not self.state_path.exists():
+                        continue
+                    self.native_state_check()
+                    if not self.has_calibration():
+                        raise RuntimeError("Calibration failed validation; it was not packaged")
+                    directory = original
+                else:
+                    directory = find_run_folder(original)
+                    if directory is None:
+                        continue  # Never label partial output as downloadable results.
+                    validate_manifest(directory, ci(self.plan, "DatasetHash") if self.input else None,
+                                      ci(self.plan, "SettingsHash") if name == "analysis" else None)
                 for path in directory.rglob("*"):
                     if path.is_file() and path.suffix != ".tmp":
                         z.write(path, name + "/" + path.relative_to(directory).as_posix()); count += 1
