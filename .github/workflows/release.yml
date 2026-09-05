@@ -64,7 +64,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Native Windows layout acceptance
         run: dotnet run --project MvsAnalyzer.Ui.Tests/MvsAnalyzer.Ui.Tests.csproj -c Release -- artifacts/ui-layout
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: release-layout-review
