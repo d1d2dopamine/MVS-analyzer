@@ -84,8 +84,14 @@ jobs:
           Copy-Item publish/windows/MVS_Analyzer.exe "staging/$win/"
           Copy-Item publish/linux/mvs "staging/$cli/"
           foreach ($folder in @($win, $cli)) {
-            Copy-Item README.md, LICENSE, CHANGELOG.md, RELEASE_NOTES_v1.4.0.md "staging/$folder/"
-            Copy-Item -Recurse docs, examples, notebooks "staging/$folder/"
+            Copy-Item README.md, LICENSE, CHANGELOG.md, CITATION.cff "staging/$folder/"
+            New-Item -ItemType Directory -Force "staging/$folder/docs" | Out-Null
+            foreach ($doc in @('README.md','DATA_FORMAT.md','METHODS.md','OUTPUTS.md','REMOTE.md','AUDIT.md','PLUGINS.md','VALIDATION.md','MIGRATION.md','BENCHMARK.md')) {
+              Copy-Item "docs/$doc" "staging/$folder/docs/"
+            }
+            New-Item -ItemType Directory -Force "staging/$folder/docs/assets" | Out-Null
+            Copy-Item docs/assets/logo.png, docs/assets/colab.png "staging/$folder/docs/assets/"
+            Copy-Item -Recurse examples, notebooks "staging/$folder/"
             Copy-Item *.mvsplugin "staging/$folder/"
           }
           Compress-Archive -Path "staging/$win" -DestinationPath "$win.zip"
@@ -100,7 +106,7 @@ jobs:
           tag_name: ${{ env.RELEASE_TAG }}
           name: MVS Analyzer ${{ env.RELEASE_TAG }}
           draft: true
-          body_path: RELEASE_NOTES_v1.4.0.md
+          body_path: .github/RELEASE_NOTES.md
           files: |
             MVS_Analyzer_*_win-x64.zip
             MVS_Analyzer_*_linux-x64-cli.zip

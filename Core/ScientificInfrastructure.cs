@@ -24,7 +24,16 @@ internal static class ScientificJson
         options.Converters.Add(new FiniteDoubleConverter());
         return options;
     }
-    public static string Serialize<T>(T value) => JsonSerializer.Serialize(value, Options);
+    // JSON strings escape CR/LF themselves; this changes formatting whitespace only.
+    public static string NormalizeLineEndings(string json) => json.Replace("\r\n", "\n", StringComparison.Ordinal);
+    public static string Serialize<T>(T value) => NormalizeLineEndings(JsonSerializer.Serialize(value, Options));
+    public static bool MatchesPortableOrLegacyHash(string json, string? expected)
+    {
+        if (expected == null || expected.Length != 64) return false;
+        string lf = NormalizeLineEndings(json);
+        return string.Equals(ScientificMath.Hash(lf), expected, StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(ScientificMath.Hash(lf.Replace("\n", "\r\n", StringComparison.Ordinal)), expected, StringComparison.OrdinalIgnoreCase);
+    }
     public static T Read<T>(string path) => JsonSerializer.Deserialize<T>(File.ReadAllText(path), Options)
         ?? throw new InvalidDataException("Empty JSON document: " + path);
     public static void Write<T>(string path, T value) => AtomicText(path, Serialize(value));
@@ -72,11 +81,21 @@ internal sealed record ProcessingSnapshot(int MinValue, int MaxValue, int MinMea
         return new(settings.MinValue, settings.MaxValue, settings.MinMeasurements, settings.ImportProfileId,
             profile == null ? "built-in-v2" : ScientificMath.Hash(ScientificJson.Serialize(profile)), DecisionPolicy.Id);
     }
+    public ProcessingSnapshot Canonicalize()
+    {
+        if (string.IsNullOrEmpty(ImportProfile)) return this;
+        ImportProfile? profile = PluginAssets.Current.ImportProfiles.FirstOrDefault(p => p.Id.Equals(ImportProfile, StringComparison.OrdinalIgnoreCase));
+        // Reading a state does not install a missing profile or accept changed profile contents.
+        if (profile == null) return this;
+        string json = ScientificJson.Serialize(profile);
+        if (!ScientificJson.MatchesPortableOrLegacyHash(json, ImportProfileHash)) return this;
+        return this with { ImportProfileHash = ScientificMath.Hash(json) };
+    }
     public void Apply(AppSettings settings)
     {
         settings.MinValue = MinValue; settings.MaxValue = MaxValue;
         settings.MinMeasurements = MinMeasurements; settings.ImportProfileId = ImportProfile;
-        if (this != From(settings)) throw new InvalidDataException("The import profile or analysis policy differs from the saved calibration. Recalibrate.");
+        if (Canonicalize() != From(settings)) throw new InvalidDataException("The import profile or analysis policy differs from the saved calibration. Recalibrate.");
     }
 }
 
@@ -101,6 +120,20 @@ internal static class SettingsContract
             settings.CalibrationSeed, settings.CalibrationEffect, settings.SimulationScenario, settings.OutlierRate,
             settings.MissingRate, settings.Alpha, settings.EquivalenceMargin, settings.SplitCalibration,
             engine = ReleaseInfo.EngineVersion, formula = OutputExporter.FormulaHash }));
+    }
+    internal static string FingerprintJson(CalibrationState state)
+    {
+        if (state.Processing == null) throw new InvalidDataException("Calibration processing is missing.");
+        var settings = new AppSettings { MinValue = state.Processing.MinValue, MaxValue = state.Processing.MaxValue,
+            MinMeasurements = state.Processing.MinMeasurements, CalibrationSeed = state.Seed, CalibrationEffect = state.Effect,
+            SimulationScenario = state.Scenario, OutlierRate = state.OutlierRate, MissingRate = state.MissingRate,
+            Alpha = state.Alpha, EquivalenceMargin = state.EquivalenceMargin, SplitCalibration = state.SplitCalibration };
+        Validate(settings);
+        if (state.Processing.AnalysisPolicy != DecisionPolicy.Id) throw new InvalidDataException("Incompatible analysis policy.");
+        return ScientificJson.Serialize(new { processing = state.Processing,
+            settings.CalibrationSeed, settings.CalibrationEffect, settings.SimulationScenario, settings.OutlierRate,
+            settings.MissingRate, settings.Alpha, settings.EquivalenceMargin, settings.SplitCalibration,
+            engine = ReleaseInfo.EngineVersion, formula = OutputExporter.FormulaHash });
     }
 }
 

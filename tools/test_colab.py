@@ -23,16 +23,15 @@ class ColabTests(unittest.TestCase):
     def test_explicit_host_and_environment(self):
         with tempfile.TemporaryDirectory() as directory:
             base = Path(directory)
-            host = base / "fake-dotnet"
-            host.write_text('#!' + sys.executable + '\nimport json,os,sys\nprint(json.dumps({"argv":sys.argv[1:],"root":os.environ["DOTNET_ROOT"],"x64":os.environ["DOTNET_ROOT_X64"]}))\n')
-            host.chmod(0o755)
+            host = Path(sys.executable).resolve()
             dll = base / "mvs.dll"
+            dll.write_text('import json,os,sys\nprint(json.dumps({"argv":sys.argv[1:],"root":os.environ["DOTNET_ROOT"],"x64":os.environ["DOTNET_ROOT_X64"]}))\n', encoding="utf-8")
             command = m.cli_command(host, dll, "version")
             self.assertEqual(command[:2], [str(host), str(dll)])
             answer = json.loads(subprocess.check_output(command, env=m.dotnet_environment(host), text=True))
-            self.assertEqual(answer["argv"], [str(dll), "version"])
-            self.assertEqual(answer["root"], str(base))
-            self.assertEqual(answer["x64"], str(base))
+            self.assertEqual(answer["argv"], ["version"])
+            self.assertEqual(answer["root"], str(host.parent))
+            self.assertEqual(answer["x64"], str(host.parent))
 
     def test_zip_traversal(self):
         for name in ("../bad", "/tmp/bad", "C:/bad", "a\\b"):
@@ -229,6 +228,60 @@ class ColabTests(unittest.TestCase):
             for name in ("../outside", "C:/outside", "/tmp/outside", "a\\b"):
                 with self.assertRaises(ValueError):
                     m.output_path(directory, name)
+
+    def test_native_check_receives_profile_and_exact_job(self):
+        with tempfile.TemporaryDirectory() as directory:
+            workspace, _ = self.fixture(directory)
+            workspace.dotnet = Path(directory) / "fake-host"
+            workspace.dll = Path(directory) / "mvs.dll"
+            (workspace.folder / "job.json").write_text('{}')
+            calls = []
+            workspace.run_process = lambda command: calls.append(command)
+            workspace.native_state_check()
+            command = calls[0]
+            self.assertIn("--job", command)
+            self.assertIn("--normalize", command)
+            self.assertEqual(command[command.index("--settings-hash") + 1], m.ci(workspace.plan, "SettingsHash"))
+            self.assertEqual(command[command.index("--repetitions") + 1], str(m.ci(workspace.plan, "Repetitions")))
+
+    def test_legacy_metadata_is_verified_before_python_identity_check(self):
+        with tempfile.TemporaryDirectory() as directory:
+            workspace, state = self.fixture(directory)
+            expected = m.ci(workspace.plan, "SettingsHash")
+            state["SettingsHash"] = "legacy-windows-fingerprint"
+            workspace.state_path.write_text(json.dumps(state))
+            self.assertFalse(workspace.has_calibration())
+            calls = []
+            def native_migration():
+                calls.append("native-verified-first")
+                state["SettingsHash"] = expected
+                workspace.state_path.write_text(json.dumps(state))
+            workspace.native_state_check = native_migration
+            workspace.prepare_calibration()
+            self.assertEqual(calls, ["native-verified-first"])
+            self.assertTrue(workspace.has_calibration())
+            self.assertEqual(workspace.phase, "calibrated")
+
+    def test_failed_native_checksum_is_never_marked_complete(self):
+        with tempfile.TemporaryDirectory() as directory:
+            workspace, _ = self.fixture(directory)
+            workspace.phase = "preparing"
+            before = workspace.state_path.read_bytes()
+            def fail():
+                raise RuntimeError("checksum mismatch")
+            workspace.native_state_check = fail
+            with self.assertRaisesRegex(RuntimeError, "checksum mismatch"):
+                workspace.prepare_calibration()
+            self.assertEqual(workspace.state_path.read_bytes(), before)
+            self.assertNotEqual(workspace.phase, "calibrated")
+
+    def test_new_job_without_state_does_not_invoke_validator(self):
+        with tempfile.TemporaryDirectory() as directory:
+            workspace, _ = self.fixture(directory)
+            workspace.state_path.unlink()
+            workspace.native_state_check = lambda: self.fail("no state to validate")
+            workspace.prepare_calibration()
+            self.assertEqual(workspace.phase, "ready")
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

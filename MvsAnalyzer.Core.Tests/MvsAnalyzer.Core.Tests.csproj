@@ -6,5 +6,5 @@
     <DefineConstants>$(DefineConstants);MVS_NO_FIGURES</DefineConstants>
   </PropertyGroup>
   <Import Project="../SharedSources.props" />
-  <ItemGroup><Compile Include="Program.cs" /><Compile Include="ScientificChecks.cs" /></ItemGroup>
+  <ItemGroup><Compile Include="Program.cs" /><Compile Include="ScientificChecks.cs" /><Compile Include="SerializationChecks.cs" /></ItemGroup>
 </Project>

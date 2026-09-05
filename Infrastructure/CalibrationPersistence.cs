@@ -11,14 +11,24 @@ internal static class CalibrationPersistence
     public const string FileName = "calibration_state.json";
     public static void Write(string path, CalibrationState state)
     {
-        state = state with { PayloadHash = "" };
-        state = state with { PayloadHash = ScientificMath.Hash(ScientificJson.Serialize(state)) };
+        // New writes carry platform-independent payload, settings and profile fingerprints.
+        if (!ScientificJson.MatchesPortableOrLegacyHash(SettingsContract.FingerprintJson(state), state.SettingsHash))
+            throw new InvalidDataException("Calibration settings fingerprint does not match its contents.");
+        state = CanonicalizeVerified(state);
         Validate(state);
         ScientificJson.Write(path, state);
     }
     public static CalibrationState Read(string path)
     {
-        CalibrationState state = ScientificJson.Read<CalibrationState>(path); Validate(state); return state;
+        CalibrationState state = ScientificJson.Read<CalibrationState>(path);
+        Validate(state); // Never re-sign a file that failed its stored checksum.
+        return CanonicalizeVerified(state);
+    }
+    private static CalibrationState CanonicalizeVerified(CalibrationState state)
+    {
+        state = state with { Processing = state.Processing?.Canonicalize(), PayloadHash = "" };
+        state = state with { SettingsHash = ScientificMath.Hash(SettingsContract.FingerprintJson(state)) };
+        return state with { PayloadHash = ScientificMath.Hash(ScientificJson.Serialize(state)) };
     }
     public static void Validate(CalibrationState state)
     {
@@ -45,12 +55,15 @@ internal static class CalibrationPersistence
             foreach (double rate in row.TrackPowers!.Concat(row.TrackPowerLow!).Concat(row.TrackPowerHigh!).Concat(new[] { row.Fpr, row.FprLow, row.FprHigh }))
                 if (double.IsInfinity(rate) || (double.IsFinite(rate) && (rate < 0 || rate > 1))) throw new InvalidDataException("Invalid probability in calibration.");
         }
-        string digest = ScientificMath.Hash(ScientificJson.Serialize(state with { PayloadHash = "" }));
-        if (digest != state.PayloadHash) throw new InvalidDataException("Calibration payload checksum mismatch. The file may have been changed or truncated.");
+        if (!ScientificJson.MatchesPortableOrLegacyHash(ScientificJson.Serialize(state with { PayloadHash = "" }), state.PayloadHash))
+            throw new InvalidDataException("Calibration payload checksum mismatch. The file may have been changed or truncated.");
+        if (!ScientificJson.MatchesPortableOrLegacyHash(SettingsContract.FingerprintJson(state), state.SettingsHash))
+            throw new InvalidDataException("Calibration settings fingerprint does not match its contents.");
     }
     public static void Apply(CalibrationState state, AppSettings settings)
     {
         Validate(state);
+        state = CanonicalizeVerified(state);
         state.Processing!.Apply(settings);
         settings.CalibrationSeed = state.Seed; settings.CalibrationEffect = state.Effect; settings.SimulationScenario = state.Scenario;
         settings.OutlierRate = state.OutlierRate; settings.MissingRate = state.MissingRate; settings.Alpha = state.Alpha;

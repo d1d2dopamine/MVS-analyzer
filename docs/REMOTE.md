@@ -1,43 +1,38 @@
 # Run via Colab
 
-**Run via Colab / Запустить через Colab** is beside Calibration, Run, variance components, estimation studies, MELSM and the synthetic benchmark, not in Settings. Kaggle is not an active workflow.
+Colab is optional cloud computation using Google's service. Local analysis remains available without it. Only upload data you are permitted to process there.
 
-## Use
+## Start a job
 
-1. Load measurements and select the operation/settings in MVS. Click the Colab button and approve transfer of that selected job.
-2. A confirmed live, paired MVS notebook is reopened. Otherwise Colab opens a repository notebook with a fresh-copy request; Google may require sign-in and saving the copy.
-3. Run cell 1. On the first connection, paste the code copied by MVS into the hidden input prompt. Keep MVS open and allow browser local-network permission when requested. MVS never asks for a Google password or API secret.
-4. Cell 1 prepares/calibrates, cell 2 analyzes, cell 3 downloads a ZIP. Additional methods are prepared in cell 1 and executed in cell 2.
-5. A validated completed calibration is cached and reused, not rerun. Its button is disabled for the same input/settings/repetition count. Analysis remains available. For another assigned job in the same notebook, rerun its first cell.
+1. Load data and choose the calculation in MVS, then select **Run via Colab / Запустить через Colab**.
+2. Approve transfer of that job. Keep the desktop application open.
+3. Run the notebook's first cell. On first pairing, paste the connection code copied by MVS into the hidden prompt and allow the browser's local-network permission if requested.
+4. Use the second cell for analysis and the third cell to download the results ZIP.
 
-Job identity includes input bytes, statistical/preprocessing settings, repetition count, method/options and this repair revision. An incompatible calibration is not silently reused. Existing completed output is not overwritten.
+The first cell prepares the selected operation and performs standard calibration. Additional models run in the second cell. A verified matching calibration is reused rather than repeated.
 
-## What active means
+## Reusing a notebook
 
-The kernel must answer a recent heartbeat. A button click, an open browser tab or a remembered URL is not proof of a live runtime or completion. MVS tracks paired MVS jobs; it cannot enumerate all notebooks in a Google account. Restarting the desktop requires a new local pairing; validated saved calibration is retained.
+A live paired notebook can be reopened for another job. Run its first cell to accept the newly selected job. Matching includes data, preprocessing, statistical settings and repetition count. A changed job must not reuse an incompatible calibration.
 
-Notebook-address detection is best-effort. If it fails, the notebook shows a **Notebook URL** input: paste its saved `https://colab.research.google.com/drive/...` address. The notebook does not need to be public.
+An open browser tab alone does not mean a kernel is still running. Google controls runtime availability and session duration. MVS can track notebooks paired with the application, not every notebook in your Google account.
 
-## Manual fallback
+If address detection fails, enter the saved `https://colab.research.google.com/drive/...` address in the notebook's **Notebook URL** field. You do not need to make the notebook public.
 
-Browser policy may block Colab-to-localhost access. The desktop's connection dialog shows the generated job ZIP path. Leave the notebook connection prompt empty and upload this ZIP manually. Download the finished results ZIP and choose **Import Colab result** in MVS, with matching data/settings loaded. Manual exchange cannot promise automatic live-state detection.
+## Manual file exchange
 
-For standalone work, an empty connection prompt accepts CSV/TSV or the selected synthetic benchmark/estimation defaults. Independent-group IDs need the appropriate acknowledgment; repeated subjects across conditions belong in MELSM.
+If browser policy blocks the local connection, use the job ZIP shown by MVS. Leave the notebook connection prompt empty and upload that ZIP. After computation, download the results ZIP and choose **Import Colab result** with the matching data and settings loaded in MVS.
 
-## Runtime-discovery correction
+Standalone CSV/TSV upload is also available. Synthetic estimation and benchmark studies do not require a measurement file.
 
-The supplied log's exit **131 / libhostfxr.so not found** followed a successful build. Its apphost did not discover the SDK/runtime installed privately under `/content/dotnet` with `--no-path`.
+## Saved calibration and errors
 
-The notebook sets `DOTNET_ROOT`, `DOTNET_ROOT_X64`, and `PATH`, publishes with `UseAppHost=false`, and invokes the explicit **`/content/dotnet/dotnet <absolute-mvs.dll-path> ...`** host. It checks application/engine/repair revision. Desktop jobs contain their exact CLI source and import profile; standalone jobs print the selected repository commit. Only use source/job archives you trust.
+Use the current application and notebook together; an old application may carry an older analyzer in its exported job. The notebook shows the application and engine versions before running.
 
-## Integrity and privacy
+Compatible saved calibration from Windows or Linux is verified before reuse. Updating line-ending-dependent legacy fingerprints does not repeat simulations or change their numerical results. Corrupted files, mismatched data/settings or incompatible methods are rejected, not silently repaired or overwritten.
 
-- Calibration completion requires the native checksum/method/input validator, not just a status flag. Result import checks dataset/settings/repetition identity, output checksum and the complete metric registry.
-- Nested analysis output is normalized to `analysis/` in downloads. Benchmarks use their own manifest and SHA256SUMS, including nested figure paths.
-- Diagnostic exit 2 remains a diagnostic/failure status on replay. Partial output is not a completed run.
-- The local bridge is loopback-only, origin-checked, token-scoped and size-limited; it exposes no shell, general file browser or public relay.
-- Job ZIPs contain original measurements. Results ZIPs exclude input/source/connection tokens, but reports may still be sensitive. Pseudonyms do not guarantee anonymity.
-- Notebook output saving is disabled in the shipped metadata. Clear outputs and inspect notebooks before sharing. Never share a connection code while the app is running.
-- Google controls runtime availability, CPU quota and session duration; none are guaranteed by MVS.
+If checksum verification still fails, keep the original state and result ZIP for diagnosis. Do not edit the checksum manually. Re-export a verified job from the updated application or choose a fresh calibration if the original file is genuinely damaged.
 
-Offline orchestration tests were run. Live Windows/Colab pairing was not executed during source preparation; see the target-environment checklist.
+## Privacy
+
+The job includes its measurements. Results omit the source job and connection code but may still contain sensitive reports. Clear notebook outputs before sharing; never publish an active connection code. MVS does not request your Google password or API secrets.

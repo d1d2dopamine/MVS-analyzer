@@ -1,6 +1,9 @@
 using MvsAnalyzer;
 using MvsAnalyzer.Benchmarking;
 
+if (args.Length == 2 && args[0] == "--export-portability") { SerializationChecks.ExportFixtures(args[1]); return 0; }
+if (args.Length == 2 && args[0] == "--verify-portability") { SerializationChecks.VerifyFixtures(args[1]); return 0; }
+if (args.Length != 0) { Console.Error.WriteLine("Unknown test harness arguments."); return 2; }
 var tests = new (string Name, Action Run)[]
 {
     ("Processing limits are applied", ProcessingLimits),
@@ -28,7 +31,7 @@ var tests = new (string Name, Action Run)[]
     ("The environment fingerprint is stable and honest", EnvironmentFingerprint),
     ("A remote job survives the round trip", RemoteJobRoundTrip),
     ("Command line options are read the same way twice", CliArgumentReading)
-}.Concat(ScientificChecks.All).ToArray();
+}.Concat(ScientificChecks.All).Concat(SerializationChecks.All).ToArray();
 int failed=0;foreach(var test in tests){try{test.Run();Console.WriteLine($"PASS  {test.Name}");}catch(Exception ex){failed++;Console.WriteLine($"FAIL  {test.Name}: {ex.Message}");}}
 Console.WriteLine($"{tests.Length-failed}/{tests.Length} tests passed");return failed==0?0:1;
 

@@ -37,3 +37,21 @@ LICENSE text eol=lf
 *.png binary
 *.ico binary
 *.mvsplugin binary
+
+# Owner-only/generated reports must not enter git-archive release downloads.
+validation/PACKAGE_QA.md export-ignore
+validation/CHANGE_INVENTORY.md export-ignore
+validation/SOURCE_FILES_SHA256.json export-ignore
+validation/source-moves.json export-ignore
+validation/reference_numerics_results.json export-ignore
+docs/BUILDING.md export-ignore
+docs/WINDOWS_QA.md export-ignore
+docs/ARCHITECTURE.md export-ignore
+docs/PREREGISTRATION.md export-ignore
+docs/history/CHANGELOG_development_snapshot.md export-ignore
+CONTRIBUTING.md export-ignore
+RELEASE_NOTES_v1.4.0.md export-ignore
+validation/reference_power_discriminating.csv export-ignore
+validation/reference_power_discriminating.md export-ignore
+validation/reference_power_primary.csv export-ignore
+validation/reference_power_primary.md export-ignore

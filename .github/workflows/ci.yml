@@ -19,8 +19,10 @@ jobs:
           python-version: '3.12'
       - name: Validate source metadata, notebooks and method hashes
         run: python tools/check_source.py
-      - name: Offline Colab regressions
-        run: python tools/test_colab.py
+      - name: Offline Colab and source-check regressions
+        run: |
+          python tools/test_colab.py
+          python tools/test_source.py
       - name: Limited C# structural check (not compilation)
         run: python tools/check_csharp_structure.py
       - name: Independent mathematical identities in Python
@@ -43,6 +45,13 @@ jobs:
         run: dotnet run --project MvsAnalyzer.Tests/MvsAnalyzer.Tests.csproj -c Release
       - name: Portable scientific regressions on Windows
         run: dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release
+      - name: Export Windows serialization fixtures
+        run: dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release -- --export-portability artifacts/portable-states
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MVS-calibration-fixtures-windows
+          path: artifacts/portable-states/
+          if-no-files-found: error
       - name: Native Windows layout checks
         run: dotnet run --project MvsAnalyzer.Ui.Tests/MvsAnalyzer.Ui.Tests.csproj -c Release -- artifacts/ui-layout
       - uses: actions/upload-artifact@v4
@@ -67,6 +76,13 @@ jobs:
           dotnet-version: '8.0.x'
       - name: Portable scientific regressions on Linux
         run: dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release
+      - name: Export Linux serialization fixtures
+        run: dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release -- --export-portability artifacts/portable-states
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MVS-calibration-fixtures-linux
+          path: artifacts/portable-states/
+          if-no-files-found: error
       - name: Publish Linux CLI
         run: dotnet publish MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -o publish/linux-cli
       - name: Regression for the reported 150-replication save failure
@@ -89,3 +105,33 @@ jobs:
             artifacts/
             publish/linux-cli/
           if-no-files-found: warn
+
+  state-portability:
+    needs: [windows, linux]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            peer: windows
+          - os: windows-latest
+            peer: linux
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: MVS-calibration-fixtures-${{ matrix.peer }}
+          path: artifacts/peer-states
+      - name: Read calibration from the other operating system
+        run: dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release -- --verify-portability artifacts/peer-states
+      - name: Build CLI for native state preflight
+        run: dotnet publish MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj -c Release -o publish/state-cli -p:UseAppHost=false
+      - name: Verify the notebook's native preflight command
+        run: python tools/check_portability.py artifacts/peer-states publish/state-cli/mvs.dll

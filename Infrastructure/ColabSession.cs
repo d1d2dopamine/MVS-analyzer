@@ -8,7 +8,7 @@ internal sealed record ColabSession(string Key, string Token, string Kind, strin
     string RequestedAction = "calibrate");
 internal sealed record ColabRunPlan(string Key, string Kind, string RequestedAction, string DatasetHash,
     string SettingsHash, int Repetitions, string[] Arguments, string AppVersion = ReleaseInfo.Version,
-    string EngineVersion = ReleaseInfo.EngineVersion, string Revision = "ui-colab-1");
+    string EngineVersion = ReleaseInfo.EngineVersion, string Revision = "ui-colab-2");
 
 // A completion flag is never enough: a validated calibration file is required before disabling a button.
 internal sealed class ColabSessionStore
@@ -29,7 +29,7 @@ internal sealed class ColabSessionStore
     }
     public static bool HexKey(string? text) => text is { Length: 64 } && text.All(c => c is >= '0' and <= '9' or >= 'a' and <= 'f');
     public static string KeyFor(string datasetHash, string settingsHash, int repetitions, string kind, string[]? arguments = null) =>
-        ScientificMath.Hash(ScientificJson.Serialize(new { datasetHash, settingsHash, repetitions, kind, arguments = arguments ?? Array.Empty<string>(), revision = "ui-colab-1" }));
+        ScientificMath.Hash(ScientificJson.Serialize(new { datasetHash, settingsHash, repetitions, kind, arguments = arguments ?? Array.Empty<string>(), revision = "ui-colab-2" }));
     public static bool ValidNotebookUrl(string value) => Uri.TryCreate(value, UriKind.Absolute, out Uri? url) && url.Scheme == "https" &&
         url.Host.Equals("colab.research.google.com", StringComparison.OrdinalIgnoreCase) && url.UserInfo.Length == 0 && url.IsDefaultPort &&
         url.AbsolutePath.StartsWith("/drive/", StringComparison.Ordinal) && url.AbsolutePath[7..].Length >= 10 &&

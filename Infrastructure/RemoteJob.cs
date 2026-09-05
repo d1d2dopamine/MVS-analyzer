@@ -123,7 +123,7 @@ internal static class RemoteJob
         if (job.Processing != null && !string.IsNullOrEmpty(job.Processing.ImportProfile) && File.Exists(profilePath))
         {
             ImportProfile profile = ScientificJson.Read<ImportProfile>(profilePath);
-            if (profile.Id != job.Processing.ImportProfile || ScientificMath.Hash(ScientificJson.Serialize(profile)) != job.Processing.ImportProfileHash)
+            if (profile.Id != job.Processing.ImportProfile || !ScientificJson.MatchesPortableOrLegacyHash(ScientificJson.Serialize(profile), job.Processing.ImportProfileHash))
                 throw new InvalidDataException("Remote import profile fingerprint mismatch.");
             if (!PluginAssets.Current.ImportProfiles.Any(p => p.Id == profile.Id)) PluginAssets.Current.ImportProfiles.Add(profile);
         }

@@ -5,29 +5,5 @@
     "example-visualization.mvsplugin": "4b48ab0ba965d38cd5d45878c84757f373fb82375bf8bca0be995deff97cec3f",
     "Assets/inapp_logo.png": "e8dcbae11f19ca06e7986e4c4454f90b147e23ec818f47d71f8c8813793a7617",
     "docs/assets/logo.png": "a97166f0148ebad6a09f0b29c0e88907ae46796c07deb29d002df788cd139e77"
-  },
-  "readmeImageTags": [
-    "<img src=\"docs/assets/logo.png\" width=\"176\" alt=\"MVS Analyzer logo\">",
-    "<img src=\"https://img.shields.io/github/actions/workflow/status/d1d2dopamine/MVS-Analyzer/ci.yml?branch=main&label=build&style=flat-square\" alt=\"build\">",
-    "<img src=\"https://img.shields.io/badge/app-1.5.0-1f6feb?style=flat-square\" alt=\"app 1.5.0\">",
-    "<img src=\"https://img.shields.io/badge/engine-1.2.0-6f42c1?style=flat-square\" alt=\"engine 1.2.0\">",
-    "<img src=\"https://img.shields.io/badge/formula-MVS--1.3.0%20frozen-brightgreen?style=flat-square\" alt=\"formula MVS-1.3.0 frozen\">",
-    "<img src=\"https://img.shields.io/badge/made%20with-.NET%208-512BD4?style=flat-square\" alt=\"made with .NET 8\">",
-    "<img src=\"https://img.shields.io/badge/Windows-10%2B%20x64-0078D6?style=flat-square\" alt=\"Windows 10+ x64\">",
-    "<img src=\"https://img.shields.io/badge/NuGet%20dependencies-0-4b4b4b?style=flat-square\" alt=\"zero NuGet dependencies\">",
-    "<img src=\"https://img.shields.io/badge/network-never-crimson?style=flat-square\" alt=\"no networking\">",
-    "<img src=\"https://img.shields.io/badge/license-MIT-blue?style=flat-square\" alt=\"MIT license\">",
-    "<img src=\"https://img.shields.io/github/v/release/d1d2dopamine/MVS-Analyzer?style=for-the-badge&label=download%20for%20Windows&color=0078D6&logo=windows&logoColor=white\" alt=\"download for Windows\">",
-    "<img src=\"docs/assets/logo.png\" width=\"176\" alt=\"Логотип MVS Analyzer\">",
-    "<img src=\"https://img.shields.io/github/actions/workflow/status/d1d2dopamine/MVS-Analyzer/ci.yml?branch=main&label=build&style=flat-square\" alt=\"build\">",
-    "<img src=\"https://img.shields.io/badge/app-1.5.0-1f6feb?style=flat-square\" alt=\"app 1.5.0\">",
-    "<img src=\"https://img.shields.io/badge/engine-1.2.0-6f42c1?style=flat-square\" alt=\"engine 1.2.0\">",
-    "<img src=\"https://img.shields.io/badge/formula-MVS--1.3.0%20frozen-brightgreen?style=flat-square\" alt=\"formula MVS-1.3.0 frozen\">",
-    "<img src=\"https://img.shields.io/badge/made%20with-.NET%208-512BD4?style=flat-square\" alt=\"made with .NET 8\">",
-    "<img src=\"https://img.shields.io/badge/Windows-10%2B%20x64-0078D6?style=flat-square\" alt=\"Windows 10+ x64\">",
-    "<img src=\"https://img.shields.io/badge/NuGet%20dependencies-0-4b4b4b?style=flat-square\" alt=\"zero NuGet dependencies\">",
-    "<img src=\"https://img.shields.io/badge/network-never-crimson?style=flat-square\" alt=\"no networking\">",
-    "<img src=\"https://img.shields.io/badge/license-MIT-blue?style=flat-square\" alt=\"MIT license\">",
-    "<img src=\"https://img.shields.io/github/v/release/d1d2dopamine/MVS-Analyzer?style=for-the-badge&label=%D1%81%D0%BA%D0%B0%D1%87%D0%B0%D1%82%D1%8C%20%D0%B4%D0%BB%D1%8F%20Windows&color=0078D6&logo=windows&logoColor=white\" alt=\"скачать для Windows\">"
-  ]
+  }
 }

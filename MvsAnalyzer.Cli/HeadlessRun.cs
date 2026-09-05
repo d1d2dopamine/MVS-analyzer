@@ -135,12 +135,28 @@ internal static class HeadlessRun
     private static string Num(double value) => double.IsFinite(value) ? value.ToString("0.######", CultureInfo.InvariantCulture) : "unavailable";
     public static int StateCheck(CliArguments args)
     {
-        args.Validate(new[] { "--calibration", "--in" });
+        args.Validate(new[] { "--calibration", "--in", "--job", "--normalize", "--settings-hash", "--repetitions" });
+        RemoteJobFile? job = null;
+        if (args.Value("--job") is string jobPath) job = RemoteJob.Read(jobPath);
         string path = args.Require("--calibration"); if (Directory.Exists(path)) path = Path.Combine(path, CalibrationPersistence.FileName);
         CalibrationState state = CalibrationPersistence.Read(path);
-        if (args.Value("--in") is string input && OutputExporter.HashFile(input) != state.DatasetHash) throw new InvalidDataException("Calibration input hash mismatch.");
-        Console.WriteLine("Calibration checksum, method contract and input identity verified."); return 0;
+        var settings = new AppSettings(); CalibrationPersistence.Apply(state, settings);
+        if (job != null)
+        {
+            var jobSettings = new AppSettings(); RemoteJob.Apply(job, jobSettings);
+            if (state.DatasetHash != job.DatasetHash || state.Repetitions != job.Repetitions ||
+                SettingsContract.Fingerprint(settings) != SettingsContract.Fingerprint(jobSettings))
+                throw new InvalidDataException("Calibration does not match the supplied job.");
+        }
+        if (args.Value("--in") is string input && OutputExporter.HashFile(input) != state.DatasetHash)
+            throw new InvalidDataException("Calibration input hash mismatch.");
+        if (args.Value("--settings-hash") is string expected && expected != SettingsContract.Fingerprint(settings))
+            throw new InvalidDataException("Calibration does not match the requested settings.");
+        if (args.Has("--repetitions") && args.Int("--repetitions", state.Repetitions) != state.Repetitions)
+            throw new InvalidDataException("Calibration repetition count differs from the job.");
+        if (args.Flag("--normalize") && File.ReadAllText(path) != ScientificJson.Serialize(state)) CalibrationPersistence.Write(path, state);
+        Console.WriteLine("Calibration checksum, method, settings and input identity verified."); return 0;
     }
-    public static int ShowVersions() { Console.WriteLine("MVS Analyzer " + ReleaseInfo.Version + " | engine " + AnalysisEngine.EngineVersion + " | formula " + OutputExporter.FormulaVersion); Console.WriteLine("Formula SHA256: " + OutputExporter.FormulaHash); Console.WriteLine("UI/Colab revision: ui-colab-1"); return 0; }
+    public static int ShowVersions() { Console.WriteLine("MVS Analyzer " + ReleaseInfo.Version + " | engine " + AnalysisEngine.EngineVersion + " | formula " + OutputExporter.FormulaVersion); Console.WriteLine("Formula SHA256: " + OutputExporter.FormulaHash); Console.WriteLine("UI/Colab revision: ui-colab-2"); return 0; }
     public static int ShowEnvironment() { ShowVersions(); Console.WriteLine(BenchmarkEnvironment.Describe()); Console.WriteLine("Replay scope: " + BenchmarkEnvironment.Scope); Console.WriteLine("Environment fingerprint: " + BenchmarkEnvironment.Hash); return 0; }
 }

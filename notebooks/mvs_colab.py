@@ -24,7 +24,7 @@ import urllib.request
 import uuid
 import zipfile
 
-REVISION = "ui-colab-1"
+REVISION = "ui-colab-2"
 APP_VERSION = "1.4.0"
 ENGINE_VERSION = "1.6.0"
 FORMULA_HASH = "10a1e72218bd65ec024fc981aab9b9d0a9de8ac00db9188f9d80d54e1170598c"
@@ -304,9 +304,7 @@ class Workspace:
         self.send()
         try:
             self.install_cli()
-            self.phase = "calibrated" if self.has_calibration() else "ready"
-            if self.has_calibration():
-                self.native_state_check()
+            self.prepare_calibration()
             self.send(include_files=True)
         except KeyboardInterrupt:
             self.phase = "cancelled"; self.send(); raise
@@ -440,14 +438,12 @@ class Workspace:
             print("Prepared. Run the second cell for this additional method.")
             return
         with self.phase_lock():
-            if self.has_calibration():
-                self.native_state_check()
+            if self.state_path.exists():
+                self.prepare_calibration()
                 print("✓ Calibration already exists for these exact data/settings. It was reused, not run again.")
                 self.phase = "calibrated"
                 self.send(include_files=True)
                 return
-            if self.state_path.exists():
-                raise RuntimeError("An incompatible calibration exists. It was not overwritten; use a new matching job.")
             self.phase = "calibrating"
             self.send()
             args = ["calibrate", "--in", str(self.input), "--out", str(self.state_path.parent)]
@@ -469,8 +465,26 @@ class Workspace:
                 self.phase = "failed"; self.send(); raise
         self.show_monitor()
 
+    def prepare_calibration(self):
+        if self.state_path.exists():
+            # This first verifies LF/CRLF legacy integrity, data, settings and depth.
+            # It does not blindly recalculate a failed checksum or repeat calibration.
+            self.native_state_check()
+            if not self.has_calibration():
+                raise RuntimeError("The verified calibration does not match this job")
+            self.phase = "calibrated"
+        else:
+            self.phase = "ready"
+
     def native_state_check(self):
-        self.run_process(cli_command(self.dotnet, self.dll, "state-check", "--calibration", str(self.state_path), "--in", str(self.input)))
+        args = ["state-check", "--calibration", str(self.state_path), "--in", str(self.input), "--normalize",
+                "--repetitions", str(ci(self.plan, "Repetitions"))]
+        if (self.folder / "job.json").exists():
+            args += ["--job", str(self.folder / "job.json")]
+        expected = ci(self.plan, "SettingsHash", "")
+        if expected:
+            args += ["--settings-hash", expected]
+        self.run_process(cli_command(self.dotnet, self.dll, *args))
 
     def analyze(self):
         self.refresh()
