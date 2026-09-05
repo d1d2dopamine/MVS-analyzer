@@ -107,15 +107,20 @@ internal sealed partial class MainForm
         var depth = new ThemedComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Location = new Point(20, 110), Width = 250 };
         if (Guided) depth.Items.Add(T("Standard — 2,000", "Стандартно — 2 000"));
         else { depth.Items.Add(T("Quick — 500", "Быстро — 500")); depth.Items.Add(T("Standard — 2,000", "Стандартно — 2 000")); depth.Items.Add(T("Thorough — 10,000", "Тщательно — 10 000")); if (Expert) depth.Items.Add($"Custom — {settings.CustomRepetitions:N0}"); }
-        depth.SelectedIndex = Guided ? 0 : 1;
+        if (selectedCalibrationRepetitions >= 100 && !repetitionOptions.Contains(selectedCalibrationRepetitions))
+        { repetitionOptions.Add(selectedCalibrationRepetitions); depth.Items.Add(T("Loaded — ", "Загружено — ") + selectedCalibrationRepetitions.ToString("N0")); }
+        depth.SelectedIndex = Math.Max(0, repetitionOptions.IndexOf(selectedCalibrationRepetitions));
+        selectedCalibrationRepetitions = repetitionOptions[depth.SelectedIndex];
+        depth.SelectedIndexChanged += (_, _) => { selectedCalibrationRepetitions = repetitionOptions[depth.SelectedIndex]; RefreshColabButtons(); };
         var hint = new Label { Text = Guided ? T("Depth is simplified here; scientific settings still apply.", "Здесь упрощён выбор глубины; научные настройки продолжают действовать.") : T("Choose depth using Monte Carlo uncertainty, not a quality label.", "Выбирайте глубину по неопределённости Monte Carlo, а не по названию режима."), AutoSize = true, ForeColor = Secondary, Location = new Point(290, 114) };
         if (Expert) profile.Controls.Add(new Label { Text = $"Seed: {settings.CalibrationSeed}   ·   Effect multiplier: {settings.CalibrationEffect:0.00}", AutoSize = true, ForeColor = Secondary, Location = new Point(20, 153) });
         var run = Button(T("Run calibration", "Запустить калибровку"), true); run.Location = new Point(20, Expert ? 190 : 160); run.Click += async (_, _) => await RunCalibrationAsync(repetitionOptions[depth.SelectedIndex]);
         var restore = Button(T("Load calibration JSON", "Загрузить калибровку JSON"), false, 250); restore.Location = new Point(220, Expert ? 190 : 160); restore.Click += (_, _) => LoadCalibrationSnapshot();
         profile.Controls.Add(restore); profile.Controls.Add(depth); profile.Controls.Add(hint); profile.Controls.Add(run); page.Controls.Add(profile);
+        AddColabRunCard(page, "calibrate", () => repetitionOptions[depth.SelectedIndex]);
         if (calibration != null)
         {
-            var output = Card(T("Local calibration results", "Результаты локальной калибровки"), T("Observed p-values are not used in these scores.", "Наблюдаемые p-value не используются в этих оценках."), 350);
+            var output = Card(T("Calibration results", "Результаты калибровки"), T("Observed p-values are not used in these scores.", "Наблюдаемые p-value не используются в этих оценках."), 350);
             var grid = CalibrationGrid(calibration.OrderByDescending(x => x.Score).ToList()); grid.Location = new Point(20, 82); grid.Size = new Size(885, 220); output.Controls.Add(grid);
             var analyze = Button(T("Continue to Analysis", "Перейти к анализу"), true, 210); analyze.Location = new Point(20, 306); analyze.Click += (_, _) => Navigate("analysis"); output.Controls.Add(analyze); page.Controls.Add(output);
         }
@@ -124,9 +129,10 @@ internal sealed partial class MainForm
     private void ShowAnalysis()
     {
         var page = Page(T("Run", "Запуск"), T("Review the locked run summary before calculating results.", "Проверьте итоговую конфигурацию перед расчётом результатов."));
+        AddAdditionalMethodsLink(page);
         if (calibration == null || data == null)
         {
-            var missing = Card(T("Calibration required", "Требуется калибровка"), T("Analysis remains locked until a local calibration profile is complete.", "Анализ недоступен, пока не завершён локальный профиль калибровки."), 160); var go = Button(T("Go to Calibration", "Перейти к калибровке"), true, 210); go.Location = new Point(20, 108); go.Click += (_, _) => Navigate("calibration"); missing.Controls.Add(go); page.Controls.Add(missing); return;
+            var missing = Card(T("Calibration required", "Требуется калибровка"), T("Complete or import a calibration profile first; a Colab profile works here too.", "Завершите или импортируйте профиль калибровки; профиль из Colab также подходит."), 160); var go = Button(T("Go to Calibration", "Перейти к калибровке"), true, 210); go.Location = new Point(20, 108); go.Click += (_, _) => Navigate("calibration"); missing.Controls.Add(go); page.Controls.Add(missing); return;
         }
         var summary = Card(T("Run summary", "Сводка запуска"), T("All registered metrics will be calculated. Candidate selection uses calibration only.", "Будут рассчитаны все зарегистрированные метрики. Выбор кандидатов использует только калибровку."), 300);
         var grid = Grid(); grid.Location = new Point(20, 82); grid.Size = new Size(885, 162); grid.Columns.Add("item", T("Item", "Параметр")); grid.Columns.Add("value", T("Value", "Значение"));
@@ -136,7 +142,8 @@ internal sealed partial class MainForm
         grid.Rows.Add(T("Figures", "Графики"), settings.GenerateFigures ? $"{T("on", "вкл")} · {templateCount} {T("templates", "шаблон(ов)")} · {settings.FigureFormat.ToUpperInvariant()} · {settings.FigureExportMode}" : T("off", "выкл"));
         summary.Controls.Add(grid);
         var start = Button(T("Start analysis", "Начать анализ"), true, 190); start.Location = new Point(20, 252); start.Click += async (_, _) => await RunAnalysisAsync(); summary.Controls.Add(start); page.Controls.Add(summary);
-        var integrity = Card(T("Integrity rule", "Правило целостности"), T("MVS Score weights are frozen. Observed study significance cannot change calibration scores or Candidate Set membership.", "Веса MVS Score зафиксированы. Значимость исследования не может менять калибровочные оценки или состав Candidate Set."), 120); page.Controls.Add(integrity);
+        AddColabRunCard(page, "analyze", () => lastCalibrationRepetitions > 0 ? lastCalibrationRepetitions : selectedCalibrationRepetitions);
+        var integrity = Card(T("Integrity rule", "Правило целостности"), T("The score definition is fixed. Observed study significance cannot change calibration scores or candidate membership.", "Определение балла зафиксировано. Значимость исследования не может менять калибровочные оценки или состав кандидатов."), 120); page.Controls.Add(integrity);
         var figures = Card(T("Figures after analysis", "Графики после анализа"), T("Choose whether this run should save publication-ready figures locally.", "Выберите, нужно ли локально сохранить графики после этого анализа."), 300);
         var enabled = new CheckBox { Text = T("Generate figures after analysis", "Создать графики после анализа"), Checked = settings.GenerateFigures, AutoSize = true, Location = new Point(20, 88) };
         var mode = new ThemedComboBox { Location = new Point(20, 122), Width = 210 }; mode.Items.AddRange(new object[] { T("Separate images", "Отдельные изображения"), T("Combined dashboard", "Общая панель"), T("Both", "Оба варианта") }); mode.SelectedIndex = settings.FigureExportMode switch { "dashboard" => 1, "both" => 2, _ => 0 };
@@ -231,7 +238,7 @@ internal sealed partial class MainForm
         }
         if (contributions.Errors.Count > 0) extra.Controls.Add(new Label { Text = T("Rejected files: ", "Отклонённые файлы: ") + string.Join("   ·   ", contributions.Errors.Select(x => $"{x.Plugin}/{x.File}: {x.Message}")), AutoSize = true, MaximumSize = new Size(860, 0), ForeColor = Color.FromArgb(176, 66, 27), Location = new Point(20, 292) });
         page.Controls.Add(extra);
-        page.Controls.Add(Card(T("Security boundary", "Граница безопасности"), T("Packages may contain JSON templates, icons and declarative import/export schemas. DLL, EXE, scripts and commands are not allowed and cannot modify the ten built-in metrics or frozen MVS formula.", "Пакеты могут содержать JSON-шаблоны, иконки и декларативные схемы импорта/экспорта. DLL, EXE, скрипты и команды запрещены и не могут менять десять встроенных метрик или фиксированную формулу MVS."), 135));
+        page.Controls.Add(Card(T("Security boundary", "Граница безопасности"), T("Packages may contain JSON templates, icons and declarative import/export schemas. DLL, EXE, scripts and commands are not allowed and cannot modify the twelve built-in metrics or frozen MVS formula.", "Пакеты могут содержать JSON-шаблоны, иконки и декларативные схемы импорта/экспорта. DLL, EXE, скрипты и команды запрещены и не могут менять двенадцать встроенных метрик или фиксированную формулу MVS."), 135));
     }
 
     private void ShowOutputs()
@@ -316,9 +323,9 @@ internal sealed partial class MainForm
         void SaveProcessing() { if (minRt.Value >= maxRt.Value) { processingHint.ForeColor = Color.FromArgb(176, 66, 27); processingHint.Text = T("Minimum value must be lower than maximum value - not saved.", "Минимум должен быть меньше максимума — не сохранено."); return; } settings.MinValue = (int)minRt.Value; settings.MaxValue = (int)maxRt.Value; settings.MinMeasurements = (int)minTrials.Value; settings.Save(); processingHint.ForeColor = Secondary; processingHint.Text = T("Saved.", "Сохранено."); }
         minRt.ValueChanged += (_, _) => SaveProcessing(); maxRt.ValueChanged += (_, _) => SaveProcessing(); minTrials.ValueChanged += (_, _) => SaveProcessing();
         processing.Controls.Add(minRt); processing.Controls.Add(maxRt); processing.Controls.Add(minTrials); processing.Controls.Add(processingHint); page.Controls.Add(processing);
-        var privacy = Card(T("Privacy and integrity", "Конфиденциальность и целостность"), T("No server, telemetry or account. Reports can hide local dataset names.", "Нет сервера, телеметрии и аккаунта. В отчётах можно скрывать локальные имена файлов."), 165);
+        var privacy = Card(T("Privacy and integrity", "Конфиденциальность и целостность"), T("No telemetry or MVS account. Local work stays offline; Colab uses Google and an optional loopback-only connection.", "Нет телеметрии и аккаунта MVS. Локальная работа остаётся офлайн; Colab использует Google и необязательное соединение только с этим компьютером."), 165);
         var anonymous = new CheckBox { Text = T("Hide dataset names and pseudonymize participant IDs", "Скрывать имена датасетов и псевдонимизировать объектов"), Checked = settings.AnonymousReports, AutoSize = true, Location = new Point(20, 86) }; anonymous.CheckedChanged += (_, _) => { settings.AnonymousReports = anonymous.Checked; settings.Save(); }; privacy.Controls.Add(anonymous); page.Controls.Add(privacy);
-        var advanced = Card(T("Advanced scientific settings", "Расширенные научные настройки"), T("Formula weights are frozen and cannot be changed in normal mode. Custom models must receive a new version and formula hash.", "Веса формулы зафиксированы и не меняются в обычном режиме. Пользовательская модель должна получить новую версию и хеш формулы."), 120); page.Controls.Add(advanced);
+        var advanced = Card(T("Advanced scientific settings", "Расширенные научные настройки"), T("The detection-score definition is frozen. Separate model reports do not silently change the summary-metric method.", "Определение балла обнаружения зафиксировано. Отдельные модели не меняют метод анализа сводных метрик незаметно."), 120); page.Controls.Add(advanced);
         {
             var expert = Card(T("Calibration and simulation", "Калибровка и симуляция"), T("Configure a raw-value scenario. The effect is applied to the last group.", "Настройте сценарий на исходных значениях. Эффект применяется к последней группе."), 385);
             expert.Controls.Add(new Label { Text = "Seed", AutoSize = true, Location = new Point(20, 82) });
@@ -338,16 +345,14 @@ internal sealed partial class MainForm
             expert.Controls.Add(new Label { Text = T("Changes are saved immediately and used by the next calibration.", "Изменения сохраняются сразу и применяются к следующей калибровке."), AutoSize = true, MaximumSize = new Size(820, 0), ForeColor = Secondary, Location = new Point(20, 248) });
             expert.Controls.Add(seed); expert.Controls.Add(repetitions); expert.Controls.Add(effect); expert.Controls.Add(scenario); expert.Controls.Add(outliers); expert.Controls.Add(missing); page.Controls.Add(expert);
         }
-        AddRemoteCard(page);
-        AddDeveloperCard(page);
     }
 
     private void ShowHelp()
     {
         var page = Page(T("Help", "Справка"), T("A short guide to the local MVS workflow.", "Краткая справка по локальному сценарию MVS."));
         foreach (var item in new[] {
-            (T("1. Import data", "1. Импортируйте данные"), T("Use trial-level CSV or TSV with participant, RT and group columns.", "Используйте CSV или TSV по пробам со столбцами участника, RT и группы.")),
-            (T("2. Review quality", "2. Проверьте качество"), T("Confirm recognized fields, valid Value range and participant counts.", "Проверьте распознанные поля, диапазон RT и число объектов.")),
+            (T("1. Import data", "1. Импортируйте данные"), T("Use measurement-level CSV or TSV with entity, value and group columns.", "Используйте CSV или TSV со столбцами объекта, значения измерения и группы.")),
+            (T("2. Review quality", "2. Проверьте качество"), T("Confirm recognized fields, valid Value range and participant counts.", "Проверьте распознанные поля, диапазон значений и число объектов.")),
             (T("3. Calibrate", "3. Выполните калибровку"), T("Calibration estimates metric behavior for the current data structure.", "Калибровка оценивает поведение метрик для текущей структуры данных.")),
             (T("4. Analyze", "4. Запустите анализ"), T("Twelve metrics are reported with raw and registry-adjusted p-values.", "Для двенадцати метрик показаны исходные и скорректированные p-value.")),
             (T("5. Export", "5. Экспортируйте"), T("Export the full result table and retain the project source separately.", "Экспортируйте полную таблицу и отдельно сохраняйте исходники проекта.")) }) page.Controls.Add(Card(item.Item1, item.Item2, 105));

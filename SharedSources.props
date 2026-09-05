@@ -1,23 +1,24 @@
 <Project>
   <!-- Explicit, identical source registry for the Linux CLI and portable regression harness. -->
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)AnalysisEngine.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SimulationScenarios.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ScientificInfrastructure.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ScientificTables.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CalibrationPersistence.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)NumericalMethods.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)VarianceAnalysis.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)EstimationStudy.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MelsmAnalysis.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CsvImporter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)OutputExporter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RunAuditor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PluginManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PluginAssets.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CliArguments.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)RemoteJob.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core/AnalysisEngine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core/Models.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core/SimulationScenarios.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core/ScientificInfrastructure.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/ScientificTables.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/CalibrationPersistence.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core/NumericalMethods.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core/VarianceAnalysis.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core/EstimationStudy.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core/MelsmAnalysis.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/CsvImporter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/OutputExporter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/RunAuditor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/PluginManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/PluginAssets.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/CliArguments.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/RemoteJob.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/ColabSession.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Benchmark/BenchmarkMath.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Benchmark/BenchmarkRandom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Benchmark/BenchmarkProtocol.cs" />

@@ -1,5 +1,9 @@
 # Changelog
 
+## UI/Colab source repair
+
+Restored results layout; moved optional models/benchmark out of the sidebar/Settings; added consistent Colab actions, explicit-host runtime discovery, verified notebook/calibration reuse and result import. Restored README style, retained original artwork, organized source and added Python/Windows-layout checks. No active Kaggle workflow. See validation/PACKAGE_QA.md for pending target-environment checks.
+
 ## 1.4.0 — consolidated scientific update (source prepared 2026-09-05)
 
 Public application 1.4.0 follows the author's last published 1.3.2. Engine 1.6.0 consolidates the requested 1.6/1.7/1.8 development scope. This entry records source changes; it does not assert a published binary or completed CI run.

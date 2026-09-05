@@ -1,89 +1,103 @@
-# Source change inventory
+# Repair change inventory
 
-Informational list; not a scientific-validation claim.
+Compared with the earlier delivered source package. Moves retain namespaces; method/protocol hash pins are unchanged.
 
-## Added
-
-- `.github/workflows/scientific-validation.yml`
-- `CalibrationPersistence.cs`
-- `EstimationStudy.cs`
-- `MainForm.Results.cs`
-- `MainForm.Science.cs`
-- `MelsmAnalysis.cs`
-- `MvsAnalyzer.Cli/ScientificCommands.cs`
-- `MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj`
-- `MvsAnalyzer.Core.Tests/Program.cs`
-- `MvsAnalyzer.Core.Tests/ScientificChecks.cs`
-- `NumericalMethods.cs`
-- `RELEASE_NOTES_v1.4.0.md`
-- `ScientificInfrastructure.cs`
-- `ScientificTables.cs`
-- `SharedSources.props`
-- `VarianceAnalysis.cs`
-- `docs/MIGRATION.md`
-- `docs/WINDOWS_QA.md`
-- `docs/history/CHANGELOG_development_snapshot.md`
-- `examples/repeated_conditions.csv`
-- `examples/scientific_examples.json`
-- `examples/variance_demo.csv`
-- `tools/check_csharp_structure.py`
-- `tools/check_outputs.py`
-- `tools/check_source.py`
-- `validation/PACKAGE_QA.md`
-- `validation/method-hashes.json`
-- `validation/protected-assets.json`
-- `validation/reference_numerics.py`
-- `validation/reference_numerics_results.json`
-
-## Modified
-
-- `.github/workflows/ci.yml`
-- `.github/workflows/release.yml`
-- `AnalysisEngine.cs`
-- `Benchmark/BenchmarkDatasets.cs`
-- `Benchmark/BenchmarkFigures.cs`
-- `Benchmark/BenchmarkProtocol.cs`
-- `Benchmark/BenchmarkReport.cs`
-- `Benchmark/BenchmarkRunner.cs`
-- `CHANGELOG.md`
-- `CITATION.cff`
-- `CONTRIBUTING.md`
-- `CliArguments.cs`
-- `CsvImporter.cs`
-- `FigureGenerator.cs`
-- `MainForm.Benchmark.cs`
-- `MainForm.Pages.cs`
-- `MainForm.Remote.cs`
-- `MainForm.cs`
-- `Models.cs`
-- `MvsAnalyzer.Cli/HeadlessRun.cs`
-- `MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj`
-- `MvsAnalyzer.Cli/Program.cs`
-- `MvsAnalyzer.Tests/Program.cs`
-- `MvsAnalyzer.csproj`
-- `MvsAnalyzer.slnx`
-- `OutputExporter.cs`
-- `PluginAssets.cs`
-- `PluginManager.cs`
-- `README.md`
-- `RemoteJob.cs`
-- `RunAuditor.cs`
-- `SECURITY.md`
-- `SimulationScenarios.cs`
-- `app.manifest`
-- `build_release.bat`
-- `docs/ARCHITECTURE.md`
-- `docs/AUDIT.md`
-- `docs/BENCHMARK.md`
-- `docs/DATA_FORMAT.md`
-- `docs/METHODS.md`
-- `docs/OUTPUTS.md`
-- `docs/PLUGINS.md`
-- `docs/PREREGISTRATION.md`
-- `docs/README.md`
-- `docs/REMOTE.md`
-- `docs/VALIDATION.md`
-- `examples/README.md`
-- `validation/README.md`
-- `validation/reference_power_discriminating.md`
-- `validation/reference_power_primary.md`
+- Updated: `.gitattributes`
+- Updated: `.github/workflows/ci.yml`
+- Updated: `.github/workflows/release.yml`
+- Added / moved: `Assets/colab-192.png`
+- Added / moved: `Assets/colab-32.png`
+- Added / moved: `Assets/colab-48.png`
+- Added / moved: `Assets/colab-64.png`
+- Added / moved: `Assets/colab-96.png`
+- Added / moved: `Assets/colab-cli-source.zip`
+- Updated: `CHANGELOG.md`
+- Updated: `CONTRIBUTING.md`
+- Added / moved: `Core/AnalysisEngine.cs`
+- Added / moved: `Core/EstimationStudy.cs`
+- Added / moved: `Core/MelsmAnalysis.cs`
+- Added / moved: `Core/Models.cs`
+- Added / moved: `Core/NumericalMethods.cs`
+- Added / moved: `Core/ScientificInfrastructure.cs`
+- Added / moved: `Core/SimulationScenarios.cs`
+- Added / moved: `Core/VarianceAnalysis.cs`
+- Added / moved: `Desktop/Branding.cs`
+- Added / moved: `Desktop/ColabBridge.cs`
+- Added / moved: `Desktop/FigureBuilderForm.cs`
+- Added / moved: `Desktop/FigureGenerator.cs`
+- Added / moved: `Desktop/MainForm.Benchmark.cs`
+- Added / moved: `Desktop/MainForm.Layout.cs`
+- Added / moved: `Desktop/MainForm.LayoutTests.cs`
+- Added / moved: `Desktop/MainForm.Pages.cs`
+- Added / moved: `Desktop/MainForm.Remote.cs`
+- Added / moved: `Desktop/MainForm.Results.cs`
+- Added / moved: `Desktop/MainForm.Science.cs`
+- Added / moved: `Desktop/MainForm.cs`
+- Added / moved: `Desktop/Program.cs`
+- Added / moved: `Desktop/ProgressDialog.cs`
+- Added / moved: `Desktop/ThemedControls.cs`
+- Added / moved: `Infrastructure/CalibrationPersistence.cs`
+- Added / moved: `Infrastructure/CliArguments.cs`
+- Added / moved: `Infrastructure/ColabSession.cs`
+- Added / moved: `Infrastructure/CsvImporter.cs`
+- Added / moved: `Infrastructure/OutputExporter.cs`
+- Added / moved: `Infrastructure/PluginAssets.cs`
+- Added / moved: `Infrastructure/PluginManager.cs`
+- Added / moved: `Infrastructure/RemoteJob.cs`
+- Added / moved: `Infrastructure/RunAuditor.cs`
+- Added / moved: `Infrastructure/ScientificTables.cs`
+- Updated: `MvsAnalyzer.Cli/HeadlessRun.cs`
+- Updated: `MvsAnalyzer.Cli/Program.cs`
+- Updated: `MvsAnalyzer.Cli/ScientificCommands.cs`
+- Added / moved: `MvsAnalyzer.Ui.Tests/MvsAnalyzer.Ui.Tests.csproj`
+- Added / moved: `MvsAnalyzer.Ui.Tests/Program.cs`
+- Updated: `MvsAnalyzer.csproj`
+- Updated: `MvsAnalyzer.slnx`
+- Updated: `Properties/AssemblyInfo.cs`
+- Updated: `README.md`
+- Updated: `RELEASE_NOTES_v1.4.0.md`
+- Updated: `SharedSources.props`
+- Updated: `docs/ARCHITECTURE.md`
+- Added / moved: `docs/BUILDING.md`
+- Updated: `docs/REMOTE.md`
+- Updated: `docs/WINDOWS_QA.md`
+- Added / moved: `docs/assets/colab.png`
+- Updated: `notebooks/MVS_Colab.ipynb`
+- Updated: `notebooks/MVS_Colab_Benchmark.ipynb`
+- Added / moved: `notebooks/mvs_colab.py`
+- Added / moved: `tools/build_colab_payload.py`
+- Added / moved: `tools/build_notebooks.py`
+- Updated: `tools/check_source.py`
+- Added / moved: `tools/test_colab.py`
+- Updated: `validation/PACKAGE_QA.md`
+- Added / moved: `validation/source-moves.json`
+- Removed / moved: `AnalysisEngine.cs`
+- Removed / moved: `Branding.cs`
+- Removed / moved: `CalibrationPersistence.cs`
+- Removed / moved: `CliArguments.cs`
+- Removed / moved: `CsvImporter.cs`
+- Removed / moved: `EstimationStudy.cs`
+- Removed / moved: `FigureBuilderForm.cs`
+- Removed / moved: `FigureGenerator.cs`
+- Removed / moved: `MainForm.Benchmark.cs`
+- Removed / moved: `MainForm.Pages.cs`
+- Removed / moved: `MainForm.Remote.cs`
+- Removed / moved: `MainForm.Results.cs`
+- Removed / moved: `MainForm.Science.cs`
+- Removed / moved: `MainForm.cs`
+- Removed / moved: `MelsmAnalysis.cs`
+- Removed / moved: `Models.cs`
+- Removed / moved: `NumericalMethods.cs`
+- Removed / moved: `OutputExporter.cs`
+- Removed / moved: `PluginAssets.cs`
+- Removed / moved: `PluginManager.cs`
+- Removed / moved: `Program.cs`
+- Removed / moved: `ProgressDialog.cs`
+- Removed / moved: `RemoteJob.cs`
+- Removed / moved: `RunAuditor.cs`
+- Removed / moved: `ScientificInfrastructure.cs`
+- Removed / moved: `ScientificTables.cs`
+- Removed / moved: `SimulationScenarios.cs`
+- Removed / moved: `ThemedControls.cs`
+- Removed / moved: `VarianceAnalysis.cs`
+- Removed / moved: `notebooks/MVS_Kaggle.ipynb`

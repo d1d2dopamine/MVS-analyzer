@@ -26,53 +26,20 @@ internal sealed partial class MainForm
             if (state.DatasetHash != datasetHash) throw new InvalidDataException(T("Load the original dataset before restoring this calibration.", "Сначала загрузите исходный датасет этой калибровки."));
             if (state.Processing != loadedProcessing) throw new InvalidDataException(T("Match the saved processing/import settings and re-import the data first.", "Сначала задайте сохранённые настройки обработки/импорта и заново импортируйте файл."));
             CalibrationPersistence.Apply(state, settings); settings.Save();
-            calibration = state.Rows; lastCalibrationRepetitions = state.Repetitions; calibrationSource = state.CalibrationSource;
+            calibration = state.Rows; lastCalibrationRepetitions = state.Repetitions; selectedCalibrationRepetitions = state.Repetitions; calibrationSource = state.CalibrationSource;
             analysisHalf = state.SplitCalibration ? AnalysisEngine.SplitEntities(data, state.Seed).Analysis : null;
-            results = null; calibrationSettingsHash = SettingsContract.Fingerprint(settings); Navigate("calibration");
+            results = null; lastArtifacts.Clear(); lastFigureFiles.Clear(); calibrationSettingsHash = SettingsContract.Fingerprint(settings); Navigate("calibration");
         }
         catch (Exception error) { MessageBox.Show(this, error.Message, "MVS", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
     }
 
-    private Panel FlowCard(string title, string explanation, params Control[] body)
-    {
-        var card = new CardPanel { Width = ContentWidth, AutoSize = true, AutoSizeMode = AutoSizeMode.GrowAndShrink,
-            BackColor = Surface, BorderColor = Border, Padding = new Padding(20), Margin = new Padding(0, 0, 0, 16) };
-        var flow = new FlowLayoutPanel { Dock = DockStyle.Top, AutoSize = true, AutoSizeMode = AutoSizeMode.GrowAndShrink,
-            FlowDirection = FlowDirection.TopDown, WrapContents = false, BackColor = Surface, Margin = Padding.Empty };
-        var heading = new Label { Text = title, Font = new Font("Segoe UI", 13, FontStyle.Bold), AutoSize = true, Margin = new Padding(0, 0, 0, 10) };
-        var description = new Label { Text = explanation, AutoSize = true, ForeColor = Secondary, Margin = new Padding(0, 0, 0, 16) };
-        flow.Controls.Add(heading); flow.Controls.Add(description); flow.Controls.AddRange(body); card.Controls.Add(flow);
-        void ResizeBody()
-        {
-            int width = Math.Max(300, card.ClientSize.Width - card.Padding.Horizontal - 4);
-            foreach (Control child in flow.Controls)
-            {
-                if (child is Label label) label.MaximumSize = new Size(width, 0);
-                else if (child is TableLayoutPanel || child is RichTextBox || child is DataGridView) child.Width = width;
-            }
-        }
-        card.SizeChanged += (_, _) => ResizeBody(); ResizeBody(); return card;
-    }
-    private TableLayoutPanel FormRows(params (string Label, Control Input)[] rows)
-    {
-        var table = new TableLayoutPanel { AutoSize = true, AutoSizeMode = AutoSizeMode.GrowAndShrink, ColumnCount = 2,
-            Width = Math.Max(500, ContentWidth - 44), Margin = new Padding(0, 0, 0, 12) };
-        table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 52)); table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 48));
-        for (int i = 0; i < rows.Length; i++)
-        {
-            table.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            var label = new Label { Text = rows[i].Label, AutoSize = true, Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleLeft, Margin = new Padding(0, 8, 16, 8) };
-            rows[i].Input.Dock = DockStyle.Fill; rows[i].Input.Margin = new Padding(0, 5, 0, 5);
-            table.Controls.Add(label, 0, i); table.Controls.Add(rows[i].Input, 1, i);
-        }
-        return table;
-    }
     private ThemedNumericUpDown ScienceNumber(decimal value, decimal minimum, decimal maximum, int decimals = 0) => new()
     { Minimum = minimum, Maximum = maximum, Value = value, DecimalPlaces = decimals, Increment = decimals == 0 ? 1 : .05M, Width = 180 };
 
-    private void ShowModels()
+    private void ShowAdvancedMethods()
     {
-        var page = Page(T("Scientific models", "Научные модели"), T("Separate questions, explicit assumptions, inspectable numerical diagnostics.", "Разные задачи, явные предпосылки и проверяемая численная диагностика."));
+        var page = Page(T("Additional methods", "Дополнительные методы"), T("Optional tools, separate from ordinary calibration. The normal workflow is unchanged.", "Необязательные инструменты вне обычной калибровки. Основной порядок работы не изменён."));
+        var back = Button(T("← Back to Run", "← Назад к запуску"), false, 240); back.Click += (_, _) => Navigate("analysis"); page.Controls.Add(back);
         var n = ScienceNumber(200, 100, 10000); var reference = ScienceNumber(199, 99, 10000);
         var within = ScienceNumber(1.3M, 1.01M, 5, 2); var between = ScienceNumber(1.3M, 1.01M, 5, 2);
         var variance = Button(T("Analyse variance components", "Разделить компоненты дисперсии"), true, 330); variance.Height = 44; variance.Margin = new Padding(0, 4, 0, 8);
@@ -80,6 +47,7 @@ internal sealed partial class MainForm
         {
             try
             {
+                if (data != null && loadedProcessing != ProcessingSnapshot.From(settings)) throw new InvalidDataException(T("Processing changed. Re-import before fitting.", "Обработка изменилась. Повторите импорт перед оцениванием."));
                 AnalysisData? input = data;
                 if (input == null)
                 {
@@ -87,7 +55,7 @@ internal sealed partial class MainForm
                     input = AnalysisEngine.Build(rows, settings.MinValue, settings.MaxValue, Math.Max(3, settings.MinMeasurements));
                 }
                 if (!ConfirmIndependent(input.Observations)) return;
-                AnalysisData fixedData = input;
+                AnalysisData fixedData = AnalysisEngine.Build(input.Observations, settings.MinValue, settings.MaxValue, Math.Max(3, settings.MinMeasurements));
                 int repeats = (int)n.Value, bootstrap = (int)reference.Value; double w = (double)within.Value, b = (double)between.Value;
                 await RunScientificAsync(T("Variance components", "Компоненты дисперсии"),
                     (progress, token) => VarianceAnalysis.Run(fixedData, repeats, bootstrap, w, b, settings.CalibrationSeed, settings.Alpha, progress, token),
@@ -100,7 +68,7 @@ internal sealed partial class MainForm
             T("Gaussian random-intercept model for independent groups. REML estimates; separate ML bootstrap tests. Effects multiply SD. This can take substantially longer than summary calibration.",
               "Гауссова модель со случайным интерсептом для независимых групп. Оценки REML, раздельные ML bootstrap-тесты. Множитель относится к SD. Расчёт может быть заметно дольше обычной калибровки."),
             FormRows((T("Evaluation simulations", "Оценочные симуляции"), n), (T("Null reference simulations", "Симуляции нулевого распределения"), reference),
-                (T("Within SD multiplier", "Множитель внутрисущностного SD"), within), (T("Between SD multiplier", "Множитель межсущностного SD"), between)), variance));
+                (T("Within SD multiplier", "Множитель внутрисущностного SD"), within), (T("Between SD multiplier", "Множитель межсущностного SD"), between)), variance, ColabButton(() => StartColab("variance", (int)n.Value, "variance", new[] { "--repetitions", ((int)n.Value).ToString(CultureInfo.InvariantCulture), "--bootstrap", ((int)reference.Value).ToString(CultureInfo.InvariantCulture), "--within-effect", within.Value.ToString(CultureInfo.InvariantCulture), "--between-effect", between.Value.ToString(CultureInfo.InvariantCulture), "--seed", settings.CalibrationSeed.ToString(CultureInfo.InvariantCulture), "--alpha", settings.Alpha.ToString(CultureInfo.InvariantCulture), "--min-measurements", Math.Max(3, settings.MinMeasurements).ToString(CultureInfo.InvariantCulture), "--min-value", settings.MinValue.ToString(CultureInfo.InvariantCulture), "--max-value", settings.MaxValue.ToString(CultureInfo.InvariantCulture) }))));
 
         var target = new ThemedComboBox { DropDownStyle = ComboBoxStyle.DropDownList }; target.Items.AddRange(new object[] { "mean", "median", "geometric_mean", "within_variance", "between_variance" }); target.SelectedIndex = 0;
         var shape = new ThemedComboBox { DropDownStyle = ComboBoxStyle.DropDownList }; shape.Items.AddRange(new object[] { "normal", "lognormal", "student_t5" }); shape.SelectedIndex = 0;
@@ -118,7 +86,7 @@ internal sealed partial class MainForm
         page.Controls.Add(FlowCard(T("Bias, MSE and efficiency", "Смещение, MSE и эффективность"),
             T("Synthetic data with a known target. This does not measure the unknown bias of your imported file. Gaussian defaults: location 100, within SD 10, between SD 5. Lognormal defaults: 1/.3/.2 on the log scale. Bootstrap: 199. Use CLI for custom parameters.",
               "Синтетические данные с известной целью. Это не оценка неизвестного смещения на вашем CSV. Гауссовы параметры: 100/10/5; логнормальные: 1/0,3/0,2 на лог-шкале. Bootstrap: 199. Произвольные параметры доступны в CLI."),
-            FormRows((T("Estimand", "Оцениваемая величина"), target), (T("Data mechanism", "Механизм данных"), shape), (T("Entities", "Сущности"), entities), (T("Repeats per entity", "Измерения на сущность"), measures), (T("Simulation replications", "Повторы симуляции"), trials)), estimate));
+            FormRows((T("Estimand", "Оцениваемая величина"), target), (T("Data mechanism", "Механизм данных"), shape), (T("Entities", "Сущности"), entities), (T("Repeats per entity", "Измерения на сущность"), measures), (T("Simulation replications", "Повторы симуляции"), trials)), estimate, ColabButton(() => StartColab("estimation", (int)trials.Value, "estimation", new[] { "--target", target.SelectedItem?.ToString() ?? "mean", "--shape", shape.SelectedItem?.ToString() ?? "normal", "--entities", ((int)entities.Value).ToString(CultureInfo.InvariantCulture), "--measurements", ((int)measures.Value).ToString(CultureInfo.InvariantCulture), "--repetitions", ((int)trials.Value).ToString(CultureInfo.InvariantCulture), "--bootstrap", "199", "--seed", settings.CalibrationSeed.ToString(CultureInfo.InvariantCulture) }))));
 
         var meanTime = new CheckBox { Text = T("Linear time effect on mean", "Линейный эффект времени на среднее"), AutoSize = true };
         var scaleTime = new CheckBox { Text = T("Linear time effect on log variance", "Линейный эффект времени на лог-дисперсию"), AutoSize = true };
@@ -140,7 +108,14 @@ internal sealed partial class MainForm
         };
         page.Controls.Add(FlowCard(T("MELSM · experimental", "MELSM · экспериментальный режим"),
             T("Marginal maximum likelihood with adaptive quadrature. IDs are global: the same entity in several conditions remains one subject. Gaussian conditional errors; no AR(1), random slopes or automatic missing-data correction. Numerical convergence is not a scientific guarantee.",
-              "Маргинальное максимальное правдоподобие с адаптивной квадратурой. ID глобальны: одна сущность в разных условиях остаётся одним субъектом. Условно гауссовы ошибки; без AR(1), случайных наклонов и автоматической коррекции пропусков. Сходимость не гарантирует правильность модели."), meanTime, scaleTime, correlate, randomScale, melsm));
+              "Маргинальное максимальное правдоподобие с адаптивной квадратурой. ID глобальны: одна сущность в разных условиях остаётся одним субъектом. Условно гауссовы ошибки; без AR(1), случайных наклонов и автоматической коррекции пропусков. Сходимость не гарантирует правильность модели."), meanTime, scaleTime, correlate, randomScale, melsm, ColabButton(() =>
+            {
+                var arguments = new List<string> { "--min-value", settings.MinValue.ToString(CultureInfo.InvariantCulture), "--max-value", settings.MaxValue.ToString(CultureInfo.InvariantCulture) };
+                if (meanTime.Checked) arguments.Add("--mean-time"); if (scaleTime.Checked) arguments.Add("--scale-time");
+                if (correlate.Checked) arguments.Add("--correlate"); if (!randomScale.Checked) arguments.Add("--no-random-scale");
+                StartColab("melsm", 0, "melsm", arguments.ToArray());
+            })));
+        AddDeveloperCard(page);
         if (!string.IsNullOrEmpty(lastScienceText))
         {
             var preview = new RichTextBox { Text = lastScienceText, ReadOnly = true, WordWrap = true, Height = 280, BorderStyle = BorderStyle.FixedSingle, Font = new Font("Consolas", 10), ScrollBars = RichTextBoxScrollBars.Vertical };
@@ -153,7 +128,8 @@ internal sealed partial class MainForm
     {
         using var dialog = new OpenFileDialog { Filter = "CSV / TSV (*.csv;*.tsv)|*.csv;*.tsv", Title = T("Choose measurements", "Выберите измерения") };
         if (dialog.ShowDialog(this) != DialogResult.OK) return null;
-        return CsvImporter.Read(dialog.FileName, settings.MinValue, settings.MaxValue, allowSingleGroup: allowSingleGroup);
+        ImportProfile? profile = PluginAssets.Current.ImportProfiles.FirstOrDefault(p => p.Id.Equals(settings.ImportProfileId, StringComparison.OrdinalIgnoreCase));
+        return CsvImporter.Read(dialog.FileName, settings.MinValue, settings.MaxValue, profile, allowSingleGroup: allowSingleGroup);
     }
     private bool ConfirmIndependent(List<Observation> observations)
     {
@@ -176,7 +152,7 @@ internal sealed partial class MainForm
             progress.Token.ThrowIfCancellationRequested(); Directory.CreateDirectory(folder);
             await Task.Run(() => save(report, folder));
             lastScienceText = describe(report); lastScienceFolder = folder;
-            progress.Close(); Navigate("models");
+            progress.Close(); Navigate("advanced");
         }
         catch (OperationCanceledException) { progress.Close(); }
         catch (Exception error) { progress.Close(); MessageBox.Show(this, error.Message, "MVS", MessageBoxButtons.OK, MessageBoxIcon.Warning); }

@@ -19,6 +19,8 @@ jobs:
           python-version: '3.12'
       - name: Validate source metadata, notebooks and method hashes
         run: python tools/check_source.py
+      - name: Offline Colab regressions
+        run: python tools/test_colab.py
       - name: Limited C# structural check (not compilation)
         run: python tools/check_csharp_structure.py
       - name: Independent mathematical identities in Python
@@ -30,12 +32,25 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify exact Colab source payload
+        run: python tools/build_colab_payload.py --check
       - name: Build desktop
         run: dotnet build MvsAnalyzer.csproj -c Release
       - name: Desktop-linked regression harness
         run: dotnet run --project MvsAnalyzer.Tests/MvsAnalyzer.Tests.csproj -c Release
       - name: Portable scientific regressions on Windows
         run: dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release
+      - name: Native Windows layout checks
+        run: dotnet run --project MvsAnalyzer.Ui.Tests/MvsAnalyzer.Ui.Tests.csproj -c Release -- artifacts/ui-layout
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: MVS-Windows-layout-review
+          path: artifacts/ui-layout/
+          if-no-files-found: warn
       - name: Publish Windows application
         run: dotnet publish MvsAnalyzer.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -o publish/windows
       - uses: actions/upload-artifact@v4

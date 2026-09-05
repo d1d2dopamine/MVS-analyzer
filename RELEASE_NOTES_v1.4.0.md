@@ -6,6 +6,17 @@
 
 This release follows public version **1.3.2** and consolidates the requested 1.6/1.7/1.8 development work. The previously supplied archive labelled 1.5.0 was a development snapshot, not the public numbering used here. The download badge targets the Windows asset above and becomes available when that release is published.
 
+## UI and Colab repair
+
+- Restored the familiar results overview and full-height tabs; measured wrapping layout replaces circular auto-sizing.
+- Optional methods and benchmark moved under Run → Additional methods; no intrusive extra sidebar tab.
+- Consistent Run via Colab controls use the supplied DPI artwork beside operations, not in Settings.
+- Fixed private-SDK runtime discovery with explicit dotnet-host execution and exact bundled CLI source.
+- Added paired-notebook reuse, validated calibration reuse, duplicate-run disabling and checksum-bound result import with manual ZIP fallback.
+- Restored the original bilingual README presentation and preserved original artwork; source is organized into Core, Infrastructure and Desktop.
+- Added offline Python regressions and Windows layout/screenshot CI gates. Local .NET execution, Windows rendering and live Colab validation are not claimed.
+
+
 ## Separate within-entity variation from between-entity heterogeneity
 
 - Three summary-sensitivity tracks: location, within-entity variability, and between-entity heterogeneity.

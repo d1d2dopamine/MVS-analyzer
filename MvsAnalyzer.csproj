@@ -18,10 +18,13 @@
     <Compile Remove="MvsAnalyzer.Tests/**/*.cs" />
     <Compile Remove="MvsAnalyzer.Cli/**/*.cs" />
     <Compile Remove="MvsAnalyzer.Core.Tests/**/*.cs" />
+    <Compile Remove="MvsAnalyzer.Ui.Tests/**/*.cs" />
   </ItemGroup>
   <ItemGroup>
     <!-- Branding travels inside the published single file: window icon and in-app wordmark. -->
     <EmbeddedResource Include="app.ico" />
     <EmbeddedResource Include="Assets\inapp_logo.png" />
+    <EmbeddedResource Include="Assets\colab-*.png" />
+    <EmbeddedResource Include="Assets\colab-cli-source.zip" />
   </ItemGroup>
 </Project>

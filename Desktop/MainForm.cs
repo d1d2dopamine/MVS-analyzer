@@ -8,7 +8,7 @@ internal sealed partial class MainForm : Form
     private readonly AppSettings settings;
     private readonly Panel sidebar = new() { Dock = DockStyle.Left, Width = 218, Padding = new Padding(10, 12, 10, 10), AutoScroll = true };
     private readonly Panel topbar = new() { Dock = DockStyle.Top, Height = 46, Padding = new Padding(18, 5, 20, 5) };
-    private readonly Panel host = new BufferedPanel { Dock = DockStyle.Fill, Padding = new Padding(28, 22, 28, 22), AutoScroll = true };
+    private readonly Panel host = new BufferedPanel { Dock = DockStyle.Fill, Padding = new Padding(24, 20, 24, 20) };
     private readonly Panel statusbar = new() { Dock = DockStyle.Bottom, Height = 31, Padding = new Padding(18, 6, 18, 4) };
     private readonly Label statusLabel = new() { AutoSize = true };
     private readonly Label projectStatus = new() { AutoSize = true, TextAlign = ContentAlignment.MiddleRight, Dock = DockStyle.Right, Padding = new Padding(0, 8, 0, 0) };
@@ -52,14 +52,16 @@ internal sealed partial class MainForm : Form
     private bool Guided => settings.InterfaceMode == "guided";
     private bool Expert => settings.InterfaceMode == "expert";
 
-    public MainForm(AppSettings appSettings)
+    public MainForm(AppSettings appSettings, bool layoutTest = false)
     {
-        settings = appSettings; projectName = T("Untitled project", "Безымянный проект"); Text = "MVS Analyzer — Release v1.4.0 · Engine 1.6.0"; try { Icon = Branding.AppIcon ?? System.Drawing.Icon.ExtractAssociatedIcon(Application.ExecutablePath); } catch { } StartPosition = FormStartPosition.CenterScreen; AutoScaleMode = AutoScaleMode.Dpi;
+        layoutTestMode = layoutTest; settings = appSettings; projectName = T("Untitled project", "Безымянный проект"); Text = "MVS Analyzer — Release v1.4.0 · Engine 1.6.0"; try { Icon = Branding.AppIcon ?? System.Drawing.Icon.ExtractAssociatedIcon(Application.ExecutablePath); } catch { } StartPosition = FormStartPosition.CenterScreen; AutoScaleMode = AutoScaleMode.Dpi;
         MinimumSize = new Size(1040, 680); ClientSize = new Size(1240, 780); Font = new Font("Segoe UI", 10);
-        DoubleBuffered = true; KeyPreview = true; RestoreWindow();
+        DoubleBuffered = true; KeyPreview = true; if (!layoutTest) RestoreWindow();
         host.Resize += (_, _) => FitContentWidth();
-        FormClosing += (_, _) => SaveWindow();
+        FormClosing += (_, _) => { if (!layoutTest) SaveWindow(); colabBridge?.Dispose(); };
         BuildShell(); ApplyModeVisibility(); ApplyTheme(); Navigate("home");
+        Shown += (_, _) => FitContentWidth();
+        DpiChanged += (_, _) => { foreach (var item in colabButtons) if (!item.Button.IsDisposed) item.Button.Image = Branding.ColabIcon(DeviceDpi); FitContentWidth(); };
     }
 
     private void BuildShell()
@@ -80,8 +82,7 @@ internal sealed partial class MainForm : Form
         AddNav("audit", "\uE72E", T("Audit", "Аудит"), y, () => Navigate("audit")); y += 56;
         AddNav("plugins", "\uE74C", T("Plugins", "Плагины"), y, () => Navigate("plugins")); y += 46;
         AddNav("settings", "\uE713", T("Settings", "Настройки"), y, () => Navigate("settings")); y += 46;
-        AddNav("help", "\uE897", T("Help", "Справка"), y, () => Navigate("help")); y += 46;
-        AddNav("models", "\uE9D9", T("Scientific models", "Научные модели"), y, () => Navigate("models"));
+        AddNav("help", "\uE897", T("Help", "Справка"), y, () => Navigate("help"));
 
         sidebar.Paint += (_, e) => { using var pen = new Pen(Border); e.Graphics.DrawLine(pen, sidebar.Width - 1, 0, sidebar.Width - 1, sidebar.Height); };
         topbar.Paint += (_, e) => { using var pen = new Pen(Border); e.Graphics.DrawLine(pen, 0, topbar.Height - 1, topbar.Width, topbar.Height - 1); };
@@ -125,13 +126,15 @@ internal sealed partial class MainForm : Form
         int auditTop = Guided ? navItems["history"].Top : navItems["history"].Bottom + 6;
         navItems["audit"].Top = auditTop;
         int pluginTop = auditTop + 56;
-        navItems["plugins"].Top = pluginTop; navItems["settings"].Top = pluginTop + 46; navItems["help"].Top = pluginTop + 92; navItems["models"].Top = pluginTop + 138;
+        navItems["plugins"].Top = pluginTop; navItems["settings"].Top = pluginTop + 46; navItems["help"].Top = pluginTop + 92;
     }
 
     private void Navigate(string key)
     {
         Redraw.Suspend(host); host.SuspendLayout();
-        activePage = key; foreach (var pair in navItems)
+        try
+        {
+        activePage = key; legacyLayouts.Clear(); foreach (var pair in navItems)
         {
             pair.Value.BackColor = pair.Key == key ? AccentLight : Color.Transparent;
             var marker = pair.Value.Controls.Find("marker", false).FirstOrDefault(); if (marker != null) marker.BackColor = pair.Key == key ? Accent : Color.Transparent;
@@ -140,27 +143,29 @@ internal sealed partial class MainForm : Form
         switch (key)
         {
             case "home": ShowHome(); break; case "project": ShowProject(); break; case "data": ShowData(); break;
-            case "calibration": ShowCalibration(); break; case "analysis": ShowAnalysis(); break; case "results": ShowModernResults(); break; case "models": ShowModels(); break;
+            case "calibration": ShowCalibration(); break; case "analysis": ShowAnalysis(); break; case "results": ShowResults(); break; case "advanced": ShowAdvancedMethods(); break;
             case "figures": ShowFigures(); break; case "outputs": ShowOutputs(); break; case "history": ShowHistory(); break; case "audit": ShowAudit(); break; case "plugins": ShowPlugins(); break; case "settings": ShowSettings(); break; case "help": ShowHelp(); break;
         }
         FitContentWidth();
         ApplyTheme();
-        host.ResumeLayout(true);
-        Redraw.Resume(host);
+        }
+        finally { host.ResumeLayout(true); Redraw.Resume(host); }
     }
     private string ProjectStage() => results != null ? T("Results ready", "Результаты готовы") : calibration != null ? T("Ready to analyze", "Готов к анализу") : data != null ? T("Calibration required", "Нужна калибровка") : T("No data", "Нет данных");
     private FlowLayoutPanel Page(string title, string subtitle)
     {
         foreach (Control old in host.Controls.Cast<Control>().ToArray()) old.Dispose();
-        host.Controls.Clear(); var page = new BufferedFlowPanel { Dock = DockStyle.Fill, AutoScroll = true, FlowDirection = FlowDirection.TopDown, WrapContents = false, Padding = new Padding(4), BackColor = Bg };
-        var intro = new Panel { Width = ContentWidth, Height = string.IsNullOrEmpty(subtitle) ? 54 : 83, Margin = new Padding(0, 0, 0, 12) };
+        host.Controls.Clear();
+        foreach (CardPanel old in legacyLayouts.Keys.Where(x => x.IsDisposed).ToArray()) legacyLayouts.Remove(old);
+        var page = new BufferedFlowPanel { Dock = DockStyle.Fill, AutoScroll = true, FlowDirection = FlowDirection.TopDown, WrapContents = false, Padding = new Padding(4), BackColor = Bg };
+        var intro = new Panel { Name = "page-intro", Width = ContentWidth, Height = string.IsNullOrEmpty(subtitle) ? 54 : 83, Margin = new Padding(0, 0, 0, 12) };
         intro.Controls.Add(new Label { Text = title, Font = new Font("Segoe UI", 21, FontStyle.Bold), AutoSize = true, Location = new Point(0, 2) });
         if (!string.IsNullOrEmpty(subtitle)) intro.Controls.Add(new Label { Text = subtitle, AutoSize = true, MaximumSize = new Size(ContentWidth - 30, 0), ForeColor = Secondary, Location = new Point(2, 45) });
-        page.Controls.Add(intro); host.Controls.Add(page); currentPage = page; return page;
+        page.Controls.Add(intro); host.Controls.Add(page); currentPage = page; FitIntro(intro); return page;
     }
     private Panel Card(string title, string subtitle, int height = 150)
     {
-        var card = new CardPanel { Width = ContentWidth, Height = height, AutoScroll = true, BackColor = Surface, BorderColor = Border, Margin = new Padding(0, 0, 0, 16), Padding = new Padding(20) };
+        var card = new CardPanel { Width = ContentWidth, Height = height, AutoScroll = false, AutoSize = false, BackColor = Surface, BorderColor = Border, Margin = new Padding(0, 0, 0, 16), Padding = new Padding(20) };
         card.Controls.Add(new Label { Text = title, Font = new Font("Segoe UI", 12, FontStyle.Bold), AutoSize = true, Location = new Point(20, 18) });
         card.Controls.Add(new Label { Text = subtitle, AutoSize = true, MaximumSize = new Size(ContentWidth - 65, 0), ForeColor = Secondary, Location = new Point(20, 50) }); return card;
     }
@@ -176,12 +181,12 @@ internal sealed partial class MainForm : Form
         using var dialog = new OpenFileDialog { Filter = "CSV / TSV (*.csv;*.tsv;*.txt)|*.csv;*.tsv;*.txt|All files (*.*)|*.*", Title = T("Open measurement data", "Открыть данные измерений") };
         if (dialog.ShowDialog() != DialogResult.OK) return;
         ImportProfile? importProfile = PluginAssets.Current.ImportProfiles.FirstOrDefault(x => string.Equals(x.Id, settings.ImportProfileId, StringComparison.OrdinalIgnoreCase));
-        try { List<Observation> observations = CsvImporter.Read(dialog.FileName, settings.MinValue, settings.MaxValue, importProfile); data = AnalysisEngine.Build(observations, settings.MinValue, settings.MaxValue, settings.MinMeasurements); data.ImportSummary = CsvImporter.LastImportSummary; datasetName = Path.GetFileName(dialog.FileName); datasetHash = OutputExporter.HashFile(dialog.FileName); calibration = null; results = null; analysisHalf = null; calibrationSettingsHash = ""; loadedProcessing = ProcessingSnapshot.From(settings); Navigate("data"); }
+        try { List<Observation> observations = CsvImporter.Read(dialog.FileName, settings.MinValue, settings.MaxValue, importProfile); data = AnalysisEngine.Build(observations, settings.MinValue, settings.MaxValue, settings.MinMeasurements); data.ImportSummary = CsvImporter.LastImportSummary; datasetPath = dialog.FileName; datasetName = Path.GetFileName(dialog.FileName); datasetHash = OutputExporter.HashFile(dialog.FileName); calibration = null; results = null; analysisHalf = null; calibrationSettingsHash = ""; lastArtifacts.Clear(); lastFigureFiles.Clear(); loadedProcessing = ProcessingSnapshot.From(settings); Navigate("data"); }
         catch (Exception ex) { MessageBox.Show(ex.Message, T("Import error", "Ошибка импорта"), MessageBoxButtons.OK, MessageBoxIcon.Error); }
     }
     private void LoadDemo()
     {
-        data = AnalysisEngine.Build(AnalysisEngine.Demo(), settings.MinValue, settings.MaxValue, settings.MinMeasurements); datasetName = "universal_example.csv"; datasetHash = ScientificMath.Hash(ScientificJson.Serialize(data.Observations)); calibration = null; results = null; analysisHalf = null; calibrationSettingsHash = ""; loadedProcessing = ProcessingSnapshot.From(settings); Navigate("data");
+        data = AnalysisEngine.Build(AnalysisEngine.Demo(), settings.MinValue, settings.MaxValue, settings.MinMeasurements); datasetPath = ""; datasetName = "universal_example.csv"; datasetHash = ScientificMath.Hash(ScientificJson.Serialize(data.Observations)); calibration = null; results = null; analysisHalf = null; calibrationSettingsHash = ""; lastArtifacts.Clear(); lastFigureFiles.Clear(); loadedProcessing = ProcessingSnapshot.From(settings); Navigate("data");
     }
 
     private async Task RunCalibrationAsync(int repetitions)
@@ -192,7 +197,7 @@ internal sealed partial class MainForm : Form
         if (loadedProcessing != null && loadedProcessing != ProcessingSnapshot.From(settings))
         { MessageBox.Show(this, T("Processing changed. Re-import the file before calibrating.", "Обработка изменилась. Импортируйте файл заново перед калибровкой.")); return; }
         if (!ConfirmIndependent(data.Observations)) return;
-        calibration = null; results = null; analysisHalf = null; calibrationSettingsHash = "";
+        calibration = null; results = null; analysisHalf = null; calibrationSettingsHash = ""; lastArtifacts.Clear(); lastFigureFiles.Clear();
         using var progress = new ProgressDialog(T("Calibrating MVS", "Калибровка MVS"), T("Cancel", "Отмена"), settings.Language == "ru");
         progress.UpdateProgress(new ProgressInfo(0, T("Preparing simulations", "Подготовка симуляций"), $"0 / {repetitions:N0}")); progress.Show(this); progress.Refresh(); Enabled = false; var shownAt = DateTime.UtcNow;
         try
@@ -221,7 +226,10 @@ internal sealed partial class MainForm : Form
     private async Task RunAnalysisAsync()
     {
         if (data == null || calibration == null) return;
-        if (calibrationSettingsHash != SettingsContract.Fingerprint(settings))
+        string currentFingerprint;
+        try { currentFingerprint = SettingsContract.Fingerprint(settings); }
+        catch (Exception error) { MessageBox.Show(this, error.Message, "MVS"); return; }
+        if (calibrationSettingsHash != currentFingerprint)
         { calibration = null; results = null; analysisHalf = null; MessageBox.Show(this, T("Scientific settings changed. Recalibrate before analysing.", "Научные настройки изменились. Повторите калибровку перед анализом.")); Navigate("calibration"); return; }
         if (OutputExporter.AnyAutomaticOutput(settings) && (!settings.FigureFolderConfirmed || string.IsNullOrWhiteSpace(settings.FigureOutputFolder)))
         {
@@ -233,7 +241,7 @@ internal sealed partial class MainForm : Form
         progress.UpdateProgress(new ProgressInfo(0, T("Preparing analysis", "Подготовка анализа"), T("Validating inputs", "Проверка входных данных"))); progress.Show(this); progress.Refresh(); Enabled = false; var shownAt = DateTime.UtcNow;
         try
         {
-            await Task.Delay(120); var reporter = new Progress<ProgressInfo>(progress.UpdateProgress); results = await Task.Run(() => AnalysisEngine.Results(analysisHalf ?? data, calibration, reporter, progress.Token, settings.Alpha, settings.EquivalenceMargin, settings.CalibrationSeed));
+            await Task.Delay(120); var reporter = new Progress<ProgressInfo>(info => progress.UpdateProgress(info with { Fraction = .9 * info.Fraction })); results = await Task.Run(() => AnalysisEngine.Results(analysisHalf ?? data, calibration, reporter, progress.Token, settings.Alpha, settings.EquivalenceMargin, settings.CalibrationSeed));
             lastFigureFiles.Clear(); lastArtifacts.Clear(); string? outputError = null; string? runFolder = null; string? figureWarning = null;
             if (OutputExporter.AnyAutomaticOutput(settings))
             {
@@ -284,24 +292,28 @@ internal sealed partial class MainForm : Form
         catch { }
     }
 
-    private int ContentWidth => Math.Max(640, host.ClientSize.Width - host.Padding.Horizontal - 24);
+    private int ContentWidth => Math.Max(460, host.ClientSize.Width - host.Padding.Horizontal - SystemInformation.VerticalScrollBarWidth - 12);
 
     /// <summary>Keeps the page as wide as the window instead of a fixed 930 px column.</summary>
+    private bool fittingContent;
     private void FitContentWidth()
     {
-        if (currentPage == null) return;
-        int width = ContentWidth;
-        currentPage.SuspendLayout();
-        foreach (Control child in currentPage.Controls)
+        if (currentPage == null || fittingContent || IsDisposed) return;
+        fittingContent = true;
+        try
         {
-            child.Width = width;
-            foreach (Control inner in child.Controls)
+            int width = ContentWidth;
+            currentPage.SuspendLayout();
+            foreach (Control child in currentPage.Controls)
             {
-                if ((inner is DataGridView || inner is TabControl) && inner.Dock == DockStyle.None) inner.Width = Math.Max(320, width - inner.Left - 24);
-                else if (inner is Label label && label.MaximumSize.Width > 0) label.MaximumSize = new Size(Math.Max(320, width - label.Left - 24), 0);
+                child.Width = width;
+                if (child is CardPanel card && !Equals(card.Tag, "stack-card")) FitLegacyCard(card);
+                if (child is ThemedTabControl tabs) { tabs.MinimumSize = new Size(0, 380); tabs.Height = Math.Max(460, host.ClientSize.Height - 90); }
+                if (child.Name == "page-intro") FitIntro(child);
             }
+            currentPage.ResumeLayout(true);
         }
-        currentPage.ResumeLayout(true);
+        finally { fittingContent = false; }
     }
 
     private static string WindowFile => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MVS_Analyzer", "window.txt");
@@ -414,7 +426,7 @@ internal sealed partial class MainForm : Form
                 button.FlatAppearance.MouseDownBackColor = primary ? Color.FromArgb(9, 76, 135) : Border;
             }
             else if (child is CardPanel card) { card.BackColor = Surface; card.BorderColor = Border; }
-            else if (child is Panel panel && panel != sidebar && panel != topbar && panel != statusbar && panel.Parent != sidebar) panel.BackColor = panel.BorderStyle == BorderStyle.FixedSingle ? Surface : Bg;
+            else if (child is Panel panel && panel != sidebar && panel != topbar && panel != statusbar && panel.Parent != sidebar) panel.BackColor = panel.Parent is CardPanel || panel.Parent?.Parent is CardPanel || panel.BorderStyle == BorderStyle.FixedSingle ? Surface : Bg;
             ApplyThemeRecursive(child);
         }
     }

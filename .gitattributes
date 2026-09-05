@@ -27,3 +27,13 @@ examples/lab_device_ru_win1251.csv -text
 # Keep generated/vendored noise out of language statistics.
 examples/**    linguist-documentation
 docs/**        linguist-documentation
+
+# Source payload checks require the same text bytes on Windows and Linux.
+*.cs text eol=lf
+*.csproj text eol=lf
+*.props text eol=lf
+LICENSE text eol=lf
+*.zip binary
+*.png binary
+*.ico binary
+*.mvsplugin binary

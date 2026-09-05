@@ -7,11 +7,12 @@ internal static class ScientificCommands
 {
     public static int Variance(CliArguments args)
     {
-        args.Validate(new[] { "--in", "--out", "--repetitions", "--bootstrap", "--seed", "--alpha", "--within-effect", "--between-effect", "--min-measurements", "--overwrite", "--allow-group-scoped-ids" });
+        args.Validate(new[] { "--in", "--out", "--repetitions", "--bootstrap", "--seed", "--alpha", "--within-effect", "--between-effect", "--min-measurements", "--overwrite", "--allow-group-scoped-ids", "--import-profile", "--min-value", "--max-value" });
         string input = args.Require("--in"), folder = Prepare(args);
-        List<Observation> observations = CsvImporter.Read(input, int.MinValue, int.MaxValue);
+        int minimum = args.Int("--min-value", int.MinValue), maximum = args.Int("--max-value", int.MaxValue);
+        List<Observation> observations = CsvImporter.Read(input, minimum, maximum, Profile(args));
         HeadlessRun.CheckIndependentIds(observations, args.Flag("--allow-group-scoped-ids"));
-        AnalysisData data = AnalysisEngine.Build(observations, int.MinValue, int.MaxValue, args.Int("--min-measurements", 3));
+        AnalysisData data = AnalysisEngine.Build(observations, minimum, maximum, args.Int("--min-measurements", 3));
         VarianceReport report = VarianceAnalysis.Run(data, args.Int("--repetitions", 200), args.Int("--bootstrap", 199), args.Number("--within-effect", 1.3),
             args.Number("--between-effect", 1.3), args.Int("--seed", 20260719), args.Number("--alpha", .05), new CliProgress(), CliCancellation.Token);
         ScientificJson.Write(Path.Combine(folder, "variance_report.json"), report);
@@ -39,9 +40,9 @@ internal static class ScientificCommands
     }
     public static int Melsm(CliArguments args)
     {
-        args.Validate(new[] { "--in", "--out", "--mean-time", "--scale-time", "--correlate", "--no-random-scale", "--quadrature", "--max-iterations", "--overwrite", "--include-entity-ids" });
+        args.Validate(new[] { "--in", "--out", "--mean-time", "--scale-time", "--correlate", "--no-random-scale", "--quadrature", "--max-iterations", "--overwrite", "--include-entity-ids", "--import-profile", "--min-value", "--max-value" });
         string input = args.Require("--in"), folder = Prepare(args);
-        List<Observation> rows = CsvImporter.Read(input, int.MinValue, int.MaxValue, allowSingleGroup: true);
+        List<Observation> rows = CsvImporter.Read(input, args.Int("--min-value", int.MinValue), args.Int("--max-value", int.MaxValue), Profile(args), allowSingleGroup: true);
         if ((args.Flag("--mean-time") || args.Flag("--scale-time")) && !CsvImporter.LastSequenceWasProvided)
             throw new InvalidDataException("A real integer sequence/timepoint column is required for time effects; row order is not a time variable.");
         var options = new MelsmOptions(args.Flag("--mean-time"), args.Flag("--scale-time"), args.Flag("--correlate"), !args.Flag("--no-random-scale"), args.Int("--quadrature", 15), args.Int("--max-iterations", 4000));
@@ -54,6 +55,7 @@ internal static class ScientificCommands
         Console.WriteLine("MELSM report saved: " + folder + " | " + report.Status);
         return report.Status == "converged_experimental" ? 0 : 2;
     }
+    private static ImportProfile? Profile(CliArguments args) => args.Value("--import-profile") is string file ? ScientificJson.Read<ImportProfile>(file) : null;
     private static string Prepare(CliArguments args)
     {
         string folder = Path.GetFullPath(args.Require("--out"));

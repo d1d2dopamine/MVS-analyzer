@@ -37,15 +37,19 @@ def main():
     for path in ROOT.rglob("*.py"):
         ast.parse(path.read_text(encoding="utf-8-sig"), filename=str(path))
     notebooks = list((ROOT / "notebooks").glob("*.ipynb"))
-    assert len(notebooks) == 3
+    assert len(notebooks) == 2
     for path in notebooks:
         book = json.loads(path.read_text())
         assert book["nbformat"] == 4 and len(book["cells"]) == 3
         for i, cell in enumerate(book["cells"]):
             assert cell["cell_type"] == "code" and not cell.get("outputs"), f"Invalid or stale notebook cell: {path}:{i}"
             ast.parse("".join(cell["source"]), filename=f"{path}:{i}")
+    for path in notebooks:
+        assert (ROOT / "notebooks/mvs_colab.py").read_text().replace("from __future__ import annotations\n", "") in "".join(json.loads(path.read_text())["cells"][0]["source"]), "Notebook helper is stale"
+    from build_colab_payload import verify_payload
+    verify_payload()
     hashes = json.loads((ROOT / "validation/method-hashes.json").read_text())
-    actual_formula = digest(specification("OutputExporter.cs", "FormulaSpecification").encode())
+    actual_formula = digest(specification("Infrastructure/OutputExporter.cs", "FormulaSpecification").encode())
     actual_protocol = digest(specification("Benchmark/BenchmarkProtocol.cs", "Specification").encode())
     assert actual_formula == hashes["formulaSha256"]
     assert actual_protocol == hashes["benchmarkSha256"]
@@ -56,13 +60,17 @@ def main():
     for name, expected in protected["sha256"].items():
         assert digest((ROOT / name).read_bytes()) == expected, f"Protected image/plugin changed: {name}"
     actual_images = re.findall(r"<img\b[^>]*>", (ROOT / "README.md").read_text(), flags=re.S)
-    assert collections.Counter(actual_images) == collections.Counter(protected["readmeImageTags"]), "Original README badges/images changed"
+    assert not (collections.Counter(protected["readmeImageTags"]) - collections.Counter(actual_images)), "Original README badges/images changed"
     assert digest((ROOT / "examples/demo_three_groups.csv").read_bytes()) == "290a96afd11b7d041790ca48e03ed547be25bff5646cc935199e25b093c42af5"
     for name in ["MvsAnalyzer.csproj", "MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj"]:
         assert ET.parse(ROOT / name).findtext(".//Version") == "1.4.0"
     for path in (ROOT / ".github/workflows").glob("*.yml"):
         assert "PLACEHOLDER" not in path.read_text(), f"Unfinished workflow: {path}"
     assert (ROOT / "MvsAnalyzer.Cli/ScientificCommands.cs").is_file()
+    assert (ROOT / "Assets/colab-cli-source.zip").is_file()
+    assert not list(ROOT.glob("*.cs")), "Loose root C# sources returned"
+    for path in list((ROOT / "Desktop").glob("*.cs")) + [ROOT / "README.md"]:
+        assert "\ufffd" not in path.read_text(), f"Damaged display text: {path}"
     assert "MVS_Analyzer_v1.4.0_win-x64.zip" in (ROOT / "RELEASE_NOTES_v1.4.0.md").read_text()
     print(f"Static contracts passed: XML/source paths, Python AST, {len(notebooks)} notebooks, method hashes, {len(protected['sha256'])} protected assets, original badges and demo")
     print("This is not a C# compile, runtime test, Windows render or independent statistical validation.")

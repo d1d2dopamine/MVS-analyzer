@@ -1,34 +1,26 @@
-# Source package QA — public 1.4.0 / engine 1.6.0
+# UI/Colab repair QA — app 1.4.0 / engine 1.6.0
 
-Prepared for the author to compile and test in GitHub CI. **No .NET compilation, C# test execution, WinForms launch or Windows screenshot/render was performed during source preparation**, as requested. This file must not be quoted as a claim that the application builds or that scientific validation has passed.
+Prepared as source for GitHub CI. **No .NET compilation/execution, C# test execution, WinForms launch, native Windows screenshot or live Colab run was performed here**, as requested. Static success is not a claim that the application builds or that scientific validation passed.
 
-## Checks actually executed
+The previous source delivery's static checks did not detect the reported UI regression. This repair removes the nested auto-size cycle, restores result tab sizing and adds native Windows acceptance coverage rather than treating static checks as visual proof.
 
-- `tools/check_source.py`: project/props/manifest/solution XML; explicit shared compile-source paths; Python AST; all three notebook JSON structures and Python cells; current method/protocol hash pins; application versions; required scientific command source; absence of the broken workflow placeholder.
-- `tools/check_csharp_structure.py`: delimiters, comments and strings/interpolations across 46 C# files. **This is a limited lexical/structural check, not a C# grammar parser, semantic/type checker or compiler.**
-- YAML parsing of the CI, release and extended-diagnostic workflows.
-- Exact preservation of the original demo SHA-256, all 5 protected image/plugin assets and every original README image/badge tag (including both language headers).
-- Python-only numerical identity checks: standard-normal quadrature moments for orders 3, 9, 15, 31, 61; direct covariance Cholesky versus the analytic rank-one likelihood identity at four variance values. Recorded in `reference_numerics_results.json`.
-- Quadrature maximum absolute moment discrepancy: about 1.29e-14. Analytic/dense covariance discrepancy: about 1.07e-14. These support the mathematical identities/transcription only, **not runtime correctness of the C# implementation**.
-- Source ZIP integrity, one-root layout and equality of archived source files to the prepared tree are checked during packaging.
+## Actually executed for this repair
 
-## Implemented but not executed here
+- Python offline Colab regressions: explicit host/environment (a fake Python host, not .NET), completed-calibration reuse, mismatched metadata, failure/cancellation, diagnostic replay, normalized nested-result downloads, notebook URL detection, loopback code restrictions, strict JSON and safe ZIP/manifest paths.
+- Static contracts: project/props/manifest/solution XML, exact compile-source paths, Python AST, two notebook structures and synchronized helper, engine/formula/protocol pins, versions, exact embedded portable source, original badge/image/plugin bytes and unchanged demo data.
+- Limited C# lexical/structural checks over the final source tree. This is **not** a C# grammar parser, type checker or compiler.
+- YAML parsing of all three workflows.
+- Supplied Colab artwork cropped/resized from its alpha channel into 32/48/64/96/192-pixel assets. A light/dark icon composite was visually inspected; it was not a Windows app screenshot.
+- ZIP integrity, one-root layout, required source/docs/notebooks/assets and byte equality with the final tree are verified during packaging.
 
-- Desktop-linked regression harness and a portable harness with the existing checks plus new scientific contracts.
-- Linux CLI reproduction of the reported 150-replication calibration-save failure, followed by reload, analysis, strict JSON and manifest checksum verification.
-- Optional extended Gaussian variance / known-truth estimation / MELSM diagnostic workflow.
-- Windows/HiDPI/theme/keyboard/scroll checks in `docs/WINDOWS_QA.md`.
+## Written for CI / still requires target-environment execution
 
-## Remaining release gates
+- Portable and desktop-linked C# regressions; Linux 150-replication save/replay and strict-output smoke.
+- Windows geometry tests and PNGs for Guided/Expert, both languages/themes, multiple sizes, all pages and empty/populated core screens. Human screenshot and real-DPI review is mandatory.
+- Live Colab build, browser permissions, pairing, three successive reassignments, completed-calibration disabling, custom import profiles, manual URL and ZIP fallback, restart/disconnection and benchmark diagnostics.
 
-1. Run all GitHub CI jobs; fix any compilation, runtime or regression failure. Static checks cannot replace this.
-2. Test the Windows UI on actual Windows, including cancellation and stale-settings protection.
-3. Inspect numerical diagnostics and test meaningful datasets; do not confuse an output file with a trustworthy fit.
-4. Independently compare the experimental model fits with a trusted implementation and validate finite-sample error/coverage before scientific claims.
-5. Publish only the binaries built from the intended tag. The release workflow checks the tag/version and waits for a Linux save/replay smoke before creating a draft.
+## Retained evidence and limitations
 
-## Known limits retained deliberately
+`reference_numerics_results.json` contains Python mathematical identity checks from the earlier preparation (quadrature moments and analytic/dense covariance agreement); those are not new C# runtime validation. Scientific model contracts remain unchanged by UI/Colab repairs. Native MELSM is experimental and not independently validated. Conditional power, approximate equivalence, selected-pair descriptions and editable local audit history retain their documented limits.
 
-Approximate rank tests and bootstrap equivalence; no post-hoc simultaneous selected-pair intervals; conditional plug-in power; separate multiplicity families; model-dependent variance intervals; experimental native MELSM without AR(1), random slopes or arbitrary covariates; no externally immutable preregistration; local pseudonyms are not strong anonymization. See METHODS/VALIDATION for details.
-
-No empirical benchmark success or externally validated scientific superiority is claimed for this engine. Historical reference files, badge artwork and packaged plugin bytes are preserved and labelled appropriately.
+Do not publish a scientific or visual certification from this file. Run CI, inspect native layouts and diagnostics, then validate against independent implementations before substantive scientific use.

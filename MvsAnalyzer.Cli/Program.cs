@@ -17,7 +17,7 @@ internal static class CliProgram
                 "calibrate" => HeadlessRun.Calibrate(args), "analyze" or "analyse" => HeadlessRun.Analyze(args),
                 "variance" => ScientificCommands.Variance(args), "estimation" => ScientificCommands.Estimation(args),
                 "melsm" => ScientificCommands.Melsm(args), "benchmark" => BenchmarkCommandLine.Run(arguments),
-                "version" => HeadlessRun.ShowVersions(), "env" => HeadlessRun.ShowEnvironment(),
+                "state-check" => HeadlessRun.StateCheck(args), "version" => HeadlessRun.ShowVersions(), "env" => HeadlessRun.ShowEnvironment(),
                 _ => throw new ArgumentException("Unknown command: " + args.Command) };
         }
         catch (OperationCanceledException) { Console.Error.WriteLine("Cancelled. Incomplete output may remain; only a completed manifest identifies a finished run."); return 1; }

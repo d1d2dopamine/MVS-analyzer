@@ -2,7 +2,7 @@
 
 Public application 1.4.0; numerical engine 1.6.0. Desktop: .NET 8 WinForms, Windows. CLI and portable regression harness: plain net8.0. No third-party NuGet package is required.
 
-`SharedSources.props` is the explicit shared-source registry for the CLI and portable tests. There is **not** a separate Core DLL in this release. The desktop compiles root/Benchmark sources and excludes the CLI and both test-project directories. Portable projects define `MVS_NO_FIGURES`, excluding Windows drawing calls. Keep the source registry updated when adding modules.
+`SharedSources.props` is the explicit shared-source registry for the CLI and portable tests. There is **not** a separate Core DLL in this release. The desktop compiles Core/, Infrastructure/, Desktop/ and Benchmark/, excluding the CLI and all test-project directories. Portable projects define `MVS_NO_FIGURES`, excluding Windows drawing calls. Keep the source registry updated when adding modules.
 
 | Module | Responsibility |
 |---|---|
@@ -25,3 +25,11 @@ A settings fingerprint excludes cosmetic/output preferences but includes statist
 `RunAuditor` uses a local cross-process mutex for append operations and rejects traversal paths in manifests. Checksums and a local hash chain are integrity aids, not authentication, model validation or external preregistration.
 
 Run `python tools/check_source.py`, the two .NET harnesses, Linux save/reload smoke and the optional diagnostic workflow before release. See `WINDOWS_QA.md` for actual UI checks still needed.
+
+## UI/Colab repair architecture
+
+`Desktop/MainForm.Layout.cs` measures card dimensions explicitly and wraps captions; result tabs have a real minimum height. Optional models live under Run → Additional methods. Native Windows geometry/screenshot coverage is in `MvsAnalyzer.Ui.Tests`.
+
+`Infrastructure/ColabSession.cs` retains per-job identity and verified calibration; `Desktop/ColabBridge.cs` supplies the optional loopback-only transport. `Desktop/MainForm.Remote.cs` handles consent, job packaging, reuse and checksum-bound result import. The notebook helper is embedded verbatim into both notebook files.
+
+`tools/build_colab_payload.py` packages exact shared/CLI source into `Assets/colab-cli-source.zip`; it does not compile. CI checks this payload before building, avoiding an older silently substituted CLI.

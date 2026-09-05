@@ -30,7 +30,7 @@ internal static class CalibrationPersistence
             throw new InvalidDataException("Incomplete calibration data.");
         if (state.Tracks.Distinct().Count() != state.Tracks.Length || state.Tracks.Any(t => !SimulationScenarios.TryCanonical(t, out string canonical) || canonical != t))
             throw new InvalidDataException("Invalid calibration track registry.");
-        if (state.Rows.Count != AnalysisEngine.MetricKeys.Length || state.Rows.Select(r => r.Metric).Distinct().Count() != state.Rows.Count || AnalysisEngine.MetricKeys.Any(m => !state.Rows.Any(r => r.Metric == m)))
+        if (state.Rows.Count != AnalysisEngine.MetricKeys.Length || state.Rows.Any(row => row == null) || state.Rows.Select(r => r.Metric).Distinct().Count() != state.Rows.Count || AnalysisEngine.MetricKeys.Any(m => !state.Rows.Any(r => r.Metric == m)))
             throw new InvalidDataException("Invalid calibration metric registry.");
         if (state.Tracks[0] != SimulationScenarios.Canonicalize(state.Scenario)) throw new InvalidDataException("Primary calibration track does not match its scenario.");
         int count = state.Tracks.Length;

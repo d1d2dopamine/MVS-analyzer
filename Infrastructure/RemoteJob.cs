@@ -67,18 +67,11 @@ internal static class RemoteJob
     public static string NotebookPath(string kind) => kind switch
     {
         "benchmark" => "notebooks/MVS_Colab_Benchmark.ipynb",
-        "kaggle" => "notebooks/MVS_Kaggle.ipynb",
         _ => "notebooks/MVS_Colab.ipynb",
     };
 
     public static string ColabUrl(string kind) =>
         "https://colab.research.google.com/github/" + Repository + "/blob/" + Branch + "/" + NotebookPath(kind);
-
-    /// <summary>
-    /// Kaggle has no equivalent of the Colab deep link, so the honest thing is to send people to the
-    /// import dialog with the repository address rather than pretend a one-click path exists.
-    /// </summary>
-    public static string KaggleUrl() => "https://www.kaggle.com/code/new";
 
     public static string RepositoryUrl() => "https://github.com/" + Repository;
 
@@ -126,6 +119,14 @@ internal static class RemoteJob
         if (job == null) throw new InvalidDataException("The job file could not be read: " + path);
         if (job.Dataset != Path.GetFileName(job.Dataset) || job.Dataset.Contains('\\') || job.DatasetHash.Length == 0)
             throw new InvalidDataException("Unsafe or incomplete job dataset reference.");
+        string profilePath = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(path))!, "import_profile.json");
+        if (job.Processing != null && !string.IsNullOrEmpty(job.Processing.ImportProfile) && File.Exists(profilePath))
+        {
+            ImportProfile profile = ScientificJson.Read<ImportProfile>(profilePath);
+            if (profile.Id != job.Processing.ImportProfile || ScientificMath.Hash(ScientificJson.Serialize(profile)) != job.Processing.ImportProfileHash)
+                throw new InvalidDataException("Remote import profile fingerprint mismatch.");
+            if (!PluginAssets.Current.ImportProfiles.Any(p => p.Id == profile.Id)) PluginAssets.Current.ImportProfiles.Add(profile);
+        }
         return job;
     }
 
@@ -170,7 +171,7 @@ internal static class RemoteJob
 
         Directory.CreateDirectory(destinationFolder);
         string stamp = DateTime.Now.ToString("yyyy-MM-dd_HHmmss", CultureInfo.InvariantCulture);
-        string staging = Path.Combine(destinationFolder, "MVS_job_" + stamp);
+        string staging = Path.Combine(destinationFolder, "MVS_job_" + stamp + "_" + Guid.NewGuid().ToString("N")[..8]);
         Directory.CreateDirectory(staging);
 
         RemoteJobFile job = Describe(kind, datasetPath, datasetHash, project, description, settings, repetitions);

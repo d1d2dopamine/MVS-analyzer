@@ -59,6 +59,27 @@ internal static class Branding
         }
     }
 
+    private static readonly Dictionary<int, Image> colabIcons = new();
+    public static Image? ColabIcon(int dpi)
+    {
+        int size = Math.Clamp((int)Math.Round(32 * dpi / 96.0), 24, 128);
+        if (colabIcons.TryGetValue(size, out Image? cached)) return cached;
+        int sourceSize = new[] { 32, 48, 64, 96, 192 }.First(x => x >= size);
+        byte[]? bytes = Read("colab-" + sourceSize + ".png");
+        if (bytes == null) return null;
+        using var stream = new MemoryStream(bytes); using Image image = Image.FromStream(stream);
+        var scaled = new Bitmap(size, Math.Max(1, (int)Math.Round(size * image.Height / (double)image.Width)));
+        using (Graphics g = Graphics.FromImage(scaled))
+        {
+            g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+            g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+            g.DrawImage(image, new Rectangle(0, 0, scaled.Width, scaled.Height));
+        }
+        colabIcons[size] = scaled; return scaled;
+    }
+    public static byte[]? ResourceBytes(string name) => Read(name);
+
     private static byte[]? Read(string fileName)
     {
         try

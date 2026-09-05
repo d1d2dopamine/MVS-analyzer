@@ -17,7 +17,7 @@ internal sealed partial class MainForm
             T("Developer — benchmark", "Для разработчика — бенчмарк"),
             T("Runs the declared protocol against data whose truth is known, then writes the figures, the tables and a checksummed manifest into a folder that opens when the run ends. Nothing leaves this machine.",
               "Прогоняет заранее записанный протокол на данных с известной истиной и сохраняет графики, таблицы и манифест в папку, которая откроется по окончании. Ничто не покидает этот компьютер."),
-            440);
+            490);
 
         BenchmarkOptions options = BenchmarkOptions.Load();
         if (string.IsNullOrWhiteSpace(options.OutputFolder)) options.OutputFolder = DefaultBenchmarkRoot();
@@ -79,13 +79,19 @@ internal sealed partial class MainForm
         openLast.Enabled = lastBenchmarkFolder.Length > 0 && Directory.Exists(lastBenchmarkFolder);
         card.Controls.Add(openLast);
 
+        var colab = ColabButton(() =>
+        {
+            if (!string.IsNullOrWhiteSpace(realBox.Text)) { MessageBox.Show(this, T("The Colab benchmark button currently runs the synthetic protocol only; real recordings were not included.", "Кнопка Colab запускает только синтетический протокол; реальные записи не включаются.")); return; }
+            StartColab("benchmark", 0, "benchmark", new[] { "--profile", BenchmarkProtocol.Profiles[depth.SelectedIndex].Id, "--seed", ((int)seed.Value).ToString(CultureInfo.InvariantCulture) });
+        });
+        colab.Location = new Point(20, 410); card.Controls.Add(colab);
         card.Controls.Add(status);
         card.Controls.Add(new Label
         {
             Text = BenchmarkProtocol.Version + "   ·   " + BenchmarkProtocol.Hash,
             AutoSize = true,
             ForeColor = Secondary,
-            Location = new Point(20, 400)
+            Location = new Point(20, 465)
         });
 
         void Save()

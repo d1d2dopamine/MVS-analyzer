@@ -17,7 +17,7 @@ git clone https://github.com/d1d2dopamine/MVS-Analyzer.git
 cd MVS-Analyzer
 
 dotnet build MvsAnalyzer.csproj -c Release
-dotnet run  --project MvsAnalyzer.Tests      # must print 12/12
+dotnet run  --project MvsAnalyzer.Tests      # must exit successfully; inspect every check
 dotnet run  --project MvsAnalyzer.csproj
 ```
 
@@ -28,14 +28,14 @@ CI runs exactly the two commands above on `windows-latest`. If they pass locally
 ## Style
 
 - `.editorconfig` is authoritative: 4 spaces, CRLF for C#, file-scoped namespaces, nullable enabled.
-- Keep engine code UI-free. `AnalysisEngine`, `OutputExporter`, `RunAuditor`, `CsvImporter` and `PluginManager` must never reference WinForms types — that boundary is what makes a future CLI possible.
+- Keep engine code UI-free. `AnalysisEngine`, `OutputExporter`, `RunAuditor`, `CsvImporter` and `PluginManager` must never reference WinForms types — that boundary is what makes the existing portable CLI possible.
 - User-visible strings live in the localization tables, in **both** English and Russian. A PR that adds an English-only string will be asked for the Russian one.
 - Numbers written to files use round-trip formatting and `CultureInfo.InvariantCulture`. No exceptions — a decimal comma in `results.csv` breaks other people's pipelines.
 - Comments explain *why*, not *what*. The statistics deserve a sentence; the loop does not.
 
 ## Tests
 
-`MvsAnalyzer.Tests` is a dependency-free console harness (the app exposes internals to it through `InternalsVisibleTo`). It currently covers 12 invariants:
+`MvsAnalyzer.Tests` is a dependency-free console harness (the app exposes internals to it through `InternalsVisibleTo`). Its historical baseline covers the invariants below; portable scientific and native UI harnesses provide additional coverage:
 
 `ProcessingLimits` · `MultiGroupBuild` · `MannWhitneySymmetry` · `KruskalWallisSeparation` · `CandidateThresholds` · `UniqueRunFolders` · `FormulaHash` · `DeltaSymmetry` · `EquivalenceVerdict` · `InsufficientVerdict` · `MdeCurve` · `SplitHalves`
 
@@ -86,3 +86,5 @@ Participation is governed by [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). Disagree 
 ## Engine 1.6.0 acceptance gates
 
 Use `python tools/check_source.py` and `python tools/check_csharp_structure.py` for limited static contracts, then run both .NET regression projects and the Linux save/reload workflow. The structure checker is not a C# compiler. New model code remains experimental until independently checked. Keep tests and declared specifications synchronized; do not relabel a smoke check as scientific validation. Preserve the protected asset manifest when making intentional image/branding changes in a future release.
+
+After changing shared/CLI source, regenerate `Assets/colab-cli-source.zip` with `python tools/build_colab_payload.py`. After changing `notebooks/mvs_colab.py`, run `python tools/build_notebooks.py`. CI verifies both derived assets. See docs/BUILDING.md.

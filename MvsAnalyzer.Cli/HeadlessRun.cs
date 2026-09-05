@@ -133,6 +133,14 @@ internal static class HeadlessRun
     }
     private static ImportProfile? Profile(AppSettings s) => PluginAssets.Current.ImportProfiles.FirstOrDefault(p => p.Id.Equals(s.ImportProfileId, StringComparison.OrdinalIgnoreCase));
     private static string Num(double value) => double.IsFinite(value) ? value.ToString("0.######", CultureInfo.InvariantCulture) : "unavailable";
-    public static int ShowVersions() { Console.WriteLine("MVS Analyzer " + ReleaseInfo.Version + " | engine " + AnalysisEngine.EngineVersion + " | formula " + OutputExporter.FormulaVersion); Console.WriteLine("Formula SHA256: " + OutputExporter.FormulaHash); return 0; }
+    public static int StateCheck(CliArguments args)
+    {
+        args.Validate(new[] { "--calibration", "--in" });
+        string path = args.Require("--calibration"); if (Directory.Exists(path)) path = Path.Combine(path, CalibrationPersistence.FileName);
+        CalibrationState state = CalibrationPersistence.Read(path);
+        if (args.Value("--in") is string input && OutputExporter.HashFile(input) != state.DatasetHash) throw new InvalidDataException("Calibration input hash mismatch.");
+        Console.WriteLine("Calibration checksum, method contract and input identity verified."); return 0;
+    }
+    public static int ShowVersions() { Console.WriteLine("MVS Analyzer " + ReleaseInfo.Version + " | engine " + AnalysisEngine.EngineVersion + " | formula " + OutputExporter.FormulaVersion); Console.WriteLine("Formula SHA256: " + OutputExporter.FormulaHash); Console.WriteLine("UI/Colab revision: ui-colab-1"); return 0; }
     public static int ShowEnvironment() { ShowVersions(); Console.WriteLine(BenchmarkEnvironment.Describe()); Console.WriteLine("Replay scope: " + BenchmarkEnvironment.Scope); Console.WriteLine("Environment fingerprint: " + BenchmarkEnvironment.Hash); return 0; }
 }
