@@ -47,14 +47,14 @@ jobs:
         run: dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release
       - name: Export Windows serialization fixtures
         run: dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release -- --export-portability artifacts/portable-states
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: MVS-calibration-fixtures-windows
           path: artifacts/portable-states/
           if-no-files-found: error
       - name: Native Windows layout checks
         run: dotnet run --project MvsAnalyzer.Ui.Tests/MvsAnalyzer.Ui.Tests.csproj -c Release -- artifacts/ui-layout
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: MVS-Windows-layout-review
@@ -62,7 +62,7 @@ jobs:
           if-no-files-found: warn
       - name: Publish Windows application
         run: dotnet publish MvsAnalyzer.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -o publish/windows
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: MVS-Analyzer-v1.4.0-win-x64
           path: publish/windows/
@@ -78,7 +78,7 @@ jobs:
         run: dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release
       - name: Export Linux serialization fixtures
         run: dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release -- --export-portability artifacts/portable-states
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: MVS-calibration-fixtures-linux
           path: artifacts/portable-states/
@@ -97,7 +97,7 @@ jobs:
           if ./publish/linux-cli/mvs calibrate --in examples/demo_three_groups.csv --out artifacts/invalid --repetitions not-a-number; then
             echo 'Malformed argument was accepted'; exit 1
           fi
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: MVS-linux-smoke-and-cli
