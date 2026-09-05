@@ -1,5 +1,5 @@
 {
-  "note": "Byte-level pins from the supplied v1.4.0 archive; these sources and versions must remain unchanged.",
+  "note": "Original byte-level pins remain for scientific code. Only the explicit connection/CLI-entry/registry exceptions below are removed by the connection fix. Versions stay 1.4.0.",
   "sha256": {
     "Benchmark/BenchmarkCommandLine.cs": "169be84cf825dd7b69e88f046f66081353c3f1e539b9a9194c0022e48f27349f",
     "Benchmark/BenchmarkDatasets.cs": "eb4a320c9c52221f1792f668f02cd6930a885a4cc10d2a8a5e932a779ad0cc96",
@@ -21,7 +21,6 @@
     "Core/VarianceAnalysis.cs": "e3c57391797cb3b94dd02c37ad767a783883f66120642bdf6eb9381368b811d6",
     "Infrastructure/CalibrationPersistence.cs": "ab5b9cb92ca2b83cb5badf91c13716513c03e7eec34a7bff0ac2127d1a206843",
     "Infrastructure/CliArguments.cs": "fb69acf4b2ba701903a0688d2ad2c555ab44c63c9c8cede48704a4bac1718a86",
-    "Infrastructure/ColabSession.cs": "710916d2f0d0aa63dacad244f75ee9c57dd0fd66ed50790c97e1a95aa8d86e50",
     "Infrastructure/CsvImporter.cs": "f758bdac9ec5c8c805ff38048e4c46f0e50047722b12e8cf0a64dbf1216949c5",
     "Infrastructure/OutputExporter.cs": "6077b57255013753f62b76ccc224484d156e68dbe20cbb72aaee28dae1071094",
     "Infrastructure/PluginAssets.cs": "8539080e7cdcec91a6cd4a0fe9ed2f45e924aeef9c4d1cc0ee52a33f20a7b01c",
@@ -31,9 +30,12 @@
     "Infrastructure/ScientificTables.cs": "e38072351b2b96014a45a83f544c5b85674d32dbbf8fd9d30700a6478cbf1171",
     "MvsAnalyzer.Cli/HeadlessRun.cs": "268a3de63b6f49bc80f8accdc49b3b6daf30f54b3adffbda9d723cb9ee3af4f7",
     "MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj": "622b104f4d886e435f15b9b4e950fb3fe43c62edd1bea324c95818424d24d778",
-    "MvsAnalyzer.Cli/Program.cs": "bc2399649e5cc9584be86386368ae51ef4e6ad8a89ce3f26e7e777c14af10c43",
-    "MvsAnalyzer.Cli/ScientificCommands.cs": "03ddc962bc5bf407fae5d7c2c71073fbe3903ab3d4da90c641f2585a16c3637a",
-    "MvsAnalyzer.csproj": "3df71a1e8d613dc7cda0cf8125375131d2b5f7b224967d841a75224cdfa0aa27",
-    "SharedSources.props": "bd0924cf55e9308567327b76d58f153ba1102ade21902a1d6953d0f65af7cd5e"
-  }
+    "MvsAnalyzer.Cli/ScientificCommands.cs": "03ddc962bc5bf407fae5d7c2c71073fbe3903ab3d4da90c641f2585a16c3637a"
+  },
+  "intentionallyChangedConnectionFiles": [
+    "Infrastructure/ColabSession.cs",
+    "MvsAnalyzer.Cli/Program.cs",
+    "SharedSources.props",
+    "MvsAnalyzer.csproj"
+  ]
 }

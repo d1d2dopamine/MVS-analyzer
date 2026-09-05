@@ -16,6 +16,12 @@ internal static class ColabChecks
         ("Colab validates notebook URL boundaries", UrlBoundary),
         ("Colab validates progress payloads", ProgressBounds),
         ("Colab transport revision preserves calibration keys", CalibrationKeyCompatible),
+        ("Colab accepts forty additive wire updates", WireAdditiveUpdates),
+        ("Colab rejects breaking wire contracts", WireBreakingUpdates),
+        ("Colab exact status retry cannot refresh a lease", ExactRetryDoesNotRefreshLease),
+        ("Colab retry cannot acknowledge a newer command", ExactRetryCannotAcknowledgeNewCommand),
+        ("Colab exact retry cannot bypass token revocation", RetryCannotSurviveRevocation),
+        ("CLI publishes structured scientific identity", StructuredCliIdentity),
     };
     private sealed class Fixture : IDisposable
     {
@@ -29,16 +35,16 @@ internal static class ColabChecks
             Store = new ColabSessionStore(Root, () => Now);
             Store.GetOrCreate(Key, "standard", "calibrate"); Store.Launch(Key, "calibrate");
         }
-        public ColabSession Ping(string phase = "ready", string? command = null, long? sequence = null) =>
+        public ColabSession Ping(string phase = "ready", string? command = null, long? sequence = null, string packetHash = "") =>
             Store.Observe(Current.Token, Key, "", "epoch-12345", phase, command ?? Current.CommandId,
-                sequence ?? Current.Sequence + 1, controlsReady: true);
+                sequence ?? Current.Sequence + 1, controlsReady: true, packetHash: packetHash);
         public void Dispose() { if (Directory.Exists(Root)) Directory.Delete(Root, true); }
     }
     private static void Check(bool value, string message) { if (!value) throw new Exception(message); }
     private static void Reject(Action action)
     {
         try { action(); }
-        catch (Exception error) when (error is InvalidOperationException or InvalidDataException) { return; }
+        catch (Exception error) when (error is InvalidOperationException or InvalidDataException or ColabProtocolException) { return; }
         throw new Exception("The invalid operation was accepted.");
     }
     private static void NoForcedCopy()
@@ -147,4 +153,73 @@ internal static class ColabChecks
             arguments = Array.Empty<string>(), revision = "ui-colab-2" }));
         Check(ColabSessionStore.KeyFor(datasetHash, settingsHash, repetitions, kind) == legacy, "UI update orphaned a compatible calibration directory.");
     }
+    private static void WireAdditiveUpdates()
+    {
+        for (int minor = 0; minor < 40; minor++)
+        {
+            using var document = System.Text.Json.JsonDocument.Parse(ScientificJson.Serialize(new {
+                revision = "future-ui-" + minor, transport = ColabCompatibility.Wire with { Minor = minor } }));
+            ColabCompatibility.ValidatePeer(document.RootElement, "not-a-wire-version");
+        }
+    }
+    private static void WireBreakingUpdates()
+    {
+        foreach (var wire in new[] { ColabCompatibility.Wire with { Major = 2 }, ColabCompatibility.Wire with { MinimumPeerMinor = 1 },
+            ColabCompatibility.Wire with { Minor = -1 }, ColabCompatibility.Wire with { Capabilities = Array.Empty<string>() } })
+        {
+            using var document = System.Text.Json.JsonDocument.Parse(ScientificJson.Serialize(new { transport = wire }));
+            Reject(() => ColabCompatibility.ValidatePeer(document.RootElement, "ui-colab-3"));
+        }
+        using var legacy = System.Text.Json.JsonDocument.Parse("{}");
+        ColabCompatibility.ValidatePeer(legacy.RootElement, "ui-colab-3");
+        Reject(() => ColabCompatibility.ValidatePeer(legacy.RootElement, "ui-colab-2"));
+        using var nullWire = System.Text.Json.JsonDocument.Parse("{\"transport\":null}");
+        Reject(() => ColabCompatibility.ValidatePeer(nullWire.RootElement, "ui-colab-3"));
+    }
+    private static void ExactRetryDoesNotRefreshLease()
+    {
+        using var f = new Fixture(); string hash = new('d', 64);
+        f.Ping(sequence: 1, packetHash: hash); ColabSession before = f.Current;
+        f.Now = f.Now.AddSeconds(ColabSessionStore.LeaseSeconds + 1);
+        Check(f.Store.IsExactStatusRetry(before.Token, f.Key, before.Epoch, 1, hash), "A lost response cannot be acknowledged safely.");
+        Check(f.Current == before, "An identical retry changed session state.");
+        Check(!f.Store.Live(f.Current, f.Now), "A duplicate resurrected an expired lease.");
+        Check(!f.Store.IsExactStatusRetry(before.Token, f.Key, before.Epoch, 1, new string('e', 64)), "Changed status bytes reused a sequence.");
+        Reject(() => f.Ping(sequence: 1, packetHash: hash)); // Only the explicit HTTP duplicate path is idempotent.
+    }
+    private static void ExactRetryCannotAcknowledgeNewCommand()
+    {
+        using var f = new Fixture(); string hash = new('d', 64);
+        f.Ping(sequence: 1, packetHash: hash); string acknowledged = f.Current.CommandId;
+        ColabSession pending = f.Store.QueueAction(f.Key, "analyze");
+        Check(f.Store.IsExactStatusRetry(pending.Token, f.Key, pending.Epoch, 1, hash), "The exact previous status was not recognized.");
+        Check(f.Current.AcknowledgedCommandId == acknowledged && f.Current.CommandId != acknowledged, "Retry acknowledged an unrelated queued command.");
+        Check(f.Store.Pending(f.Current, f.Now), "Retry cleared a new pending command.");
+    }
+    private static void RetryCannotSurviveRevocation()
+    {
+        using var f = new Fixture(); string hash = new('d', 64);
+        f.Ping(sequence: 1, packetHash: hash); ColabSession old = f.Current;
+        f.Store.Launch(f.Key, "prepare");
+        Check(f.Current.LastStatusHash.Length == 0, "Reconnect kept a replay fingerprint.");
+        Check(!f.Store.IsExactStatusRetry(old.Token, f.Key, old.Epoch, 1, hash), "A revoked code was accepted through the retry path.");
+        f.Ping(sequence: 1, packetHash: hash); old = f.Current;
+        f.Store.Disconnect(f.Key);
+        Check(!f.Store.IsExactStatusRetry(old.Token, f.Key, old.Epoch, 1, hash), "Disconnect did not revoke exact retries.");
+        var reopened = new ColabSessionStore(f.Root, () => f.Now);
+        Check(reopened.Find(f.Key)!.LastStatusHash.Length == 0, "A restarted process retained a replay fingerprint.");
+    }
+    private static void StructuredCliIdentity()
+    {
+        TextWriter previous = Console.Out; using var buffer = new StringWriter();
+        try { Console.SetOut(buffer); Check(ColabCompatibility.PrintCliManifest() == 0, "CLI identity failed."); }
+        finally { Console.SetOut(previous); }
+        using var document = System.Text.Json.JsonDocument.Parse(buffer.ToString()); var root = document.RootElement;
+        Check(root.GetProperty("appVersion").GetString() == "1.4.0", "Application version changed.");
+        Check(root.GetProperty("engineVersion").GetString() == "1.6.0", "Scientific engine identity changed.");
+        Check(root.GetProperty("formulaHash").GetString() == OutputExporter.FormulaHash, "CLI formula identity is not authoritative.");
+        Check(root.GetProperty("stateSchema").GetInt32() == ReleaseInfo.StateSchema, "CLI schema identity changed.");
+        Check(root.GetProperty("cliProtocol").GetProperty("major").GetInt32() == 1, "Missing stable CLI command contract.");
+    }
+
 }

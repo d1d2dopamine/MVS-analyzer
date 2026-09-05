@@ -140,7 +140,7 @@ class ControllerTests(unittest.TestCase):
             workspace.connection = "local-test"
             workspace.send = lambda **kwargs: False
             with patch.object(m.time, "sleep") as sleep, contextlib.redirect_stdout(io.StringIO()):
-                workspace.serve()
+                workspace.serve(reconnect_attempts=3)
             self.assertFalse(workspace.controls_ready)
             self.assertEqual(workspace.phase, "offline")
             self.assertEqual(sleep.call_count, 2)
@@ -267,7 +267,7 @@ class ControllerTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     m.browser_request(f"http://127.0.0.1:{port}/v1/" + "a" * 64, route)
             m.browser_request("http://127.0.0.1:8123/v1/" + "a" * 64, "request")
-        self.assertEqual(calls[0][1]["timeout_sec"], 8)
+        self.assertEqual(calls[0][1]["timeout_sec"], 13)
         self.assertIn("AbortController", calls[0][0])
         self.assertIn("credentials: 'omit'", calls[0][0])
 

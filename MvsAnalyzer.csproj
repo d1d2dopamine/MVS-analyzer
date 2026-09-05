@@ -27,5 +27,6 @@
     <EmbeddedResource Include="Assets\colab-*.png" />
     <EmbeddedResource Include="Assets\colab-cli-source.zip" />
     <EmbeddedResource Include="notebooks\MVS_Colab.ipynb" />
+    <EmbeddedResource Include="notebooks\mvs_colab.py" />
   </ItemGroup>
 </Project>

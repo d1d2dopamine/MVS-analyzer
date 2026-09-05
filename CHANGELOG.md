@@ -1,5 +1,15 @@
 # Changelog
 
+## Connection maintenance — application version remains 1.4.0
+
+- Decoupled UI labels from CLI identity; added structured CLI/scientific checks and a known legacy 1.4.0 adapter.
+- Added independent transport negotiation, bounded recovery, structured errors and exact idempotent status delivery without lease/command resurrection.
+- Approved desktop jobs now carry the matching controller and integrity manifest; updated notebooks keep an embedded old-desktop fallback.
+- Cached CLI source/builds are verified and rebuilt in staging, without deleting calibration/results.
+- Added 47 offline regressions (including simulated additive updates), six native contract checks and four native socket checks. Native tests are added to CI, not claimed executed in the patch environment.
+- Kept app 1.4.0, engine 1.6.0, numerical methods and the separate Colab window/theme fixes.
+
+
 ## Исправления UI/Colab в пакете 1.4.0 (без смены версии)
 
 - Отдельное окно Colab вместо страницы в боковом меню; единый экземпляр, сохранение при навигации, измеряемые строки кнопок.

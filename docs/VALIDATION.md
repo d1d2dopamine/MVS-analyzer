@@ -16,3 +16,8 @@ Automated regressions cover numerical identities, data handling, calibration per
 - MELSM is experimental and requires independent comparison and convergence/diagnostic review before substantive use.
 
 Retain the input hash, settings, output manifest and diagnostics. Do not combine results from incompatible method versions as if they were the same analysis. See [Methods](METHODS.md) for the full definitions.
+
+
+## Connection maintenance validation (1.4.0 unchanged)
+
+Run `python tools/test_colab_connection.py` for the 47 new offline contract/cache/transport regressions. The whole offline suite has 109 tests. Simulated 40-step additive transport/controller updates are NOT a claim of testing 40 future Google releases. Real generated JavaScript is executed against a fake fetch, not Google. Native Core.Tests now links the actual loopback bridge and includes 10 additional contract/replay/socket tests; compile and run it on Windows/Linux with .NET 8. These native tests and the Windows UI harness were not executed in the preparation sandbox.

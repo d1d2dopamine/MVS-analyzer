@@ -199,6 +199,12 @@ internal sealed partial class MainForm
             }
             if (File.Exists(Sessions.CalibrationPath(plan.Key))) zip.CreateEntryFromFile(Sessions.CalibrationPath(plan.Key), "calibration/" + CalibrationPersistence.FileName);
             byte[] sourceBytes = Branding.ResourceBytes("colab-cli-source.zip") ?? throw new InvalidDataException("The embedded Colab CLI source is missing. Regenerate the Colab payload before building the application.");
+            byte[] runtime = Branding.ResourceBytes("mvs_colab.py") ?? throw new InvalidDataException("The embedded Colab controller is missing.");
+            Text("runtime/manifest.json", ScientificJson.Serialize(new { schema = 1, bootstrapApi = 1, path = "runtime/mvs_colab.py",
+                sha256 = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(runtime)).ToLowerInvariant(),
+                transport = ColabCompatibility.Wire, appVersion = ReleaseInfo.Version, engineVersion = ReleaseInfo.EngineVersion,
+                formulaHash = OutputExporter.FormulaHash, stateSchema = ReleaseInfo.StateSchema }));
+            using (Stream controller = zip.CreateEntry("runtime/mvs_colab.py", CompressionLevel.Optimal).Open()) controller.Write(runtime);
             using Stream output = zip.CreateEntry("cli-source.zip", CompressionLevel.Optimal).Open(); output.Write(sourceBytes);
         }
         File.Move(temporary, target, true);
@@ -213,17 +219,25 @@ internal sealed partial class MainForm
         {
             ColabSession? session = Sessions.ByToken(token);
             if (session == null || session.Phase == "disconnected" || !colabPlans.TryGetValue(session.Key, out ColabRunPlan? plan))
-                return new(Array.Empty<byte>(), Status: 403);
+                return ColabBridge.Error(403, "connection_revoked", "The connection code expired or was revoked. Keep MVS open, copy a fresh code and reconnect the first notebook cell.");
+            if (route == "hello") return new(Encoding.UTF8.GetBytes(ScientificJson.Serialize(new { transport = ColabCompatibility.Wire, jobKey = plan.Key })));
             if (route == "job") return new(Encoding.UTF8.GetBytes(ScientificJson.Serialize(new { archive = Convert.ToBase64String(File.ReadAllBytes(Sessions.ArchivePath(plan.Key))) })));
             if (route == "request") return new(Encoding.UTF8.GetBytes(ScientificJson.Serialize(plan with {
                 RequestedAction = session.RequestedAction, CommandId = session.CommandId })));
             using JsonDocument doc = JsonDocument.Parse(bytes); JsonElement root = doc.RootElement;
             string Value(string name) => root.TryGetProperty(name, out var value) && value.ValueKind == JsonValueKind.String ? value.GetString()! : "";
-            if (Value("key") != plan.Key) throw new InvalidDataException("Wrong job identity.");
-            if (Value("revision") != ColabSessionStore.Protocol) throw new InvalidDataException("Update the notebook and desktop together before connecting.");
+            if (Value("key") != plan.Key) throw new ColabProtocolException(409, "wrong_job", "This notebook controls a different prepared job. Reconnect explicitly.");
+            ColabCompatibility.ValidatePeer(root, Value("revision"));
             long sequence = root.GetProperty("sequence").GetInt64();
             int? percent = root.TryGetProperty("percent", out var pct) && pct.ValueKind != JsonValueKind.Null ? pct.GetInt32() : null;
             bool controls = root.TryGetProperty("controlsReady", out var ready) && ready.ValueKind == JsonValueKind.True;
+            string packetHash = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(bytes)).ToLowerInvariant();
+            if (Sessions.IsExactStatusRetry(token, plan.Key, Value("epoch"), sequence, packetHash))
+                return new(Encoding.UTF8.GetBytes("{\"ok\":true,\"duplicate\":true}"));
+            if (session.Epoch.Length > 0 && session.Epoch != Value("epoch"))
+                throw new ColabProtocolException(409, "runtime_conflict", "Another runtime owns this code. Stop the old controller and reconnect with a fresh code.");
+            if (sequence <= session.Sequence)
+                throw new ColabProtocolException(409, "stale_status", "A different or delayed status used an old sequence. Reconnect this notebook; do not reuse its code in a second runtime.");
             Sessions.CheckObservation(token, plan.Key, Value("epoch"), Value("commandId"), sequence);
             string calibrationBytes = Value("calibrationBase64"), result = Value("resultsBase64");
             string incoming = Sessions.CalibrationPath(plan.Key) + ".incoming-" + Guid.NewGuid().ToString("N");
@@ -251,7 +265,7 @@ internal sealed partial class MainForm
                     ScientificJson.AtomicText(Path.Combine(Sessions.DirectoryFor(plan.Key), "run_manifest.json"), Encoding.UTF8.GetString(manifestBytes));
                 }
                 Sessions.Observe(token, plan.Key, Value("notebookUrl"), Value("epoch"), Value("phase"), Value("commandId"), sequence,
-                    percent, Value("message"), Value("runtime"), controls);
+                    percent, Value("message"), Value("runtime"), controls, packetHash);
             }
             finally { if (File.Exists(incoming)) File.Delete(incoming); }
             if (!IsDisposed && IsHandleCreated)

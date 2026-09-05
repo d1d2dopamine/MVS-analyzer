@@ -1,8 +1,10 @@
 # Google Colab — MVS Analyzer 1.4.0
 
-## Обновите оба компонента
+## Однократно обновите ноутбук
 
-Нужны приложение 1.4.0 и блокнот с протоколом `ui-colab-3`. Сохранённые старые копии в Drive не обновляются автоматически.
+Используйте обновлённый ноутбук из этого пакета. Он содержит адаптер существующего MVS 1.4.0 / `ui-colab-3` и отдельный согласуемый транспорт для новой сборки. Метка интерфейса больше не используется как версия научного CLI.
+
+Старая копия в Drive сама не меняет код. После этого однократного обновления новая сборка MVS передаёт совместимый контроллер вместе с одобренным заданием: ноутбук проверяет его манифест и SHA-256 перед загрузкой. Это рассчитано на совместимые дальнейшие обновления, а не на любые будущие изменения Google.
 
 - Используйте `notebooks/MVS_Colab.ipynb` из этого пакета. Его можно сохранить из приложения кнопкой **Ещё → Сохранить ноутбук этой версии…** и открыть в Colab через **Файл → Открыть блокнот → Загрузка**.
 - Можно обновить ячейки существующего блокнота, предварительно скачав результаты. Не вставляйте новый код соединения в старую первую ячейку.
@@ -11,7 +13,7 @@
 
 ## Первый запуск
 
-1. Загрузите данные в MVS и настройте калибровку.
+1. Откройте MVS и Colab в браузере на одном компьютере. Загрузите данные в MVS и настройте калибровку.
 2. Нажмите **Запустить через Colab** и подтвердите передачу подготовленного задания.
 3. В Colab выберите **Среда выполнения → Сменить среду выполнения → Python 3 → CPU**. Этот движок .NET не использует GPU/TPU.
 4. Запустите первую ячейку с `DESKTOP_CONTROL = True` и вставьте код из MVS в скрытое поле ввода. Разрешите доступ браузера к локальной сети/этому компьютеру, если он запрошен для вашего Colab-сеанса.
@@ -49,7 +51,7 @@
 3. Для нового кода нажмите **Переподключить**, включите `RESET_CONNECTION = True` в первой ячейке и вставьте актуальный код.
 4. После подготовки используйте команды в панели MVS. Переподключение само не запускает расчёт.
 
-Старые сообщения и сообщения другой среды отклоняются. Перезапуск приложения также не восстанавливает вымышленную активную сессию: загрузите соответствующие данные/настройки и подготовьте связь заново. Сохранённый адрес и проверенная калибровка остаются на диске.
+Сообщения другой среды и изменённые/устаревшие сообщения отклоняются. Новая сборка допускает только точный повтор последнего принятого POST после потери ответа: без повторного импорта, продления активности или подтверждения другой команды. Перезапуск приложения также не восстанавливает вымышленную активную сессию: загрузите соответствующие данные/настройки и подготовьте связь заново. Сохранённый адрес и проверенная калибровка остаются на диске.
 
 При смене данных подготовьте новое задание и вставьте его код в тот же блокнот, остановив старый контроллер. Новое задание не подменяет данные старой сессии незаметно.
 
@@ -83,7 +85,7 @@ MVS больше не добавляет `copy=true`. Но приложение 
 
 ## English quick guide
 
-Update both the desktop and notebook. Old Drive copies do not auto-update. Prepare and approve a job in MVS, choose Python 3 / CPU in Colab, run the first cell with `DESKTOP_CONTROL = True`, paste the private code and leave that cell running as the controller. Use the separate Colab control window to calibrate, analyze, cancel and download. Cells 2/3 are manual fallbacks.
+Update this notebook once. It supports the known ui-colab-3 desktop and a versioned wire contract in the patched desktop. A new desktop job can carry its own verified matching controller, independent of UI revision labels. Old Drive copies do not auto-update themselves. Open Colab in a browser on the same computer as MVS. Prepare and approve a job in MVS, choose Python 3 / CPU in Colab, run the first cell with `DESKTOP_CONTROL = True`, paste the private code and leave that cell running as the controller. Use the separate Colab control window to calibrate, analyze, cancel and download. Cells 2/3 are manual fallbacks.
 
 The app reopens the same notebook without forced copying. Leases expire about 45 seconds after the last valid status. Reconnect revokes the old token, keeps verified outputs and only prepares the controller. It does not stop Google's runtime, select GPU through an unofficial API or bypass quotas. Recover the code from the panel at any time; for a new code use `RESET_CONNECTION = True`.
 

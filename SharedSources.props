@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/CliArguments.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/RemoteJob.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/ColabSession.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/ColabCompatibility.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Benchmark/BenchmarkMath.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Benchmark/BenchmarkRandom.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Benchmark/BenchmarkProtocol.cs" />

@@ -7,11 +7,16 @@ internal sealed record ColabSession(string Key, string Token, string Kind, strin
     string Epoch = "", string Phase = "new", DateTime LastSeenUtc = default, DateTime LaunchedUtc = default,
     string RequestedAction = "calibrate", string CommandId = "", string AcknowledgedCommandId = "",
     int? Percent = null, string ProgressMessage = "", string RuntimeLabel = "", bool ControlsReady = false,
-    long Sequence = 0);
+    long Sequence = 0, string LastStatusHash = "");
 internal sealed record ColabRunPlan(string Key, string Kind, string RequestedAction, string DatasetHash,
     string SettingsHash, int Repetitions, string[] Arguments, string AppVersion = ReleaseInfo.Version,
     string EngineVersion = ReleaseInfo.EngineVersion, string Revision = ColabSessionStore.Protocol,
-    string CommandId = "");
+    string CommandId = "")
+{
+    public ColabWireDescriptor Transport { get; init; } = ColabCompatibility.Wire;
+    public string FormulaHash { get; init; } = OutputExporter.FormulaHash;
+    public int StateSchema { get; init; } = ReleaseInfo.StateSchema;
+}
 
 /// <summary>
 /// Notebook identity, connection lease and verified outputs are separate. A closed tab cannot
@@ -42,7 +47,7 @@ internal sealed class ColabSessionStore
                         // A different desktop process has a different listener. Never restore a live lease.
                         sessions[session.Key] = session with { Token = NewToken(), Epoch = "", Phase = "disconnected",
                             LastSeenUtc = default, ControlsReady = false, CommandId = "", AcknowledgedCommandId = "",
-                            Percent = null, ProgressMessage = "", Sequence = 0 };
+                            Percent = null, ProgressMessage = "", Sequence = 0, LastStatusHash = "" };
         }
         catch (Exception error) when (error is IOException or JsonException or InvalidDataException or ArgumentException) { }
     }
@@ -115,7 +120,7 @@ internal sealed class ColabSessionStore
             ColabSession session = sessions[key];
             sessions[key] = session with { Token = NewToken(), Phase = "opening", LaunchedUtc = clock(), RequestedAction = action,
                 NotebookUrl = url, Epoch = "", LastSeenUtc = default, ControlsReady = false, CommandId = NewToken(),
-                AcknowledgedCommandId = "", Percent = null, ProgressMessage = "", Sequence = 0 };
+                AcknowledgedCommandId = "", Percent = null, ProgressMessage = "", Sequence = 0, LastStatusHash = "" };
             Save();
             // Opening an existing notebook is independent of whether its runtime is still alive.
             return url + "#scrollTo=mvs-calibrate";
@@ -147,9 +152,17 @@ internal sealed class ColabSessionStore
         {
             if (!sessions.TryGetValue(key, out var session)) return;
             sessions[key] = session with { Token = NewToken(), Epoch = "", Phase = "disconnected", LastSeenUtc = default,
-                ControlsReady = false, CommandId = "", AcknowledgedCommandId = "", Percent = null, ProgressMessage = "", Sequence = 0 };
+                ControlsReady = false, CommandId = "", AcknowledgedCommandId = "", Percent = null, ProgressMessage = "", Sequence = 0, LastStatusHash = "" };
             Save();
         }
+    }
+    public bool IsExactStatusRetry(string token, string key, string epoch, long sequence, string packetHash)
+    {
+        if (!HexKey(packetHash) || sequence < 1) return false;
+        lock (gate) return sessions.TryGetValue(key, out var current) && current.Token == token &&
+            current.Phase != "disconnected" && current.Epoch == epoch && current.Sequence == sequence &&
+            current.LastStatusHash == packetHash;
+        // A duplicate is acknowledged but never refreshes liveness or acknowledges a new command.
     }
     public void CheckObservation(string token, string key, string epoch, string commandId, long sequence)
     {
@@ -166,8 +179,9 @@ internal sealed class ColabSessionStore
         }
     }
     public ColabSession Observe(string token, string key, string notebookUrl, string epoch, string phase,
-        string commandId, long sequence, int? percent = null, string message = "", string runtime = "", bool controlsReady = false)
+        string commandId, long sequence, int? percent = null, string message = "", string runtime = "", bool controlsReady = false, string packetHash = "")
     {
+        if (packetHash.Length != 0 && !HexKey(packetHash)) throw new InvalidDataException("Invalid status checksum.");
         if (notebookUrl.Length != 0 && !ValidNotebookUrl(notebookUrl)) throw new InvalidDataException("Invalid Colab notebook address.");
         if (!new[] { "preparing", "ready", "calibrating", "analyzing", "running", "calibrated", "complete", "failed", "cancelled", "downloading", "cancelling", "offline" }.Contains(phase))
             throw new InvalidDataException("Unknown Colab phase.");
@@ -179,7 +193,7 @@ internal sealed class ColabSessionStore
             current = current with { NotebookUrl = notebookUrl.Length == 0 ? current.NotebookUrl : NormalizeNotebookUrl(notebookUrl),
                 Epoch = epoch, Phase = phase, LastSeenUtc = clock(), ControlsReady = controlsReady, Sequence = sequence,
                 AcknowledgedCommandId = commandId == current.CommandId ? commandId : current.AcknowledgedCommandId,
-                Percent = percent, ProgressMessage = message, RuntimeLabel = runtime };
+                Percent = percent, ProgressMessage = message, RuntimeLabel = runtime, LastStatusHash = packetHash };
             sessions[key] = current; Save(); return current;
         }
     }

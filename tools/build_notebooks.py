@@ -22,21 +22,18 @@ from getpass import getpass
 _mvs_previous = globals().get("mvs")
 if getattr(_mvs_previous, "controls_ready", False):
     raise RuntimeError("Stop the previous controller cell before reconnecting.")
-if RESET_CONNECTION or _mvs_previous is None or getattr(_mvs_previous, "protocol", "") != REVISION:
+_mvs_error = getattr(_mvs_previous, "connection_error", None)
+_mvs_fresh_code = RESET_CONNECTION or _mvs_previous is None or getattr(_mvs_error, "code", "") in {"connection_revoked", "runtime_conflict", "status_conflict", "stale_status", "wrong_job"}
+if _mvs_fresh_code:
     _mvs_code = getpass("MVS connection code / Код подключения (empty = manual upload / пусто = ручная загрузка): ").strip()
 else:
     _mvs_code = _mvs_previous.connection
-mvs = Workspace(connection=_mvs_code, ref=REPOSITORY_REF, mode=MODE, desktop_control=DESKTOP_CONTROL)
-if _mvs_previous is not None and _mvs_code and _mvs_code == _mvs_previous.connection and getattr(_mvs_previous, "protocol", "") == REVISION:
-    # Re-running this cell in the SAME runtime is not a new owner. A new code resets ownership.
-    mvs.epoch = _mvs_previous.epoch
-    mvs.sequence = _mvs_previous.sequence
-    mvs.command_id = _mvs_previous.command_id
-    mvs.url = mvs.url or _mvs_previous.url
-elif not _mvs_code and _mvs_previous is not None and not RESET_CONNECTION:
-    mvs.manual_job = _mvs_previous.manual_job
-# Do not leave a second public variable containing the connection code.
-del _mvs_code, _mvs_previous
+# Runtime code comes only from this approved local job, verified against its manifest.
+# Existing ui-colab-3 desktops use the compatible controller embedded in this notebook.
+mvs = bootstrap_workspace(connection=_mvs_code, ref=REPOSITORY_REF, mode=MODE,
+                          desktop_control=DESKTOP_CONTROL, previous=None if RESET_CONNECTION else _mvs_previous)
+RunCancelled = getattr(mvs, "cancel_exception", RunCancelled)
+del _mvs_code, _mvs_previous, _mvs_error, _mvs_fresh_code
 try:
     mvs.activate()
     if mvs.connection and DESKTOP_CONTROL:

@@ -214,31 +214,277 @@ def detect_runtime_label():
     return " · ".join(parts)[:200]
 
 
-def browser_request(base, route, packet=None):
-    from google.colab import output
+# Stable transport/CLI contracts. UI revision strings are presentation, not protocols.
+WIRE_NAME = "mvs-colab"
+WIRE_MAJOR = 1
+WIRE_MINOR = 0
+LEGACY_WIRE_REVISION = "ui-colab-3"
+MVS_BOOTSTRAP_API = 1
+CLIENT_CAPABILITIES = ["job-zip-v1", "commands-v1", "status-sequence-v1", "status-retry-v1", "runtime-bundle-v1"]
+
+
+class CompatibilityError(ValueError):
+    pass
+
+
+class BridgeError(ConnectionError):
+    def __init__(self, code, message, status=None, retryable=False):
+        self.code, self.status, self.retryable = code, status, retryable
+        super().__init__(redact_connection(message))
+
+
+def redact_connection(message):
+    text = re.sub(r"https?://(?:127\.0\.0\.1|localhost):\d+/v1/[^\s\"'<>]+", "[private MVS code]", str(message))
+    return text[:700]
+
+
+def wire_descriptor():
+    return {"name": WIRE_NAME, "major": WIRE_MAJOR, "minor": WIRE_MINOR,
+            "minimumPeerMinor": 0, "capabilities": list(CLIENT_CAPABILITIES)}
+
+
+def negotiate_transport(plan):
+    if not isinstance(plan, dict):
+        raise CompatibilityError("Invalid MVS job descriptor / Неверный формат задания")
+    missing = object()
+    wire = ci(plan, "Transport", missing)
+    if wire is missing:
+        if ci(plan, "Revision") != LEGACY_WIRE_REVISION:
+            raise CompatibilityError("Unsupported old notebook/desktop format. Update the notebook once; use a fresh MVS code. / Обновите ноутбук и получите новый код MVS.")
+        return set()  # Known ui-colab-3 adapter: status retries need fresh sequence numbers.
+    if not isinstance(wire, dict) or ci(wire, "name") != WIRE_NAME:
+        raise CompatibilityError("Unknown connection protocol")
+    major, minor, required = ci(wire, "major"), ci(wire, "minor"), ci(wire, "minimumPeerMinor")
+    if any(type(x) is not int for x in (major, minor, required)) or major != WIRE_MAJOR or minor < 0 or not 0 <= required <= WIRE_MINOR:
+        raise CompatibilityError("Incompatible transport contract. Update MVS and its notebook together; scientific safety checks were not bypassed.")
+    capabilities = ci(wire, "capabilities", [])
+    if not isinstance(capabilities, list) or len(capabilities) > 100 or any(not isinstance(x, str) for x in capabilities):
+        raise CompatibilityError("Invalid connection capabilities")
+    if not {"job-zip-v1", "commands-v1", "status-sequence-v1"}.issubset(capabilities):
+        raise CompatibilityError("The desktop lacks required reliable command/status capabilities")
+    return set(capabilities)
+
+
+def parse_cli_identity(text):
+    text = text.lstrip("\ufeff").strip()
+    if text.startswith("{"):
+        try:
+            identity = json.loads(text)
+        except ValueError as error:
+            raise CompatibilityError("CLI returned malformed structured identity") from error
+        if not isinstance(identity, dict):
+            raise CompatibilityError("CLI identity must be an object")
+        contract = ci(identity, "cliProtocol", {})
+        if not isinstance(contract, dict) or ci(contract, "name") != "mvs-cli" or type(ci(contract, "major")) is not int or ci(contract, "major") != 1:
+            raise CompatibilityError("Unsupported CLI command contract")
+        return identity
+    # The 1.4.0 CLI in the reported log predates --json and ignores that flag.
+    # Match exact fields, not substrings; NEVER require a UI/Colab revision in CLI output.
+    header = re.search(r"^\s*MVS Analyzer\s+([^\s|]+)\s*\|\s*engine\s+([^\s|]+)\s*\|", text, re.MULTILINE)
+    formula = re.search(r"^\s*Formula SHA256:\s*([0-9a-fA-F]{64})\s*$", text, re.MULTILINE)
+    if not header or not formula:
+        raise CompatibilityError("Cannot read CLI identity. The binary may be incomplete; rebuild from this job's source.")
+    return {"appVersion": header.group(1), "engineVersion": header.group(2), "formulaHash": formula.group(1).lower(),
+            "stateSchema": 2, "legacy": True,
+            "cliProtocol": {"name": "mvs-cli", "major": 1, "capabilities": ["calibrate", "analyze", "state-check", "variance", "melsm", "estimation", "benchmark"]}}
+
+
+def validate_cli_identity(text, plan):
+    identity = parse_cli_identity(text)
+    expected = {"appVersion": ci(plan, "AppVersion", APP_VERSION), "engineVersion": ci(plan, "EngineVersion", ENGINE_VERSION),
+                "formulaHash": ci(plan, "FormulaHash", FORMULA_HASH), "stateSchema": ci(plan, "StateSchema", 2)}
+    for key, value in expected.items():
+        actual = ci(identity, key)
+        if key == "stateSchema" and (type(actual) is not int or type(value) is not int) or actual != value:
+            raise CompatibilityError(f"CLI {key} mismatch: expected {value}, received {actual}. Use this job's matching scientific source; UI labels are ignored.")
+    # This fallback represents an explicitly tested legacy release, not arbitrary future binaries.
+    if ci(identity, "legacy", False) and (expected["appVersion"], expected["engineVersion"]) != ("1.4.0", "1.6.0"):
+        raise CompatibilityError("A newer scientific release must publish structured CLI identity")
+    capabilities = ci(ci(identity, "cliProtocol", {}), "capabilities", [])
+    if not isinstance(capabilities, list) or any(not isinstance(x, str) for x in capabilities):
+        raise CompatibilityError("Invalid CLI capabilities")
+    kind = ci(plan, "Kind", "standard")
+    required = {"state-check", "calibrate", "analyze"} if kind == "standard" else {kind}
+    if not required.issubset(capabilities):
+        raise CompatibilityError("CLI lacks commands required for this job: " + ", ".join(sorted(required - set(capabilities))))
+    return identity
+
+
+def browser_request(base, route, packet=None, attempts=None):
     if not re.fullmatch(r"http://127\.0\.0\.1:\d{1,5}/v1/[0-9a-f]{64}", base):
-        raise ValueError("Invalid MVS connection code")
+        raise ValueError("Invalid MVS connection code; copy the complete code from MVS")
     port = int(urllib.parse.urlsplit(base).port or 0)
-    if not 1 <= port <= 65535 or route not in {"job", "request", "status"}:
+    if not 1 <= port <= 65535 or route not in {"hello", "job", "request", "status"}:
         raise ValueError("Invalid MVS endpoint")
-    payload = json.dumps(packet, separators=(",", ":")) if packet is not None else None
+    from google.colab import output
+    attempts = (3 if packet is None else 1) if attempts is None else attempts
+    if type(attempts) is not int or not 1 <= attempts <= 5:
+        raise ValueError("Invalid retry budget")
+    payload = json.dumps(packet, separators=(",", ":"), allow_nan=False) if packet is not None else None
+    # No ambient credentials, no Google cookie access, no browser security flags.
     script = """(async () => {
       const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), 6000);
+      const timer = setTimeout(() => controller.abort(), 10000);
       try {
         const response = await fetch(URL, {method: METHOD, headers: HEADERS, body: BODY,
-          credentials: 'omit', cache: 'no-store', signal: controller.signal});
-        if (!response.ok) throw new Error('MVS rejected the request (' + response.status + ')');
-        return {ok: true, value: await response.json()};
-      } catch (error) { return {ok: false, error: String(error)}; }
+          credentials: 'omit', cache: 'no-store', redirect: 'error', signal: controller.signal});
+        let value = null;
+        try { value = await response.json(); } catch (_) {}
+        if (!response.ok) return {ok: false, status: response.status, error: value && value.error};
+        if (!value || typeof value !== 'object') return {ok: false, status: 200, error: {code: 'invalid_response', message: 'MVS returned invalid JSON', retryable: false}};
+        return {ok: true, value};
+      } catch (error) { return {ok: false, status: 0, error: {code: 'browser_unreachable', message: String(error), retryable: true}}; }
       finally { clearTimeout(timer); }
     })()"""
     script = script.replace("URL", json.dumps(base + "/" + route)).replace("METHOD", json.dumps("POST" if packet is not None else "GET"))
     script = script.replace("HEADERS", json.dumps({"Content-Type": "application/json"} if packet is not None else {})).replace("BODY", json.dumps(payload) if payload is not None else "undefined")
-    reply = output.eval_js(script, timeout_sec=8)
-    if not reply or not reply.get("ok"):
-        raise ConnectionError((reply or {}).get("error", "Browser connection unavailable"))
-    return reply["value"]
+    for attempt in range(attempts):
+        try:
+            reply = output.eval_js(script, timeout_sec=13)
+        except Exception as error:
+            reply = {"ok": False, "status": 0, "error": {"code": "browser_unreachable", "message": str(error), "retryable": True}}
+        if isinstance(reply, dict) and reply.get("ok"):
+            value = reply.get("value")
+            if not isinstance(value, dict):
+                raise BridgeError("invalid_response", "MVS response must be an object", retryable=False)
+            return value
+        reply = reply if isinstance(reply, dict) else {}
+        status = reply.get("status", 0)
+        detail = reply.get("error")
+        detail = detail if isinstance(detail, dict) else {"message": str(detail or "No browser response")}
+        code = detail.get("code") or {403: "connection_revoked", 404: "unknown_route", 409: "status_conflict", 413: "payload_too_large", 426: "incompatible_transport"}.get(status, "request_rejected" if status else "browser_unreachable")
+        retryable = status in (0, 408, 429, 500, 502, 503, 504) and detail.get("retryable", True) is not False
+        message = detail.get("message", "")
+        if status == 403:
+            message = "MVS rejected this code (403). Copy a fresh code from the open MVS app and reconnect. / Получите новый код подключения в MVS."
+        elif not status:
+            message = "Cannot reach MVS through this browser. Run this browser on the same computer as MVS; keep MVS and this tab open; allow local-network access for Colab. Check VPN/proxy/firewall rules without disabling browser security. / Нет связи с MVS: проверьте разрешение локальной сети. " + message
+        elif not message:
+            message = f"MVS rejected the request (HTTP {status}, {code}). Update the notebook if the connection format is unsupported."
+        if status and status != 403:
+            message = f"HTTP {status} [{code}]: " + message
+        failure = BridgeError(code, message, status, retryable)
+        if not retryable or attempt + 1 == attempts:
+            raise failure
+        time.sleep(min(2, .5 * 2 ** attempt))
+
+
+def fetch_job_archive(connection):
+    response = browser_request(connection, "job")
+    value = response.get("archive")
+    if not isinstance(value, str) or len(value) > 140 * 1024 * 1024:
+        raise ValueError("Invalid or oversized MVS job transfer")
+    try:
+        data = base64.b64decode(value, validate=True)
+    except ValueError as error:
+        raise ValueError("Damaged MVS job transfer") from error
+    if len(data) > 100 * 1024 * 1024:
+        raise ValueError("Job transfer is too large; use manual upload")
+    return data
+
+
+def job_runtime_type(archive_bytes, fallback):
+    """Load only the controller explicitly supplied by the approved local MVS job.
+
+    No arbitrary URL, pip package or GitHub-main auto-update. A checksum establishes
+    consistency with the prepared job, not third-party authenticity.
+    """
+    import types
+    import sys
+    with zipfile.ZipFile(io.BytesIO(archive_bytes)) as archive:
+        names = archive.namelist()
+        if len(names) > 5000 or len(names) != len(set(names)):
+            raise CompatibilityError("Invalid/duplicate MVS archive entries")
+        def read(name, maximum):
+            try:
+                info = archive.getinfo(name)
+            except KeyError as error:
+                raise CompatibilityError("Controller bundle is incomplete: " + name) from error
+            if info.file_size > maximum or info.is_dir() or (info.external_attr >> 16) & 0o170000 == 0o120000:
+                raise CompatibilityError("Invalid controller bundle member")
+            with archive.open(info) as stream:
+                value = stream.read(maximum + 1)
+            if len(value) > maximum:
+                raise CompatibilityError("Oversized controller bundle member")
+            return value
+        if "runtime/manifest.json" not in names:
+            return fallback  # Tested older MVS 1.4.0 job; use this notebook's compatible adapter.
+        descriptor = json.loads(read("runtime/manifest.json", 65536))
+        if not isinstance(descriptor, dict) or type(ci(descriptor, "schema")) is not int or ci(descriptor, "schema") != 1 or type(ci(descriptor, "bootstrapApi")) is not int or ci(descriptor, "bootstrapApi") != MVS_BOOTSTRAP_API or ci(descriptor, "path") != "runtime/mvs_colab.py":
+            raise CompatibilityError("Unsupported controller bootstrap format. Update the notebook once.")
+        if not isinstance(ci(descriptor, "transport"), dict):
+            raise CompatibilityError("Controller did not declare its transport contract")
+        negotiate_transport({"Transport": ci(descriptor, "transport")})
+        plan = json.loads(read("colab_job.json", 65536))
+        for name in ("appVersion", "engineVersion", "formulaHash", "stateSchema"):
+            expected = ci(descriptor, name)
+            valid = (type(expected) is int and expected > 0) if name == "stateSchema" else isinstance(expected, str) and 0 < len(expected) <= 100
+            if name == "formulaHash":
+                valid = isinstance(expected, str) and re.fullmatch(r"[0-9a-f]{64}", expected)
+            if not valid or ci(plan, name) != expected:
+                raise CompatibilityError("The supplied controller does not match the job: " + name)
+        code = read("runtime/mvs_colab.py", 1024 * 1024)
+        digest = hashlib.sha256(code).hexdigest()
+        if ci(descriptor, "sha256") != digest:
+            raise CompatibilityError("Controller checksum mismatch; the code was NOT executed")
+    name = "mvs_job_runtime_" + digest[:24]
+    module = types.ModuleType(name)
+    module.__file__ = "mvs_job_runtime.py"
+    sys.modules[name] = module
+    try:
+        exec(compile(code.decode("utf-8-sig"), module.__file__, "exec"), module.__dict__)
+        runtime_type = getattr(module, "Workspace", None)
+        if getattr(module, "MVS_BOOTSTRAP_API", None) != MVS_BOOTSTRAP_API or not isinstance(runtime_type, type):
+            raise CompatibilityError("Controller does not implement the declared bootstrap API")
+        return runtime_type
+    except BaseException:
+        sys.modules.pop(name, None)
+        raise
+
+
+def bootstrap_workspace(connection, ref="main", mode="standard", desktop_control=True, previous=None):
+    if previous is not None and getattr(previous, "controls_ready", False):
+        raise RuntimeError("Stop the old controller cell before reconnecting / Сначала остановите старую ячейку")
+    archive = fetch_job_archive(connection) if connection else None
+    runtime_type = job_runtime_type(archive, Workspace) if archive is not None else Workspace
+    workspace = runtime_type(connection=connection, ref=ref, mode=mode, desktop_control=desktop_control)
+    workspace._prefetched_archive = archive
+    if previous is not None and connection and connection == getattr(previous, "connection", "") and (
+            getattr(previous, "wire_major", None) == WIRE_MAJOR or getattr(previous, "protocol", "") == LEGACY_WIRE_REVISION):
+        workspace.epoch = previous.epoch
+        workspace.sequence = previous.sequence
+        workspace.command_id = previous.command_id
+        workspace.url = workspace.url or previous.url
+    elif previous is not None and not connection:
+        workspace.manual_job = getattr(previous, "manual_job", "")
+    return workspace
+
+
+def source_bundle_valid(source_zip, source):
+    """Verify cached source against the exact archive's file registry before compiling it."""
+    try:
+        with zipfile.ZipFile(source_zip) as z:
+            info = z.getinfo("SOURCE_PAYLOAD.json")
+            if info.file_size > 1024 * 1024:
+                raise CompatibilityError("Oversized source registry")
+            metadata = json.loads(z.read(info))
+        files = ci(metadata, "sha256", {})
+        if not isinstance(files, dict) or not files or len(files) > 5000:
+            raise CompatibilityError("Invalid source registry")
+        return all(isinstance(digest, str) and re.fullmatch(r"[0-9a-f]{64}", digest) and
+                   sha(output_path(source, name)) == digest for name, digest in files.items())
+    except FileNotFoundError:
+        return False
+
+
+def cli_cache_valid(binary, source_hash):
+    try:
+        receipt = strict_json(Path(binary) / "BUILD_RECEIPT.json")
+        files = ci(receipt, "files", {})
+        return ci(receipt, "sourceSha256") == source_hash and isinstance(files, dict) and set(files) == {"mvs.dll", "mvs.deps.json", "mvs.runtimeconfig.json"} and all(
+            sha(Path(binary) / name) == digest for name, digest in files.items())
+    except (OSError, ValueError, TypeError, AttributeError):
+        return False
 
 
 class RunCancelled(Exception):
@@ -246,6 +492,7 @@ class RunCancelled(Exception):
 
 
 class Workspace:
+    cancel_exception = RunCancelled
     def __init__(self, root="/content/mvs-work", connection="", manual_job="", ref="main", mode="standard", desktop_control=False):
         self.root = Path(root).resolve()
         self.root.mkdir(parents=True, exist_ok=True)
@@ -263,6 +510,10 @@ class Workspace:
         self.dotnet = None
         self.dll = None
         self.protocol = REVISION
+        self.wire_major = WIRE_MAJOR
+        self.peer_capabilities = set()
+        self.connection_error = None
+        self._prefetched_archive = None
         self.sequence = 0
         self.command_id = ""
         self.percent = None
@@ -274,10 +525,8 @@ class Workspace:
 
     def activate(self):
         if self.connection:
-            response = browser_request(self.connection, "job")
-            archive_bytes = base64.b64decode(response["archive"], validate=True)
-            if len(archive_bytes) > 100 * 1024 * 1024:
-                raise ValueError("Job transfer is too large; use manual upload")
+            archive_bytes = self._prefetched_archive if getattr(self, "_prefetched_archive", None) is not None else fetch_job_archive(self.connection)
+            self._prefetched_archive = None
         elif self.mode in {"benchmark", "estimation"} and not self.manual_job:
             arguments = ["--profile", "quick", "--threads", "2"] if self.mode == "benchmark" else []
             key = hashlib.sha256((self.mode + REVISION + json.dumps(arguments)).encode()).hexdigest()
@@ -307,8 +556,7 @@ class Workspace:
                     job = json.loads(z.read(names[0]))
                     plan = {"Key": hashlib.sha256(archive_bytes).hexdigest(), "Kind": "standard", "DatasetHash": ci(job, "DatasetHash"),
                             "SettingsHash": "", "Repetitions": ci(job, "Repetitions"), "Arguments": [], "RequestedAction": "calibrate"}
-            if ci(plan, "Revision", REVISION) != REVISION:
-                raise RuntimeError("Update the desktop and notebook together. Their Colab protocols differ.")
+            self.peer_capabilities = negotiate_transport(plan) if self.connection else set()
             key = ci(plan, "Key", "")
             if not re.fullmatch("[0-9a-f]{64}", key):
                 raise ValueError("Invalid job identity")
@@ -354,7 +602,7 @@ class Workspace:
         self.percent = None
         self.message = "Preparing the exact CLI from this job / Подготовка CLI задания"
         if not self.send():
-            raise ConnectionError("MVS rejected this runtime. Reconnect from the panel; do not use a copied connection code in another runtime.")
+            raise ConnectionError(self.last_notice or "MVS is unreachable. Copy a fresh connection code and allow browser local-network access.")
         try:
             self.install_cli()
             self.prepare_calibration()
@@ -376,7 +624,7 @@ class Workspace:
     def packet(self, phase=None, include_files=False):
         self.sequence += 1
         packet = {"key": ci(self.plan, "Key"), "epoch": self.epoch, "phase": phase or self.phase,
-                  "notebookUrl": self.url, "revision": REVISION, "commandId": self.command_id,
+                  "notebookUrl": self.url, "revision": LEGACY_WIRE_REVISION, "transport": wire_descriptor(), "commandId": self.command_id,
                   "sequence": self.sequence, "percent": self.percent, "message": self.message[:500],
                   "runtime": self.runtime_label[:200], "controlsReady": self.controls_ready}
         if include_files and self.has_calibration():
@@ -393,15 +641,22 @@ class Workspace:
         if not self.connection or not self.plan:
             return True
         self._files_pending = self._files_pending or include_files
+        # File corruption is not a connection outage. Do not hide failed scientific validation.
+        packet = self.packet(include_files=self._files_pending)
         try:
-            browser_request(self.connection, "status", self.packet(include_files=self._files_pending))
+            if "status-retry-v1" in getattr(self, "peer_capabilities", set()):
+                browser_request(self.connection, "status", packet, attempts=3)
+            else:
+                browser_request(self.connection, "status", packet)
             self._files_pending = False
+            self.connection_error = None
             self.last_notice = ""
             if self._monitor is not None:
                 self.show_monitor()
             return True
-        except Exception:
-            notice = "MVS is not connected. The tab may be closed or local access blocked. Results stay in this runtime; reconnect or download them manually."
+        except (ConnectionError, TimeoutError) as error:
+            self.connection_error = error
+            notice = redact_connection(error) + " Results already computed stay in this runtime / Готовые результаты остаются в среде."
             if notice != self.last_notice:
                 print(notice)
                 self.last_notice = notice
@@ -423,6 +678,7 @@ class Workspace:
             return  # Connection loss is not permission to discard a running calculation.
         if ci(pending, "Key") != ci(self.plan, "Key"):
             raise RuntimeError("The connected job changed unexpectedly; reconnect explicitly.")
+        self.peer_capabilities = negotiate_transport(pending)
         command = ci(pending, "CommandId", "")
         if ci(pending, "RequestedAction") == "cancel" and command != self.command_id and re.fullmatch(r"[0-9a-f]{64}", command):
             self.command_id = command
@@ -486,40 +742,95 @@ class Workspace:
         finally:
             reader.join(timeout=2)
 
+    def inspect_cli(self, dll):
+        text = subprocess.check_output(cli_command(self.dotnet, dll, "version", "--json"),
+                                       env=dotnet_environment(self.dotnet), text=True, timeout=20,
+                                       stderr=subprocess.STDOUT)
+        return validate_cli_identity(text, self.plan)
+
+    def prepare_cli_binary(self, source, source_hash):
+        binary = Path(source) / "colab-publish"
+        self.dll = binary / "mvs.dll"
+        if cli_cache_valid(binary, source_hash):
+            try:
+                identity = self.inspect_cli(self.dll)
+                print("CLI verified:", ci(identity, "appVersion"), "· engine", ci(identity, "engineVersion"))
+                return
+            except (OSError, subprocess.SubprocessError, CompatibilityError):
+                print("Cached CLI is stale/incomplete. Rebuilding this job's exact source once.")
+        stage = Path(source) / ("colab-build-" + uuid.uuid4().hex)
+        backup = Path(source) / ("colab-previous-" + uuid.uuid4().hex)
+        try:
+            self.run_process([str(self.dotnet), "publish", str(Path(source) / "MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj"),
+                              "-c", "Release", "-o", str(stage), "--nologo", "-v", "minimal", "-p:UseAppHost=false"])
+            identity = self.inspect_cli(stage / "mvs.dll")
+            files = {name: sha(stage / name) for name in ("mvs.dll", "mvs.deps.json", "mvs.runtimeconfig.json")}
+            (stage / "BUILD_RECEIPT.json").write_text(json.dumps({"sourceSha256": source_hash, "files": files,
+                                                                 "identity": identity}, indent=2), encoding="utf-8")
+            if binary.exists():
+                binary.rename(backup)
+            try:
+                stage.rename(binary)
+            except BaseException:
+                if backup.exists() and not binary.exists():
+                    backup.rename(binary)
+                raise
+            if backup.exists():
+                shutil.rmtree(backup)
+            self.dll = binary / "mvs.dll"
+            print("CLI verified:", ci(identity, "appVersion"), "· engine", ci(identity, "engineVersion"))
+        finally:
+            if stage.exists():
+                shutil.rmtree(stage)
+
     def install_cli(self):
         self.dotnet = Path("/content/dotnet/dotnet")
-        if not self.dotnet.exists():
+        # An existing host is not proof that SDK 8 survived a partial installation.
+        usable = False
+        if self.dotnet.is_file():
+            try:
+                sdks = subprocess.check_output([str(self.dotnet), "--list-sdks"], text=True,
+                                               timeout=15, env=dotnet_environment(self.dotnet), stderr=subprocess.STDOUT)
+                usable = any(line.startswith("8.") for line in sdks.splitlines())
+            except (OSError, subprocess.SubprocessError):
+                pass
+        if not usable:
             script = self.root / "dotnet-install.sh"
-            with urllib.request.urlopen("https://dot.net/v1/dotnet-install.sh", timeout=15) as response:
-                script.write_bytes(response.read())
+            for attempt in range(3):
+                try:
+                    with urllib.request.urlopen("https://dot.net/v1/dotnet-install.sh", timeout=15) as response:
+                        script.write_bytes(response.read())
+                    break
+                except OSError:
+                    if attempt == 2:
+                        raise RuntimeError("Cannot download the .NET SDK installer. This is a network error, not a notebook/CLI version mismatch.")
+                    self.send(); time.sleep(attempt + 1)
             self.run_process(["bash", str(script), "--channel", "8.0", "--install-dir", str(self.dotnet.parent), "--no-path"])
         os.environ.update({k: v for k, v in dotnet_environment(self.dotnet).items() if k in {"PATH", "DOTNET_ROOT", "DOTNET_ROOT_X64", "DOTNET_CLI_TELEMETRY_OPTOUT"}})
         source_zip = self.folder / "cli-source.zip"
-        source = self.root / "sources" / (sha(source_zip) if source_zip.exists() else hashlib.sha256(self.ref.encode()).hexdigest())
+        source_hash = sha(source_zip) if source_zip.exists() else hashlib.sha256(self.ref.encode()).hexdigest()
+        source = self.root / "sources" / source_hash
         if source_zip.exists():
-            if not (source / "MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj").exists():
+            if not source_bundle_valid(source_zip, source):
                 safe_extract(source_zip, source)
+            if not source_bundle_valid(source_zip, source):
+                raise CompatibilityError("The supplied CLI source fails its file checksums. Do not repair scientific hashes automatically.")
         else:
             if not (source / ".git").exists():
                 source.parent.mkdir(parents=True, exist_ok=True)
-                self.run_process(["git", "clone", "--depth", "1", "--branch", self.ref, "https://github.com/d1d2dopamine/MVS-Analyzer.git", str(source)])
-            revision = subprocess.check_output(["git", "-C", str(source), "rev-parse", "HEAD"], text=True).strip()
+                self.run_process(["git", "clone", "--depth", "1", "--branch", self.ref,
+                                  "https://github.com/d1d2dopamine/MVS-Analyzer.git", str(source)])
+            revision = subprocess.check_output(["git", "-C", str(source), "rev-parse", "HEAD"], text=True, timeout=15).strip()
             print("Source revision:", revision)
-        binary = source / "colab-publish"
-        self.dll = binary / "mvs.dll"
-        if not self.dll.exists():
-            self.run_process([str(self.dotnet), "publish", str(source / "MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj"), "-c", "Release", "-o", str(binary),
-                              "--nologo", "-v", "minimal", "-p:UseAppHost=false"])
-        info = subprocess.check_output(cli_command(self.dotnet, self.dll, "version"), env=dotnet_environment(self.dotnet), text=True)
-        print(info)
-        if APP_VERSION not in info or ENGINE_VERSION not in info or REVISION not in info:
-            raise RuntimeError("This CLI does not match this notebook/job. Update the source, rather than reusing an older release.")
+            source_hash = revision
+        self.prepare_cli_binary(source, source_hash)
 
     def refresh(self):
         if self.connection:
             pending = browser_request(self.connection, "request")
             if ci(pending, "Key") != ci(self.plan, "Key"):
                 raise RuntimeError("The job identity changed. Reconnect; the old job will not run silently.")
+            self.peer_capabilities = negotiate_transport(pending)
             self.plan = pending
 
     def command_receipt(self, command_id):
@@ -535,8 +846,9 @@ class Workspace:
         temporary.replace(receipt)
 
     def dispatch_command(self, pending):
-        if ci(pending, "Key") != ci(self.plan, "Key") or ci(pending, "Revision") != REVISION:
-            raise ValueError("The desktop job/protocol does not match this notebook")
+        if ci(pending, "Key") != ci(self.plan, "Key"):
+            raise ValueError("The desktop job does not match this notebook")
+        self.peer_capabilities = negotiate_transport(pending)
         command = ci(pending, "CommandId", "")
         if not command or command == self.command_id:
             return False
@@ -563,7 +875,7 @@ class Workspace:
             self.phase = "failed"
             self.message = "Acknowledgement failed. Reconnect and explicitly retry from MVS."
             self.save_receipt(command, action, self.phase)
-            raise ConnectionError(self.message)
+            raise getattr(self, "connection_error", None) or ConnectionError(self.message)
         try:
             if action == "prepare":
                 self.prepare_calibration()
@@ -604,33 +916,43 @@ class Workspace:
         self.show_monitor()
         return True
 
-    def serve(self):
-        """The first cell stays running as a bounded-I/O command loop, not as a calculation.
+    def serve(self, reconnect_attempts=20):
+        """Reconnect transient browser failures; never replay an unacknowledged calculation.
 
-        No hidden JS intervals and no callbacks into a busy Python kernel. Closing the tab
-        stops browser round trips; the desktop lease expires even if computation continues.
+        Bounds apply to consecutive failures, not session lifetime. Revoked codes and
+        incompatible contracts stop immediately instead of looping for hours.
         """
         if not self.connection:
             raise RuntimeError("Desktop control needs a connection code")
+        if type(reconnect_attempts) is not int or not 1 <= reconnect_attempts <= 120:
+            raise ValueError("Invalid reconnect budget")
         self.controls_ready = True
         failures = 0
         self.show_monitor()
-        print("MVS control is ready. Leave this first cell running and use the buttons in the MVS app.")
-        print("Управление готово. Оставьте первую ячейку работающей; кнопки расчёта находятся в отдельном окне MVS · Colab.")
+        print("MVS control is ready. Keep this cell running; calculations use the separate MVS window.")
+        print("Управление готово. Оставьте эту ячейку работать; расчёты запускаются из отдельного окна MVS.")
         try:
             while True:
+                delay = 2
                 try:
                     if not self.send():
-                        raise ConnectionError("Desktop unavailable")
+                        raise getattr(self, "connection_error", None) or ConnectionError("Desktop unavailable")
                     pending = browser_request(self.connection, "request")
                     self.dispatch_command(pending)
                     failures = 0
                 except (ConnectionError, TimeoutError) as error:
+                    self.connection_error = error
                     failures += 1
-                    if failures >= 3:
-                        print("Connection lost. Results are retained. Reopen this notebook and reconnect the first cell.")
+                    if getattr(error, "retryable", True) is False:
+                        print(redact_connection(error))
+                        print("Exchange stopped: follow the diagnostic above. Saved outputs remain / Обмен остановлен: используйте подсказку выше. Файлы сохранены.")
                         break
-                time.sleep(2)
+                    if failures >= reconnect_attempts:
+                        print("Reconnect budget exhausted. Saved files remain. Restore browser local access and rerun this cell; use a fresh code after an MVS restart.")
+                        break
+                    delay = min(15, 2 ** min(failures, 4))
+                    print(f"Connection interrupted; retry {failures}/{reconnect_attempts} in {delay}s / Повтор подключения")
+                time.sleep(delay)
         finally:
             self.controls_ready = False
             self.phase = "offline"
