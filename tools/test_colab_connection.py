@@ -438,8 +438,10 @@ class ConnectionTests(unittest.TestCase):
         for name in ("MVS_Colab.ipynb", "MVS_Colab_Benchmark.ipynb"):
             notebook = json.loads((ROOT / "notebooks" / name).read_text())
             code = "\n".join("".join(cell["source"]) for cell in notebook["cells"] if cell["cell_type"] == "code")
-            self.assertIn("mvs = bootstrap_workspace(", code)
-            self.assertIn('getattr(_mvs_error, "code", "") in {"connection_revoked"', code)
+            self.assertIn("workspace = bootstrap_workspace(", code)
+            self.assertIn("run_notebook_cell(globals()", code)
+            self.assertIn("RECONNECT_ERROR_CODES", code)
+            self.assertNotIn("RESET_CONNECTION", code)
             self.assertNotIn(CODE, code)
             for cell in notebook["cells"]:
                 if cell["cell_type"] == "code":

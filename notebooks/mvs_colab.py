@@ -460,6 +460,109 @@ def bootstrap_workspace(connection, ref="main", mode="standard", desktop_control
     return workspace
 
 
+# Ownership never transfers implicitly: a new runtime needs a fresh desktop code.
+RECONNECT_ERROR_CODES = frozenset({
+    "connection_revoked", "runtime_conflict", "status_conflict", "stale_status", "wrong_job",
+})
+
+
+def finish_notebook_session(workspace, message, phase="offline"):
+    """Best-effort final status, including after a user interrupts a running cell."""
+    failure = getattr(workspace, "connection_error", None)
+    workspace.controls_ready = False
+    workspace.phase = phase
+    workspace.percent = None
+    workspace.message = message
+    try:
+        workspace.send()
+    except (Exception, KeyboardInterrupt) as error:
+        # A failed final notification must not require interrupting the cell again.
+        print("Final MVS status could not be delivered / Не удалось передать финальный статус: " + redact_connection(error))
+    finally:
+        if failure is not None:
+            workspace.connection_error = failure
+    workspace.show_monitor()
+
+
+def run_notebook_cell(namespace, ref="main", mode="standard", desktop_control=True, prompt=None):
+    """Resume remembered ownership or ask for a new code, with bounded recovery.
+
+    Keep the workspace in the notebook namespace before activation so that an
+    interrupted SDK preparation can resume its epoch and sequence. Credentials
+    stay in memory; a lost Python context never steals an existing desktop lease.
+    """
+    if prompt is None:
+        from getpass import getpass
+        prompt = getpass
+    workspace = None
+    for attempt in range(2):
+        previous = namespace.get("mvs")
+        if previous is not None and getattr(previous, "controls_ready", False):
+            print("Stop the running controller cell first / Сначала остановите работающую ячейку контроллера.")
+            return previous
+        error = getattr(previous, "connection_error", None)
+        rejected = getattr(error, "code", "") in RECONNECT_ERROR_CODES
+        changed_mode = previous is not None and getattr(previous, "desktop_control", desktop_control) != desktop_control
+        ask = previous is None or rejected or changed_mode
+        code = getattr(previous, "connection", "")
+        try:
+            if ask:
+                if (previous is None and desktop_control) or rejected:
+                    print("If this code was already used in another or restarted runtime, stop that controller and choose More → Reconnect with a new code in MVS. / Если код уже использовался в другой или перезапущенной среде, остановите прежний контроллер и выберите в MVS «Ещё → Переподключить с новым кодом».")
+                code = prompt("MVS connection code / Код подключения (empty = manual upload / пусто = ручная загрузка): ").strip()
+                if rejected and code and code == getattr(previous, "connection", ""):
+                    print("This code cannot be resumed. Get a NEW code from MVS; the old controller was not replaced. / Этот код нельзя продолжить. Получите НОВЫЙ код в MVS; прежний контроллер не подменён.")
+                    return previous
+            workspace = bootstrap_workspace(connection=code, ref=ref, mode=mode,
+                                            desktop_control=desktop_control, previous=previous)
+            namespace["mvs"] = workspace
+            namespace["RunCancelled"] = getattr(workspace, "cancel_exception", RunCancelled)
+            workspace.activate()
+            break
+        except KeyboardInterrupt:
+            if workspace is not None:
+                finish_notebook_session(workspace, "Cell stopped; rerun it to resume / Ячейка остановлена; запустите её снова для продолжения.")
+            print("Stopped. Saved files remain / Остановлено. Сохранённые файлы остаются.")
+            return workspace or previous
+        except (ConnectionError, TimeoutError) as failure:
+            remembered = workspace if workspace is not None else previous
+            if remembered is not None:
+                remembered.connection_error = failure
+                finish_notebook_session(remembered, "Connection needs attention; saved files remain / Требуется восстановить связь; файлы сохранены.")
+            print(redact_connection(failure))
+            if getattr(failure, "code", "") in RECONNECT_ERROR_CODES and attempt == 0 and remembered is not None:
+                workspace = None
+                continue
+            print("Rerun this cell after restoring access to MVS. No results were deleted. / Восстановите доступ к MVS и повторите запуск ячейки. Результаты не удалены.")
+            return remembered
+        except Exception as failure:
+            cancel_type = getattr(workspace, "cancel_exception", RunCancelled)
+            if isinstance(failure, cancel_type):
+                finish_notebook_session(workspace, "Calculation stopped; saved files remain / Расчёт остановлен; сохранённые файлы остаются.")
+                return workspace
+            if workspace is not None:
+                finish_notebook_session(workspace, "Preparation failed; see the error / Подготовка не завершена; см. ошибку.", phase="failed")
+            raise  # Do not hide corrupt data, incompatible science or failed builds.
+    else:
+        return workspace
+
+    try:
+        if workspace.connection and desktop_control:
+            workspace.serve()
+        else:
+            workspace.calibrate()
+    except KeyboardInterrupt:
+        finish_notebook_session(workspace, "Cell stopped; rerun it to resume / Ячейка остановлена; запустите её снова для продолжения.")
+        print("Stopped. Saved files remain / Остановлено. Сохранённые файлы остаются.")
+    except Exception as failure:
+        if isinstance(failure, getattr(workspace, "cancel_exception", RunCancelled)):
+            finish_notebook_session(workspace, "Calculation stopped; saved files remain / Расчёт остановлен; сохранённые файлы остаются.")
+        else:
+            finish_notebook_session(workspace, "Operation failed; see the error / Операция не завершена; см. ошибку.", phase="failed")
+            raise
+    return workspace
+
+
 def source_bundle_valid(source_zip, source):
     """Verify cached source against the exact archive's file registry before compiling it."""
     try:
@@ -514,6 +617,7 @@ class Workspace:
         self.peer_capabilities = set()
         self.connection_error = None
         self._prefetched_archive = None
+        self._pending_download = None
         self.sequence = 0
         self.command_id = ""
         self.percent = None
@@ -601,9 +705,9 @@ class Workspace:
         self.controls_ready = bool(self.connection and getattr(self, "desktop_control", False))
         self.percent = None
         self.message = "Preparing the exact CLI from this job / Подготовка CLI задания"
-        if not self.send():
-            raise ConnectionError(self.last_notice or "MVS is unreachable. Copy a fresh connection code and allow browser local-network access.")
         try:
+            if not self.send():
+                raise self.connection_error or ConnectionError(self.last_notice or "MVS is unreachable. Copy a fresh connection code and allow browser local-network access.")
             self.install_cli()
             self.prepare_calibration()
             self.send(include_files=True)
@@ -885,9 +989,11 @@ class Workspace:
             elif action == "analyze":
                 self.analyze()
             elif action == "download":
-                self.download()
+                # Finish acknowledgement and the controller BEFORE invoking Colab's
+                # asynchronous file transfer; it needs the kernel to become idle.
+                self._pending_download = self.download(start_transfer=False)
                 self.phase = previous_phase if previous_phase in {"calibrated", "complete", "failed"} else "ready"
-                self.message = "Download requested in your Colab browser / Скачивание передано браузеру Colab"
+                self.message = "ZIP prepared; controller will stop for browser download / ZIP подготовлен; контроллер завершится для скачивания в браузере"
             else:
                 self.phase = "cancelled"
                 self.message = "Pending command cancelled / Ожидающая команда отменена"
@@ -927,6 +1033,7 @@ class Workspace:
         if type(reconnect_attempts) is not int or not 1 <= reconnect_attempts <= 120:
             raise ValueError("Invalid reconnect budget")
         self.controls_ready = True
+        self._pending_download = None
         failures = 0
         self.show_monitor()
         print("MVS control is ready. Keep this cell running; calculations use the separate MVS window.")
@@ -939,6 +1046,8 @@ class Workspace:
                         raise getattr(self, "connection_error", None) or ConnectionError("Desktop unavailable")
                     pending = browser_request(self.connection, "request")
                     self.dispatch_command(pending)
+                    if self._pending_download is not None:
+                        break  # No extra polls or sleeps after a successful ZIP request.
                     failures = 0
                 except (ConnectionError, TimeoutError) as error:
                     self.connection_error = error
@@ -953,13 +1062,18 @@ class Workspace:
                     delay = min(15, 2 ** min(failures, 4))
                     print(f"Connection interrupted; retry {failures}/{reconnect_attempts} in {delay}s / Повтор подключения")
                 time.sleep(delay)
+        except KeyboardInterrupt:
+            print("Controller stopped by user; saved outputs remain / Контроллер остановлен пользователем; результаты сохранены.")
         finally:
-            self.controls_ready = False
-            self.phase = "offline"
-            self.percent = None
-            self.message = "Controller stopped; saved outputs retained / Связь остановлена, результаты сохранены"
-            self.send()
-            self.show_monitor()
+            message = ("ZIP prepared. Cell will finish for download; rerun it to resume control / ZIP подготовлен. Ячейка завершится для скачивания; запустите её снова для управления."
+                       if self._pending_download is not None else
+                       "Controller stopped; rerun the first cell to resume. Saved outputs retained / Контроллер остановлен; запустите первую ячейку снова. Результаты сохранены.")
+            finish_notebook_session(self, message)
+        if self._pending_download is not None:
+            archive = self._pending_download
+            self._pending_download = None
+            # Last side effect of the cell. No status requests or wait loop after this.
+            self.start_browser_download(archive)
 
     @contextlib.contextmanager
     def phase_lock(self):
@@ -1118,7 +1232,7 @@ class Workspace:
         except ImportError:
             pass
 
-    def download(self):
+    def download(self, *, start_transfer=True):
         allowed = ["calibration", "analysis", "variance", "melsm", "estimation", "benchmark"]
         archive = self.root / ("MVS_results_" + ci(self.plan, "Key")[:12] + ".zip")
         count = 0
@@ -1149,6 +1263,19 @@ class Workspace:
             archive.unlink(missing_ok=True)
             raise RuntimeError("No outputs exist yet. Run the preceding cells first.")
         self.send(include_files=True)
-        from google.colab import files
-        files.download(str(archive))
+        if start_transfer:
+            self.start_browser_download(archive)
         return archive
+
+    @staticmethod
+    def start_browser_download(archive):
+        # Colab does not acknowledge that the browser saved bytes to the user's disk.
+        # Retain the archive and offer the Files pane even if the download is blocked.
+        print("ZIP ready / ZIP готов:", archive)
+        print("The cell will finish now. If the browser download does not start, use Colab's Files pane → mvs-work → the ZIP → Download. / Ячейка сейчас завершится. Если скачивание не началось: панель «Файлы» Colab → mvs-work → ZIP → «Скачать».")
+        print("For more MVS commands, rerun the first cell. / Для следующих команд MVS снова запустите первую ячейку.")
+        try:
+            from google.colab import files
+            files.download(str(archive))
+        except Exception as error:
+            print("Browser transfer could not be started; the ZIP remains available in Files / Не удалось запустить скачивание; ZIP сохранён в панели «Файлы»: " + redact_connection(error))

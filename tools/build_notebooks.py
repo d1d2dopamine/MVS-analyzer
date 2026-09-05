@@ -14,36 +14,11 @@ from __future__ import annotations
 REPOSITORY_REF = "main" # @param {type:"string"}
 MODE = "MODE_DEFAULT" # @param ["standard", "variance", "melsm", "estimation", "benchmark"]
 DESKTOP_CONTROL = True # @param {type:"boolean"}
-RESET_CONNECTION = False # @param {type:"boolean"}
 
 '''.replace("MODE_DEFAULT", mode) + helper + '''
-# A saved calibration is validated and reused. The controller's running cell is not a busy job.
-from getpass import getpass
-_mvs_previous = globals().get("mvs")
-if getattr(_mvs_previous, "controls_ready", False):
-    raise RuntimeError("Stop the previous controller cell before reconnecting.")
-_mvs_error = getattr(_mvs_previous, "connection_error", None)
-_mvs_fresh_code = RESET_CONNECTION or _mvs_previous is None or getattr(_mvs_error, "code", "") in {"connection_revoked", "runtime_conflict", "status_conflict", "stale_status", "wrong_job"}
-if _mvs_fresh_code:
-    _mvs_code = getpass("MVS connection code / Код подключения (empty = manual upload / пусто = ручная загрузка): ").strip()
-else:
-    _mvs_code = _mvs_previous.connection
-# Runtime code comes only from this approved local job, verified against its manifest.
-# Existing ui-colab-3 desktops use the compatible controller embedded in this notebook.
-mvs = bootstrap_workspace(connection=_mvs_code, ref=REPOSITORY_REF, mode=MODE,
-                          desktop_control=DESKTOP_CONTROL, previous=None if RESET_CONNECTION else _mvs_previous)
-RunCancelled = getattr(mvs, "cancel_exception", RunCancelled)
-del _mvs_code, _mvs_previous, _mvs_error, _mvs_fresh_code
-try:
-    mvs.activate()
-    if mvs.connection and DESKTOP_CONTROL:
-        mvs.serve()  # Intentionally stays running. Use the separate MVS window, not cells 2/3.
-    else:
-        mvs.calibrate()  # Manual CSV/ZIP workflow remains available.
-except (KeyboardInterrupt, RunCancelled):
-    mvs.phase = "cancelled"; mvs.controls_ready = False; mvs.send(); raise
-except Exception:
-    mvs.phase = "failed"; mvs.controls_ready = False; mvs.send(); raise
+# A saved calibration is validated and reused. Connection recovery is automatic.
+# Download ends the controller normally so Colab can finish transferring the ZIP.
+run_notebook_cell(globals(), ref=REPOSITORY_REF, mode=MODE, desktop_control=DESKTOP_CONTROL);
 '''
     second = '''# @title 2 · Manual analysis / additional method · Ручной анализ
 # In desktop-control mode, use Analyze in MVS. This cell is the manual fallback.

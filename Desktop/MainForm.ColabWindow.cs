@@ -200,7 +200,7 @@ internal sealed partial class MainForm
                 : connected && !matches && standard
                 ? T("This window controls a different data/settings snapshot. Stop and Download still work. To compute with the current data, use More → Prepare current data.", "Это задание относится к другим данным или настройкам. Остановка и скачивание доступны. Для нового расчёта: «Ещё» → «Задание из текущих данных».")
                 : !live && session != null && !pending
-                ? T("Open the same notebook and reconnect. Saved files are retained; a cloud process may still be running.", "Откройте тот же ноутбук и переподключитесь. Сохранённые файлы остаются; облачный процесс может ещё работать.")
+                ? T("Run the first cell in the same notebook to resume. If it requests a new code, use More → Reconnect with a new code. Saved files remain; an interrupted cloud process may still be running.", "Запустите первую ячейку в том же ноутбуке. Если она запросит новый код: «Ещё → Переподключить с новым кодом». Файлы сохранены; при обрыве связи облачный процесс мог продолжиться.")
                 : session?.ProgressMessage.Length > 0 ? session.ProgressMessage
                 : pending ? T("Open Connection code, run the first cell, paste the code and leave that cell running.", "Откройте «Код подключения», запустите первую ячейку, вставьте код и оставьте её работающей.")
                 : saved ? T("Verified calibration is available. Analysis will reuse it.", "Проверенная калибровка сохранена. Анализ использует её без повторного расчёта.")
@@ -283,8 +283,8 @@ internal sealed partial class MainForm
         void Add(Control control) { int row = layout.RowCount++; layout.RowStyles.Add(new RowStyle(SizeType.AutoSize)); control.Dock = DockStyle.Top; control.Margin = new Padding(0, 0, 0, 14); layout.Controls.Add(control, 0, row); }
         Label TextLine(string text) => new() { Text = text, AutoSize = true, MaximumSize = new Size(560, 0), ForeColor = TextColor };
         Add(new Label { Text = T("Connect the notebook once", "Подключите ноутбук один раз"), Font = new Font(Font.FontFamily, 16, FontStyle.Bold), AutoSize = true });
-        Add(TextLine(T("Run the updated first cell. Paste this code at the hidden prompt and leave the cell running. If an old connection is remembered, enable RESET_CONNECTION before rerunning it.",
-            "Запустите обновлённую первую ячейку. Вставьте код в скрытое поле ввода и оставьте ячейку работающей. Если запомнилось старое подключение, перед повторным запуском включите RESET_CONNECTION.")));
+        Add(TextLine(T("Run the updated first cell. It resumes a remembered connection or asks for a code when needed. After downloading results, rerun the first cell to resume control.",
+            "Запустите обновлённую первую ячейку. Она продолжит сохранённое подключение или запросит код при необходимости. После скачивания результатов запустите первую ячейку снова для управления.")));
         var box = new TextBox { Text = code, ReadOnly = true, UseSystemPasswordChar = true, AccessibleName = T("Private connection code", "Приватный код подключения") };
         Add(box);
         var reveal = new CheckBox { Text = T("Show code", "Показать код"), AutoSize = true };

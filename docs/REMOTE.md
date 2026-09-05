@@ -27,7 +27,7 @@
 - **Калибровать** — расчёт для подготовленных данных/настроек. Проверенная готовая калибровка повторно не рассчитывается.
 - **Анализировать** — анализ на основе калибровки. Дополнительные методы готовятся на их собственных страницах и затем отображаются в панели.
 - **Остановить** — запрос завершения текущего процесса. Остановка считается выполненной после подтверждения среды, а не сразу после нажатия.
-- **Скачать результаты** — при живой связи скачивание полного ZIP в браузере Colab. Разрешите скачивание в браузере. Без связи можно сохранить только проверенные файлы, уже полученные приложением; такой ZIP явно помечается как неполный.
+- **Скачать результаты** — при живой связи подготовка проверенного ZIP и запуск скачивания в браузере Colab. Первая ячейка штатно завершается, чтобы не блокировать передачу; вручную останавливать её не нужно. Для следующих команд снова запустите первую ячейку. ZIP остаётся в `/content/mvs-work`: если браузер не начал скачивание, откройте панель «Файлы» Colab, папку `mvs-work` и выберите «Скачать» у ZIP. Приложение не подтверждает сохранение файла на диск браузером. Без связи MVS может сохранить только проверенные файлы, уже полученные приложением; такой ZIP явно помечается как неполный.
 - **Выбрать среду…** — подсказка и открытие блокнота. Реальный выбор и квоты управляются Google, не приложением.
 - **Код подключения…** — повторный просмотр/копирование кода и сохранение адреса блокнота. Код скрыт по умолчанию, но его можно показать для ручного копирования.
 - **Переподключить** — новый код для того же подготовленного задания. Старый код отзывается, файлы сохраняются. Калибровка автоматически не повторяется.
@@ -48,7 +48,7 @@
 
 1. Нажмите **Открыть блокнот**: будет использован тот же адрес, а не принудительная новая копия.
 2. При необходимости остановите прежний контроллер. Облачный процесс мог продолжить работу после потери связи.
-3. Для нового кода нажмите **Переподключить**, включите `RESET_CONNECTION = True` в первой ячейке и вставьте актуальный код.
+3. Запустите первую ячейку снова: в той же среде она автоматически продолжит сохранённое подключение. Если код отозван, задание изменилось или память среды потеряна, получите новый код через **Ещё → Переподключить с новым кодом** в MVS и введите его по запросу ячейки. Тот же код не передаётся другой среде автоматически, даже после тайм-аута; защита от двух контроллеров сохраняется.
 4. После подготовки используйте команды в панели MVS. Переподключение само не запускает расчёт.
 
 Сообщения другой среды и изменённые/устаревшие сообщения отклоняются. Новая сборка допускает только точный повтор последнего принятого POST после потери ответа: без повторного импорта, продления активности или подтверждения другой команды. Перезапуск приложения также не восстанавливает вымышленную активную сессию: загрузите соответствующие данные/настройки и подготовьте связь заново. Сохранённый адрес и проверенная калибровка остаются на диске.
@@ -68,7 +68,7 @@ MVS больше не добавляет `copy=true`. Но приложение 
 Не отключайте защиту браузера ради локального подключения.
 
 1. Подготовьте задание в MVS и сохраните его ZIP. Он содержит данные, точные настройки, исходники CLI и совместимую калибровку, если она уже есть.
-2. В первой ячейке задайте `DESKTOP_CONTROL = False`, `RESET_CONNECTION = True`, оставьте код пустым и загрузите ZIP. Отдельный CSV/TSV тоже допустим, но не переносит точные настройки приложения.
+2. Остановите контроллер, если он работает. В первой ячейке задайте `DESKTOP_CONTROL = False`, оставьте код пустым при запросе и загрузите ZIP. Отдельный CSV/TSV тоже допустим, но не переносит точные настройки приложения.
 3. Выполните первую ячейку для подготовки/калибровки, вторую для анализа, третью для скачивания.
 4. В MVS загрузите соответствующие данные/настройки и выберите **Импорт результатов…**.
 
@@ -87,7 +87,7 @@ MVS больше не добавляет `copy=true`. Но приложение 
 
 Update this notebook once. It supports the known ui-colab-3 desktop and a versioned wire contract in the patched desktop. A new desktop job can carry its own verified matching controller, independent of UI revision labels. Old Drive copies do not auto-update themselves. Open Colab in a browser on the same computer as MVS. Prepare and approve a job in MVS, choose Python 3 / CPU in Colab, run the first cell with `DESKTOP_CONTROL = True`, paste the private code and leave that cell running as the controller. Use the separate Colab control window to calibrate, analyze, cancel and download. Cells 2/3 are manual fallbacks.
 
-The app reopens the same notebook without forced copying. Leases expire about 45 seconds after the last valid status. Reconnect revokes the old token, keeps verified outputs and only prepares the controller. It does not stop Google's runtime, select GPU through an unofficial API or bypass quotas. Recover the code from the panel at any time; for a new code use `RESET_CONNECTION = True`.
+The app reopens the same notebook without forced copying. Leases expire about 45 seconds after the last valid status. Reconnect revokes the old token, keeps verified outputs and only prepares the controller. It does not stop Google's runtime, select GPU through an unofficial API or bypass quotas. The first cell automatically resumes remembered ownership. If the code is revoked or the Python context was lost, obtain a fresh code from MVS when prompted; a second runtime cannot take over an existing code. Download prepares the ZIP, ends the controller normally and then requests browser transfer. Rerun the first cell for further commands. If browser transfer is blocked, use Colab's Files pane to download the retained ZIP from `/content/mvs-work`.
 
 Full downloads occur in the Colab browser. Offline MVS can save only verified files already received, clearly marked as a subset. If local access is blocked, use manual job ZIP upload and result import without weakening browser security. See [validation and limitations](VALIDATION.md) for the scope of automated checks and scientific interpretation.
 

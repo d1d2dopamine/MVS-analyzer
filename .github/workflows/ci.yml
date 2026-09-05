@@ -26,6 +26,7 @@ jobs:
           python tools/test_colab.py
           python tools/test_colab_control.py
           python tools/test_colab_connection.py
+          python tools/test_colab_lifecycle.py
           python tools/test_source.py
           python tools/test_ui_patch.py
       - name: Limited C# structural check (not compilation)
