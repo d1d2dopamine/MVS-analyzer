@@ -35,17 +35,17 @@ internal sealed partial class MainForm
     {
         var status = new Label { Text = T("No data has been sent. Local execution remains available above.", "Данные не отправлены. Локальный запуск доступен выше."), ForeColor = Secondary, AutoSize = false };
         var run = ColabButton(() => {
+            if (layoutTestMode) { ShowColabPanel(); return; }
             string key = data == null ? "" : CalibrationKey(repetitions());
             if (key.Length > 0 && Sessions.Find(key) != null) ShowColabPanel(key);
-            else StartColab(action, repetitions());
+            else { ShowColabPanel(); StartColab(action, repetitions()); }
         });
-        var reopen = Button(T("Colab control panel", "Панель управления Colab"), false, 285);
-        reopen.Click += (_, _) => ShowColabPanel();
-        var import = Button(T("Import Colab result…", "Импортировать результат Colab…"), false, 285);
+        var import = Button(T("Import result…", "Импортировать результат…"), false, 245);
         import.Click += (_, _) => ImportColabBundle();
         page.Controls.Add(FlowCard("Google Colab", T(
-            "Connect the first notebook cell once, then control calibration, analysis and downloads from the Colab panel. You can always reopen the code or reconnect; saved calibration is retained.",
-            "Подключите первую ячейку блокнота, затем управляйте калибровкой, анализом и скачиванием из панели Colab. Код можно открыть снова; переподключение не удаляет калибровку."), run, reopen, import, status));
+            "Optional cloud execution in a separate control window. Connect the notebook once, then calibrate, analyze, stop and download here.",
+            "Необязательный облачный расчёт в отдельном окне. Подключите ноутбук один раз, затем управляйте калибровкой, анализом, остановкой и скачиванием."),
+            new ActionButtonPanel(false, 2, run, import), status));
         colabButtons.Add((run, status, action, repetitions));
         var timer = new System.Windows.Forms.Timer { Interval = 2500 };
         timer.Tick += (_, _) => RefreshColabButtons(); run.Disposed += (_, _) => { timer.Stop(); timer.Dispose(); };
@@ -65,11 +65,11 @@ internal sealed partial class MainForm
                 bool opening = Sessions.Pending(session, DateTime.UtcNow);
                 // The entry point is also the recovery path. Never disable it because of a lease.
                 item.Button.Enabled = true;
-                item.Button.Text = session != null ? T("Open Colab panel", "Открыть панель Colab") : T("Run via Colab", "Запустить через Colab");
-                item.Status.Text = busy ? T("MVS is calculating in Colab. Progress and Stop are available in the control panel.", "MVS считает в Colab. Прогресс и остановка доступны в панели управления.")
-                    : opening ? T("Waiting for the first cell. The code can be copied again from the Colab panel.", "Ожидается первая ячейка. Код можно снова скопировать из панели Colab.")
+                item.Button.Text = session != null ? T("Open Colab window", "Открыть окно Colab") : T("Run via Colab", "Запустить через Colab");
+                item.Status.Text = busy ? T("MVS is calculating in Colab. Progress and Stop are available in the separate window.", "MVS считает в Colab. Прогресс и остановка доступны в отдельном окне.")
+                    : opening ? T("Waiting for the first cell. The code can be copied again from the Colab window.", "Ожидается первая ячейка. Код можно снова скопировать из окна Colab.")
                     : complete ? T("Calibration is verified and retained, even when the notebook is disconnected.", "Калибровка проверена и сохранена, даже если блокнот отключён.")
-                    : Sessions.Live(session, DateTime.UtcNow) ? T("The MVS runtime is connected. Use the control panel.", "Среда MVS подключена. Откройте панель управления.")
+                    : Sessions.Live(session, DateTime.UtcNow) ? T("The MVS runtime is connected. Use the control window.", "Среда MVS подключена. Откройте окно управления.")
                     : session != null ? T("No live confirmation. Reopen the same notebook or reconnect; a new copy is not required.", "Нет подтверждения связи. Откройте тот же блокнот или переподключитесь — новая копия не нужна.")
                     : T("No data has been sent. Local execution remains available.", "Данные не отправлены. Локальный запуск остаётся доступен.");
             }
@@ -82,13 +82,16 @@ internal sealed partial class MainForm
         {
             OpenBrowser(Sessions.NotebookFor(CalibrationKey(repetitions)));
         }
-        catch (Exception error) { MessageBox.Show(this, error.Message, "MVS"); }
+        catch (Exception error) { MessageBox.Show(ColabDialogOwner, error.Message, "MVS"); }
     }
     private void StartColab(string action, int repetitions, string kind = "standard", string[]? extraArguments = null)
     {
         try
         {
-            if (layoutTestMode) return;
+            if (layoutTestMode || localOperationInProgress) return;
+            // Additional methods are job kinds, not controller commands. The old code sent
+            // "variance"/"melsm"/"estimation"/"benchmark" and Launch rejected every button.
+            action = NormalizeColabAction(action, kind);
             SettingsContract.Validate(settings);
             string[] arguments = extraArguments ?? Array.Empty<string>();
             bool needsData = kind is "standard" or "variance" or "melsm";
@@ -98,7 +101,7 @@ internal sealed partial class MainForm
                 if (kind == "melsm" || data == null)
                 {
                     using var pick = new OpenFileDialog { Filter = "CSV / TSV (*.csv;*.tsv)|*.csv;*.tsv" };
-                    if (pick.ShowDialog(this) != DialogResult.OK) return;
+                    if (pick.ShowDialog(ColabDialogOwner) != DialogResult.OK) return;
                     source = pick.FileName;
                 }
                 else
@@ -128,10 +131,9 @@ internal sealed partial class MainForm
             { ReceiveColabState(new ColabRunPlan(key, kind, action, inputHash, fingerprint, repetitions, arguments)); ShowColabPanel(key); return; }
             if (Sessions.Live(prior, DateTime.UtcNow) && prior!.ControlsReady && colabPlans.ContainsKey(key))
             { lock (colabGate) Sessions.QueueAction(key, action); ShowColabPanel(key); return; }
-            if (MessageBox.Show(this, needsData
+            if (MessageBox.Show(ColabDialogOwner, needsData
                 ? T("The selected measurements and settings will be uploaded to your Google Colab runtime when you run its first cell. Allow this job?", "Выбранные измерения и настройки будут переданы в ваш Google Colab при запуске первой ячейки. Разрешить это задание?")
                 : T("Open a synthetic study in Google Colab? Your measurements will not be included.", "Открыть синтетическое исследование в Google Colab? Ваши измерения передаваться не будут."), "Google Colab", MessageBoxButtons.YesNo, MessageBoxIcon.Information) != DialogResult.Yes) return;
-            string url;
             lock (colabGate)
             {
                 Sessions.GetOrCreate(key, kind, action);
@@ -143,15 +145,28 @@ internal sealed partial class MainForm
                 BuildColabArchive(plan, source);
                 colabPlans[key] = plan;
                 colabBridge ??= new ColabBridge(HandleColabRequest);
-                url = Sessions.Launch(key, action);
+                Sessions.Launch(key, action);
             }
             ShowColabPanel(key);
             TryCopyColabCode(key);
-            OpenBrowser(url);
+            // The connection dialog gives a single explicit Open notebook action, avoiding
+            // duplicate tabs and focus theft before the user can copy the connection code.
             ShowColabConnection(key);
         }
-        catch (Exception error) { MessageBox.Show(this, error.Message, "MVS · Colab", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
+        catch (Exception error) { MessageBox.Show(ColabDialogOwner, error.Message, "MVS · Colab", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
     }
+    internal static string NormalizeColabAction(string action, string kind)
+    {
+        if (kind is "variance" or "melsm" or "estimation" or "benchmark")
+        {
+            if (action == "prepare") return "prepare";
+            if (action == kind || action == "analyze") return "analyze";
+            throw new InvalidDataException("Unknown Colab method action.");
+        }
+        if (kind != "standard" || action is not ("prepare" or "calibrate" or "analyze")) throw new InvalidDataException("Unknown Colab job/action.");
+        return action;
+    }
+
     private string EnsureDatasetFile()
     {
         if (datasetPath.Length > 0 && File.Exists(datasetPath)) return datasetPath;
@@ -270,6 +285,11 @@ internal sealed partial class MainForm
     }
     private void ReceiveColabState(ColabRunPlan plan)
     {
+        if (localOperationInProgress)
+        {
+            statusLabel.Text = T("Colab files received separately — local calculation is unchanged.", "Файлы Colab получены отдельно — локальный расчёт не изменён.");
+            return;
+        }
         if (data == null || plan.Kind != "standard") { RefreshColabButtons(); return; }
         try
         {
@@ -295,7 +315,7 @@ internal sealed partial class MainForm
     private void ImportColabBundle()
     {
         using var pick = new OpenFileDialog { Filter = "MVS Colab results (*.zip)|*.zip" };
-        if (pick.ShowDialog(this) != DialogResult.OK) return;
+        if (pick.ShowDialog(ColabDialogOwner) != DialogResult.OK) return;
         try
         {
             using ZipArchive zip = ZipFile.OpenRead(pick.FileName);
@@ -307,7 +327,6 @@ internal sealed partial class MainForm
                 entry.ExtractToFile(temporary, true); CalibrationState state = CalibrationPersistence.Read(temporary);
                 if (data == null || state.DatasetHash != datasetHash || state.SettingsHash != SettingsContract.Fingerprint(settings)) throw new InvalidDataException(T("Load the matching dataset and settings first.", "Сначала загрузите соответствующие данные и настройки."));
                 string key = CalibrationKey(state.Repetitions); Sessions.GetOrCreate(key, "standard", "analyze"); Directory.CreateDirectory(Sessions.DirectoryFor(key));
-                File.Copy(temporary, Sessions.CalibrationPath(key), true);
                 var plan = new ColabRunPlan(key, "standard", "analyze", state.DatasetHash, state.SettingsHash, state.Repetitions, Array.Empty<string>());
                 ZipArchiveEntry? result = zip.GetEntry("analysis/results.json");
                 if (result != null)
@@ -318,13 +337,15 @@ internal sealed partial class MainForm
                     ScientificJson.AtomicText(Path.Combine(Sessions.DirectoryFor(key), "results.json"), Encoding.UTF8.GetString(resultBytes));
                     ScientificJson.AtomicText(Path.Combine(Sessions.DirectoryFor(key), "run_manifest.json"), Encoding.UTF8.GetString(manifestBytes));
                 }
+                File.Copy(temporary, Sessions.CalibrationPath(key), true);
+                colabPanelKey = key;
                 ReceiveColabState(plan);
                 if (result != null) lastArtifacts.Add(OutputExporter.FromFile("Colab result archive", pick.FileName));
                 Navigate(results == null ? "calibration" : "results");
             }
             finally { File.Delete(temporary); }
         }
-        catch (Exception error) { MessageBox.Show(this, error.Message, "MVS · Colab", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
+        catch (Exception error) { MessageBox.Show(ColabDialogOwner, error.Message, "MVS · Colab", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
     }
     private static byte[] ReadColabEntry(ZipArchiveEntry entry)
     {

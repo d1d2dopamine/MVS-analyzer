@@ -139,6 +139,7 @@ internal sealed partial class MainForm
 
     private async Task RunBenchmarkAsync(BenchmarkProfile profile, int seed, string outputRoot, string realData, Label status, Button openLast)
     {
+        if (localOperationInProgress) return;
         if (outputRoot.Length == 0)
         {
             status.ForeColor = Color.FromArgb(176, 66, 27);
@@ -151,20 +152,20 @@ internal sealed partial class MainForm
             T("Running benchmark", "Прогон бенчмарка"),
             T("Cancel", "Отмена"),
             russian);
-        progress.Show(this);
-        progress.Refresh();
-        Enabled = false;
 
         BenchmarkReportResult? report = null;
         string failure = "";
         bool cancelled = false;
         try
         {
+            await RunLocalTaskAsync(progress, async () =>
+            {
             var reporter = new Progress<ProgressInfo>(progress.UpdateProgress);
             CancellationToken token = progress.Token;
             report = await Task.Run(
                 () => BenchmarkReport.RunAndWrite(profile, seed, outputRoot, realData, russian, reporter, token),
                 token);
+            });
         }
         catch (OperationCanceledException)
         {
@@ -176,8 +177,6 @@ internal sealed partial class MainForm
         }
         finally
         {
-            Enabled = true;
-            progress.Close();
             Activate();
         }
 

@@ -140,22 +140,25 @@ internal sealed partial class MainForm
     }
     private async Task RunScientificAsync<TResult>(string caption, Func<IProgress<ProgressInfo>, CancellationToken, TResult> work, Action<TResult, string> save, Func<TResult, string> describe)
     {
+        if (localOperationInProgress) return;
         using var destination = new FolderBrowserDialog { Description = T("Choose parent directory for a new result folder", "Выберите родительскую папку для нового результата") };
         if (destination.ShowDialog(this) != DialogResult.OK) return;
         string folder = Path.Combine(destination.SelectedPath, "MVS_science_" + DateTime.UtcNow.ToString("yyyyMMdd_HHmmss", CultureInfo.InvariantCulture) + "_" + Guid.NewGuid().ToString("N")[..6]);
         using var progress = new ProgressDialog(caption, T("Cancel", "Отмена"), settings.Language == "ru");
-        progress.Show(this); Enabled = false;
         try
         {
+            await RunLocalTaskAsync(progress, async () =>
+            {
             var reporter = new Progress<ProgressInfo>(progress.UpdateProgress);
             TResult report = await Task.Run(() => work(reporter, progress.Token));
             progress.Token.ThrowIfCancellationRequested(); Directory.CreateDirectory(folder);
             await Task.Run(() => save(report, folder));
             lastScienceText = describe(report); lastScienceFolder = folder;
-            progress.Close(); Navigate("advanced");
+            });
+            Navigate("advanced");
         }
-        catch (OperationCanceledException) { progress.Close(); }
-        catch (Exception error) { progress.Close(); MessageBox.Show(this, error.Message, "MVS", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
-        finally { Enabled = true; Activate(); }
+        catch (OperationCanceledException) { }
+        catch (Exception error) { MessageBox.Show(this, error.Message, "MVS", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
+        finally { Activate(); }
     }
 }

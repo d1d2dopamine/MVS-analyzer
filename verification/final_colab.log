@@ -1,0 +1,26 @@
+test_benchmark_manifest_name (__main__.ColabTests.test_benchmark_manifest_name) ... ok
+test_calibration_failures_do_not_complete (__main__.ColabTests.test_calibration_failures_do_not_complete) ... ok
+test_calibration_matches_exact_job (__main__.ColabTests.test_calibration_matches_exact_job) ... ok
+test_case_insensitive_fields (__main__.ColabTests.test_case_insensitive_fields) ... ok
+test_completed_calibration_does_not_repeat (__main__.ColabTests.test_completed_calibration_does_not_repeat) ... ok
+test_connection_code_is_loopback_only (__main__.ColabTests.test_connection_code_is_loopback_only) ... ok
+test_diagnostic_is_not_success_on_rerun (__main__.ColabTests.test_diagnostic_is_not_success_on_rerun) ... ok
+test_download_normalizes_nested_results_and_excludes_input (__main__.ColabTests.test_download_normalizes_nested_results_and_excludes_input) ... ok
+test_explicit_host_and_environment (__main__.ColabTests.test_explicit_host_and_environment) ... ok
+test_failed_native_checksum_is_never_marked_complete (__main__.ColabTests.test_failed_native_checksum_is_never_marked_complete) ... ok
+test_legacy_metadata_is_verified_before_python_identity_check (__main__.ColabTests.test_legacy_metadata_is_verified_before_python_identity_check) ... ok
+test_manifest_cannot_escape_run_folder (__main__.ColabTests.test_manifest_cannot_escape_run_folder) ... ok
+test_native_check_receives_profile_and_exact_job (__main__.ColabTests.test_native_check_receives_profile_and_exact_job) ... ok
+test_nested_analysis_folder (__main__.ColabTests.test_nested_analysis_folder) ... ok
+test_new_job_without_state_does_not_invoke_validator (__main__.ColabTests.test_new_job_without_state_does_not_invoke_validator) ... ok
+test_normal_archive (__main__.ColabTests.test_normal_archive) ... ok
+test_notebook_url_detection (__main__.ColabTests.test_notebook_url_detection) ... ok
+test_notebook_url_unavailable_is_not_invented (__main__.ColabTests.test_notebook_url_unavailable_is_not_invented) ... ok
+test_strict_json (__main__.ColabTests.test_strict_json) ... ok
+test_zip_size_and_symlink (__main__.ColabTests.test_zip_size_and_symlink) ... ok
+test_zip_traversal (__main__.ColabTests.test_zip_traversal) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.039s
+
+OK

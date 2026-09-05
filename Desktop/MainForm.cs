@@ -58,7 +58,7 @@ internal sealed partial class MainForm : Form
         MinimumSize = new Size(1040, 680); ClientSize = new Size(1240, 780); Font = new Font("Segoe UI", 10);
         DoubleBuffered = true; KeyPreview = true; if (!layoutTest) RestoreWindow();
         host.Resize += (_, _) => FitContentWidth();
-        FormClosing += (_, _) => { if (!layoutTest) SaveWindow(); colabBridge?.Dispose(); };
+        FormClosing += (_, _) => { if (!layoutTest) SaveWindow(); colabWindow?.Close(); colabBridge?.Dispose(); };
         BuildShell(); ApplyModeVisibility(); ApplyTheme(); Navigate("home");
         Shown += (_, _) => FitContentWidth();
         DpiChanged += (_, _) => { foreach (var item in colabButtons) if (!item.Button.IsDisposed) item.Button.Image = Branding.ColabIcon(DeviceDpi); FitContentWidth(); };
@@ -75,7 +75,6 @@ internal sealed partial class MainForm : Form
         AddNav("data", "\uE80A", T("Data", "Данные"), y, () => Navigate("data")); y += 46;
         AddNav("calibration", "\uE9D9", T("Calibration", "Калибровка"), y, () => Navigate("calibration")); y += 46;
         AddNav("analysis", "\uE768", T("Run", "Запуск"), y, () => Navigate("analysis")); y += 46;
-        AddNav("colab", "\uE753", "Google Colab", y, () => ShowColabPanel()); y += 46;
         AddNav("results", "\uE9D2", T("Results", "Результаты"), y, () => Navigate("results")); y += 46;
         AddNav("figures", "\uEB9F", T("Figures", "Графики"), y, () => Navigate("figures")); y += 46;
         AddNav("outputs", "\uE74E", T("Outputs", "Файлы"), y, () => Navigate("outputs")); y += 46;
@@ -113,7 +112,7 @@ internal sealed partial class MainForm : Form
         var labels = new Dictionary<string, string> {
             ["home"] = T("Home", "Главная"), ["project"] = T("Project", "Проект"), ["data"] = T("Data", "Данные"),
             ["calibration"] = T("Calibration", "Калибровка"), ["analysis"] = T("Analysis", "Анализ"), ["results"] = T("Results", "Результаты"),
-            ["colab"] = "Google Colab", ["figures"] = T("Figures", "Графики"), ["outputs"] = T("Outputs", "Файлы"), ["history"] = T("History", "История"), ["audit"] = T("Audit", "Аудит"), ["plugins"] = T("Plugins", "Плагины"), ["settings"] = T("Settings", "Настройки"), ["help"] = T("Help", "Справка") };
+            ["figures"] = T("Figures", "Графики"), ["outputs"] = T("Outputs", "Файлы"), ["history"] = T("History", "История"), ["audit"] = T("Audit", "Аудит"), ["plugins"] = T("Plugins", "Плагины"), ["settings"] = T("Settings", "Настройки"), ["help"] = T("Help", "Справка") };
         foreach (var pair in labels)
         {
             var label = navItems[pair.Key].Controls.Find("navText", false).FirstOrDefault(); if (label != null) label.Text = pair.Value;
@@ -144,7 +143,6 @@ internal sealed partial class MainForm : Form
         switch (key)
         {
             case "home": ShowHome(); break; case "project": ShowProject(); break; case "data": ShowData(); break;
-            case "colab": ShowColab(); break;
             case "calibration": ShowCalibration(); break; case "analysis": ShowAnalysis(); break; case "results": ShowResults(); break; case "advanced": ShowAdvancedMethods(); break;
             case "figures": ShowFigures(); break; case "outputs": ShowOutputs(); break; case "history": ShowHistory(); break; case "audit": ShowAudit(); break; case "plugins": ShowPlugins(); break; case "settings": ShowSettings(); break; case "help": ShowHelp(); break;
         }
@@ -168,12 +166,13 @@ internal sealed partial class MainForm : Form
     private Panel Card(string title, string subtitle, int height = 150)
     {
         var card = new CardPanel { Width = ContentWidth, Height = height, AutoScroll = false, AutoSize = false, BackColor = Surface, BorderColor = Border, Margin = new Padding(0, 0, 0, 16), Padding = new Padding(20) };
+        card.ControlAdded += (_, e) => e.Control!.TextChanged += (_, _) => { if (card.Parent == currentPage) FitContentWidth(); };
         card.Controls.Add(new Label { Text = title, Font = new Font("Segoe UI", 12, FontStyle.Bold), AutoSize = true, Location = new Point(20, 18) });
         card.Controls.Add(new Label { Text = subtitle, AutoSize = true, MaximumSize = new Size(ContentWidth - 65, 0), ForeColor = Secondary, Location = new Point(20, 50) }); return card;
     }
     private Button Button(string text, bool primary = false, int width = 190)
     {
-        return new Button { Text = text, Width = width, Height = 38, FlatStyle = FlatStyle.Flat, BackColor = primary ? Accent : Surface, ForeColor = primary ? Color.White : TextColor, Location = new Point(20, 96), UseVisualStyleBackColor = false, Tag = primary ? "primary" : "secondary" };
+        return new ThemedButton { Text = text, Width = width, Height = 44, FlatStyle = FlatStyle.Flat, BackColor = primary ? Accent : Surface, ForeColor = primary ? Color.White : TextColor, Location = new Point(20, 96), UseVisualStyleBackColor = false, Tag = primary ? "primary" : "secondary" };
     }
     private Label Badge(string text, Color back, int x, int y = 18) => new() { Text = text, AutoSize = true, BackColor = back, ForeColor = TextColor, Padding = new Padding(8, 4, 8, 4), Location = new Point(x, y) };
     private Label WorkflowStep(string text, Color back) => new() { Text = text, Dock = DockStyle.Fill, Margin = new Padding(5, 0, 5, 0), BackColor = back, ForeColor = TextColor, TextAlign = ContentAlignment.MiddleCenter };
@@ -193,6 +192,7 @@ internal sealed partial class MainForm : Form
 
     private async Task RunCalibrationAsync(int repetitions)
     {
+        if (localOperationInProgress) return;
         if (data == null) return;
         try { SettingsContract.Validate(settings); }
         catch (Exception error) { MessageBox.Show(this, error.Message, "MVS"); return; }
@@ -201,9 +201,11 @@ internal sealed partial class MainForm : Form
         if (!ConfirmIndependent(data.Observations)) return;
         calibration = null; results = null; analysisHalf = null; calibrationSettingsHash = ""; lastArtifacts.Clear(); lastFigureFiles.Clear();
         using var progress = new ProgressDialog(T("Calibrating MVS", "Калибровка MVS"), T("Cancel", "Отмена"), settings.Language == "ru");
-        progress.UpdateProgress(new ProgressInfo(0, T("Preparing simulations", "Подготовка симуляций"), $"0 / {repetitions:N0}")); progress.Show(this); progress.Refresh(); Enabled = false; var shownAt = DateTime.UtcNow;
+        progress.UpdateProgress(new ProgressInfo(0, T("Preparing simulations", "Подготовка симуляций"), $"0 / {repetitions:N0}")); var shownAt = DateTime.UtcNow;
         try
         {
+            await RunLocalTaskAsync(progress, async () =>
+            {
             await Task.Delay(120);
             AnalysisData source = data;
             analysisHalf = null; calibrationSource = "same_dataset";
@@ -218,15 +220,17 @@ internal sealed partial class MainForm : Form
             calibrationSettingsHash = SettingsContract.Fingerprint(settings);
             progress.UpdateProgress(new ProgressInfo(1, T("Calibration complete", "Калибровка завершена"), $"{repetitions:N0} / {repetitions:N0}"));
             int remaining = Math.Max(0, 400 - (int)(DateTime.UtcNow - shownAt).TotalMilliseconds); if (remaining > 0) await Task.Delay(remaining);
-            progress.Close(); Navigate("calibration");
+            });
+            Navigate("calibration");
         }
-        catch (OperationCanceledException) { progress.Close(); }
-        catch (Exception ex) { progress.Close(); MessageBox.Show(ex.Message, T("Calibration failed", "Калибровка не выполнена"), MessageBoxButtons.OK, MessageBoxIcon.Error); }
-        finally { Enabled = true; Activate(); }
+        catch (OperationCanceledException) { }
+        catch (Exception ex) { MessageBox.Show(ex.Message, T("Calibration failed", "Калибровка не выполнена"), MessageBoxButtons.OK, MessageBoxIcon.Error); }
+        finally { Activate(); }
     }
 
     private async Task RunAnalysisAsync()
     {
+        if (localOperationInProgress) return;
         if (data == null || calibration == null) return;
         string currentFingerprint;
         try { currentFingerprint = SettingsContract.Fingerprint(settings); }
@@ -239,12 +243,15 @@ internal sealed partial class MainForm : Form
             if (folderDialog.ShowDialog(this) != DialogResult.OK) { MessageBox.Show(T("Analysis was not started because an output folder was not selected.", "Анализ не запущен, потому что папка результатов не выбрана."), "MVS"); return; }
             settings.FigureOutputFolder = folderDialog.SelectedPath; settings.FigureFolderConfirmed = true; settings.Save();
         }
+        string? outputError = null, runFolder = null, figureWarning = null;
         using var progress = new ProgressDialog(T("Analyzing data", "Анализ данных"), T("Cancel", "Отмена"), settings.Language == "ru");
-        progress.UpdateProgress(new ProgressInfo(0, T("Preparing analysis", "Подготовка анализа"), T("Validating inputs", "Проверка входных данных"))); progress.Show(this); progress.Refresh(); Enabled = false; var shownAt = DateTime.UtcNow;
+        progress.UpdateProgress(new ProgressInfo(0, T("Preparing analysis", "Подготовка анализа"), T("Validating inputs", "Проверка входных данных"))); var shownAt = DateTime.UtcNow;
         try
         {
+            await RunLocalTaskAsync(progress, async () =>
+            {
             await Task.Delay(120); var reporter = new Progress<ProgressInfo>(info => progress.UpdateProgress(info with { Fraction = .9 * info.Fraction })); results = await Task.Run(() => AnalysisEngine.Results(analysisHalf ?? data, calibration, reporter, progress.Token, settings.Alpha, settings.EquivalenceMargin, settings.CalibrationSeed));
-            lastFigureFiles.Clear(); lastArtifacts.Clear(); string? outputError = null; string? runFolder = null; string? figureWarning = null;
+            lastFigureFiles.Clear(); lastArtifacts.Clear();
             if (OutputExporter.AnyAutomaticOutput(settings))
             {
                 progress.UpdateProgress(new ProgressInfo(.94, T("Saving analysis files", "Сохранение файлов анализа"), settings.FigureOutputFolder));
@@ -270,7 +277,8 @@ internal sealed partial class MainForm : Form
                 catch (Exception ex) { outputError = ex.Message; }
             }
             progress.UpdateProgress(new ProgressInfo(1, T("Analysis complete", "Анализ завершён"), T("Preparing results", "Подготовка результатов")));
-            int remaining = Math.Max(0, 400 - (int)(DateTime.UtcNow - shownAt).TotalMilliseconds); if (remaining > 0) await Task.Delay(remaining); progress.Close();
+            int remaining = Math.Max(0, 400 - (int)(DateTime.UtcNow - shownAt).TotalMilliseconds); if (remaining > 0) await Task.Delay(remaining);
+            });
             history.Insert(0, new RunRecord(DateTime.Now, projectName, datasetName, data.TotalEntities, $"{settings.InterfaceMode} / {lastCalibrationRepetitions:N0}", string.Join(", ", results.Where(x => x.CandidateInAnyTrack).Select(x => x.Metric)))); Navigate("results");
             if (outputError != null) MessageBox.Show(T("Analysis completed, but some files could not be saved: ", "Анализ завершён, но некоторые файлы не удалось сохранить: ") + outputError, "MVS", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             else if (lastArtifacts.Count > 0)
@@ -282,9 +290,9 @@ internal sealed partial class MainForm : Form
                 if (MessageBox.Show(summary, "MVS", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes && runFolder != null) OpenFolder(runFolder);
             }
         }
-        catch (OperationCanceledException) { progress.Close(); }
-        catch (Exception ex) { progress.Close(); MessageBox.Show(ex.Message, T("Analysis failed", "Анализ не выполнен"), MessageBoxButtons.OK, MessageBoxIcon.Error); }
-        finally { Enabled = true; Activate(); }
+        catch (OperationCanceledException) { }
+        catch (Exception ex) { MessageBox.Show(ex.Message, T("Analysis failed", "Анализ не выполнен"), MessageBoxButtons.OK, MessageBoxIcon.Error); }
+        finally { Activate(); }
     }
 
     /// <summary>Opens a saved run folder in Explorer so the files do not have to be hunted for.</summary>
@@ -403,6 +411,7 @@ internal sealed partial class MainForm : Form
         BackColor = Bg; ForeColor = TextColor; sidebar.BackColor = Surface; topbar.BackColor = Surface; host.BackColor = Bg; statusbar.BackColor = Surface;
         ApplyThemeRecursive(this);
         statusLabel.ForeColor = Secondary; projectStatus.ForeColor = Secondary;
+        UpdateColabWindowTheme();
     }
     private void ApplyThemeRecursive(Control control)
     {
@@ -417,11 +426,13 @@ internal sealed partial class MainForm : Form
                 grid.DefaultCellStyle.BackColor = Surface; grid.DefaultCellStyle.ForeColor = TextColor; grid.RowsDefaultCellStyle.BackColor = Surface; grid.RowsDefaultCellStyle.ForeColor = TextColor;
                 grid.AlternatingRowsDefaultCellStyle.BackColor = Dark ? Color.FromArgb(49, 49, 49) : Color.FromArgb(250, 250, 250); grid.AlternatingRowsDefaultCellStyle.ForeColor = TextColor;
                 grid.ColumnHeadersDefaultCellStyle.BackColor = Dark ? Color.FromArgb(55, 55, 55) : Color.FromArgb(238, 238, 238); grid.ColumnHeadersDefaultCellStyle.ForeColor = TextColor;
+                grid.ColumnHeadersDefaultCellStyle.SelectionBackColor = grid.ColumnHeadersDefaultCellStyle.BackColor; grid.ColumnHeadersDefaultCellStyle.SelectionForeColor = TextColor;
                 grid.DefaultCellStyle.SelectionBackColor = Dark ? Color.FromArgb(38, 79, 112) : Color.FromArgb(204, 228, 247); grid.DefaultCellStyle.SelectionForeColor = TextColor;
             }
             else if (child is TextBoxBase or ComboBox or NumericUpDown or TabControl or TabPage or CheckedListBox or ListBox) { child.BackColor = Surface; child.ForeColor = TextColor; }
             else if (child is Button button)
             {
+                if (button is ThemedButton themedButton) { themedButton.DisabledTextColor = Secondary; themedButton.DisabledBackColor = Surface; themedButton.DisabledBorderColor = Border; }
                 bool primary = Equals(button.Tag, "primary"); button.UseVisualStyleBackColor = false; button.FlatStyle = FlatStyle.Flat;
                 button.BackColor = primary ? Accent : Surface; button.ForeColor = primary ? Color.White : TextColor; button.FlatAppearance.BorderColor = primary ? Accent : Border;
                 button.FlatAppearance.MouseOverBackColor = primary ? Color.FromArgb(11, 92, 163) : AccentLight;

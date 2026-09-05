@@ -51,6 +51,16 @@ internal sealed partial class MainForm
                 int originalTop = band.Min(x => x.Bounds.Top);
                 int top = Math.Max(originalTop, previousBottom + Math.Max(8, originalTop - previousOriginalBottom));
                 int bandBottom = top;
+                if (items.All(x => x.Control is Button && !x.Control.IsDisposed))
+                {
+                    // Equal heights and measured caption widths; wrap an action row as a unit.
+                    var buttons = items.Select(x => (Button)x.Control).ToArray();
+                    bandBottom = ActionButtonPanel.ArrangeButtons(card, buttons, items.Select(x => x.Bounds.Width).ToArray(),
+                        20, top, Math.Max(1, card.ClientSize.Width - 40));
+                    previousBottom = bandBottom;
+                    previousOriginalBottom = band.Max(x => x.Bounds.Bottom);
+                    continue;
+                }
                 for (int i = 0; i < items.Length; i++)
                 {
                     LayoutItem item = items[i]; Control child = item.Control;
@@ -68,7 +78,7 @@ internal sealed partial class MainForm
                     { check.AutoSize = false; width = Math.Max(32, next - left); height = Math.Max(28, WrappedHeight(check, width - 30) + 4); }
                     else if (child is Button button)
                     {
-                        width = Math.Max(90, width); height = Math.Max(38, Math.Max(WrappedHeight(button, width - 16 - (button.Image?.Width ?? 0)) + 10, (button.Image?.Height ?? 0) + 14));
+                        width = Math.Max(90, width); height = ActionButtonPanel.CaptionHeight(button, width, (int)Math.Round(44 * card.DeviceDpi / 96d));
                     }
                     else if (child is DataGridView || child is TableLayoutPanel || child is TabControl)
                         width = Math.Max(120, card.ClientSize.Width - left - 20);
@@ -109,7 +119,7 @@ internal sealed partial class MainForm
                     if (child is Label label)
                     { label.AutoSize = false; label.MaximumSize = Size.Empty; height = WrappedHeight(label, width); child.Width = width; }
                     else if (child is Button button)
-                    { child.Width = Math.Min(Math.Max(210, child.Width), width); height = Math.Max(42, Math.Max(WrappedHeight(button, child.Width - 24 - (button.Image?.Width ?? 0)) + 10, (button.Image?.Height ?? 0) + 14)); }
+                    { child.Width = Math.Min(Math.Max(210, ActionButtonPanel.CaptionWidth(button)), width); height = ActionButtonPanel.CaptionHeight(button, child.Width, (int)Math.Round(44 * card.DeviceDpi / 96d)); }
                     else if (child is CheckBox check)
                     { check.AutoSize = false; child.Width = width; height = Math.Max(28, WrappedHeight(check, width - 30) + 4); }
                     else { child.Width = width; child.PerformLayout(); height = child.Height; }
@@ -123,7 +133,7 @@ internal sealed partial class MainForm
         }
         card.SizeChanged += (_, _) => Arrange(); card.VisibleChanged += (_, _) => Arrange();
         foreach (Control child in card.Controls)
-        { child.TextChanged += (_, _) => Arrange(); child.VisibleChanged += (_, _) => Arrange(); }
+        { child.TextChanged += (_, _) => Arrange(); child.FontChanged += (_, _) => Arrange(); child.VisibleChanged += (_, _) => Arrange(); child.SizeChanged += (_, _) => Arrange(); }
         Arrange(); return card;
     }
     private Panel FormRows(params (string Label, Control Input)[] rows)

@@ -1,0 +1,11 @@
+test_actual_public_readme (__main__.SourceTests.test_actual_public_readme) ... ok
+test_badge_versions_and_attribute_order_are_editable (__main__.SourceTests.test_badge_versions_and_attribute_order_are_editable) ... ok
+test_links_and_fragments (__main__.SourceTests.test_links_and_fragments) ... ok
+test_local_image_remains_checked (__main__.SourceTests.test_local_image_remains_checked) ... ok
+test_local_target_cannot_escape_repository (__main__.SourceTests.test_local_target_cannot_escape_repository) ... ok
+test_markdown_image_remains_checked (__main__.SourceTests.test_markdown_image_remains_checked) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.006s
+
+OK

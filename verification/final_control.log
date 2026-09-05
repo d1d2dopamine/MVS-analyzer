@@ -1,0 +1,26 @@
+test_acknowledgement_failure_never_executes (__main__.ControllerTests.test_acknowledgement_failure_never_executes) ... ok
+test_browser_request_has_timeout_and_validates_port_route (__main__.ControllerTests.test_browser_request_has_timeout_and_validates_port_route) ... ok
+test_cancel_has_its_own_acknowledgement_and_receipt (__main__.ControllerTests.test_cancel_has_its_own_acknowledgement_and_receipt) ... ok
+test_cancel_pending_command_without_starting_work (__main__.ControllerTests.test_cancel_pending_command_without_starting_work) ... ok
+test_cancel_poll_checks_job_and_new_command (__main__.ControllerTests.test_cancel_poll_checks_job_and_new_command) ... ok
+test_cancel_terminates_real_child_process (__main__.ControllerTests.test_cancel_terminates_real_child_process) ... ok
+test_command_runs_once_on_repeated_poll (__main__.ControllerTests.test_command_runs_once_on_repeated_poll) ... ok
+test_compatible_140_calibration_is_kept (__main__.ControllerTests.test_compatible_140_calibration_is_kept) ... ok
+test_different_job_or_protocol_is_rejected (__main__.ControllerTests.test_different_job_or_protocol_is_rejected) ... ok
+test_failed_command_never_reports_complete (__main__.ControllerTests.test_failed_command_never_reports_complete) ... ok
+test_interrupted_cell_is_not_swallowed_by_controller (__main__.ControllerTests.test_interrupted_cell_is_not_swallowed_by_controller) ... ok
+test_monitor_escapes_messages_and_never_displays_connection_code (__main__.ControllerTests.test_monitor_escapes_messages_and_never_displays_connection_code) ... ok
+test_nonzero_child_exit_is_not_success (__main__.ControllerTests.test_nonzero_child_exit_is_not_success) ... ok
+test_partial_results_are_not_downloaded (__main__.ControllerTests.test_partial_results_are_not_downloaded) ... ok
+test_progress_is_parsed_from_real_subprocess (__main__.ControllerTests.test_progress_is_parsed_from_real_subprocess) ... ok
+test_receipt_prevents_replay_after_controller_recreation (__main__.ControllerTests.test_receipt_prevents_replay_after_controller_recreation) ... ok
+test_reconnect_prepare_does_not_recalibrate (__main__.ControllerTests.test_reconnect_prepare_does_not_recalibrate) ... ok
+test_refresh_never_silently_uses_wrong_or_unconfirmed_job (__main__.ControllerTests.test_refresh_never_silently_uses_wrong_or_unconfirmed_job) ... ok
+test_runtime_controller_stops_after_bounded_connection_failures (__main__.ControllerTests.test_runtime_controller_stops_after_bounded_connection_failures) ... ok
+test_terminal_files_are_retried_after_a_lost_status (__main__.ControllerTests.test_terminal_files_are_retried_after_a_lost_status) ... ok
+test_unknown_and_unsafe_commands_are_rejected (__main__.ControllerTests.test_unknown_and_unsafe_commands_are_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.474s
+
+OK

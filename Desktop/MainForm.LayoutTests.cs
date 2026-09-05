@@ -51,8 +51,87 @@ internal sealed partial class MainForm
         }
         foreach (TabControl tabs in currentPage.Controls.OfType<TabControl>())
             if (tabs.Height < 380 || tabs.Width < 400 || tabs.DisplayRectangle.Height < 270) failures.Add("Collapsed result tabs");
+        if (navItems.ContainsKey("colab")) failures.Add("Colab must not be a sidebar page");
+        InspectActionRows(currentPage, failures);
         if (navItems.ContainsKey("models")) failures.Add("Unexpected scientific-model sidebar tab");
         return failures;
     }
     internal IEnumerable<TabControl> LayoutTabs() => currentPage?.Controls.OfType<TabControl>().ToArray() ?? Array.Empty<TabControl>();
+    private static void InspectActionRows(Control root, List<string> failures)
+    {
+        foreach (Control child in root.Controls)
+        {
+            if (child is ActionButtonPanel row)
+            {
+                var buttons = row.Controls.OfType<Button>().ToArray();
+                foreach (Button button in buttons)
+                    if (button.Left < 0 || button.Top < 0 || button.Right > row.ClientSize.Width + 1 || button.Bottom > row.ClientSize.Height + 1)
+                        failures.Add("Outside action row: " + button.Text);
+                foreach (var band in buttons.GroupBy(b => b.Top))
+                    if (band.Select(b => b.Height).Distinct().Count() != 1) failures.Add("Unequal button heights");
+                for (int i = 0; i < buttons.Length; i++)
+                    for (int j = i + 1; j < buttons.Length; j++)
+                        if (buttons[i].Bounds.IntersectsWith(buttons[j].Bounds)) failures.Add("Overlapping action buttons");
+            }
+            if (child is not DataGridView) InspectActionRows(child, failures);
+        }
+    }
+
+    internal Form ShowColabLayoutFixture(string phase)
+    {
+        if (!layoutTestMode) throw new InvalidOperationException("Layout fixture mode is required.");
+        string previousPage = activePage;
+        Control? previousContent = currentPage;
+        ShowColabPanel();
+        if (activePage != previousPage || !ReferenceEquals(currentPage, previousContent))
+            throw new InvalidOperationException("Opening Colab replaced the main page.");
+        var view = colabPanel!;
+        view.State.Text = ColabPhaseLabel(phase);
+        view.Runtime.Text = "CPU: 2 · RAM: 12.7 GiB · GPU: Tesla T4";
+        view.Detail.Text = phase == "failed" ? T("The job failed. Saved files were retained. Reconnect or inspect the notebook error before retrying.",
+            "Задание завершилось с ошибкой. Сохранённые файлы не удалены. Перед повтором проверьте сообщение в ноутбуке или переподключитесь.")
+            : T("UI fixture: synthetic display values. No notebook connection or computation is started.",
+                "Проверка интерфейса: условные значения. Подключение к ноутбуку и вычисления не запускаются.");
+        bool busy = ColabSessionStore.Working(phase);
+        view.Progress.Style = ProgressBarStyle.Continuous; view.Progress.Value = busy ? 42 : phase == "complete" ? 100 : 0;
+        view.Calibrate.Enabled = phase == "ready"; view.Analyze.Enabled = phase == "calibrated";
+        view.Download.Enabled = phase is "complete" or "calibrated"; view.Stop.Enabled = busy;
+        view.Code.Enabled = phase != "offline";
+        colabWindow!.FitCards(); return colabWindow;
+    }
+
+    internal IReadOnlyList<string> InspectColabLayout()
+    {
+        var failures = new List<string>();
+        if (colabWindow == null || !colabWindow.TopLevel || !colabWindow.ShowInTaskbar) { failures.Add("Colab is not a separate top-level window"); return failures; }
+        foreach (CardPanel card in colabWindow.Content.Controls.OfType<CardPanel>())
+        {
+            var children = card.Controls.Cast<Control>().Where(c => c.Visible).ToArray();
+            foreach (Control child in children)
+                if (child.Left < 0 || child.Top < 0 || child.Right > card.ClientSize.Width + 2 || child.Bottom > card.ClientSize.Height + 2)
+                    failures.Add("Outside Colab card: " + child.Text);
+            for (int i = 0; i < children.Length; i++)
+                for (int j = i + 1; j < children.Length; j++)
+                    if (children[i].Bounds.IntersectsWith(children[j].Bounds)) failures.Add("Overlapping Colab controls");
+        }
+        InspectActionRows(colabWindow, failures);
+        return failures;
+    }
+
+    internal async Task ExerciseProgressLayoutAsync(Action<Form> inspect, bool cancel = false)
+    {
+        if (!layoutTestMode) throw new InvalidOperationException("Layout fixture mode is required.");
+        using var progress = new ProgressDialog(T("Calibration", "Калибровка"), T("Cancel", "Отмена"), settings.Language == "ru");
+        await RunLocalTaskAsync(progress, async () =>
+        {
+            progress.UpdateProgress(new ProgressInfo(.42, T("Calibrating measurements", "Калибровка измерений"),
+                T("Long progress details must stay within the dialog, including a long output file path.", "Длинные сведения о прогрессе и путь к файлу должны оставаться внутри окна, не перекрывая кнопку отмены.")));
+            await Task.Delay(30);
+            if (!Enabled || !host.Enabled) throw new InvalidOperationException("Managed Enabled changed during a calculation.");
+            if (progress.BackColor != Surface || progress.ForeColor != TextColor) throw new InvalidOperationException("Progress dialog lost the app theme.");
+            inspect(progress);
+            if (cancel) { progress.Close(); progress.Token.ThrowIfCancellationRequested(); }
+        });
+    }
+
 }

@@ -26,6 +26,7 @@ jobs:
           python tools/test_colab.py
           python tools/test_colab_control.py
           python tools/test_source.py
+          python tools/test_ui_patch.py
       - name: Limited C# structural check (not compilation)
         run: python tools/check_csharp_structure.py
       - name: Independent mathematical identities in Python

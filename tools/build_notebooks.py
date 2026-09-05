@@ -26,7 +26,7 @@ if RESET_CONNECTION or _mvs_previous is None or getattr(_mvs_previous, "protocol
     _mvs_code = getpass("MVS connection code / Код подключения (empty = manual upload / пусто = ручная загрузка): ").strip()
 else:
     _mvs_code = _mvs_previous.connection
-mvs = Workspace(connection=_mvs_code, ref=REPOSITORY_REF, mode=MODE)
+mvs = Workspace(connection=_mvs_code, ref=REPOSITORY_REF, mode=MODE, desktop_control=DESKTOP_CONTROL)
 if _mvs_previous is not None and _mvs_code and _mvs_code == _mvs_previous.connection and getattr(_mvs_previous, "protocol", "") == REVISION:
     # Re-running this cell in the SAME runtime is not a new owner. A new code resets ownership.
     mvs.epoch = _mvs_previous.epoch
@@ -40,7 +40,7 @@ del _mvs_code, _mvs_previous
 try:
     mvs.activate()
     if mvs.connection and DESKTOP_CONTROL:
-        mvs.serve()  # Intentionally stays running. Use the app's buttons, not cells 2/3.
+        mvs.serve()  # Intentionally stays running. Use the separate MVS window, not cells 2/3.
     else:
         mvs.calibrate()  # Manual CSV/ZIP workflow remains available.
 except (KeyboardInterrupt, RunCancelled):

@@ -1,0 +1,1 @@
+OFFLINE CHECKS ONLY. 62 Python tests passed; some tests are static C# contracts. No .NET compilation, Windows UI execution, real-monitor DPI test or live Google Colab session was available. The actual notebook HTML monitor was visually reviewed at 780px light and 390px dark; that is NOT a native WinForms screenshot. See PATCH_NOTES_RU.md for Windows commands and limits.

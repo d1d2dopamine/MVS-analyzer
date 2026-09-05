@@ -187,6 +187,33 @@ def notebook_url():
     return ""
 
 
+
+def detect_runtime_label():
+    """Report observed hardware, never an invented list of account entitlements."""
+    parts = [f"CPU: {os.cpu_count() or 1}"]
+    try:
+        info = Path("/proc/meminfo").read_text(encoding="ascii")
+        memory = re.search(r"^MemTotal:\s+(\d+)\s+kB", info, re.MULTILINE)
+        if memory:
+            parts.append(f"RAM: {int(memory.group(1)) / 1024 ** 2:.1f} GiB")
+    except (OSError, ValueError):
+        pass
+    gpu = shutil.which("nvidia-smi")
+    if gpu:
+        try:
+            names = subprocess.check_output([gpu, "--query-gpu=name", "--format=csv,noheader"],
+                                            text=True, timeout=2, stderr=subprocess.DEVNULL).splitlines()
+            names = [name.strip() for name in names if name.strip()]
+            if names:
+                parts.append("GPU: " + ", ".join(dict.fromkeys(names)))
+        except (OSError, subprocess.SubprocessError):
+            pass
+    if any(os.environ.get(name) for name in ("COLAB_TPU_ADDR", "TPU_NAME", "TPU_WORKER_ID")):
+        # Presence only: never include runtime addresses, tokens or account details.
+        parts.append("TPU runtime")
+    return " · ".join(parts)[:200]
+
+
 def browser_request(base, route, packet=None):
     from google.colab import output
     if not re.fullmatch(r"http://127\.0\.0\.1:\d{1,5}/v1/[0-9a-f]{64}", base):
@@ -219,13 +246,14 @@ class RunCancelled(Exception):
 
 
 class Workspace:
-    def __init__(self, root="/content/mvs-work", connection="", manual_job="", ref="main", mode="standard"):
+    def __init__(self, root="/content/mvs-work", connection="", manual_job="", ref="main", mode="standard", desktop_control=False):
         self.root = Path(root).resolve()
         self.root.mkdir(parents=True, exist_ok=True)
         self.connection = connection.strip()
         self.manual_job = manual_job
         self.ref = ref
         self.mode = mode
+        self.desktop_control = desktop_control
         self.epoch = uuid.uuid4().hex
         self.url = notebook_url()
         self.phase = "ready"
@@ -240,7 +268,7 @@ class Workspace:
         self.percent = None
         self.message = ""
         self.controls_ready = False
-        self.runtime_label = f"Python {os.sys.version_info.major}.{os.sys.version_info.minor} · CPU: {os.cpu_count() or 1}"
+        self.runtime_label = detect_runtime_label()
         self._monitor = None
         self._files_pending = False
 
@@ -322,6 +350,7 @@ class Workspace:
             self.plan = {"Key": key, "Kind": self.mode, "DatasetHash": digest, "SettingsHash": "", "Repetitions": 2000,
                          "Arguments": [], "RequestedAction": "calibrate"}
         self.phase = "preparing"
+        self.controls_ready = bool(self.connection and getattr(self, "desktop_control", False))
         self.percent = None
         self.message = "Preparing the exact CLI from this job / Подготовка CLI задания"
         if not self.send():
@@ -330,10 +359,10 @@ class Workspace:
             self.install_cli()
             self.prepare_calibration()
             self.send(include_files=True)
-        except KeyboardInterrupt:
-            self.phase = "cancelled"; self.send(); raise
+        except (KeyboardInterrupt, RunCancelled):
+            self.phase = "cancelled"; self.controls_ready = False; self.send(); raise
         except Exception:
-            self.phase = "failed"; self.send(); raise
+            self.phase = "failed"; self.controls_ready = False; self.send(); raise
         self.show_monitor()
         return self
 
@@ -461,7 +490,7 @@ class Workspace:
         self.dotnet = Path("/content/dotnet/dotnet")
         if not self.dotnet.exists():
             script = self.root / "dotnet-install.sh"
-            with urllib.request.urlopen("https://dot.net/v1/dotnet-install.sh", timeout=60) as response:
+            with urllib.request.urlopen("https://dot.net/v1/dotnet-install.sh", timeout=15) as response:
                 script.write_bytes(response.read())
             self.run_process(["bash", str(script), "--channel", "8.0", "--install-dir", str(self.dotnet.parent), "--no-path"])
         os.environ.update({k: v for k, v in dotnet_environment(self.dotnet).items() if k in {"PATH", "DOTNET_ROOT", "DOTNET_ROOT_X64", "DOTNET_CLI_TELEMETRY_OPTOUT"}})
@@ -587,7 +616,7 @@ class Workspace:
         failures = 0
         self.show_monitor()
         print("MVS control is ready. Leave this first cell running and use the buttons in the MVS app.")
-        print("Управление готово. Оставьте первую ячейку работающей; кнопки расчёта находятся в MVS.")
+        print("Управление готово. Оставьте первую ячейку работающей; кнопки расчёта находятся в отдельном окне MVS · Colab.")
         try:
             while True:
                 try:
@@ -696,7 +725,7 @@ class Workspace:
                     print("This is a diagnostic report, or its completion status is unconfirmed. It is not a successful validation.")
                 self.send(include_files=True); return
             if kind == "standard" and not self.has_calibration():
-                raise RuntimeError("Run the first cell to calibrate before starting the analysis")
+                raise RuntimeError("Calibrate in the MVS window first, or run the first cell in manual mode")
             self.phase = "analyzing" if kind == "standard" else "running"
             self.percent = None
             self.message = "Analyzing / Анализ"
@@ -753,7 +782,7 @@ class Workspace:
         </style><section class="mvs-panel" aria-label="MVS Colab control">
         <h3>MVS · Google Colab</h3><p class="meta">RUNTIME</p>
         <div class="state"><strong>PHASE</strong><span>NUMBER</span></div>PROGRESS
-        <p>MESSAGE</p><p class="hint">Калибровать → Анализировать → Скачать результаты<br>Используйте панель Google Colab в приложении MVS.</p>
+        <p>MESSAGE</p><p class="hint">Калибровать → Анализировать → Скачать результаты<br>Используйте отдельное окно Google Colab в MVS.</p>
         <p class="meta">Первая ячейка ожидает команды. Её работа сама по себе не означает, что идёт расчёт. Выбор CPU/GPU: меню Colab «Среда выполнения» → «Сменить среду выполнения».</p>
         </section>""".replace("RUNTIME", html.escape(self.runtime_label)).replace("PHASE", html.escape(labels.get(self.phase, self.phase))).replace("NUMBER", number).replace("PROGRESS", progress).replace("MESSAGE", html.escape(self.message or "Оставьте эту вкладку и MVS открытыми / Keep this tab and MVS open"))
 
