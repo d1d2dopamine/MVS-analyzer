@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="docs/assets/logo.png" width="176" alt="MVS Analyzer logo">
-</p>
-
 <h1 align="center" id="mvs-analyzer">MVS Analyzer</h1>
 
 <p align="center">▪</p>
