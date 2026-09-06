@@ -111,6 +111,28 @@ internal sealed class ColabSessionStore
         string normalized = NormalizeNotebookUrl(url);
         lock (gate) { sessions[key] = sessions[key] with { NotebookUrl = normalized }; Save(); }
     }
+    public bool CanStartNewNotebook(ColabSession? session, DateTime now) =>
+        !Busy(session, now) && !(Pending(session, now) && session!.Phase != "opening");
+
+    // Explicit replacement only: opening/reconnecting normally still reuses the saved address.
+    // No Drive API is called; the URL opens a fresh editable view of the public project template.
+    public string StartNewNotebook(string key, bool prepareConnection)
+    {
+        lock (gate)
+        {
+            if (!sessions.TryGetValue(key, out var session)) throw new InvalidDataException("Prepare a job first.");
+            if (!CanStartNewNotebook(session, clock()))
+                throw new InvalidOperationException("Stop the current job and save its results before creating a new notebook.");
+            string url = RemoteJob.ColabUrl(session.Kind == "benchmark" ? "benchmark" : "analysis");
+            sessions[key] = session with { NotebookUrl = url, Token = NewToken(), Epoch = "",
+                Phase = prepareConnection ? "opening" : "disconnected", LaunchedUtc = clock(), LastSeenUtc = default,
+                RequestedAction = "prepare", CommandId = prepareConnection ? NewToken() : "", AcknowledgedCommandId = "",
+                ControlsReady = false, Percent = null, ProgressMessage = "", RuntimeLabel = "", Sequence = 0, LastStatusHash = "" };
+            Save();
+            return url + "#scrollTo=mvs-calibrate";
+        }
+    }
+
     public string Launch(string key, string action)
     {
         ValidateAction(action);

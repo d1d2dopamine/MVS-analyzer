@@ -97,6 +97,7 @@ internal sealed partial class MainForm
         view.Calibrate.Enabled = phase == "ready"; view.Analyze.Enabled = phase == "calibrated";
         view.Download.Enabled = phase is "complete" or "calibrated"; view.Stop.Enabled = busy;
         view.Code.Enabled = phase != "offline";
+        view.NewNotebook.Enabled = !busy;
         colabWindow!.FitCards(); return colabWindow;
     }
 
@@ -114,6 +115,8 @@ internal sealed partial class MainForm
                 for (int j = i + 1; j < children.Length; j++)
                     if (children[i].Bounds.IntersectsWith(children[j].Bounds)) failures.Add("Overlapping Colab controls");
         }
+        if (colabPanel?.NewNotebook.Name != "create-colab-notebook" || colabPanel.NewNotebook.Parent == null)
+            failures.Add("Missing direct Create new notebook action");
         InspectActionRows(colabWindow, failures);
         return failures;
     }

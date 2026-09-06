@@ -5,7 +5,7 @@ namespace MvsAnalyzer;
 internal sealed partial class MainForm
 {
     private sealed record ColabPanelView(string Key, Label State, Label Detail, Label Runtime, ProgressBar Progress,
-        Button Calibrate, Button Analyze, Button Download, Button Stop, Button Code, Button Connect);
+        Button Calibrate, Button Analyze, Button Download, Button Stop, Button Code, Button Connect, Button NewNotebook);
     private ColabPanelView? colabPanel;
     private ColabControlForm? colabWindow;
     private string colabWindowAppearance = "";
@@ -80,6 +80,10 @@ internal sealed partial class MainForm
                 ColabActions(calibrate, analyze, download, stop));
             var state = (Label)status.Controls[0];
             status.Margin = new Padding(0, 0, 0, 12); page.Controls.Add(status);
+            var openNotebook = ColabPanelButton("Open notebook", "Открыть блокнот", () => OpenBrowser(Sessions.NotebookFor(key.Length == 0 ? null : key)));
+            openNotebook.Name = "open-colab-notebook";
+            var newNotebook = ColabPanelButton("Create new notebook…", "Создать новый блокнот…", () => CreateNewColabNotebook(key));
+            newNotebook.Name = "create-colab-notebook";
             var connect = ColabPanelButton("Connect…", "Подключить…", () => ConnectColab(key));
             var code = ColabPanelButton("Connection code…", "Код подключения…", () => ShowColabConnection(key));
             var runtimeButton = ColabPanelButton("Runtime…", "Среда выполнения…", () => SelectColabRuntime(key));
@@ -118,11 +122,11 @@ internal sealed partial class MainForm
             };
             more.Click += (_, _) => menu.Show(more, new Point(0, more.Height));
             more.Disposed += (_, _) => menu.Dispose();
-            var connection = FlowCard(T("Connection", "Подключение"), "", ColabActions(connect, code, runtimeButton, more));
+            var connection = FlowCard(T("Connection", "Подключение"), "", ColabActions(openNotebook, newNotebook, connect, code, runtimeButton, more));
             connection.Margin = new Padding(0, 0, 0, 12); page.Controls.Add(connection);
             page.Controls.Add(new Label { Text = T("Closing this window does not stop the cloud job. Accelerator selection is confirmed in Colab.",
                 "Закрытие окна не останавливает облачный расчёт. Выбор ускорителя подтверждается в Colab."), ForeColor = Secondary, Margin = Padding.Empty });
-            colabPanel = new(key, state, detail, runtime, progress, calibrate, analyze, download, stop, code, connect);
+            colabPanel = new(key, state, detail, runtime, progress, calibrate, analyze, download, stop, code, connect, newNotebook);
             calibrate.Enabled = analyze.Enabled = download.Enabled = stop.Enabled = code.Enabled = false;
             connect.Enabled = layoutTestMode || data != null || colabPlans.ContainsKey(key);
             ApplyThemeRecursive(colabWindow);
@@ -138,6 +142,63 @@ internal sealed partial class MainForm
         if (Sessions.Live(session, DateTime.UtcNow) || Sessions.Pending(session, DateTime.UtcNow)) ShowColabConnection(key);
         else if (colabPlans.ContainsKey(key)) ReconnectColab(key);
         else StartColab("prepare", selectedCalibrationRepetitions);
+    }
+
+    private bool CreateNewColabNotebook(string key)
+    {
+        if (layoutTestMode || localOperationInProgress) return false;
+        var session = key.Length == 0 ? null : Sessions.Find(key);
+        if (!Sessions.CanStartNewNotebook(session, DateTime.UtcNow))
+        {
+            ColabWarning(T("Stop the current job and save its results before creating a new notebook.",
+                "Сначала остановите текущее задание и сохраните результаты, затем создайте новый блокнот."));
+            return false;
+        }
+        if (MessageBox.Show(ColabDialogOwner, T(
+            "Open a new notebook from the project template instead of the saved address? In Colab, choose File → Save a copy in Drive. The template comes from GitHub; for the exact notebook embedded in this app, use More → Save matching notebook.\n\nThe old connection code for this job will be revoked. Calibration, received results and backups stay on this computer; no calculation starts automatically. This does not stop an old cloud process or move its unsaved files. Stop the old first cell and save its files before continuing.",
+            "Открыть новый блокнот из шаблона проекта вместо сохранённого адреса? В Colab выберите «Файл → Сохранить копию на Диске». Шаблон берётся из GitHub; для точного блокнота из этой сборки используйте «Ещё → Сохранить ноутбук этой версии».\n\nСтарый код подключения этого задания будет отозван. Калибровка, полученные результаты и бэкапы останутся на компьютере; расчёт автоматически не начнётся. Это не останавливает старый облачный процесс и не переносит его несохранённые файлы. Перед продолжением остановите старую первую ячейку и сохраните её файлы."),
+            T("New Colab notebook", "Новый блокнот Colab"), MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+            MessageBoxDefaultButton.Button2) != DialogResult.Yes) return false;
+        if (localOperationInProgress) return false;
+        string address = RemoteJob.ColabUrl("analysis") + "#scrollTo=mvs-calibrate";
+        bool prepared = false;
+        lock (colabGate)
+        {
+            // Recheck after the modal confirmation: status callbacks can run while it is open.
+            session = key.Length == 0 ? null : Sessions.Find(key);
+            if (!Sessions.CanStartNewNotebook(session, DateTime.UtcNow))
+                throw new InvalidOperationException(T("A command started while this dialog was open. Stop it first.",
+                    "Пока окно было открыто, началась команда. Сначала остановите её."));
+            if (session != null)
+            {
+                if (colabPlans.TryGetValue(key, out var plan))
+                {
+                    RefreshColabArchiveCalibration(plan);
+                    colabBridge ??= new ColabBridge(HandleColabRequest);
+                    prepared = true;
+                }
+                address = Sessions.StartNewNotebook(key, prepared);
+            }
+        }
+        bool copied = prepared && TryCopyColabCode(key);
+        RefreshColabPanel(); RefreshColabButtons();
+        try { OpenBrowser(address); }
+        catch (Exception error)
+        {
+            ColabWarning(T("The old address was replaced, but the browser could not open. Use Open notebook to retry. ",
+                "Старый адрес заменён, но браузер не открылся. Повторите через «Открыть блокнот». ") + error.Message);
+            return true;
+        }
+        MessageBox.Show(ColabDialogOwner, T(
+            "The project template was opened, not the old Drive address. In Colab choose File → Save a copy in Drive, then run the first cell in that new copy.\n\n",
+            "Открыт шаблон проекта, а не прежний адрес Drive. В Colab выберите «Файл → Сохранить копию на Диске», затем запустите первую ячейку в новой копии.\n\n") +
+            (copied ? T("The new connection code is copied. Paste it when prompted.\n\n", "Новый код подключения скопирован. Вставьте его по запросу.\n\n")
+            : prepared ? T("Open Connection code to copy the new code.\n\n", "Откройте «Код подключения», чтобы скопировать новый код.\n\n")
+            : T("In MVS, prepare your data/job and click Connect to get a code.\n\n", "В MVS подготовьте данные/задание и нажмите «Подключить», чтобы получить код.\n\n")) +
+            T("MVS remembers the new address when the notebook reports it. If it cannot detect the address, paste the new /drive/ URL into Connection code → Notebook address → Save address.",
+            "MVS запомнит новый адрес, когда блокнот сообщит его. Если адрес не определится, вставьте новую ссылку /drive/ в «Код подключения → Адрес блокнота → Сохранить адрес»."),
+            "MVS · Colab", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        return true;
     }
 
     private void ShowReceivedColabResults(string key)
@@ -212,6 +273,7 @@ internal sealed partial class MainForm
                 view.State.Text += $" · {view.Progress.Value}%";
             }
             else { view.Progress.Style = live && busy ? ProgressBarStyle.Marquee : ProgressBarStyle.Continuous; view.Progress.Value = 0; }
+            view.NewNotebook.Enabled = !localOperationInProgress && Sessions.CanStartNewNotebook(session, DateTime.UtcNow);
             bool idle = !localOperationInProgress && !busy && !pending;
             view.Calibrate.Enabled = idle && connected && standard && matches && !saved;
             view.Analyze.Enabled = idle && connected && matches && (standard ? saved : plan != null);
@@ -297,7 +359,13 @@ internal sealed partial class MainForm
         Add(TextLine(T("Notebook address (optional): paste an existing /drive/ notebook to reopen it without creating another copy.", "Адрес блокнота (необязательно): вставьте существующий адрес /drive/, чтобы открывать его без создания новых копий.")));
         var url = new TextBox { Text = Sessions.NotebookFor(key), AccessibleName = T("Notebook address", "Адрес блокнота") }; Add(url);
         Add(ColabActions(ColabPanelButton("Save address", "Сохранить адрес", () => { Sessions.LinkNotebook(key, url.Text.Trim()); feedback.Text = T("Notebook address saved.", "Адрес блокнота сохранён."); }),
-            ColabPanelButton("Save job ZIP…", "Сохранить ZIP задания…", () => SaveColabJob(key))));
+            ColabPanelButton("Save job ZIP…", "Сохранить ZIP задания…", () => SaveColabJob(key)),
+            ColabPanelButton("Create new notebook…", "Создать новый блокнот…", () => {
+                if (!CreateNewColabNotebook(key)) return;
+                box.Text = ConnectionCode(key); url.Text = Sessions.NotebookFor(key);
+                feedback.Text = T("Use the new code above. Save the new Drive address after creating your copy.",
+                    "Используйте новый код выше. После создания копии сохраните её новый адрес Drive.");
+            })));
         Add(TextLine(T("Do not publish this code: it grants access to this prepared job through the local bridge. Browser local-network permission may be required. Use manual job upload if blocked.",
             "Не публикуйте код: он даёт доступ к подготовленному заданию через локальное соединение. Браузер может запросить доступ к локальной сети. Если доступ запрещён, загрузите ZIP задания вручную.")));
         var close = ColabPanelButton("Close", "Закрыть", dialog.Close); Add(close); dialog.CancelButton = close;

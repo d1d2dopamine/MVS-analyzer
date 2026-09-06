@@ -78,6 +78,46 @@ class UiPatchChecks(unittest.TestCase):
             self.assertEqual(book['metadata']['mvs']['revision'], 'ui-colab-3')
             self.assertIn('desktop_control=DESKTOP_CONTROL', ''.join(book['cells'][0]['source']))
 
+    def test_new_notebook_is_a_direct_action_with_safe_confirmation(self):
+        window = source('MainForm.ColabWindow.cs')
+        self.assertIn('newNotebook.Name = "create-colab-notebook"', window)
+        self.assertIn('ColabActions(openNotebook, newNotebook, connect, code, runtimeButton, more)', window)
+        creation = window.split('private bool CreateNewColabNotebook(string key)', 1)[1].split('private void ShowReceivedColabResults', 1)[0]
+        self.assertIn('MessageBoxDefaultButton.Button2', creation)
+        self.assertLess(creation.index('!= DialogResult.Yes) return false;'), creation.index('Sessions.StartNewNotebook'))
+        self.assertLess(creation.index('Sessions.StartNewNotebook'), creation.index('OpenBrowser(address)'))
+        self.assertNotIn('Sessions.NotebookFor', creation)
+        self.assertIn('File → Save a copy in Drive', creation)
+        self.assertIn('TryCopyColabCode(key)', creation)
+
+    def test_new_notebook_does_not_interrupt_active_or_queued_work(self):
+        window = source('MainForm.ColabWindow.cs')
+        self.assertIn('view.NewNotebook.Enabled = !localOperationInProgress && Sessions.CanStartNewNotebook', window)
+        creation = window.split('private bool CreateNewColabNotebook(string key)', 1)[1].split('private void ShowReceivedColabResults', 1)[0]
+        self.assertEqual(creation.count('Sessions.CanStartNewNotebook'), 2)
+        store = (ROOT / 'Infrastructure/ColabSession.cs').read_text()
+        self.assertIn('!Busy(session, now) && !(Pending(session, now) && session!.Phase != "opening")', store)
+        replacement = store.split('public string StartNewNotebook(', 1)[1].split('public string Launch(', 1)[0]
+        self.assertLess(replacement.index('CanStartNewNotebook'), replacement.index('sessions[key] = session with'))
+        self.assertIn('RequestedAction = "prepare"', replacement)
+        for danger in ['File.Delete', 'Directory.Delete', 'NotebookFor(', 'File.WriteAll', 'QueueAction(']:
+            self.assertNotIn(danger, replacement)
+
+    def test_new_notebook_revokes_old_identity_not_saved_results(self):
+        store = (ROOT / 'Infrastructure/ColabSession.cs').read_text()
+        replacement = store.split('public string StartNewNotebook(', 1)[1].split('public string Launch(', 1)[0]
+        for field in ['NotebookUrl = url', 'Token = NewToken()', 'Epoch = ""', 'Sequence = 0', 'LastStatusHash = ""', 'Save();']:
+            self.assertIn(field, replacement)
+        self.assertIn('session.Kind == "benchmark" ? "benchmark" : "analysis"', replacement)
+        self.assertNotIn('copy=true', replacement)
+        self.assertIn('string url = NotebookFor(key);', store.split('public string Launch(', 1)[1])
+
+    def test_connection_dialog_refreshes_replaced_code_and_address(self):
+        window = source('MainForm.ColabWindow.cs')
+        self.assertIn('if (!CreateNewColabNotebook(key)) return;', window)
+        self.assertIn('box.Text = ConnectionCode(key); url.Text = Sessions.NotebookFor(key);', window)
+        self.assertIn('create-colab-notebook', source('MainForm.LayoutTests.cs'))
+
     def test_real_cpu_and_memory_reporting(self):
         with patch.object(m.os, 'cpu_count', return_value=4), patch.object(m.shutil, 'which', return_value=None), patch.object(m.Path, 'read_text', return_value='MemTotal: 16777216 kB\n'), patch.dict(os.environ, {}, clear=True):
             self.assertEqual(m.detect_runtime_label(), 'CPU: 4 · RAM: 16.0 GiB')

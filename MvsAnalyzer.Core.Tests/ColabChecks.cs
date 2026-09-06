@@ -6,6 +6,11 @@ internal static class ColabChecks
     {
         ("Colab opens the same notebook without forced copies", NoForcedCopy),
         ("Colab notebook identity survives an expired lease", StaleNotebookRetained),
+        ("Colab new notebook bypasses old address and revokes ownership", NewNotebookReplacesAddress),
+        ("Colab new notebook preserves all saved files and other jobs", NewNotebookRetainsFiles),
+        ("Colab new notebook blocks active and queued calculations", NewNotebookGuardsWork),
+        ("Colab unused launch can be replaced without waiting", NewNotebookReplacesUnusedLaunch),
+        ("Colab new benchmark notebook survives desktop restart", NewNotebookKindAndRestart),
         ("Colab busy and pending leases expire", LeasesExpire),
         ("Colab reconnect revokes stale runtime tokens", ReconnectRevokes),
         ("Colab disconnect retains saved artifacts", DisconnectRetains),
@@ -54,6 +59,73 @@ internal static class ColabChecks
         f.Store.LinkNotebook(f.Key, notebook + "?copy=true#copy=true");
         string url = f.Store.Launch(f.Key, "prepare");
         Check(url == notebook + "#scrollTo=mvs-calibrate", "A forced copy or stale anchor remained.");
+    }
+    private static void NewNotebookReplacesAddress()
+    {
+        using var f = new Fixture();
+        f.Store.LinkNotebook(f.Key, "https://colab.research.google.com/drive/oldNotebook123456");
+        f.Ping(packetHash: new string('d', 64)); ColabSession old = f.Current;
+        string url = f.Store.StartNewNotebook(f.Key, true);
+        string template = RemoteJob.ColabUrl("analysis");
+        Check(url == template + "#scrollTo=mvs-calibrate", "New notebook reused the old Drive URL.");
+        Check(f.Store.NotebookFor(f.Key) == template, "Open notebook still points to trash.");
+        Check(f.Store.ByToken(old.Token) == null && f.Current.Token != old.Token, "Old runtime still owns the connection.");
+        Check(f.Current.RequestedAction == "prepare" && f.Current.Phase == "opening", "Creation scheduled a calculation.");
+        Check(f.Current.Epoch == "" && f.Current.Sequence == 0 && f.Current.LastStatusHash == "" &&
+            f.Current.Percent == null && f.Current.RuntimeLabel == "" && !f.Current.ControlsReady, "Old runtime status leaked into the new connection.");
+        Reject(() => f.Store.CheckObservation(old.Token, f.Key, old.Epoch, "", 2));
+        const string saved = "https://colab.research.google.com/drive/newNotebook123456";
+        f.Store.Observe(f.Current.Token, f.Key, saved + "?usp=sharing", "fresh-epoch", "ready", f.Current.CommandId, 1, controlsReady: true);
+        Check(f.Store.NotebookFor(f.Key) == saved, "New Drive address was not learned.");
+        Check(f.Store.Launch(f.Key, "prepare") == saved + "#scrollTo=mvs-calibrate", "Normal reconnect creates another copy.");
+    }
+    private static void NewNotebookRetainsFiles()
+    {
+        using var f = new Fixture();
+        string folder = f.Store.DirectoryFor(f.Key); Directory.CreateDirectory(folder);
+        foreach (string name in new[] { CalibrationPersistence.FileName, "results.json", "job.zip", "sentinel.mvsbackup" })
+            File.WriteAllText(Path.Combine(folder, name), "retained:" + name);
+        string other = new('b', 64); f.Store.GetOrCreate(other, "standard", "prepare");
+        f.Store.LinkNotebook(other, "https://colab.research.google.com/drive/otherNotebook123456");
+        var untouched = f.Store.Find(other);
+        f.Store.StartNewNotebook(f.Key, true);
+        foreach (string name in new[] { CalibrationPersistence.FileName, "results.json", "job.zip", "sentinel.mvsbackup" })
+            Check(File.ReadAllText(Path.Combine(folder, name)) == "retained:" + name, "Creating a notebook changed " + name);
+        Check(f.Store.Find(other) == untouched, "Creating a notebook changed another job.");
+    }
+    private static void NewNotebookGuardsWork()
+    {
+        using var f = new Fixture(); f.Ping("calibrating"); ColabSession before = f.Current;
+        Check(!f.Store.CanStartNewNotebook(f.Current, f.Now), "New notebook enabled during calibration.");
+        Reject(() => f.Store.StartNewNotebook(f.Key, true)); Check(f.Current == before, "Refused creation changed state.");
+        f.Ping("ready"); f.Store.QueueAction(f.Key, "analyze"); before = f.Current;
+        Reject(() => f.Store.StartNewNotebook(f.Key, true)); Check(f.Current == before, "Creation discarded a queued command.");
+        f.Ping("ready");
+        Check(f.Store.CanStartNewNotebook(f.Current, f.Now), "An idle controller permanently blocks replacement.");
+        f.Store.StartNewNotebook(f.Key, true);
+    }
+    private static void NewNotebookReplacesUnusedLaunch()
+    {
+        using var f = new Fixture();
+        Check(f.Store.Pending(f.Current, f.Now), "Fixture needs a pending launch.");
+        Check(f.Store.CanStartNewNotebook(f.Current, f.Now), "Unused launch prevents replacing a deleted notebook.");
+        string old = f.Current.Token; f.Store.StartNewNotebook(f.Key, true);
+        Check(f.Current.Token != old && f.Current.RequestedAction == "prepare", "Unused launch was not safely replaced.");
+        Reject(() => f.Store.StartNewNotebook(new string('f', 64), true));
+    }
+    private static void NewNotebookKindAndRestart()
+    {
+        using var f = new Fixture();
+        string key = new('b', 64); f.Store.GetOrCreate(key, "benchmark", "analyze");
+        f.Store.LinkNotebook(key, "https://colab.research.google.com/drive/deletedBench123456");
+        f.Now = f.Now.AddMinutes(1);
+        Check(f.Store.StartNewNotebook(key, false).StartsWith(RemoteJob.ColabUrl("benchmark"), StringComparison.Ordinal), "Wrong notebook for benchmark.");
+        ColabSession current = f.Store.Find(key)!;
+        Check(current.Phase == "disconnected" && current.CommandId == "" && current.RequestedAction == "prepare", "Missing job started a fictitious controller.");
+        var reopened = new ColabSessionStore(f.Root, () => f.Now);
+        Check(reopened.NotebookFor(key) == RemoteJob.ColabUrl("benchmark"), "Restart restored a deleted notebook address.");
+        Check(reopened.NotebookFor() == RemoteJob.ColabUrl("benchmark"), "Global open fell back to an older deleted address.");
+        Check(!reopened.Live(reopened.Find(key), f.Now), "Restart pretends the new notebook is connected.");
     }
     private static void StaleNotebookRetained()
     {
