@@ -12,6 +12,7 @@ import unittest
 from unittest.mock import patch
 import zipfile
 from test_colab import m
+from source_pins import expected_source_hash
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -22,7 +23,7 @@ class UiPatchChecks(unittest.TestCase):
     def test_scientific_sources_unchanged(self):
         for name, expected in json.loads((ROOT / 'validation/ui-patch-baseline.json').read_text())['sha256'].items():
             with self.subTest(file=name):
-                self.assertEqual(hashlib.sha256((ROOT / name).read_bytes()).hexdigest(), expected)
+                self.assertEqual(hashlib.sha256((ROOT / name).read_bytes()).hexdigest(), expected_source_hash(name, expected))
 
     def test_sidebar_and_page_removed(self):
         for old in ['AddNav("colab"', 'case "colab"', '["colab"]']:

@@ -64,7 +64,7 @@ When offline, MVS can also save the verified files it has already received. That
 
 A running controller cell is not itself a running calculation. The other notebook cells remain available for manual operation after stopping the controller.
 
-**Update the application and notebook together.** Existing Google Drive copies do not update automatically. Replace their cells with the current notebook or open the notebook included with this release. If reconnecting with a new code, enable `RESET_CONNECTION` before running the first cell again.
+**Update the application and notebook together.** Existing Google Drive copies do not update automatically. Replace their cells with the current notebook or open the notebook included with this release. The first cell resumes remembered connections automatically and requests a fresh MVS code when needed. Downloading results ends the controller normally so the browser can transfer the ZIP; rerun the first cell to resume control.
 
 ## Compatibility and important notes
 

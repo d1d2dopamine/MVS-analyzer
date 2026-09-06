@@ -87,3 +87,8 @@ __pycache__/
 /MVS_Analyzer_*_source.zip
 /MVS_Analyzer_*_technical_files.zip
 /MVS_Analyzer_*_SHA256SUMS.txt
+
+## Portable checkpoints contain private input data
+MVS_Backups/
+MVS_Backups.zip
+*.mvsbackup

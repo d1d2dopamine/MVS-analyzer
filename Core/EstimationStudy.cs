@@ -88,10 +88,15 @@ internal static class EstimationStudy
         if ((options.Target == "within_variance" || options.Target == "between_variance") && options.Shape != "normal")
             throw new ArgumentException("Variance-estimation studies currently use the Gaussian random-intercept model only.");
         string[] methods = Methods(options); double truth = Truth(options); ScientificMath.RequireFinite(truth, "simulation truth");
+        using var backup = BackupSession.Begin(new BackupRequest { Kind = "estimation", Estimation = options });
+        if (backup.Try<EstimationReport>("result", out var restoredResult)) return restoredResult;
         var draws = new List<EstimationDraw>();
         for (int rep = 0; rep < options.Repetitions; rep++)
         {
             token.ThrowIfCancellationRequested();
+            draws.AddRange(backup.Cached("replication/" + rep, () =>
+            {
+                var completedDraws = new List<EstimationDraw>();
             double[][] data = Generate(options, new Random(ScientificMath.Seed(options.Seed, "estimation-data", rep)));
             var bootstrap = methods.Select(_ => new List<double>()).ToArray();
             var rng = new Random(ScientificMath.Seed(options.Seed, "estimation-cluster-bootstrap", rep));
@@ -107,11 +112,13 @@ internal static class EstimationStudy
                 double estimate = Estimate(data, methods[m]);
                 if (!double.IsFinite((estimate - truth) * (estimate - truth))) estimate = double.NaN;
                 bool interval = bootstrap[m].Count >= .9 * options.BootstrapReplications;
-                draws.Add(new EstimationDraw(rep + 1, methods[m], estimate,
+                completedDraws.Add(new EstimationDraw(rep + 1, methods[m], estimate,
                     interval ? ScientificMath.Quantile(bootstrap[m], .025) : double.NaN,
                     interval ? ScientificMath.Quantile(bootstrap[m], .975) : double.NaN,
                     !double.IsFinite(estimate) ? "estimate_failed" : !interval ? "interval_failed" : "estimated"));
             }
+                return completedDraws;
+            }));
             progress?.Report(new ProgressInfo((rep + 1d) / options.Repetitions, "Known-truth estimation study", options.Target));
         }
         var performance = new List<EstimationPerformance>();
@@ -135,7 +142,7 @@ internal static class EstimationStudy
             performance[i] = performance[i] with {
                 RelativeMseEfficiency = performance[i].Mse > 0 ? baseline.Mse / performance[i].Mse : double.NaN,
                 RelativeVarianceEfficiency = performance[i].EmpiricalSd > 0 ? Math.Pow(baseline.EmpiricalSd / performance[i].EmpiricalSd, 2) : double.NaN };
-        return new EstimationReport(ReleaseInfo.EngineVersion, "Synthetic known-truth ADEMP study; NOT the unknown bias of an uploaded dataset", options, truth,
+        return backup.Finish(new EstimationReport(ReleaseInfo.EngineVersion, "Synthetic known-truth ADEMP study; NOT the unknown bias of an uploaded dataset", options, truth,
             performance.ToArray(), draws.ToArray(), new[] {
                 "All compared methods target the SAME declared estimand under the selected mechanism. Do not compare MSE across different estimands or units.",
                 "For lognormal data, location and within/between SD parameters are on the log scale. Normal and t5 parameters are on the outcome scale.",
@@ -143,6 +150,6 @@ internal static class EstimationStudy
                 "Bias, MSE and variance are conditional on successful point estimates; requested/completed/failed counts are exported. Unconditional coverage counts missing intervals as failures.",
                 "Relative MSE efficiency is reference MSE / method MSE. The variance ratio alone must not be interpreted as superior accuracy when bias differs.",
                 "Variance targets currently support Gaussian data only. The normal MAD estimator uses the asymptotic normal consistency factor, not a finite-sample unbiasedness correction.",
-                "Monte Carlo standard errors describe finite simulation noise. They do not cover misspecification of the data-generating model." });
+                "Monte Carlo standard errors describe finite simulation noise. They do not cover misspecification of the data-generating model." }));
     }
 }

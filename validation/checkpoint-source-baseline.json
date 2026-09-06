@@ -1,0 +1,33 @@
+{
+  "note": "Explicit checkpoint-orchestration revision. Historical byte pins are retained unchanged. Formula/protocol pins remain unchanged. Native interrupted-versus-uninterrupted tests are required separately.",
+  "sha256": {
+    "Benchmark/BenchmarkRunner.cs": {
+      "originalSha256": "23869bc90ed7a77c563a78d882eea0d1407de86019b12df1c9332f58762d7ae8",
+      "sha256": "376585cf8ab00645ed7d7ab01a727a14cf6e12df53e7a678072481c5b648f2eb"
+    },
+    "Core/AnalysisEngine.cs": {
+      "originalSha256": "6d20f4e5a752f1c78d16120a4ce7d2c84885758fa32139a9138508345499f25f",
+      "sha256": "2c3d0e330d6e4a58425bf4ed92ab2d598d76b51b6f031fa88dd5dac5e6c4f303"
+    },
+    "Core/EstimationStudy.cs": {
+      "originalSha256": "9691548a15584b044bb5917849b9cda24e3c37417a4c6c17c098d551bbe95d7f",
+      "sha256": "51a3428fe0057899ee479580c65e4fce2e8b410c61f72229966718def7c06bea"
+    },
+    "Core/MelsmAnalysis.cs": {
+      "originalSha256": "c2b69e612209548c17c23befcde4d576d788b11d44fe4d5647c5cc6adab79ede",
+      "sha256": "c03cac81fc97018b0a3fe9c5752cea9670569bbaf9ad4c42e536c3c9658f0561"
+    },
+    "Core/NumericalMethods.cs": {
+      "originalSha256": "a0c2ede15dcf1e925640c6da42d2bb2770422c90cd5e1fe4db20427e4ed24d1b",
+      "sha256": "5ee3ef4f2c1cde3b1ffe0c7161b2afdf6228efcc2aa7898372bdd5bc208f3eb0"
+    },
+    "Core/VarianceAnalysis.cs": {
+      "originalSha256": "e3c57391797cb3b94dd02c37ad767a783883f66120642bdf6eb9381368b811d6",
+      "sha256": "5e19899d008bff8dc1f04cb67d0d975c670fd87dc0f91c70668630dbe8a3205f"
+    },
+    "MvsAnalyzer.Cli/HeadlessRun.cs": {
+      "originalSha256": "268a3de63b6f49bc80f8accdc49b3b6daf30f54b3adffbda9d723cb9ee3af4f7",
+      "sha256": "d47151f5abfb4811cde30eba0d7bf8abfabdbac3a786fc78873cd2fd21717ec0"
+    }
+  }
+}

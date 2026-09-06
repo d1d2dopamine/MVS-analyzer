@@ -113,8 +113,10 @@ internal static class VarianceAnalysis
         if (repetitions < 100 || referenceReplications < 99) throw new ArgumentException("Use at least 100 evaluation and 99 reference replications.");
         ScientificMath.RequireRange(alpha, 0, 1, "alpha", false); ScientificMath.RequireFinite(withinEffect, "within effect"); ScientificMath.RequireFinite(betweenEffect, "between effect");
         if (withinEffect <= 1 || betweenEffect <= 1) throw new ArgumentException("SD multipliers must exceed one.");
+        using var backup = BackupSession.Begin(new BackupRequest { Kind = "variance", Data = data, Repetitions = repetitions, ReferenceReplications = referenceReplications, Effect = withinEffect, SecondEffect = betweenEffect, Seed = seed, Alpha = alpha });
+        if (backup.Try<VarianceReport>("result", out var restoredResult)) return restoredResult;
         ClusterSummary[] clusters = Summaries(data); int groups = data.GroupNames.Length;
-        VarianceFit estimates = Fit(clusters, groups, reml: true, token: token);
+        VarianceFit estimates = backup.Cached("initial-fit", () => Fit(clusters, groups, reml: true, token: token));
         var rows = new List<VarianceGroup>();
         for (int g = 0; g < groups; g++)
         {
@@ -137,7 +139,7 @@ internal static class VarianceAnalysis
             {
                 token.ThrowIfCancellationRequested();
                 var draw = Generate(clusters, estimates, new Random(ScientificMath.Seed(seed, "variance-estimate-interval", rep)));
-                VarianceFit estimateDraw = Fit(draw, groups, reml: true, token: token);
+                VarianceFit estimateDraw = backup.Cached("interval/" + rep, () => Fit(draw, groups, reml: true, token: token));
                 if (estimateDraw.Converged)
                 { successful++; for (int g = 0; g < groups; g++) { withinDraws[g].Add(estimateDraw.Within[g]); betweenDraws[g].Add(estimateDraw.Between[g]); } }
                 progress?.Report(new ProgressInfo(.15 * (rep + 1d) / repetitions, "Variance-estimate intervals", "Parametric entity bootstrap"));
@@ -153,14 +155,14 @@ internal static class VarianceAnalysis
         for (int tr = 0; tr < names.Length; tr++)
         {
             string track = names[tr]; double effect = tr == 0 ? withinEffect : betweenEffect;
-            VarianceFit nullModel = Fit(clusters, groups, equalWithin: track == "within", equalBetween: track == "between", token: token);
-            double observedStat = Statistic(clusters, groups, track, token);
+            VarianceFit nullModel = backup.Cached(track + "/null-fit", () => Fit(clusters, groups, equalWithin: track == "within", equalBetween: track == "between", token: token));
+            double observedStat = backup.Cached(track + "/observed", () => Statistic(clusters, groups, track, token));
             var reference = new List<double>();
             if (nullModel.Converged)
                 for (int i = 0; i < referenceReplications; i++)
                 {
                     token.ThrowIfCancellationRequested(); var rng = new Random(ScientificMath.Seed(seed, track + ":variance-reference", i));
-                    double statistic = Statistic(Generate(clusters, nullModel, rng), groups, track, token);
+                    double statistic = backup.Cached(track + "/reference/" + i, () => Statistic(Generate(clusters, nullModel, rng), groups, track, token));
                     if (double.IsFinite(statistic)) reference.Add(statistic);
                     progress?.Report(new ProgressInfo(.15 + .85 * (tr + .35 * (i + 1) / referenceReplications) / 2, "Variance-component null bootstrap", track));
                 }
@@ -172,12 +174,12 @@ internal static class VarianceAnalysis
                 for (int i = 0; i < repetitions; i++)
                 {
                     token.ThrowIfCancellationRequested(); int draw = ScientificMath.Seed(seed, track + ":variance-evaluation", i);
-                    double nstat = Statistic(Generate(clusters, nullModel, new Random(draw)), groups, track, token);
-                    double astat = Statistic(Generate(clusters, nullModel, new Random(draw), track, effect), groups, track, token);
+                    double nstat = backup.Cached(track + "/null/" + i, () => Statistic(Generate(clusters, nullModel, new Random(draw)), groups, track, token));
+                    double astat = backup.Cached(track + "/alternative/" + i, () => Statistic(Generate(clusters, nullModel, new Random(draw), track, effect), groups, track, token));
                     if (!double.IsFinite(nstat)) invalidNull++; else if (BootstrapP(nstat) < alpha / 2) f++;
                     if (!double.IsFinite(astat)) invalidAlternative++; else if (BootstrapP(astat) < alpha / 2) a++;
                     int point = i % gridTotal.Length; gridTotal[point]++;
-                    double gs = Statistic(Generate(clusters, nullModel, new Random(draw), track, AnalysisEngine.EffectGrid[point]), groups, track, token);
+                    double gs = backup.Cached(track + "/grid/" + i, () => Statistic(Generate(clusters, nullModel, new Random(draw), track, AnalysisEngine.EffectGrid[point]), groups, track, token));
                     if (!double.IsFinite(gs)) gridFailed[point]++; else if (BootstrapP(gs) < alpha / 2) gridReject[point]++;
                     progress?.Report(new ProgressInfo(.15 + .85 * (tr + .35 + .65 * (i + 1) / repetitions) / 2, "Separate component power", track));
                 }
@@ -198,7 +200,7 @@ internal static class VarianceAnalysis
                 !usable ? "bootstrap_or_fit_failure" : componentAtBoundary ? "boundary_baseline_power_not_identifiable" : validRates ? "conditional_plugin_bootstrap" : "excess_simulation_failures",
                 AnalysisEngine.EffectGrid, curve, mde, double.IsFinite(mde) ? "estimated_on_grid" : componentAtBoundary ? "zero_baseline" : gridTotal.Any(n => n < 100) ? "insufficient_simulations" : "target_not_reached_or_invalid_curve"));
         }
-        return new VarianceReport(ReleaseInfo.EngineVersion, "Gaussian random intercept; group-specific mean and variance components; REML estimates / ML bootstrap tests",
+        return backup.Finish(new VarianceReport(ReleaseInfo.EngineVersion, "Gaussian random intercept; group-specific mean and variance components; REML estimates / ML bootstrap tests",
             "Two component hypotheses, Bonferroni alpha/2; separate from the summary-metric family", seed, alpha, rows.ToArray(), tracks.ToArray(),
             data.Warnings.Concat(new[] {
                 "Conditional Gaussian errors, independent entities and conditionally independent repeats are assumptions, not facts established by this fit.",
@@ -206,7 +208,7 @@ internal static class VarianceAnalysis
                 "Failed evaluation fits count as non-rejections; failure counts are exported. Rates are suppressed above 10% failures.",
                 "Observed SD of entity means includes measurement error. The untruncated method-of-moments estimate is included for transparency.",
                 "Variance-estimate intervals are pointwise parametric percentile intervals conditional on the fitted model; boundary coverage is not guaranteed.",
-                "No global equivalence conclusion follows from a non-significant variance test. Small samples and boundary estimates require external validation." }).ToArray());
+                "No global equivalence conclusion follows from a non-significant variance test. Small samples and boundary estimates require external validation." }).ToArray()));
     }
     public static string Csv(VarianceReport report) => ScientificTables.Csv(report.Groups);
 }

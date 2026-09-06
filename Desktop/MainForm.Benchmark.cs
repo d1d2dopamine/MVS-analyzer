@@ -183,7 +183,7 @@ internal sealed partial class MainForm
         if (cancelled)
         {
             status.ForeColor = Secondary;
-            status.Text = T("Cancelled. Nothing was written.", "Отменено. Ничего не сохранено.");
+            status.Text = T("Cancelled. Completed work remains in MVS_Backups.", "Отменено. Выполненная работа осталась в MVS_Backups.");
             return;
         }
 

@@ -8,6 +8,7 @@ import base64
 import contextlib
 import copy
 import hashlib
+from source_pins import expected_source_hash
 import io
 import json
 from pathlib import Path
@@ -455,7 +456,7 @@ class ConnectionTests(unittest.TestCase):
         self.assertEqual(len(pins["sha256"]), 30)
         self.assertIn("MvsAnalyzer.Cli/HeadlessRun.cs", pins["sha256"])
         for path, expected in pins["sha256"].items():
-            self.assertEqual(hashlib.sha256((ROOT / path).read_bytes()).hexdigest(), expected, path)
+            self.assertEqual(hashlib.sha256((ROOT / path).read_bytes()).hexdigest(), expected_source_hash(path, expected), path)
 
 
 if __name__ == "__main__":

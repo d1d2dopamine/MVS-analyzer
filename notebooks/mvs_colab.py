@@ -369,6 +369,54 @@ def browser_request(base, route, packet=None, attempts=None):
         time.sleep(min(2, .5 * 2 ** attempt))
 
 
+def backup_directory():
+    return Path(os.environ.get("MVS_BACKUP_DIR", "/content/MVS_Backups"))
+
+
+def backup_process_environment(dotnet=None, job_key=""):
+    env = dotnet_environment(dotnet) if dotnet else os.environ.copy()
+    env["MVS_BACKUP_DIR"] = str(backup_directory())
+    env["MVS_BACKUP_JOB"] = job_key
+    return env
+
+
+def changed_backup(acknowledged, active_kind, job_key=""):
+    """Read one immutable snapshot; advance the cursor only after desktop ACK.
+
+    The desktop copy, not ephemeral /content, protects against VM deletion.
+    """
+    folder = backup_directory()
+    if not folder.is_dir():
+        return None
+    for path in sorted(folder.glob("*.mvsbackup"), key=lambda p: p.stat().st_mtime_ns, reverse=True):
+        if path.name.endswith(".previous.mvsbackup"):
+            continue
+        stamp = (path.stat().st_mtime_ns, path.stat().st_size)
+        if acknowledged.get(path.name) == stamp:
+            continue
+        if stamp[1] > 64 * 1024 * 1024:
+            raise ValueError("Backup exceeds transfer limit; retain the last desktop copy.")
+        content = path.read_bytes()
+        with zipfile.ZipFile(io.BytesIO(content)) as archive:
+            if sorted(archive.namelist()) != ["SHA256SUMS.txt", "backup.json"]:
+                raise ValueError("Unexpected backup structure")
+            if archive.getinfo("backup.json").file_size > 64 * 1024 * 1024 or archive.getinfo("SHA256SUMS.txt").file_size > 256:
+                raise ValueError("Backup expansion limit exceeded")
+            payload = archive.read("backup.json")
+            if archive.read("SHA256SUMS.txt").decode().strip() != hashlib.sha256(payload).hexdigest() + "  backup.json":
+                raise ValueError("Backup checksum mismatch")
+            def invalid(value):
+                raise ValueError("Invalid JSON constant: " + value)
+            document = json.loads(payload, parse_constant=invalid)
+            if ci(document, "OriginJob", "") != job_key:
+                continue
+            kind = ci(ci(document, "Request", {}), "Kind")
+            if kind not in ({"calibrate", "analyze"} if active_kind == "standard" else {active_kind}):
+                continue
+        return path.name, stamp, content
+    return None
+
+
 def fetch_job_archive(connection):
     response = browser_request(connection, "job")
     value = response.get("archive")
@@ -739,6 +787,22 @@ class Workspace:
             validate_manifest(result.parent, ci(self.plan, "DatasetHash"), ci(self.plan, "SettingsHash"))
             packet["resultsBase64"] = base64.b64encode(result.read_bytes()).decode()
             packet["manifestBase64"] = base64.b64encode((result.parent / "run_manifest.json").read_bytes()).decode()
+        self._backup_packet = None
+        if "portable-backup-v1" in getattr(self, "peer_capabilities", set()):
+            try:
+                item = changed_backup(getattr(self, "_backup_acknowledged", {}), ci(self.plan, "Kind"), ci(self.plan, "Key"))
+                self._backup_warning = ""
+            except (OSError, ValueError, zipfile.BadZipFile) as error:
+                # A mirror/read failure is not permission to kill the scientific child process.
+                item = None
+                warning = "Backup mirror unavailable; calculation continues, last desktop copy retained / Передача бэкапа недоступна; расчёт продолжается, последняя копия на ПК сохранена: " + str(error)
+                if warning != getattr(self, "_backup_warning", ""):
+                    print(warning)
+                self._backup_warning = warning
+            if item:
+                name, stamp, content = item
+                packet["backupBase64"] = base64.b64encode(content).decode()
+                self._backup_packet = (name, stamp)
         return packet
 
     def send(self, include_files=False):
@@ -753,6 +817,12 @@ class Workspace:
             else:
                 browser_request(self.connection, "status", packet)
             self._files_pending = False
+            item = getattr(self, "_backup_packet", None)
+            if item:
+                if not hasattr(self, "_backup_acknowledged"):
+                    self._backup_acknowledged = {}
+                self._backup_acknowledged[item[0]] = item[1]
+                print("✓ Backup copied to MVS / Бэкап сохранён на компьютере: MVS_Backups")
             self.connection_error = None
             self.last_notice = ""
             if self._monitor is not None:
@@ -809,9 +879,12 @@ class Workspace:
 
     def run_process(self, command, allow_diagnostic=False):
         print("$", shlex.join(list(map(str, command))))
+        print("Backups / Бэкапы: " + str(backup_directory() / "MVS_Backups.zip"))
+        if not self.connection or "portable-backup-v1" not in getattr(self, "peer_capabilities", set()):
+            print("WARNING: no desktop backup mirror. Files in /content disappear if Colab deletes the runtime. / Нет копии на компьютере: при удалении среды локальные файлы Colab пропадут.")
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
                                    encoding="utf-8", errors="replace", start_new_session=True,
-                                   env=dotnet_environment(self.dotnet) if self.dotnet else None)
+                                   env=backup_process_environment(self.dotnet, ci(self.plan, "Key")))
         output_queue = queue.Queue()
         def read_lines():
             try:

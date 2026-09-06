@@ -215,6 +215,8 @@ internal sealed partial class MainForm : Form
                 source = halves.Calibration; analysisHalf = halves.Analysis; source.ImportSummary = data.ImportSummary; analysisHalf.ImportSummary = data.ImportSummary; calibrationSource = "split_half";
             }
             var reporter = new Progress<ProgressInfo>(progress.UpdateProgress);
+            using var backupContext = BackupSession.SetContext(new BackupContext(data, DatasetName: datasetName, DatasetHash: datasetHash,
+                Project: projectName, Description: projectDescription, Processing: ProcessingSnapshot.From(settings), Split: settings.SplitCalibration, Margin: settings.EquivalenceMargin));
             calibration = await Task.Run(() => AnalysisEngine.Calibrate(source, repetitions, settings.CalibrationEffect, settings.CalibrationSeed, reporter, progress.Token, settings.SimulationScenario, settings.OutlierRate, settings.MissingRate, settings.Alpha, AnalysisEngine.DefaultTracks));
             lastCalibrationRepetitions = repetitions;
             calibrationSettingsHash = SettingsContract.Fingerprint(settings);
@@ -250,6 +252,8 @@ internal sealed partial class MainForm : Form
         {
             await RunLocalTaskAsync(progress, async () =>
             {
+            using var backupContext = BackupSession.SetContext(new BackupContext(data, DesktopState(), datasetName, datasetHash, projectName, projectDescription,
+                ProcessingSnapshot.From(settings), settings.SplitCalibration, settings.EquivalenceMargin));
             await Task.Delay(120); var reporter = new Progress<ProgressInfo>(info => progress.UpdateProgress(info with { Fraction = .9 * info.Fraction })); results = await Task.Run(() => AnalysisEngine.Results(analysisHalf ?? data, calibration, reporter, progress.Token, settings.Alpha, settings.EquivalenceMargin, settings.CalibrationSeed));
             lastFigureFiles.Clear(); lastArtifacts.Clear();
             if (OutputExporter.AnyAutomaticOutput(settings))

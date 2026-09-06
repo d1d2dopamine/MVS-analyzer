@@ -20,7 +20,7 @@ internal static class ColabCompatibility
     public const string Name = "mvs-colab";
     public const int Major = 1, Minor = 0;
     public static ColabWireDescriptor Wire => new(Name, Major, Minor, 0,
-        new[] { "job-zip-v1", "commands-v1", "status-sequence-v1", "status-retry-v1", "runtime-bundle-v1" });
+        new[] { "job-zip-v1", "commands-v1", "status-sequence-v1", "status-retry-v1", "portable-backup-v1", "runtime-bundle-v1" });
 
     private static JsonElement Field(JsonElement root, string name)
     {

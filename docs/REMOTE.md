@@ -109,3 +109,7 @@ Full downloads occur in the Colab browser. Offline MVS can save only verified fi
 MVS сообщает CPU, память и обнаруженную GPU (если `nvidia-smi` доступна). Это описание текущей среды, а не обещание наличия других ускорителей. Движок .NET здесь выполняет расчёт на CPU и не начинает использовать CUDA/TPU при выборе GPU.
 
 Официальный отдельный Google Colab CLI поддерживает управление ресурсами, но на момент проверки заявляет только Linux/macOS. Он не добавлен как новая обязательная зависимость Windows-приложения: https://github.com/googlecolab/google-colab-cli .
+
+## Portable checkpoints
+
+Updated notebooks send periodic checkpoints to the connected desktop. All copies are kept in one `MVS_Backups` folder and `MVS_Backups.zip`; use **Data → Load backup and continue** to resume offline. A file stored only in Colab temporary storage does not survive deletion of its runtime. See [Backups](BACKUPS.md) for transfer acknowledgements, safe boundaries and privacy limits.

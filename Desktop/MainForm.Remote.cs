@@ -239,6 +239,16 @@ internal sealed partial class MainForm
             if (sequence <= session.Sequence)
                 throw new ColabProtocolException(409, "stale_status", "A different or delayed status used an old sequence. Reconnect this notebook; do not reuse its code in a second runtime.");
             Sessions.CheckObservation(token, plan.Key, Value("epoch"), Value("commandId"), sequence);
+            string backupPayload = Value("backupBase64");
+            if (backupPayload.Length > 0)
+            {
+                byte[] backupBytes = Convert.FromBase64String(backupPayload);
+                BackupDocument backupDocument = BackupSession.Decode(backupBytes);
+                bool matchesKind = plan.Kind == "standard" ? backupDocument.Request.Kind is "calibrate" or "analyze" : backupDocument.Request.Kind == plan.Kind;
+                if (backupDocument.OriginJob != plan.Key || !matchesKind || (plan.Kind == "standard" && backupDocument.Request.Context?.DatasetHash != plan.DatasetHash))
+                    throw new InvalidDataException("Backup belongs to a different operation or input.");
+                BackupSession.Receive(backupBytes);
+            }
             string calibrationBytes = Value("calibrationBase64"), result = Value("resultsBase64");
             string incoming = Sessions.CalibrationPath(plan.Key) + ".incoming-" + Guid.NewGuid().ToString("N");
             byte[]? resultBytes = null, manifestBytes = null;

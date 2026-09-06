@@ -14,6 +14,7 @@ internal static class CliProgram
         try
         {
             return args.Command switch {
+                "resume" => Resume(args),
                 "calibrate" => HeadlessRun.Calibrate(args), "analyze" or "analyse" => HeadlessRun.Analyze(args),
                 "variance" => ScientificCommands.Variance(args), "estimation" => ScientificCommands.Estimation(args),
                 "melsm" => ScientificCommands.Melsm(args), "benchmark" => BenchmarkCommandLine.Run(arguments),
@@ -27,6 +28,16 @@ internal static class CliProgram
             if (System.Environment.GetEnvironmentVariable("MVS_DEBUG") == "1") Console.Error.WriteLine(error.StackTrace);
             return 1;
         }
+    }
+    private static int Resume(CliArguments args)
+    {
+        args.Validate(new[] { "--in", "--out", "--id" });
+        var backups = BackupSession.ReadArchive(args.Require("--in"));
+        if (args.Value("--id") is string id) backups = backups.Where(b => b.Id == id).OrderByDescending(b => b.SavedUtc).Take(1).ToList();
+        else backups = backups.GroupBy(b => b.Id).Select(g => g.OrderByDescending(b => b.SavedUtc).First()).ToList();
+        if (backups.Count != 1) throw new ArgumentException("Choose a backup in MVS Data or pass --id. Available: " + string.Join(", ", backups.Select(b => b.Id + " (" + b.Request.Kind + ")")));
+        var result = BackupRunner.Run(backups[0], args.Require("--out"), new CliProgress(), CliCancellation.Token);
+        Console.WriteLine("Resumed result saved: " + result.Folder); return result.ExitCode;
     }
     private static void Usage()
     {
@@ -70,6 +81,8 @@ Benchmark and diagnostics:
   mvs benchmark --profile quick|standard|full --out folder [--seed N] [--threads N]
   mvs version
   mvs env
+  mvs resume --in MVS_Backups.zip --out folder [--id backup-id]
+  Automatic checkpoints: MVS_BACKUP_DIR, default local MVS_Analyzer/MVS_Backups.
 
 Exit codes: 0 completed, 1 input/runtime error or cancellation, 2 a numerical diagnostic
 or benchmark threshold was not satisfied (inspect the saved report).

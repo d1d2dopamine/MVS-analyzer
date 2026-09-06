@@ -1,6 +1,8 @@
 <Project>
   <!-- Explicit, identical source registry for the Linux CLI and portable regression harness. -->
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/PortableBackup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/BackupRunner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core/AnalysisEngine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core/Models.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core/SimulationScenarios.cs" />

@@ -75,6 +75,8 @@ internal static class AnalysisEngine
         ScientificMath.RequireRange(alpha, 0, 1, "alpha", false);
         ScientificMath.RequireRange(outlierRate, 0, 1, "outlier rate"); ScientificMath.RequireRange(missingRate, 0, 1, "missing rate");
         string[] names = NormalizeTracks(scenario, tracks);
+        using var backup = BackupSession.Begin(new BackupRequest { Kind = "calibrate", Data = data, Repetitions = repetitions, Effect = effect, Seed = seed, Scenario = scenario, Outliers = outlierRate, Missing = missingRate, Alpha = alpha, Tracks = tracks });
+        if (backup.Try<List<CalibrationRow>>("result", out var restoredResult)) return restoredResult;
         var pool = data.Observations.GroupBy(o => Key(o.Group, o.Entity), StringComparer.OrdinalIgnoreCase).Select(g => g.Select(o => o.Value).ToArray()).ToArray();
         double center = pool.Average(x => x.Average());
         double shiftScale = Math.Max(Math.Abs(center), Math.Sqrt(pool.Average(x => ScientificMath.Variance(x))));
@@ -86,25 +88,32 @@ internal static class AnalysisEngine
         for (int rep = 0; rep < repetitions; rep++)
         {
             token.ThrowIfCancellationRequested();
-            int drawSeed = ScientificMath.Seed(seed, "empirical-common-draw", rep);
-            double[][][] nullGroups = Simulate(pool, data.GroupCounts, data.MinMeasurementsApplied, new Random(drawSeed), 1, SimulationScenarios.Location, outlierRate, missingRate, center, shiftScale);
+            int point = rep % k;
+            CalibrationStep step = backup.Cached("simulation/" + rep, () =>
+            {
+                int Code(double p) => !double.IsFinite(p) ? -1 : DecisionPolicy.Reject(p, alpha, m) ? 1 : 0;
+                int drawSeed = ScientificMath.Seed(seed, "empirical-common-draw", rep);
+                double[][][] nullGroups = Simulate(pool, data.GroupCounts, data.MinMeasurementsApplied, new Random(drawSeed), 1, SimulationScenarios.Location, outlierRate, missingRate, center, shiftScale);
+                int[] nullCodes = Enumerable.Range(0, m).Select(metric => Code(MetricP(nullGroups, metric))).ToArray();
+                var powerCodes = new int[t][]; var gridCodes = new int[t][];
+                for (int track = 0; track < t; track++)
+                {
+                    double[][][] alternative = Simulate(pool, data.GroupCounts, data.MinMeasurementsApplied, new Random(drawSeed), effect, names[track], outlierRate, missingRate, center, shiftScale);
+                    double[][][] grid = Simulate(pool, data.GroupCounts, data.MinMeasurementsApplied, new Random(drawSeed), EffectGrid[point], names[track], outlierRate, missingRate, center, shiftScale);
+                    powerCodes[track] = new int[m]; gridCodes[track] = new int[m];
+                    for (int metric = 0; metric < m; metric++)
+                    { powerCodes[track][metric] = Code(MetricP(alternative, metric)); gridCodes[track][metric] = Code(MetricP(grid, metric)); }
+                }
+                return new CalibrationStep(nullCodes, powerCodes, gridCodes);
+            });
+            gridTotal[point]++;
             for (int metric = 0; metric < m; metric++)
             {
-                double p = MetricP(nullGroups, metric);
-                if (!double.IsFinite(p)) continue;
-                nullValid[metric]++; if (DecisionPolicy.Reject(p, alpha, m)) falsePositives[metric]++;
-            }
-            int point = rep % k; gridTotal[point]++;
-            for (int track = 0; track < t; track++)
-            {
-                // Exactly the same resampling/noise stream across effects, tracks and metrics.
-                double[][][] alternative = Simulate(pool, data.GroupCounts, data.MinMeasurementsApplied, new Random(drawSeed), effect, names[track], outlierRate, missingRate, center, shiftScale);
-                double[][][] grid = Simulate(pool, data.GroupCounts, data.MinMeasurementsApplied, new Random(drawSeed), EffectGrid[point], names[track], outlierRate, missingRate, center, shiftScale);
-                for (int metric = 0; metric < m; metric++)
+                if (step.Null[metric] >= 0) { nullValid[metric]++; falsePositives[metric] += step.Null[metric]; }
+                for (int track = 0; track < t; track++)
                 {
-                    double p = MetricP(alternative, metric), gp = MetricP(grid, metric);
-                    if (double.IsFinite(p)) { valid[metric, track]++; if (DecisionPolicy.Reject(p, alpha, m)) detected[metric, track]++; }
-                    if (double.IsFinite(gp)) { gridValid[metric, track, point]++; if (DecisionPolicy.Reject(gp, alpha, m)) gridDetected[metric, track, point]++; }
+                    if (step.Power[track][metric] >= 0) { valid[metric, track]++; detected[metric, track] += step.Power[track][metric]; }
+                    if (step.Grid[track][metric] >= 0) { gridValid[metric, track, point]++; gridDetected[metric, track, point] += step.Grid[track][metric]; }
                 }
             }
             if ((rep + 1) % Math.Max(1, repetitions / 100) == 0 || rep + 1 == repetitions)
@@ -114,6 +123,8 @@ internal static class AnalysisEngine
         for (int metric = 0; metric < m; metric++)
         {
             token.ThrowIfCancellationRequested();
+            rows.Add(backup.Cached("diagnostic/" + metric, () =>
+            {
             bool applicable = observed.All(g => g[metric].Length >= 4) && nullValid[metric] >= .9 * repetitions;
             double fpr = applicable ? falsePositives[metric] / (double)repetitions : double.NaN;
             double nominal = alpha / m;
@@ -137,14 +148,16 @@ internal static class AnalysisEngine
                 mdeStatus[track] = !applicable ? "not_applicable" : inflated ? "fpr_inflated" : gridTotal.Any(n => n < 100) ? "insufficient_simulations" : double.IsFinite(mdes[track]) ? "estimated_on_grid" : "target_not_reached_or_invalid_curve";
                 curves[track] = string.Join("|", EffectGrid.Select((e, p) => e.ToString("R", CultureInfo.InvariantCulture) + ":" + curve[p].ToString("R", CultureInfo.InvariantCulture)));
             }
-            rows.Add(new CalibrationRow(MetricKeys[metric], fpr, powers[0], scores[0], robustness, repeatability, coverage, applicable,
+            return new CalibrationRow(MetricKeys[metric], fpr, powers[0], scores[0], robustness, repeatability, coverage, applicable,
                 mdes[0], inflated, curves[0], names, powers, scores, mdes, curves,
                 Repetitions: repetitions, FprLow: fci.Item1, FprHigh: fci.Item2, TrackPowerLow: powerLow, TrackPowerHigh: powerHigh,
-                TrackFailures: failures, TrackMdeStatus: mdeStatus, Alpha: alpha, NullFailures: repetitions - nullValid[metric]));
+                TrackFailures: failures, TrackMdeStatus: mdeStatus, Alpha: alpha, NullFailures: repetitions - nullValid[metric]);
+            }));
             progress.Report(new ProgressInfo(.90 + .10 * (metric + 1) / m, "Diagnostics and intervals", MetricKeys[metric]));
         }
-        return rows;
+        return backup.Finish(rows);
     }
+    internal sealed record CalibrationStep(int[] Null, int[][] Power, int[][] Grid);
     private static double[][][] Simulate(double[][] pool, int[] counts, int minimum, Random random, double effect,
         string scenario, double contamination, double missing, double populationCenter, double shiftScale)
     {
@@ -194,11 +207,15 @@ internal static class AnalysisEngine
         ScientificMath.RequireRange(alpha, 0, 1, "alpha", false); ScientificMath.RequireRange(equivalenceMargin, 0, 1, "equivalence margin", false);
         if (calibration.Count != MetricKeys.Length || calibration.Select(c => c.Metric).Distinct().Count() != MetricKeys.Length || MetricKeys.Any(key => !calibration.Any(c => c.Metric == key)))
             throw new InvalidDataException("The calibration metric registry is incompatible; recalibrate.");
+        using var backup = BackupSession.Begin(new BackupRequest { Kind = "analyze", Data = data, Calibration = calibration, Alpha = alpha, Margin = equivalenceMargin, Seed = seed });
+        if (backup.Try<List<ResultRow>>("result", out var restoredResult)) return restoredResult;
         string[] tracks = calibration.First().Tracks ?? new[] { SimulationScenarios.Default };
         double[][][] arrays = GroupMetricArrays(data); var rows = new List<ResultRow>();
         for (int metric = 0; metric < MetricKeys.Length; metric++)
         {
             token.ThrowIfCancellationRequested(); CalibrationRow c = calibration.Single(x => x.Metric == MetricKeys[metric]);
+            rows.Add(backup.Cached("metric/" + metric, () =>
+            {
             double[][] groups = arrays.Select(g => g[metric]).ToArray(); double[] medians = groups.Select(Median).ToArray();
             bool applicable = c.Applicable && groups.All(g => g.Length >= 4);
             double p = applicable ? GlobalP(groups) : double.NaN, adjusted = DecisionPolicy.Adjust(p, MetricKeys.Length);
@@ -224,12 +241,13 @@ internal static class AnalysisEngine
             string verdict = !applicable ? "not_applicable" : adjusted < alpha ? "difference"
                 : groups.Length == 2 && eqLow > -equivalenceMargin && eqHigh < equivalenceMargin ? "equivalent" : "insufficient";
             string summary = string.Join("; ", data.GroupNames.Select((g, i) => g + "=" + medians[i].ToString("0.###", CultureInfo.InvariantCulture)));
-            rows.Add(new ResultRow(c.Metric, medians[0], medians[1], medians.Max() - medians.Min(), p, c.Fpr, c.Power, c.Score, false,
+            return new ResultRow(c.Metric, medians[0], medians[1], medians.Max() - medians.Min(), p, c.Fpr, c.Power, c.Score, false,
                 summary, c.Robustness, c.Repeatability, c.Coverage, applicable, false, delta, low, high, equivalenceP,
                 c.Mde, c.FprInflated, verdict, pairText, percent, tracks,
                 tracks.Select(c.PowerIn).ToArray(), tracks.Select(c.ScoreIn).ToArray(), tracks.Select(c.MdeIn).ToArray(), new bool[tracks.Length],
                 AdjustedP: adjusted, EffectIntervalStatus: groups.Length > 2 ? "selected_pair_descriptive" : "pointwise_percentile_95",
-                EquivalenceLow: eqLow, EquivalenceHigh: eqHigh));
+                EquivalenceLow: eqLow, EquivalenceHigh: eqHigh);
+            }));
             progress.Report(new ProgressInfo((metric + 1d) / MetricKeys.Length, "Analysing entity summaries", c.Metric));
         }
         for (int t = 0; t < tracks.Length; t++)
@@ -247,7 +265,7 @@ internal static class AnalysisEngine
             CalibrationRow c = calibration.Single(x => x.Metric == rows[i].Metric);
             rows[i] = rows[i] with { Candidate = rows[i].TrackCandidates![0], NearMiss = !rows[i].CandidateInAnyTrack && tracks.Any(c.PassesGateIn) };
         }
-        return rows.OrderByDescending(r => r.CandidateInAnyTrack).ThenByDescending(r => double.IsFinite(r.BestTrackScore) ? r.BestTrackScore : double.NegativeInfinity).ToList();
+        return backup.Finish(rows.OrderByDescending(r => r.CandidateInAnyTrack).ThenByDescending(r => double.IsFinite(r.BestTrackScore) ? r.BestTrackScore : double.NegativeInfinity).ToList());
     }
     internal static string Key(string group, string entity) => group + '\u001f' + entity;
     private static double[][][] GroupMetricArrays(AnalysisData data) => data.GroupNames.Select(g => Enumerable.Range(0, MetricKeys.Length)

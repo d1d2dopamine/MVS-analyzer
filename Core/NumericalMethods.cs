@@ -6,7 +6,7 @@ internal sealed record OptimizationResult(double[] Parameters, double Value, boo
 internal static class NumericalMethods
 {
     public static OptimizationResult Minimize(Func<double[], double> function, double[] start, double[] lower, double[] upper,
-        int maximumIterations = 3000, double tolerance = 1e-8, CancellationToken token = default)
+        int maximumIterations = 3000, double tolerance = 1e-8, CancellationToken token = default, BackupSession? backup = null, string checkpointKey = "")
     {
         int n = start.Length;
         if (n == 0 || lower.Length != n || upper.Length != n || lower.Where((x, i) => !double.IsFinite(x) || !double.IsFinite(upper[i]) || upper[i] <= x).Any())
@@ -14,12 +14,23 @@ internal static class NumericalMethods
         double[] Clamp(double[] x) => x.Select((v, i) => Math.Clamp(v, lower[i], upper[i])).ToArray();
         double Evaluate(double[] x) { double f = function(x); return double.IsFinite(f) ? f : 1e100; }
         var points = new double[n + 1][]; var values = new double[n + 1];
+        int iterations = 0; bool converged = false;
+        if (backup != null && backup.Try<SimplexCheckpoint>(checkpointKey, out var saved))
+        {
+            if (saved.Points.Length != n + 1 || saved.Values.Length != n + 1 || saved.Points.Any(p => p.Length != n) || saved.Iterations < 0 || saved.Iterations > maximumIterations)
+                throw new InvalidDataException("Invalid optimizer checkpoint dimensions.");
+            points = saved.Points; values = saved.Values; iterations = saved.Iterations;
+            if (backup.EnvironmentChanged) for (int i = 0; i <= n; i++) values[i] = Evaluate(points[i]);
+        }
+        else
+        {
         points[0] = Clamp(start);
         for (int i = 1; i <= n; i++) { points[i] = (double[])points[0].Clone(); double step = .08 * Math.Max(1, Math.Abs(start[i - 1])); points[i][i - 1] = points[0][i - 1] + step <= upper[i - 1] ? points[0][i - 1] + step : points[0][i - 1] - step; points[i] = Clamp(points[i]); }
         for (int i = 0; i <= n; i++) values[i] = Evaluate(points[i]);
-        int iterations = 0; bool converged = false;
+        }
         for (; iterations < maximumIterations; iterations++)
         {
+            backup?.Put(checkpointKey, new SimplexCheckpoint(points, values, iterations));
             token.ThrowIfCancellationRequested(); Array.Sort(values, points);
             double diameter = points.Skip(1).Max(p => p.Select((v, j) => Math.Abs(v - points[0][j])).Max());
             if (values[0] < 1e99 && Math.Abs(values[n] - values[0]) <= tolerance * (1 + Math.Abs(values[0])) && diameter < Math.Sqrt(tolerance) * 5)
@@ -42,6 +53,8 @@ internal static class NumericalMethods
         bool boundary = best.Where((v, i) => Math.Abs(v - lower[i]) < 1e-4 || Math.Abs(v - upper[i]) < 1e-4).Any();
         return new OptimizationResult(best, values[0], converged, iterations, boundary);
     }
+
+    internal sealed record SimplexCheckpoint(double[][] Points, double[] Values, int Iterations);
 
     /// <summary>Gauss–Hermite nodes for expectation under a STANDARD normal, via Golub–Welsch/Jacobi rotations.</summary>
     public static (double[] Nodes, double[] Weights) NormalQuadrature(int count)

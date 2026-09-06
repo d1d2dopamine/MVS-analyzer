@@ -46,6 +46,8 @@ internal static class HeadlessRun
         foreach (string warning in data.Warnings) Console.WriteLine("Warning: " + warning);
         AnalysisData source = settings.SplitCalibration ? AnalysisEngine.SplitEntities(data, settings.CalibrationSeed).Calibration : data;
         string calibrationSource = settings.SplitCalibration ? "split_half" : "same_dataset";
+        using var backupContext = BackupSession.SetContext(new BackupContext(data, DatasetName: Path.GetFileName(input), DatasetHash: hash,
+            Project: job?.Project ?? "Headless analysis", Description: job?.Description ?? "", Processing: ProcessingSnapshot.From(settings), Split: settings.SplitCalibration, Margin: settings.EquivalenceMargin));
         List<CalibrationRow> calibration = AnalysisEngine.Calibrate(source, repetitions, settings.CalibrationEffect, settings.CalibrationSeed,
             new CliProgress(), CliCancellation.Token, settings.SimulationScenario, settings.OutlierRate, settings.MissingRate, settings.Alpha, tracks);
         var state = new CalibrationState(Path.GetFileName(input), hash, calibrationSource, repetitions, settings.CalibrationEffect,
@@ -81,6 +83,9 @@ internal static class HeadlessRun
         data.ImportSummary = CsvImporter.LastImportSummary;
         AnalysisData analysed = settings.SplitCalibration ? AnalysisEngine.SplitEntities(data, settings.CalibrationSeed).Analysis : data;
         analysed.ImportSummary = data.ImportSummary;
+        using var backupContext = BackupSession.SetContext(new BackupContext(data, state, Path.GetFileName(input), hash,
+            args.Value("--project") ?? job?.Project ?? "Headless analysis", args.Value("--description") ?? job?.Description ?? "",
+            ProcessingSnapshot.From(settings), settings.SplitCalibration, settings.EquivalenceMargin));
         List<ResultRow> results = AnalysisEngine.Results(analysed, state.Rows, new CliProgress(), CliCancellation.Token, settings.Alpha, settings.EquivalenceMargin, state.Seed);
         settings.GenerateFigures = false; settings.FigureOutputFolder = output; settings.FigureFolderConfirmed = true;
         settings.AutoExportResults = settings.AutoExportCalibration = settings.AutoExportQuality = settings.AutoExportManifest = true;

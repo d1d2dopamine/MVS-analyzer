@@ -38,6 +38,8 @@ internal static class MelsmAnalysis
         if (grouped.Length < 8 || grouped.Any(g => g.Count() < 3)) throw new InvalidDataException("MELSM requires at least eight distinct entity IDs and at least three observations per entity. More are usually needed for reliable variance inference.");
         if ((options.MeanTime || options.ScaleTime) && observations.GroupBy(o => o.Group, StringComparer.OrdinalIgnoreCase).All(g => g.Select(o => o.Sequence).Distinct().Count() < 2))
             throw new InvalidDataException("Time is collinear with condition; a mean time coefficient is not identifiable.");
+        using var backup = BackupSession.Begin(new BackupRequest { Kind = "melsm", Observations = observations, Melsm = options });
+        if (backup.Try<MelsmReport>("result", out var restoredResult)) return restoredResult;
         double center = observations.Average(o => o.Value), scale = Math.Sqrt(ScientificMath.Variance(observations.Select(o => o.Value).ToArray()));
         if (!double.IsFinite(scale) || scale <= 0) throw new InvalidDataException("The outcome is constant; the model is not identifiable.");
         double timeCenter = observations.Average(o => (double)o.Sequence), timeScale = Math.Sqrt(ScientificMath.Variance(observations.Select(o => (double)o.Sequence).ToArray()));
@@ -130,12 +132,12 @@ internal static class MelsmAnalysis
             if (++evaluations % 100 == 0) progress?.Report(new ProgressInfo(0, "MELSM likelihood evaluations: " + evaluations, "Adaptive quadrature; convergence is checked, not assumed"));
             return double.IsFinite(value) ? value : 1e100;
         }
-        OptimizationResult bestFit = NumericalMethods.Minimize(Objective, start, lower, upper, options.MaxIterations, 1e-8, token);
+        OptimizationResult bestFit = backup.Cached("fit/first", () => NumericalMethods.Minimize(Objective, start, lower, upper, options.MaxIterations, 1e-8, token, backup, "simplex/first"));
         // Independent scale starting values are important for the random-scale likelihood.
         if (omegaIndex >= 0)
         {
             double[] alternate = (double[])start.Clone(); alternate[omegaIndex] = Math.Log(.8); alternate[tauIndex] = Math.Log(.6);
-            OptimizationResult second = NumericalMethods.Minimize(Objective, alternate, lower, upper, options.MaxIterations, 1e-8, token);
+            OptimizationResult second = backup.Cached("fit/alternate", () => NumericalMethods.Minimize(Objective, alternate, lower, upper, options.MaxIterations, 1e-8, token, backup, "simplex/alternate"));
             if (second.Value < bestFit.Value) bestFit = second;
         }
         var refined = NumericalMethods.NormalQuadrature(Math.Min(61, options.QuadraturePoints * 2 + 1));
@@ -144,7 +146,7 @@ internal static class MelsmAnalysis
         if (quadratureDifference > .01 && double.IsFinite(refinedValue))
         {
             quadrature = refined;
-            bestFit = NumericalMethods.Minimize(Objective, bestFit.Parameters, lower, upper, options.MaxIterations, 1e-8, token);
+            bestFit = backup.Cached("fit/refined", () => NumericalMethods.Minimize(Objective, bestFit.Parameters, lower, upper, options.MaxIterations, 1e-8, token, backup, "simplex/refined"));
             var check = NumericalMethods.NormalQuadrature(quadrature.Nodes.Length == 61 ? 47 : Math.Min(61, quadrature.Nodes.Length + 16));
             refinedValue = -subjects.Sum(s => Integrate(s, bestFit.Parameters, check).LogLikelihood);
             quadratureDifference = Math.Abs(refinedValue - bestFit.Value);
@@ -173,7 +175,7 @@ internal static class MelsmAnalysis
         if (scaleTimeIndex >= 0) Add("log_variance_time_slope", scaleTimeIndex, x => x / timeScale, _ => 1 / timeScale, "log variance per sequence unit");
         MelsmEntity[] predictions = bestFit.Converged && quadratureOk ? subjects.Select(s => { Integral v = Integrate(s, parameters, quadrature, true); return new MelsmEntity(s.Id, s.Rows.Length, scale * v.Location, v.LogScale); }).ToArray() : Array.Empty<MelsmEntity>();
         progress?.Report(new ProgressInfo(1, "MELSM finished", status));
-        return new MelsmReport(ReleaseInfo.EngineVersion,
+        return backup.Finish(new MelsmReport(ReleaseInfo.EngineVersion,
             "y_ij = condition_mean + beta_time*t + b_i + e_ij; log Var(e_ij|b_i,v_i) = condition_log_variance + gamma_time*t + v_i; (b_i,v_i) jointly Gaussian",
             status, bestFit.Converged, bestFit.Iterations, bestFit.Value < 1e99 ? -bestFit.Value - observations.Count * Math.Log(scale) : double.NaN,
             quadratureDifference, quadrature.Nodes.Length, subjects.Length, observations.Count, timeCenter, timeScale, options,
@@ -184,6 +186,6 @@ internal static class MelsmAnalysis
                 "Wald intervals are pointwise and approximate, not multiplicity-adjusted. They are suppressed for numerical boundaries, unstable quadrature or non-positive observed information.",
                 "Residual variances are conditional at v=0. With random scale, the marginal residual variance additionally contains exp(omega^2/2).",
                 "The time term uses sequence values; no implicit date conversion or missing-observation imputation is performed. Missing outcomes require an ignorable missingness assumption.",
-                "Random-effect predictions are empirical-Bayes posterior means, not observed entity effects or independent outcomes for subsequent testing." });
+                "Random-effect predictions are empirical-Bayes posterior means, not observed entity effects or independent outcomes for subsequent testing." }));
     }
 }

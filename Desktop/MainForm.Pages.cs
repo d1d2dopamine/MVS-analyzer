@@ -73,6 +73,7 @@ internal sealed partial class MainForm
             import.Controls.Add(profileBox);
         }
         page.Controls.Add(import);
+        AddBackupCard(page);
         if (data == null)
         {
             var empty = Card(T("No dataset loaded", "Данные не загружены"), T("Expected columns include participant/subject/id, rt/rt_ms/reaction_time and group/condition.", "Ожидаются столбцы participant/subject/id, rt/rt_ms/reaction_time и group/condition."), 120); page.Controls.Add(empty); return;

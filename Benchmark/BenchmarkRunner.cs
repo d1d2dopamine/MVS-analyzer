@@ -170,7 +170,7 @@ internal static class BenchmarkRunner
         public void Report(ProgressInfo value) { }
     }
 
-    private sealed class ReplicationOutcome
+    internal sealed class ReplicationOutcome
     {
         public bool[] Rejected = Array.Empty<bool>();
         public bool[] Claimed = Array.Empty<bool>();
@@ -179,6 +179,9 @@ internal static class BenchmarkRunner
         public bool Failed;
         public string Error = "";
     }
+
+    internal sealed record PilotCheckpoint(int Metric, List<string> Notes);
+    internal sealed record StabilityCheckpoint(double Tau, bool Matched, int Top, bool Failed);
 
     private sealed class ConditionPlan
     {
@@ -228,7 +231,13 @@ internal static class BenchmarkRunner
 
         Report(progress, 0, russian ? "Подготовка" : "Preparing", russian ? "Закрепление метрики на пилотных данных" : "Locking the pilot metric");
 
-        List<RealDataset> real = BenchmarkDatasets.LoadReal(realDataFolder, MinMeasurements, notes);
+        List<RealDataset> real;
+        if (BackupSession.Pending?.Request.RealData is { } restoredReal)
+        { real = restoredReal; notes.AddRange(BackupSession.Pending.Request.RealDataNotes ?? new()); }
+        else real = BenchmarkDatasets.LoadReal(realDataFolder, MinMeasurements, notes);
+        using var backup = BackupSession.Begin(new BackupRequest { Kind = "benchmark", Benchmark = profile, Seed = seed, RealData = real, RealDataNotes = new List<string>(notes) });
+        if (backup.Try<BenchmarkOutcome>("result", out var restoredResult)) return restoredResult;
+        if (backup.WasRestored) notes.Add("Resumed from completed checkpoints. Duration covers the final execution segment only; cross-platform floating-point replay is not guaranteed bit-identical.");
 
         // The designs the protocol names, each with the shape it is tested under.
         BenchmarkDesign gaitHeavy = BenchmarkDatasets.Gait;
@@ -242,7 +251,9 @@ internal static class BenchmarkRunner
             token.ThrowIfCancellationRequested();
             string key = DesignKey(design);
             if (pilot.ContainsKey(key)) continue;
-            pilot[key] = LockPilotMetric(design, runSeed, calibrations, token, notes);
+            var savedPilot = backup.Cached("pilot/" + key, () =>
+            { var pilotNotes = new List<string>(); int selected = LockPilotMetric(design, runSeed, calibrations, token, pilotNotes); return new PilotCheckpoint(selected, pilotNotes); });
+            pilot[key] = savedPilot.Metric; notes.AddRange(savedPilot.Notes);
         }
 
         var plans = new List<ConditionPlan>();
@@ -280,13 +291,13 @@ internal static class BenchmarkRunner
         foreach (ConditionPlan plan in plans)
         {
             token.ThrowIfCancellationRequested();
-            summaries.Add(RunCondition(plan, runSeed, calibrations, threads, counter, progress, russian, token));
+            summaries.Add(RunCondition(plan, runSeed, calibrations, threads, counter, progress, russian, token, backup, plan.Condition.Id));
         }
 
-        StabilitySummary stability = RunStability(gaitHeavy, runSeed, profile.StabilityRepeats, calibrations, threads, counter, progress, russian, token);
+        StabilitySummary stability = RunStability(gaitHeavy, runSeed, profile.StabilityRepeats, calibrations, threads, counter, progress, russian, token, backup);
 
-        ConditionSummary firstPass = RunCondition(determinism, runSeed, calibrations, threads, counter, progress, russian, token);
-        ConditionSummary secondPass = RunCondition(determinism, runSeed, calibrations, threads, counter, progress, russian, token);
+        ConditionSummary firstPass = RunCondition(determinism, runSeed, calibrations, threads, counter, progress, russian, token, backup, "replay-first");
+        ConditionSummary secondPass = RunCondition(determinism, runSeed, calibrations, threads, counter, progress, russian, token, backup, "replay-second");
         summaries.Add(firstPass);
 
         foreach (ConditionSummary summary in summaries)
@@ -312,7 +323,7 @@ internal static class BenchmarkRunner
         };
 
         List<HypothesisVerdict> verdicts = Evaluate(outcome);
-        return new BenchmarkOutcome
+        return backup.Finish(new BenchmarkOutcome
         {
             Profile = outcome.Profile,
             Seed = outcome.Seed,
@@ -328,7 +339,7 @@ internal static class BenchmarkRunner
             Notes = outcome.Notes,
             Verdicts = verdicts,
             Overall = Overall(verdicts)
-        };
+        });
     }
 
     // ---------------- planning ----------------
@@ -426,7 +437,7 @@ internal static class BenchmarkRunner
 
     private static ConditionSummary RunCondition(
         ConditionPlan plan, ulong runSeed, int calibrations, int threads,
-        WorkCounter counter, IProgress<ProgressInfo>? progress, bool russian, CancellationToken token)
+        WorkCounter counter, IProgress<ProgressInfo>? progress, bool russian, CancellationToken token, BackupSession backup, string checkpointStage)
     {
         int replications = plan.Condition.Replications;
         var outcomes = new ReplicationOutcome?[replications];
@@ -436,7 +447,7 @@ internal static class BenchmarkRunner
 
         Parallel.For(0, replications, options, index =>
         {
-            outcomes[index] = RunReplication(plan, runSeed, index, calibrations, token);
+            outcomes[index] = backup.Cached("replication/" + checkpointStage + "/" + index, () => RunReplication(plan, runSeed, index, calibrations, token));
             int done = counter.Increment();
             if (progress != null && (done % step == 0 || done >= counter.Total))
                 Report(progress, done / (double)counter.Total, action,
@@ -612,7 +623,7 @@ internal static class BenchmarkRunner
 
     private static StabilitySummary RunStability(
         BenchmarkDesign design, ulong runSeed, int repeats, int calibrations, int threads,
-        WorkCounter counter, IProgress<ProgressInfo>? progress, bool russian, CancellationToken token)
+        WorkCounter counter, IProgress<ProgressInfo>? progress, bool russian, CancellationToken token, BackupSession backup)
     {
         int metrics = AnalysisEngine.MetricKeys.Length;
         var tau = new double[repeats];
@@ -625,6 +636,8 @@ internal static class BenchmarkRunner
 
         Parallel.For(0, repeats, options, index =>
         {
+            var saved = backup.Cached("stability/" + index, () =>
+            {
             try
             {
                 var random = new BenchmarkRandom(BenchmarkRandom.Derive(runSeed, (ulong)StageStability, (ulong)StreamOf(design), (ulong)index));
@@ -651,6 +664,9 @@ internal static class BenchmarkRunner
                 tau[index] = double.NaN;
                 top[index] = -1;
             }
+            return new StabilityCheckpoint(tau[index], matched[index], top[index], broke[index]);
+            });
+            tau[index] = saved.Tau; matched[index] = saved.Matched; top[index] = saved.Top; broke[index] = saved.Failed;
             int done = counter.Increment();
             if (progress != null && (done % step == 0 || done >= counter.Total))
                 Report(progress, done / (double)counter.Total, action,
