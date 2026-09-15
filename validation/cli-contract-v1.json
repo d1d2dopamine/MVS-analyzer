@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 1,
+  "contractId": "mvs-cli-v1-pre-machine-json",
+  "status": "frozen-current-behavior",
+  "applicationVersion": "1.4.0",
+  "engineVersion": "1.6.0",
+  "stateSchemaVersion": 2,
+  "resultSchemaVersion": 2,
+  "manifestSchemaVersion": 2,
+  "exitCodes": {
+    "0": "completed",
+    "1": "input-runtime-error-or-cancellation",
+    "2": "scientific-or-numerical-diagnostic"
+  },
+  "streams": {
+    "stdout": "human-readable progress and summaries in the current CLI",
+    "stderr": "errors and warnings",
+    "note": "This contract records current behavior. A future machine JSON mode must be versioned separately instead of silently changing stdout."
+  },
+  "comparisonPolicies": {
+    "exact": "Compare identity, schema, categorical decisions, counts, seeds, settings and hashes exactly.",
+    "numeric": "Compare scientific floating-point values with an explicit tolerance. Never round before comparison.",
+    "operational": "Do not treat timestamps, run IDs, absolute paths, machine descriptions or generated folder names as scientific equality fields."
+  },
+  "numericTolerance": {
+    "sameEnvironmentAbsolute": 1e-12,
+    "crossEnvironmentAbsolute": 1e-10,
+    "relative": 1e-10,
+    "note": "Cross-environment equality is tolerance-based because the project records arithmetic environment fingerprints rather than claiming bit-identical replay across environments."
+  },
+  "commands": {
+    "calibrate": {
+      "aliases": [],
+      "source": "MvsAnalyzer.Cli/HeadlessRun.cs",
+      "required": ["--out"],
+      "requiredAnyOf": [["--in", "--job"]],
+      "allowed": ["--in", "--out", "--job", "--seed", "--effect", "--scenario", "--alpha", "--outliers", "--missing", "--margin", "--min-measurements", "--min-value", "--max-value", "--split", "--local-settings", "--allow-group-scoped-ids", "--repetitions", "--overwrite"],
+      "exitCodes": [0, 1],
+      "artifacts": [
+        {"name": "calibration_state.json", "role": "scientific-state", "policy": "mixed"},
+        {"name": "calibration.csv", "role": "scientific-table", "policy": "numeric"},
+        {"name": "calibration_tracks.csv", "role": "scientific-table", "policy": "numeric"}
+      ]
+    },
+    "analyze": {
+      "aliases": ["analyse"],
+      "source": "MvsAnalyzer.Cli/HeadlessRun.cs",
+      "required": ["--out", "--calibration"],
+      "requiredAnyOf": [["--in", "--job"]],
+      "allowed": ["--in", "--out", "--job", "--calibration", "--project", "--description", "--force", "--local-settings", "--allow-group-scoped-ids"],
+      "forbiddenAfterCalibration": ["--seed", "--effect", "--scenario", "--alpha", "--outliers", "--missing", "--margin", "--min-measurements", "--min-value", "--max-value", "--split"],
+      "exitCodes": [0, 1],
+      "artifacts": [
+        {"name": "calibration_state.json", "role": "scientific-state-copy", "policy": "exact"},
+        {"name": "results.json", "role": "scientific-results", "policy": "mixed"},
+        {"name": "results.csv", "role": "scientific-table", "policy": "numeric"},
+        {"name": "calibration.csv", "role": "scientific-table", "policy": "numeric"},
+        {"name": "calibration_tracks.csv", "role": "scientific-table", "policy": "numeric"},
+        {"name": "data_quality.csv", "role": "quality-table", "policy": "mixed"},
+        {"name": "run_manifest.json", "role": "provenance", "policy": "mixed"}
+      ]
+    },
+    "variance": {
+      "aliases": [],
+      "source": "MvsAnalyzer.Cli/ScientificCommands.cs",
+      "required": ["--in", "--out"],
+      "allowed": ["--in", "--out", "--repetitions", "--bootstrap", "--seed", "--alpha", "--within-effect", "--between-effect", "--min-measurements", "--overwrite", "--allow-group-scoped-ids", "--import-profile", "--min-value", "--max-value"],
+      "exitCodes": [0, 1, 2],
+      "artifacts": [
+        {"name": "variance_report.json", "role": "scientific-results", "policy": "mixed"},
+        {"name": "variance_components.csv", "role": "scientific-table", "policy": "numeric"},
+        {"name": "variance_tests.csv", "role": "scientific-table", "policy": "mixed"},
+        {"name": "run_manifest.json", "role": "provenance", "policy": "mixed"}
+      ]
+    },
+    "estimation": {
+      "aliases": [],
+      "source": "MvsAnalyzer.Cli/ScientificCommands.cs",
+      "required": ["--out"],
+      "allowed": ["--out", "--target", "--shape", "--entities", "--measurements", "--repetitions", "--bootstrap", "--seed", "--location", "--within-sd", "--between-sd", "--overwrite"],
+      "exitCodes": [0, 1, 2],
+      "artifacts": [
+        {"name": "estimation_report.json", "role": "scientific-results", "policy": "mixed"},
+        {"name": "estimation_performance.csv", "role": "scientific-table", "policy": "numeric"},
+        {"name": "estimation_draws.csv", "role": "scientific-draws", "policy": "numeric"},
+        {"name": "run_manifest.json", "role": "provenance", "policy": "mixed"}
+      ]
+    },
+    "melsm": {
+      "aliases": [],
+      "source": "MvsAnalyzer.Cli/ScientificCommands.cs",
+      "required": ["--in", "--out"],
+      "allowed": ["--in", "--out", "--mean-time", "--scale-time", "--correlate", "--no-random-scale", "--quadrature", "--max-iterations", "--overwrite", "--include-entity-ids", "--import-profile", "--min-value", "--max-value"],
+      "exitCodes": [0, 1, 2],
+      "artifacts": [
+        {"name": "melsm_report.json", "role": "scientific-results", "policy": "mixed"},
+        {"name": "melsm_parameters.csv", "role": "scientific-table", "policy": "numeric"},
+        {"name": "melsm_random_effects.csv", "role": "scientific-table", "policy": "numeric"},
+        {"name": "run_manifest.json", "role": "provenance", "policy": "mixed"}
+      ]
+    },
+    "benchmark": {
+      "aliases": [],
+      "source": "Benchmark/BenchmarkCommandLine.cs",
+      "required": ["--out"],
+      "allowed": ["--profile", "--seed", "--out", "--real-data", "--lang", "--threads", "--quiet", "--help", "-h"],
+      "exitCodes": [0, 1, 2],
+      "artifacts": [
+        {"name": "benchmark_report.md", "role": "human-report", "policy": "mixed"},
+        {"name": "benchmark_summary.csv", "role": "scientific-table", "policy": "numeric"},
+        {"name": "benchmark_metrics.csv", "role": "scientific-table", "policy": "numeric"},
+        {"name": "benchmark_choices.csv", "role": "scientific-table", "policy": "mixed"},
+        {"name": "benchmark_stability.csv", "role": "scientific-table", "policy": "numeric"},
+        {"name": "benchmark_verdicts.csv", "role": "decision-table", "policy": "exact"},
+        {"name": "benchmark_protocol.txt", "role": "protocol", "policy": "exact"},
+        {"name": "benchmark_manifest.json", "role": "provenance", "policy": "mixed"},
+        {"name": "SHA256SUMS.txt", "role": "integrity", "policy": "operational"}
+      ]
+    },
+    "resume": {
+      "aliases": [],
+      "source": "MvsAnalyzer.Cli/Program.cs",
+      "required": ["--in", "--out"],
+      "allowed": ["--in", "--out", "--id"],
+      "exitCodes": [0, 1, 2],
+      "artifacts": []
+    },
+    "state-check": {
+      "aliases": [],
+      "source": "MvsAnalyzer.Cli/HeadlessRun.cs",
+      "required": ["--calibration"],
+      "allowed": ["--calibration", "--in", "--job", "--normalize", "--settings-hash", "--repetitions"],
+      "exitCodes": [0, 1],
+      "artifacts": []
+    },
+    "version": {
+      "aliases": [],
+      "source": "MvsAnalyzer.Cli/Program.cs",
+      "required": [],
+      "allowed": ["--json"],
+      "exitCodes": [0, 1],
+      "artifacts": []
+    },
+    "env": {
+      "aliases": [],
+      "source": "MvsAnalyzer.Cli/Program.cs",
+      "required": [],
+      "allowed": [],
+      "exitCodes": [0, 1],
+      "artifacts": []
+    }
+  },
+  "canonicalCases": [
+    {
+      "id": "calibrate-demo-three-groups",
+      "command": "calibrate",
+      "input": "examples/demo_three_groups.csv",
+      "arguments": ["--repetitions", "150", "--seed", "20260719"],
+      "expectedExit": 0,
+      "scientificIdentity": {
+        "dataset": "demo_three_groups.csv",
+        "seed": 20260719,
+        "repetitions": 150,
+        "metricCount": 12
+      }
+    },
+    {
+      "id": "analyze-demo-three-groups",
+      "command": "analyze",
+      "input": "examples/demo_three_groups.csv",
+      "dependsOn": "calibrate-demo-three-groups",
+      "arguments": [],
+      "expectedExit": 0,
+      "scientificIdentity": {
+        "metricCount": 12,
+        "familySize": 12
+      }
+    },
+    {
+      "id": "variance-demo",
+      "command": "variance",
+      "input": "examples/variance_demo.csv",
+      "arguments": ["--repetitions", "200", "--bootstrap", "199", "--seed", "20260719"],
+      "expectedExit": [0, 2]
+    },
+    {
+      "id": "estimation-mean-normal",
+      "command": "estimation",
+      "input": null,
+      "arguments": ["--target", "mean", "--shape", "normal", "--repetitions", "500", "--bootstrap", "199", "--seed", "20260719"],
+      "expectedExit": [0, 2]
+    },
+    {
+      "id": "melsm-repeated-conditions",
+      "command": "melsm",
+      "input": "examples/repeated_conditions.csv",
+      "arguments": ["--quadrature", "15", "--max-iterations", "4000"],
+      "expectedExit": [0, 2]
+    }
+  ],
+  "fieldClasses": {
+    "exact": [
+      "schema versions",
+      "application and engine versions within a release",
+      "formula version and formula hash",
+      "dataset SHA256",
+      "settings hash",
+      "seed and repetition counts",
+      "scenario and track names",
+      "metric registry and row order",
+      "candidate/status/verdict strings",
+      "failure counts and boolean flags"
+    ],
+    "numeric": [
+      "p-values and adjusted p-values",
+      "effect estimates and intervals",
+      "calibrated FPR and power",
+      "MDE values and power-curve values",
+      "variance components and model parameters",
+      "estimation bias, MSE and coverage",
+      "benchmark rates and stability statistics"
+    ],
+    "operational": [
+      "created timestamps",
+      "run IDs containing timestamps",
+      "absolute output paths",
+      "generated output folder names",
+      "machine description strings",
+      "environment fingerprint when comparing different arithmetic environments",
+      "wall-clock duration",
+      "progress text"
+    ]
+  }
+}

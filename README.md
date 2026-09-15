@@ -77,7 +77,6 @@ See [Reports](docs/OUTPUTS.md), [Integrity checks](docs/AUDIT.md) and [Backups](
 
 The project is moving toward a stable scientific engine with several front ends: CLI, Python, Jupyter and desktop. The statistics should remain implemented once, with interface-level parity tests preventing different front ends from producing different answers.
 
-The staged plan is in [CLI, Python and Jupyter roadmap](docs/CLI_PYTHON_ROADMAP.md).
 
 ## Documentation
 
@@ -115,4 +114,3 @@ MVS Analyzer предназначен для статистического ан
 
 Цель следующего этапа состоит в том, чтобы оформить MVS как одно статистическое ядро с несколькими интерфейсами: CLI, Python API, Jupyter и desktop. Python не должен содержать отдельную реализацию статистических методов.
 
-Подробный порядок работ, критерии готовности и границы этапов находятся в [дорожной карте CLI, Python и Jupyter](docs/CLI_PYTHON_ROADMAP.md).

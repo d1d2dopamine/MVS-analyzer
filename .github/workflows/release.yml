@@ -28,6 +28,7 @@ jobs:
       - name: Colab offline regressions
         run: |
           python tools/check_source.py
+          python tools/check_cli_contract.py
           python tools/build_notebooks.py --check
           python tools/test_colab.py
           python tools/test_colab_control.py
@@ -41,6 +42,7 @@ jobs:
           dotnet publish/cli/mvs.dll calibrate --in examples/demo_three_groups.csv --out artifacts/calibration --repetitions 150 --seed 20260719
           dotnet publish/cli/mvs.dll analyze --in examples/demo_three_groups.csv --calibration artifacts/calibration --out artifacts/analysis
           python tools/check_outputs.py artifacts
+          python tools/check_cli_contract.py --artifacts artifacts
   release:
     needs: linux-check
     runs-on: windows-latest
@@ -96,7 +98,7 @@ jobs:
           foreach ($folder in @($win, $cli)) {
             Copy-Item README.md, LICENSE, CHANGELOG.md, CITATION.cff "staging/$folder/"
             New-Item -ItemType Directory -Force "staging/$folder/docs" | Out-Null
-            foreach ($doc in @('README.md','DATA_FORMAT.md','METHODS.md','OUTPUTS.md','REMOTE.md','AUDIT.md','PLUGINS.md','VALIDATION.md','MIGRATION.md','BENCHMARK.md')) {
+            foreach ($doc in @('README.md','DATA_FORMAT.md','METHODS.md','OUTPUTS.md','CLI_CONTRACT.md','REMOTE.md','AUDIT.md','PLUGINS.md','VALIDATION.md','MIGRATION.md','BENCHMARK.md')) {
               Copy-Item "docs/$doc" "staging/$folder/docs/"
             }
             New-Item -ItemType Directory -Force "staging/$folder/docs/assets" | Out-Null

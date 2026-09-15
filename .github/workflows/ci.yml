@@ -20,6 +20,7 @@ jobs:
       - name: Validate source metadata, notebooks and method hashes
         run: |
           python tools/check_source.py
+          python tools/check_cli_contract.py
           python tools/build_notebooks.py --check
       - name: Offline Colab and source-check regressions
         run: |
@@ -97,7 +98,9 @@ jobs:
       - name: Reload calibration and export analysis
         run: ./publish/linux-cli/mvs analyze --in examples/demo_three_groups.csv --calibration artifacts/calibration --out artifacts/analysis
       - name: Validate strict JSON, frozen state and manifest checksums
-        run: python tools/check_outputs.py artifacts
+        run: |
+          python tools/check_outputs.py artifacts
+          python tools/check_cli_contract.py --artifacts artifacts
       - name: Invalid explicit numbers must fail
         shell: bash
         run: |

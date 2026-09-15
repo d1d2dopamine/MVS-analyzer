@@ -3,7 +3,7 @@
 - [Data format](DATA_FORMAT.md): columns, grouping and example inputs.
 - [Methods](METHODS.md): metrics, simulation assumptions and inference limits.
 - [Reports](OUTPUTS.md): exported tables, figures and saved calibration.
-- [CLI, Python and Jupyter roadmap](CLI_PYTHON_ROADMAP.md): staged plan for a shared engine with CLI, Python, notebook and desktop interfaces.
+- [CLI contract](CLI_CONTRACT.md): frozen commands, exit codes, artifacts and parity rules.
 - [Colab](REMOTE.md): cloud setup, reuse and file exchange.
 - [Plugins](PLUGINS.md): declarative import profiles and templates.
 - [Integrity checks](AUDIT.md): what output verification can and cannot establish.
