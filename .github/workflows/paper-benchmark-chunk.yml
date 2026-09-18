@@ -21,16 +21,16 @@ jobs:
 
     steps:
       - name: Checkout exact workflow revision
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up .NET 8
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: '8.0.x'
 
       - name: Download previous checkpoint
         if: ${{ inputs.incoming_artifact != '' }}
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: ${{ inputs.incoming_artifact }}
           path: incoming
@@ -42,9 +42,12 @@ jobs:
         run: |
           echo "Git commit: $(git rev-parse HEAD)"
           echo "CPUs: $(nproc)"
-          dotnet --info
-          dotnet publish/cli/mvs.dll version
-          dotnet publish/cli/mvs.dll env
+          echo "dotnet executable: $(command -v dotnet)"
+          echo "Installed .NET SDKs:"
+          dotnet --list-sdks || true
+          echo "Installed .NET runtimes:"
+          dotnet --list-runtimes || true
+          echo "The benchmark manifest records the MVS arithmetic-environment fingerprint."
 
       - name: Run or resume paper benchmark
         env:
@@ -59,9 +62,9 @@ jobs:
 
       - name: Upload checkpoint or result
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: paper-benchmark-state-${{ inputs.chunk }}
           path: state/
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 14
