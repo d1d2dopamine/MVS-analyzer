@@ -1,6 +1,6 @@
 # CLI, Python and Jupyter roadmap
 
-Status: implementation in progress. The first interface-layer milestone is implemented in this repository: compiled Core boundary, CLI machine schema `mvs-cli-result/v1`, path-based Python API, local Python notebook and CI parity smoke. Later roadmap items remain explicitly tracked below.
+Status: implementation in progress. The 1.5.0 line is CLI/Python-first. The Windows desktop is frozen at 1.4.0 and is no longer a maintained build target. The compiled Core boundary, CLI machine schema `mvs-cli-result/v1`, path-based Python API, local Python notebook and CLI/Python parity smoke are already implemented.
 
 ## 1. Goal
 
@@ -11,20 +11,18 @@ The intended interface stack is:
 ```text
                          MVS statistical engine
                                   |
-                 +----------------+----------------+
-                 |                |                |
-                CLI            Python API        Desktop
+                           headless CLI
                                   |
-                               Jupyter
+                             Python API
                                   |
-                                Colab
+                         Jupyter / Colab
 ```
 
-The current repository already contains most of the scientific engine, a headless .NET CLI, desktop UI, notebooks, manifests, saved calibration, validation utilities and checkpoints. The work below turns those pieces into explicit public boundaries.
+The Windows desktop source is retained only to reproduce the archived 1.4.0 interface. It is excluded from active CI, release builds and new feature work. The maintained public path is the headless CLI plus Python API, both backed by the same Core engine.
 
 ## 2. Design rules
 
-1. Keep one statistical implementation. Python, Jupyter and the desktop must not contain independent copies of the MVS calculations.
+1. Keep one statistical implementation. Python and Jupyter must not contain independent copies of the MVS calculations; the headless CLI calls the shared Core engine.
 2. Treat reproducibility as part of the API. Seeds, method versions, settings, hashes, diagnostics and manifests remain first-class outputs.
 3. Separate human output from machine output. CLI text can be readable, while automation receives a versioned JSON contract.
 4. Keep the command line scriptable. Exit codes, stdout, stderr and file locations must be predictable.
@@ -44,7 +42,7 @@ Before changing project boundaries, record what the current engine does.
 - Record current exit codes and failure classes.
 - Record calibration compatibility behavior and state schema rules.
 - Record which fields are public output contracts and which are internal implementation details.
-- Add parity fixtures for Windows and headless runs where both interfaces support the same calculation.
+- Add parity fixtures for the CLI and Python wrapper against the same canonical calculations.
 - Decide the tolerance policy for floating-point comparisons.
 
 ### Done when
@@ -57,7 +55,7 @@ The CLI currently compiles an explicit shared list of engine source files throug
 
 ### Target
 
-Create a platform-neutral .NET class library such as `MvsAnalyzer.Core` and reference it from the CLI and desktop projects.
+Maintain the platform-neutral `MvsAnalyzer.Core` library as the only statistical implementation used by the CLI.
 
 ### Work
 
@@ -71,7 +69,7 @@ Create a platform-neutral .NET class library such as `MvsAnalyzer.Core` and refe
 
 ### Done when
 
-Desktop and CLI reference the same compiled Core assembly and numerical parity tests remain unchanged.
+The CLI references the compiled Core assembly, and Python parity tests show that the wrapper reaches the same scientific engine.
 
 ## 5. Part C: make the CLI a stable public interface
 
@@ -140,7 +138,7 @@ If more codes are introduced, document them as a stable contract and map them to
 - Stable overwrite behavior.
 - Explicit output-directory rules.
 - Shell completion only after the option surface is stable.
-- No hidden dependency on desktop settings unless a user explicitly opts into them.
+- No hidden dependency on the archived desktop settings or UI state.
 
 ### Done when
 
@@ -235,16 +233,9 @@ Jupyter should become a normal consumer of the Python package rather than a sepa
 - Keep seed, calibration and engine identity visible.
 - Build one small teaching notebook for each major workflow instead of one notebook that demonstrates every feature at once.
 
-### Existing Colab bridge
+### Colab direction
 
-The desktop-to-Colab controller has additional responsibilities such as connection ownership, job exchange and download handling. Keep that transport logic separate from the public Python statistics API.
-
-The long-term direction is:
-
-```text
-Python package = scientific user API
-Colab controller = optional transport/session layer
-```
+The 1.4.0 desktop-to-Colab controller is a legacy compatibility path. New notebook work should run the same Python package used locally and keep environment setup outside the scientific API. The Python package remains the scientific user API; any future cloud transport is optional and must not become a second implementation of the statistics.
 
 ### Done when
 
@@ -256,7 +247,7 @@ A research tool loses much of the benefit of a CLI/Python interface if installat
 
 ### CLI releases
 
-Plan release artifacts for the operating systems that pass the project test suite. A self-contained executable is useful for users who do not want to install the .NET runtime. A framework-dependent build can remain available for smaller downloads and development.
+The maintained release artifact is the headless CLI, initially built and tested on Linux, plus the Python wheel. A self-contained CLI is useful for users who do not want to install the .NET runtime. Additional CLI platforms can be added only when they have active CI coverage; the Windows desktop is not a release target.
 
 Potential distribution channels can be evaluated after release automation is stable:
 
@@ -272,7 +263,7 @@ A minimal first release can require a compatible `mvs` CLI. Later, platform-spec
 
 ### Version compatibility
 
-Do not require Python package version, application version and engine version to be identical. Instead, define a compatibility matrix and let the package query the engine manifest before running a job.
+Do not require Python package version, CLI release version and engine version to be identical. Instead, define a compatibility matrix and let the package query the engine manifest before running a job.
 
 ### Done when
 
@@ -328,7 +319,7 @@ This order keeps each change reviewable and avoids mixing packaging, statistical
 2. [x] Define the machine-readable command result schema.
 3. [x] Add complete machine mode to the current CLI.
 4. [x] Extract `MvsAnalyzer.Core` without changing scientific behavior.
-5. [x] Switch desktop and CLI to the Core project reference.
+5. [x] Move maintained headless execution to the Core project boundary; the desktop is now archived at 1.4.0.
 6. [~] Stabilize CLI help, errors, stdout/stderr and exit-code documentation. Machine streams/errors are stable; per-subcommand help can still be refined.
 7. [x] Create a small Python package that discovers and verifies the CLI.
 8. [x] Add Python result objects and artifact readers.
@@ -336,13 +327,13 @@ This order keeps each change reviewable and avoids mixing packaging, statistical
 10. [x] Add `variance`, `estimation`, `melsm` and benchmark APIs.
 11. Add DataFrame input with a documented serialization policy.
 12. [~] Add Jupyter representations and concise notebooks. A local quick-start exists; richer representations and per-workflow notebooks remain.
-13. [x] Automate cross-platform CLI and Python packaging. Release automation builds the existing Windows/Linux CLI artifacts and a pure-Python wheel after parity gates.
+13. [x] Automate CLI and Python packaging. The maintained release path now builds the Linux CLI and pure-Python wheel after parity gates; Windows desktop packaging has been retired.
 14. [x] Publish an interface compatibility matrix and migration policy.
 
 ## 12. What is deliberately out of scope for this roadmap
 
 - Rewriting the MVS statistical algorithms in Python.
-- Replacing the desktop application only because CLI/Python exist.
+- Maintaining feature parity with the archived Windows desktop. New work targets the CLI/Python stack.
 - Adding many new statistical tests before the current interfaces are stable.
 - Making GPU support a priority without a workload that benefits from it.
 - Treating a notebook as the only reproducible record of a run. Saved manifests and artifacts remain authoritative.

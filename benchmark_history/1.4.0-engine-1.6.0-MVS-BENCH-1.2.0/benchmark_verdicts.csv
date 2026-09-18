@@ -1,0 +1,6 @@
+﻿id,result,threshold,observed,question
+A,pass,cherry-pick >= 0.15 and the shipped MVS default <= 0.075; fail above 0.10,"cherry-pick 17.8%, MVS two-track 1.8%, single-track 4.6%",Metric shopping inflates the false-positive rate and the MVS gate holds it at the nominal level
+B,fail,loss <= 7 points; fail above 15 points,"worst loss 30.8 pts  ·  location two-track 14.0%, single-track 44.0% vs held-out oracle median 44.8% (same-data oracle 46.0%); dispersion two-track 28.8%, single-track 5.6% vs held-out oracle coefficient_of_variation 53.6% (same-data oracle 54.8%)",Controlling the error rate costs little power against a metric chosen with knowledge of the truth
+C,inconclusive,median Kendall tau >= 0.70 and top-1 agreement >= 0.60; fail if tau < 0.40,"tau 0.714, top-1 agreement 22.5% over 120 splits",The ranking of metrics is stable across independent halves of the same study
+D,pass,MVS <= 0.075 at 10% contamination; fail if it already exceeds 0.10 at 2%,"2% 4.4%, 10% 4.8%",The error rate stays controlled when up to a tenth of the measurements are corrupted
+E,pass,identical SHA-256 of the decision matrix,d246c87bcf9d644a vs d246c87bcf9d644a,The same seed reproduces the same result exactly

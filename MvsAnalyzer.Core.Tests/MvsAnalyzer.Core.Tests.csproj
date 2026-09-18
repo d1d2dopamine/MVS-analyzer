@@ -5,6 +5,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../MvsAnalyzer.Core/MvsAnalyzer.Core.csproj" />
-    <Compile Include="../Desktop/ColabBridge.cs" Link="ColabBridge.cs" />
+    <Compile Remove="ColabBridgeChecks.cs" />
   </ItemGroup>
 </Project>

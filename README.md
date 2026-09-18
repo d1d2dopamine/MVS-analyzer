@@ -6,15 +6,15 @@
 
 <p align="center">
   <img src="https://img.shields.io/github/actions/workflow/status/d1d2dopamine/MVS-Analyzer/ci.yml?branch=main&label=build&style=flat-square" alt="build">
-  <img src="https://img.shields.io/badge/app-1.4.0-1f6feb?style=flat-square" alt="app 1.4.0">
+  <img src="https://img.shields.io/badge/release-1.4.0-1f6feb?style=flat-square" alt="release 1.4.0">
   <img src="https://img.shields.io/badge/engine-1.6.0-6f42c1?style=flat-square" alt="engine 1.6.0">
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT license">
   <a href="https://doi.org/10.5281/zenodo.22836364"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.22836364.svg" alt="DOI: 10.5281/zenodo.22836364"></a>
 </p>
 
-MVS Analyzer compares summary metrics for repeated measurements and includes separate workflows for variance components, known-truth estimation studies and an experimental mixed-effects location-scale model. The same compiled `MvsAnalyzer.Core` statistical engine is used by the Windows application and the headless .NET CLI; the Python package delegates to that CLI instead of reimplementing the methods.
+MVS Analyzer compares summary metrics for repeated measurements and includes separate workflows for variance components, known-truth estimation studies and an experimental mixed-effects location-scale model. Active development now targets the headless CLI and Python API. The Python package delegates to the same compiled `MvsAnalyzer.Core` engine through the versioned CLI machine protocol instead of reimplementing the methods.
 
-Current release line: application `1.4.0`, scientific engine `1.6.0`, formula `MVS-1.4.0`.
+Current archived release: `1.4.0`, scientific engine `1.6.0`, formula `MVS-1.4.0`. The 1.5.0 development line is CLI/Python-first; the Windows desktop is frozen at 1.4.0 and is no longer built or released.
 
 ## What MVS does
 
@@ -31,27 +31,9 @@ Calibration is conditional on the observed data and the selected simulation scen
 
 ## Interfaces
 
-### Windows desktop
-
-Download the current Windows x64 release from [Releases](https://github.com/d1d2dopamine/MVS-Analyzer/releases/latest), extract it and run `MVS_Analyzer.exe`. The self-contained release does not require a separate .NET installation.
-
-### CLI
-
-The headless CLI targets .NET 8 and references the same `MvsAnalyzer.Core` assembly as the desktop application. Add `--json` for the versioned `mvs-cli-result/v1` machine response used by automation and Python. From a source checkout:
-
-```bash
-dotnet run --project MvsAnalyzer.Cli -- version
-dotnet run --project MvsAnalyzer.Cli -- calibrate --in data.csv --out calibration --seed 20260719
-dotnet run --project MvsAnalyzer.Cli -- analyze --in data.csv --calibration calibration --out analysis
-```
-
-Available command families include `calibrate`, `analyze`, `variance`, `estimation`, `melsm`, `benchmark`, `resume`, `state-check`, `version` and `env`. Run the CLI without arguments or with `--help` for the complete option reference.
-
-Linux runs do not render figures, but the scientific tables, reports and manifests are still produced.
-
 ### Python
 
-The path-based Python API lives in `python/` and controls a compatible `mvs` executable through the machine protocol. It returns typed result objects and saved artifact paths while keeping the statistical implementation in .NET.
+The path-based Python API in `python/` is the primary user-facing interface for new development. It controls a compatible `mvs` engine through the versioned machine protocol and returns typed result objects and saved artifact paths. Statistical methods remain in the shared Core engine.
 
 ```bash
 python -m pip install -e ./python
@@ -66,9 +48,23 @@ result = mvs.analyze("data.csv", calibration=calibration)
 
 See [Python API](docs/PYTHON_API.md), [CLI machine protocol](docs/CLI_MACHINE_PROTOCOL.md) and [interface compatibility](docs/COMPATIBILITY.md).
 
+### CLI
+
+The headless CLI targets .NET 8 and references `MvsAnalyzer.Core`. Add `--json` for the versioned `mvs-cli-result/v1` machine response used by automation and Python. From a source checkout:
+
+```bash
+dotnet run --project MvsAnalyzer.Cli -- version
+dotnet run --project MvsAnalyzer.Cli -- calibrate --in data.csv --out calibration --seed 20260719
+dotnet run --project MvsAnalyzer.Cli -- analyze --in data.csv --calibration calibration --out analysis
+```
+
+Available command families include `calibrate`, `analyze`, `variance`, `estimation`, `melsm`, `benchmark`, `resume`, `state-check`, `version` and `env`. Run the CLI without arguments or with `--help` for the complete option reference.
+
+Linux runs do not render figures, but the scientific tables, reports and manifests are still produced.
+
 ### Jupyter and Colab
 
-The repository includes [MVS_Colab.ipynb](notebooks/MVS_Colab.ipynb) and the Python controller used by the current Colab workflow. The notebook executes the .NET CLI rather than reimplementing the statistics in Python. See the [Colab guide](docs/REMOTE.md) for the desktop bridge, manual mode and file exchange.
+The repository includes Jupyter and Colab notebooks that use the same CLI/Python stack. New notebook work should consume the Python package directly. The old desktop-to-Colab controller is retained only for 1.4.0 compatibility and is not part of the 1.5.0 development target.
 
 ## Data format
 
@@ -93,7 +89,7 @@ See [Reports](docs/OUTPUTS.md), [Integrity checks](docs/AUDIT.md) and [Backups](
 
 ## Development direction
 
-The first interface-layer milestone is now implemented: a compiled Core boundary, versioned CLI machine output, a thin Python API, a local Python quick-start notebook and cross-interface parity checks. Remaining work focuses on broader packaging, DataFrame serialization policy and additional notebook ergonomics without duplicating the statistical methods.
+Development from 1.5.0 onward is CLI/Python-first. The Windows desktop is archived at 1.4.0 and has been removed from CI and release builds. Current priorities are the 1.5.0 statistical redesign, Python packaging, DataFrame serialization policy, notebook ergonomics and benchmarked CLI/Python reproducibility. See [MVS 1.5.0 plan](docs/V1_5_PLAN.md) and [benchmark history](docs/BENCHMARK_HISTORY.md).
 
 
 ## Documentation
@@ -103,6 +99,8 @@ The first interface-layer milestone is now implemented: a compiled Core boundary
 - [Reports and exported files](docs/OUTPUTS.md)
 - [Validation and limitations](docs/VALIDATION.md)
 - [Benchmark](docs/BENCHMARK.md)
+- [Benchmark history](docs/BENCHMARK_HISTORY.md)
+- [MVS 1.5.0 plan](docs/V1_5_PLAN.md)
 - [Paper benchmark run](docs/PAPER_BENCHMARK.md)
 - [Colab and remote workflow](docs/REMOTE.md)
 - [Backups and checkpoints](docs/BACKUPS.md)
@@ -128,11 +126,11 @@ MVS Analyzer предназначен для статистического ан
 
 ### Как запускать
 
-Для обычной работы можно использовать Windows-приложение из [Releases](https://github.com/d1d2dopamine/MVS-Analyzer/releases/latest). Для автоматизации и серверных расчётов в репозитории есть CLI на .NET 8 с машинным режимом `--json`. В каталоге `python/` есть Python API, который вызывает тот же CLI и не дублирует статистические методы. Jupyter/Colab также использует .NET-движок.
+Новая разработка ведётся вокруг Python API и headless CLI. Python-пакет вызывает совместимый CLI и не дублирует статистические методы; Jupyter/Colab должны использовать тот же стек. Windows-приложение 1.4.0 остаётся архивной версией и больше не собирается в CI и новых релизах.
 
 Формат данных и ограничения описаны в [документации](docs/README.md). Перед интерпретацией результатов стоит прочитать [методы](docs/METHODS.md) и [ограничения валидации](docs/VALIDATION.md).
 
 ### Куда развивается проект
 
-Первый этап интерфейсного плана реализован: выделен `MvsAnalyzer.Core`, добавлен версионированный JSON-протокол CLI, path-based Python API, локальный Jupyter quick start и parity-проверка Python/CLI. Следующие шаги — упаковка Python-релиза, формальная политика DataFrame-сериализации и расширение notebook-интерфейса без отдельной реализации статистики.
+Начиная с линии 1.5.0 основной интерфейс проекта — Python/CLI. План включает новый registry метрик, семейства location/variability, candidate sets вместо обязательного top-1, новый multiplicity layer и отдельный BENCH-2.0 после заморозки метода. История каждого frozen benchmark сохраняется в репозитории.
 

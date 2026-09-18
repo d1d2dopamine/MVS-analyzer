@@ -1,3 +1,5 @@
+> **Legacy 1.4.0 desktop workflow.** The Windows desktop and its browser bridge are frozen at 1.4.0. From the 1.5.0 development line onward, maintained remote/notebook work targets the Python/CLI stack. This page is retained so archived 1.4.0 runs remain reproducible.
+
 # Google Colab — MVS Analyzer 1.4.0
 
 ## Однократно обновите ноутбук

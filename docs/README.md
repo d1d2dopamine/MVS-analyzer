@@ -11,4 +11,6 @@
 - [Plugins](PLUGINS.md): declarative import profiles and templates.
 - [Integrity checks](AUDIT.md): what output verification can and cannot establish.
 - [Validation and limitations](VALIDATION.md): how to interpret the methods responsibly.
+- [Benchmark history](BENCHMARK_HISTORY.md): immutable cross-version benchmark record.
+- [MVS 1.5.0 plan](V1_5_PLAN.md): CLI/Python-first redesign and validation sequence.
 - [Migration](MIGRATION.md): compatibility with older saved results.

@@ -101,7 +101,9 @@ def main():
     assert not list(ROOT.glob("*.cs")), "Loose root C# sources returned"
     for path in list((ROOT / "Desktop").glob("*.cs")) + [ROOT / "README.md"]:
         assert "\ufffd" not in path.read_text(encoding="utf-8-sig"), f"Damaged display text: {path}"
-    assert "MVS_Analyzer_v1.4.0_win-x64.zip" in (ROOT / ".github/RELEASE_NOTES.md").read_text(encoding="utf-8-sig")
+    release_notes = (ROOT / ".github/RELEASE_NOTES.md").read_text(encoding="utf-8-sig")
+    assert "Windows desktop is frozen at 1.4.0" in release_notes
+    assert "win-x64.zip" not in release_notes, "Retired desktop package returned to active release notes"
     print(f"Static contracts passed: XML/source paths, Python AST, {len(notebooks)} notebooks, method hashes, {len(protected['sha256'])} protected assets, README links and demo")
     print("This is not a C# compile, runtime test, Windows render or independent statistical validation.")
 

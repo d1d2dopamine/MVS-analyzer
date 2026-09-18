@@ -1,8 +1,5 @@
 <Solution>
-  <Project Path="MvsAnalyzer.csproj" />
   <Project Path="MvsAnalyzer.Core/MvsAnalyzer.Core.csproj" />
   <Project Path="MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj" />
-  <Project Path="MvsAnalyzer.Tests/MvsAnalyzer.Tests.csproj" />
   <Project Path="MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj" />
-  <Project Path="MvsAnalyzer.Ui.Tests/MvsAnalyzer.Ui.Tests.csproj" />
 </Solution>

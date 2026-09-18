@@ -5,117 +5,77 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Existing tag to build, e.g. v1.4.0'
+        description: 'Existing tag to build, e.g. v1.5.0'
         required: true
         type: string
 permissions:
   contents: write
+
 jobs:
-  linux-check:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.tag || github.ref }}
-      - uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Colab offline regressions
-        run: |
-          python tools/check_source.py
-          python tools/check_cli_contract.py
-          python tools/build_notebooks.py --check
-          python tools/test_colab.py
-          python tools/test_colab_control.py
-          python tools/test_source.py
-          PYTHONPATH=python/src python -m unittest discover -s python/tests -v
-      - name: Portable regressions
-        run: dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release
-      - name: Build Linux CLI
-        run: dotnet publish MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj -c Release -o publish/cli
-      - name: Calibration save and replay smoke
-        run: |
-          dotnet publish/cli/mvs.dll calibrate --in examples/demo_three_groups.csv --out artifacts/calibration --repetitions 150 --seed 20260719
-          dotnet publish/cli/mvs.dll analyze --in examples/demo_three_groups.csv --calibration artifacts/calibration --out artifacts/analysis
-          python tools/check_outputs.py artifacts
-          python tools/check_cli_contract.py --artifacts artifacts
-          python tools/test_python_cli.py --cli publish/cli/mvs --artifacts artifacts
   release:
-    needs: linux-check
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     env:
       RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ inputs.tag || github.ref }}
           fetch-depth: 0
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: '8.0.x'
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
+
       - name: Verify checked-out version and static contracts
-        shell: pwsh
         run: |
-          [xml]$project = Get-Content MvsAnalyzer.csproj
-          $version = [string]$project.Project.PropertyGroup.Version
-          if ($env:RELEASE_TAG -ne "v$version") { throw "Tag and application version disagree" }
+          python - <<'PY'
+          import os, xml.etree.ElementTree as ET
+          root = ET.parse('MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj').getroot()
+          version = root.findtext('.//Version')
+          tag = os.environ['RELEASE_TAG']
+          if tag != f'v{version}':
+              raise SystemExit(f'Tag {tag} and CLI version {version} disagree')
+          PY
           python tools/check_source.py
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-      - name: Run both regression harnesses
-        shell: pwsh
-        run: |
-          dotnet run --project MvsAnalyzer.Tests/MvsAnalyzer.Tests.csproj -c Release
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-      - name: Native Windows layout acceptance
-        run: dotnet run --project MvsAnalyzer.Ui.Tests/MvsAnalyzer.Ui.Tests.csproj -c Release -- artifacts/ui-layout
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: release-layout-review
-          path: artifacts/ui-layout/
-          if-no-files-found: warn
-      - name: Publish Windows
-        run: dotnet publish MvsAnalyzer.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -o publish/windows
+          python tools/check_cli_contract.py
+          python tools/build_notebooks.py --check
+          PYTHONPATH=python/src python -m unittest discover -s python/tests -v
+
+      - name: Scientific regression gate
+        run: dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release
+
       - name: Publish Linux CLI
         run: dotnet publish MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -o publish/linux
+
       - name: Build Python wheel
         run: python -m pip wheel ./python --no-deps -w publish/python
-      - name: Package release assets
-        shell: pwsh
+
+      - name: CLI/Python release smoke
         run: |
-          $tag = $env:RELEASE_TAG
-          $win = "MVS_Analyzer_${tag}_win-x64"
-          $cli = "MVS_Analyzer_${tag}_linux-x64-cli"
-          New-Item -ItemType Directory -Force "staging/$win", "staging/$cli" | Out-Null
-          Copy-Item publish/windows/MVS_Analyzer.exe "staging/$win/"
-          Copy-Item publish/linux/mvs "staging/$cli/"
-          foreach ($folder in @($win, $cli)) {
-            Copy-Item README.md, LICENSE, CHANGELOG.md, CITATION.cff "staging/$folder/"
-            New-Item -ItemType Directory -Force "staging/$folder/docs" | Out-Null
-            foreach ($doc in @('README.md','DATA_FORMAT.md','METHODS.md','OUTPUTS.md','CLI_CONTRACT.md','REMOTE.md','AUDIT.md','PLUGINS.md','VALIDATION.md','MIGRATION.md','BENCHMARK.md','CLI_MACHINE_PROTOCOL.md','PYTHON_API.md','COMPATIBILITY.md')) {
-              Copy-Item "docs/$doc" "staging/$folder/docs/"
-            }
-            New-Item -ItemType Directory -Force "staging/$folder/docs/assets" | Out-Null
-            Copy-Item docs/assets/logo.png, docs/assets/colab.png "staging/$folder/docs/assets/"
-            Copy-Item -Recurse examples, notebooks "staging/$folder/"
-            Copy-Item *.mvsplugin "staging/$folder/"
-          }
-          Compress-Archive -Path "staging/$win" -DestinationPath "$win.zip"
-          Compress-Archive -Path "staging/$cli" -DestinationPath "$cli.zip"
+          ./publish/linux/mvs calibrate --in examples/demo_three_groups.csv --out artifacts/calibration --repetitions 150 --seed 20260719
+          ./publish/linux/mvs analyze --in examples/demo_three_groups.csv --calibration artifacts/calibration --out artifacts/analysis
+          python tools/check_outputs.py artifacts
+          python tools/check_cli_contract.py --artifacts artifacts
+          python tools/test_python_cli.py --cli publish/linux/mvs --artifacts artifacts
+
+      - name: Package release assets
+        run: |
+          set -euo pipefail
+          tag="$RELEASE_TAG"
+          cli="MVS_Analyzer_${tag}_linux-x64-cli"
+          mkdir -p "staging/$cli/docs"
+          cp publish/linux/mvs "staging/$cli/"
+          cp README.md LICENSE CHANGELOG.md CITATION.cff "staging/$cli/"
+          for doc in README.md DATA_FORMAT.md METHODS.md OUTPUTS.md CLI_CONTRACT.md AUDIT.md PLUGINS.md VALIDATION.md MIGRATION.md BENCHMARK.md BENCHMARK_HISTORY.md V1_5_PLAN.md CLI_MACHINE_PROTOCOL.md PYTHON_API.md COMPATIBILITY.md; do
+            cp "docs/$doc" "staging/$cli/docs/"
+          done
+          cp -r examples notebooks "staging/$cli/"
+          (cd staging && zip -qr "../$cli.zip" "$cli")
           git archive --format=zip --prefix="MVS-Analyzer-$tag/" HEAD -o "MVS_Analyzer_${tag}_source.zip"
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          $lines = Get-ChildItem MVS_Analyzer_*.zip, publish/python/*.whl | ForEach-Object { "{0}  {1}" -f (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower(), $_.Name }
-          $lines | Set-Content -Encoding ascii SHA256SUMS.txt
+          sha256sum "MVS_Analyzer_${tag}_linux-x64-cli.zip" "MVS_Analyzer_${tag}_source.zip" publish/python/*.whl > SHA256SUMS.txt
+
       - name: Create draft release for the requested tag
         uses: softprops/action-gh-release@v2
         with:
@@ -124,7 +84,6 @@ jobs:
           draft: true
           body_path: .github/RELEASE_NOTES.md
           files: |
-            MVS_Analyzer_*_win-x64.zip
             MVS_Analyzer_*_linux-x64-cli.zip
             MVS_Analyzer_*_source.zip
             SHA256SUMS.txt

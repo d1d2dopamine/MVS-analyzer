@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased - 1.5.0 development line
+
+- Retired the Windows desktop from active development, CI and release packaging. Version 1.4.0 remains the archived desktop release.
+- Made the headless CLI and Python API the maintained interface stack. The .NET Core engine remains the single statistical implementation.
+- Added an immutable benchmark archive and cross-version benchmark history, seeded with the full 1.4.0 / engine 1.6.0 / `MVS-BENCH-1.2.0` run.
+- Added the 1.5.0 redesign plan, including metric families, candidate sets, new robust metrics, and a new multiplicity layer.
+
 ## Interface-layer implementation — application version remains 1.4.0
 
 - Added a compiled `MvsAnalyzer.Core` project referenced by both desktop and CLI without changing statistical method sources or method hashes.

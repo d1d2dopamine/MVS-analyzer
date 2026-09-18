@@ -11,3 +11,7 @@ Synthetic location changes are additive constant shifts **after** baseline floor
 Profiles change simulation budgets only. “Standard” is not automatically publishable, and runtime is hardware-dependent. Rates in the legacy benchmark report are conditional on completed benchmark replications; failure counts and first errors must be reviewed. The new scientific modules separately report requested/failed denominators. Reproducibility is scoped to a recorded arithmetic environment, not guaranteed across every OS/runtime.
 
 Run manually after CI, retain failure outputs, and review the assumptions in METHODS/VALIDATION before interpreting pass/fail thresholds. A threshold is a declared operational criterion, not a universal scientific law.
+
+## Cross-version record
+
+Frozen benchmark outputs that are used to guide or validate released scientific engines are archived under `benchmark_history/` and summarized in [BENCHMARK_HISTORY.md](BENCHMARK_HISTORY.md). The history document distinguishes development runs from independent validation and does not treat runs under different protocol hashes as directly comparable.
