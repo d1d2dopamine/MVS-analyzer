@@ -9,6 +9,7 @@
   <img src="https://img.shields.io/badge/app-1.4.0-1f6feb?style=flat-square" alt="app 1.4.0">
   <img src="https://img.shields.io/badge/engine-1.6.0-6f42c1?style=flat-square" alt="engine 1.6.0">
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT license">
+  <a href="https://doi.org/10.5281/zenodo.22836364"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.22836364.svg" alt="DOI: 10.5281/zenodo.22836364"></a>
 </p>
 
 MVS Analyzer compares summary metrics for repeated measurements and includes separate workflows for variance components, known-truth estimation studies and an experimental mixed-effects location-scale model. The same compiled `MvsAnalyzer.Core` statistical engine is used by the Windows application and the headless .NET CLI; the Python package delegates to that CLI instead of reimplementing the methods.
@@ -117,7 +118,7 @@ Local analysis does not require an MVS account and the application does not send
 
 ## License and citation
 
-MVS Analyzer is released under the [MIT License](LICENSE). Citation metadata is provided in [CITATION.cff](CITATION.cff).
+MVS Analyzer is released under the [MIT License](LICENSE). Citation metadata is provided in [CITATION.cff](CITATION.cff). Archived software version 1.4.0: [doi:10.5281/zenodo.22836364](https://doi.org/10.5281/zenodo.22836364).
 
 ## Русский
 
