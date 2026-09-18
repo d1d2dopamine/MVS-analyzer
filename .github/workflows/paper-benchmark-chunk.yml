@@ -1,0 +1,67 @@
+name: Paper benchmark chunk
+
+on:
+  workflow_call:
+    inputs:
+      chunk:
+        required: true
+        type: string
+      incoming_artifact:
+        required: false
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  chunk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+
+    steps:
+      - name: Checkout exact workflow revision
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Download previous checkpoint
+        if: ${{ inputs.incoming_artifact != '' }}
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.incoming_artifact }}
+          path: incoming
+
+      - name: Build headless MVS
+        run: dotnet publish MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj -c Release -o publish/cli
+
+      - name: Record environment
+        run: |
+          echo "Git commit: $(git rev-parse HEAD)"
+          echo "CPUs: $(nproc)"
+          dotnet --info
+          dotnet publish/cli/mvs.dll version
+          dotnet publish/cli/mvs.dll env
+
+      - name: Run or resume paper benchmark
+        env:
+          MVS_BENCH_PROFILE: full
+          MVS_BENCH_SEED: '20260904'
+          MVS_BENCH_CHUNK_SECONDS: '19000'
+        run: |
+          incoming=""
+          if [ -d incoming ]; then incoming="incoming"; fi
+          bash tools/run_paper_benchmark_chunk.sh \
+            "${{ inputs.chunk }}" "$incoming" state work
+
+      - name: Upload checkpoint or result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: paper-benchmark-state-${{ inputs.chunk }}
+          path: state/
+          if-no-files-found: error
+          retention-days: 14

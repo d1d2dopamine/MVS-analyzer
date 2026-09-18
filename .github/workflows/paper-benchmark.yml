@@ -1,0 +1,92 @@
+name: MVS paper benchmark - full
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mvs-paper-benchmark
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  chunk-1:
+    uses: ./.github/workflows/paper-benchmark-chunk.yml
+    with:
+      chunk: '1'
+
+  chunk-2:
+    needs: chunk-1
+    uses: ./.github/workflows/paper-benchmark-chunk.yml
+    with:
+      chunk: '2'
+      incoming_artifact: paper-benchmark-state-1
+
+  chunk-3:
+    needs: chunk-2
+    uses: ./.github/workflows/paper-benchmark-chunk.yml
+    with:
+      chunk: '3'
+      incoming_artifact: paper-benchmark-state-2
+
+  chunk-4:
+    needs: chunk-3
+    uses: ./.github/workflows/paper-benchmark-chunk.yml
+    with:
+      chunk: '4'
+      incoming_artifact: paper-benchmark-state-3
+
+  chunk-5:
+    needs: chunk-4
+    uses: ./.github/workflows/paper-benchmark-chunk.yml
+    with:
+      chunk: '5'
+      incoming_artifact: paper-benchmark-state-4
+
+  chunk-6:
+    needs: chunk-5
+    uses: ./.github/workflows/paper-benchmark-chunk.yml
+    with:
+      chunk: '6'
+      incoming_artifact: paper-benchmark-state-5
+
+  finalize:
+    needs: chunk-6
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout verifier
+        uses: actions/checkout@v4
+
+      - name: Download final state
+        uses: actions/download-artifact@v4
+        with:
+          name: paper-benchmark-state-6
+          path: final-state
+
+      - name: Require a completed full benchmark
+        run: |
+          if [ ! -f final-state/status.txt ]; then
+            echo "Missing benchmark state." >&2
+            exit 1
+          fi
+          status="$(tr -d '\r\n' < final-state/status.txt)"
+          if [ "$status" != "complete" ]; then
+            echo "The full benchmark did not finish within six compute chunks." >&2
+            echo "The latest checkpoint is still available in paper-benchmark-state-6." >&2
+            exit 1
+          fi
+          python tools/verify_paper_benchmark.py final-state/result
+
+      - name: Upload manuscript benchmark artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mvs-paper-benchmark-full-seed-20260904
+          path: final-state/
+          if-no-files-found: error
+          retention-days: 90

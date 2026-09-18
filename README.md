@@ -102,6 +102,7 @@ The first interface-layer milestone is now implemented: a compiled Core boundary
 - [Reports and exported files](docs/OUTPUTS.md)
 - [Validation and limitations](docs/VALIDATION.md)
 - [Benchmark](docs/BENCHMARK.md)
+- [Paper benchmark run](docs/PAPER_BENCHMARK.md)
 - [Colab and remote workflow](docs/REMOTE.md)
 - [Backups and checkpoints](docs/BACKUPS.md)
 - [Plugins](docs/PLUGINS.md)
