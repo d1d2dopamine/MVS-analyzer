@@ -33,7 +33,10 @@ def fail(message: str) -> None:
 
 def check_static(contract: dict) -> None:
     assert contract["schemaVersion"] == 1
-    assert contract["contractId"] == "mvs-cli-v1-pre-machine-json"
+    assert contract["contractId"] == "mvs-cli-v1"
+    machine = contract["machineResultSchema"]
+    assert machine["id"] == "mvs-cli-result/v1"
+    assert machine["statusByExitCode"] == {"0": "completed", "1": "error", "2": "diagnostic"}
     assert set(contract["exitCodes"]) == {"0", "1", "2"}
 
     expected_commands = {

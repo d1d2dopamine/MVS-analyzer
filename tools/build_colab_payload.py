@@ -13,8 +13,8 @@ TARGET = ROOT / "Assets/colab-cli-source.zip"
 
 
 def source_files():
-    files = {ROOT / "SharedSources.props", ROOT / "LICENSE", ROOT / "MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj"}
-    for project in (ROOT / "SharedSources.props", ROOT / "MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj"):
+    files = {ROOT / "SharedSources.props", ROOT / "LICENSE", ROOT / "MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj", ROOT / "MvsAnalyzer.Core/MvsAnalyzer.Core.csproj"}
+    for project in (ROOT / "SharedSources.props", ROOT / "MvsAnalyzer.Core/MvsAnalyzer.Core.csproj", ROOT / "MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj"):
         for item in ET.parse(project).iter("Compile"):
             include = item.attrib.get("Include")
             if not include:

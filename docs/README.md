@@ -4,6 +4,9 @@
 - [Methods](METHODS.md): metrics, simulation assumptions and inference limits.
 - [Reports](OUTPUTS.md): exported tables, figures and saved calibration.
 - [CLI contract](CLI_CONTRACT.md): frozen commands, exit codes, artifacts and parity rules.
+- [CLI machine protocol](CLI_MACHINE_PROTOCOL.md): versioned JSON stdout for automation.
+- [Python API](PYTHON_API.md): path-based Python wrapper around the same engine.
+- [Interface compatibility](COMPATIBILITY.md): version and schema compatibility matrix.
 - [Colab](REMOTE.md): cloud setup, reuse and file exchange.
 - [Plugins](PLUGINS.md): declarative import profiles and templates.
 - [Integrity checks](AUDIT.md): what output verification can and cannot establish.

@@ -1,5 +1,15 @@
 # Changelog
 
+## Interface-layer implementation — application version remains 1.4.0
+
+- Added a compiled `MvsAnalyzer.Core` project referenced by both desktop and CLI without changing statistical method sources or method hashes.
+- Added versioned CLI machine responses (`mvs-cli-result/v1`) with structured status, artifacts, diagnostics, environment identity and stable stdout/stderr behavior.
+- Added a path-based Python package with typed results for calibration, analysis, variance, estimation, MELSM and benchmark workflows; statistics remain delegated to the .NET engine.
+- Added a local Python/Jupyter quick start, compatibility documentation, wrapper tests and a Linux CI parity smoke against the built CLI.
+- Moved benchmark figure rendering outside the platform-neutral Core boundary while preserving Windows rendering through the desktop renderer.
+- Updated the embedded Colab source payload so the new Core project is carried with the CLI source.
+
+
 ## Connection maintenance — application version remains 1.4.0
 
 - Decoupled UI labels from CLI identity; added structured CLI/scientific checks and a known legacy 1.4.0 adapter.

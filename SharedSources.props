@@ -1,5 +1,5 @@
 <Project>
-  <!-- Explicit, identical source registry for the Linux CLI and portable regression harness. -->
+  <!-- Explicit platform-neutral source registry compiled by MvsAnalyzer.Core. -->
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/PortableBackup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/BackupRunner.cs" />

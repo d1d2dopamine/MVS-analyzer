@@ -82,7 +82,9 @@ internal sealed class CliArguments
     public void Validate(IEnumerable<string> allowed)
     {
         var names = allowed.ToHashSet(StringComparer.OrdinalIgnoreCase);
-        var switches = new HashSet<string>(new[] { "--split", "--local-settings", "--allow-group-scoped-ids", "--overwrite", "--force", "--mean-time", "--scale-time", "--correlate", "--no-random-scale", "--include-entity-ids", "--normalize" }, StringComparer.OrdinalIgnoreCase);
+        names.Add("--json");
+        names.Add("--quiet");
+        var switches = new HashSet<string>(new[] { "--split", "--local-settings", "--allow-group-scoped-ids", "--overwrite", "--force", "--mean-time", "--scale-time", "--correlate", "--no-random-scale", "--include-entity-ids", "--normalize", "--json", "--quiet" }, StringComparer.OrdinalIgnoreCase);
         var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         for (int i = Command.Length > 0 ? 1 : 0; i < tokens.Length; i++)
         {

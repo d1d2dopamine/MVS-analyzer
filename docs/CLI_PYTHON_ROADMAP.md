@@ -1,6 +1,6 @@
 # CLI, Python and Jupyter roadmap
 
-Status: design plan. This document does not claim that planned interfaces already exist.
+Status: implementation in progress. The first interface-layer milestone is implemented in this repository: compiled Core boundary, CLI machine schema `mvs-cli-result/v1`, path-based Python API, local Python notebook and CI parity smoke. Later roadmap items remain explicitly tracked below.
 
 ## 1. Goal
 
@@ -322,22 +322,22 @@ Do not publish a Python release if it passes its own wrapper tests but fails cro
 
 ## 11. Suggested implementation sequence
 
-This order keeps each change reviewable and avoids mixing packaging, statistical refactors and user-facing API changes in one step.
+This order keeps each change reviewable and avoids mixing packaging, statistical refactors and user-facing API changes in one step. Completed items are marked here so the roadmap remains an implementation tracker rather than a historical wish list.
 
-1. Add golden datasets and parity baselines for the current CLI.
-2. Define the machine-readable command result schema.
-3. Add complete machine mode to the current CLI.
-4. Extract `MvsAnalyzer.Core` without changing scientific behavior.
-5. Switch desktop and CLI to the Core project reference.
-6. Stabilize CLI help, errors, stdout/stderr and exit-code documentation.
-7. Create a small Python package that discovers and verifies the CLI.
-8. Add Python result objects and artifact readers.
-9. Add path-based `calibrate` and `analyze` APIs.
-10. Add `variance`, `estimation`, `melsm` and benchmark APIs.
+1. [~] Add golden datasets and parity baselines for the current CLI. Canonical calibrate/analyze cases are gated; broader numerical baselines remain.
+2. [x] Define the machine-readable command result schema.
+3. [x] Add complete machine mode to the current CLI.
+4. [x] Extract `MvsAnalyzer.Core` without changing scientific behavior.
+5. [x] Switch desktop and CLI to the Core project reference.
+6. [~] Stabilize CLI help, errors, stdout/stderr and exit-code documentation. Machine streams/errors are stable; per-subcommand help can still be refined.
+7. [x] Create a small Python package that discovers and verifies the CLI.
+8. [x] Add Python result objects and artifact readers.
+9. [x] Add path-based `calibrate` and `analyze` APIs.
+10. [x] Add `variance`, `estimation`, `melsm` and benchmark APIs.
 11. Add DataFrame input with a documented serialization policy.
-12. Add Jupyter representations and concise notebooks.
-13. Automate cross-platform CLI and Python packaging.
-14. Publish an interface compatibility matrix and migration policy.
+12. [~] Add Jupyter representations and concise notebooks. A local quick-start exists; richer representations and per-workflow notebooks remain.
+13. [x] Automate cross-platform CLI and Python packaging. Release automation builds the existing Windows/Linux CLI artifacts and a pure-Python wheel after parity gates.
+14. [x] Publish an interface compatibility matrix and migration policy.
 
 ## 12. What is deliberately out of scope for this roadmap
 

@@ -31,6 +31,8 @@ jobs:
           python tools/test_backups.py
           python tools/test_source.py
           python tools/test_ui_patch.py
+      - name: Python API wrapper tests
+        run: PYTHONPATH=python/src python -m unittest discover -s python/tests -v
       - name: Limited C# structural check (not compilation)
         run: python tools/check_csharp_structure.py
       - name: Independent mathematical identities in Python
@@ -101,6 +103,8 @@ jobs:
         run: |
           python tools/check_outputs.py artifacts
           python tools/check_cli_contract.py --artifacts artifacts
+      - name: Python wrapper parity against the built CLI
+        run: python tools/test_python_cli.py --cli publish/linux-cli/mvs --artifacts artifacts
       - name: Invalid explicit numbers must fail
         shell: bash
         run: |

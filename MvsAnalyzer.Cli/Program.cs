@@ -10,24 +10,57 @@ internal static class CliProgram
         try { Console.OutputEncoding = Encoding.UTF8; } catch (IOException) { }
         Console.CancelKeyPress += (_, e) => { e.Cancel = true; CliCancellation.Source.Cancel(); };
         var args = new CliArguments(arguments);
+        bool machine = args.Flag("--json");
+        bool quiet = args.Flag("--quiet");
+        CliMachineContext.Reset(machine, quiet);
+        TextWriter originalOut = Console.Out;
+
         if (arguments.Length == 0 || args.Command == "help" || args.Flag("--help") || args.Flag("-h")) { Usage(); return 0; }
+        if (args.Command.Length == 0 && args.Flag("--version"))
+        {
+            if (machine) Console.SetOut(Console.Error);
+            int code = machine ? 0 : HeadlessRun.ShowVersions();
+            if (machine) { Console.SetOut(originalOut); CliMachineProtocol.Write(originalOut, "version", code); }
+            return code;
+        }
+
+        if (machine) Console.SetOut(Console.Error);
         try
         {
-            return args.Command switch {
+            int code = args.Command switch {
                 "resume" => Resume(args),
                 "calibrate" => HeadlessRun.Calibrate(args), "analyze" or "analyse" => HeadlessRun.Analyze(args),
                 "variance" => ScientificCommands.Variance(args), "estimation" => ScientificCommands.Estimation(args),
-                "melsm" => ScientificCommands.Melsm(args), "benchmark" => BenchmarkCommandLine.Run(arguments),
-                "state-check" => HeadlessRun.StateCheck(args), "version" => args.Flag("--json") ? ColabCompatibility.PrintCliManifest() : HeadlessRun.ShowVersions(), "env" => HeadlessRun.ShowEnvironment(),
+                "melsm" => ScientificCommands.Melsm(args), "benchmark" => RunBenchmark(arguments),
+                "state-check" => HeadlessRun.StateCheck(args), "version" => machine ? 0 : HeadlessRun.ShowVersions(), "env" => HeadlessRun.ShowEnvironment(),
                 _ => throw new ArgumentException("Unknown command: " + args.Command) };
+            if (machine) { Console.SetOut(originalOut); CliMachineProtocol.Write(originalOut, args.Command, code); }
+            return code;
         }
-        catch (OperationCanceledException) { Console.Error.WriteLine("Cancelled. Incomplete output may remain; only a completed manifest identifies a finished run."); return 1; }
+        catch (OperationCanceledException error)
+        {
+            Console.Error.WriteLine("Cancelled. Incomplete output may remain; only a completed manifest identifies a finished run.");
+            if (machine) { Console.SetOut(originalOut); CliMachineProtocol.Write(originalOut, args.Command, 1, error); }
+            return 1;
+        }
         catch (Exception error)
         {
             Console.Error.WriteLine(error.GetType().Name + ": " + error.Message);
             if (System.Environment.GetEnvironmentVariable("MVS_DEBUG") == "1") Console.Error.WriteLine(error.StackTrace);
+            if (machine) { Console.SetOut(originalOut); CliMachineProtocol.Write(originalOut, args.Command, 1, error); }
             return 1;
         }
+        finally
+        {
+            if (machine) Console.SetOut(originalOut);
+        }
+    }
+
+    private static int RunBenchmark(string[] arguments)
+    {
+        int code = BenchmarkCommandLine.Run(arguments, folder => CliMachineContext.RecordOutput(folder));
+        if (code == 2) CliMachineContext.Diagnostic("warning", "benchmark_threshold", "Benchmark completed but at least one threshold was not satisfied; inspect the benchmark report.");
+        return code;
     }
     private static int Resume(CliArguments args)
     {
@@ -37,6 +70,8 @@ internal static class CliProgram
         else backups = backups.GroupBy(b => b.Id).Select(g => g.OrderByDescending(b => b.SavedUtc).First()).ToList();
         if (backups.Count != 1) throw new ArgumentException("Choose a backup in MVS Data or pass --id. Available: " + string.Join(", ", backups.Select(b => b.Id + " (" + b.Request.Kind + ")")));
         var result = BackupRunner.Run(backups[0], args.Require("--out"), new CliProgress(), CliCancellation.Token);
+        CliMachineContext.RecordOutput(result.Folder);
+        if (result.ExitCode == 2) CliMachineContext.Diagnostic("warning", "scientific_diagnostic", "Resumed run completed with a scientific/numerical diagnostic; inspect the saved report.");
         Console.WriteLine("Resumed result saved: " + result.Folder); return result.ExitCode;
     }
     private static void Usage()
@@ -79,13 +114,15 @@ Optional experimental mixed-effects location-scale model:
 
 Benchmark and diagnostics:
   mvs benchmark --profile quick|standard|full --out folder [--seed N] [--threads N]
-  mvs version
+  mvs version [--json]
+  mvs --version
   mvs env
   mvs resume --in MVS_Backups.zip --out folder [--id backup-id]
   Automatic checkpoints: MVS_BACKUP_DIR, default local MVS_Analyzer/MVS_Backups.
 
 Exit codes: 0 completed, 1 input/runtime error or cancellation, 2 a numerical diagnostic
 or benchmark threshold was not satisfied (inspect the saved report).
+Global automation options: --json emits one versioned JSON object on stdout; --quiet suppresses progress.
 No figures are rendered on Linux. Ctrl+C cancels cooperative calculations.
 MELSM and variance components are model-based; review assumptions and diagnostics.");
     }

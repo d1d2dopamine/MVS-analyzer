@@ -1,20 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyName>mvs</AssemblyName>
+    <AssemblyName>MvsAnalyzer.Core</AssemblyName>
     <RootNamespace>MvsAnalyzer</RootNamespace>
     <Version>1.4.0</Version>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-    <PublishTrimmed>false</PublishTrimmed>
   </PropertyGroup>
+  <Import Project="../SharedSources.props" />
   <ItemGroup>
-    <Compile Include="Program.cs" />
-    <Compile Include="HeadlessRun.cs" />
-    <Compile Include="ScientificCommands.cs" />
-    <Compile Include="MachineProtocol.cs" />
-    <ProjectReference Include="../MvsAnalyzer.Core/MvsAnalyzer.Core.csproj" />
+    <Compile Include="AssemblyInfo.cs" />
   </ItemGroup>
 </Project>

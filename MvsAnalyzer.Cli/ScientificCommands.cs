@@ -19,9 +19,12 @@ internal static class ScientificCommands
         ScientificJson.AtomicText(Path.Combine(folder, "variance_components.csv"), VarianceAnalysis.Csv(report));
         ScientificJson.AtomicText(Path.Combine(folder, "variance_tests.csv"), Table(report.Tracks));
         Manifest(folder, "variance-components", input, report);
+        CliMachineContext.RecordOutput(folder);
         Console.WriteLine("Variance report saved: " + folder);
         foreach (VarianceTrack track in report.Tracks) Console.WriteLine(track.Track + ": " + track.Verdict + " | " + track.Status);
-        return report.Groups.Any(g => g.Status == "not_converged_or_degenerate") || report.Tracks.Any(t => t.Status == "bootstrap_or_fit_failure" || t.Status == "excess_simulation_failures") ? 2 : 0;
+        bool diagnostic = report.Groups.Any(g => g.Status == "not_converged_or_degenerate") || report.Tracks.Any(t => t.Status == "bootstrap_or_fit_failure" || t.Status == "excess_simulation_failures");
+        if (diagnostic) CliMachineContext.Diagnostic("warning", "scientific_diagnostic", "Variance analysis completed with a numerical/scientific diagnostic; inspect variance_report.json.");
+        return diagnostic ? 2 : 0;
     }
     public static int Estimation(CliArguments args)
     {
@@ -35,8 +38,11 @@ internal static class ScientificCommands
         ScientificJson.AtomicText(Path.Combine(folder, "estimation_performance.csv"), Table(report.Performance));
         ScientificJson.AtomicText(Path.Combine(folder, "estimation_draws.csv"), Table(report.Draws));
         Manifest(folder, "known-truth-estimation", null, options);
+        CliMachineContext.RecordOutput(folder);
         Console.WriteLine("Known-truth estimation report saved: " + folder);
-        return report.Performance.Any(p => p.Status == "excess_failures") ? 2 : 0;
+        bool diagnostic = report.Performance.Any(p => p.Status == "excess_failures");
+        if (diagnostic) CliMachineContext.Diagnostic("warning", "scientific_diagnostic", "Estimation study completed with excess failures; inspect estimation_report.json.");
+        return diagnostic ? 2 : 0;
     }
     public static int Melsm(CliArguments args)
     {
@@ -52,8 +58,11 @@ internal static class ScientificCommands
         ScientificJson.AtomicText(Path.Combine(folder, "melsm_parameters.csv"), Table(report.Parameters));
         ScientificJson.AtomicText(Path.Combine(folder, "melsm_random_effects.csv"), Table(report.RandomEffects));
         Manifest(folder, "experimental-melsm", input, options);
+        CliMachineContext.RecordOutput(folder);
         Console.WriteLine("MELSM report saved: " + folder + " | " + report.Status);
-        return report.Status == "converged_experimental" ? 0 : 2;
+        bool diagnostic = report.Status != "converged_experimental";
+        if (diagnostic) CliMachineContext.Diagnostic("warning", "scientific_diagnostic", "MELSM completed without the converged_experimental status; inspect melsm_report.json.");
+        return diagnostic ? 2 : 0;
     }
     private static ImportProfile? Profile(CliArguments args) => args.Value("--import-profile") is string file ? ScientificJson.Read<ImportProfile>(file) : null;
     private static string Prepare(CliArguments args)

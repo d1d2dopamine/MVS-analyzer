@@ -92,3 +92,8 @@ __pycache__/
 MVS_Backups/
 MVS_Backups.zip
 *.mvsbackup
+
+# Python package build artifacts
+python/build/
+python/dist/
+python/src/*.egg-info/

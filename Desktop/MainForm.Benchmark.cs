@@ -163,7 +163,7 @@ internal sealed partial class MainForm
             var reporter = new Progress<ProgressInfo>(progress.UpdateProgress);
             CancellationToken token = progress.Token;
             report = await Task.Run(
-                () => BenchmarkReport.RunAndWrite(profile, seed, outputRoot, realData, russian, reporter, token),
+                () => BenchmarkReport.RunAndWrite(profile, seed, outputRoot, realData, russian, reporter, token, BenchmarkFigures.Generate),
                 token);
             });
         }

@@ -18,7 +18,15 @@
     <Compile Remove="MvsAnalyzer.Tests/**/*.cs" />
     <Compile Remove="MvsAnalyzer.Cli/**/*.cs" />
     <Compile Remove="MvsAnalyzer.Core.Tests/**/*.cs" />
+    <Compile Remove="MvsAnalyzer.Core/**/*.cs" />
     <Compile Remove="MvsAnalyzer.Ui.Tests/**/*.cs" />
+    <Compile Remove="Core/**/*.cs" />
+    <Compile Remove="Infrastructure/**/*.cs" />
+    <Compile Remove="Benchmark/**/*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Benchmark/BenchmarkFigures.cs" />
+    <ProjectReference Include="MvsAnalyzer.Core/MvsAnalyzer.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
     <!-- Branding travels inside the published single file: window icon and in-app wordmark. -->

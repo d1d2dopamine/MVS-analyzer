@@ -11,7 +11,7 @@
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT license">
 </p>
 
-MVS Analyzer compares summary metrics for repeated measurements and includes separate workflows for variance components, known-truth estimation studies and an experimental mixed-effects location-scale model. The same statistical implementation is used by the Windows application and the headless .NET CLI.
+MVS Analyzer compares summary metrics for repeated measurements and includes separate workflows for variance components, known-truth estimation studies and an experimental mixed-effects location-scale model. The same compiled `MvsAnalyzer.Core` statistical engine is used by the Windows application and the headless .NET CLI; the Python package delegates to that CLI instead of reimplementing the methods.
 
 Current release line: application `1.4.0`, scientific engine `1.6.0`, formula `MVS-1.4.0`.
 
@@ -36,7 +36,7 @@ Download the current Windows x64 release from [Releases](https://github.com/d1d2
 
 ### CLI
 
-The headless CLI targets .NET 8 and uses the same registered engine sources as the desktop application. From a source checkout:
+The headless CLI targets .NET 8 and references the same `MvsAnalyzer.Core` assembly as the desktop application. Add `--json` for the versioned `mvs-cli-result/v1` machine response used by automation and Python. From a source checkout:
 
 ```bash
 dotnet run --project MvsAnalyzer.Cli -- version
@@ -47,6 +47,23 @@ dotnet run --project MvsAnalyzer.Cli -- analyze --in data.csv --calibration cali
 Available command families include `calibrate`, `analyze`, `variance`, `estimation`, `melsm`, `benchmark`, `resume`, `state-check`, `version` and `env`. Run the CLI without arguments or with `--help` for the complete option reference.
 
 Linux runs do not render figures, but the scientific tables, reports and manifests are still produced.
+
+### Python
+
+The path-based Python API lives in `python/` and controls a compatible `mvs` executable through the machine protocol. It returns typed result objects and saved artifact paths while keeping the statistical implementation in .NET.
+
+```bash
+python -m pip install -e ./python
+export MVS_CLI=/absolute/path/to/mvs
+```
+
+```python
+import mvs
+calibration = mvs.calibrate("data.csv", repetitions=5000, seed=20260719)
+result = mvs.analyze("data.csv", calibration=calibration)
+```
+
+See [Python API](docs/PYTHON_API.md), [CLI machine protocol](docs/CLI_MACHINE_PROTOCOL.md) and [interface compatibility](docs/COMPATIBILITY.md).
 
 ### Jupyter and Colab
 
@@ -75,7 +92,7 @@ See [Reports](docs/OUTPUTS.md), [Integrity checks](docs/AUDIT.md) and [Backups](
 
 ## Development direction
 
-The project is moving toward a stable scientific engine with several front ends: CLI, Python, Jupyter and desktop. The statistics should remain implemented once, with interface-level parity tests preventing different front ends from producing different answers.
+The first interface-layer milestone is now implemented: a compiled Core boundary, versioned CLI machine output, a thin Python API, a local Python quick-start notebook and cross-interface parity checks. Remaining work focuses on broader packaging, DataFrame serialization policy and additional notebook ergonomics without duplicating the statistical methods.
 
 
 ## Documentation
@@ -89,6 +106,9 @@ The project is moving toward a stable scientific engine with several front ends:
 - [Backups and checkpoints](docs/BACKUPS.md)
 - [Plugins](docs/PLUGINS.md)
 - [Migration](docs/MIGRATION.md)
+- [CLI machine protocol](docs/CLI_MACHINE_PROTOCOL.md)
+- [Python API](docs/PYTHON_API.md)
+- [Interface compatibility](docs/COMPATIBILITY.md)
 
 ## Privacy
 
@@ -106,11 +126,11 @@ MVS Analyzer предназначен для статистического ан
 
 ### Как запускать
 
-Для обычной работы можно использовать Windows-приложение из [Releases](https://github.com/d1d2dopamine/MVS-Analyzer/releases/latest). Для автоматизации и серверных расчётов в репозитории есть CLI на .NET 8. Jupyter/Colab сейчас запускает тот же .NET CLI, поэтому статистические методы не дублируются на Python.
+Для обычной работы можно использовать Windows-приложение из [Releases](https://github.com/d1d2dopamine/MVS-Analyzer/releases/latest). Для автоматизации и серверных расчётов в репозитории есть CLI на .NET 8 с машинным режимом `--json`. В каталоге `python/` есть Python API, который вызывает тот же CLI и не дублирует статистические методы. Jupyter/Colab также использует .NET-движок.
 
 Формат данных и ограничения описаны в [документации](docs/README.md). Перед интерпретацией результатов стоит прочитать [методы](docs/METHODS.md) и [ограничения валидации](docs/VALIDATION.md).
 
 ### Куда развивается проект
 
-Цель следующего этапа состоит в том, чтобы оформить MVS как одно статистическое ядро с несколькими интерфейсами: CLI, Python API, Jupyter и desktop. Python не должен содержать отдельную реализацию статистических методов.
+Первый этап интерфейсного плана реализован: выделен `MvsAnalyzer.Core`, добавлен версионированный JSON-протокол CLI, path-based Python API, локальный Jupyter quick start и parity-проверка Python/CLI. Следующие шаги — упаковка Python-релиза, формальная политика DataFrame-сериализации и расширение notebook-интерфейса без отдельной реализации статистики.
 

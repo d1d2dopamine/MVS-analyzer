@@ -13,6 +13,7 @@ internal sealed class CliProgress : IProgress<ProgressInfo>
     private int last = -1;
     public void Report(ProgressInfo info)
     {
+        if (CliMachineContext.Quiet) return;
         int pct = (int)(100 * info.Fraction);
         if (pct == 0 && info.Action.StartsWith("MELSM", StringComparison.Ordinal)) { Console.WriteLine(info.Action); return; }
         if (pct == last || (pct != 100 && pct % 5 != 0)) return;
@@ -43,7 +44,11 @@ internal static class HeadlessRun
         Console.WriteLine("Data: " + Path.GetFileName(input) + " | " + data.TotalEntities + " entities | " + data.ValidRows + " rows | " + CsvImporter.LastEncodingName);
         Console.WriteLine("Tracks: " + string.Join(", ", tracks)); Console.WriteLine("Seed: " + settings.CalibrationSeed + " | repetitions: " + repetitions);
         Console.WriteLine("Input SHA256: " + hash);
-        foreach (string warning in data.Warnings) Console.WriteLine("Warning: " + warning);
+        foreach (string warning in data.Warnings)
+        {
+            CliMachineContext.Diagnostic("warning", "data_warning", warning);
+            Console.WriteLine("Warning: " + warning);
+        }
         AnalysisData source = settings.SplitCalibration ? AnalysisEngine.SplitEntities(data, settings.CalibrationSeed).Calibration : data;
         string calibrationSource = settings.SplitCalibration ? "split_half" : "same_dataset";
         using var backupContext = BackupSession.SetContext(new BackupContext(data, DatasetName: Path.GetFileName(input), DatasetHash: hash,
@@ -59,6 +64,7 @@ internal static class HeadlessRun
         ScientificJson.AtomicText(Path.Combine(output, "calibration.csv"), OutputExporter.CalibrationCsv(calibration));
         ScientificJson.AtomicText(Path.Combine(output, "calibration_tracks.csv"), OutputExporter.TrackCsv(calibration));
         CalibrationPersistence.Write(statePath, state);
+        CliMachineContext.RecordOutput(output);
         Console.WriteLine("Calibration saved: " + statePath);
         return 0;
     }
@@ -68,7 +74,12 @@ internal static class HeadlessRun
         AppSettings settings = Settings(args, out RemoteJobFile? job); string input = Input(args, job), output = args.Require("--out");
         string statePath = args.Require("--calibration"); if (Directory.Exists(statePath)) statePath = Path.Combine(statePath, StateFileName);
         CalibrationState state = CalibrationPersistence.Read(statePath);
-        if (state.EnvironmentHash != BenchmarkEnvironment.Hash) Console.Error.WriteLine("Warning: calibration came from a different arithmetic environment. Exact cross-platform replay is not guaranteed; both environments remain recorded.");
+        if (state.EnvironmentHash != BenchmarkEnvironment.Hash)
+        {
+            const string warning = "Calibration came from a different arithmetic environment. Exact cross-platform replay is not guaranteed; both environments remain recorded.";
+            CliMachineContext.Diagnostic("warning", "environment_mismatch", warning);
+            Console.Error.WriteLine("Warning: " + warning);
+        }
         // No silently ignored statistical overrides. Supply them when calibrating, not afterwards.
         foreach (string flag in new[] { "--seed", "--effect", "--scenario", "--alpha", "--outliers", "--missing", "--margin", "--min-measurements", "--min-value", "--max-value", "--split" })
             if (args.Has(flag)) throw new ArgumentException(flag + " is fixed by the calibration. Recalibrate to change it.");
@@ -78,9 +89,15 @@ internal static class HeadlessRun
         Console.WriteLine(CsvImporter.LastImportSummary);
         string hash = OutputExporter.HashFile(input); bool mismatch = !hash.Equals(state.DatasetHash, StringComparison.OrdinalIgnoreCase);
         if (mismatch && !args.Flag("--force")) throw new InvalidDataException("Calibration belongs to different input bytes. Recalibrate, or explicitly use --force for an exploratory comparison.");
-        if (mismatch) Console.Error.WriteLine("Warning: forced calibration reuse. Both input hashes will be recorded; compatibility is not established.");
+        if (mismatch)
+        {
+            const string warning = "Forced calibration reuse. Both input hashes will be recorded; compatibility is not established.";
+            CliMachineContext.Diagnostic("warning", "forced_calibration_reuse", warning);
+            Console.Error.WriteLine("Warning: " + warning);
+        }
         AnalysisData data = AnalysisEngine.Build(observations, settings.MinValue, settings.MaxValue, settings.MinMeasurements);
         data.ImportSummary = CsvImporter.LastImportSummary;
+        foreach (string warning in data.Warnings) CliMachineContext.Diagnostic("warning", "data_warning", warning);
         AnalysisData analysed = settings.SplitCalibration ? AnalysisEngine.SplitEntities(data, settings.CalibrationSeed).Analysis : data;
         analysed.ImportSummary = data.ImportSummary;
         using var backupContext = BackupSession.SetContext(new BackupContext(data, state, Path.GetFileName(input), hash,
@@ -102,6 +119,7 @@ internal static class HeadlessRun
             state.CalibrationSource, state.DatasetHash, mismatch));
         try { RunAuditor.AppendJournal(runId, folder, hash, settings, state.Repetitions, string.Join(",", results.Where(r => r.CandidateInAnyTrack).Select(r => r.Metric))); }
         catch (Exception error) { Console.Error.WriteLine("Warning: journal write failed: " + error.Message); }
+        CliMachineContext.RecordOutput(folder, runId);
         Console.WriteLine("Analysis saved: " + folder);
         foreach (ResultRow row in results) Console.WriteLine(row.Metric.PadRight(25) + row.Verdict.PadRight(16) + " adjusted p=" + Num(row.AdjustedP));
         return 0;
@@ -145,6 +163,7 @@ internal static class HeadlessRun
         if (args.Value("--job") is string jobPath) job = RemoteJob.Read(jobPath);
         string path = args.Require("--calibration"); if (Directory.Exists(path)) path = Path.Combine(path, CalibrationPersistence.FileName);
         CalibrationState state = CalibrationPersistence.Read(path);
+        CliMachineContext.RecordOutput(Path.GetDirectoryName(Path.GetFullPath(path)));
         var settings = new AppSettings(); CalibrationPersistence.Apply(state, settings);
         if (job != null)
         {

@@ -33,6 +33,7 @@ jobs:
           python tools/test_colab.py
           python tools/test_colab_control.py
           python tools/test_source.py
+          PYTHONPATH=python/src python -m unittest discover -s python/tests -v
       - name: Portable regressions
         run: dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release
       - name: Build Linux CLI
@@ -43,6 +44,7 @@ jobs:
           dotnet publish/cli/mvs.dll analyze --in examples/demo_three_groups.csv --calibration artifacts/calibration --out artifacts/analysis
           python tools/check_outputs.py artifacts
           python tools/check_cli_contract.py --artifacts artifacts
+          python tools/test_python_cli.py --cli publish/cli/mvs --artifacts artifacts
   release:
     needs: linux-check
     runs-on: windows-latest
@@ -86,6 +88,8 @@ jobs:
         run: dotnet publish MvsAnalyzer.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -o publish/windows
       - name: Publish Linux CLI
         run: dotnet publish MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -o publish/linux
+      - name: Build Python wheel
+        run: python -m pip wheel ./python --no-deps -w publish/python
       - name: Package release assets
         shell: pwsh
         run: |
@@ -98,7 +102,7 @@ jobs:
           foreach ($folder in @($win, $cli)) {
             Copy-Item README.md, LICENSE, CHANGELOG.md, CITATION.cff "staging/$folder/"
             New-Item -ItemType Directory -Force "staging/$folder/docs" | Out-Null
-            foreach ($doc in @('README.md','DATA_FORMAT.md','METHODS.md','OUTPUTS.md','CLI_CONTRACT.md','REMOTE.md','AUDIT.md','PLUGINS.md','VALIDATION.md','MIGRATION.md','BENCHMARK.md')) {
+            foreach ($doc in @('README.md','DATA_FORMAT.md','METHODS.md','OUTPUTS.md','CLI_CONTRACT.md','REMOTE.md','AUDIT.md','PLUGINS.md','VALIDATION.md','MIGRATION.md','BENCHMARK.md','CLI_MACHINE_PROTOCOL.md','PYTHON_API.md','COMPATIBILITY.md')) {
               Copy-Item "docs/$doc" "staging/$folder/docs/"
             }
             New-Item -ItemType Directory -Force "staging/$folder/docs/assets" | Out-Null
@@ -110,7 +114,7 @@ jobs:
           Compress-Archive -Path "staging/$cli" -DestinationPath "$cli.zip"
           git archive --format=zip --prefix="MVS-Analyzer-$tag/" HEAD -o "MVS_Analyzer_${tag}_source.zip"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          $lines = Get-ChildItem MVS_Analyzer_*.zip | ForEach-Object { "{0}  {1}" -f (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower(), $_.Name }
+          $lines = Get-ChildItem MVS_Analyzer_*.zip, publish/python/*.whl | ForEach-Object { "{0}  {1}" -f (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower(), $_.Name }
           $lines | Set-Content -Encoding ascii SHA256SUMS.txt
       - name: Create draft release for the requested tag
         uses: softprops/action-gh-release@v2
@@ -124,3 +128,4 @@ jobs:
             MVS_Analyzer_*_linux-x64-cli.zip
             MVS_Analyzer_*_source.zip
             SHA256SUMS.txt
+            publish/python/*.whl

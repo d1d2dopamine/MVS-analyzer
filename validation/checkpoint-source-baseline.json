@@ -1,5 +1,5 @@
 {
-  "note": "Explicit checkpoint-orchestration revision. Historical byte pins are retained unchanged. Formula/protocol pins remain unchanged. Native interrupted-versus-uninterrupted tests are required separately.",
+  "note": "Explicit source-contract revisions for checkpoint orchestration and the CLI/Core/Python interface layer. Historical byte pins are retained as originalSha256. Formula/protocol pins and statistical method hashes remain unchanged.",
   "sha256": {
     "Benchmark/BenchmarkRunner.cs": {
       "originalSha256": "23869bc90ed7a77c563a78d882eea0d1407de86019b12df1c9332f58762d7ae8",
@@ -27,7 +27,27 @@
     },
     "MvsAnalyzer.Cli/HeadlessRun.cs": {
       "originalSha256": "268a3de63b6f49bc80f8accdc49b3b6daf30f54b3adffbda9d723cb9ee3af4f7",
-      "sha256": "d47151f5abfb4811cde30eba0d7bf8abfabdbac3a786fc78873cd2fd21717ec0"
+      "sha256": "608db77961a4c599e049a32d653687654c6d186d31a51af145cec65ba27f312f"
+    },
+    "Benchmark/BenchmarkCommandLine.cs": {
+      "originalSha256": "169be84cf825dd7b69e88f046f66081353c3f1e539b9a9194c0022e48f27349f",
+      "sha256": "e932746a20f412deb558f6d22beef9e169c66727aa9579db6bb9ae07ec2ab935"
+    },
+    "Benchmark/BenchmarkReport.cs": {
+      "originalSha256": "98d633079904fef5eb25c653e77b02e21bfc01f06c88510e39733942a34dc167",
+      "sha256": "9f609adf3fc117b1ee24ceeffea71c83098e125150e2345ab42a4b3122f31cd0"
+    },
+    "Infrastructure/CliArguments.cs": {
+      "originalSha256": "fb69acf4b2ba701903a0688d2ad2c555ab44c63c9c8cede48704a4bac1718a86",
+      "sha256": "b530ca5bc59c452a32cbb79450ddb7c3690ffd05780566f60bab6ba050c45f1b"
+    },
+    "MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj": {
+      "originalSha256": "622b104f4d886e435f15b9b4e950fb3fe43c62edd1bea324c95818424d24d778",
+      "sha256": "587f7159290f52b56de0fd5b15f3904d1d6bd1bac0fabff8e48d07d3945c19c5"
+    },
+    "MvsAnalyzer.Cli/ScientificCommands.cs": {
+      "originalSha256": "03ddc962bc5bf407fae5d7c2c71073fbe3903ab3d4da90c641f2585a16c3637a",
+      "sha256": "95e42af15d68a2b8faaa191b5fe3fce9ef66a793066d33c02fb9af345ea49072"
     }
   }
 }

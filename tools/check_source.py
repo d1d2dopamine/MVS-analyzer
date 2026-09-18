@@ -64,15 +64,19 @@ def main():
     for path in ROOT.rglob("*.py"):
         ast.parse(path.read_text(encoding="utf-8-sig"), filename=str(path))
     notebooks = list((ROOT / "notebooks").glob("*.ipynb"))
-    assert len(notebooks) == 2
+    generated = [ROOT / "notebooks/MVS_Colab.ipynb", ROOT / "notebooks/MVS_Colab_Benchmark.ipynb"]
+    assert all(path in notebooks for path in generated)
     for path in notebooks:
         book = json.loads(path.read_text(encoding="utf-8-sig"))
-        assert book["nbformat"] == 4 and len(book["cells"]) == 3
+        assert book["nbformat"] == 4 and book["cells"], f"Invalid notebook: {path}"
         for i, cell in enumerate(book["cells"]):
-            assert cell["cell_type"] == "code" and not cell.get("outputs"), f"Invalid or stale notebook cell: {path}:{i}"
-            ast.parse("".join(cell["source"]), filename=f"{path}:{i}")
-    for path in notebooks:
-        assert (ROOT / "notebooks/mvs_colab.py").read_text(encoding="utf-8-sig").replace("from __future__ import annotations\n", "") in "".join(json.loads(path.read_text(encoding="utf-8-sig"))["cells"][0]["source"]), "Notebook helper is stale"
+            assert not cell.get("outputs"), f"Notebook outputs must not be committed: {path}:{i}"
+            if cell["cell_type"] == "code":
+                ast.parse("".join(cell["source"]), filename=f"{path}:{i}")
+    for path in generated:
+        book = json.loads(path.read_text(encoding="utf-8-sig"))
+        assert len(book["cells"]) == 3 and all(cell["cell_type"] == "code" for cell in book["cells"])
+        assert (ROOT / "notebooks/mvs_colab.py").read_text(encoding="utf-8-sig").replace("from __future__ import annotations\n", "") in "".join(book["cells"][0]["source"]), "Notebook helper is stale"
     from build_colab_payload import verify_payload
     verify_payload()
     hashes = json.loads((ROOT / "validation/method-hashes.json").read_text(encoding="utf-8-sig"))

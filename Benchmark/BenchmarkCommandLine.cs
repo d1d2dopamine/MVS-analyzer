@@ -25,7 +25,7 @@ internal static class BenchmarkCommandLine
         return false;
     }
 
-    public static int Run(string[] args)
+    public static int Run(string[] args, Action<string>? outputFolder = null)
     {
         // There is no parent console to attach to outside Windows, and the P/Invoke would only
         // throw to be swallowed. Asking first says why the call is skipped.
@@ -117,6 +117,7 @@ internal static class BenchmarkCommandLine
                 Console.CancelKeyPress -= handler;
             }
 
+            outputFolder?.Invoke(report.Folder);
             BenchmarkOutcome outcome = report.Outcome;
             Console.WriteLine();
             Console.WriteLine("Done in " + ((int)outcome.Duration.TotalSeconds).ToString(CultureInfo.InvariantCulture) + " s.");

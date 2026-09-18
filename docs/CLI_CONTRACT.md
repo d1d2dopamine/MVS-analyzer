@@ -1,6 +1,6 @@
 # CLI contract
 
-This document records the current public CLI behavior before the machine-readable JSON protocol and Python package are added. It is a compatibility boundary, not a promise that every line of human-readable console output will remain unchanged.
+This document records the public CLI compatibility boundary. Human-readable text is intentionally not frozen line-for-line. Automation uses the additive machine protocol documented in [CLI_MACHINE_PROTOCOL.md](CLI_MACHINE_PROTOCOL.md).
 
 The machine-readable source of truth is `validation/cli-contract-v1.json`. CI checks it with `tools/check_cli_contract.py`.
 
@@ -42,11 +42,9 @@ The contract pins fixed inputs and seeds for the first parity suite:
 
 The first two cases already run in normal Linux CI. `tools/check_cli_contract.py --artifacts artifacts` verifies their identity fields and required output files after the existing smoke run. The remaining cases define the next parity fixtures without pretending that numerical baselines were generated in an environment where the .NET executable was not run.
 
-## Current stream behavior
+## Stream behavior
 
-The current CLI writes human-readable progress and summaries to stdout. Errors and warnings use stderr in the main entry points. This is recorded as current behavior, not as the final Python-facing protocol.
-
-The planned machine mode should be additive and versioned. It should keep structured stdout separate from progress/logging so Python, shell pipelines and notebook code do not need to scrape human text.
+Human mode writes progress and summaries to stdout and errors/warnings to stderr. With `--json`, stdout contains exactly one `mvs-cli-result/v1` object. Human progress and warnings are routed to stderr; `--quiet` suppresses progress. Exit-code meanings are unchanged. Python and shell automation must consume the JSON object rather than scrape prose.
 
 ## Change rule
 

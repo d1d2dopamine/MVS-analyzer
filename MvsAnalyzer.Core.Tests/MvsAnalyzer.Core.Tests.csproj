@@ -2,9 +2,9 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
-    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-    <DefineConstants>$(DefineConstants);MVS_NO_FIGURES</DefineConstants>
   </PropertyGroup>
-  <Import Project="../SharedSources.props" />
-  <ItemGroup><Compile Include="Program.cs" /><Compile Include="BackupChecks.cs" /><Compile Include="ScientificChecks.cs" /><Compile Include="SerializationChecks.cs" /><Compile Include="ColabChecks.cs" /><Compile Include="ColabBridgeChecks.cs" /><Compile Include="../Desktop/ColabBridge.cs" Link="ColabBridge.cs" /></ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../MvsAnalyzer.Core/MvsAnalyzer.Core.csproj" />
+    <Compile Include="../Desktop/ColabBridge.cs" Link="ColabBridge.cs" />
+  </ItemGroup>
 </Project>

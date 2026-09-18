@@ -36,7 +36,8 @@ internal static class BenchmarkReport
         string realDataFolder,
         bool russian,
         IProgress<ProgressInfo>? progress,
-        CancellationToken token)
+        CancellationToken token,
+        Func<BenchmarkOutcome, string, bool, List<string>>? figureGenerator = null)
     {
         if (string.IsNullOrWhiteSpace(root))
             throw new InvalidDataException("Choose a folder for the benchmark output first.");
@@ -50,13 +51,8 @@ internal static class BenchmarkReport
 
         progress?.Report(new ProgressInfo(.99,
             russian ? "Сохранение графиков" : "Saving the figures", figuresFolder));
-#if MVS_NO_FIGURES
-        // System.Drawing.Common does not draw on Linux. Everything else is still written, so a
-        // headless run produces the tables, the report and the manifest and skips only the images.
-        List<string> figures = new();
-#else
-        List<string> figures = BenchmarkFigures.Generate(outcome, figuresFolder, russian);
-#endif
+        // Rendering is supplied by the Windows front end. Core and the headless CLI stay platform-neutral.
+        List<string> figures = figureGenerator?.Invoke(outcome, figuresFolder, russian) ?? new List<string>();
 
         progress?.Report(new ProgressInfo(.995,
             russian ? "Сохранение таблиц и отчёта" : "Saving the tables and the report", folder));
