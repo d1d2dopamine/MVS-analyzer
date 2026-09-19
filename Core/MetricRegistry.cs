@@ -65,6 +65,20 @@ internal static class MetricRegistry
         All.FirstOrDefault(m => m.Key.Equals(key, StringComparison.Ordinal))
         ?? throw new ArgumentException("Unknown metric: " + key, nameof(key));
 
+    internal static string FamilyForTrack(string track) => SimulationScenarios.Canonicalize(track) switch
+    {
+        SimulationScenarios.Location => Location,
+        SimulationScenarios.Decrease => Location,
+        SimulationScenarios.Variability => Variability,
+        // The heterogeneity generator perturbs entity centres, so location estimators are the
+        // natural entity-level summaries. The final family-level inferential test is redesigned later.
+        SimulationScenarios.Heterogeneity => Location,
+        _ => throw new ArgumentException("Unknown calibration track: " + track, nameof(track))
+    };
+
+    internal static bool IsNaturalForTrack(string key, string track) =>
+        Get(key).Family == FamilyForTrack(track);
+
     internal static bool IsApplicable(string key, double[] values)
     {
         MetricDefinition definition = Get(key);

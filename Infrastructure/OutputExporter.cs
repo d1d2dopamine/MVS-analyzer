@@ -34,12 +34,14 @@ internal static class OutputExporter
         {
             artifacts.Add(Write(folder, "calibration.csv", "Calibration", CalibrationCsv(calibration)));
             artifacts.Add(Write(folder, "calibration_tracks.csv", "Calibration tracks", TrackCsv(calibration)));
+            artifacts.Add(Write(folder, "calibration_recommendations.csv", "Calibration recommendations", RecommendationCsv(calibration)));
         }
         if (settings.AutoExportQuality) artifacts.Add(Write(folder, "data_quality.csv", "Data quality", QualityCsv(data, settings.AnonymousReports)));
         if (settings.AutoExportManifest)
         {
             var prior = existing.Concat(artifacts).GroupBy(a => a.FileName).Select(g => g.First()).Select(a => new { a.Kind, a.FileName, a.SizeBytes, sha256 = HashFile(a.FullPath) }).ToArray();
             string[] tracks = calibration.FirstOrDefault()?.Tracks ?? AnalysisEngine.DefaultTracks;
+            CalibrationTrackRecommendation[] recommendationSummaries = CalibrationRecommendations.Summaries(calibration, tracks);
             var manifest = new {
                 schemaVersion = 2, executionEnvironment = new { description = Benchmarking.BenchmarkEnvironment.Describe(), fingerprint = Benchmarking.BenchmarkEnvironment.Hash, replayScope = Benchmarking.BenchmarkEnvironment.Scope }, application = "MVS Analyzer", version = ReleaseInfo.Version, engineVersion = AnalysisEngine.EngineVersion, runId, created = DateTimeOffset.UtcNow,
                 project = new { name = project, description = projectDescription, mode = projectMode }, dataset = settings.AnonymousReports ? "[hidden]" : dataset,
@@ -59,9 +61,13 @@ internal static class OutputExporter
                     coverageDefinition = "Diagnostic coverage of a pooled entity-metric median; not coverage of Cliffs delta or variance components; excluded from score" },
                 decision = new { policy = DecisionPolicy.Id, familySize = AnalysisEngine.MetricKeys.Length, alpha = settings.Alpha, sameDataSelection = calibrationSource == "same_dataset",
                     note = "Bonferroni covers the full fixed metric registry, not only chosen candidates. Approximate rank tests/intervals retain their small-sample limitations." },
-                candidateRules = new { minPowerLowerWilson = AnalysisEngine.CandidateMinPower, maxFprUpperWilson = DecisionPolicy.FprLimit(settings.Alpha / AnalysisEngine.MetricKeys.Length), maximumCandidatesPerTrack = 4, scoreThreshold = "none" },
+                candidateRules = new {
+                    legacyResultLabels = new { minPowerLowerWilson = AnalysisEngine.CandidateMinPower, maxFprUpperWilson = DecisionPolicy.FprLimit(settings.Alpha / AnalysisEngine.MetricKeys.Length), maximumCandidatesPerTrack = 4, scoreThreshold = "none" },
+                    developmentRecommendation = new { method = CalibrationRecommendations.MethodId, familyRestricted = true, competitiveWhen = "power_high >= best_power_low", minPowerLowerWilson = AnalysisEngine.CandidateMinPower, minPowerRole = "quality_label_only", gateRole = "diagnostic_only" }
+                },
                 candidateSet = results.Where(r => r.CandidateInAnyTrack).Select(r => r.Metric).ToArray(),
                 candidateSetsByTrack = tracks.ToDictionary(t => t, t => results.Where(r => r.CandidateIn(t)).Select(r => r.Metric).ToArray()),
+                developmentRecommendations = recommendationSummaries,
                 warnings = data.Warnings.Concat(forcedCalibrationReuse ? new[] { "Calibration deliberately reused on different input bytes; scientific compatibility has NOT been established." } : Array.Empty<string>()).ToArray(),
                 files = prior
             };
@@ -88,6 +94,16 @@ internal static class OutputExporter
         var s = new StringBuilder("metric,track,power,power_low,power_high,power_mcse,score,mde,mde_status,failures,repetitions\n");
         foreach (CalibrationRow r in rows)
             for (int i = 0; i < (r.Tracks?.Length ?? 0); i++) s.Append(string.Join(',', C(r.Metric), C(r.Tracks![i]), N(r.TrackPowers![i]), N(r.TrackPowerLow![i]), N(r.TrackPowerHigh![i]), N(ScientificMath.Mcse(r.TrackPowers[i], r.Repetitions)), N(r.TrackScores![i]), N(r.TrackMdes![i]), C(r.TrackMdeStatus![i]), r.TrackFailures![i].ToString(CultureInfo.InvariantCulture), r.Repetitions.ToString(CultureInfo.InvariantCulture))).Append('\n');
+        return s.ToString();
+    }
+    internal static string RecommendationCsv(IEnumerable<CalibrationRow> rows)
+    {
+        List<CalibrationRow> list = rows.ToList();
+        string[] tracks = list.FirstOrDefault()?.Tracks ?? AnalysisEngine.DefaultTracks;
+        var s = new StringBuilder("track,family,metric,family_eligible,applicable,null_controlled,power,power_low,power_high,best_power,best_power_low,candidate,quality,reason\n");
+        foreach (CalibrationRecommendation r in CalibrationRecommendations.Build(list, tracks))
+            s.Append(string.Join(',', C(r.Track), C(r.Family), C(r.Metric), r.FamilyEligible.ToString(), r.Applicable.ToString(), r.NullControlled.ToString(),
+                N(r.Power), N(r.PowerLow), N(r.PowerHigh), N(r.BestPower), N(r.BestPowerLow), r.Candidate.ToString(), C(r.Quality), C(r.Reason))).Append('\n');
         return s.ToString();
     }
     private static string QualityCsv(AnalysisData data, bool anonymize)

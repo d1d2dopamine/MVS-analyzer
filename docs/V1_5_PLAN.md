@@ -30,13 +30,13 @@ The .NET CLI remains the single executable statistical backend for now. Python c
 
 ## Development sequence
 
-### 1.5-A: registry and metrics - implemented, awaiting CI
+### 1.5-A: registry and metrics - implemented
 
-The structured registry and the four staged metrics are implemented. The active inferential registry remains the frozen 12-metric MVS 1.4 set, so this checkpoint does not change Bonferroni family size, saved calibration shape, or benchmark decisions. See `METRIC_REGISTRY.md`.
+The structured registry and the four staged metrics are implemented and compile in CI. The active inferential registry remains the frozen 12-metric MVS 1.4 set, so this checkpoint does not change Bonferroni family size, saved calibration shape, or benchmark decisions. See `METRIC_REGISTRY.md`.
 
-### 1.5-B: calibration redesign
+### 1.5-B: calibration redesign - implemented, awaiting CI
 
-Produce candidate sets and uncertainty within metric families. The existing gate becomes a diagnostic of recommendation quality rather than an inference switch.
+Family-aware recommendation diagnostics are now implemented for the active legacy metrics. Candidate membership uses overlap with the best metric's Wilson power interval, the 0.70 lower-power threshold is a quality label rather than a hard deletion rule, and RMS is excluded from pure location/variability competition. The new `calibration_recommendations.csv` artifact keeps this layer separate from the still-unchanged 12-metric Bonferroni inference. See `CALIBRATION_RECOMMENDATIONS.md`.
 
 ### 1.5-C: multiplicity engine
 

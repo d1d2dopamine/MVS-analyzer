@@ -2,7 +2,7 @@
 
 MVS 1.5 introduces a structured metric registry so that summary statistics are no longer treated as one undifferentiated list. Each metric has a stable key, family, applicability rule, interpretation, and implementation status.
 
-Milestone `1.5-A` deliberately does **not** change inferential behavior. The active calibration and multiplicity family remains the frozen 12-metric registry from MVS 1.4.0. Four new metrics are implemented and tested, but remain staged until the later calibration and multiplicity redesign is ready.
+The registry checkpoint deliberately does **not** change inferential behavior. The active calibration and multiplicity family remains the frozen 12-metric registry from MVS 1.4.0. Four new metrics are implemented and tested, but remain staged until the later calibration and multiplicity redesign is ready.
 
 ## Registry
 
@@ -51,7 +51,7 @@ MVS uses the corrected normal-consistency constant `2.219144465985076`, rather t
 
 Adding metrics immediately to the active family would change the Bonferroni denominator from 12 to 16 and would therefore change adjusted p-values before the new multiplicity method exists. That would mix two development steps and make benchmark differences hard to interpret.
 
-During `1.5-A`:
+During the registry/calibration checkpoints:
 
 - `AnalysisEngine.MetricKeys` remains exactly the 12-metric MVS 1.4 order;
 - saved 1.4 calibration shape remains 12 metrics;
@@ -60,3 +60,6 @@ During `1.5-A`:
 - later milestones will explicitly activate families and replace the flat multiplicity layer.
 
 This boundary is intentional so that a benchmark change can be attributed to a specific method change rather than to several changes landing at once.
+
+
+The next calibration checkpoint uses these family labels to build uncertainty-aware recommendations among the active legacy metrics. See [Calibration recommendations](CALIBRATION_RECOMMENDATIONS.md). The four new metrics remain staged until the multiplicity layer is replaced.

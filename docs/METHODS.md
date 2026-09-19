@@ -35,6 +35,12 @@ For each track, candidates must be applicable, have an acceptable FPR, and satis
 
 There is no score cutoff. A Wilson gate is an operational calibration heuristic, **not proof** of error control; its FPR allowance is stated explicitly.
 
+### 1.5 development recommendation layer
+
+The CLI/Python-first 1.5 development line adds a separate diagnostic recommendation layer without changing the inferential rule above yet. Metrics first compete only within their natural family for the requested calibration track. Among applicable metrics whose null FPR upper bound satisfies the current diagnostic limit, the highest-power metric defines a Wilson interval reference; any metric whose power upper bound overlaps that best metric's lower bound remains in the recommendation set. The 0.70 lower-power threshold is reported as recommendation quality (`qualified` versus `uncertain_power`) rather than deleting the set. These development recommendations are exported in `calibration_recommendations.csv` and are not additional hypothesis tests.
+
+The legacy `candidate` fields in result files continue to use the older gate during this checkpoint so historical 1.4 outputs and the frozen benchmark comparator remain interpretable.
+
 The detection index is
 
     penalty = exp(−max(0, FPR−alpha/M)/(alpha/M))

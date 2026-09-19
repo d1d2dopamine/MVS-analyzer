@@ -13,5 +13,6 @@
 - [Validation and limitations](VALIDATION.md): how to interpret the methods responsibly.
 - [Benchmark history](BENCHMARK_HISTORY.md): immutable cross-version benchmark record.
 - [MVS 1.5.0 plan](V1_5_PLAN.md): CLI/Python-first redesign and validation sequence.
+- [Calibration recommendations](CALIBRATION_RECOMMENDATIONS.md): family-aware, uncertainty-aware 1.5 diagnostic candidate sets.
 - [Metric registry](METRIC_REGISTRY.md): 1.5 metric families, staged robust metrics, and applicability rules.
 - [Migration](MIGRATION.md): compatibility with older saved results.

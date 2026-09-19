@@ -26,7 +26,10 @@ internal record CalibrationRow(string Metric, double Fpr, double Power, double S
     public double MdeIn(string track) => At(TrackMdes, TrackIndex(track), Tracks == null ? Mde : double.NaN);
     public string CurveIn(string track) { int i = TrackIndex(track); return TrackCurves != null && i >= 0 && i < TrackCurves.Length ? TrackCurves[i] : PowerCurve; }
 
-    /// <summary>The shipped gate, asked separately for each track instead of once for all of them.</summary>
+    /// <summary>
+    /// Frozen 1.4 gate retained for legacy benchmark comparators and compatibility checks.
+    /// The 1.5 recommendation layer no longer uses this as a hard candidate-set switch.
+    /// </summary>
     public bool PassesGateIn(string track)
     {
         double power = PowerIn(track), score = ScoreIn(track);

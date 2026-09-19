@@ -11,6 +11,7 @@ internal static class ScientificChecks
         ("Relative summary metrics are invariant to physical units", MetricUnits),
         ("1.5 metric registry stages new metrics without changing legacy inference", MetricRegistryStructure),
         ("New 1.5 metrics satisfy reference identities and applicability rules", NewMetricIdentities),
+        ("1.5 calibration recommendations respect families and Monte Carlo uncertainty", FamilyRecommendations),
         ("Location, within and between transforms are separate", PureTransforms),
         ("Full-registry adjustment is used for decisions", Multiplicity),
         ("A missing track is not silently replaced by the primary track", MissingTrack),
@@ -95,6 +96,37 @@ internal static class ScientificChecks
         Check(!MetricRegistry.IsApplicable("coefficient_of_variation", new double[] { -2, -1, 0, 1, 2, 0 }), "CV must reject a centre at zero.");
         Check(!MetricRegistry.IsApplicable("hodges_lehmann", Enumerable.Range(0, MetricRegistry.MaxExactPairwiseMeasurements + 1).Select(x => (double)x).ToArray()), "Exact pairwise metrics need an explicit computational applicability limit.");
     }
+    private static void FamilyRecommendations()
+    {
+        static CalibrationRow Row(string metric, double power, double low, double high, double fprHigh = .01) =>
+            new(metric, .005, power, 50, Tracks: new[] { SimulationScenarios.Location }, TrackPowers: new[] { power },
+                TrackScores: new[] { 50d }, TrackPowerLow: new[] { low }, TrackPowerHigh: new[] { high }, FprHigh: fprHigh, Alpha: .05);
+
+        var rows = new List<CalibrationRow>
+        {
+            Row("mean", .82, .78, .85),
+            Row("median", .80, .76, .84),
+            Row("trimmed_mean_20", .50, .45, .55),
+            Row("standard_deviation", .95, .92, .97)
+        };
+        CalibrationRecommendation[] location = CalibrationRecommendations.Build(rows, SimulationScenarios.Location);
+        Check(location.Single(x => x.Metric == "mean").Candidate, "Best location metric must stay in the recommendation set.");
+        Check(location.Single(x => x.Metric == "median").Candidate, "Overlapping power uncertainty should keep a competitive metric in the set.");
+        Check(!location.Single(x => x.Metric == "trimmed_mean_20").Candidate, "Clearly lower sensitivity should be excluded from the candidate set.");
+        Check(!location.Single(x => x.Metric == "standard_deviation").FamilyEligible, "A variability metric must not compete in the location family.");
+        Check(location.Single(x => x.Metric == "mean").Quality == "qualified", "A strong lower power bound should qualify the recommendation.");
+
+        var lowPower = new List<CalibrationRow>
+        {
+            Row("mean", .40, .30, .50),
+            Row("median", .38, .28, .49)
+        };
+        CalibrationRecommendation low = CalibrationRecommendations.Build(lowPower, SimulationScenarios.Location).Single(x => x.Metric == "mean");
+        Check(low.Candidate && low.Quality == "uncertain_power", "Low calibrated power should label uncertainty instead of deleting the candidate set.");
+        Check(!lowPower[0].PassesGateIn(SimulationScenarios.Location), "The frozen legacy gate should remain stricter than the 1.5 diagnostic candidate set.");
+        Check(MetricRegistry.FamilyForTrack(SimulationScenarios.Heterogeneity) == MetricRegistry.Location, "Between-entity centre heterogeneity must use location summaries at the entity level.");
+    }
+
     private static void PureTransforms()
     {
         double[] raw = { 8, 10, 12 }; double mean = raw.Average();

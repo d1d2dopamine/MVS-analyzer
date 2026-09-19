@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.5.0 development - calibration recommendation checkpoint
+
+- Added family-aware calibration recommendations for location, variability and entity-centre heterogeneity tracks without changing the current 12-metric Bonferroni inference.
+- Replaced forced top-1 recommendation logic in the new diagnostic layer with a candidate set based on overlap with the best metric's Wilson power interval.
+- Recast the old 0.70 lower-power gate as a recommendation-quality label in the new layer; weak calibration is reported as uncertain rather than silently deleting every candidate.
+- Added `calibration_recommendations.csv` and manifest-level `developmentRecommendations`. Legacy `candidate` result fields remain unchanged until the later multiplicity/automatic-inference switch.
+
 ## Unreleased - 1.5.0 development line
 
 - Added the structured 1.5 metric registry with family, applicability, interpretation, and legacy-inference metadata.

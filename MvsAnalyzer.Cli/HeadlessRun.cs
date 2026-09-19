@@ -63,6 +63,7 @@ internal static class HeadlessRun
         Directory.CreateDirectory(output);
         ScientificJson.AtomicText(Path.Combine(output, "calibration.csv"), OutputExporter.CalibrationCsv(calibration));
         ScientificJson.AtomicText(Path.Combine(output, "calibration_tracks.csv"), OutputExporter.TrackCsv(calibration));
+        ScientificJson.AtomicText(Path.Combine(output, "calibration_recommendations.csv"), OutputExporter.RecommendationCsv(calibration));
         CalibrationPersistence.Write(statePath, state);
         CliMachineContext.RecordOutput(output);
         Console.WriteLine("Calibration saved: " + statePath);
