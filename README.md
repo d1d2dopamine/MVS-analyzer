@@ -16,6 +16,8 @@ MVS Analyzer compares summary metrics for repeated measurements and includes sep
 
 Current archived release: `1.4.0`, scientific engine `1.6.0`, formula `MVS-1.4.0`. The 1.5.0 development line is CLI/Python-first; the Windows desktop is frozen at 1.4.0 and is no longer built or released.
 
+Development checkpoint `1.5-A` adds a structured metric registry and four staged metrics (Huber M, Hodges-Lehmann, Qn, and log-SD). They are not yet part of active calibration or multiplicity correction; the current inferential path remains the frozen 12-metric 1.4 behavior until the later 1.5 multiplicity redesign.
+
 ## What MVS does
 
 The main workflow is designed for data where each independent entity has several measurements. MVS can simulate declared changes on the observed data, estimate detection power and false-alarm rates for 12 summary metrics, compare independent groups and save the settings and provenance needed to inspect the run later.
@@ -101,6 +103,7 @@ Development from 1.5.0 onward is CLI/Python-first. The Windows desktop is archiv
 - [Benchmark](docs/BENCHMARK.md)
 - [Benchmark history](docs/BENCHMARK_HISTORY.md)
 - [MVS 1.5.0 plan](docs/V1_5_PLAN.md)
+- [Metric registry](docs/METRIC_REGISTRY.md)
 - [Paper benchmark run](docs/PAPER_BENCHMARK.md)
 - [Colab and remote workflow](docs/REMOTE.md)
 - [Backups and checkpoints](docs/BACKUPS.md)

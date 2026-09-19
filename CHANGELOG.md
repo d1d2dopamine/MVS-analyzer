@@ -2,6 +2,10 @@
 
 ## Unreleased - 1.5.0 development line
 
+- Added the structured 1.5 metric registry with family, applicability, interpretation, and legacy-inference metadata.
+- Implemented four staged metrics: Huber M location, Hodges-Lehmann location, Qn robust scale, and log-scale SD.
+- Kept the active 1.4 12-metric inference family unchanged during milestone 1.5-A so adjusted p-values and saved calibration shape do not change yet.
+- Added Core regression checks for registry stability, robust-metric identities, scale/translation behavior, and applicability limits.
 - Retired the Windows desktop from active development, CI and release packaging. Version 1.4.0 remains the archived desktop release.
 - Made the headless CLI and Python API the maintained interface stack. The .NET Core engine remains the single statistical implementation.
 - Added an immutable benchmark archive and cross-version benchmark history, seeded with the full 1.4.0 / engine 1.6.0 / `MVS-BENCH-1.2.0` run.

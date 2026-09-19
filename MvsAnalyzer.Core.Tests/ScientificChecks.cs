@@ -9,6 +9,8 @@ internal static class ScientificChecks
         ("Cliffs delta has the documented first-minus-second sign", DeltaSign),
         ("Rank test handles all ties", TiedRanks),
         ("Relative summary metrics are invariant to physical units", MetricUnits),
+        ("1.5 metric registry stages new metrics without changing legacy inference", MetricRegistryStructure),
+        ("New 1.5 metrics satisfy reference identities and applicability rules", NewMetricIdentities),
         ("Location, within and between transforms are separate", PureTransforms),
         ("Full-registry adjustment is used for decisions", Multiplicity),
         ("A missing track is not silently replaced by the primary track", MissingTrack),
@@ -56,6 +58,43 @@ internal static class ScientificChecks
         foreach (int index in new[] { 2, 5, 6 }) Near(first[index], small[index], 1e-10);
     }
     private static void TiedRanks() { Near(AnalysisEngine.KruskalWallisP(new[] { new double[] { 2, 2, 2, 2 }, new double[] { 2, 2, 2, 2 }, new double[] { 2, 2, 2, 2 } }), 1); Near(AnalysisEngine.MannWhitneyP(new double[] { 2, 2, 2, 2 }, new double[] { 2, 2, 2, 2 }), 1); }
+    private static void MetricRegistryStructure()
+    {
+        string[] frozen = { "median", "standard_deviation", "coefficient_of_variation", "mad", "iqr", "normalized_mad", "normalized_iqr", "mean", "rms", "range", "geometric_mean", "trimmed_mean_20" };
+        Check(MetricRegistry.All.Length == 16, "Milestone 1.5-A must register the 12 legacy and four staged metrics.");
+        Check(MetricRegistry.All.Select(m => m.Key).Distinct().Count() == 16, "Metric keys must be unique.");
+        Check(MetricRegistry.LegacyInference.Length == 12, "Staged metrics leaked into the frozen 1.4 inference family.");
+        Check(AnalysisEngine.MetricKeys.SequenceEqual(frozen), "Legacy inference order changed before the multiplicity redesign.");
+        Check(MetricRegistry.LegacyKeys.SequenceEqual(frozen), "Structured registry no longer reproduces the frozen 1.4 registry.");
+        foreach (string key in new[] { "huber_location", "hodges_lehmann", "qn", "log_sd" })
+            Check(!MetricRegistry.Get(key).LegacyInference, key + " must remain staged during milestone 1.5-A.");
+        Check(MetricRegistry.Get("huber_location").Family == MetricRegistry.Location, "Huber must be a location summary.");
+        Check(MetricRegistry.Get("qn").Family == MetricRegistry.Variability, "Qn must be a variability summary.");
+        Check(MetricRegistry.Get("rms").Family == MetricRegistry.Magnitude, "RMS must not be mislabeled as pure location or variability.");
+    }
+    private static void NewMetricIdentities()
+    {
+        double[] symmetric = { -2, -1, 0, 1, 2 };
+        Near(MetricRegistry.Compute("huber_location", symmetric), 0, 1e-12);
+        double[] dirty = { -2, -1, 0, 1, 100 };
+        double huber = MetricRegistry.Compute("huber_location", dirty);
+        Check(Math.Abs(huber) < Math.Abs(dirty.Average()) / 4, "Huber location is not resisting one extreme observation.");
+
+        Near(MetricRegistry.Compute("hodges_lehmann", new double[] { 1, 2, 3 }), 2, 1e-12);
+
+        double qn = MetricRegistry.Compute("qn", new double[] { 1, 2, 3, 4, 5, 6 });
+        Near(qn, 2.717120484152127, 1e-12);
+        double shiftedQn = MetricRegistry.Compute("qn", new double[] { 11, 12, 13, 14, 15, 16 });
+        Near(qn, shiftedQn, 1e-12);
+        Near(MetricRegistry.Compute("qn", new double[] { 2, 4, 6, 8, 10, 12 }), 2 * qn, 1e-12);
+
+        double[] positive = { 1, 2, 4, 8, 16, 32 };
+        double logSd = MetricRegistry.Compute("log_sd", positive);
+        Near(logSd, MetricRegistry.Compute("log_sd", positive.Select(x => x * 100).ToArray()), 1e-12);
+        Check(double.IsNaN(MetricRegistry.Compute("log_sd", new double[] { 0, 1, 2, 3, 4, 5 })), "log-SD must reject non-positive data.");
+        Check(!MetricRegistry.IsApplicable("coefficient_of_variation", new double[] { -2, -1, 0, 1, 2, 0 }), "CV must reject a centre at zero.");
+        Check(!MetricRegistry.IsApplicable("hodges_lehmann", Enumerable.Range(0, MetricRegistry.MaxExactPairwiseMeasurements + 1).Select(x => (double)x).ToArray()), "Exact pairwise metrics need an explicit computational applicability limit.");
+    }
     private static void PureTransforms()
     {
         double[] raw = { 8, 10, 12 }; double mean = raw.Average();

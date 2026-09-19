@@ -4,6 +4,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/PortableBackup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/BackupRunner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core/AnalysisEngine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core/MetricRegistry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core/Models.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core/SimulationScenarios.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core/ScientificInfrastructure.cs" />

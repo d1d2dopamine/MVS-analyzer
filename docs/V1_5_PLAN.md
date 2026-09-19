@@ -30,9 +30,9 @@ The .NET CLI remains the single executable statistical backend for now. Python c
 
 ## Development sequence
 
-### 1.5-A: registry and metrics
+### 1.5-A: registry and metrics - implemented, awaiting CI
 
-Implement the structured registry and independently test the four new metrics. Do not change inference yet.
+The structured registry and the four staged metrics are implemented. The active inferential registry remains the frozen 12-metric MVS 1.4 set, so this checkpoint does not change Bonferroni family size, saved calibration shape, or benchmark decisions. See `METRIC_REGISTRY.md`.
 
 ### 1.5-B: calibration redesign
 

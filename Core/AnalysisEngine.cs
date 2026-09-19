@@ -9,7 +9,7 @@ internal static class AnalysisEngine
     internal static readonly double[] EffectGrid = { 1.00, 1.02, 1.05, 1.10, 1.20 };
     internal const double MdePowerTarget = .80;
     internal const double CandidateMaxFpr = .075, CandidateMinPower = .70, CandidateMinScore = 0;
-    internal static readonly string[] MetricKeys = { "median", "standard_deviation", "coefficient_of_variation", "mad", "iqr", "normalized_mad", "normalized_iqr", "mean", "rms", "range", "geometric_mean", "trimmed_mean_20" };
+    internal static readonly string[] MetricKeys = MetricRegistry.LegacyKeys;
     internal static readonly string[] DefaultTracks = { SimulationScenarios.Location, SimulationScenarios.Variability, SimulationScenarios.Heterogeneity };
 
     public static AnalysisData Build(List<Observation> observations, int minValue = -1000000, int maxValue = 1000000, int minMeasurements = 6)
@@ -314,19 +314,7 @@ internal static class AnalysisEngine
         }
         return 1 / (1 + differences.Average() / scale);
     }
-    internal static double[] Metrics(double[] values)
-    {
-        if (values.Length == 0) return Enumerable.Repeat(double.NaN, MetricKeys.Length).ToArray();
-        double[] sorted = values.OrderBy(x => x).ToArray(); double median = Quantile(sorted, .5), mean = values.Average();
-        double sd = Math.Sqrt(ScientificMath.Variance(values)); double mad = Median(values.Select(x => Math.Abs(x - median)).ToArray());
-        double iqr = Quantile(sorted, .75) - Quantile(sorted, .25);
-        double denominatorTolerance = Math.Max(double.Epsilon, values.Max(x => Math.Abs(x)) * 1e-12);
-        double cv = Math.Abs(mean) <= denominatorTolerance ? double.NaN : sd / Math.Abs(mean);
-        double nm = Math.Abs(median) <= denominatorTolerance ? double.NaN : mad / Math.Abs(median), ni = Math.Abs(median) <= denominatorTolerance ? double.NaN : iqr / Math.Abs(median);
-        double geometric = values.All(x => x > 0) ? Math.Exp(values.Average(Math.Log)) : double.NaN;
-        int trim = (int)Math.Floor(values.Length * .2); double trimmed = sorted.Skip(trim).Take(sorted.Length - 2 * trim).Average();
-        return new[] { median, sd, cv, mad, iqr, nm, ni, mean, Math.Sqrt(values.Average(x => x * x)), sorted[^1] - sorted[0], geometric, trimmed };
-    }
+    internal static double[] Metrics(double[] values) => MetricRegistry.ComputeLegacy(values);
     private static double[] Sample(double[] source, int count, Random random) => Enumerable.Range(0, count).Select(_ => source[random.Next(source.Length)]).ToArray();
     private static double Median(double[] values) => ScientificMath.Quantile(values, .5);
     private static double Quantile(double[] sorted, double q) { double p = (sorted.Length - 1) * q; int lo = (int)Math.Floor(p), hi = (int)Math.Ceiling(p); return sorted[lo] + (sorted[hi] - sorted[lo]) * (p - lo); }
