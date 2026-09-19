@@ -104,7 +104,7 @@ internal static class MetricRegistry
             "huber_location" => HuberLocation(w),
             "hodges_lehmann" => HodgesLehmann(values),
             "qn" => Qn(values),
-            "log_sd" => Math.Sqrt(ScientificMath.Variance(values.Select(Math.Log).ToArray())),
+            "log_sd" => Math.Sqrt(ScientificMath.Variance(values.Select(x => Math.Log(x)).ToArray())),
             _ => throw new ArgumentException("Unknown metric: " + key, nameof(key))
         };
     }
