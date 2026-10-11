@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased - independent validation tools round 1
+
+- Made score reproduction version-aware: current exports use the verified manifest formula identity, alpha and fixed family size; mismatched parameters and CSV checksums fail explicitly.
+- Restricted the historical five-component formula to an explicit diagnostic mode. Current score checks use the two-component square-root formula and preserve exact zero scores.
+- Corrected tied/constant rank diagnostics with average ranks and Kendall tau-b, including single-metric reports.
+- Aligned the independent reference reductions with the twelve active metrics: floor-based trimming, per-entity geometric-mean availability, and guarded absolute relative denominators.
+- Added tie-corrected reference Mann-Whitney tests, per-replication availability and fixed twelve-test Bonferroni diagnostics. New reports use MVS-REFERENCE-2 and v2 filenames; historical reports and archived benchmark files remain unchanged.
+- Added 25 Python regression tests and CI score checks against actual CLI exports. C# statistical sources, method hashes, application/engine versions and embedded Colab payload are unchanged.
+- See [Round 1 checkpoint](docs/ROUND1_VALIDATION_CHECKPOINT.md) for completed work, checks and outstanding native/statistical tasks.
+
 ## 1.5.0 development - calibration recommendation checkpoint
 
 - Added family-aware calibration recommendations for location, variability and entity-centre heterogeneity tracks without changing the current 12-metric Bonferroni inference.

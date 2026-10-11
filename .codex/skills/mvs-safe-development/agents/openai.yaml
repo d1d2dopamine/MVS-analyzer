@@ -1,0 +1,6 @@
+interface:
+  display_name: "MVS Safe Development"
+  short_description: "Scoped MVS changes with scientific safeguards"
+  default_prompt: "Use $mvs-safe-development to make only the requested MVS change and verify scope, contracts and relevant tests."
+policy:
+  allow_implicit_invocation: true

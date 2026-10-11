@@ -6,5 +6,6 @@
   <ItemGroup>
     <ProjectReference Include="../MvsAnalyzer.Core/MvsAnalyzer.Core.csproj" />
     <Compile Remove="ColabBridgeChecks.cs" />
+    <None Include="../validation/rank-test-fixtures-v1.json" Link="rank-test-fixtures-v1.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

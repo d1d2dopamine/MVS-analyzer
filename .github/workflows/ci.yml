@@ -28,11 +28,18 @@ jobs:
           python tools/test_backups.py
           python tools/test_source.py
       - name: Python API wrapper tests
-        run: PYTHONPATH=python/src python -m unittest discover -s python/tests -v
+        run: |
+          PYTHONPATH=python/src python -m unittest discover -s python/tests -v
+          python tools/test_round2.py
       - name: Limited C# structural check
         run: python tools/check_csharp_structure.py
       - name: Independent mathematical identities in Python
         run: python validation/reference_numerics.py
+      - name: Independent validation-tool regressions
+        run: |
+          python -m pip install -r validation/requirements-rank-reference.txt
+          python -m unittest discover -s validation -p 'test_*.py' -v
+          python validation/rank_test_reference.py --check
 
   cli-python:
     runs-on: ubuntu-latest
@@ -56,8 +63,21 @@ jobs:
         run: |
           python tools/check_outputs.py artifacts
           python tools/check_cli_contract.py --artifacts artifacts
-      - name: Python wrapper parity against built CLI
+      - name: Full scientific result parity against built CLI
         run: python tools/test_python_cli.py --cli publish/linux-cli/mvs --artifacts artifacts
+      - name: Reproduce scores from real CLI exports
+        run: |
+          python -m pip install -r validation/requirements.txt
+          python - <<'PY'
+          from pathlib import Path
+          import subprocess
+          import sys
+          exports = sorted(Path('artifacts').rglob('results.csv'))
+          if not exports:
+              raise SystemExit('No results CSV exports found')
+          for path in exports:
+              subprocess.run([sys.executable, 'validation/analyze_results.py', str(path), '--draws', '20'], check=True)
+          PY
       - name: Build Python wheel
         run: python -m pip wheel ./python --no-deps -w publish/python
       - name: Invalid explicit numbers must fail

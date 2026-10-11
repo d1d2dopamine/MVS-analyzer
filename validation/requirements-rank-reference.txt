@@ -1,0 +1,3 @@
+# Optional independent reference verification; never a production dependency.
+-r requirements.txt
+scipy>=1.14,<2

@@ -17,6 +17,23 @@ Automated regressions cover numerical identities, data handling, calibration per
 
 Retain the input hash, settings, output manifest and diagnostics. Do not combine results from incompatible method versions as if they were the same analysis. See [Methods](METHODS.md) for the full definitions.
 
+## Independent Python diagnostic checkpoint
+
+The [validation tools guide](../validation/README.md) documents manifest-aware
+score checks and reference protocol MVS-REFERENCE-2. The reference is an
+independent Python implementation with regression fixtures, not a second
+production engine or a certification of native results. Its updated twelve-metric
+reports preserve historical filenames and benchmark archives. See the
+[round 1 checkpoint](ROUND1_VALIDATION_CHECKPOINT.md) for the delivered scope and
+remaining native verification.
+
+Round 2 adds independent frozen rank-test fixtures, native Core regression
+gates and full scientific CLI/Python comparison for the canonical analysis
+case. The [round 2 checkpoint](ROUND2_NATIVE_VALIDATION_CHECKPOINT.md) distinguishes
+locally verified Python/static work from unexecuted native checks. Small-sample
+exact diagnostics are reported separately; the production asymptotic tests and
+fixed twelve-metric Bonferroni family are unchanged.
+
 
 ## Connection maintenance validation (1.4.0 unchanged)
 
