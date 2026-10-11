@@ -587,10 +587,7 @@ internal static class BenchmarkRunner
             // Shipped inference reports every applicable metric with full-registry correction.
             // Candidate labels prioritize measures; they do NOT filter away the other displayed tests.
             // MvsTwoTrack is retained as an internal legacy slot, not the public procedure name.
-            int[] applicable = Enumerable.Range(0, metrics).Where(i => calibration[i].Applicable && double.IsFinite(p[i])).ToArray();
-            outcome.Claimed[BenchmarkProcedures.MvsTwoTrack] = applicable.Length > 0;
-            outcome.Rejected[BenchmarkProcedures.MvsTwoTrack] = applicable.Any(i => DecisionPolicy.Reject(p[i], alpha, metrics));
-            outcome.Chosen[BenchmarkProcedures.MvsTwoTrack] = applicable.OrderBy(i => p[i]).DefaultIfEmpty(-1).First();
+            DecideObservedRegistry(outcome, p, alpha);
 
             int fallback = lenient >= 0 ? lenient : 0;
             Decide(outcome, BenchmarkProcedures.MvsLenient, fallback, p, alpha);
@@ -605,6 +602,14 @@ internal static class BenchmarkRunner
             outcome.Error = ex.GetType().Name + ": " + ex.Message;
         }
         return outcome;
+    }
+
+    internal static void DecideObservedRegistry(ReplicationOutcome outcome, double[] p, double alpha)
+    {
+        int[] applicable = Enumerable.Range(0, p.Length).Where(i => double.IsFinite(p[i])).ToArray();
+        outcome.Claimed[BenchmarkProcedures.MvsTwoTrack] = applicable.Length > 0;
+        outcome.Rejected[BenchmarkProcedures.MvsTwoTrack] = applicable.Any(i => DecisionPolicy.Reject(p[i], alpha, p.Length));
+        outcome.Chosen[BenchmarkProcedures.MvsTwoTrack] = applicable.OrderBy(i => p[i]).DefaultIfEmpty(-1).First();
     }
 
     private static void Decide(ReplicationOutcome outcome, int procedure, int metric, double[] p, double alpha)

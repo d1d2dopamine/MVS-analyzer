@@ -1,13 +1,17 @@
 {
-  "note": "Explicit source-contract revisions for checkpoint orchestration and the CLI/Core/Python interface layer. Historical byte pins are retained as originalSha256. Formula/protocol pins and statistical method hashes remain unchanged. Engine 1.6.1 explicitly repairs rounded normal-CDF coefficients; the two affected Core source pins change for that numerical fix and version identity. Independent rank fixtures and their accuracy gates remain unchanged.",
+  "note": "Explicit source-contract revisions for checkpoint orchestration and the CLI/Core/Python interface layer. Historical byte pins are retained as originalSha256. Formula/protocol pins and statistical method hashes remain unchanged. Engine 1.6.1 explicitly repairs rounded normal-CDF coefficients; the two affected Core source pins change for that numerical fix and version identity. Independent rank fixtures and their accuracy gates remain unchanged. Round 3 engine 1.6.2 deliberately separates observed testability and calibration, adds result accounting and aligns the shipped comparator. Only these affected source pins are revised; beforeRound3Sha256 retains the preceding snapshot. Historical formula/protocol and independent rank gates remain unchanged.",
   "sha256": {
     "Benchmark/BenchmarkRunner.cs": {
       "originalSha256": "23869bc90ed7a77c563a78d882eea0d1407de86019b12df1c9332f58762d7ae8",
-      "sha256": "376585cf8ab00645ed7d7ab01a727a14cf6e12df53e7a678072481c5b648f2eb"
+      "sha256": "661991d26dfbeab1d671d5ee7ec76f8f5a9f98bca3d66e311673762d9e439a99",
+      "beforeRound3Sha256": "376585cf8ab00645ed7d7ab01a727a14cf6e12df53e7a678072481c5b648f2eb",
+      "round3Reason": "Observed/calibration separation and entity-accounting export, required engine identity or shipped-comparator alignment; see ROUND3_APPLICABILITY_CHECKPOINT.md and native AvailabilityChecks."
     },
     "Core/AnalysisEngine.cs": {
       "originalSha256": "6d20f4e5a752f1c78d16120a4ce7d2c84885758fa32139a9138508345499f25f",
-      "sha256": "6a85d9aa4d4136211b14b20fd14ae30200281e547d488ef7f763624a237f7ec5"
+      "sha256": "b5375596481cc3e5b24081052c8a1e614ebca55fbb6d0eb1cb549612fbf74e3c",
+      "beforeRound3Sha256": "6a85d9aa4d4136211b14b20fd14ae30200281e547d488ef7f763624a237f7ec5",
+      "round3Reason": "Observed/calibration separation and entity-accounting export, required engine identity or shipped-comparator alignment; see ROUND3_APPLICABILITY_CHECKPOINT.md and native AvailabilityChecks."
     },
     "Core/EstimationStudy.cs": {
       "originalSha256": "9691548a15584b044bb5917849b9cda24e3c37417a4c6c17c098d551bbe95d7f",
@@ -51,7 +55,21 @@
     },
     "Core/ScientificInfrastructure.cs": {
       "originalSha256": "c85fffa4af1810adb806fd7e02d60e22a7aaf618a7b33fbb31c2a90d5c570f73",
-      "sha256": "5eb5fc7d2b31a6e1bbc921f83785d8108a04715cd6f18e4f2df9ccbc176a3a22"
+      "sha256": "7e2947c272e7f3aaecade2829367cf0cdfd3206c67006f6c163b826da3d60d1a",
+      "beforeRound3Sha256": "5eb5fc7d2b31a6e1bbc921f83785d8108a04715cd6f18e4f2df9ccbc176a3a22",
+      "round3Reason": "Observed/calibration separation and entity-accounting export, required engine identity or shipped-comparator alignment; see ROUND3_APPLICABILITY_CHECKPOINT.md and native AvailabilityChecks."
+    },
+    "Core/Models.cs": {
+      "originalSha256": "0144bf6d42f61f909e2cf3f84357b43afb52031354dc66be3b4a44cea45b7602",
+      "beforeRound3Sha256": "205b49974bd47c5eaf84af12e01b4d58d1784792aa795d2d57cf6062b62baeee",
+      "sha256": "ff67e4eed3014d0897af187996f06991b45201feab8273136cd5aab48c189457",
+      "round3Reason": "Observed/calibration separation and entity-accounting export, required engine identity or shipped-comparator alignment; see ROUND3_APPLICABILITY_CHECKPOINT.md and native AvailabilityChecks."
+    },
+    "Infrastructure/OutputExporter.cs": {
+      "originalSha256": "6077b57255013753f62b76ccc224484d156e68dbe20cbb72aaee28dae1071094",
+      "beforeRound3Sha256": "bd5ca127e249626f7859173a39e300d4fccb6fef933548cc8c46d1f23deeaaa3",
+      "sha256": "aeb34b25ecfbb0427aeb6adde2e1762920e574f09512821c13380d9fd026f021",
+      "round3Reason": "Observed/calibration separation and entity-accounting export, required engine identity or shipped-comparator alignment; see ROUND3_APPLICABILITY_CHECKPOINT.md and native AvailabilityChecks."
     }
   }
 }

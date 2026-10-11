@@ -12,6 +12,7 @@ import unittest
 
 import run_round2_validation as runner
 import test_python_cli as parity
+import check_outputs
 
 
 class ParityTests(unittest.TestCase):
@@ -29,6 +30,7 @@ class ParityTests(unittest.TestCase):
                        "formula": {"hash": "frozen"}, "decision": {"familySize": 12, "alpha": .05}})
             (folder / "results.csv").write_text("metric,global_p,adjusted_p,verdict,applicable,track_powers\nmedian,0.0123,0.1476,insufficient,True,0.5|\n", encoding="utf-8")
             (folder / "calibration_state.json").write_text("identical saved state", encoding="utf-8")
+            (folder / "metric_availability.csv").write_text("metric,group,usable_entities\nmedian,A,8\n", encoding="utf-8")
 
     @staticmethod
     def write(folder, name, data):
@@ -84,6 +86,12 @@ class ParityTests(unittest.TestCase):
         with self.assertRaisesRegex(AssertionError, "track_powers"):
             self.compare()
 
+    def test_availability_csv_count_change_is_detected_independently(self):
+        path = self.right / "metric_availability.csv"
+        path.write_text(path.read_text().replace(",8", ",7"), encoding="utf-8")
+        with self.assertRaisesRegex(AssertionError, "metric_availability.csv.*usable_entities"):
+            self.compare()
+
     def test_formula_identity_is_compared(self):
         data = parity.strict_json(self.right / "run_manifest.json")
         data["formula"]["hash"] = "other"
@@ -107,6 +115,52 @@ class ParityTests(unittest.TestCase):
         path.write_text('{"p": NaN}')
         with self.assertRaises(ValueError):
             parity.strict_json(path)
+
+
+class AvailabilityArtifactTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.folder = Path(self.temp.name)
+        self.row = {"Metric": "geometric_mean", "Applicable": False, "CalibrationApplicable": True,
+            "ObservedStatus": "insufficient_usable_entities", "PValue": None, "AdjustedP": None, "Effect": None,
+            "Verdict": "not_applicable", "EffectIntervalStatus": "unavailable", "Candidate": False,
+            "GroupAvailability": [
+                {"Group": "A", "RetainedEntities": 8, "UsableEntities": 3, "ExcludedEntities": 5, "ExclusionReasons": {"nonpositive_measurements": 5}},
+                {"Group": "B", "RetainedEntities": 8, "UsableEntities": 8, "ExcludedEntities": 0, "ExclusionReasons": {}}]}
+        self.csv = "metric,group,retained_entities,usable_entities,excluded_entities,exclusion_reasons,observed_status,calibration_applicable\ngeometric_mean,A,8,3,5,nonpositive_measurements:5,insufficient_usable_entities,True\ngeometric_mean,B,8,8,0,,insufficient_usable_entities,True\n"
+        (self.folder / "metric_availability.csv").write_text(self.csv)
+
+    def verify(self, row=None):
+        check_outputs.check_availability({"rows": [row or self.row]}, self.folder)
+
+    def test_unavailable_metric_counts_and_reasons_are_preserved(self):
+        self.verify()
+
+    def test_counts_cannot_use_measurement_rows_or_drop_exclusions(self):
+        for key, value in [("RetainedEntities", 48), ("UsableEntities", 4), ("ExcludedEntities", 0), ("ExclusionReasons", {})]:
+            with self.subTest(key=key):
+                row = copy.deepcopy(self.row)
+                row["GroupAvailability"][0][key] = value
+                with self.assertRaises(AssertionError):
+                    self.verify(row)
+
+    def test_unavailable_calibration_can_coexist_with_available_observed_test(self):
+        row = copy.deepcopy(self.row)
+        row.update(Applicable=True, CalibrationApplicable=False, ObservedStatus="available", PValue=.001,
+                   AdjustedP=.012, Effect=1, Verdict="difference", EffectIntervalStatus="pointwise_percentile_95")
+        row["GroupAvailability"][0].update(UsableEntities=8, ExcludedEntities=0, ExclusionReasons={})
+        path = self.folder / "metric_availability.csv"
+        path.write_text(self.csv.replace("8,3,5,nonpositive_measurements:5", "8,8,0,").replace("insufficient_usable_entities,True", "available,False"))
+        self.verify(row)
+        row["Candidate"] = True
+        with self.assertRaisesRegex(AssertionError, "candidate"):
+            self.verify(row)
+
+    def test_csv_cannot_disagree_with_json(self):
+        (self.folder / "metric_availability.csv").write_text(self.csv.replace("nonpositive_measurements:5", "nonpositive_measurements:4"))
+        with self.assertRaisesRegex(AssertionError, "CSV and JSON"):
+            self.verify()
 
 
 class RunnerTests(unittest.TestCase):

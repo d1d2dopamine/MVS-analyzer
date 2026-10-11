@@ -94,6 +94,12 @@ def compare_analysis(expected: pathlib.Path, actual: pathlib.Path, absolute: flo
     if left_fields != right_fields:
         raise AssertionError("results.csv: column order differs")
     compare_value(left_rows, right_rows, absolute, relative, "results.csv")
+    # These diagnostics contain counts and categorical reasons only: compare exactly.
+    left_fields, left_rows = read_results_csv(expected / "metric_availability.csv")
+    right_fields, right_rows = read_results_csv(actual / "metric_availability.csv")
+    if left_fields != right_fields:
+        raise AssertionError("metric_availability.csv: column order differs")
+    compare_value(left_rows, right_rows, 0, 0, "metric_availability.csv")
     if (expected / "calibration_state.json").read_bytes() != (actual / "calibration_state.json").read_bytes():
         raise AssertionError("CLI/Python calibration state bytes differ")
 

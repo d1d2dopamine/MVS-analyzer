@@ -7,7 +7,7 @@
 <p align="center">
   <img src="https://img.shields.io/github/actions/workflow/status/d1d2dopamine/MVS-Analyzer/ci.yml?branch=main&label=build&style=flat-square" alt="build">
   <img src="https://img.shields.io/badge/release-1.4.0-1f6feb?style=flat-square" alt="release 1.4.0">
-  <img src="https://img.shields.io/badge/engine-1.6.1-6f42c1?style=flat-square" alt="engine 1.6.1">
+  <img src="https://img.shields.io/badge/engine-1.6.2-6f42c1?style=flat-square" alt="engine 1.6.2">
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT license">
   <a href="https://doi.org/10.5281/zenodo.22836364"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.22836364.svg" alt="DOI: 10.5281/zenodo.22836364"></a>
 </p>
@@ -16,11 +16,13 @@ MVS Analyzer compares summary metrics for repeated measurements and includes sep
 
 Current archived release: `1.4.0`, scientific engine `1.6.0`, formula `MVS-1.4.0`. The 1.5.0 development line is CLI/Python-first; the Windows desktop is frozen at 1.4.0 and is no longer built or released.
 
-Current development engine: `1.6.1`. It restores full precision of the normal-CDF
-approximation coefficients used by Mann-Whitney. Saved `1.6.0` calibrations must
-be recomputed. See the [numerical fix checkpoint](docs/ROUND2_MANN_WHITNEY_FIX.md).
+Current development engine: `1.6.2`. Observed rank-test availability is now
+independent of calibration diagnostics. Results include metric-specific entity
+counts and exclusion reasons in JSON and `metric_availability.csv`. Recompute
+calibrations saved with engines `1.6.0` or `1.6.1`. The normal-CDF precision fix
+from 1.6.1 is retained. See the [round 3 checkpoint](docs/ROUND3_APPLICABILITY_CHECKPOINT.md).
 
-Development checkpoint `1.5-A` adds a structured metric registry and four staged metrics (Huber M, Hodges-Lehmann, Qn, and log-SD). They are not yet part of active calibration or multiplicity correction; the current inferential path remains the frozen 12-metric 1.4 behavior until the later 1.5 multiplicity redesign.
+Development checkpoint `1.5-A` adds a structured metric registry and four staged metrics (Huber M, Hodges-Lehmann, Qn, and log-SD). They are not yet part of active calibration or multiplicity correction; the current inferential path retains the 12-metric registry and Bonferroni correction until the later 1.5 multiplicity redesign.
 
 ## What MVS does
 

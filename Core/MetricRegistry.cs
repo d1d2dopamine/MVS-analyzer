@@ -79,20 +79,24 @@ internal static class MetricRegistry
     internal static bool IsNaturalForTrack(string key, string track) =>
         Get(key).Family == FamilyForTrack(track);
 
-    internal static bool IsApplicable(string key, double[] values)
+    internal static bool IsApplicable(string key, double[] values) => UnavailabilityReason(key, values).Length == 0;
+
+    /// <summary>Requirement failure only; a finite computed result is checked separately.</summary>
+    internal static string UnavailabilityReason(string key, double[] values)
     {
         MetricDefinition definition = Get(key);
-        if (values.Length < definition.MinMeasurements || values.Any(x => !double.IsFinite(x))) return false;
-        if (definition.MaxMeasurements is int max && values.Length > max) return false;
+        if (values.Length < definition.MinMeasurements) return "too_few_measurements";
+        if (values.Any(x => !double.IsFinite(x))) return "nonfinite_measurements";
+        if (definition.MaxMeasurements is int max && values.Length > max) return "measurement_limit_exceeded";
 
         double tolerance = DenominatorTolerance(values);
         return definition.Requirement switch
         {
-            "finite" => true,
-            "positive" => values.All(x => x > 0),
-            "nonzero_mean" => Math.Abs(values.Average()) > tolerance,
-            "nonzero_median" => Math.Abs(Quantile(values.OrderBy(x => x).ToArray(), .5)) > tolerance,
-            "pairwise" => values.Length >= 2,
+            "finite" => "",
+            "positive" => values.All(x => x > 0) ? "" : "nonpositive_measurements",
+            "nonzero_mean" => Math.Abs(values.Average()) > tolerance ? "" : "near_zero_mean",
+            "nonzero_median" => Math.Abs(Quantile(values.OrderBy(x => x).ToArray(), .5)) > tolerance ? "" : "near_zero_median",
+            "pairwise" => "",
             _ => throw new InvalidOperationException("Unknown metric applicability rule: " + definition.Requirement)
         };
     }

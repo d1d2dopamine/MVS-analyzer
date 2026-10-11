@@ -1,6 +1,6 @@
 {
   "application": "1.4.0",
-  "engine": "1.6.1",
+  "engine": "1.6.2",
   "formulaVersion": "MVS-1.4.0",
   "formulaSha256": "10a1e72218bd65ec024fc981aab9b9d0a9de8ac00db9188f9d80d54e1170598c",
   "benchmarkProtocol": "MVS-BENCH-1.2.0",

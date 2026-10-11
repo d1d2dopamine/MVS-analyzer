@@ -38,6 +38,14 @@ The structured registry and the four staged metrics are implemented and compile 
 
 Family-aware recommendation diagnostics are now implemented for the active legacy metrics. Candidate membership uses overlap with the best metric's Wilson power interval, the 0.70 lower-power threshold is a quality label rather than a hard deletion rule, and RMS is excluded from pure location/variability competition. The new `calibration_recommendations.csv` artifact keeps this layer separate from the still-unchanged 12-metric Bonferroni inference. See `CALIBRATION_RECOMMENDATIONS.md`.
 
+### Validation bridge: observed availability - implemented, awaiting new CI
+
+Round 3 separates observed rank-test availability from calibration diagnostics,
+exports metric-specific usable/excluded entity counts and reasons, and aligns the
+registry-corrected benchmark comparator. Engine 1.6.2 keeps the twelve-metric family,
+score formula and Bonferroni correction. See `ROUND3_APPLICABILITY_CHECKPOINT.md`.
+Holm/maxT and family-level automatic inference remain pending.
+
 ### 1.5-C: multiplicity engine
 
 Implement Holm first, then maxT, then step-down maxT if the resampling assumptions and tests support it. Keep all methods selectable internally so benchmark comparisons remain possible.

@@ -3,7 +3,7 @@
   "contractId": "mvs-cli-v1",
   "status": "frozen-human-contract-with-additive-machine-json",
   "applicationVersion": "1.4.0",
-  "engineVersion": "1.6.1",
+  "engineVersion": "1.6.2",
   "stateSchemaVersion": 2,
   "resultSchemaVersion": 2,
   "manifestSchemaVersion": 2,
@@ -171,6 +171,11 @@
           "name": "run_manifest.json",
           "role": "provenance",
           "policy": "mixed"
+        },
+        {
+          "name": "metric_availability.csv",
+          "role": "observed-entity-accounting",
+          "policy": "exact"
         }
       ]
     },
@@ -608,5 +613,21 @@
       "1": "error",
       "2": "diagnostic"
     }
+  },
+  "observedAvailability": {
+    "minimumUsableEntitiesPerGroup": 4,
+    "independentOfCalibration": true,
+    "countsUnit": "independent_retained_entities",
+    "resultFields": [
+      "ObservedStatus",
+      "CalibrationApplicable",
+      "GroupAvailability"
+    ],
+    "statuses": [
+      "available",
+      "insufficient_usable_entities",
+      "rank_test_unavailable"
+    ],
+    "schemaChange": "Additive fields and table; engine 1.6.2 rejects earlier calibration identities."
   }
 }

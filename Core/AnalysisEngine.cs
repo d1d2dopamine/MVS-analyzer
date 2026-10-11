@@ -210,15 +210,22 @@ internal static class AnalysisEngine
         using var backup = BackupSession.Begin(new BackupRequest { Kind = "analyze", Data = data, Calibration = calibration, Alpha = alpha, Margin = equivalenceMargin, Seed = seed });
         if (backup.Try<List<ResultRow>>("result", out var restoredResult)) return restoredResult;
         string[] tracks = calibration.First().Tracks ?? new[] { SimulationScenarios.Default };
-        double[][][] arrays = GroupMetricArrays(data); var rows = new List<ResultRow>();
+        double[][][] arrays = GroupMetricArrays(data);
+        MetricGroupAvailability[][] availability = MetricAvailability.Describe(data);
+        var rows = new List<ResultRow>();
         for (int metric = 0; metric < MetricKeys.Length; metric++)
         {
             token.ThrowIfCancellationRequested(); CalibrationRow c = calibration.Single(x => x.Metric == MetricKeys[metric]);
             rows.Add(backup.Cached("metric/" + metric, () =>
             {
             double[][] groups = arrays.Select(g => g[metric]).ToArray(); double[] medians = groups.Select(Median).ToArray();
-            bool applicable = c.Applicable && groups.All(g => g.Length >= 4);
-            double p = applicable ? GlobalP(groups) : double.NaN, adjusted = DecisionPolicy.Adjust(p, MetricKeys.Length);
+            // Calibration availability describes simulated diagnostics; it cannot veto an
+            // observed rank test. The correction family remains the full twelve metrics.
+            bool applicable = groups.All(g => g.Length >= MetricAvailability.MinimumEntitiesPerGroup);
+            string observedStatus = applicable ? "available" : "insufficient_usable_entities";
+            double p = applicable ? GlobalP(groups) : double.NaN;
+            if (applicable && !double.IsFinite(p)) { applicable = false; observedStatus = "rank_test_unavailable"; }
+            double adjusted = DecisionPolicy.Adjust(p, MetricKeys.Length);
             double delta = double.NaN, low = double.NaN, high = double.NaN, equivalenceP = double.NaN, percent = double.NaN;
             double eqLow = double.NaN, eqHigh = double.NaN; string pairText = "";
             if (applicable)
@@ -245,8 +252,9 @@ internal static class AnalysisEngine
                 summary, c.Robustness, c.Repeatability, c.Coverage, applicable, false, delta, low, high, equivalenceP,
                 c.Mde, c.FprInflated, verdict, pairText, percent, tracks,
                 tracks.Select(c.PowerIn).ToArray(), tracks.Select(c.ScoreIn).ToArray(), tracks.Select(c.MdeIn).ToArray(), new bool[tracks.Length],
-                AdjustedP: adjusted, EffectIntervalStatus: groups.Length > 2 ? "selected_pair_descriptive" : "pointwise_percentile_95",
-                EquivalenceLow: eqLow, EquivalenceHigh: eqHigh);
+                AdjustedP: adjusted, EffectIntervalStatus: !applicable ? "unavailable" : groups.Length > 2 ? "selected_pair_descriptive" : "pointwise_percentile_95",
+                EquivalenceLow: eqLow, EquivalenceHigh: eqHigh, ObservedStatus: observedStatus,
+                CalibrationApplicable: c.Applicable, GroupAvailability: availability[metric]);
             }));
             progress.Report(new ProgressInfo((metric + 1d) / MetricKeys.Length, "Analysing entity summaries", c.Metric));
         }

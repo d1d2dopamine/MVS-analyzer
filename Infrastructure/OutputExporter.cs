@@ -27,8 +27,9 @@ internal static class OutputExporter
         if (settings.AutoExportResults)
         {
             artifacts.Add(Write(folder, "results.csv", "Results", ResultsCsv(results)));
+            artifacts.Add(Write(folder, "metric_availability.csv", "Observed metric availability", AvailabilityCsv(results)));
             artifacts.Add(Write(folder, "results.json", "Structured results", ScientificJson.Serialize(new { schemaVersion = 2, policy = DecisionPolicy.Id, rows = results,
-                note = "Null numerical values are unavailable; effectIntervalStatus identifies descriptive selected-pair intervals. A null equivalence_p is intentional: bootstrap tail fractions are not p-values." })));
+                note = "Applicable and ObservedStatus describe observed-data testability, independent of CalibrationApplicable. GroupAvailability counts independent retained entities per metric/group. Null numerical values are unavailable; effectIntervalStatus identifies descriptive selected-pair intervals. A null equivalence_p is intentional: bootstrap tail fractions are not p-values." })));
         }
         if (settings.AutoExportCalibration)
         {
@@ -60,6 +61,8 @@ internal static class OutputExporter
                     effectDefinition = "Cliffs delta: P(first>second)-P(first<second). For >2 groups the largest pair is descriptive, not a post-hoc significance claim.",
                     coverageDefinition = "Diagnostic coverage of a pooled entity-metric median; not coverage of Cliffs delta or variance components; excluded from score" },
                 decision = new { policy = DecisionPolicy.Id, familySize = AnalysisEngine.MetricKeys.Length, alpha = settings.Alpha, sameDataSelection = calibrationSource == "same_dataset",
+                    observedTestability = new { minimumUsableEntitiesPerGroup = MetricAvailability.MinimumEntitiesPerGroup, calibrationGatesObservedTest = false,
+                        countsUnit = "independent_retained_entities", exclusions = "metric_specific_finite_summary_requirement" },
                     note = "Bonferroni covers the full fixed metric registry, not only chosen candidates. Approximate rank tests/intervals retain their small-sample limitations." },
                 candidateRules = new {
                     legacyResultLabels = new { minPowerLowerWilson = AnalysisEngine.CandidateMinPower, maxFprUpperWilson = DecisionPolicy.FprLimit(settings.Alpha / AnalysisEngine.MetricKeys.Length), maximumCandidatesPerTrack = 4, scoreThreshold = "none" },
@@ -79,8 +82,19 @@ internal static class OutputExporter
     public static OutputArtifact FromFile(string kind, string path) { var info = new FileInfo(path); return new OutputArtifact(kind, info.Name, info.FullName, info.Length); }
     internal static string ResultsCsv(IEnumerable<ResultRow> rows)
     {
-        var s = new StringBuilder("metric,group_summary,range,global_p,effect_cliffs_delta,effect_low,effect_high,equivalence_p,verdict,mde,calibrated_fpr,fpr_inflated,calibrated_power,robustness,repeatability,coverage,mvs_score,applicable,candidate,near_miss,tracks,track_powers,track_scores,track_mdes,candidate_tracks,adjusted_p,effect_pair,effect_interval_status,equivalence_low,equivalence_high\n");
-        foreach (ResultRow r in rows) s.Append(string.Join(',', C(r.Metric), C(r.GroupSummary), N(r.MedianRange), N(r.PValue), N(r.Effect), N(r.EffectLow), N(r.EffectHigh), N(r.EquivalenceP), C(r.Verdict), N(r.Mde), N(r.Fpr), r.FprInflated.ToString(), N(r.Power), N(r.Robustness), N(r.Repeatability), N(r.Coverage), N(r.Score), r.Applicable.ToString(), r.Candidate.ToString(), r.NearMiss.ToString(), C(Join(r.Tracks)), C(Join(r.TrackPowers)), C(Join(r.TrackScores)), C(Join(r.TrackMdes)), C(r.CandidateTracks), N(r.AdjustedP), C(r.EffectPair), C(r.EffectIntervalStatus), N(r.EquivalenceLow), N(r.EquivalenceHigh))).Append('\n');
+        var s = new StringBuilder("metric,group_summary,range,global_p,effect_cliffs_delta,effect_low,effect_high,equivalence_p,verdict,mde,calibrated_fpr,fpr_inflated,calibrated_power,robustness,repeatability,coverage,mvs_score,applicable,candidate,near_miss,tracks,track_powers,track_scores,track_mdes,candidate_tracks,adjusted_p,effect_pair,effect_interval_status,equivalence_low,equivalence_high,observed_status,calibration_applicable\n");
+        foreach (ResultRow r in rows) s.Append(string.Join(',', C(r.Metric), C(r.GroupSummary), N(r.MedianRange), N(r.PValue), N(r.Effect), N(r.EffectLow), N(r.EffectHigh), N(r.EquivalenceP), C(r.Verdict), N(r.Mde), N(r.Fpr), r.FprInflated.ToString(), N(r.Power), N(r.Robustness), N(r.Repeatability), N(r.Coverage), N(r.Score), r.Applicable.ToString(), r.Candidate.ToString(), r.NearMiss.ToString(), C(Join(r.Tracks)), C(Join(r.TrackPowers)), C(Join(r.TrackScores)), C(Join(r.TrackMdes)), C(r.CandidateTracks), N(r.AdjustedP), C(r.EffectPair), C(r.EffectIntervalStatus), N(r.EquivalenceLow), N(r.EquivalenceHigh), C(r.ObservedStatus), r.CalibrationApplicable.ToString())).Append('\n');
+        return s.ToString();
+    }
+    internal static string AvailabilityCsv(IEnumerable<ResultRow> rows)
+    {
+        var s = new StringBuilder("metric,group,retained_entities,usable_entities,excluded_entities,exclusion_reasons,observed_status,calibration_applicable\n");
+        foreach (ResultRow row in rows)
+            foreach (MetricGroupAvailability group in row.GroupAvailability ?? Array.Empty<MetricGroupAvailability>())
+                s.Append(string.Join(',', C(row.Metric), C(group.Group), group.RetainedEntities.ToString(CultureInfo.InvariantCulture),
+                    group.UsableEntities.ToString(CultureInfo.InvariantCulture), group.ExcludedEntities.ToString(CultureInfo.InvariantCulture),
+                    C(string.Join('|', group.ExclusionReasons.OrderBy(x => x.Key, StringComparer.Ordinal).Select(x => x.Key + ":" + x.Value.ToString(CultureInfo.InvariantCulture)))),
+                    C(row.ObservedStatus), row.CalibrationApplicable.ToString())).Append('\n');
         return s.ToString();
     }
     internal static string CalibrationCsv(IEnumerable<CalibrationRow> rows)

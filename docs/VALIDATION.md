@@ -43,3 +43,17 @@ gates unchanged. The original round 2 report remains a historical checkpoint.
 ## Connection maintenance validation (1.4.0 unchanged)
 
 Run `python tools/test_colab_connection.py` for the 47 new offline contract/cache/transport regressions. Run `python tools/test_colab_lifecycle.py` for automatic reconnection and orderly download/stop regressions. These tests simulate the desktop/browser; they do not certify a live Colab session. Simulated 40-step additive transport/controller updates are NOT a claim of testing 40 future Google releases. Real generated JavaScript is executed against a fake fetch, not Google. Native Core.Tests now links the actual loopback bridge and includes 10 additional contract/replay/socket tests; compile and run it on Windows/Linux with .NET 8. These native tests and the Windows UI harness were not executed in the preparation sandbox.
+
+## Round 3: observed availability
+
+Engine 1.6.2 separates observed rank-test eligibility from calibration diagnostics
+and adds metric-specific independent-entity accounting. Four new native regression
+cases cover complete simulation failure with valid observed data, individual metric
+exclusions, the four-entity boundary, constant inputs, and JSON/CSV export. Artifact
+checks cross-check counts/reasons/status against the new table; CLI/Python parity
+compares that table exactly. See [round 3](ROUND3_APPLICABILITY_CHECKPOINT.md) for
+executed checks and native verification limits.
+
+The owner reported a successful GitHub build for the preceding 1.6.1 fix.
+This is evidence for that snapshot, not for the subsequent 1.6.2 changes.
+No new benchmark power/error-control claim is made at this checkpoint.

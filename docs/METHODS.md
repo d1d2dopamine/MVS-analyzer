@@ -1,4 +1,4 @@
-# Methods — application 1.4.0 / engine 1.6.1
+# Methods — application 1.4.0 / engine 1.6.2
 
 ## 1. Data and estimands
 
@@ -33,6 +33,30 @@ saved engine 1.6.0 calibrations must be recomputed. See the
 [numerical fix checkpoint](ROUND2_MANN_WHITNEY_FIX.md).
 
 With M=12 registered metrics, adjusted p=min(1,M·p). Every displayed difference decision uses adjusted p<alpha. Bonferroni includes the full registry, including unselected or unavailable metrics; candidate selection cannot add an uncorrected rejection opportunity. Validity still depends on the raw tests. Candidate labels do not remove the other displayed tests.
+
+Engine 1.6.2 separates observed testability from calibration availability. A metric
+can be tested when every observed group has at least four finite entity summaries,
+regardless of calibration failures, FPR, power or candidate labels. `ResultRow.Applicable`
+and `ObservedStatus` describe this observed condition; `CalibrationApplicable` copies
+`CalibrationRow.Applicable`, whose legacy meaning still combines observed availability
+in the calibration dataset with at least 90% valid null replications. Missing calibration
+rates remain unavailable and cannot fabricate candidates. The CLI still requires a
+compatible calibration state; this checkpoint does not add analysis without calibration.
+
+`GroupAvailability` and `metric_availability.csv` count retained independent entities,
+not repeated measurement rows. For each metric/group, retained = usable + excluded.
+Each excluded entity has one reason: `nonpositive_measurements`, `near_zero_mean`,
+`near_zero_median`, another registry requirement failure, or `nonfinite_metric_value`
+when the requirement holds but the stored result is nonfinite. Counts concern entities
+retained after input processing; whole entities rejected during import are outside these
+metric-specific denominators. The observed statuses are `available`,
+`insufficient_usable_entities`, or `rank_test_unavailable`. Unavailable observed tests
+retain null p-values/effects and never reduce the twelve-test correction family.
+
+Saved states/backups from earlier engines are incompatible and must be recomputed.
+The score formula/hash, correction policy and staged metric status are unchanged.
+The benchmark's registry-corrected shipped comparator uses the same observed rule;
+legacy single-metric calibration-gated comparators keep their declared gates.
 
 For each track, candidates must be applicable, have an acceptable FPR, and satisfy:
 

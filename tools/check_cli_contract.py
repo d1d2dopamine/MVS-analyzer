@@ -135,6 +135,10 @@ def check_artifacts(contract: dict, artifacts: pathlib.Path) -> None:
     assert manifest["decision"]["familySize"] == analyze_identity["familySize"]
     assert results["schemaVersion"] == contract["resultSchemaVersion"]
     assert len(results["rows"]) == analyze_identity["metricCount"]
+    from check_outputs import check_availability
+    check_availability(results, analysis)
+    assert manifest["decision"]["observedTestability"]["calibrationGatesObservedTest"] is False
+    assert manifest["decision"]["observedTestability"]["minimumUsableEntitiesPerGroup"] == contract["observedAvailability"]["minimumUsableEntitiesPerGroup"]
 
     copied_state = (analysis / "calibration_state.json").read_bytes()
     assert copied_state == state_path.read_bytes(), "Analysis must preserve the exact calibration state bytes"

@@ -48,7 +48,7 @@ mvs.download()
         "metadata": {"colab": {"name": name, "private_outputs": True},
                      "kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"},
                      "language_info": {"name": "python"},
-                     "mvs": {"appVersion": "1.4.0", "engineVersion": "1.6.1", "revision": "ui-colab-3", "helper": "mvs_colab.py",
+                     "mvs": {"appVersion": "1.4.0", "engineVersion": "1.6.2", "revision": "ui-colab-3", "helper": "mvs_colab.py",
                              "note": "Use the matching MVS desktop and notebook controller. Saved calibration is reused only after identity and integrity checks."}},
         "nbformat": 4, "nbformat_minor": 0}
     return (json.dumps(book, ensure_ascii=False, indent=1) + "\n").encode("utf-8")
