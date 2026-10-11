@@ -34,6 +34,11 @@ locally verified Python/static work from unexecuted native checks. Small-sample
 exact diagnostics are reported separately; the production asymptotic tests and
 fixed twelve-metric Bonferroni family are unchanged.
 
+The subsequent [Mann-Whitney numerical fix](ROUND2_MANN_WHITNEY_FIX.md) responds
+to a user-reported native CI failure. Engine 1.6.1 restores full precision of
+the normal-CDF coefficients while keeping the frozen rank fixtures and accuracy
+gates unchanged. The original round 2 report remains a historical checkpoint.
+
 
 ## Connection maintenance validation (1.4.0 unchanged)
 

@@ -9,7 +9,7 @@ namespace MvsAnalyzer;
 internal static class ReleaseInfo
 {
     public const string Version = "1.4.0";
-    public const string EngineVersion = "1.6.0";
+    public const string EngineVersion = "1.6.1";
     public const int StateSchema = 2;
     public const string DevelopmentScope = "Consolidated 1.6/1.7/1.8 development; public release 1.4.0";
 }

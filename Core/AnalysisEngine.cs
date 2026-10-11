@@ -358,7 +358,15 @@ internal static class AnalysisEngine
         double z = Math.Max(0, (Math.Abs(u - mean) - .5) / Math.Sqrt(variance));
         return Math.Clamp(2 * (1 - NormalCdf(z)), 0, 1);
     }
-    private static double NormalCdf(double z) { double t = 1 / (1 + .2316419 * Math.Abs(z)), d = .3989422804 * Math.Exp(-z * z / 2), p = 1 - d * t * (.3193815 + t * (-.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274)))); return z >= 0 ? p : 1 - p; }
+    private static double NormalCdf(double z)
+    {
+        // Abramowitz & Stegun 26.2.17: retain the published coefficient precision.
+        // Rounding the coefficients to seven digits exceeds the native p-value gate.
+        double t = 1 / (1 + .2316419 * Math.Abs(z));
+        double d = Math.Exp(-z * z / 2) / Math.Sqrt(2 * Math.PI);
+        double p = 1 - d * t * (.319381530 + t * (-.356563782 + t * (1.781477937 + t * (-1.821255978 + t * 1.330274429))));
+        return z >= 0 ? p : 1 - p;
+    }
     private static double GammaQ(double a, double x) { if (x < 0 || a <= 0) return double.NaN; if (x < a + 1) return 1 - GammaSeries(a, x); double b = x + 1 - a, c = 1e30, d = 1 / b, h = d; for (int i = 1; i <= 200; i++) { double an = -i * (i - a); b += 2; d = an * d + b; if (Math.Abs(d) < 1e-30) d = 1e-30; c = b + an / c; if (Math.Abs(c) < 1e-30) c = 1e-30; d = 1 / d; double delta = d * c; h *= delta; if (Math.Abs(delta - 1) < 1e-12) break; } return Math.Exp(-x + a * Math.Log(x) - LogGamma(a)) * h; }
     private static double GammaSeries(double a, double x) { if (x <= 0) return 0; double sum = 1 / a, delta = sum, ap = a; for (int n = 1; n <= 200; n++) { ap++; delta *= x / ap; sum += delta; if (Math.Abs(delta) < Math.Abs(sum) * 1e-12) break; } return sum * Math.Exp(-x + a * Math.Log(x) - LogGamma(a)); }
     private static double LogGamma(double x) { double[] c = { 76.18009172947146, -86.50532032941677, 24.01409824083091, -1.231739572450155, .1208650973866179e-2, -.5395239384953e-5 }; double y = x, t = x + 5.5; t -= (x + .5) * Math.Log(t); double s = 1.000000000190015; foreach (double v in c) s += v / ++y; return -t + Math.Log(2.5066282746310005 * s / x); }

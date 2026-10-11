@@ -30,6 +30,7 @@ PLAN = {"Key": "b" * 64, "Kind": "standard", "AppVersion": "1.4.0", "EngineVersi
         "FormulaHash": m.FORMULA_HASH, "StateSchema": 2, "Revision": "ui-colab-3"}
 IDENTITY = {"appVersion": "1.4.0", "engineVersion": "1.6.0", "formulaHash": m.FORMULA_HASH, "stateSchema": 2,
             "cliProtocol": {"name": "mvs-cli", "major": 1, "capabilities": ["calibrate", "analyze", "state-check", "variance", "melsm", "estimation", "benchmark"]}}
+CURRENT_IDENTITY = json.dumps({**IDENTITY, "engineVersion": m.ENGINE_VERSION})
 
 
 def bundle(code=None, descriptor_change=None, plan_change=None, wire=None, include_runtime=True):
@@ -365,7 +366,7 @@ class ConnectionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             workspace, source, calls = self.make_builder(directory)
             saved = workspace.state_path.read_bytes()
-            with patch.object(m.subprocess, "check_output", return_value=BANNER), contextlib.redirect_stdout(io.StringIO()):
+            with patch.object(m.subprocess, "check_output", return_value=CURRENT_IDENTITY), contextlib.redirect_stdout(io.StringIO()):
                 workspace.prepare_cli_binary(source, "d" * 64)
                 workspace.prepare_cli_binary(source, "d" * 64)
             self.assertEqual(len(calls), 1)
@@ -375,7 +376,7 @@ class ConnectionTests(unittest.TestCase):
     def test_tampered_cached_binary_is_rebuilt_once(self):
         with tempfile.TemporaryDirectory() as directory:
             workspace, source, calls = self.make_builder(directory)
-            with patch.object(m.subprocess, "check_output", return_value=BANNER), contextlib.redirect_stdout(io.StringIO()):
+            with patch.object(m.subprocess, "check_output", return_value=CURRENT_IDENTITY), contextlib.redirect_stdout(io.StringIO()):
                 workspace.prepare_cli_binary(source, "d" * 64)
                 workspace.dll.write_text("partial stale binary")
                 workspace.prepare_cli_binary(source, "d" * 64)
@@ -386,11 +387,19 @@ class ConnectionTests(unittest.TestCase):
     def test_wrong_cached_cli_identity_is_rebuilt_only_once(self):
         with tempfile.TemporaryDirectory() as directory:
             workspace, source, calls = self.make_builder(directory)
-            with patch.object(m.subprocess, "check_output", return_value=BANNER), contextlib.redirect_stdout(io.StringIO()):
+            with patch.object(m.subprocess, "check_output", return_value=CURRENT_IDENTITY), contextlib.redirect_stdout(io.StringIO()):
                 workspace.prepare_cli_binary(source, "d" * 64)
-            with patch.object(m.subprocess, "check_output", side_effect=[BANNER.replace("engine 1.6.0", "engine 9.0.0"), BANNER]), contextlib.redirect_stdout(io.StringIO()):
+            wrong = json.dumps({**IDENTITY, "engineVersion": "9.0.0"})
+            with patch.object(m.subprocess, "check_output", side_effect=[wrong, CURRENT_IDENTITY]), contextlib.redirect_stdout(io.StringIO()):
                 workspace.prepare_cli_binary(source, "d" * 64)
             self.assertEqual(len(calls), 2)
+
+    def test_current_engine_requires_matching_structured_identity(self):
+        plan = {**PLAN, "EngineVersion": m.ENGINE_VERSION}
+        self.assertEqual(m.validate_cli_identity(CURRENT_IDENTITY, plan)["engineVersion"], m.ENGINE_VERSION)
+        for text in [json.dumps(IDENTITY), BANNER, BANNER.replace("engine 1.6.0", "engine " + m.ENGINE_VERSION)]:
+            with self.subTest(text=text), self.assertRaises(m.CompatibilityError):
+                m.validate_cli_identity(text, plan)
 
     def test_failed_build_preserves_old_files_and_cleans_staging(self):
         with tempfile.TemporaryDirectory() as directory:

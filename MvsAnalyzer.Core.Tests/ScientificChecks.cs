@@ -204,6 +204,7 @@ internal static class ScientificChecks
             Check(restored.Rows.Count == 12 && restored.Rows.Any(r => double.IsNaN(r.Mde)), "Metric registry or null MDE was lost");
             string text = File.ReadAllText(path); Check(!text.Contains("Infinity") && !text.Contains("NaN"), "Nonstandard output literal");
             Throws(() => CalibrationPersistence.Apply(restored with { EngineVersion = "0.0.0" }, target));
+            Throws(() => CalibrationPersistence.Apply(restored with { EngineVersion = "1.6.0" }, target));
             File.WriteAllText(path, text.Replace("fixture.csv", "tampered.csv")); Throws(() => CalibrationPersistence.Read(path));
         }
         finally { Directory.Delete(folder, true); }

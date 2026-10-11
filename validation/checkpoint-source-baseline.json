@@ -1,5 +1,5 @@
 {
-  "note": "Explicit source-contract revisions for checkpoint orchestration and the CLI/Core/Python interface layer. Historical byte pins are retained as originalSha256. Formula/protocol pins and statistical method hashes remain unchanged.",
+  "note": "Explicit source-contract revisions for checkpoint orchestration and the CLI/Core/Python interface layer. Historical byte pins are retained as originalSha256. Formula/protocol pins and statistical method hashes remain unchanged. Engine 1.6.1 explicitly repairs rounded normal-CDF coefficients; the two affected Core source pins change for that numerical fix and version identity. Independent rank fixtures and their accuracy gates remain unchanged.",
   "sha256": {
     "Benchmark/BenchmarkRunner.cs": {
       "originalSha256": "23869bc90ed7a77c563a78d882eea0d1407de86019b12df1c9332f58762d7ae8",
@@ -7,7 +7,7 @@
     },
     "Core/AnalysisEngine.cs": {
       "originalSha256": "6d20f4e5a752f1c78d16120a4ce7d2c84885758fa32139a9138508345499f25f",
-      "sha256": "2c3d0e330d6e4a58425bf4ed92ab2d598d76b51b6f031fa88dd5dac5e6c4f303"
+      "sha256": "6a85d9aa4d4136211b14b20fd14ae30200281e547d488ef7f763624a237f7ec5"
     },
     "Core/EstimationStudy.cs": {
       "originalSha256": "9691548a15584b044bb5917849b9cda24e3c37417a4c6c17c098d551bbe95d7f",
@@ -48,6 +48,10 @@
     "MvsAnalyzer.Cli/ScientificCommands.cs": {
       "originalSha256": "03ddc962bc5bf407fae5d7c2c71073fbe3903ab3d4da90c641f2585a16c3637a",
       "sha256": "95e42af15d68a2b8faaa191b5fe3fce9ef66a793066d33c02fb9af345ea49072"
+    },
+    "Core/ScientificInfrastructure.cs": {
+      "originalSha256": "c85fffa4af1810adb806fd7e02d60e22a7aaf618a7b33fbb31c2a90d5c570f73",
+      "sha256": "5eb5fc7d2b31a6e1bbc921f83785d8108a04715cd6f18e4f2df9ccbc176a3a22"
     }
   }
 }

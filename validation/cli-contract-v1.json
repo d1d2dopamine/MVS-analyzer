@@ -3,7 +3,7 @@
   "contractId": "mvs-cli-v1",
   "status": "frozen-human-contract-with-additive-machine-json",
   "applicationVersion": "1.4.0",
-  "engineVersion": "1.6.0",
+  "engineVersion": "1.6.1",
   "stateSchemaVersion": 2,
   "resultSchemaVersion": 2,
   "manifestSchemaVersion": 2,

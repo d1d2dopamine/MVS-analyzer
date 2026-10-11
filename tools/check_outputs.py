@@ -23,7 +23,7 @@ def main():
         if path.name == "calibration_state.json":
             states += 1
             assert document["SchemaVersion"] == 2
-            assert document["AppVersion"] == "1.4.0" and document["EngineVersion"] == "1.6.0"
+            assert document["AppVersion"] == "1.4.0" and document["EngineVersion"] == "1.6.1"
             assert len(document["PayloadHash"]) == 64 and len(document["SettingsHash"]) == 64
             assert len(document["Rows"]) == 12
             assert "heterogeneity" in document["Tracks"]

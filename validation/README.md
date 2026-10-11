@@ -139,3 +139,8 @@ the verification is incomplete. Without .NET, or with `--python-only`, native
 checks are explicitly `not_run` and the runner returns `2`. Existing output
 directories are refused so prior evidence is preserved. Generated reports/logs
 are not source ZIP contents. See the [round 2 checkpoint](../docs/ROUND2_NATIVE_VALIDATION_CHECKPOINT.md).
+
+After the reported native `mw_overlap` failure, engine 1.6.1 restores full
+normal-CDF coefficient precision. All 53 frozen fixtures and both accuracy
+gates remain unchanged. Recompute old calibrations before running parity with
+the repaired engine. See the [fix checkpoint](../docs/ROUND2_MANN_WHITNEY_FIX.md).

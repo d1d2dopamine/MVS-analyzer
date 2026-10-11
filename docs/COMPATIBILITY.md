@@ -6,7 +6,7 @@ The public interfaces are versioned independently.
 | --- | --- | --- |
 | CLI release | `1.4.0` | Current archived release identifier; 1.5.0 development is CLI/Python-first. |
 | Windows desktop | `1.4.0` | Frozen legacy interface. No longer built, released or used as a compatibility gate. |
-| Scientific engine | `1.6.0` | Recorded in states and manifests. |
+| Scientific engine | `1.6.1` | Numerical coefficient fix; recorded in states and manifests. Recompute 1.6.0 calibrations. |
 | Calibration state | `2` | Must satisfy the existing state compatibility checks. |
 | Result/manifest files | `2` | Readers must validate schema and scientific identity. |
 | CLI command contract | `mvs-cli` major `1` | Commands/options may grow additively. |

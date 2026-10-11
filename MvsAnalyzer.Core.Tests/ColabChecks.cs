@@ -288,7 +288,7 @@ internal static class ColabChecks
         finally { Console.SetOut(previous); }
         using var document = System.Text.Json.JsonDocument.Parse(buffer.ToString()); var root = document.RootElement;
         Check(root.GetProperty("appVersion").GetString() == "1.4.0", "Application version changed.");
-        Check(root.GetProperty("engineVersion").GetString() == "1.6.0", "Scientific engine identity changed.");
+        Check(root.GetProperty("engineVersion").GetString() == "1.6.1", "Scientific engine identity changed.");
         Check(root.GetProperty("formulaHash").GetString() == OutputExporter.FormulaHash, "CLI formula identity is not authoritative.");
         Check(root.GetProperty("stateSchema").GetInt32() == ReleaseInfo.StateSchema, "CLI schema identity changed.");
         Check(root.GetProperty("cliProtocol").GetProperty("major").GetInt32() == 1, "Missing stable CLI command contract.");

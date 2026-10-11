@@ -1,4 +1,4 @@
-# Methods — application 1.4.0 / engine 1.6.0
+# Methods — application 1.4.0 / engine 1.6.1
 
 ## 1. Data and estimands
 
@@ -24,6 +24,13 @@ Contamination and missingness use the same mechanism in every group, including t
 ## 3. Inference and selection
 
 Two groups: two-sided asymptotic Mann–Whitney with tie correction. Three to ten: asymptotic Kruskal–Wallis with tie correction. All ties return p=1. These are **not exact/permutation tests**. Four entities per group is a software minimum, not an assurance of valid asymptotics. A rejection concerns distributional differences, not necessarily a pure difference of medians.
+
+Engine 1.6.1 restores the full published coefficient precision in the
+Abramowitz–Stegun 26.2.17 normal-CDF approximation used by Mann–Whitney.
+The two-sided, tie/continuity-corrected asymptotic procedure is retained.
+Small numerical p-value changes can affect a decision exactly at its threshold;
+saved engine 1.6.0 calibrations must be recomputed. See the
+[numerical fix checkpoint](ROUND2_MANN_WHITNEY_FIX.md).
 
 With M=12 registered metrics, adjusted p=min(1,M·p). Every displayed difference decision uses adjusted p<alpha. Bonferroni includes the full registry, including unselected or unavailable metrics; candidate selection cannot add an uncorrected rejection opportunity. Validity still depends on the raw tests. Candidate labels do not remove the other displayed tests.
 
