@@ -144,3 +144,49 @@ After the reported native `mw_overlap` failure, engine 1.6.1 restores full
 normal-CDF coefficient precision. All 53 frozen fixtures and both accuracy
 gates remain unchanged. Recompute old calibrations before running parity with
 the repaired engine. See the [fix checkpoint](../docs/ROUND2_MANN_WHITNEY_FIX.md).
+
+## Staged Huber repair accuracy gate (round 10)
+
+The original `huber-fixtures-v1.json`, `huber-native-baseline-v1.json` and Decimal80
+reference remain frozen. The old native evidence still fails 9/20 cases. The new
+`huber-repair-fixtures-v1.json` includes those exact twenty cases and expanded
+extreme/subnormal, reflection, permutation and zero-MAD controls.
+
+`huber_repair_reference.py` computes median/MAD and the clipped-score root directly
+from exact original binary64 inputs using Decimal1600. It does not use the native
+normalization or reconstructed samples. The gate retains
+`max(1e-10 * fixedMADscale, 4 * ulp(reference rounded to binary64))`; solver status
+must also distinguish positive MAD from exact-zero fallback. Any unavailable native
+result fails accuracy. Fixture, implementation, engine/staged/family and binary
+provenance are checked. Synthetic documents in unit tests are explicitly test data.
+
+```bash
+dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release
+dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release --no-build -- --export-huber-diagnostics validation/huber-repair-fixtures-v1.json artifacts/huber-repaired-native.json
+python validation/huber_repair_reference.py --native artifacts/huber-repaired-native.json --core-assembly MvsAnalyzer.Core.Tests/bin/Release/net8.0/MvsAnalyzer.Core.dll --out artifacts/huber-repaired-comparison.json
+python -m unittest discover -s validation -p 'test_huber_repair_reference.py' -v
+```
+
+Exit 0 means every declared numerical/status comparison passed; 1 means valid
+native evidence failed accuracy; 2 means invalid input/provenance. These are
+numerical implementation checks for a staged metric, not scientific activation.
+See [round 10](../docs/ROUND10_STAGED_HUBER_REPAIR.md) for actual native results.
+
+## Post-hoc Holm diagnostics on the frozen development run
+
+`holm_benchmark_diagnostics.py` derives fixed-12 comparisons from the immutable
+round-6 per-replication p-vectors. It pins source hashes, preserves both replay
+phases and failures/missing diagnostics, refuses overwrites, and checks actual
+native output against exhaustive closed Bonferroni intersections.
+
+```bash
+python validation/holm_benchmark_diagnostics.py prepare --benchmark benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0 --out artifacts/holm-new
+# Build the native test exporter first, then run:
+dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release --no-build -- --export-multiplicity-diagnostics artifacts/holm-new/multiplicity-fixtures.json artifacts/holm-new/multiplicity-native.json
+python validation/holm_benchmark_diagnostics.py analyze --benchmark benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0 --out artifacts/holm-new --native artifacts/holm-new/multiplicity-native.json --core-assembly MvsAnalyzer.Core.Tests/bin/Release/net8.0/MvsAnalyzer.Core.dll
+```
+
+Exit 0 is a complete consistent diagnostic, 1 is arithmetic/decision disagreement,
+and 2 is invalid or incomplete evidence. This does not run or pass a new benchmark.
+See [round 12](../docs/ROUND12_HOLM_DEVELOPMENT_DIAGNOSTICS.md) for actual results:
+any-rejection counts remain unchanged, original scientific NO-GO retained.

@@ -45,3 +45,15 @@ Exit code `2` is represented as a completed result by default for workflows wher
 ## Supported input policy
 
 The first API release is path-based. DataFrame input is intentionally not included yet because serialization, missing values, column names, numeric precision and hashing must be specified before a DataFrame can be treated as reproducible scientific input.
+
+## Engine launch failures
+
+`EngineNotFoundError`, `EngineError`, `InputError`, `EngineCompatibilityError` and
+`ScientificDiagnostic` derive from `MvsError`. Missing engine targets, including a
+file disappearing after discovery, raise `EngineNotFoundError`. Permission,
+invalid-executable and other OS launch failures raise `EngineError`; malformed
+UTF-8 child output also raises `EngineError`. The original exception is retained
+as `__cause__`, and the message identifies the executable and requested command.
+The wrapper does not silently switch engines or claim a scientific result after
+a launch failure. This boundary does not convert every filesystem error from
+independent result/artifact convenience methods into an engine error.

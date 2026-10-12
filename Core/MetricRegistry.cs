@@ -25,6 +25,10 @@ internal static class MetricRegistry
     internal const string Magnitude = "magnitude";
     internal const int MaxExactPairwiseMeasurements = 2048;
 
+    internal const string HuberImplementationId = "fixed-mad-huber-normalized-score-v2";
+    internal const int HuberMaxIterations = 64;
+    internal readonly record struct HuberResult(double Value, string Status, int Iterations);
+
     private const double HuberC = 1.345;
     private const double MadNormalConsistency = 1.482602218505602;
     private const double QnNormalConsistency = 2.219144465985076;
@@ -104,6 +108,9 @@ internal static class MetricRegistry
     internal static double Compute(string key, double[] values)
     {
         if (!IsApplicable(key, values)) return double.NaN;
+        // The staged Huber solver owns its coordinates: shared Workspace arithmetic can
+        // overflow on finite extreme inputs and must remain unchanged for active metrics.
+        if (key == "huber_location") return HuberLocation(values).Value;
         var w = new Workspace(values);
         return key switch
         {
@@ -119,7 +126,6 @@ internal static class MetricRegistry
             "range" => w.Sorted[^1] - w.Sorted[0],
             "geometric_mean" => Math.Exp(values.Average(Math.Log)),
             "trimmed_mean_20" => TrimmedMean(w.Sorted),
-            "huber_location" => HuberLocation(w),
             "hodges_lehmann" => HodgesLehmann(values),
             "qn" => Qn(values),
             "log_sd" => Math.Sqrt(ScientificMath.Variance(values.Select(x => Math.Log(x)).ToArray())),
@@ -198,30 +204,97 @@ internal static class MetricRegistry
         return sorted.Skip(trim).Take(sorted.Length - 2 * trim).Average();
     }
 
-    private static double HuberLocation(Workspace w)
+    /// <summary>
+    /// Staged fixed-MAD Huber root. Power-of-two coordinates depend on robust distance,
+    /// not input magnitude, so units, common offsets and remote outliers do not set the
+    /// stopping rule. The bounded iteration override is internal for failure tests only.
+    /// </summary>
+    internal static HuberResult HuberLocation(double[] values, int maxIterations = HuberMaxIterations)
     {
-        double scale = MadNormalConsistency * w.Mad;
-        if (!double.IsFinite(scale) || scale <= w.DenominatorTolerance) return w.Median;
+        if (maxIterations < 1 || maxIterations > HuberMaxIterations)
+            throw new ArgumentOutOfRangeException(nameof(maxIterations));
+        if (values.Length < 2 || values.Any(x => !double.IsFinite(x)))
+            return new(double.NaN, "invalid_input", 0);
 
-        double mu = w.Median;
-        for (int iteration = 0; iteration < 100; iteration++)
+        double[] sorted = values.OrderBy(x => x).ToArray();
+        int middle = sorted.Length / 2;
+        double anchor = sorted[middle]; // An input value, even for an even sample.
+        double[] distances = sorted.Select(x => Math.Abs(x - anchor)).OrderBy(x => x).ToArray();
+        double distance = distances[middle];
+        // This is exactly a strict majority equal to the anchor, iff the exact sample
+        // MAD is zero. A tiny positive MAD, including half a subnormal, is not zero.
+        if (distance == 0) return new(anchor, "zero_mad_fallback", 0);
+        int exponent = double.IsPositiveInfinity(distance) ? 1024 : Math.ILogB(distance);
+        double[] normalized = sorted.Select(x => HuberNormalizedDifference(x, anchor, exponent)).ToArray();
+        if (normalized.Any(double.IsNaN)) return new(double.NaN, "invalid_normalized_scale", 0);
+        double center = HuberMedian(normalized);
+        double mad = HuberMedian(normalized.Select(x => Math.Abs(x - center)).OrderBy(x => x).ToArray());
+        double scale = MadNormalConsistency * mad;
+        if (!double.IsFinite(center) || !double.IsFinite(scale) || scale <= 0)
+            return new(double.NaN, "invalid_normalized_scale", 0);
+        double[] residuals = normalized.Select(x => (x - center) / scale).ToArray();
+
+        double low = -HuberC, high = HuberC;
+        double lowScore = HuberScore(residuals, low), highScore = HuberScore(residuals, high);
+        if (!double.IsFinite(lowScore) || !double.IsFinite(highScore))
+            return new(double.NaN, "nonfinite_score", 0);
+        if (lowScore < 0 || highScore > 0) return new(double.NaN, "invalid_bracket", 0);
+        for (int iteration = 1; iteration <= maxIterations; iteration++)
         {
-            double weighted = 0, weightSum = 0;
-            foreach (double x in w.Values)
+            double offset = low + (high - low) / 2;
+            double score = HuberScore(residuals, offset);
+            if (!double.IsFinite(score)) return new(double.NaN, "nonfinite_score", iteration);
+            if (score == 0 || high - low <= 1e-13 || offset == low || offset == high)
             {
-                double residual = (x - mu) / scale;
-                double abs = Math.Abs(residual);
-                double weight = abs <= HuberC ? 1 : HuberC / abs;
-                weighted += weight * x;
-                weightSum += weight;
+                double coordinate = center + scale * offset;
+                if (!double.IsFinite(coordinate)) return new(double.NaN, "nonfinite_coordinate", iteration);
+                // Only a converged root can be confined to its known data hull. This
+                // does not turn a failed solve into a successful last iterate.
+                coordinate = Math.Clamp(coordinate, normalized[0], normalized[^1]);
+                double normalizedAnchor = Math.ScaleB(anchor, -exponent);
+                double result = double.IsFinite(normalizedAnchor)
+                    ? Math.ScaleB(normalizedAnchor + coordinate, exponent)
+                    : anchor + Math.ScaleB(coordinate, exponent);
+                if (double.IsNaN(result)) return new(double.NaN, "nonfinite_reconstruction", iteration);
+                // Finite original bounds also repair outward final rounding to infinity.
+                result = Math.Clamp(result, sorted[0], sorted[^1]);
+                return new(result, "converged", iteration);
             }
-            if (!(weightSum > 0) || !double.IsFinite(weighted)) return double.NaN;
-            double next = weighted / weightSum;
-            double tolerance = 1e-12 * Math.Max(1, Math.Max(Math.Abs(mu), scale));
-            if (Math.Abs(next - mu) <= tolerance) return next;
-            mu = next;
+            if (score > 0) low = offset;
+            else high = offset;
         }
-        return mu;
+        return new(double.NaN, "iteration_limit", maxIterations);
+    }
+
+    private static double HuberNormalizedDifference(double value, double anchor, int exponent)
+    {
+        double difference = value - anchor;
+        return double.IsFinite(difference)
+            ? Math.ScaleB(difference, -exponent)
+            : Math.ScaleB(value, -exponent) - Math.ScaleB(anchor, -exponent);
+        // An enormous outlier may be a signed infinity in these coordinates; the
+        // bounded score clips it. Original nonfinite inputs are rejected separately.
+    }
+
+    private static double HuberMedian(double[] sorted) => sorted.Length % 2 != 0
+        ? sorted[sorted.Length / 2]
+        : (sorted[sorted.Length / 2 - 1] + sorted[sorted.Length / 2]) / 2;
+
+    private static double HuberScore(double[] sortedResiduals, double offset)
+    {
+        // Neumaier compensation retains small central terms across cancellation of
+        // bounded tails. Input order is deterministic and each summand is bounded.
+        double sum = 0, correction = 0;
+        foreach (double residual in sortedResiduals)
+        {
+            double term = Math.Clamp(residual - offset, -HuberC, HuberC);
+            double next = sum + term;
+            correction += Math.Abs(sum) >= Math.Abs(term)
+                ? (sum - next) + term
+                : (term - next) + sum;
+            sum = next;
+        }
+        return sum + correction;
     }
 
     private static double HodgesLehmann(double[] values)

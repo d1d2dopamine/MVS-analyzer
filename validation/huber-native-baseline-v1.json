@@ -1,0 +1,111 @@
+{
+  "schema": "MVS-HUBER-NATIVE-1",
+  "fixtureSha256": "089da6ed6bb3b1eda1eb0e5e6bc6aaffa7056e59f91f69d24e2d1c167cf22b8e",
+  "coreAssemblySha256": "4d9906f5b0d750b486d9dcb9a52740afd3d17481d75fcf9261a153b8692ee715",
+  "engineVersion": "1.6.2",
+  "nativeRuntime": "8.0.31",
+  "metricStaged": true,
+  "activeMetricCount": 12,
+  "results": [
+    {
+      "id": "scale_1e-14",
+      "value": 3.263021400098796E-14,
+      "status": "finite"
+    },
+    {
+      "id": "scale_1e-13",
+      "value": 3.2630214000987954E-13,
+      "status": "finite"
+    },
+    {
+      "id": "scale_1e-10",
+      "value": 3.4967450450003627E-10,
+      "status": "finite"
+    },
+    {
+      "id": "scale_1e-06",
+      "value": 3.497049977411457E-06,
+      "status": "finite"
+    },
+    {
+      "id": "scale_1.0",
+      "value": 3.4970499919449924,
+      "status": "finite"
+    },
+    {
+      "id": "scale_1000000.0",
+      "value": 3497049.991944992,
+      "status": "finite"
+    },
+    {
+      "id": "scale_1000000000000.0",
+      "value": 3497049991944.9917,
+      "status": "finite"
+    },
+    {
+      "id": "shift_10000.0",
+      "value": 10003.497049991925,
+      "status": "finite"
+    },
+    {
+      "id": "shift_1000000000.0",
+      "value": 1000000003.497039,
+      "status": "finite"
+    },
+    {
+      "id": "shift_1000000000000.0",
+      "value": 1000000000003.4886,
+      "status": "finite"
+    },
+    {
+      "id": "shift_3000000000000.0",
+      "value": 3000000000002,
+      "status": "finite"
+    },
+    {
+      "id": "shift_-3000000000000.0",
+      "value": -2999999999998,
+      "status": "finite"
+    },
+    {
+      "id": "extreme_positive_outlier",
+      "value": 2,
+      "status": "finite"
+    },
+    {
+      "id": "negative_reflection",
+      "value": -3.4970499919449924,
+      "status": "finite"
+    },
+    {
+      "id": "symmetric",
+      "value": 0,
+      "status": "finite"
+    },
+    {
+      "id": "constant",
+      "value": 4,
+      "status": "finite"
+    },
+    {
+      "id": "zero_mad_contamination",
+      "value": 1,
+      "status": "finite"
+    },
+    {
+      "id": "two_values",
+      "value": 2,
+      "status": "finite"
+    },
+    {
+      "id": "even_asymmetric",
+      "value": 2.5982299951670056,
+      "status": "finite"
+    },
+    {
+      "id": "permuted",
+      "value": 3.4970499919449924,
+      "status": "finite"
+    }
+  ]
+}

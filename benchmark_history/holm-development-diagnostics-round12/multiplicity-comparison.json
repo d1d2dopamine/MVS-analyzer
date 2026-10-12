@@ -1,0 +1,14 @@
+{
+  "schema": "MVS-MULTIPLICITY-COMPARISON-1",
+  "fixtureSha256": "29b117854746aec9f8219773eafccd6b48471a6c1b8779448a9845df1f894d18",
+  "cases": 5370,
+  "comparisons": 128880,
+  "passed": true,
+  "failures": [],
+  "native_sha256": "baeeb79bd03098a8de6f0efdfb749fa0e8bd664cda43e883c2d5e417fdd56e53",
+  "core_assembly_sha256": "23fda6adf0a605b614839f6f79fd7bbd911f947644e95c7e9ebf7541d06de5be",
+  "reference_sha256": "7f3b74340114ab74f22332efda91e65d64ce5ff58c23aa3a2c202cbe12aa1e27",
+  "reference_method": "exhaustive closed Bonferroni intersections, every nonempty subset",
+  "legacy_decision_agreement": true,
+  "decision_failures": []
+}

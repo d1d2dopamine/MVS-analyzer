@@ -1,0 +1,175 @@
+{
+  "schema": "mvs-cli-resource-protocol/v1",
+  "protocolId": "MVS-CLI-RESOURCE-1",
+  "frozenUtc": "2026-10-11T22:53:02.763238+00:00",
+  "scope": "One bounded Linux-only operational calibration/analysis resource and cooperative cancellation profile; no performance acceptance, statistical validation, or method change.",
+  "generator": {
+    "seed": 20261011,
+    "stream": "Python random.Random(seed), fresh independent stream for each size; record interpreter version",
+    "groups": [
+      "A",
+      "B",
+      "C"
+    ],
+    "columns": [
+      "entity",
+      "group",
+      "value",
+      "sequence",
+      "unit"
+    ],
+    "entityIds": "Group letter plus 1-based zero-padded four-digit entity index; globally unique across groups",
+    "equation": "100 + 12*zero_based_group_index + entity_intercept + 0.03*sequence + noise",
+    "entityIntercept": "uniform(-10,10) once per entity",
+    "noise": "uniform(-4,4) once per measurement",
+    "sequence": "1-based actual integer measurement order",
+    "unit": "synthetic-unit",
+    "encoding": "UTF-8 CSV; LF; values formatted to 9 decimal places",
+    "positivity": "Bounded generator yields strictly positive nondegenerate repeated measurements"
+  },
+  "datasets": [
+    {
+      "id": "small",
+      "groups": 3,
+      "entitiesPerGroup": 4,
+      "measurementsPerEntity": 6,
+      "entitiesTotal": 12,
+      "rows": 72,
+      "sha256": "78bede416d9c854ecdd4dfbb9d6bbdea4f05f7c3b467bfb33524c3646805b7c1"
+    },
+    {
+      "id": "medium",
+      "groups": 3,
+      "entitiesPerGroup": 20,
+      "measurementsPerEntity": 20,
+      "entitiesTotal": 60,
+      "rows": 1200,
+      "sha256": "52b84fce786fd0ced2ca1ea8281cdbbb420eb28686b2182e910449e3439a0bf2"
+    },
+    {
+      "id": "large",
+      "groups": 3,
+      "entitiesPerGroup": 100,
+      "measurementsPerEntity": 50,
+      "entitiesTotal": 300,
+      "rows": 15000,
+      "sha256": "2689b6bfd1b884c6251207f8e3d7ff5906eb96e2ca9c68b9e094b0b22b488b46"
+    }
+  ],
+  "calibration": {
+    "repetitions": 100,
+    "seed": 20260719
+  },
+  "cancellation": {
+    "dataset": "medium",
+    "repetitions": 100000,
+    "seed": 20260719,
+    "signal": "SIGINT once to the launched child session if still running after 1 second",
+    "expectedExit": 1,
+    "expectedErrorType": "OperationCanceledException",
+    "expectedStdout": "Exactly one mvs-cli-result/v1 JSON error object",
+    "expectedOutput": "No completed calibration_state.json/run_manifest.json; machine artifacts empty and outputDirectory/manifestPath null",
+    "fallback": "Wait up to 10 seconds after SIGINT, then SIGKILL only the owned process session; record as failure"
+  },
+  "limits": {
+    "cpus": 2,
+    "rssLimitMiB": 768,
+    "pollSeconds": 0.05,
+    "calibrationTimeoutSeconds": 120,
+    "analysisTimeoutSeconds": 30,
+    "cancelAfterSeconds": 1,
+    "cancelGraceSeconds": 10
+  },
+  "executionOrder": [
+    "small-calibrate",
+    "small-analyze",
+    "medium-calibrate",
+    "medium-analyze",
+    "medium-cancel",
+    "large-calibrate",
+    "large-analyze"
+  ],
+  "executionPolicy": {
+    "serial": true,
+    "repeatsPerCase": 1,
+    "retry": "None; preserve failures and skip larger datasets",
+    "coldMeaning": "One fresh CLI process per case, no warmup; host filesystem/cache coldness is not controlled",
+    "affinity": "os.sched_setaffinity(0, first two sorted allowed CPUs) in child preexec only; sample observed child affinity; preserve parent affinity",
+    "rssWatchdog": "Sample launched process VmRSS at approximately 50 ms; SIGKILL owned session if >768 MiB; kernel peak above threshold also fails even if between samples",
+    "resourceAccounting": "os.wait4(exact_child_pid, WNOHANG); per-child ru_utime/ru_stime and Linux ru_maxrss KiB; never cumulative RUSAGE_CHILDREN",
+    "capture": "stdout/stderr directly to new files; stdin /dev/null; new process session; no PIPEs",
+    "output": "Fresh evidence directory outside source; refuse existing evidence/summary/archive; preserve inputs and captures on failure",
+    "commonFlags": [
+      "--json",
+      "--quiet"
+    ],
+    "backups": "MVS_DISABLE_BACKUPS=1 and task-local MVS_BACKUP_DIR; resume is not tested",
+    "environment": "DOTNET_ROOT=/tmp/mvs-dotnet, DOTNET_CLI_HOME=/tmp/mvs-dotnet-home, NUGET_PACKAGES=/tmp/mvs-nuget/packages; task-local XDG data/config/cache; remove optional DOTNET_/COMPlus_ overrides except named environment",
+    "runtimeIdentity": "Installed SDK 8.0.425 and runtime 8.0.31; process coreclr mapped paths retained in samples"
+  },
+  "commandTemplates": {
+    "calibrate": [
+      "{cli}",
+      "calibrate",
+      "--in",
+      "{input}",
+      "--repetitions",
+      "100",
+      "--seed",
+      "20260719",
+      "--out",
+      "{fresh_output}",
+      "--json",
+      "--quiet"
+    ],
+    "analyze": [
+      "{cli}",
+      "analyze",
+      "--in",
+      "{input}",
+      "--calibration",
+      "{own_calibration}",
+      "--out",
+      "{fresh_output}",
+      "--json",
+      "--quiet"
+    ],
+    "cancel": [
+      "{cli}",
+      "calibrate",
+      "--in",
+      "{medium_input}",
+      "--repetitions",
+      "100000",
+      "--seed",
+      "20260719",
+      "--out",
+      "{fresh_cancel_output}",
+      "--json",
+      "--quiet"
+    ]
+  },
+  "expectedBinarySha256": {
+    "mvs": "9987fb5c7f30d0070c7cab58df2f7f39dcddf420d07e9454cf9cbc29908427c6",
+    "mvs.dll": "1570f3ea857d0f32b99f82ef0b15935128e04fe7ef6af81ce549395c66c90c1b",
+    "MvsAnalyzer.Core.dll": "0b5e856f110927c1d270a82da2fcecc13406b5645a16377db2a6d5e364d6725d",
+    "mvs.runtimeconfig.json": "97c9700542b659150b230c3578b29530fd76ab01ec66a92cd16945e0245713df",
+    "mvs.deps.json": "f72c6e5f936f3667b262757d0ed593a12f4b081c8622011b04e64ef04db77669"
+  },
+  "preservedScientificContract": {
+    "engineVersion": "1.6.2",
+    "activeMetrics": 12,
+    "correction": "Bonferroni",
+    "developmentBaseline": "NO-GO retained",
+    "nativeOrApiEdits": false
+  },
+  "interpretationLimits": [
+    "One process per case on one shared Linux environment; no repeated timing estimates, warmup, speedup comparison, cross-platform evidence, or capacity guarantee.",
+    "Cold means fresh process only; OS cache state and host contention are uncontrolled. Timings include process startup and I/O.",
+    "Only standard three-independent-group summary calibration/analysis is profiled; variance, estimation, MELSM, Python wrapper overhead, Windows/macOS, and resume are not tested.",
+    "100 calibration repetitions are an operational smoke budget, not adequate scientific calibration or FPR/power evidence. No inference of numerical/scientific correctness from timings.",
+    "RSS watchdog samples the launched process at about 50 ms and is not a hard allocation cap or a full process-tree memory limit. Exact kernel peak is reported separately; CPU/RSS are wait4 accounting for the launched child.",
+    "Cancellation is one SIGINT during a long synthetic calibration; backup/resume, export-time cancellation, all phases, and every workload are not covered.",
+    "Engine 1.6.2, the active twelve-metric Bonferroni family, and the full development baseline NO-GO remain unchanged."
+  ]
+}

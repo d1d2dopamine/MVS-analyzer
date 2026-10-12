@@ -1,0 +1,942 @@
+{
+  "protocolId": "MVS-SCIENTIFIC-INTERFACE-1",
+  "evaluatedAt": "2026-10-11T23:05:29.317250+00:00",
+  "protocolSha256": "f9d9d1bd0b62273800d61623fc7c42a1c76fa5d1e265b17f29fcec2b16f3e0f5",
+  "frozenAt": "2026-10-11T23:02:08.066705+00:00",
+  "rawDirectory": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw",
+  "status": "passed",
+  "scientificReleaseDecision": "NO-GO retained",
+  "nativeCoreSha256": "0b5e856f110927c1d270a82da2fcecc13406b5645a16377db2a6d5e364d6725d",
+  "wrapperBeforeSha256": "e714523241f2e867b349d47a73503949bb0514784fa62bd420ae69cadfe1b771",
+  "wrapperAfterSha256": "ac2fbadb656ab80acefb7f0c44ea38b5423b2659d76cbf7b8e9bd2dfdf3cc1a4",
+  "harnessSha256": "5dfe4aff062c1e8440ec401bcd49422e9b7b5db4b072858e5c6977d52c09e3da",
+  "preFix": {
+    "reproducedAt": "2026-10-11T23:02:08.579877+00:00",
+    "engineSha256": "e714523241f2e867b349d47a73503949bb0514784fa62bd420ae69cadfe1b771",
+    "finding": "Actual CLI ArgumentOutOfRangeException is classified EngineError by the original Python wrapper; InputError is the documented input-error contract.",
+    "runs": [
+      {
+        "errorType": "ArgumentOutOfRangeException",
+        "emptyOutputAllowed": true,
+        "sentinelPreserved": false,
+        "case": "variance-min-measurements",
+        "interface": "cli",
+        "status": "error",
+        "exitCode": 1,
+        "wallSeconds": 0.15546885100047803,
+        "sampledTreePeakRssKiB": 0,
+        "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/variance-min-measurements-cli-pre-fix",
+        "payloadSha256": "a08466d4b4c2b264f6a7780652a57d6d4326e64a07fac496d597d8c01575d359"
+      },
+      {
+        "errorType": "ArgumentOutOfRangeException",
+        "emptyOutputAllowed": true,
+        "sentinelPreserved": false,
+        "case": "variance-min-measurements",
+        "interface": "python",
+        "status": "error",
+        "exitCode": 1,
+        "wallSeconds": 0.30563288800112787,
+        "sampledTreePeakRssKiB": 0,
+        "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/variance-min-measurements-python-pre-fix",
+        "payloadSha256": "a08466d4b4c2b264f6a7780652a57d6d4326e64a07fac496d597d8c01575d359",
+        "wrapperException": "EngineError",
+        "resultType": null,
+        "typedArtifactAccessVerified": false
+      }
+    ]
+  },
+  "pairs": [
+    {
+      "case": "variance-smoke",
+      "passed": true,
+      "negative": false
+    },
+    {
+      "case": "estimation-mean-normal-smoke",
+      "passed": true,
+      "negative": false
+    },
+    {
+      "case": "melsm-random-scale-8-subjects",
+      "passed": true,
+      "negative": false
+    },
+    {
+      "case": "melsm-analytic-48-subjects",
+      "passed": true,
+      "negative": false
+    },
+    {
+      "case": "variance-degenerate",
+      "passed": true,
+      "negative": false
+    },
+    {
+      "case": "variance-repetitions",
+      "passed": true,
+      "negative": true
+    },
+    {
+      "case": "variance-bootstrap",
+      "passed": true,
+      "negative": true
+    },
+    {
+      "case": "variance-min-measurements",
+      "passed": true,
+      "negative": true
+    },
+    {
+      "case": "estimation-entities",
+      "passed": true,
+      "negative": true
+    },
+    {
+      "case": "estimation-geometric-normal",
+      "passed": true,
+      "negative": true
+    },
+    {
+      "case": "melsm-quadrature",
+      "passed": true,
+      "negative": true
+    },
+    {
+      "case": "melsm-correlation-without-scale",
+      "passed": true,
+      "negative": true
+    },
+    {
+      "case": "melsm-time-without-sequence",
+      "passed": true,
+      "negative": true
+    },
+    {
+      "case": "variance-existing-output",
+      "passed": true,
+      "negative": true
+    },
+    {
+      "case": "estimation-existing-output",
+      "passed": true,
+      "negative": true
+    },
+    {
+      "case": "melsm-existing-output",
+      "passed": true,
+      "negative": true
+    }
+  ],
+  "runs": [
+    {
+      "entities": 40,
+      "observations": 320,
+      "groupStatuses": [
+        "estimated",
+        "estimated"
+      ],
+      "trackStatuses": [
+        "conditional_plugin_bootstrap",
+        "conditional_plugin_bootstrap"
+      ],
+      "referenceFailures": [
+        0,
+        0
+      ],
+      "nullFailures": [
+        0,
+        0
+      ],
+      "alternativeFailures": [
+        0,
+        0
+      ],
+      "mde": [
+        null,
+        null
+      ],
+      "artifactsVerified": 4,
+      "manifestFilesVerified": 3,
+      "case": "variance-smoke",
+      "interface": "cli",
+      "status": "completed",
+      "exitCode": 0,
+      "wallSeconds": 0.9574747229999048,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 52544,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/variance-smoke-cli",
+      "payloadSha256": "9cd22a50153ffc2dd40c079072fe65d52f43bc9fb61dd1369a51539353640718"
+    },
+    {
+      "entities": 40,
+      "observations": 320,
+      "groupStatuses": [
+        "estimated",
+        "estimated"
+      ],
+      "trackStatuses": [
+        "conditional_plugin_bootstrap",
+        "conditional_plugin_bootstrap"
+      ],
+      "referenceFailures": [
+        0,
+        0
+      ],
+      "nullFailures": [
+        0,
+        0
+      ],
+      "alternativeFailures": [
+        0,
+        0
+      ],
+      "mde": [
+        null,
+        null
+      ],
+      "artifactsVerified": 4,
+      "manifestFilesVerified": 3,
+      "case": "variance-smoke",
+      "interface": "python",
+      "status": "completed",
+      "exitCode": 0,
+      "wallSeconds": 1.1583760860012262,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 51668,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/variance-smoke-python",
+      "payloadSha256": "8b061930daf0af96cf0e5638da4f19d5679b63e18de6905d46a50dd7436915cc",
+      "wrapperException": null,
+      "resultType": "VarianceResult",
+      "typedArtifactAccessVerified": true
+    },
+    {
+      "truth": 100,
+      "draws": 300,
+      "methods": [
+        "arithmetic_mean",
+        "trimmed_entity_mean_20",
+        "median_of_entity_medians"
+      ],
+      "completed": [
+        100,
+        100,
+        100
+      ],
+      "failures": [
+        0,
+        0,
+        0
+      ],
+      "coverage": [
+        0.81,
+        0.82,
+        0.89
+      ],
+      "independentDrawRecomputation": "passed",
+      "artifactsVerified": 4,
+      "manifestFilesVerified": 3,
+      "case": "estimation-mean-normal-smoke",
+      "interface": "cli",
+      "status": "completed",
+      "exitCode": 0,
+      "wallSeconds": 0.35445740199793363,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 47024,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/estimation-mean-normal-smoke-cli",
+      "payloadSha256": "968a74aabc921e7c28273ac4f7dc462f4831e21fa01490ce2e7dfd5529679e65"
+    },
+    {
+      "truth": 100,
+      "draws": 300,
+      "methods": [
+        "arithmetic_mean",
+        "trimmed_entity_mean_20",
+        "median_of_entity_medians"
+      ],
+      "completed": [
+        100,
+        100,
+        100
+      ],
+      "failures": [
+        0,
+        0,
+        0
+      ],
+      "coverage": [
+        0.81,
+        0.82,
+        0.89
+      ],
+      "independentDrawRecomputation": "passed",
+      "artifactsVerified": 4,
+      "manifestFilesVerified": 3,
+      "case": "estimation-mean-normal-smoke",
+      "interface": "python",
+      "status": "completed",
+      "exitCode": 0,
+      "wallSeconds": 0.5046344799993676,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 46884,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/estimation-mean-normal-smoke-python",
+      "payloadSha256": "5d1728e1851cba8d91d09bf84d18b0083c39487a04d0eef9be172bae5958119d",
+      "wrapperException": null,
+      "resultType": "EstimationResult",
+      "typedArtifactAccessVerified": true
+    },
+    {
+      "subjects": 8,
+      "observations": 96,
+      "modelStatus": "converged_experimental",
+      "converged": true,
+      "iterations": 220,
+      "quadraturePoints": 7,
+      "quadratureDifference": 1.614932898519328e-08,
+      "parameterNames": [
+        "mean:A",
+        "residual_variance_at_v0:A",
+        "mean:B",
+        "residual_variance_at_v0:B",
+        "between_entity_variance",
+        "random_log_variance_sd"
+      ],
+      "randomEffectRows": 8,
+      "artifactsVerified": 4,
+      "manifestFilesVerified": 3,
+      "case": "melsm-random-scale-8-subjects",
+      "interface": "cli",
+      "status": "completed",
+      "exitCode": 0,
+      "wallSeconds": 0.25337897400095244,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 48788,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/melsm-random-scale-8-subjects-cli",
+      "payloadSha256": "8acb24130ea1fa41ee17da1f128c65bbee48fca3baf43fa70e4ff0721e090744"
+    },
+    {
+      "subjects": 8,
+      "observations": 96,
+      "modelStatus": "converged_experimental",
+      "converged": true,
+      "iterations": 220,
+      "quadraturePoints": 7,
+      "quadratureDifference": 1.614932898519328e-08,
+      "parameterNames": [
+        "mean:A",
+        "residual_variance_at_v0:A",
+        "mean:B",
+        "residual_variance_at_v0:B",
+        "between_entity_variance",
+        "random_log_variance_sd"
+      ],
+      "randomEffectRows": 8,
+      "artifactsVerified": 4,
+      "manifestFilesVerified": 3,
+      "case": "melsm-random-scale-8-subjects",
+      "interface": "python",
+      "status": "completed",
+      "exitCode": 0,
+      "wallSeconds": 0.404383779001364,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 48972,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/melsm-random-scale-8-subjects-python",
+      "payloadSha256": "6069bbfa648d030056523971a5aebc93639bb8ec460343583eeae9e9524c9fc8",
+      "wrapperException": null,
+      "resultType": "MelsmResult",
+      "typedArtifactAccessVerified": true
+    },
+    {
+      "subjects": 48,
+      "observations": 576,
+      "modelStatus": "converged_experimental",
+      "converged": true,
+      "iterations": 107,
+      "quadraturePoints": 7,
+      "quadratureDifference": 0,
+      "parameterNames": [
+        "mean:A",
+        "residual_variance_at_v0:A",
+        "mean:B",
+        "residual_variance_at_v0:B",
+        "between_entity_variance"
+      ],
+      "randomEffectRows": 48,
+      "artifactsVerified": 4,
+      "manifestFilesVerified": 3,
+      "case": "melsm-analytic-48-subjects",
+      "interface": "cli",
+      "status": "completed",
+      "exitCode": 0,
+      "wallSeconds": 0.20334048199947574,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 48512,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/melsm-analytic-48-subjects-cli",
+      "payloadSha256": "2dc06977efe8ec0479a4774089578091c74821e681adb6dde4819556f2b994d1"
+    },
+    {
+      "subjects": 48,
+      "observations": 576,
+      "modelStatus": "converged_experimental",
+      "converged": true,
+      "iterations": 107,
+      "quadraturePoints": 7,
+      "quadratureDifference": 0,
+      "parameterNames": [
+        "mean:A",
+        "residual_variance_at_v0:A",
+        "mean:B",
+        "residual_variance_at_v0:B",
+        "between_entity_variance"
+      ],
+      "randomEffectRows": 48,
+      "artifactsVerified": 4,
+      "manifestFilesVerified": 3,
+      "case": "melsm-analytic-48-subjects",
+      "interface": "python",
+      "status": "completed",
+      "exitCode": 0,
+      "wallSeconds": 0.40471829300076934,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 47924,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/melsm-analytic-48-subjects-python",
+      "payloadSha256": "c37e28cf5312c4ceb392f5ce866bc36c4bf1767df71252d2654d54aa271af8eb",
+      "wrapperException": null,
+      "resultType": "MelsmResult",
+      "typedArtifactAccessVerified": true
+    },
+    {
+      "entities": 8,
+      "observations": 24,
+      "groupStatuses": [
+        "not_converged_or_degenerate",
+        "not_converged_or_degenerate"
+      ],
+      "trackStatuses": [
+        "bootstrap_or_fit_failure",
+        "bootstrap_or_fit_failure"
+      ],
+      "referenceFailures": [
+        99,
+        99
+      ],
+      "nullFailures": [
+        100,
+        100
+      ],
+      "alternativeFailures": [
+        100,
+        100
+      ],
+      "mde": [
+        null,
+        null
+      ],
+      "artifactsVerified": 4,
+      "manifestFilesVerified": 3,
+      "case": "variance-degenerate",
+      "interface": "cli",
+      "status": "diagnostic",
+      "exitCode": 2,
+      "wallSeconds": 0.20391401300003054,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 46524,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/variance-degenerate-cli",
+      "payloadSha256": "4a0126490b497f9ccb8ca905fe6b925451fd5a040e396bfadcc8691ee2979bc6"
+    },
+    {
+      "entities": 8,
+      "observations": 24,
+      "groupStatuses": [
+        "not_converged_or_degenerate",
+        "not_converged_or_degenerate"
+      ],
+      "trackStatuses": [
+        "bootstrap_or_fit_failure",
+        "bootstrap_or_fit_failure"
+      ],
+      "referenceFailures": [
+        99,
+        99
+      ],
+      "nullFailures": [
+        100,
+        100
+      ],
+      "alternativeFailures": [
+        100,
+        100
+      ],
+      "mde": [
+        null,
+        null
+      ],
+      "artifactsVerified": 4,
+      "manifestFilesVerified": 3,
+      "case": "variance-degenerate",
+      "interface": "python",
+      "status": "diagnostic",
+      "exitCode": 2,
+      "wallSeconds": 0.3540929539994977,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 46500,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/variance-degenerate-python",
+      "payloadSha256": "f00ff4d04d919fc9eb97ff1e1b851918cb1d5f563f5839c9cb99ea0ceba97bc4",
+      "wrapperException": null,
+      "resultType": "VarianceResult",
+      "typedArtifactAccessVerified": true
+    },
+    {
+      "errorType": "ArgumentException",
+      "emptyOutputAllowed": true,
+      "sentinelPreserved": false,
+      "case": "variance-repetitions",
+      "interface": "cli",
+      "status": "error",
+      "exitCode": 1,
+      "wallSeconds": 0.15324027900351211,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 45416,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/variance-repetitions-cli",
+      "payloadSha256": "d8814058d2f6dd664c8296a469c5fba74a5ddafc65c967fb7f3866ea582bff57"
+    },
+    {
+      "errorType": "ArgumentException",
+      "emptyOutputAllowed": true,
+      "sentinelPreserved": false,
+      "case": "variance-repetitions",
+      "interface": "python",
+      "status": "error",
+      "exitCode": 1,
+      "wallSeconds": 0.30377978300020914,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 44904,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/variance-repetitions-python",
+      "payloadSha256": "d8814058d2f6dd664c8296a469c5fba74a5ddafc65c967fb7f3866ea582bff57",
+      "wrapperException": "InputError",
+      "resultType": null,
+      "typedArtifactAccessVerified": false
+    },
+    {
+      "errorType": "ArgumentException",
+      "emptyOutputAllowed": true,
+      "sentinelPreserved": false,
+      "case": "variance-bootstrap",
+      "interface": "cli",
+      "status": "error",
+      "exitCode": 1,
+      "wallSeconds": 0.15291294800044852,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 45516,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/variance-bootstrap-cli",
+      "payloadSha256": "d8814058d2f6dd664c8296a469c5fba74a5ddafc65c967fb7f3866ea582bff57"
+    },
+    {
+      "errorType": "ArgumentException",
+      "emptyOutputAllowed": true,
+      "sentinelPreserved": false,
+      "case": "variance-bootstrap",
+      "interface": "python",
+      "status": "error",
+      "exitCode": 1,
+      "wallSeconds": 0.30382639299932634,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 45440,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/variance-bootstrap-python",
+      "payloadSha256": "d8814058d2f6dd664c8296a469c5fba74a5ddafc65c967fb7f3866ea582bff57",
+      "wrapperException": "InputError",
+      "resultType": null,
+      "typedArtifactAccessVerified": false
+    },
+    {
+      "errorType": "ArgumentOutOfRangeException",
+      "emptyOutputAllowed": true,
+      "sentinelPreserved": false,
+      "case": "variance-min-measurements",
+      "interface": "cli",
+      "status": "error",
+      "exitCode": 1,
+      "wallSeconds": 0.1529137190009351,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 42968,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/variance-min-measurements-cli",
+      "payloadSha256": "a08466d4b4c2b264f6a7780652a57d6d4326e64a07fac496d597d8c01575d359"
+    },
+    {
+      "errorType": "ArgumentOutOfRangeException",
+      "emptyOutputAllowed": true,
+      "sentinelPreserved": false,
+      "case": "variance-min-measurements",
+      "interface": "python",
+      "status": "error",
+      "exitCode": 1,
+      "wallSeconds": 0.30378732399913133,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 43016,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/variance-min-measurements-python",
+      "payloadSha256": "a08466d4b4c2b264f6a7780652a57d6d4326e64a07fac496d597d8c01575d359",
+      "wrapperException": "InputError",
+      "resultType": null,
+      "typedArtifactAccessVerified": false
+    },
+    {
+      "errorType": "ArgumentException",
+      "emptyOutputAllowed": true,
+      "sentinelPreserved": false,
+      "case": "estimation-entities",
+      "interface": "cli",
+      "status": "error",
+      "exitCode": 1,
+      "wallSeconds": 0.10269024200169952,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 41460,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/estimation-entities-cli",
+      "payloadSha256": "86b2430454af74f440b6fcb6575df548d18d747c0a0cf769a032713d51f37066"
+    },
+    {
+      "errorType": "ArgumentException",
+      "emptyOutputAllowed": true,
+      "sentinelPreserved": false,
+      "case": "estimation-entities",
+      "interface": "python",
+      "status": "error",
+      "exitCode": 1,
+      "wallSeconds": 0.2534860800005845,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 41404,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/estimation-entities-python",
+      "payloadSha256": "86b2430454af74f440b6fcb6575df548d18d747c0a0cf769a032713d51f37066",
+      "wrapperException": "InputError",
+      "resultType": null,
+      "typedArtifactAccessVerified": false
+    },
+    {
+      "errorType": "ArgumentException",
+      "emptyOutputAllowed": true,
+      "sentinelPreserved": false,
+      "case": "estimation-geometric-normal",
+      "interface": "cli",
+      "status": "error",
+      "exitCode": 1,
+      "wallSeconds": 0.1529436729979352,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 41104,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/estimation-geometric-normal-cli",
+      "payloadSha256": "e0f184982312f1d81477e95576759c47b81f9f377b81f48711b91f4ce6a6a576"
+    },
+    {
+      "errorType": "ArgumentException",
+      "emptyOutputAllowed": true,
+      "sentinelPreserved": false,
+      "case": "estimation-geometric-normal",
+      "interface": "python",
+      "status": "error",
+      "exitCode": 1,
+      "wallSeconds": 0.30382821599778254,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 41380,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/estimation-geometric-normal-python",
+      "payloadSha256": "e0f184982312f1d81477e95576759c47b81f9f377b81f48711b91f4ce6a6a576",
+      "wrapperException": "InputError",
+      "resultType": null,
+      "typedArtifactAccessVerified": false
+    },
+    {
+      "errorType": "ArgumentException",
+      "emptyOutputAllowed": true,
+      "sentinelPreserved": false,
+      "case": "melsm-quadrature",
+      "interface": "cli",
+      "status": "error",
+      "exitCode": 1,
+      "wallSeconds": 0.1523219800001243,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 43280,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/melsm-quadrature-cli",
+      "payloadSha256": "7a623503bbbfbd1881e9e6338da1c05f079481f6362764752906b594a497dcd6"
+    },
+    {
+      "errorType": "ArgumentException",
+      "emptyOutputAllowed": true,
+      "sentinelPreserved": false,
+      "case": "melsm-quadrature",
+      "interface": "python",
+      "status": "error",
+      "exitCode": 1,
+      "wallSeconds": 0.3030417150002904,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 43408,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/melsm-quadrature-python",
+      "payloadSha256": "7a623503bbbfbd1881e9e6338da1c05f079481f6362764752906b594a497dcd6",
+      "wrapperException": "InputError",
+      "resultType": null,
+      "typedArtifactAccessVerified": false
+    },
+    {
+      "errorType": "ArgumentException",
+      "emptyOutputAllowed": true,
+      "sentinelPreserved": false,
+      "case": "melsm-correlation-without-scale",
+      "interface": "cli",
+      "status": "error",
+      "exitCode": 1,
+      "wallSeconds": 0.1025492500011751,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 43232,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/melsm-correlation-without-scale-cli",
+      "payloadSha256": "48f3e9e882ca62aff9f69e67a2e54186f9635da719d1d3d65a98369985385e15"
+    },
+    {
+      "errorType": "ArgumentException",
+      "emptyOutputAllowed": true,
+      "sentinelPreserved": false,
+      "case": "melsm-correlation-without-scale",
+      "interface": "python",
+      "status": "error",
+      "exitCode": 1,
+      "wallSeconds": 0.30371807999836165,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 43224,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/melsm-correlation-without-scale-python",
+      "payloadSha256": "48f3e9e882ca62aff9f69e67a2e54186f9635da719d1d3d65a98369985385e15",
+      "wrapperException": "InputError",
+      "resultType": null,
+      "typedArtifactAccessVerified": false
+    },
+    {
+      "errorType": "InvalidDataException",
+      "emptyOutputAllowed": true,
+      "sentinelPreserved": false,
+      "case": "melsm-time-without-sequence",
+      "interface": "cli",
+      "status": "error",
+      "exitCode": 1,
+      "wallSeconds": 0.1524495220000972,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 41260,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/melsm-time-without-sequence-cli",
+      "payloadSha256": "ae4c39dff3c684b2f197f20fe2ad46ecf8b83d1545c405d1149548d34f733665"
+    },
+    {
+      "errorType": "InvalidDataException",
+      "emptyOutputAllowed": true,
+      "sentinelPreserved": false,
+      "case": "melsm-time-without-sequence",
+      "interface": "python",
+      "status": "error",
+      "exitCode": 1,
+      "wallSeconds": 0.3034348500004853,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 41388,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/melsm-time-without-sequence-python",
+      "payloadSha256": "ae4c39dff3c684b2f197f20fe2ad46ecf8b83d1545c405d1149548d34f733665",
+      "wrapperException": "InputError",
+      "resultType": null,
+      "typedArtifactAccessVerified": false
+    },
+    {
+      "errorType": "InvalidDataException",
+      "emptyOutputAllowed": true,
+      "sentinelPreserved": true,
+      "case": "variance-existing-output",
+      "interface": "cli",
+      "status": "error",
+      "exitCode": 1,
+      "wallSeconds": 0.10206957999980659,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 40200,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/variance-existing-output-cli",
+      "payloadSha256": "b6bfbd2635f4e9cef7d4a90475aee573d27e00afff1f2b2c412651cc56c7a735"
+    },
+    {
+      "errorType": "InvalidDataException",
+      "emptyOutputAllowed": true,
+      "sentinelPreserved": true,
+      "case": "variance-existing-output",
+      "interface": "python",
+      "status": "error",
+      "exitCode": 1,
+      "wallSeconds": 0.3030605630010541,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 40220,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/variance-existing-output-python",
+      "payloadSha256": "b6bfbd2635f4e9cef7d4a90475aee573d27e00afff1f2b2c412651cc56c7a735",
+      "wrapperException": "InputError",
+      "resultType": null,
+      "typedArtifactAccessVerified": false
+    },
+    {
+      "errorType": "InvalidDataException",
+      "emptyOutputAllowed": true,
+      "sentinelPreserved": true,
+      "case": "estimation-existing-output",
+      "interface": "cli",
+      "status": "error",
+      "exitCode": 1,
+      "wallSeconds": 0.10292806799770915,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 40128,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/estimation-existing-output-cli",
+      "payloadSha256": "17790e42b8c7c5b8c22d9dd53cf527bed1d66fb6fd9ccbd33080a0d6f5ad450f"
+    },
+    {
+      "errorType": "InvalidDataException",
+      "emptyOutputAllowed": true,
+      "sentinelPreserved": true,
+      "case": "estimation-existing-output",
+      "interface": "python",
+      "status": "error",
+      "exitCode": 1,
+      "wallSeconds": 0.2533884090007632,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 40120,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/estimation-existing-output-python",
+      "payloadSha256": "17790e42b8c7c5b8c22d9dd53cf527bed1d66fb6fd9ccbd33080a0d6f5ad450f",
+      "wrapperException": "InputError",
+      "resultType": null,
+      "typedArtifactAccessVerified": false
+    },
+    {
+      "errorType": "InvalidDataException",
+      "emptyOutputAllowed": true,
+      "sentinelPreserved": true,
+      "case": "melsm-existing-output",
+      "interface": "cli",
+      "status": "error",
+      "exitCode": 1,
+      "wallSeconds": 0.1020808670000406,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 40008,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/melsm-existing-output-cli",
+      "payloadSha256": "e2f44f2f862de580fac4c543a7dd5b9a8082a62ab392d2d329b6c843e372129e"
+    },
+    {
+      "errorType": "InvalidDataException",
+      "emptyOutputAllowed": true,
+      "sentinelPreserved": true,
+      "case": "melsm-existing-output",
+      "interface": "python",
+      "status": "error",
+      "exitCode": 1,
+      "wallSeconds": 0.25310289499975624,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 40004,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/melsm-existing-output-python",
+      "payloadSha256": "e2f44f2f862de580fac4c543a7dd5b9a8082a62ab392d2d329b6c843e372129e",
+      "wrapperException": "InputError",
+      "resultType": null,
+      "typedArtifactAccessVerified": false
+    },
+    {
+      "entities": 8,
+      "observations": 24,
+      "groupStatuses": [
+        "not_converged_or_degenerate",
+        "not_converged_or_degenerate"
+      ],
+      "trackStatuses": [
+        "bootstrap_or_fit_failure",
+        "bootstrap_or_fit_failure"
+      ],
+      "referenceFailures": [
+        99,
+        99
+      ],
+      "nullFailures": [
+        100,
+        100
+      ],
+      "alternativeFailures": [
+        100,
+        100
+      ],
+      "mde": [
+        null,
+        null
+      ],
+      "artifactsVerified": 4,
+      "manifestFilesVerified": 3,
+      "case": "variance-degenerate",
+      "interface": "python",
+      "status": "diagnostic",
+      "exitCode": 2,
+      "wallSeconds": 0.3544047530012904,
+      "sampledTreePeakRssKiB": null,
+      "treeSamplingAvailable": false,
+      "wait4MaxRssKiB": 46400,
+      "path": "/workspace/scratch/8105054a3211/mvs-scientific-interface-round18-raw/runs/variance-degenerate-python-strict",
+      "payloadSha256": "e9bd46688a6371682a345c1ff16ac5a892446aa599f4e6a45560f88832dd5385",
+      "wrapperException": "ScientificDiagnostic",
+      "resultType": "VarianceResult",
+      "typedArtifactAccessVerified": true
+    }
+  ],
+  "failures": [],
+  "counts": {
+    "plannedPairs": 16,
+    "passedPairs": 16,
+    "scientificPairs": 5,
+    "negativePairs": 11,
+    "validatedPostFixRuns": 33,
+    "preFixRuns": 2,
+    "strictDiagnosticRuns": 1,
+    "actualWorkloadInvocations": 35,
+    "pythonVersionHandshakes": 18,
+    "totalNativeInvocations": 53,
+    "verifiedOutputArtifacts": 44
+  },
+  "limits": {
+    "cpus": 2,
+    "rssLimitMiB": 768,
+    "pollSeconds": 0.05,
+    "negativeTimeoutSeconds": 20
+  },
+  "affinity": [
+    0,
+    1
+  ],
+  "resourceMonitoringStatus": "incomplete_tree_observation",
+  "resourceMonitoringNote": "CPU affinity was set before launch and per-case timeout controls ran. Original round-18 samples were empty because this sandbox lacks task/PID/children; tree RSS/observed affinity are unavailable. Kernel wait4 RSS is retained and is not simultaneous tree RSS. The final harness uses PPid traversal, tested separately without models. Successful cases were not rerun.",
+  "limitations": [
+    "Same-engine parity does not establish correctness of likelihood, optimization, tests or DGP.",
+    "Small smoke budgets differ from cli-contract-v1.json canonical scientific fixtures; no canonical validation claim.",
+    "One seed/input/options set; no parameter or seed tuning, no convergence-based reruns.",
+    "Random-scale MELSM remains experimental; failure/diagnostic statuses and null intervals must be preserved.",
+    "Resource monitoring is sampled, bounded operational safety; sampled descendant RSS is not an exact simultaneous tree peak.",
+    "Independent consistency arithmetic checks exported accounting and performance identities, not external-model certification.",
+    "No new inferential method, active metric, default, scientific-release decision or external publication.",
+    "Original actual runs have no usable process-tree RSS samples; the 768 MiB sampled-tree watchdog therefore was not verified/enforced from observations. Do not interpret zero raw samples as zero memory use."
+  ]
+}

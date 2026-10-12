@@ -1,11 +1,13 @@
 {
-  "note": "Explicit source-contract revisions for checkpoint orchestration and the CLI/Core/Python interface layer. Historical byte pins are retained as originalSha256. Formula/protocol pins and statistical method hashes remain unchanged. Engine 1.6.1 explicitly repairs rounded normal-CDF coefficients; the two affected Core source pins change for that numerical fix and version identity. Independent rank fixtures and their accuracy gates remain unchanged. Round 3 engine 1.6.2 deliberately separates observed testability and calibration, adds result accounting and aligns the shipped comparator. Only these affected source pins are revised; beforeRound3Sha256 retains the preceding snapshot. Historical formula/protocol and independent rank gates remain unchanged.",
+  "note": "Explicit source-contract revisions for checkpoint orchestration and the CLI/Core/Python interface layer. Historical byte pins are retained as originalSha256. Formula/protocol pins and statistical method hashes remain unchanged. Engine 1.6.1 explicitly repairs rounded normal-CDF coefficients; the two affected Core source pins change for that numerical fix and version identity. Independent rank fixtures and their accuracy gates remain unchanged. Round 3 engine 1.6.2 deliberately separates observed testability and calibration, adds result accounting and aligns the shipped comparator. Only these affected source pins are revised; beforeRound3Sha256 retains the preceding snapshot. Historical formula/protocol and independent rank gates remain unchanged. Round 4 revises only BenchmarkRunner/BenchmarkReport byte pins for additive R1-07 instrumentation and JSON null handling; beforeRound4Sha256 retains the original snapshot. HeadlessRun stale pin is unchanged.",
   "sha256": {
     "Benchmark/BenchmarkRunner.cs": {
       "originalSha256": "23869bc90ed7a77c563a78d882eea0d1407de86019b12df1c9332f58762d7ae8",
-      "sha256": "661991d26dfbeab1d671d5ee7ec76f8f5a9f98bca3d66e311673762d9e439a99",
+      "sha256": "621f0b00907a69d491ed68d699d9c1738ba43de454d0624317e8396d9cc54792",
       "beforeRound3Sha256": "376585cf8ab00645ed7d7ab01a727a14cf6e12df53e7a678072481c5b648f2eb",
-      "round3Reason": "Observed/calibration separation and entity-accounting export, required engine identity or shipped-comparator alignment; see ROUND3_APPLICABILITY_CHECKPOINT.md and native AvailabilityChecks."
+      "round3Reason": "Observed/calibration separation and entity-accounting export, required engine identity or shipped-comparator alignment; see ROUND3_APPLICABILITY_CHECKPOINT.md and native AvailabilityChecks.",
+      "beforeRound4Sha256": "661991d26dfbeab1d671d5ee7ec76f8f5a9f98bca3d66e311673762d9e439a99",
+      "round4Reason": "R1-07 additive per-replication benchmark diagnostics, legacy-missing provenance and JSON-only null fix; statistical rules, streams, legacy aggregates and protocol unchanged. See ROUND4_BENCHMARK_DIAGNOSTICS.md."
     },
     "Core/AnalysisEngine.cs": {
       "originalSha256": "6d20f4e5a752f1c78d16120a4ce7d2c84885758fa32139a9138508345499f25f",
@@ -39,7 +41,9 @@
     },
     "Benchmark/BenchmarkReport.cs": {
       "originalSha256": "98d633079904fef5eb25c653e77b02e21bfc01f06c88510e39733942a34dc167",
-      "sha256": "9f609adf3fc117b1ee24ceeffea71c83098e125150e2345ab42a4b3122f31cd0"
+      "sha256": "fb0b6001c414eadbaef6a9e9510f609983a475fa672977fc509fd60a59244610",
+      "beforeRound4Sha256": "9f609adf3fc117b1ee24ceeffea71c83098e125150e2345ab42a4b3122f31cd0",
+      "round4Reason": "R1-07 additive per-replication benchmark diagnostics, legacy-missing provenance and JSON-only null fix; statistical rules, streams, legacy aggregates and protocol unchanged. See ROUND4_BENCHMARK_DIAGNOSTICS.md."
     },
     "Infrastructure/CliArguments.cs": {
       "originalSha256": "fb69acf4b2ba701903a0688d2ad2c555ab44c63c9c8cede48704a4bac1718a86",

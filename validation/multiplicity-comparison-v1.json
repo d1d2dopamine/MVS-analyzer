@@ -1,0 +1,8 @@
+{
+  "schema": "MVS-MULTIPLICITY-COMPARISON-1",
+  "fixtureSha256": "110fce60248a0b0c2c52dd4db9fa3fc49860ba22fc7bc3c406fb5a2ae8cd6fcf",
+  "cases": 46,
+  "comparisons": 980,
+  "passed": true,
+  "failures": []
+}

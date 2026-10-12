@@ -1,5 +1,13 @@
 # Documentation
 
+- [Current readiness and next decision](PROJECT_READINESS_HANDOFF.md): completed work, scientific NO-GO, recommendation and stopping boundary.
+- [Existing scientific interface audit](ROUND18_SCIENTIFIC_INTERFACE_AUDIT.md): actual variance/estimation/MELSM wrapper and export consistency.
+
+- [CLI resource and cancellation audit](ROUND17_CLI_RESOURCE_AUDIT.md): bounded Linux observations and remaining readiness decisions.
+
+- [Release workflow audit](ROUND16_RELEASE_WORKFLOW_AUDIT.md): complete local documentation bundles and aligned future verification gates.
+- [Current project readiness audit](ROUND15_PROJECT_READINESS_AUDIT.md): verified checkpoints, preserved NO-GO, operational limits and scientific decision gates.
+
 - [Data format](DATA_FORMAT.md): columns, grouping and example inputs.
 - [Methods](METHODS.md): metrics, simulation assumptions and inference limits.
 - [Reports](OUTPUTS.md): exported tables, figures and saved calibration.

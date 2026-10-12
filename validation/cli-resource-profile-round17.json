@@ -1,0 +1,518 @@
+{
+  "schema": "mvs-cli-resource-result/v1",
+  "protocolId": "MVS-CLI-RESOURCE-1",
+  "protocolSha256": "9f616a8ad788f0caf43a929faa48c90f319de48bee6832bc5b2129d9edf6a10b",
+  "startedUtc": "2026-10-11T22:54:27.101774+00:00",
+  "runnerSha256": "a4c2e6fee95a8e9b351ef1b3b119cac558f9a4993cda86a77b334ed828695c53",
+  "runDirectory": "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011",
+  "syntheticOnly": true,
+  "scientificValidation": false,
+  "developmentBaselineDecision": "NO-GO retained",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+  "machine": "x86_64",
+  "pythonVersion": "3.12.14",
+  "selectedEnvironment": {
+    "DOTNET_ROOT": "/tmp/mvs-dotnet",
+    "DOTNET_CLI_HOME": "/tmp/mvs-dotnet-home",
+    "NUGET_PACKAGES": "/tmp/mvs-nuget/packages",
+    "XDG_DATA_HOME": "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011/runtime/data",
+    "XDG_CONFIG_HOME": "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011/runtime/config",
+    "XDG_CACHE_HOME": "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011/runtime/cache",
+    "MVS_BACKUP_DIR": "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011/runtime/backups",
+    "MVS_DISABLE_BACKUPS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "removedRuntimeOverrideNames": [],
+  "parentAffinityBefore": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "selectedChildAffinity": [
+    0,
+    1
+  ],
+  "binaries": [
+    {
+      "name": "mvs",
+      "sha256": "9987fb5c7f30d0070c7cab58df2f7f39dcddf420d07e9454cf9cbc29908427c6",
+      "sizeBytes": 72568
+    },
+    {
+      "name": "mvs.dll",
+      "sha256": "1570f3ea857d0f32b99f82ef0b15935128e04fe7ef6af81ce549395c66c90c1b",
+      "sizeBytes": 66560
+    },
+    {
+      "name": "MvsAnalyzer.Core.dll",
+      "sha256": "0b5e856f110927c1d270a82da2fcecc13406b5645a16377db2a6d5e364d6725d",
+      "sizeBytes": 598528
+    },
+    {
+      "name": "mvs.runtimeconfig.json",
+      "sha256": "97c9700542b659150b230c3578b29530fd76ab01ec66a92cd16945e0245713df",
+      "sizeBytes": 328
+    },
+    {
+      "name": "mvs.deps.json",
+      "sha256": "f72c6e5f936f3667b262757d0ed593a12f4b081c8622011b04e64ef04db77669",
+      "sizeBytes": 764
+    }
+  ],
+  "installedSdkDirectories": [
+    "8.0.425"
+  ],
+  "installedRuntimeDirectories": [
+    "8.0.31"
+  ],
+  "datasets": [
+    {
+      "id": "small",
+      "groups": 3,
+      "entitiesPerGroup": 4,
+      "measurementsPerEntity": 6,
+      "entitiesTotal": 12,
+      "rows": 72,
+      "sha256": "78bede416d9c854ecdd4dfbb9d6bbdea4f05f7c3b467bfb33524c3646805b7c1"
+    },
+    {
+      "id": "medium",
+      "groups": 3,
+      "entitiesPerGroup": 20,
+      "measurementsPerEntity": 20,
+      "entitiesTotal": 60,
+      "rows": 1200,
+      "sha256": "52b84fce786fd0ced2ca1ea8281cdbbb420eb28686b2182e910449e3439a0bf2"
+    },
+    {
+      "id": "large",
+      "groups": 3,
+      "entitiesPerGroup": 100,
+      "measurementsPerEntity": 50,
+      "entitiesTotal": 300,
+      "rows": 15000,
+      "sha256": "2689b6bfd1b884c6251207f8e3d7ff5906eb96e2ca9c68b9e094b0b22b488b46"
+    }
+  ],
+  "records": [
+    {
+      "id": "small-calibrate",
+      "dataset": "small",
+      "inputSha256": "78bede416d9c854ecdd4dfbb9d6bbdea4f05f7c3b467bfb33524c3646805b7c1",
+      "command": [
+        "/workspace/scratch/8105054a3211/mvs_stage14/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs",
+        "calibrate",
+        "--in",
+        "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011/inputs/small.csv",
+        "--repetitions",
+        "100",
+        "--seed",
+        "20260719",
+        "--out",
+        "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011/outputs/small-calibrate",
+        "--json",
+        "--quiet"
+      ],
+      "cwd": "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011",
+      "startedUtc": "2026-10-11T22:54:27.126938+00:00",
+      "selectedAffinity": [
+        0,
+        1
+      ],
+      "timeoutSeconds": 120,
+      "pid": 6,
+      "returncode": 0,
+      "wallSeconds": 0.8114283570030238,
+      "cpuUserSeconds": 0.8328639999999999,
+      "cpuSystemSeconds": 0.039783,
+      "cpuTotalSeconds": 0.872647,
+      "peakRssKiB": 48012,
+      "sampledPeakRssKiB": 46844,
+      "minorPageFaults": 7142,
+      "majorPageFaults": 0,
+      "voluntaryContextSwitches": 63,
+      "involuntaryContextSwitches": 51,
+      "events": [],
+      "violations": [],
+      "cancellationSignalSent": false,
+      "cancellationLatencySeconds": null,
+      "forcedKill": false,
+      "finishedUtc": "2026-10-11T22:54:27.938467+00:00",
+      "captureFiles": {
+        "stdout": "captures/small-calibrate.stdout.txt",
+        "stderr": "captures/small-calibrate.stderr.txt"
+      },
+      "captureSha256": {
+        "stdout": "4a6f44e36165a2ba26fe8922693e3b586472efd637351e3a16693c632caa6248",
+        "stderr": "aedd559f5ae1fcf5b1da3b41413e0df17893c758b12117a20ae34a09843e65d0"
+      },
+      "problems": [],
+      "passed": true
+    },
+    {
+      "id": "small-analyze",
+      "dataset": "small",
+      "inputSha256": "78bede416d9c854ecdd4dfbb9d6bbdea4f05f7c3b467bfb33524c3646805b7c1",
+      "command": [
+        "/workspace/scratch/8105054a3211/mvs_stage14/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs",
+        "analyze",
+        "--in",
+        "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011/inputs/small.csv",
+        "--calibration",
+        "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011/outputs/small-calibrate",
+        "--out",
+        "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011/outputs/small-analyze",
+        "--json",
+        "--quiet"
+      ],
+      "cwd": "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011",
+      "startedUtc": "2026-10-11T22:54:27.939908+00:00",
+      "selectedAffinity": [
+        0,
+        1
+      ],
+      "timeoutSeconds": 30,
+      "pid": 13,
+      "returncode": 0,
+      "wallSeconds": 0.30548476499825483,
+      "cpuUserSeconds": 0.19464599999999999,
+      "cpuSystemSeconds": 0.031784,
+      "cpuTotalSeconds": 0.22643,
+      "peakRssKiB": 53520,
+      "sampledPeakRssKiB": 51680,
+      "minorPageFaults": 8910,
+      "majorPageFaults": 0,
+      "voluntaryContextSwitches": 25,
+      "involuntaryContextSwitches": 11,
+      "events": [],
+      "violations": [],
+      "cancellationSignalSent": false,
+      "cancellationLatencySeconds": null,
+      "forcedKill": false,
+      "finishedUtc": "2026-10-11T22:54:28.245471+00:00",
+      "captureFiles": {
+        "stdout": "captures/small-analyze.stdout.txt",
+        "stderr": "captures/small-analyze.stderr.txt"
+      },
+      "captureSha256": {
+        "stdout": "dd077fc4209ae156963c8359a0f0ea51f514d1edc0fde4fcb98f862ba747a2a1",
+        "stderr": "ed060257977d83ff86c0beca1625fff2a9a0846e0c4395a1328d63fbc73ace66"
+      },
+      "problems": [],
+      "passed": true
+    },
+    {
+      "id": "medium-calibrate",
+      "dataset": "medium",
+      "inputSha256": "52b84fce786fd0ced2ca1ea8281cdbbb420eb28686b2182e910449e3439a0bf2",
+      "command": [
+        "/workspace/scratch/8105054a3211/mvs_stage14/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs",
+        "calibrate",
+        "--in",
+        "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011/inputs/medium.csv",
+        "--repetitions",
+        "100",
+        "--seed",
+        "20260719",
+        "--out",
+        "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011/outputs/medium-calibrate",
+        "--json",
+        "--quiet"
+      ],
+      "cwd": "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011",
+      "startedUtc": "2026-10-11T22:54:28.247309+00:00",
+      "selectedAffinity": [
+        0,
+        1
+      ],
+      "timeoutSeconds": 120,
+      "pid": 20,
+      "returncode": 0,
+      "wallSeconds": 2.632689124002354,
+      "cpuUserSeconds": 2.7219949999999997,
+      "cpuSystemSeconds": 0.032681999999999996,
+      "cpuTotalSeconds": 2.7546769999999996,
+      "peakRssKiB": 55204,
+      "sampledPeakRssKiB": 55580,
+      "minorPageFaults": 9546,
+      "majorPageFaults": 0,
+      "voluntaryContextSwitches": 86,
+      "involuntaryContextSwitches": 47,
+      "events": [],
+      "violations": [],
+      "cancellationSignalSent": false,
+      "cancellationLatencySeconds": null,
+      "forcedKill": false,
+      "finishedUtc": "2026-10-11T22:54:30.880446+00:00",
+      "captureFiles": {
+        "stdout": "captures/medium-calibrate.stdout.txt",
+        "stderr": "captures/medium-calibrate.stderr.txt"
+      },
+      "captureSha256": {
+        "stdout": "5de66e9f917d54d7ffdc387ac14d68561ae9c6a42a2b0484f1811b479f04c23f",
+        "stderr": "50cb6e80584eaff5ef45db0edfd96c9aeadbe9ad29ef392c9d5217c2ea3b841b"
+      },
+      "problems": [],
+      "passed": true
+    },
+    {
+      "id": "medium-analyze",
+      "dataset": "medium",
+      "inputSha256": "52b84fce786fd0ced2ca1ea8281cdbbb420eb28686b2182e910449e3439a0bf2",
+      "command": [
+        "/workspace/scratch/8105054a3211/mvs_stage14/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs",
+        "analyze",
+        "--in",
+        "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011/inputs/medium.csv",
+        "--calibration",
+        "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011/outputs/medium-calibrate",
+        "--out",
+        "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011/outputs/medium-analyze",
+        "--json",
+        "--quiet"
+      ],
+      "cwd": "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011",
+      "startedUtc": "2026-10-11T22:54:30.881959+00:00",
+      "selectedAffinity": [
+        0,
+        1
+      ],
+      "timeoutSeconds": 30,
+      "pid": 27,
+      "returncode": 0,
+      "wallSeconds": 0.3052548529994965,
+      "cpuUserSeconds": 0.218602,
+      "cpuSystemSeconds": 0.032396999999999995,
+      "cpuTotalSeconds": 0.25099899999999997,
+      "peakRssKiB": 56156,
+      "sampledPeakRssKiB": 53140,
+      "minorPageFaults": 9375,
+      "majorPageFaults": 0,
+      "voluntaryContextSwitches": 27,
+      "involuntaryContextSwitches": 11,
+      "events": [],
+      "violations": [],
+      "cancellationSignalSent": false,
+      "cancellationLatencySeconds": null,
+      "forcedKill": false,
+      "finishedUtc": "2026-10-11T22:54:31.187284+00:00",
+      "captureFiles": {
+        "stdout": "captures/medium-analyze.stdout.txt",
+        "stderr": "captures/medium-analyze.stderr.txt"
+      },
+      "captureSha256": {
+        "stdout": "87ff2c880a84508891ea87860dd54084a149e22f19192929967614fb1b543592",
+        "stderr": "ba6bc25a136e65b663e33fc92a0f44328dc9086f5ad34d11ff7cb5e3e4d3cf6a"
+      },
+      "problems": [],
+      "passed": true
+    },
+    {
+      "id": "medium-cancel",
+      "dataset": "medium",
+      "inputSha256": "52b84fce786fd0ced2ca1ea8281cdbbb420eb28686b2182e910449e3439a0bf2",
+      "command": [
+        "/workspace/scratch/8105054a3211/mvs_stage14/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs",
+        "calibrate",
+        "--in",
+        "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011/inputs/medium.csv",
+        "--repetitions",
+        "100000",
+        "--seed",
+        "20260719",
+        "--out",
+        "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011/outputs/medium-cancel",
+        "--json",
+        "--quiet"
+      ],
+      "cwd": "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011",
+      "startedUtc": "2026-10-11T22:54:31.189461+00:00",
+      "selectedAffinity": [
+        0,
+        1
+      ],
+      "timeoutSeconds": 120,
+      "pid": 34,
+      "returncode": 1,
+      "wallSeconds": 1.0638249549992906,
+      "cpuUserSeconds": 1.154006,
+      "cpuSystemSeconds": 0.024273,
+      "cpuTotalSeconds": 1.178279,
+      "peakRssKiB": 60420,
+      "sampledPeakRssKiB": 57196,
+      "minorPageFaults": 10687,
+      "majorPageFaults": 0,
+      "voluntaryContextSwitches": 76,
+      "involuntaryContextSwitches": 17,
+      "events": [
+        {
+          "signal": "SIGINT",
+          "elapsedSeconds": 1.0132597939991683,
+          "reason": "planned_cancellation"
+        }
+      ],
+      "violations": [],
+      "cancellationSignalSent": true,
+      "cancellationLatencySeconds": 0.050565161000122316,
+      "forcedKill": false,
+      "finishedUtc": "2026-10-11T22:54:32.253364+00:00",
+      "captureFiles": {
+        "stdout": "captures/medium-cancel.stdout.txt",
+        "stderr": "captures/medium-cancel.stderr.txt"
+      },
+      "captureSha256": {
+        "stdout": "33cae8f0094ecb18fe46e59f8c2754e8592d11466457e1c09e37283deca030ea",
+        "stderr": "f60858083b7184c9eb2c07fada83a6e8f5b1bfaf20e3f081b3feeab267a632dc"
+      },
+      "problems": [],
+      "passed": true
+    },
+    {
+      "id": "large-calibrate",
+      "dataset": "large",
+      "inputSha256": "2689b6bfd1b884c6251207f8e3d7ff5906eb96e2ca9c68b9e094b0b22b488b46",
+      "command": [
+        "/workspace/scratch/8105054a3211/mvs_stage14/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs",
+        "calibrate",
+        "--in",
+        "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011/inputs/large.csv",
+        "--repetitions",
+        "100",
+        "--seed",
+        "20260719",
+        "--out",
+        "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011/outputs/large-calibrate",
+        "--json",
+        "--quiet"
+      ],
+      "cwd": "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011",
+      "startedUtc": "2026-10-11T22:54:32.254267+00:00",
+      "selectedAffinity": [
+        0,
+        1
+      ],
+      "timeoutSeconds": 120,
+      "pid": 42,
+      "returncode": 0,
+      "wallSeconds": 13.51530560899846,
+      "cpuUserSeconds": 13.573541,
+      "cpuSystemSeconds": 0.086562,
+      "cpuTotalSeconds": 13.660103000000001,
+      "peakRssKiB": 70248,
+      "sampledPeakRssKiB": 70484,
+      "minorPageFaults": 14474,
+      "majorPageFaults": 0,
+      "voluntaryContextSwitches": 123,
+      "involuntaryContextSwitches": 161,
+      "events": [],
+      "violations": [],
+      "cancellationSignalSent": false,
+      "cancellationLatencySeconds": null,
+      "forcedKill": false,
+      "finishedUtc": "2026-10-11T22:54:45.769671+00:00",
+      "captureFiles": {
+        "stdout": "captures/large-calibrate.stdout.txt",
+        "stderr": "captures/large-calibrate.stderr.txt"
+      },
+      "captureSha256": {
+        "stdout": "53f15ba0459be6e439727fde3219452b97fccfa62aec241640d1451004711cf5",
+        "stderr": "27c57b8e17a60c7696cf120579214a033e0168aec9b9f39386cc8e3aa4a54e74"
+      },
+      "problems": [],
+      "passed": true
+    },
+    {
+      "id": "large-analyze",
+      "dataset": "large",
+      "inputSha256": "2689b6bfd1b884c6251207f8e3d7ff5906eb96e2ca9c68b9e094b0b22b488b46",
+      "command": [
+        "/workspace/scratch/8105054a3211/mvs_stage14/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs",
+        "analyze",
+        "--in",
+        "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011/inputs/large.csv",
+        "--calibration",
+        "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011/outputs/large-calibrate",
+        "--out",
+        "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011/outputs/large-analyze",
+        "--json",
+        "--quiet"
+      ],
+      "cwd": "/workspace/scratch/8105054a3211/mvs-r17-cli-evidence-20261011",
+      "startedUtc": "2026-10-11T22:54:45.772440+00:00",
+      "selectedAffinity": [
+        0,
+        1
+      ],
+      "timeoutSeconds": 30,
+      "pid": 50,
+      "returncode": 0,
+      "wallSeconds": 0.5069323909992818,
+      "cpuUserSeconds": 0.41829099999999997,
+      "cpuSystemSeconds": 0.028464,
+      "cpuTotalSeconds": 0.44675499999999996,
+      "peakRssKiB": 68180,
+      "sampledPeakRssKiB": 64952,
+      "minorPageFaults": 13792,
+      "majorPageFaults": 0,
+      "voluntaryContextSwitches": 35,
+      "involuntaryContextSwitches": 12,
+      "events": [],
+      "violations": [],
+      "cancellationSignalSent": false,
+      "cancellationLatencySeconds": null,
+      "forcedKill": false,
+      "finishedUtc": "2026-10-11T22:54:46.279453+00:00",
+      "captureFiles": {
+        "stdout": "captures/large-analyze.stdout.txt",
+        "stderr": "captures/large-analyze.stderr.txt"
+      },
+      "captureSha256": {
+        "stdout": "38512d74d69bcb5e4fecfa4a05f56bfae5fb397d21d52afafecf0c0e21ad47d1",
+        "stderr": "d97194241b4a6a22442efdf09359b66c4cd1486772cd7de096e36de002b64d11"
+      },
+      "problems": [],
+      "passed": true
+    }
+  ],
+  "skipped": [],
+  "limits": [
+    "One process per case on one shared Linux environment; no repeated timing estimates, warmup, speedup comparison, cross-platform evidence, or capacity guarantee.",
+    "Cold means fresh process only; OS cache state and host contention are uncontrolled. Timings include process startup and I/O.",
+    "Only standard three-independent-group summary calibration/analysis is profiled; variance, estimation, MELSM, Python wrapper overhead, Windows/macOS, and resume are not tested.",
+    "100 calibration repetitions are an operational smoke budget, not adequate scientific calibration or FPR/power evidence. No inference of numerical/scientific correctness from timings.",
+    "RSS watchdog samples the launched process at about 50 ms and is not a hard allocation cap or a full process-tree memory limit. Exact kernel peak is reported separately; CPU/RSS are wait4 accounting for the launched child.",
+    "Cancellation is one SIGINT during a long synthetic calibration; backup/resume, export-time cancellation, all phases, and every workload are not covered.",
+    "Engine 1.6.2, the active twelve-metric Bonferroni family, and the full development baseline NO-GO remain unchanged."
+  ],
+  "parentAffinityAfter": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "inputPreserved": true,
+  "protocolPreserved": true,
+  "runnerPreserved": true,
+  "binaryIdentityPreserved": true,
+  "passed": true,
+  "finishedUtc": "2026-10-11T22:54:46.282727+00:00",
+  "evidenceArchive": {
+    "path": "/workspace/scratch/8105054a3211/mvs_stage17/MVS-analyzer-main/validation/cli-resource-profile-round17.zip",
+    "sha256": "5bb8567466d0835844e7dbac7981b7bec5575c55bf4c60d4920cced5aefad722",
+    "sizeBytes": 322654,
+    "files": 69,
+    "crcVerified": true,
+    "inventoryHashesVerified": true
+  }
+}

@@ -24,6 +24,18 @@ from 1.6.1 is retained. See the [round 3 checkpoint](docs/ROUND3_APPLICABILITY_C
 
 Development checkpoint `1.5-A` adds a structured metric registry and four staged metrics (Huber M, Hodges-Lehmann, Qn, and log-SD). They are not yet part of active calibration or multiplicity correction; the current inferential path retains the 12-metric registry and Bonferroni correction until the later 1.5 multiplicity redesign.
 
+Current source checkpoint: the full development benchmark is completed with its
+**NO-GO retained**; staged Huber is numerically repaired; internal Holm and maxT
+arithmetic are tested but unused by production inference. CLI input preservation
+and Python launch errors are hardened. See the [project readiness audit](docs/ROUND15_PROJECT_READINESS_AUDIT.md)
+for actual checks, remaining limits and scientific decision gates. This is not a
+1.5.0 scientific release. [Release packaging/gate checks](docs/ROUND16_RELEASE_WORKFLOW_AUDIT.md)
+now preserve linked documentation and align future release verification with CI;
+no release was published by these checkpoints. The [bounded CLI resource audit](docs/ROUND17_CLI_RESOURCE_AUDIT.md)
+records resource/cancellation evidence. The [current readiness handoff](docs/PROJECT_READINESS_HANDOFF.md)
+consolidates completed work, the final existing-interface audit and the next
+scientific decision.
+
 ## What MVS does
 
 The main workflow is designed for data where each independent entity has several measurements. MVS can simulate declared changes on the observed data, estimate detection power and false-alarm rates for 12 summary metrics, compare independent groups and save the settings and provenance needed to inspect the run later.
@@ -132,6 +144,12 @@ MVS Analyzer is released under the [MIT License](LICENSE). Citation metadata is 
 MVS Analyzer предназначен для статистического анализа повторных измерений. Основной сценарий сравнивает 12 сводных метрик на пользовательских данных с помощью моделирования, оценивает мощность и частоту ложных срабатываний, сравнивает независимые группы и сохраняет метаданные расчёта.
 
 В проекте также есть анализ компонентов дисперсии, исследования свойств оценок на данных с известной истиной, экспериментальная mixed-effects location-scale модель, benchmark и инструменты проверки результатов.
+
+Текущий исходный checkpoint: полный development benchmark завершён с сохранённым
+NO-GO. Исправлена численная реализация staged Huber; внутренние Holm/maxT проверены,
+но не включены в рабочий анализ. Актуальные проверки, ограничения и условия
+готовности собраны в [итоговом аудите](docs/ROUND15_PROJECT_READINESS_AUDIT.md).
+Проект ещё не объявлен научно готовым релизом 1.5.0.
 
 ### Как запускать
 

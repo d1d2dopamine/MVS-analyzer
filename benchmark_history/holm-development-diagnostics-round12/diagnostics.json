@@ -1,0 +1,2313 @@
+{
+  "schema": "MVS-HOLM-BENCHMARK-DIAGNOSTICS-1",
+  "status": "passed",
+  "original_scientific_verdict": "NO-GO",
+  "new_benchmark_scientific_verdict": null,
+  "family_size": 12,
+  "metric_order": [
+    "median",
+    "standard_deviation",
+    "coefficient_of_variation",
+    "mad",
+    "iqr",
+    "normalized_mad",
+    "normalized_iqr",
+    "mean",
+    "rms",
+    "range",
+    "geometric_mean",
+    "trimmed_mean_20"
+  ],
+  "alpha": 0.05,
+  "source_sha256": {
+    "SHA256SUMS.txt": "1396607134b95b04645b19001270f9f403b4beb118aea44db4f54ee4c97fc320",
+    "benchmark_choices.csv": "6cc0c577c53af29116ab1190b978e7e6709811ffbe194d594ff55016e1602f25",
+    "benchmark_manifest.json": "4dd862d8aacc3592c018215f33494534ebfb6452b2324968b738521d37f808af",
+    "benchmark_metrics.csv": "18d9352b927fdbc65e9b48331a6dea7b29fe4dde7eeff5da54ebb335178228dd",
+    "benchmark_protocol.txt": "b81be4a1a86e8ba4b013eb63b75256d16e439fb824e7fa68efae5f28e48de268",
+    "benchmark_replication_metrics.csv": "28e564d6e4acaa43736054b90c14afc5ac015366337dbc6d98e1003b712381f2",
+    "benchmark_replication_procedures.csv": "59dfaf350313340d69d1f94be5982a160fa1d548e14be4b3d32fcccf4a242d07",
+    "benchmark_replications.csv": "e22c3d0e7d8151e71e582841c652fcc4b8888a3d2f730ba34e407024ed01bf03",
+    "benchmark_report.md": "403742cb85f2e2a45ad693af60f3aaa8635e3f1fd89a3f170a7459d188a3a18c",
+    "benchmark_stability.csv": "59be568fe843e8cfae1a8d5c4d7b9400d69948178cfd06dd50e51a065b499104",
+    "benchmark_stability_replications.csv": "f43adc15a64f22386a47684644c1f523d359cb00efa2ceb956564b08cb55621f",
+    "benchmark_summary.csv": "fd7a967562dbf8f7a9d855fe2e4a729be8d201df7833b7cbea144987a03eeb2a",
+    "benchmark_verdicts.csv": "723113052de4bec366781dd4487ee650b89973d7015d6be335d53e437d63d76f"
+  },
+  "fixture_sha256": "29b117854746aec9f8219773eafccd6b48471a6c1b8779448a9845df1f894d18",
+  "provenance_sha256": "d2f56f02aa4698890dc7fb777a0bd161fc8d0f5049ac3396d414f4a2dccfaaef",
+  "native_sha256": "baeeb79bd03098a8de6f0efdfb749fa0e8bd664cda43e883c2d5e417fdd56e53",
+  "core_assembly_sha256": "23fda6adf0a605b614839f6f79fd7bbd911f947644e95c7e9ebf7541d06de5be",
+  "native_runtime": "8.0.31",
+  "tool_sha256": {
+    "holm_benchmark_diagnostics.py": "6454689bc20819876672a7af99bc561a5d4cb09d4d36330a935a7c06c16acb27",
+    "check_benchmark_diagnostics.py": "939e21c03cb1319a4eeaa9d4d3d335c712a007dc9a56c58fa9ede399bafc5875",
+    "multiplicity_reference.py": "7f3b74340114ab74f22332efda91e65d64ce5ff58c23aa3a2c202cbe12aa1e27"
+  },
+  "structural_counts": {
+    "replication_rows": 5370,
+    "metric_rows": 64440,
+    "condition_phase_groups": 20,
+    "excluded_replications": 0
+  },
+  "raw_reconciliation_status": "passed",
+  "independent_arithmetic_passed": true,
+  "legacy_and_family_decisions_passed": true,
+  "condition_phase_summaries": [
+    {
+      "condition": "primary_null",
+      "phase": "main",
+      "planned": 1000,
+      "completed": 1000,
+      "failed": 0,
+      "unknown_status": 0,
+      "missing_diagnostics": 0,
+      "analyzed_completed": 1000,
+      "not_analyzed": 0,
+      "available_slots": 12000,
+      "unavailable_slots": 0,
+      "unknown_availability_slots": 0,
+      "replications_with_unavailable_metrics": 0,
+      "bonferroni_any_rejection": 18,
+      "holm_any_rejection": 18,
+      "bonferroni_member_discoveries": 39,
+      "holm_member_discoveries": 48,
+      "additional_holm_members": 9,
+      "replications_with_additional_holm_members": 5,
+      "diagnostic_status": "passed"
+    },
+    {
+      "condition": "power_location_100",
+      "phase": "main",
+      "planned": 250,
+      "completed": 250,
+      "failed": 0,
+      "unknown_status": 0,
+      "missing_diagnostics": 0,
+      "analyzed_completed": 250,
+      "not_analyzed": 0,
+      "available_slots": 3000,
+      "unavailable_slots": 0,
+      "unknown_availability_slots": 0,
+      "replications_with_unavailable_metrics": 0,
+      "bonferroni_any_rejection": 6,
+      "holm_any_rejection": 6,
+      "bonferroni_member_discoveries": 16,
+      "holm_member_discoveries": 18,
+      "additional_holm_members": 2,
+      "replications_with_additional_holm_members": 1,
+      "diagnostic_status": "passed"
+    },
+    {
+      "condition": "power_location_102",
+      "phase": "main",
+      "planned": 250,
+      "completed": 250,
+      "failed": 0,
+      "unknown_status": 0,
+      "missing_diagnostics": 0,
+      "analyzed_completed": 250,
+      "not_analyzed": 0,
+      "available_slots": 3000,
+      "unavailable_slots": 0,
+      "unknown_availability_slots": 0,
+      "replications_with_unavailable_metrics": 0,
+      "bonferroni_any_rejection": 12,
+      "holm_any_rejection": 12,
+      "bonferroni_member_discoveries": 44,
+      "holm_member_discoveries": 49,
+      "additional_holm_members": 5,
+      "replications_with_additional_holm_members": 3,
+      "diagnostic_status": "passed"
+    },
+    {
+      "condition": "power_location_105",
+      "phase": "main",
+      "planned": 250,
+      "completed": 250,
+      "failed": 0,
+      "unknown_status": 0,
+      "missing_diagnostics": 0,
+      "analyzed_completed": 250,
+      "not_analyzed": 0,
+      "available_slots": 3000,
+      "unavailable_slots": 0,
+      "unknown_availability_slots": 0,
+      "replications_with_unavailable_metrics": 0,
+      "bonferroni_any_rejection": 35,
+      "holm_any_rejection": 35,
+      "bonferroni_member_discoveries": 162,
+      "holm_member_discoveries": 169,
+      "additional_holm_members": 7,
+      "replications_with_additional_holm_members": 3,
+      "diagnostic_status": "passed"
+    },
+    {
+      "condition": "power_location_110",
+      "phase": "main",
+      "planned": 250,
+      "completed": 250,
+      "failed": 0,
+      "unknown_status": 0,
+      "missing_diagnostics": 0,
+      "analyzed_completed": 250,
+      "not_analyzed": 0,
+      "available_slots": 3000,
+      "unavailable_slots": 0,
+      "unknown_availability_slots": 0,
+      "replications_with_unavailable_metrics": 0,
+      "bonferroni_any_rejection": 190,
+      "holm_any_rejection": 190,
+      "bonferroni_member_discoveries": 923,
+      "holm_member_discoveries": 949,
+      "additional_holm_members": 26,
+      "replications_with_additional_holm_members": 13,
+      "diagnostic_status": "passed"
+    },
+    {
+      "condition": "power_location_120",
+      "phase": "main",
+      "planned": 250,
+      "completed": 250,
+      "failed": 0,
+      "unknown_status": 0,
+      "missing_diagnostics": 0,
+      "analyzed_completed": 250,
+      "not_analyzed": 0,
+      "available_slots": 3000,
+      "unavailable_slots": 0,
+      "unknown_availability_slots": 0,
+      "replications_with_unavailable_metrics": 0,
+      "bonferroni_any_rejection": 250,
+      "holm_any_rejection": 250,
+      "bonferroni_member_discoveries": 1329,
+      "holm_member_discoveries": 1369,
+      "additional_holm_members": 40,
+      "replications_with_additional_holm_members": 27,
+      "diagnostic_status": "passed"
+    },
+    {
+      "condition": "power_dispersion_102",
+      "phase": "main",
+      "planned": 250,
+      "completed": 250,
+      "failed": 0,
+      "unknown_status": 0,
+      "missing_diagnostics": 0,
+      "analyzed_completed": 250,
+      "not_analyzed": 0,
+      "available_slots": 3000,
+      "unavailable_slots": 0,
+      "unknown_availability_slots": 0,
+      "replications_with_unavailable_metrics": 0,
+      "bonferroni_any_rejection": 6,
+      "holm_any_rejection": 6,
+      "bonferroni_member_discoveries": 15,
+      "holm_member_discoveries": 18,
+      "additional_holm_members": 3,
+      "replications_with_additional_holm_members": 3,
+      "diagnostic_status": "passed"
+    },
+    {
+      "condition": "power_dispersion_105",
+      "phase": "main",
+      "planned": 250,
+      "completed": 250,
+      "failed": 0,
+      "unknown_status": 0,
+      "missing_diagnostics": 0,
+      "analyzed_completed": 250,
+      "not_analyzed": 0,
+      "available_slots": 3000,
+      "unavailable_slots": 0,
+      "unknown_availability_slots": 0,
+      "replications_with_unavailable_metrics": 0,
+      "bonferroni_any_rejection": 7,
+      "holm_any_rejection": 7,
+      "bonferroni_member_discoveries": 19,
+      "holm_member_discoveries": 23,
+      "additional_holm_members": 4,
+      "replications_with_additional_holm_members": 4,
+      "diagnostic_status": "passed"
+    },
+    {
+      "condition": "power_dispersion_110",
+      "phase": "main",
+      "planned": 250,
+      "completed": 250,
+      "failed": 0,
+      "unknown_status": 0,
+      "missing_diagnostics": 0,
+      "analyzed_completed": 250,
+      "not_analyzed": 0,
+      "available_slots": 3000,
+      "unavailable_slots": 0,
+      "unknown_availability_slots": 0,
+      "replications_with_unavailable_metrics": 0,
+      "bonferroni_any_rejection": 11,
+      "holm_any_rejection": 11,
+      "bonferroni_member_discoveries": 36,
+      "holm_member_discoveries": 38,
+      "additional_holm_members": 2,
+      "replications_with_additional_holm_members": 2,
+      "diagnostic_status": "passed"
+    },
+    {
+      "condition": "power_dispersion_120",
+      "phase": "main",
+      "planned": 250,
+      "completed": 250,
+      "failed": 0,
+      "unknown_status": 0,
+      "missing_diagnostics": 0,
+      "analyzed_completed": 250,
+      "not_analyzed": 0,
+      "available_slots": 3000,
+      "unavailable_slots": 0,
+      "unknown_availability_slots": 0,
+      "replications_with_unavailable_metrics": 0,
+      "bonferroni_any_rejection": 32,
+      "holm_any_rejection": 32,
+      "bonferroni_member_discoveries": 108,
+      "holm_member_discoveries": 120,
+      "additional_holm_members": 12,
+      "replications_with_additional_holm_members": 10,
+      "diagnostic_status": "passed"
+    },
+    {
+      "condition": "power_dispersion_130",
+      "phase": "main",
+      "planned": 250,
+      "completed": 250,
+      "failed": 0,
+      "unknown_status": 0,
+      "missing_diagnostics": 0,
+      "analyzed_completed": 250,
+      "not_analyzed": 0,
+      "available_slots": 3000,
+      "unavailable_slots": 0,
+      "unknown_availability_slots": 0,
+      "replications_with_unavailable_metrics": 0,
+      "bonferroni_any_rejection": 72,
+      "holm_any_rejection": 72,
+      "bonferroni_member_discoveries": 277,
+      "holm_member_discoveries": 318,
+      "additional_holm_members": 41,
+      "replications_with_additional_holm_members": 27,
+      "diagnostic_status": "passed"
+    },
+    {
+      "condition": "robust_null_2",
+      "phase": "main",
+      "planned": 250,
+      "completed": 250,
+      "failed": 0,
+      "unknown_status": 0,
+      "missing_diagnostics": 0,
+      "analyzed_completed": 250,
+      "not_analyzed": 0,
+      "available_slots": 3000,
+      "unavailable_slots": 0,
+      "unknown_availability_slots": 0,
+      "replications_with_unavailable_metrics": 0,
+      "bonferroni_any_rejection": 7,
+      "holm_any_rejection": 7,
+      "bonferroni_member_discoveries": 17,
+      "holm_member_discoveries": 20,
+      "additional_holm_members": 3,
+      "replications_with_additional_holm_members": 1,
+      "diagnostic_status": "passed"
+    },
+    {
+      "condition": "robust_null_5",
+      "phase": "main",
+      "planned": 250,
+      "completed": 250,
+      "failed": 0,
+      "unknown_status": 0,
+      "missing_diagnostics": 0,
+      "analyzed_completed": 250,
+      "not_analyzed": 0,
+      "available_slots": 3000,
+      "unavailable_slots": 0,
+      "unknown_availability_slots": 0,
+      "replications_with_unavailable_metrics": 0,
+      "bonferroni_any_rejection": 6,
+      "holm_any_rejection": 6,
+      "bonferroni_member_discoveries": 15,
+      "holm_member_discoveries": 18,
+      "additional_holm_members": 3,
+      "replications_with_additional_holm_members": 2,
+      "diagnostic_status": "passed"
+    },
+    {
+      "condition": "robust_null_10",
+      "phase": "main",
+      "planned": 250,
+      "completed": 250,
+      "failed": 0,
+      "unknown_status": 0,
+      "missing_diagnostics": 0,
+      "analyzed_completed": 250,
+      "not_analyzed": 0,
+      "available_slots": 3000,
+      "unavailable_slots": 0,
+      "unknown_availability_slots": 0,
+      "replications_with_unavailable_metrics": 0,
+      "bonferroni_any_rejection": 5,
+      "holm_any_rejection": 5,
+      "bonferroni_member_discoveries": 14,
+      "holm_member_discoveries": 16,
+      "additional_holm_members": 2,
+      "replications_with_additional_holm_members": 2,
+      "diagnostic_status": "passed"
+    },
+    {
+      "condition": "shape_normal_null",
+      "phase": "main",
+      "planned": 250,
+      "completed": 250,
+      "failed": 0,
+      "unknown_status": 0,
+      "missing_diagnostics": 0,
+      "analyzed_completed": 250,
+      "not_analyzed": 0,
+      "available_slots": 3000,
+      "unavailable_slots": 0,
+      "unknown_availability_slots": 0,
+      "replications_with_unavailable_metrics": 0,
+      "bonferroni_any_rejection": 4,
+      "holm_any_rejection": 4,
+      "bonferroni_member_discoveries": 11,
+      "holm_member_discoveries": 15,
+      "additional_holm_members": 4,
+      "replications_with_additional_holm_members": 2,
+      "diagnostic_status": "passed"
+    },
+    {
+      "condition": "shape_lognormal_null",
+      "phase": "main",
+      "planned": 250,
+      "completed": 250,
+      "failed": 0,
+      "unknown_status": 0,
+      "missing_diagnostics": 0,
+      "analyzed_completed": 250,
+      "not_analyzed": 0,
+      "available_slots": 3000,
+      "unavailable_slots": 0,
+      "unknown_availability_slots": 0,
+      "replications_with_unavailable_metrics": 0,
+      "bonferroni_any_rejection": 0,
+      "holm_any_rejection": 0,
+      "bonferroni_member_discoveries": 0,
+      "holm_member_discoveries": 0,
+      "additional_holm_members": 0,
+      "replications_with_additional_holm_members": 0,
+      "diagnostic_status": "passed"
+    },
+    {
+      "condition": "design_voice_null",
+      "phase": "main",
+      "planned": 250,
+      "completed": 250,
+      "failed": 0,
+      "unknown_status": 0,
+      "missing_diagnostics": 0,
+      "analyzed_completed": 250,
+      "not_analyzed": 0,
+      "available_slots": 3000,
+      "unavailable_slots": 0,
+      "unknown_availability_slots": 0,
+      "replications_with_unavailable_metrics": 0,
+      "bonferroni_any_rejection": 3,
+      "holm_any_rejection": 3,
+      "bonferroni_member_discoveries": 8,
+      "holm_member_discoveries": 8,
+      "additional_holm_members": 0,
+      "replications_with_additional_holm_members": 0,
+      "diagnostic_status": "passed"
+    },
+    {
+      "condition": "design_voice_location_105",
+      "phase": "main",
+      "planned": 250,
+      "completed": 250,
+      "failed": 0,
+      "unknown_status": 0,
+      "missing_diagnostics": 0,
+      "analyzed_completed": 250,
+      "not_analyzed": 0,
+      "available_slots": 3000,
+      "unavailable_slots": 0,
+      "unknown_availability_slots": 0,
+      "replications_with_unavailable_metrics": 0,
+      "bonferroni_any_rejection": 3,
+      "holm_any_rejection": 3,
+      "bonferroni_member_discoveries": 7,
+      "holm_member_discoveries": 7,
+      "additional_holm_members": 0,
+      "replications_with_additional_holm_members": 0,
+      "diagnostic_status": "passed"
+    },
+    {
+      "condition": "determinism_replay",
+      "phase": "replay-first",
+      "planned": 60,
+      "completed": 60,
+      "failed": 0,
+      "unknown_status": 0,
+      "missing_diagnostics": 0,
+      "analyzed_completed": 60,
+      "not_analyzed": 0,
+      "available_slots": 720,
+      "unavailable_slots": 0,
+      "unknown_availability_slots": 0,
+      "replications_with_unavailable_metrics": 0,
+      "bonferroni_any_rejection": 0,
+      "holm_any_rejection": 0,
+      "bonferroni_member_discoveries": 0,
+      "holm_member_discoveries": 0,
+      "additional_holm_members": 0,
+      "replications_with_additional_holm_members": 0,
+      "diagnostic_status": "passed"
+    },
+    {
+      "condition": "determinism_replay",
+      "phase": "replay-second",
+      "planned": 60,
+      "completed": 60,
+      "failed": 0,
+      "unknown_status": 0,
+      "missing_diagnostics": 0,
+      "analyzed_completed": 60,
+      "not_analyzed": 0,
+      "available_slots": 720,
+      "unavailable_slots": 0,
+      "unknown_availability_slots": 0,
+      "replications_with_unavailable_metrics": 0,
+      "bonferroni_any_rejection": 0,
+      "holm_any_rejection": 0,
+      "bonferroni_member_discoveries": 0,
+      "holm_member_discoveries": 0,
+      "additional_holm_members": 0,
+      "replications_with_additional_holm_members": 0,
+      "diagnostic_status": "passed"
+    }
+  ],
+  "per_metric_discoveries": [
+    {
+      "condition": "primary_null",
+      "phase": "main",
+      "metrics": [
+        {
+          "metric": "median",
+          "available_in_analyzed": 1000,
+          "bonferroni_discoveries": 3,
+          "holm_discoveries": 4,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "standard_deviation",
+          "available_in_analyzed": 1000,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 3,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "coefficient_of_variation",
+          "available_in_analyzed": 1000,
+          "bonferroni_discoveries": 4,
+          "holm_discoveries": 4,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mad",
+          "available_in_analyzed": 1000,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "iqr",
+          "available_in_analyzed": 1000,
+          "bonferroni_discoveries": 5,
+          "holm_discoveries": 5,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_mad",
+          "available_in_analyzed": 1000,
+          "bonferroni_discoveries": 4,
+          "holm_discoveries": 5,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "normalized_iqr",
+          "available_in_analyzed": 1000,
+          "bonferroni_discoveries": 5,
+          "holm_discoveries": 5,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mean",
+          "available_in_analyzed": 1000,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 4,
+          "additional_holm_discoveries": 2
+        },
+        {
+          "metric": "rms",
+          "available_in_analyzed": 1000,
+          "bonferroni_discoveries": 3,
+          "holm_discoveries": 4,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "range",
+          "available_in_analyzed": 1000,
+          "bonferroni_discoveries": 4,
+          "holm_discoveries": 5,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "geometric_mean",
+          "available_in_analyzed": 1000,
+          "bonferroni_discoveries": 3,
+          "holm_discoveries": 4,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "trimmed_mean_20",
+          "available_in_analyzed": 1000,
+          "bonferroni_discoveries": 3,
+          "holm_discoveries": 4,
+          "additional_holm_discoveries": 1
+        }
+      ]
+    },
+    {
+      "condition": "power_location_100",
+      "phase": "main",
+      "metrics": [
+        {
+          "metric": "median",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "standard_deviation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 3,
+          "holm_discoveries": 3,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "coefficient_of_variation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "rms",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "range",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "geometric_mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "trimmed_mean_20",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        }
+      ]
+    },
+    {
+      "condition": "power_location_102",
+      "phase": "main",
+      "metrics": [
+        {
+          "metric": "median",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 6,
+          "holm_discoveries": 7,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "standard_deviation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 3,
+          "holm_discoveries": 3,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "coefficient_of_variation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 3,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 6,
+          "holm_discoveries": 7,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "rms",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 6,
+          "holm_discoveries": 7,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "range",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "geometric_mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 6,
+          "holm_discoveries": 7,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "trimmed_mean_20",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 7,
+          "holm_discoveries": 7,
+          "additional_holm_discoveries": 0
+        }
+      ]
+    },
+    {
+      "condition": "power_location_105",
+      "phase": "main",
+      "metrics": [
+        {
+          "metric": "median",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 29,
+          "holm_discoveries": 31,
+          "additional_holm_discoveries": 2
+        },
+        {
+          "metric": "standard_deviation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 3,
+          "holm_discoveries": 4,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "coefficient_of_variation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 30,
+          "holm_discoveries": 31,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "rms",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 29,
+          "holm_discoveries": 31,
+          "additional_holm_discoveries": 2
+        },
+        {
+          "metric": "range",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "geometric_mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 30,
+          "holm_discoveries": 31,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "trimmed_mean_20",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 31,
+          "holm_discoveries": 31,
+          "additional_holm_discoveries": 0
+        }
+      ]
+    },
+    {
+      "condition": "power_location_110",
+      "phase": "main",
+      "metrics": [
+        {
+          "metric": "median",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 181,
+          "holm_discoveries": 185,
+          "additional_holm_discoveries": 4
+        },
+        {
+          "metric": "standard_deviation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 3,
+          "holm_discoveries": 4,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "coefficient_of_variation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 6,
+          "holm_discoveries": 8,
+          "additional_holm_discoveries": 2
+        },
+        {
+          "metric": "mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 4,
+          "holm_discoveries": 5,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "normalized_iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 180,
+          "holm_discoveries": 184,
+          "additional_holm_discoveries": 4
+        },
+        {
+          "metric": "rms",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 180,
+          "holm_discoveries": 185,
+          "additional_holm_discoveries": 5
+        },
+        {
+          "metric": "range",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "geometric_mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 182,
+          "holm_discoveries": 185,
+          "additional_holm_discoveries": 3
+        },
+        {
+          "metric": "trimmed_mean_20",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 179,
+          "holm_discoveries": 185,
+          "additional_holm_discoveries": 6
+        }
+      ]
+    },
+    {
+      "condition": "power_location_120",
+      "phase": "main",
+      "metrics": [
+        {
+          "metric": "median",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 250,
+          "holm_discoveries": 250,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "standard_deviation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 3,
+          "holm_discoveries": 5,
+          "additional_holm_discoveries": 2
+        },
+        {
+          "metric": "coefficient_of_variation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 27,
+          "holm_discoveries": 40,
+          "additional_holm_discoveries": 13
+        },
+        {
+          "metric": "mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 3,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 4,
+          "additional_holm_discoveries": 2
+        },
+        {
+          "metric": "normalized_mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 20,
+          "holm_discoveries": 29,
+          "additional_holm_discoveries": 9
+        },
+        {
+          "metric": "normalized_iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 23,
+          "holm_discoveries": 32,
+          "additional_holm_discoveries": 9
+        },
+        {
+          "metric": "mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 250,
+          "holm_discoveries": 250,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "rms",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 250,
+          "holm_discoveries": 250,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "range",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 6,
+          "additional_holm_discoveries": 4
+        },
+        {
+          "metric": "geometric_mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 250,
+          "holm_discoveries": 250,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "trimmed_mean_20",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 250,
+          "holm_discoveries": 250,
+          "additional_holm_discoveries": 0
+        }
+      ]
+    },
+    {
+      "condition": "power_dispersion_102",
+      "phase": "main",
+      "metrics": [
+        {
+          "metric": "median",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "standard_deviation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 3,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "coefficient_of_variation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 2
+        },
+        {
+          "metric": "normalized_iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "rms",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "range",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "geometric_mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "trimmed_mean_20",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        }
+      ]
+    },
+    {
+      "condition": "power_dispersion_105",
+      "phase": "main",
+      "metrics": [
+        {
+          "metric": "median",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "standard_deviation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 3,
+          "holm_discoveries": 3,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "coefficient_of_variation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 3,
+          "holm_discoveries": 3,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 3,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "normalized_mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "normalized_iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "rms",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "range",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 3,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "geometric_mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "trimmed_mean_20",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        }
+      ]
+    },
+    {
+      "condition": "power_dispersion_110",
+      "phase": "main",
+      "metrics": [
+        {
+          "metric": "median",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "standard_deviation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 5,
+          "holm_discoveries": 5,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "coefficient_of_variation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 4,
+          "holm_discoveries": 4,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 5,
+          "holm_discoveries": 5,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 5,
+          "holm_discoveries": 5,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 4,
+          "holm_discoveries": 5,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "normalized_iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 5,
+          "holm_discoveries": 5,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "rms",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "range",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 3,
+          "holm_discoveries": 4,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "geometric_mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "trimmed_mean_20",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        }
+      ]
+    },
+    {
+      "condition": "power_dispersion_120",
+      "phase": "main",
+      "metrics": [
+        {
+          "metric": "median",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "standard_deviation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 18,
+          "holm_discoveries": 21,
+          "additional_holm_discoveries": 3
+        },
+        {
+          "metric": "coefficient_of_variation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 18,
+          "holm_discoveries": 20,
+          "additional_holm_discoveries": 2
+        },
+        {
+          "metric": "mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 16,
+          "holm_discoveries": 16,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 14,
+          "holm_discoveries": 15,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "normalized_mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 13,
+          "holm_discoveries": 17,
+          "additional_holm_discoveries": 4
+        },
+        {
+          "metric": "normalized_iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 13,
+          "holm_discoveries": 13,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "rms",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "range",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 10,
+          "holm_discoveries": 12,
+          "additional_holm_discoveries": 2
+        },
+        {
+          "metric": "geometric_mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "trimmed_mean_20",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        }
+      ]
+    },
+    {
+      "condition": "power_dispersion_130",
+      "phase": "main",
+      "metrics": [
+        {
+          "metric": "median",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 3,
+          "additional_holm_discoveries": 2
+        },
+        {
+          "metric": "standard_deviation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 44,
+          "holm_discoveries": 49,
+          "additional_holm_discoveries": 5
+        },
+        {
+          "metric": "coefficient_of_variation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 48,
+          "holm_discoveries": 51,
+          "additional_holm_discoveries": 3
+        },
+        {
+          "metric": "mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 30,
+          "holm_discoveries": 36,
+          "additional_holm_discoveries": 6
+        },
+        {
+          "metric": "iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 36,
+          "holm_discoveries": 44,
+          "additional_holm_discoveries": 8
+        },
+        {
+          "metric": "normalized_mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 38,
+          "holm_discoveries": 42,
+          "additional_holm_discoveries": 4
+        },
+        {
+          "metric": "normalized_iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 45,
+          "holm_discoveries": 49,
+          "additional_holm_discoveries": 4
+        },
+        {
+          "metric": "mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "rms",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "range",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 31,
+          "holm_discoveries": 35,
+          "additional_holm_discoveries": 4
+        },
+        {
+          "metric": "geometric_mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "trimmed_mean_20",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 3,
+          "additional_holm_discoveries": 2
+        }
+      ]
+    },
+    {
+      "condition": "robust_null_2",
+      "phase": "main",
+      "metrics": [
+        {
+          "metric": "median",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "standard_deviation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "coefficient_of_variation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "rms",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "range",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "geometric_mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "trimmed_mean_20",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        }
+      ]
+    },
+    {
+      "condition": "robust_null_5",
+      "phase": "main",
+      "metrics": [
+        {
+          "metric": "median",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "standard_deviation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "coefficient_of_variation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "rms",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "range",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "geometric_mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "trimmed_mean_20",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        }
+      ]
+    },
+    {
+      "condition": "robust_null_10",
+      "phase": "main",
+      "metrics": [
+        {
+          "metric": "median",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "standard_deviation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "coefficient_of_variation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "normalized_mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "rms",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "range",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "geometric_mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "trimmed_mean_20",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        }
+      ]
+    },
+    {
+      "condition": "shape_normal_null",
+      "phase": "main",
+      "metrics": [
+        {
+          "metric": "median",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "standard_deviation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "coefficient_of_variation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 2
+        },
+        {
+          "metric": "normalized_mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 3,
+          "additional_holm_discoveries": 1
+        },
+        {
+          "metric": "mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "rms",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "range",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "geometric_mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "trimmed_mean_20",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        }
+      ]
+    },
+    {
+      "condition": "shape_lognormal_null",
+      "phase": "main",
+      "metrics": [
+        {
+          "metric": "median",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "standard_deviation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "coefficient_of_variation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "rms",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "range",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "geometric_mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "trimmed_mean_20",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        }
+      ]
+    },
+    {
+      "condition": "design_voice_null",
+      "phase": "main",
+      "metrics": [
+        {
+          "metric": "median",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "standard_deviation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "coefficient_of_variation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "rms",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "range",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "geometric_mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "trimmed_mean_20",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        }
+      ]
+    },
+    {
+      "condition": "design_voice_location_105",
+      "phase": "main",
+      "metrics": [
+        {
+          "metric": "median",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "standard_deviation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 2,
+          "holm_discoveries": 2,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "coefficient_of_variation",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_mad",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_iqr",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "rms",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "range",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 1,
+          "holm_discoveries": 1,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "geometric_mean",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "trimmed_mean_20",
+          "available_in_analyzed": 250,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        }
+      ]
+    },
+    {
+      "condition": "determinism_replay",
+      "phase": "replay-first",
+      "metrics": [
+        {
+          "metric": "median",
+          "available_in_analyzed": 60,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "standard_deviation",
+          "available_in_analyzed": 60,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "coefficient_of_variation",
+          "available_in_analyzed": 60,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mad",
+          "available_in_analyzed": 60,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "iqr",
+          "available_in_analyzed": 60,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_mad",
+          "available_in_analyzed": 60,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_iqr",
+          "available_in_analyzed": 60,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mean",
+          "available_in_analyzed": 60,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "rms",
+          "available_in_analyzed": 60,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "range",
+          "available_in_analyzed": 60,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "geometric_mean",
+          "available_in_analyzed": 60,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "trimmed_mean_20",
+          "available_in_analyzed": 60,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        }
+      ]
+    },
+    {
+      "condition": "determinism_replay",
+      "phase": "replay-second",
+      "metrics": [
+        {
+          "metric": "median",
+          "available_in_analyzed": 60,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "standard_deviation",
+          "available_in_analyzed": 60,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "coefficient_of_variation",
+          "available_in_analyzed": 60,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mad",
+          "available_in_analyzed": 60,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "iqr",
+          "available_in_analyzed": 60,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_mad",
+          "available_in_analyzed": 60,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "normalized_iqr",
+          "available_in_analyzed": 60,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "mean",
+          "available_in_analyzed": 60,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "rms",
+          "available_in_analyzed": 60,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "range",
+          "available_in_analyzed": 60,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "geometric_mean",
+          "available_in_analyzed": 60,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        },
+        {
+          "metric": "trimmed_mean_20",
+          "available_in_analyzed": 60,
+          "bonferroni_discoveries": 0,
+          "holm_discoveries": 0,
+          "additional_holm_discoveries": 0
+        }
+      ]
+    }
+  ],
+  "excluded_replications": [],
+  "failures": [],
+  "limitations": [
+    "Post-hoc reuse of the frozen MVS-BENCH-1.2.0 development run; not unseen validation.",
+    "The original scientific verdict remains NO-GO. No new benchmark scientific verdict is assigned.",
+    "No benchmark rerun, production activation, default change, or recalibration occurred.",
+    "The complete ordered twelve-member family includes unavailable and missing slots.",
+    "Counts use completed replications with retained diagnostics; failed and missing rows remain explicit.",
+    "Conditions are reported separately; no heterogeneous pooled scientific rate is calculated.",
+    "Replay-first and replay-second are reproducibility passes, not independent scientific replications.",
+    "Holm and Bonferroni have the same any-rejection event for this fixed family; additional member discoveries do not improve global-any power.",
+    "Arithmetic agreement does not establish valid marginal p-values, strong FWER control, or release readiness."
+  ]
+}

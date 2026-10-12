@@ -60,9 +60,13 @@ internal static class BenchmarkReport
         {
             Write(folder, "benchmark_report.md", Markdown(outcome, russian)),
             Write(folder, "benchmark_summary.csv", SummaryCsv(outcome)),
+            Write(folder, "benchmark_replications.csv", ReplicationsCsv(outcome)),
+            Write(folder, "benchmark_replication_procedures.csv", ReplicationProceduresCsv(outcome)),
+            Write(folder, "benchmark_replication_metrics.csv", ReplicationMetricsCsv(outcome)),
             Write(folder, "benchmark_metrics.csv", MetricsCsv(outcome)),
             Write(folder, "benchmark_choices.csv", ChoicesCsv(outcome)),
             Write(folder, "benchmark_stability.csv", StabilityCsv(outcome)),
+            Write(folder, "benchmark_stability_replications.csv", StabilityReplicationsCsv(outcome)),
             Write(folder, "benchmark_verdicts.csv", VerdictsCsv(outcome)),
             Write(folder, "benchmark_protocol.txt", BenchmarkProtocol.Specification)
         };
@@ -123,7 +127,100 @@ internal static class BenchmarkReport
 
     // ---------------- tables ----------------
 
-    private static string SummaryCsv(BenchmarkOutcome outcome)
+    internal const string DiagnosticsVersion = "MVS-BENCH-DIAGNOSTICS-1";
+
+    // Diagnostic text is spreadsheet-safe; numeric columns are never escaped as text.
+    private static string DiagnosticText(string value)
+    {
+        if (value.Length > 0 && "=+-@\t\r".Contains(value[0])) value = "'" + value;
+        return "\"" + value.Replace("\"", "\"\"") + "\"";
+    }
+    private static string B(bool? value) => value.HasValue ? (value.Value ? "true" : "false") : "";
+    private static string Raw(double? value) => value.HasValue && double.IsFinite(value.Value)
+        ? value.Value.ToString("R", CultureInfo.InvariantCulture) : "";
+
+    private static IEnumerable<(ConditionSummary Summary, string Phase, bool Missing)> DiagnosticConditions(BenchmarkOutcome outcome)
+    {
+        foreach (ConditionSummary summary in outcome.Conditions)
+            yield return (summary, summary.Condition.Stage == "determinism" ? "replay-first" : "main", false);
+        ConditionSummary? first = outcome.Conditions.FirstOrDefault(s => s.Condition.Stage == "determinism");
+        if (outcome.DeterminismSecondSummary != null)
+            yield return (outcome.DeterminismSecondSummary, "replay-second", false);
+        else if (first != null)
+            yield return (first, "replay-second", true);
+    }
+
+    private static IEnumerable<(string Condition, string Phase, int Index, BenchmarkRunner.ReplicationOutcome? Item)> DiagnosticRows(BenchmarkOutcome outcome)
+    {
+        foreach (var (summary, phase, missing) in DiagnosticConditions(outcome))
+            for (int index = 0; index < summary.Condition.Replications; index++)
+                yield return (summary.Condition.Id, phase, index,
+                    !missing && summary.Replications != null && index < summary.Replications.Length
+                        ? summary.Replications[index] : null);
+    }
+
+    internal static string ReplicationsCsv(BenchmarkOutcome outcome)
+    {
+        var text = new StringBuilder("condition,phase,replication_index,half,status,diagnostics_status,error,run_seed,seed_stage,seed_stream,derived_seed,calibration_seed\n");
+        foreach (var row in DiagnosticRows(outcome))
+        {
+            var d = row.Item?.Diagnostics;
+            text.Append(DiagnosticText(row.Condition)).Append(',').Append(row.Phase).Append(',')
+                .Append(I(row.Index)).Append(',').Append(I(row.Index % 2)).Append(',')
+                .Append(row.Item == null ? "unknown_legacy" : row.Item.Failed ? "failed" : "completed").Append(',')
+                .Append(d == null ? "legacy_missing" : "retained").Append(',')
+                .Append(DiagnosticText(row.Item?.Error ?? "")).Append(',')
+                .Append(d?.RunSeed.ToString(CultureInfo.InvariantCulture) ?? "").Append(',')
+                .Append(d == null ? "" : I(d.SeedStage)).Append(',')
+                .Append(d == null ? "" : I(d.SeedStream)).Append(',')
+                .Append(d?.DerivedSeed.ToString(CultureInfo.InvariantCulture) ?? "").Append(',')
+                .Append(d?.CalibrationSeed is int seed ? I(seed) : "").Append('\n');
+        }
+        return text.ToString();
+    }
+
+    internal static string ReplicationProceduresCsv(BenchmarkOutcome outcome)
+    {
+        var text = new StringBuilder("condition,phase,replication_index,procedure,chosen_metric,claimed,rejected\n");
+        foreach (var row in DiagnosticRows(outcome))
+            for (int procedure = 0; procedure < BenchmarkProcedures.Count; procedure++)
+            {
+                var item = row.Item;
+                bool known = item != null && !item.Failed && procedure < item.Chosen.Length
+                    && procedure < item.Claimed.Length && procedure < item.Rejected.Length;
+                int chosen = known ? item!.Chosen[procedure] : -1;
+                text.Append(DiagnosticText(row.Condition)).Append(',').Append(row.Phase).Append(',')
+                    .Append(I(row.Index)).Append(',').Append(BenchmarkProcedures.Ids[procedure]).Append(',')
+                    .Append(known ? (chosen >= 0 && chosen < AnalysisEngine.MetricKeys.Length ? AnalysisEngine.MetricKeys[chosen] : "none") : "").Append(',')
+                    .Append(B(known ? item!.Claimed[procedure] : null)).Append(',')
+                    .Append(B(known ? item!.Rejected[procedure] : null)).Append('\n');
+            }
+        return text.ToString();
+    }
+
+    internal static string ReplicationMetricsCsv(BenchmarkOutcome outcome)
+    {
+        var text = new StringBuilder("condition,phase,replication_index,metric,p_value,observed_available,rejected,calibration_applicable,calibration_score,gate_location,gate_variability,gate_heterogeneity\n");
+        foreach (var row in DiagnosticRows(outcome))
+            for (int metric = 0; metric < AnalysisEngine.MetricKeys.Length; metric++)
+            {
+                var item = row.Item;
+                var d = item?.Diagnostics;
+                bool observed = d?.PValues != null && metric < d.PValues.Length;
+                double? p = observed ? d!.PValues![metric] : null;
+                var calibration = d?.Calibration != null && metric < d.Calibration.Length ? d.Calibration[metric] : null;
+                text.Append(DiagnosticText(row.Condition)).Append(',').Append(row.Phase).Append(',')
+                    .Append(I(row.Index)).Append(',').Append(AnalysisEngine.MetricKeys[metric]).Append(',')
+                    .Append(Raw(p)).Append(',').Append(B(observed ? p.HasValue && double.IsFinite(p.Value) : null)).Append(',')
+                    .Append(B(item != null && !item.Failed && metric < item.MetricRejected.Length ? item.MetricRejected[metric] : null)).Append(',')
+                    .Append(B(calibration?.Applicable)).Append(',').Append(Raw(calibration?.Score)).Append(',')
+                    .Append(B(calibration?.GateLocation)).Append(',').Append(B(calibration?.GateVariability)).Append(',')
+                    .Append(B(calibration?.GateHeterogeneity)).Append('\n');
+            }
+        return text.ToString();
+    }
+
+    internal static string SummaryCsv(BenchmarkOutcome outcome)
     {
         var text = new StringBuilder();
         text.Append("condition,stage,design,shape,mode,effect,contamination,source,planned,completed,failed,");
@@ -158,7 +255,7 @@ internal static class BenchmarkReport
         return text.ToString();
     }
 
-    private static string MetricsCsv(BenchmarkOutcome outcome)
+    internal static string MetricsCsv(BenchmarkOutcome outcome)
     {
         var text = new StringBuilder();
         text.Append("condition,stage,mode,effect,contamination,metric,rejections,completed,rate\n");
@@ -180,7 +277,7 @@ internal static class BenchmarkReport
         return text.ToString();
     }
 
-    private static string ChoicesCsv(BenchmarkOutcome outcome)
+    internal static string ChoicesCsv(BenchmarkOutcome outcome)
     {
         var text = new StringBuilder();
         text.Append("condition,procedure,metric,count,share\n");
@@ -204,7 +301,29 @@ internal static class BenchmarkReport
         return text.ToString();
     }
 
-    private static string StabilityCsv(BenchmarkOutcome outcome)
+    internal static string StabilityReplicationsCsv(BenchmarkOutcome outcome)
+    {
+        var text = new StringBuilder("split_index,status,diagnostics_status,error,kendall_tau,top_left,top_right,matched\n");
+        for (int index = 0; index < outcome.Profile.StabilityRepeats; index++)
+        {
+            var records = outcome.Stability.ReplicationRecords;
+            var item = records != null && index < records.Length ? records[index] : null;
+            bool successful = item != null && !item.Failed && double.IsFinite(item.Tau);
+            text.Append(I(index)).Append(',').Append(item == null ? "unknown_legacy" : successful ? "completed" : "failed").Append(',')
+                .Append(item?.DiagnosticsRetained == true ? "retained" : "legacy_missing").Append(',')
+                .Append(DiagnosticText(item?.Error ?? "")).Append(',')
+                .Append(item == null ? "" : Raw(item.Tau)).Append(',')
+                .Append(successful ? MetricName(item!.Top) : "").Append(',')
+                .Append(successful && item!.TopRight.HasValue ? MetricName(item.TopRight.Value) : "").Append(',')
+                .Append(B(successful ? item!.Matched : null)).Append('\n');
+        }
+        return text.ToString();
+    }
+
+    private static string MetricName(int index) => index >= 0 && index < AnalysisEngine.MetricKeys.Length
+        ? AnalysisEngine.MetricKeys[index] : "none";
+
+    internal static string StabilityCsv(BenchmarkOutcome outcome)
     {
         var text = new StringBuilder();
         text.Append("split,kendall_tau\n");
@@ -243,10 +362,16 @@ internal static class BenchmarkReport
         return text.ToString();
     }
 
-    private static string Manifest(BenchmarkOutcome outcome, List<string> figures, List<string> files)
+    private static string JsonNumber(double value) => double.IsFinite(value) ? N(value) : "null";
+
+    internal static string Manifest(BenchmarkOutcome outcome, List<string> figures, List<string> files)
     {
         var text = new StringBuilder();
         text.Append("{\n");
+        text.Append("  \"diagnosticsVersion\": \"").Append(DiagnosticsVersion).Append("\",\n");
+        text.Append("  \"diagnosticsMissingReplications\": ").Append(I(DiagnosticRows(outcome).Count(r => r.Item?.Diagnostics == null))).Append(",\n");
+        text.Append("  \"diagnosticsMissingStabilityReplications\": ").Append(I(Enumerable.Range(0, outcome.Profile.StabilityRepeats).Count(i => outcome.Stability.ReplicationRecords == null || i >= outcome.Stability.ReplicationRecords.Length || !outcome.Stability.ReplicationRecords[i].DiagnosticsRetained))).Append(",\n");
+        text.Append("  \"diagnosticsPolicy\": \"Zero-based replication index and parity; failed decisions blank and excluded from legacy completed denominators; requested-denominator rates use all planned rows. Legacy missing diagnostics are blank, not reconstructed. Raw diagnostics may be partial on failure. Pilot locking is recorded separately in lockedPilotMetric; stability uses its own replication table.\",\n");
         text.Append("  \"kind\": \"mvs-benchmark\",\n");
         text.Append("  \"protocolVersion\": \"").Append(J(BenchmarkProtocol.Version)).Append("\",\n");
         text.Append("  \"protocolHash\": \"").Append(J(BenchmarkProtocol.Hash)).Append("\",\n");
@@ -292,9 +417,9 @@ internal static class BenchmarkReport
             .Append(string.Equals(outcome.DeterminismFirst, outcome.DeterminismSecond, StringComparison.Ordinal) ? "true" : "false")
             .Append(" },\n");
 
-        text.Append("  \"stability\": { \"medianTau\": ").Append(N(outcome.Stability.MedianTau))
-            .Append(", \"lowerQuartileTau\": ").Append(N(outcome.Stability.LowerQuartileTau))
-            .Append(", \"topOneAgreement\": ").Append(N(outcome.Stability.TopOneAgreement))
+        text.Append("  \"stability\": { \"medianTau\": ").Append(JsonNumber(outcome.Stability.MedianTau))
+            .Append(", \"lowerQuartileTau\": ").Append(JsonNumber(outcome.Stability.LowerQuartileTau))
+            .Append(", \"topOneAgreement\": ").Append(JsonNumber(outcome.Stability.TopOneAgreement))
             .Append(", \"splits\": ").Append(I(outcome.Stability.Repeats))
             .Append(", \"failed\": ").Append(I(outcome.Stability.Failed)).Append(" },\n");
 

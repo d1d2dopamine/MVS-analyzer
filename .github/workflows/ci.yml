@@ -27,6 +27,9 @@ jobs:
         run: |
           python tools/test_backups.py
           python tools/test_source.py
+          python tools/test_paper_benchmark.py
+          python tools/test_paper_benchmark_runner.py
+          python tools/test_release_bundle.py
       - name: Python API wrapper tests
         run: |
           PYTHONPATH=python/src python -m unittest discover -s python/tests -v
@@ -53,6 +56,34 @@ jobs:
           python-version: '3.12'
       - name: Portable scientific regressions
         run: dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release
+      - name: Independent staged Huber numerical accuracy gate
+        run: |
+          dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release --no-build -- --export-huber-diagnostics validation/huber-repair-fixtures-v1.json artifacts/huber-repaired-native.json
+          python validation/huber_repair_reference.py --native artifacts/huber-repaired-native.json --core-assembly MvsAnalyzer.Core.Tests/bin/Release/net8.0/MvsAnalyzer.Core.dll --out artifacts/huber-repaired-comparison.json
+          dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release --no-build -- --export-huber-diagnostics validation/huber-fixtures-v1.json artifacts/huber-original20-repaired-native.json
+          python validation/huber_reference.py --native artifacts/huber-original20-repaired-native.json --out artifacts/huber-original20-repaired-comparison.json
+      - name: Independent closed-intersection check of internal multiplicity
+        run: |
+          dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release --no-build -- --export-multiplicity-diagnostics validation/multiplicity-fixtures-v1.json artifacts/multiplicity-native.json
+          python validation/multiplicity_reference.py --native artifacts/multiplicity-native.json --output artifacts/multiplicity-comparison.json
+      - name: Independent unused single-step maxT arithmetic gate
+        run: |
+          dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release --no-build -- --export-maxt-diagnostics validation/maxt-fixtures-v1.json artifacts/maxt-native.json
+          python validation/maxt_reference.py --native artifacts/maxt-native.json --core-assembly MvsAnalyzer.Core.Tests/bin/Release/net8.0/MvsAnalyzer.Core.dll --out artifacts/maxt-comparison.json
+      - name: Reconcile native benchmark diagnostic exports
+        run: |
+          dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release --no-build -- --export-benchmark-diagnostics artifacts/benchmark-diagnostics
+          python validation/check_benchmark_diagnostics.py artifacts/benchmark-diagnostics
+          python - <<'PYCODE'
+          from pathlib import Path
+          import subprocess
+          import sys
+          reports = sorted(Path('artifacts/benchmark-diagnostics/pipeline').glob('MVS_Benchmark_*'))
+          if not reports:
+              raise SystemExit('No end-to-end benchmark report found')
+          for report in reports:
+              subprocess.run([sys.executable, 'validation/check_benchmark_diagnostics.py', str(report)], check=True)
+          PYCODE
       - name: Publish Linux CLI
         run: dotnet publish MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -o publish/linux-cli
       - name: Calibration and analysis smoke
@@ -63,6 +94,8 @@ jobs:
         run: |
           python tools/check_outputs.py artifacts
           python tools/check_cli_contract.py --artifacts artifacts
+      - name: Actual CLI input preservation and error regressions
+        run: python tools/test_cli_safety.py --cli publish/linux-cli/mvs --artifacts artifacts/cli-safety
       - name: Full scientific result parity against built CLI
         run: python tools/test_python_cli.py --cli publish/linux-cli/mvs --artifacts artifacts
       - name: Reproduce scores from real CLI exports

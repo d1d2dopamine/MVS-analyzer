@@ -1,0 +1,762 @@
+{
+  "schemaVersion": "MVS-MAXT-NATIVE-1",
+  "fixtureSha256": "b1a18dea6cb95678cca8a8a95f980a0313a0f3eb2fbbcad5cd09e1205269bdcc",
+  "engineVersion": "1.6.2",
+  "activeMetricCount": 12,
+  "coreAssemblySha256": "0b5e856f110927c1d270a82da2fcecc13406b5645a16377db2a6d5e364d6725d",
+  "nativeRuntime": "8.0.31",
+  "results": [
+    {
+      "id": "hand_ties",
+      "family_size": 3,
+      "resample_count": 4,
+      "exceedance_counts": [
+        2,
+        4,
+        0
+      ],
+      "adjusted_p": [
+        0.6,
+        1,
+        0.2
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "hand_all_above",
+      "family_size": 3,
+      "resample_count": 2,
+      "exceedance_counts": [
+        2,
+        2,
+        2
+      ],
+      "adjusted_p": [
+        1,
+        1,
+        1
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "hand_all_below",
+      "family_size": 3,
+      "resample_count": 2,
+      "exceedance_counts": [
+        0,
+        0,
+        0
+      ],
+      "adjusted_p": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "hand_all_equal",
+      "family_size": 3,
+      "resample_count": 3,
+      "exceedance_counts": [
+        3,
+        3,
+        3
+      ],
+      "adjusted_p": [
+        1,
+        1,
+        1
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "hand_negative_finite",
+      "family_size": 3,
+      "resample_count": 3,
+      "exceedance_counts": [
+        2,
+        1,
+        0
+      ],
+      "adjusted_p": [
+        0.75,
+        0.5,
+        0.25
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "hand_family_one",
+      "family_size": 1,
+      "resample_count": 4,
+      "exceedance_counts": [
+        2
+      ],
+      "adjusted_p": [
+        0.6
+      ],
+      "rejected": [
+        false
+      ]
+    },
+    {
+      "id": "hand_minimum_rows",
+      "family_size": 2,
+      "resample_count": 1,
+      "exceedance_counts": [
+        0,
+        1
+      ],
+      "adjusted_p": [
+        0.5,
+        1
+      ],
+      "rejected": [
+        false,
+        false
+      ]
+    },
+    {
+      "id": "common_scale_tiny",
+      "family_size": 3,
+      "resample_count": 4,
+      "exceedance_counts": [
+        2,
+        4,
+        0
+      ],
+      "adjusted_p": [
+        0.6,
+        1,
+        0.2
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "common_scale_large",
+      "family_size": 3,
+      "resample_count": 4,
+      "exceedance_counts": [
+        2,
+        4,
+        0
+      ],
+      "adjusted_p": [
+        0.6,
+        1,
+        0.2
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "common_translation",
+      "family_size": 3,
+      "resample_count": 4,
+      "exceedance_counts": [
+        2,
+        4,
+        0
+      ],
+      "adjusted_p": [
+        0.6,
+        1,
+        0.2
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "joint_column_permutation",
+      "family_size": 3,
+      "resample_count": 4,
+      "exceedance_counts": [
+        0,
+        2,
+        4
+      ],
+      "adjusted_p": [
+        0.2,
+        0.6,
+        1
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "row_permutation",
+      "family_size": 3,
+      "resample_count": 4,
+      "exceedance_counts": [
+        2,
+        4,
+        0
+      ],
+      "adjusted_p": [
+        0.6,
+        1,
+        0.2
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "correlation_perfect",
+      "family_size": 2,
+      "resample_count": 16,
+      "exceedance_counts": [
+        8,
+        8
+      ],
+      "adjusted_p": [
+        0.5294117647058824,
+        0.5294117647058824
+      ],
+      "rejected": [
+        false,
+        false
+      ]
+    },
+    {
+      "id": "correlation_product",
+      "family_size": 2,
+      "resample_count": 16,
+      "exceedance_counts": [
+        12,
+        12
+      ],
+      "adjusted_p": [
+        0.7647058823529411,
+        0.7647058823529411
+      ],
+      "rejected": [
+        false,
+        false
+      ]
+    },
+    {
+      "id": "correlation_opposed",
+      "family_size": 2,
+      "resample_count": 16,
+      "exceedance_counts": [
+        16,
+        16
+      ],
+      "adjusted_p": [
+        1,
+        1
+      ],
+      "rejected": [
+        false,
+        false
+      ]
+    },
+    {
+      "id": "resolution_B18",
+      "family_size": 1,
+      "resample_count": 18,
+      "exceedance_counts": [
+        0
+      ],
+      "adjusted_p": [
+        0.05263157894736842
+      ],
+      "rejected": [
+        false
+      ]
+    },
+    {
+      "id": "resolution_B19",
+      "family_size": 1,
+      "resample_count": 19,
+      "exceedance_counts": [
+        0
+      ],
+      "adjusted_p": [
+        0.05
+      ],
+      "rejected": [
+        false
+      ]
+    },
+    {
+      "id": "resolution_B20",
+      "family_size": 1,
+      "resample_count": 20,
+      "exceedance_counts": [
+        0
+      ],
+      "adjusted_p": [
+        0.047619047619047616
+      ],
+      "rejected": [
+        true
+      ]
+    },
+    {
+      "id": "nonzero_tail_B39",
+      "family_size": 1,
+      "resample_count": 39,
+      "exceedance_counts": [
+        1
+      ],
+      "adjusted_p": [
+        0.05
+      ],
+      "rejected": [
+        false
+      ]
+    },
+    {
+      "id": "nonzero_tail_B40",
+      "family_size": 1,
+      "resample_count": 40,
+      "exceedance_counts": [
+        1
+      ],
+      "adjusted_p": [
+        0.04878048780487805
+      ],
+      "rejected": [
+        true
+      ]
+    },
+    {
+      "id": "toy_assignment_012",
+      "family_size": 3,
+      "resample_count": 19,
+      "exceedance_counts": [
+        3,
+        13,
+        19
+      ],
+      "adjusted_p": [
+        0.2,
+        0.7,
+        1
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "toy_assignment_013",
+      "family_size": 3,
+      "resample_count": 19,
+      "exceedance_counts": [
+        7,
+        13,
+        7
+      ],
+      "adjusted_p": [
+        0.4,
+        0.7,
+        0.4
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "toy_assignment_014",
+      "family_size": 3,
+      "resample_count": 19,
+      "exceedance_counts": [
+        13,
+        19,
+        19
+      ],
+      "adjusted_p": [
+        0.7,
+        1,
+        1
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "toy_assignment_015",
+      "family_size": 3,
+      "resample_count": 19,
+      "exceedance_counts": [
+        17,
+        19,
+        13
+      ],
+      "adjusted_p": [
+        0.9,
+        1,
+        0.7
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "toy_assignment_023",
+      "family_size": 3,
+      "resample_count": 19,
+      "exceedance_counts": [
+        13,
+        17,
+        17
+      ],
+      "adjusted_p": [
+        0.7,
+        0.9,
+        0.9
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "toy_assignment_024",
+      "family_size": 3,
+      "resample_count": 19,
+      "exceedance_counts": [
+        17,
+        3,
+        3
+      ],
+      "adjusted_p": [
+        0.9,
+        0.2,
+        0.2
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "toy_assignment_025",
+      "family_size": 3,
+      "resample_count": 19,
+      "exceedance_counts": [
+        19,
+        7,
+        13
+      ],
+      "adjusted_p": [
+        1,
+        0.4,
+        0.7
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "toy_assignment_034",
+      "family_size": 3,
+      "resample_count": 19,
+      "exceedance_counts": [
+        19,
+        19,
+        19
+      ],
+      "adjusted_p": [
+        1,
+        1,
+        1
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "toy_assignment_035",
+      "family_size": 3,
+      "resample_count": 19,
+      "exceedance_counts": [
+        19,
+        17,
+        17
+      ],
+      "adjusted_p": [
+        1,
+        0.9,
+        0.9
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "toy_assignment_045",
+      "family_size": 3,
+      "resample_count": 19,
+      "exceedance_counts": [
+        17,
+        17,
+        17
+      ],
+      "adjusted_p": [
+        0.9,
+        0.9,
+        0.9
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "toy_assignment_123",
+      "family_size": 3,
+      "resample_count": 19,
+      "exceedance_counts": [
+        17,
+        17,
+        17
+      ],
+      "adjusted_p": [
+        0.9,
+        0.9,
+        0.9
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "toy_assignment_124",
+      "family_size": 3,
+      "resample_count": 19,
+      "exceedance_counts": [
+        19,
+        17,
+        17
+      ],
+      "adjusted_p": [
+        1,
+        0.9,
+        0.9
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "toy_assignment_125",
+      "family_size": 3,
+      "resample_count": 19,
+      "exceedance_counts": [
+        19,
+        19,
+        19
+      ],
+      "adjusted_p": [
+        1,
+        1,
+        1
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "toy_assignment_134",
+      "family_size": 3,
+      "resample_count": 19,
+      "exceedance_counts": [
+        19,
+        7,
+        13
+      ],
+      "adjusted_p": [
+        1,
+        0.4,
+        0.7
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "toy_assignment_135",
+      "family_size": 3,
+      "resample_count": 19,
+      "exceedance_counts": [
+        17,
+        3,
+        3
+      ],
+      "adjusted_p": [
+        0.9,
+        0.2,
+        0.2
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "toy_assignment_145",
+      "family_size": 3,
+      "resample_count": 19,
+      "exceedance_counts": [
+        13,
+        17,
+        17
+      ],
+      "adjusted_p": [
+        0.7,
+        0.9,
+        0.9
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "toy_assignment_234",
+      "family_size": 3,
+      "resample_count": 19,
+      "exceedance_counts": [
+        17,
+        19,
+        13
+      ],
+      "adjusted_p": [
+        0.9,
+        1,
+        0.7
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "toy_assignment_235",
+      "family_size": 3,
+      "resample_count": 19,
+      "exceedance_counts": [
+        13,
+        19,
+        19
+      ],
+      "adjusted_p": [
+        0.7,
+        1,
+        1
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "toy_assignment_245",
+      "family_size": 3,
+      "resample_count": 19,
+      "exceedance_counts": [
+        7,
+        13,
+        7
+      ],
+      "adjusted_p": [
+        0.4,
+        0.7,
+        0.4
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    },
+    {
+      "id": "toy_assignment_345",
+      "family_size": 3,
+      "resample_count": 19,
+      "exceedance_counts": [
+        3,
+        13,
+        19
+      ],
+      "adjusted_p": [
+        0.2,
+        0.7,
+        1
+      ],
+      "rejected": [
+        false,
+        false,
+        false
+      ]
+    }
+  ]
+}

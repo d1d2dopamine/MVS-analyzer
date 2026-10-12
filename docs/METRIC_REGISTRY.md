@@ -31,7 +31,26 @@ The `magnitude` label for RMS is intentional. RMS is retained for backward compa
 
 ### Huber M location
 
-The implementation solves the Huber location estimating equation by iteratively reweighted averaging with tuning constant `c = 1.345`. The starting value is the sample median. Scale is fixed at `1.482602218505602 * MAD`; if that scale is numerically zero, the median is returned. The conventional `c = 1.345` choice is commonly used for about 95% asymptotic efficiency under a normal model while bounding the influence of large residuals.
+The staged implementation solves the fixed-MAD Huber clipped-score equation with
+tuning constant `c = 1.345` and scale `1.482602218505602 * sample MAD`. Round 10
+replaces scale/offset-sensitive reweighted-mean stopping with a bracketed numerical
+solve in robust, power-of-two normalized coordinates. The original-data estimand
+is unchanged. Only an exactly zero sample MAD uses the declared median fallback;
+a numerical failure is unavailable, never a successful last iterate.
+
+The staged implementation is identified as
+`fixed-mad-huber-normalized-score-v2` in native diagnostics, including solver status,
+iteration count and assembly hash. It remains outside all active inference,
+calibration and multiplicity. Engine 1.6.2 and active twelve-metric state identities
+are unchanged because this internal staged path is not consumed there.
+
+Round 5's original implementation failed 9/20 declared reference cases. Those raw
+files and the original Decimal80 checker remain unchanged as historical evidence.
+The repair adds independent Decimal1600 original-input comparisons and extreme
+finite/subnormal controls at the same declared tolerance. See
+[round 10 repair evidence](ROUND10_STAGED_HUBER_REPAIR.md) for actual checks and
+limits. Numerical repair does not itself authorize activation or establish
+inferential validity, power, family-wise control or release readiness.
 
 ### Hodges-Lehmann location
 

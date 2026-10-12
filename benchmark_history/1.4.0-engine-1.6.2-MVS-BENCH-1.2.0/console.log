@@ -1,0 +1,136 @@
+
+MVS benchmark MVS-BENCH-1.2.0
+  protocol hash   b81be4a1a86e8ba4b013eb63b75256d16e439fb824e7fa68efae5f28e48de268
+  protocol frozen yes
+  profile         full  (runtime depends on hardware)
+  seed            20260904
+  output          /workspace/scratch/8105054a3211/mvs_full_run_20261011/results
+  threads         8
+  environment     Debian GNU/Linux 13 (trixie)  |  X64  |  process X64  |  .NET 8.0.31
+  environment id  340965b398b70264   (replay is bit-identical within one environment)
+
+    0%  Preparing  -  Locking the pilot metric
+    1%  Running the benchmark  -  primary_null  ·  48 / 5490
+    2%  Running the benchmark  -  primary_null  ·  96 / 5490
+    3%  Running the benchmark  -  primary_null  ·  144 / 5490
+    4%  Running the benchmark  -  primary_null  ·  216 / 5490
+    5%  Running the benchmark  -  primary_null  ·  264 / 5490
+    6%  Running the benchmark  -  primary_null  ·  312 / 5490
+    7%  Running the benchmark  -  primary_null  ·  360 / 5490
+    8%  Running the benchmark  -  primary_null  ·  432 / 5490
+    9%  Running the benchmark  -  primary_null  ·  480 / 5490
+   10%  Running the benchmark  -  primary_null  ·  528 / 5490
+   11%  Running the benchmark  -  primary_null  ·  600 / 5490
+   12%  Running the benchmark  -  primary_null  ·  648 / 5490
+   13%  Running the benchmark  -  primary_null  ·  696 / 5490
+   14%  Running the benchmark  -  primary_null  ·  744 / 5490
+   15%  Running the benchmark  -  primary_null  ·  816 / 5490
+   16%  Running the benchmark  -  primary_null  ·  864 / 5490
+   17%  Running the benchmark  -  primary_null  ·  912 / 5490
+   18%  Running the benchmark  -  primary_null  ·  984 / 5490
+   19%  Running the benchmark  -  power_location_100  ·  1032 / 5490
+   20%  Running the benchmark  -  power_location_100  ·  1080 / 5490
+   21%  Running the benchmark  -  power_location_100  ·  1128 / 5490
+   22%  Running the benchmark  -  power_location_100  ·  1200 / 5490
+   23%  Running the benchmark  -  power_location_100  ·  1248 / 5490
+   24%  Running the benchmark  -  power_location_102  ·  1296 / 5490
+   25%  Running the benchmark  -  power_location_102  ·  1368 / 5490
+   26%  Running the benchmark  -  power_location_102  ·  1416 / 5490
+   27%  Running the benchmark  -  power_location_102  ·  1464 / 5490
+   28%  Running the benchmark  -  power_location_105  ·  1512 / 5490
+   29%  Running the benchmark  -  power_location_105  ·  1584 / 5490
+   30%  Running the benchmark  -  power_location_105  ·  1632 / 5490
+   31%  Running the benchmark  -  power_location_105  ·  1680 / 5490
+   32%  Running the benchmark  -  power_location_110  ·  1752 / 5490
+   33%  Running the benchmark  -  power_location_110  ·  1800 / 5490
+   34%  Running the benchmark  -  power_location_110  ·  1848 / 5490
+   35%  Running the benchmark  -  power_location_110  ·  1896 / 5490
+   36%  Running the benchmark  -  power_location_110  ·  1968 / 5490
+   37%  Running the benchmark  -  power_location_120  ·  2016 / 5490
+   38%  Running the benchmark  -  power_location_120  ·  2064 / 5490
+   39%  Running the benchmark  -  power_location_120  ·  2136 / 5490
+   40%  Running the benchmark  -  power_location_120  ·  2184 / 5490
+   41%  Running the benchmark  -  power_location_120  ·  2232 / 5490
+   42%  Running the benchmark  -  power_dispersion_102  ·  2280 / 5490
+   43%  Running the benchmark  -  power_dispersion_102  ·  2352 / 5490
+   44%  Running the benchmark  -  power_dispersion_102  ·  2400 / 5490
+   45%  Running the benchmark  -  power_dispersion_102  ·  2448 / 5490
+   46%  Running the benchmark  -  power_dispersion_105  ·  2520 / 5490
+   47%  Running the benchmark  -  power_dispersion_105  ·  2568 / 5490
+   48%  Running the benchmark  -  power_dispersion_105  ·  2616 / 5490
+   49%  Running the benchmark  -  power_dispersion_105  ·  2664 / 5490
+   50%  Running the benchmark  -  power_dispersion_105  ·  2736 / 5490
+   51%  Running the benchmark  -  power_dispersion_110  ·  2784 / 5490
+   52%  Running the benchmark  -  power_dispersion_110  ·  2832 / 5490
+   53%  Running the benchmark  -  power_dispersion_110  ·  2904 / 5490
+   54%  Running the benchmark  -  power_dispersion_110  ·  2952 / 5490
+   55%  Running the benchmark  -  power_dispersion_110  ·  3000 / 5490
+   56%  Running the benchmark  -  power_dispersion_120  ·  3048 / 5490
+   57%  Running the benchmark  -  power_dispersion_120  ·  3120 / 5490
+   58%  Running the benchmark  -  power_dispersion_120  ·  3168 / 5490
+   59%  Running the benchmark  -  power_dispersion_120  ·  3216 / 5490
+   60%  Running the benchmark  -  power_dispersion_130  ·  3288 / 5490
+   61%  Running the benchmark  -  power_dispersion_130  ·  3336 / 5490
+   62%  Running the benchmark  -  power_dispersion_130  ·  3384 / 5490
+   63%  Running the benchmark  -  power_dispersion_130  ·  3432 / 5490
+   64%  Running the benchmark  -  robust_null_2  ·  3504 / 5490
+   65%  Running the benchmark  -  robust_null_2  ·  3552 / 5490
+   66%  Running the benchmark  -  robust_null_2  ·  3600 / 5490
+   67%  Running the benchmark  -  robust_null_2  ·  3672 / 5490
+   68%  Running the benchmark  -  robust_null_2  ·  3720 / 5490
+   69%  Running the benchmark  -  robust_null_5  ·  3768 / 5490
+   70%  Running the benchmark  -  robust_null_5  ·  3816 / 5490
+   71%  Running the benchmark  -  robust_null_5  ·  3888 / 5490
+   72%  Running the benchmark  -  robust_null_5  ·  3936 / 5490
+   73%  Running the benchmark  -  robust_null_5  ·  3984 / 5490
+   74%  Running the benchmark  -  robust_null_10  ·  4056 / 5490
+   75%  Running the benchmark  -  robust_null_10  ·  4104 / 5490
+   76%  Running the benchmark  -  robust_null_10  ·  4152 / 5490
+   77%  Running the benchmark  -  robust_null_10  ·  4200 / 5490
+   78%  Running the benchmark  -  shape_normal_null  ·  4272 / 5490
+   79%  Running the benchmark  -  shape_normal_null  ·  4320 / 5490
+   80%  Running the benchmark  -  shape_normal_null  ·  4368 / 5490
+   81%  Running the benchmark  -  shape_normal_null  ·  4440 / 5490
+   82%  Running the benchmark  -  shape_normal_null  ·  4488 / 5490
+   83%  Running the benchmark  -  shape_lognormal_null  ·  4536 / 5490
+   84%  Running the benchmark  -  shape_lognormal_null  ·  4608 / 5490
+   85%  Running the benchmark  -  shape_lognormal_null  ·  4656 / 5490
+   86%  Running the benchmark  -  shape_lognormal_null  ·  4704 / 5490
+   87%  Running the benchmark  -  design_voice_null  ·  4752 / 5490
+   88%  Running the benchmark  -  design_voice_null  ·  4824 / 5490
+   89%  Running the benchmark  -  design_voice_null  ·  4872 / 5490
+   90%  Running the benchmark  -  design_voice_null  ·  4920 / 5490
+   91%  Running the benchmark  -  design_voice_null  ·  4992 / 5490
+   92%  Running the benchmark  -  design_voice_location_105  ·  5040 / 5490
+   93%  Running the benchmark  -  design_voice_location_105  ·  5088 / 5490
+   94%  Running the benchmark  -  design_voice_location_105  ·  5136 / 5490
+   95%  Running the benchmark  -  design_voice_location_105  ·  5208 / 5490
+   96%  Stability of the metric choice  -  5256 / 5490
+   97%  Stability of the metric choice  -  5304 / 5490
+   98%  Running the benchmark  -  determinism_replay  ·  5376 / 5490
+   99%  Running the benchmark  -  determinism_replay  ·  5424 / 5490
+  100%  Running the benchmark  -  determinism_replay  ·  5472 / 5490
+  100%  Running the benchmark  -  determinism_replay  ·  5490 / 5490
+  100%  Saving the tables and the report  -  /workspace/scratch/8105054a3211/mvs_full_run_20261011/results/MVS_Benchmark_2026-10-12_001239
+
+Done in 3625 s.
+  /workspace/scratch/8105054a3211/mvs_full_run_20261011/results/MVS_Benchmark_2026-10-12_001239
+  0 figures written
+
+False discoveries when there is nothing to find:
+  cherry_pick     17.8%
+  bonferroni      1.8%
+  fixed_median    4.8%
+  fixed_cv        5.8%
+  mvs_pilot       4.6%
+  mvs_strict      4.6%
+  mvs_lenient     4.6%
+  mvs_registry_corrected1.8%
+
+  A   PASS          cherry-pick 17.8%, MVS two-track 1.8%, single-track 4.6%
+  B   FAIL          worst loss 30.8 pts  ·  location two-track 14.0%, single-track 44.0% vs held-out oracle median 44.8% (same-data oracle 46.0%); dispersion two-track 28.8%, single-track 5.6% vs held-out oracle coefficient_of_variation 53.6% (same-data oracle 54.8%)
+  C   INCONCLUSIVE  tau 0.714, top-1 agreement 22.5% over 120 splits
+  D   PASS          2% 4.4%, 10% 4.8%
+  E   PASS          d246c87bcf9d644a vs d246c87bcf9d644a
+
+Overall: NO-GO

@@ -13,6 +13,11 @@ namespace MvsAnalyzer;
 internal sealed class CliArguments
 {
     private readonly string[] tokens;
+    private static readonly HashSet<string> switches = new(new[] {
+        "--split", "--local-settings", "--allow-group-scoped-ids", "--overwrite", "--force",
+        "--mean-time", "--scale-time", "--correlate", "--no-random-scale", "--include-entity-ids",
+        "--normalize", "--json", "--quiet", "--help", "-h", "--version"
+    }, StringComparer.OrdinalIgnoreCase);
 
     public CliArguments(string[] tokens) => this.tokens = tokens ?? Array.Empty<string>();
 
@@ -24,13 +29,44 @@ internal sealed class CliArguments
 
     public bool Flag(string name)
     {
-        foreach (string token in tokens)
+        bool? first = null;
+        foreach (string token in OptionTokens())
         {
-            if (string.Equals(token, name, StringComparison.OrdinalIgnoreCase)) return true;
-            if (token.StartsWith(name + "=", StringComparison.OrdinalIgnoreCase))
-            { if (bool.TryParse(token[(name.Length + 1)..], out bool enabled)) return enabled; throw new ArgumentException(name + " is a boolean flag."); }
+            if (string.Equals(token, name, StringComparison.OrdinalIgnoreCase)) first ??= true;
+            else if (token.StartsWith(name + "=", StringComparison.OrdinalIgnoreCase))
+            {
+                if (!bool.TryParse(token[(name.Length + 1)..], out bool enabled))
+                    throw new ArgumentException(name + " is a boolean flag.");
+                first ??= enabled;
+            }
         }
-        return false;
+        return first ?? false;
+    }
+
+    /// <summary>
+    /// Nonthrowing selection of the error-output channel. An explicit flag, including a malformed
+    /// equals value, requests that channel unless its value is valid false. Check every occurrence
+    /// so an invalid value or a later true request is not hidden by an earlier false. This does not
+    /// validate the option: callers must still use Flag before executing a command.
+    /// </summary>
+    public bool FlagRequested(string name) => OptionTokens().Any(token =>
+        string.Equals(token, name, StringComparison.OrdinalIgnoreCase) ||
+        (token.StartsWith(name + "=", StringComparison.OrdinalIgnoreCase) &&
+            (!bool.TryParse(token[(name.Length + 1)..], out bool enabled) || enabled)));
+
+    private IEnumerable<string> OptionTokens()
+    {
+        for (int i = Command.Length > 0 ? 1 : 0; i < tokens.Length; i++)
+        {
+            string token = tokens[i];
+            if (!token.StartsWith("-", StringComparison.Ordinal)) continue;
+            yield return token;
+            // Match Value/Validate: a named value may begin with a single dash (for example
+            // --project -h or --location -10). Such a value must not become a global flag.
+            if (token.StartsWith("--", StringComparison.Ordinal) && !token.Contains('=') &&
+                !switches.Contains(token) && i + 1 < tokens.Length &&
+                !tokens[i + 1].StartsWith("--", StringComparison.Ordinal)) i++;
+        }
     }
 
     public string? Value(string name)
@@ -84,7 +120,6 @@ internal sealed class CliArguments
         var names = allowed.ToHashSet(StringComparer.OrdinalIgnoreCase);
         names.Add("--json");
         names.Add("--quiet");
-        var switches = new HashSet<string>(new[] { "--split", "--local-settings", "--allow-group-scoped-ids", "--overwrite", "--force", "--mean-time", "--scale-time", "--correlate", "--no-random-scale", "--include-entity-ids", "--normalize", "--json", "--quiet" }, StringComparer.OrdinalIgnoreCase);
         var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         for (int i = Command.Length > 0 ? 1 : 0; i < tokens.Length; i++)
         {

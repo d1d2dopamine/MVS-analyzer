@@ -31,6 +31,9 @@ internal sealed class ConditionSummary
     public required string DecisionDigest { get; init; }
     public required string FirstError { get; init; }
 
+    // Null means a legacy completed-summary checkpoint did not retain replication records.
+    public BenchmarkRunner.ReplicationOutcome?[]? Replications { get; init; }
+
     public bool IsNull => Condition.Mode == "none" || Condition.Effect <= 1.0000001;
 
     public double Rate(int procedure) => Completed == 0 ? double.NaN : Rejections[procedure] / (double)Completed;
@@ -98,6 +101,8 @@ internal sealed class StabilitySummary
     public required int[] TopMetricCounts { get; init; }
     public required int Failed { get; init; }
 
+    public BenchmarkRunner.StabilityCheckpoint[]? ReplicationRecords { get; init; }
+
     public double MedianTau => BenchmarkMath.Median(Tau);
 
     public double LowerQuartileTau => BenchmarkMath.Quantile(Tau, .25);
@@ -130,6 +135,9 @@ internal sealed class BenchmarkOutcome
     public required List<string> Notes { get; init; }
     public required List<HypothesisVerdict> Verdicts { get; init; }
     public required string Overall { get; init; }
+
+    // Kept separately so historical summaries still contain only the first replay.
+    public ConditionSummary? DeterminismSecondSummary { get; init; }
 
     public TimeSpan Duration => FinishedUtc - StartedUtc;
 
@@ -178,12 +186,31 @@ internal static class BenchmarkRunner
         public bool[] MetricRejected = Array.Empty<bool>();
         public bool Failed;
         public string Error = "";
+        // Deliberately null by default: old checkpoints must not invent diagnostics.
+        public ReplicationDiagnostics? Diagnostics { get; set; }
     }
 
-    internal sealed record PilotCheckpoint(int Metric, List<string> Notes);
-    internal sealed record StabilityCheckpoint(double Tau, bool Matched, int Top, bool Failed);
+    internal sealed class ReplicationDiagnostics
+    {
+        public ulong RunSeed { get; init; }
+        public int SeedStage { get; init; }
+        public int SeedStream { get; init; }
+        public ulong DerivedSeed { get; init; }
+        public int? CalibrationSeed { get; set; }
+        // Null array means this step was never reached; null element means unavailable p.
+        public double?[]? PValues { get; set; }
+        public CalibrationDiagnostic[]? Calibration { get; set; }
+    }
 
-    private sealed class ConditionPlan
+    internal sealed record CalibrationDiagnostic(
+        bool Applicable, double? Score, bool GateLocation, bool GateVariability, bool GateHeterogeneity);
+
+
+    internal sealed record PilotCheckpoint(int Metric, List<string> Notes);
+    internal sealed record StabilityCheckpoint(double Tau, bool Matched, int Top, bool Failed,
+        string? Error = null, int? TopRight = null, bool DiagnosticsRetained = false);
+
+    internal sealed class ConditionPlan
     {
         public required BenchmarkCondition Condition { get; init; }
         public required BenchmarkDesign Design { get; init; }
@@ -312,6 +339,7 @@ internal static class BenchmarkRunner
             StartedUtc = started,
             FinishedUtc = DateTime.UtcNow,
             Conditions = summaries,
+            DeterminismSecondSummary = secondPass,
             Stability = stability,
             DeterminismFirst = firstPass.DecisionDigest,
             DeterminismSecond = secondPass.DecisionDigest,
@@ -331,6 +359,7 @@ internal static class BenchmarkRunner
             StartedUtc = outcome.StartedUtc,
             FinishedUtc = outcome.FinishedUtc,
             Conditions = outcome.Conditions,
+            DeterminismSecondSummary = outcome.DeterminismSecondSummary,
             Stability = outcome.Stability,
             DeterminismFirst = outcome.DeterminismFirst,
             DeterminismSecond = outcome.DeterminismSecond,
@@ -508,6 +537,7 @@ internal static class BenchmarkRunner
         return new ConditionSummary
         {
             Condition = plan.Condition,
+            Replications = outcomes,
             Completed = completed,
             Failed = failed,
             Rejections = rejections,
@@ -521,7 +551,7 @@ internal static class BenchmarkRunner
         };
     }
 
-    private static ReplicationOutcome RunReplication(ConditionPlan plan, ulong runSeed, int replication, int calibrations, CancellationToken token)
+    internal static ReplicationOutcome RunReplication(ConditionPlan plan, ulong runSeed, int replication, int calibrations, CancellationToken token)
     {
         int metrics = AnalysisEngine.MetricKeys.Length;
         int procedures = BenchmarkProcedures.Count;
@@ -530,17 +560,23 @@ internal static class BenchmarkRunner
             Rejected = new bool[procedures],
             Claimed = new bool[procedures],
             Chosen = new int[procedures],
-            MetricRejected = new bool[metrics]
+            MetricRejected = new bool[metrics],
+            Diagnostics = new ReplicationDiagnostics
+            {
+                RunSeed = runSeed, SeedStage = plan.Stage, SeedStream = plan.Stream,
+                DerivedSeed = BenchmarkRandom.Derive(runSeed, (ulong)plan.Stage, (ulong)plan.Stream, (ulong)replication)
+            }
         };
         try
         {
             token.ThrowIfCancellationRequested();
-            var random = new BenchmarkRandom(BenchmarkRandom.Derive(runSeed, (ulong)plan.Stage, (ulong)plan.Stream, (ulong)replication));
+            var random = new BenchmarkRandom(outcome.Diagnostics.DerivedSeed);
             List<Observation> rows = plan.Real != null
                 ? BenchmarkDatasets.Plasmode(plan.Real, plan.Mode, plan.Condition.Effect, plan.Design.EntitiesPerGroup, plan.Design.MeasurementsPerEntity, random)
                 : BenchmarkDatasets.Generate(plan.Design, plan.Mode, plan.Condition.Effect, plan.Condition.Contamination, random);
             AnalysisData data = AnalysisEngine.Build(rows, MinValue, MaxValue, MinMeasurements);
             double[] p = PValues(data, metrics);
+            outcome.Diagnostics.PValues = p.Select(value => double.IsFinite(value) ? (double?)value : null).ToArray();
 
             double alpha = BenchmarkProtocol.Alpha;
             double smallest = double.PositiveInfinity;
@@ -550,7 +586,14 @@ internal static class BenchmarkRunner
                 if (double.IsFinite(p[m]) && p[m] < smallest) smallest = p[m];
             }
 
-            List<CalibrationRow> calibration = Calibrate(data, calibrations, NextSeed(random), token);
+            int calibrationSeed = NextSeed(random);
+            outcome.Diagnostics.CalibrationSeed = calibrationSeed;
+            List<CalibrationRow> calibration = Calibrate(data, calibrations, calibrationSeed, token);
+            outcome.Diagnostics.Calibration = calibration.Select(row => new CalibrationDiagnostic(
+                row.Applicable, double.IsFinite(row.Score) ? (double?)row.Score : null,
+                row.PassesGateIn(SimulationScenarios.Location),
+                row.PassesGateIn(SimulationScenarios.Variability),
+                row.PassesGateIn(SimulationScenarios.Heterogeneity))).ToArray();
             (int strict, int lenient) = SelectMetrics(calibration);
 
             for (int procedure = 0; procedure < procedures; procedure++)
@@ -635,6 +678,7 @@ internal static class BenchmarkRunner
         var matched = new bool[repeats];
         var top = new int[repeats];
         var broke = new bool[repeats];
+        var records = new StabilityCheckpoint[repeats];
         var options = new ParallelOptions { MaxDegreeOfParallelism = threads, CancellationToken = token };
         int step = Math.Max(1, counter.Total / 220);
         string action = russian ? "Устойчивость выбора метрики" : "Stability of the metric choice";
@@ -643,6 +687,8 @@ internal static class BenchmarkRunner
         {
             var saved = backup.Cached("stability/" + index, () =>
             {
+            string error = "";
+            int? rightTop = null;
             try
             {
                 var random = new BenchmarkRandom(BenchmarkRandom.Derive(runSeed, (ulong)StageStability, (ulong)StreamOf(design), (ulong)index));
@@ -656,6 +702,7 @@ internal static class BenchmarkRunner
                 tau[index] = BenchmarkMath.KendallTau(scoresLeft, scoresRight);
                 int topLeft = ArgMax(scoresLeft);
                 int topRight = ArgMax(scoresRight);
+                rightTop = topRight;
                 top[index] = topLeft;
                 matched[index] = topLeft >= 0 && topLeft == topRight;
             }
@@ -663,14 +710,16 @@ internal static class BenchmarkRunner
             {
                 throw;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                error = ex.GetType().Name + ": " + ex.Message;
                 broke[index] = true;
                 tau[index] = double.NaN;
                 top[index] = -1;
             }
-            return new StabilityCheckpoint(tau[index], matched[index], top[index], broke[index]);
+            return new StabilityCheckpoint(tau[index], matched[index], top[index], broke[index], error, rightTop, true);
             });
+            records[index] = saved;
             tau[index] = saved.Tau; matched[index] = saved.Matched; top[index] = saved.Top; broke[index] = saved.Failed;
             int done = counter.Increment();
             if (progress != null && (done % step == 0 || done >= counter.Total))
@@ -695,6 +744,7 @@ internal static class BenchmarkRunner
         return new StabilitySummary
         {
             Tau = usable.ToArray(),
+            ReplicationRecords = records,
             Repeats = good,
             TopOneMatches = agreements,
             TopMetricCounts = counts,

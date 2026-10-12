@@ -9,6 +9,7 @@ The main rule is simple: numerical differences are directly comparable only when
 | Software | Engine | Protocol | Profile | Seed | Purpose | Overall |
 | --- | --- | --- | --- | ---: | --- | --- |
 | 1.4.0 | 1.6.0 | `MVS-BENCH-1.2.0` | full | 20260904 | development baseline | no-go |
+| 1.4.0 | 1.6.2 | `MVS-BENCH-1.2.0` | full | 20260904 | round-6 development baseline | no-go |
 
 The exact raw outputs for this run are archived under [`benchmark_history/1.4.0-engine-1.6.0-MVS-BENCH-1.2.0/`](../benchmark_history/1.4.0-engine-1.6.0-MVS-BENCH-1.2.0/). The frozen protocol hash is `b81be4a1a86e8ba4b013eb63b75256d16e439fb824e7fa68efae5f28e48de268`.
 
@@ -66,3 +67,19 @@ Add one row to the table above and a short version-specific section below it. Ma
 A development run may be used to change the method. Once a method has been tuned against a benchmark, that benchmark is no longer independent validation for the tuned version. Final validation therefore uses a separately frozen protocol and unseen seeds or data-generating conditions.
 
 Do not rewrite an old result when a newer version improves it. The point of this file is to make the trajectory visible.
+
+## Engine 1.6.2 round-6 development baseline
+
+Completed 2026-10-11 UTC: all 5,490 work units, no failed condition replications
+or stability splits, eight threads, approximately 60 minutes 26 seconds. The
+scientific outcome remains **no-go**: A/D/E pass, B fail, C inconclusive.
+
+The six prior data/protocol files are byte-identical to the 1.6.0 baseline and
+all nineteen condition decision digests match for this fixed protocol/seed.
+This demonstrates no measured power improvement; it does not erase the corrected
+engine's numerical/availability changes on other inputs. See the
+[round-6 report](ROUND6_DEVELOPMENT_BASELINE.md) and the immutable
+[new raw archive](../benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/), including
+per-replication diagnostics, verification records and a completed checkpoint.
+The older archive remains untouched. This is development evidence, not unseen
+confirmatory validation.

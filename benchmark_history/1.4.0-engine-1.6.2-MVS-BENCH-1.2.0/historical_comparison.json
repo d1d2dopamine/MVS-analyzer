@@ -1,0 +1,51 @@
+{
+  "priorEngine": "1.6.0",
+  "currentEngine": "1.6.2",
+  "sameProfileSeedProtocol": true,
+  "sameArithmeticEnvironmentHash": true,
+  "byteIdenticalFiles": {
+    "benchmark_summary.csv": true,
+    "benchmark_metrics.csv": true,
+    "benchmark_choices.csv": true,
+    "benchmark_stability.csv": true,
+    "benchmark_verdicts.csv": true,
+    "benchmark_protocol.txt": true
+  },
+  "conditionDigestsEqual": {
+    "primary_null": true,
+    "power_location_100": true,
+    "power_location_102": true,
+    "power_location_105": true,
+    "power_location_110": true,
+    "power_location_120": true,
+    "power_dispersion_102": true,
+    "power_dispersion_105": true,
+    "power_dispersion_110": true,
+    "power_dispersion_120": true,
+    "power_dispersion_130": true,
+    "robust_null_2": true,
+    "robust_null_5": true,
+    "robust_null_10": true,
+    "shape_normal_null": true,
+    "shape_lognormal_null": true,
+    "design_voice_null": true,
+    "design_voice_location_105": true,
+    "determinism_replay": true
+  },
+  "priorStability": {
+    "medianTau": 0.71426,
+    "lowerQuartileTau": 0.645641,
+    "topOneAgreement": 0.225,
+    "splits": 120,
+    "failed": 0
+  },
+  "currentStability": {
+    "medianTau": 0.71426,
+    "lowerQuartileTau": 0.645641,
+    "topOneAgreement": 0.225,
+    "splits": 120,
+    "failed": 0
+  },
+  "priorOverall": "no-go",
+  "currentOverall": "no-go"
+}

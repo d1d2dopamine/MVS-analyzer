@@ -23,6 +23,9 @@ jobs:
       - name: Checkout exact workflow revision
         uses: actions/checkout@v7
 
+      - name: Verify historical paper source identity before compute
+        run: python tools/verify_paper_benchmark.py --check-source .
+
       - name: Set up .NET 8
         uses: actions/setup-dotnet@v6
         with:

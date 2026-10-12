@@ -1,0 +1,47 @@
+{
+  "reason": {
+    "cause": "Launcher supplied a human-readable MVS_BACKUP_JOB; checkpoint identity requires hexadecimal or empty. Retry omits optional variable.",
+    "sourceOrScientificSettingsChanged": false,
+    "committedOuterReplications": 0,
+    "note": "Failure occurred during pilot preparation; no condition-replication results were committed."
+  },
+  "execution": {
+    "stage": "round6-development-baseline",
+    "purpose": "development, not independent confirmatory validation",
+    "sourceZip": "MVS-analyzer-round5-huber-validation.zip",
+    "sourceSha256": "ba95a9b5b9dfb6dccafdffb0b4140e09d343358e6f1a61d1b1c923247d881431",
+    "engineVersion": "1.6.2",
+    "protocol": "MVS-BENCH-1.2.0",
+    "protocolHash": "b81be4a1a86e8ba4b013eb63b75256d16e439fb824e7fa68efae5f28e48de268",
+    "profile": "full",
+    "seed": 20260904,
+    "threads": 8,
+    "plannedWorkUnits": 5490,
+    "realData": "none; frozen synthetic benchmark",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "processorCount": 9,
+    "command": [
+      "/tmp/mvs-dotnet/dotnet",
+      "/workspace/scratch/8105054a3211/mvs_full_run_20261011/cli/mvs.dll",
+      "benchmark",
+      "--profile",
+      "full",
+      "--seed",
+      "20260904",
+      "--threads",
+      "8",
+      "--out",
+      "/workspace/scratch/8105054a3211/mvs_full_run_20261011/results"
+    ],
+    "startedUtc": "2026-10-11T20:10:52.575124+00:00",
+    "status": "execution_failed",
+    "assemblies": {
+      "mvs.dll": "04917b261bc81e1ed14dee6198ae02df5bbc07c76c2615ff2d800b478cb91a6d",
+      "MvsAnalyzer.Core.dll": "4d9906f5b0d750b486d9dcb9a52740afd3d17481d75fcf9261a153b8692ee715"
+    },
+    "pid": 7,
+    "exitCode": 1,
+    "finishedUtc": "2026-10-11T20:11:12.453758+00:00"
+  },
+  "console": "\nMVS benchmark MVS-BENCH-1.2.0\n  protocol hash   b81be4a1a86e8ba4b013eb63b75256d16e439fb824e7fa68efae5f28e48de268\n  protocol frozen yes\n  profile         full  (runtime depends on hardware)\n  seed            20260904\n  output          /workspace/scratch/8105054a3211/mvs_full_run_20261011/results\n  threads         8\n  environment     Debian GNU/Linux 13 (trixie)  |  X64  |  process X64  |  .NET 8.0.31\n  environment id  340965b398b70264   (replay is bit-identical within one environment)\n\n    0%  Preparing  -  Locking the pilot metric\nBenchmark failed: Invalid backup identity or operation.\n"
+}

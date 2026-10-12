@@ -1,0 +1,964 @@
+{
+  "schema": "MVS-HUBER-NATIVE-1",
+  "implementationId": "fixed-mad-huber-normalized-score-v2",
+  "fixtureSha256": "798f077e41274ef939fdb3c585855896241fc46be03cdfbf65acf2fb96fe9ecb",
+  "coreAssemblySha256": "23fda6adf0a605b614839f6f79fd7bbd911f947644e95c7e9ebf7541d06de5be",
+  "engineVersion": "1.6.2",
+  "nativeRuntime": "8.0.31",
+  "metricStaged": true,
+  "activeMetricCount": 12,
+  "results": [
+    {
+      "id": "scale_1e-14",
+      "value": 3.4970499919451293E-14,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "scale_1e-13",
+      "value": 3.497049991945129E-13,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "scale_1e-10",
+      "value": 3.497049991945129E-10,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "scale_1e-06",
+      "value": 3.497049991945129E-06,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "scale_1.0",
+      "value": 3.497049991945129,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "scale_1000000.0",
+      "value": 3497049.991945129,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "scale_1000000000000.0",
+      "value": 3497049991945.129,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "shift_10000.0",
+      "value": 10003.497049991945,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "shift_1000000000.0",
+      "value": 1000000003.49705,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "shift_1000000000000.0",
+      "value": 1000000000003.4971,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "shift_3000000000000.0",
+      "value": 3000000000003.497,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "shift_-3000000000000.0",
+      "value": -2999999999996.503,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "extreme_positive_outlier",
+      "value": 3.497049991945129,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "negative_reflection",
+      "value": -3.497049991945129,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "symmetric",
+      "value": 0,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 1
+    },
+    {
+      "id": "constant",
+      "value": 4,
+      "status": "finite",
+      "solverStatus": "zero_mad_fallback",
+      "iterations": 0
+    },
+    {
+      "id": "zero_mad_contamination",
+      "value": 1,
+      "status": "finite",
+      "solverStatus": "zero_mad_fallback",
+      "iterations": 0
+    },
+    {
+      "id": "two_values",
+      "value": 2,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 1
+    },
+    {
+      "id": "even_asymmetric",
+      "value": 2.5982299951670065,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "permuted",
+      "value": 3.497049991945129,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "binary_scale_-1070",
+      "value": 2.77E-322,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "binary_scale_-1070_reflected",
+      "value": -2.77E-322,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "binary_scale_-1070_permuted",
+      "value": 2.77E-322,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "binary_scale_-1022",
+      "value": 7.781194518969926E-308,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "binary_scale_-1022_reflected",
+      "value": -7.781194518969926E-308,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "binary_scale_-1022_permuted",
+      "value": 7.781194518969926E-308,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "binary_scale_-900",
+      "value": 4.137192638105187E-271,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "binary_scale_-900_reflected",
+      "value": -4.137192638105187E-271,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "binary_scale_-900_permuted",
+      "value": 4.137192638105187E-271,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "binary_scale_-500",
+      "value": 1.0683265185369175E-150,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "binary_scale_-500_reflected",
+      "value": -1.0683265185369175E-150,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "binary_scale_-500_permuted",
+      "value": 1.0683265185369175E-150,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "binary_scale_500",
+      "value": 1.1447210598976465E+151,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "binary_scale_500_reflected",
+      "value": -1.1447210598976465E+151,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "binary_scale_500_permuted",
+      "value": 1.1447210598976465E+151,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "binary_scale_1019",
+      "value": 1.9645696133718987E+307,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "binary_scale_1019_reflected",
+      "value": -1.9645696133718987E+307,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "binary_scale_1019_permuted",
+      "value": 1.9645696133718987E+307,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "max_symmetric",
+      "value": 0,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 1
+    },
+    {
+      "id": "max_symmetric_reflected",
+      "value": 0,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 1
+    },
+    {
+      "id": "max_symmetric_permuted",
+      "value": 0,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 1
+    },
+    {
+      "id": "max_asymmetric_unclipped",
+      "value": -8.988465674319037E+306,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "max_asymmetric_unclipped_reflected",
+      "value": 8.988465674319037E+306,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "max_asymmetric_unclipped_permuted",
+      "value": -8.988465674319037E+306,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "max_common_offset",
+      "value": 1.7976931348623151E+308,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "max_common_offset_reflected",
+      "value": -1.7976931348623151E+308,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "max_common_offset_permuted",
+      "value": 1.7976931348623151E+308,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "tiny_mad_max_outlier",
+      "value": 2.77E-322,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "tiny_mad_max_outlier_reflected",
+      "value": -2.77E-322,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "tiny_mad_max_outlier_permuted",
+      "value": 2.77E-322,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "half_subnormal_midpoint",
+      "value": 0,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 1
+    },
+    {
+      "id": "half_subnormal_midpoint_reflected",
+      "value": -0,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 1
+    },
+    {
+      "id": "half_subnormal_midpoint_permuted",
+      "value": 0,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 1
+    },
+    {
+      "id": "min_subnormal_symmetric",
+      "value": 0,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 1
+    },
+    {
+      "id": "min_subnormal_symmetric_reflected",
+      "value": 0,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 1
+    },
+    {
+      "id": "min_subnormal_symmetric_permuted",
+      "value": 0,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 1
+    },
+    {
+      "id": "max_reconstruction_cancellation",
+      "value": -3.0315099529585403E+307,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "max_reconstruction_cancellation_reflected",
+      "value": 3.0315099529585403E+307,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "max_reconstruction_cancellation_permuted",
+      "value": -3.0315099529585403E+307,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "equal_half_clusters",
+      "value": 0,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 1
+    },
+    {
+      "id": "equal_half_clusters_reflected",
+      "value": 0,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 1
+    },
+    {
+      "id": "equal_half_clusters_permuted",
+      "value": 0,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 1
+    },
+    {
+      "id": "repeated_asymmetric",
+      "value": 3.497049991945129,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "repeated_asymmetric_reflected",
+      "value": -3.497049991945129,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "repeated_asymmetric_permuted",
+      "value": 3.497049991945129,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "repeated_tiny_mad",
+      "value": 1.5E-323,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "repeated_tiny_mad_reflected",
+      "value": -1.5E-323,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "repeated_tiny_mad_permuted",
+      "value": 1.5E-323,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "tied_positive_mad",
+      "value": 1.3976399935560266,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "tied_positive_mad_reflected",
+      "value": -1.3976399935560266,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "tied_positive_mad_permuted",
+      "value": 1.3976399935560266,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "even_tied_median",
+      "value": 0,
+      "status": "finite",
+      "solverStatus": "zero_mad_fallback",
+      "iterations": 0
+    },
+    {
+      "id": "even_tied_median_reflected",
+      "value": -0,
+      "status": "finite",
+      "solverStatus": "zero_mad_fallback",
+      "iterations": 0
+    },
+    {
+      "id": "even_tied_median_permuted",
+      "value": 0,
+      "status": "finite",
+      "solverStatus": "zero_mad_fallback",
+      "iterations": 0
+    },
+    {
+      "id": "constant_zero",
+      "value": 0,
+      "status": "finite",
+      "solverStatus": "zero_mad_fallback",
+      "iterations": 0
+    },
+    {
+      "id": "majority_zero",
+      "value": 0,
+      "status": "finite",
+      "solverStatus": "zero_mad_fallback",
+      "iterations": 0
+    },
+    {
+      "id": "constant_positive_subnormal",
+      "value": 5E-324,
+      "status": "finite",
+      "solverStatus": "zero_mad_fallback",
+      "iterations": 0
+    },
+    {
+      "id": "majority_positive_subnormal",
+      "value": 5E-324,
+      "status": "finite",
+      "solverStatus": "zero_mad_fallback",
+      "iterations": 0
+    },
+    {
+      "id": "constant_negative_subnormal",
+      "value": -5E-324,
+      "status": "finite",
+      "solverStatus": "zero_mad_fallback",
+      "iterations": 0
+    },
+    {
+      "id": "majority_negative_subnormal",
+      "value": -5E-324,
+      "status": "finite",
+      "solverStatus": "zero_mad_fallback",
+      "iterations": 0
+    },
+    {
+      "id": "constant_positive_ordinary",
+      "value": 1,
+      "status": "finite",
+      "solverStatus": "zero_mad_fallback",
+      "iterations": 0
+    },
+    {
+      "id": "majority_positive_ordinary",
+      "value": 1,
+      "status": "finite",
+      "solverStatus": "zero_mad_fallback",
+      "iterations": 0
+    },
+    {
+      "id": "constant_negative_ordinary",
+      "value": -1,
+      "status": "finite",
+      "solverStatus": "zero_mad_fallback",
+      "iterations": 0
+    },
+    {
+      "id": "majority_negative_ordinary",
+      "value": -1,
+      "status": "finite",
+      "solverStatus": "zero_mad_fallback",
+      "iterations": 0
+    },
+    {
+      "id": "constant_positive_max",
+      "value": 1.7976931348623157E+308,
+      "status": "finite",
+      "solverStatus": "zero_mad_fallback",
+      "iterations": 0
+    },
+    {
+      "id": "majority_positive_max",
+      "value": 1.7976931348623157E+308,
+      "status": "finite",
+      "solverStatus": "zero_mad_fallback",
+      "iterations": 0
+    },
+    {
+      "id": "constant_negative_max",
+      "value": -1.7976931348623157E+308,
+      "status": "finite",
+      "solverStatus": "zero_mad_fallback",
+      "iterations": 0
+    },
+    {
+      "id": "majority_negative_max",
+      "value": -1.7976931348623157E+308,
+      "status": "finite",
+      "solverStatus": "zero_mad_fallback",
+      "iterations": 0
+    },
+    {
+      "id": "seed20261011_varied_00",
+      "value": 0,
+      "status": "finite",
+      "solverStatus": "zero_mad_fallback",
+      "iterations": 0
+    },
+    {
+      "id": "seed20261011_varied_01",
+      "value": -2.174E-321,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_02",
+      "value": 2.9691719394715648E-307,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_03",
+      "value": -1.5108345467976965E-270,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_04",
+      "value": 2.698527121091279E-150,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_05",
+      "value": -6.948645563326351E-12,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_06",
+      "value": -0.43025714746000654,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_07",
+      "value": 3.8685626227670436E+25,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_08",
+      "value": 2.832317599098828E+151,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_09",
+      "value": 1.0565890622713305E+272,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 1
+    },
+    {
+      "id": "seed20261011_varied_10",
+      "value": -1.6853373139334212E+307,
+      "status": "finite",
+      "solverStatus": "zero_mad_fallback",
+      "iterations": 0
+    },
+    {
+      "id": "seed20261011_varied_11",
+      "value": 2E-323,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_12",
+      "value": 4E-323,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_13",
+      "value": 2.280700704969906E-307,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_14",
+      "value": -2.3661043723338767E-271,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_15",
+      "value": 1.03106484961466E-164,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_16",
+      "value": 1.1330080807379459E-11,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_17",
+      "value": 4.499999999999205,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_18",
+      "value": 0,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 1
+    },
+    {
+      "id": "seed20261011_varied_19",
+      "value": 2.2913734255272993E+151,
+      "status": "finite",
+      "solverStatus": "zero_mad_fallback",
+      "iterations": 0
+    },
+    {
+      "id": "seed20261011_varied_20",
+      "value": 2.9584493743590857E+271,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_21",
+      "value": 3.0897850755434756E+306,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_22",
+      "value": -5E-324,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_23",
+      "value": 4.45E-322,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_24",
+      "value": 7.373152956320095E-309,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_25",
+      "value": -1.5233097854061954E-271,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_26",
+      "value": 8.78294204506103E-151,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_27",
+      "value": 1.7280399333685637E-11,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 1
+    },
+    {
+      "id": "seed20261011_varied_28",
+      "value": 35184372088834.51,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_29",
+      "value": 5222680231936.316,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_30",
+      "value": 1.7419457127470753E+151,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_31",
+      "value": 1.8314210412709483E+271,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_32",
+      "value": 8.469775144647358E+306,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_33",
+      "value": 2E-323,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_34",
+      "value": -4.64E-322,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_35",
+      "value": -1.6846987785841454E-307,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_36",
+      "value": -2.3661043723335494E-271,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 1
+    },
+    {
+      "id": "seed20261011_varied_37",
+      "value": 1.0665241011608764E-150,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_38",
+      "value": -4.559099914548319E-12,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_39",
+      "value": 2.4000000000007695,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_40",
+      "value": -683709381039.4961,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_41",
+      "value": -3.438991444023029E+151,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_42",
+      "value": -1.6805682716520006E+270,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_43",
+      "value": -8.738786072247131E+306,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_44",
+      "value": 2.5E-323,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_45",
+      "value": 1.03E-321,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 1
+    },
+    {
+      "id": "seed20261011_varied_46",
+      "value": 3.409814631622944E-308,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    },
+    {
+      "id": "seed20261011_varied_47",
+      "value": -2.0703413257925745E-271,
+      "status": "finite",
+      "solverStatus": "converged",
+      "iterations": 46
+    }
+  ]
+}

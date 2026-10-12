@@ -1,0 +1,56 @@
+[
+  {
+    "file": "benchmark_protocol.txt",
+    "identical": true,
+    "localSha256": "b81be4a1a86e8ba4b013eb63b75256d16e439fb824e7fa68efae5f28e48de268",
+    "remoteSha256": "b81be4a1a86e8ba4b013eb63b75256d16e439fb824e7fa68efae5f28e48de268"
+  },
+  {
+    "file": "benchmark_choices.csv",
+    "identical": true,
+    "localSha256": "6cc0c577c53af29116ab1190b978e7e6709811ffbe194d594ff55016e1602f25",
+    "remoteSha256": "6cc0c577c53af29116ab1190b978e7e6709811ffbe194d594ff55016e1602f25"
+  },
+  {
+    "file": "benchmark_summary.csv",
+    "identical": true,
+    "localSha256": "fd7a967562dbf8f7a9d855fe2e4a729be8d201df7833b7cbea144987a03eeb2a",
+    "remoteSha256": "fd7a967562dbf8f7a9d855fe2e4a729be8d201df7833b7cbea144987a03eeb2a"
+  },
+  {
+    "file": "SHA256SUMS.txt",
+    "identical": true,
+    "localSha256": "dac066d4ba139aeb051ab2b82ed16735e7ec099c850df62042dae1965c69f227",
+    "remoteSha256": "dac066d4ba139aeb051ab2b82ed16735e7ec099c850df62042dae1965c69f227"
+  },
+  {
+    "file": "benchmark_stability.csv",
+    "identical": true,
+    "localSha256": "59be568fe843e8cfae1a8d5c4d7b9400d69948178cfd06dd50e51a065b499104",
+    "remoteSha256": "59be568fe843e8cfae1a8d5c4d7b9400d69948178cfd06dd50e51a065b499104"
+  },
+  {
+    "file": "benchmark_metrics.csv",
+    "identical": true,
+    "localSha256": "18d9352b927fdbc65e9b48331a6dea7b29fe4dde7eeff5da54ebb335178228dd",
+    "remoteSha256": "18d9352b927fdbc65e9b48331a6dea7b29fe4dde7eeff5da54ebb335178228dd"
+  },
+  {
+    "file": "benchmark_report.md",
+    "identical": true,
+    "localSha256": "97ff31d732b55bf10c7a1ee6eedd5d16267ae06abddbadfaa61b5e4d6e2a87d5",
+    "remoteSha256": "97ff31d732b55bf10c7a1ee6eedd5d16267ae06abddbadfaa61b5e4d6e2a87d5"
+  },
+  {
+    "file": "benchmark_verdicts.csv",
+    "identical": true,
+    "localSha256": "723113052de4bec366781dd4487ee650b89973d7015d6be335d53e437d63d76f",
+    "remoteSha256": "723113052de4bec366781dd4487ee650b89973d7015d6be335d53e437d63d76f"
+  },
+  {
+    "file": "benchmark_manifest.json",
+    "identical": true,
+    "localSha256": "31b47552b4a25ab008773d3f17f7e0b80e63f9c7dc9b69f73f18299f7c8a2b00",
+    "remoteSha256": "31b47552b4a25ab008773d3f17f7e0b80e63f9c7dc9b69f73f18299f7c8a2b00"
+  }
+]

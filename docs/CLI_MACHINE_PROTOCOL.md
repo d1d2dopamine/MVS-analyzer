@@ -34,3 +34,17 @@ Example shape:
 ```
 
 Fields may be added compatibly inside schema v1. A removal, semantic change, or incompatible type change requires a new machine schema. Scripts should reject unknown schema identifiers instead of guessing.
+
+## Input-error boundary (round 13)
+
+Malformed global `--json`, `--quiet` and help boolean values are caught by the
+command error handler. An explicit invalid `--json=...` produces one v1 error
+object and exit 1; a sole valid `--json=false` retains human output. Reserved
+output/input collisions and predictable target obstructions are input errors,
+not successful calibration or scientific diagnostics. They are rejected before
+output creation/writes and report no newly generated artifacts.
+
+The existing human help path remains an exception to the machine-output
+promise (`help --json` prints usage). This known gap is recorded rather than
+represented as a passing structured-help check. Unexpected failures after writes
+begin can still leave partial artifacts; preflight is not transactional output.

@@ -78,12 +78,25 @@ def _append_options(args: list[str], options: Mapping[str, Any]) -> None:
 class Engine:
     def __init__(self, executable: str | os.PathLike[str] | None = None):
         explicit = str(executable) if executable is not None else os.environ.get("MVS_CLI")
-        if explicit:
-            resolved = shutil.which(explicit) if not Path(explicit).exists() else str(Path(explicit).expanduser().resolve())
-        else:
-            resolved = shutil.which("mvs")
+        requested = explicit or "mvs"
+        try:
+            if explicit:
+                resolved = shutil.which(explicit) if not Path(explicit).exists() else str(Path(explicit).expanduser().resolve())
+            else:
+                resolved = shutil.which("mvs")
+        except FileNotFoundError as exc:
+            raise EngineNotFoundError(
+                f"Cannot find MVS CLI executable {requested!r} while resolving for 'version': {exc}"
+            ) from exc
+        except OSError as exc:
+            raise EngineError(
+                f"Cannot resolve MVS CLI executable {requested!r} for 'version': {exc}"
+            ) from exc
         if not resolved:
-            raise EngineNotFoundError("Cannot find the MVS CLI. Install `mvs` or set MVS_CLI=/path/to/mvs.")
+            raise EngineNotFoundError(
+                f"Cannot find MVS CLI executable {requested!r} for 'version'. "
+                "Install `mvs` or set MVS_CLI=/path/to/mvs."
+            )
         self.executable = resolved
         self.identity = self._invoke(["version"], allow_diagnostic=False, result_type=BaseResult)
         if self.identity.raw.get("schemaVersion") != SCHEMA:
@@ -98,14 +111,27 @@ class Engine:
 
     def _invoke(self, args: Sequence[str], *, allow_diagnostic: bool, result_type: type[T]) -> T:
         command = args[0] if args else ""
-        process = subprocess.run(
-            [self.executable, *args, "--json", "--quiet"],
-            text=True,
-            encoding="utf-8",
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            check=False,
-        )
+        try:
+            process = subprocess.run(
+                [self.executable, *args, "--json", "--quiet"],
+                text=True,
+                encoding="utf-8",
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=False,
+            )
+        except FileNotFoundError as exc:
+            raise EngineNotFoundError(
+                f"Cannot find MVS CLI executable {self.executable!r} for {command!r}: {exc}"
+            ) from exc
+        except OSError as exc:
+            raise EngineError(
+                f"Cannot run MVS CLI executable {self.executable!r} for {command!r}: {exc}"
+            ) from exc
+        except UnicodeDecodeError as exc:
+            raise EngineError(
+                f"MVS CLI executable {self.executable!r} returned invalid UTF-8 output for {command!r}."
+            ) from exc
         try:
             payload = json.loads(process.stdout)
         except json.JSONDecodeError as exc:
@@ -133,7 +159,7 @@ class Engine:
         message = error.get("message") if isinstance(error, dict) else None
         message = message or process.stderr.strip() or f"MVS command {command!r} failed."
         error_type = error.get("type", "") if isinstance(error, dict) else ""
-        if error_type in {"ArgumentException", "InvalidDataException", "FileNotFoundException", "FormatException"}:
+        if error_type in {"ArgumentException", "ArgumentOutOfRangeException", "InvalidDataException", "FileNotFoundException", "FormatException"}:
             raise InputError(message)
         raise EngineError(message)
 

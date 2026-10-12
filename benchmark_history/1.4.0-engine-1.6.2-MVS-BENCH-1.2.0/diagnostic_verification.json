@@ -1,0 +1,1607 @@
+{
+  "status": "passed",
+  "replications": 5370,
+  "requested_denominator_rates": [
+    {
+      "condition": "primary_null",
+      "phase": "main",
+      "procedure": "cherry_pick",
+      "requested": 1000,
+      "completed": 1000,
+      "failed": 0,
+      "rejections": 178,
+      "requested_rate": 0.178
+    },
+    {
+      "condition": "primary_null",
+      "phase": "main",
+      "procedure": "bonferroni",
+      "requested": 1000,
+      "completed": 1000,
+      "failed": 0,
+      "rejections": 18,
+      "requested_rate": 0.018
+    },
+    {
+      "condition": "primary_null",
+      "phase": "main",
+      "procedure": "fixed_median",
+      "requested": 1000,
+      "completed": 1000,
+      "failed": 0,
+      "rejections": 48,
+      "requested_rate": 0.048
+    },
+    {
+      "condition": "primary_null",
+      "phase": "main",
+      "procedure": "fixed_cv",
+      "requested": 1000,
+      "completed": 1000,
+      "failed": 0,
+      "rejections": 58,
+      "requested_rate": 0.058
+    },
+    {
+      "condition": "primary_null",
+      "phase": "main",
+      "procedure": "mvs_pilot",
+      "requested": 1000,
+      "completed": 1000,
+      "failed": 0,
+      "rejections": 46,
+      "requested_rate": 0.046
+    },
+    {
+      "condition": "primary_null",
+      "phase": "main",
+      "procedure": "mvs_strict",
+      "requested": 1000,
+      "completed": 1000,
+      "failed": 0,
+      "rejections": 46,
+      "requested_rate": 0.046
+    },
+    {
+      "condition": "primary_null",
+      "phase": "main",
+      "procedure": "mvs_lenient",
+      "requested": 1000,
+      "completed": 1000,
+      "failed": 0,
+      "rejections": 46,
+      "requested_rate": 0.046
+    },
+    {
+      "condition": "primary_null",
+      "phase": "main",
+      "procedure": "mvs_registry_corrected",
+      "requested": 1000,
+      "completed": 1000,
+      "failed": 0,
+      "rejections": 18,
+      "requested_rate": 0.018
+    },
+    {
+      "condition": "power_location_100",
+      "phase": "main",
+      "procedure": "cherry_pick",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 48,
+      "requested_rate": 0.192
+    },
+    {
+      "condition": "power_location_100",
+      "phase": "main",
+      "procedure": "bonferroni",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 6,
+      "requested_rate": 0.024
+    },
+    {
+      "condition": "power_location_100",
+      "phase": "main",
+      "procedure": "fixed_median",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 13,
+      "requested_rate": 0.052
+    },
+    {
+      "condition": "power_location_100",
+      "phase": "main",
+      "procedure": "fixed_cv",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 13,
+      "requested_rate": 0.052
+    },
+    {
+      "condition": "power_location_100",
+      "phase": "main",
+      "procedure": "mvs_pilot",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 14,
+      "requested_rate": 0.056
+    },
+    {
+      "condition": "power_location_100",
+      "phase": "main",
+      "procedure": "mvs_strict",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 13,
+      "requested_rate": 0.052
+    },
+    {
+      "condition": "power_location_100",
+      "phase": "main",
+      "procedure": "mvs_lenient",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 13,
+      "requested_rate": 0.052
+    },
+    {
+      "condition": "power_location_100",
+      "phase": "main",
+      "procedure": "mvs_registry_corrected",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 6,
+      "requested_rate": 0.024
+    },
+    {
+      "condition": "power_location_102",
+      "phase": "main",
+      "procedure": "cherry_pick",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 62,
+      "requested_rate": 0.248
+    },
+    {
+      "condition": "power_location_102",
+      "phase": "main",
+      "procedure": "bonferroni",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 12,
+      "requested_rate": 0.048
+    },
+    {
+      "condition": "power_location_102",
+      "phase": "main",
+      "procedure": "fixed_median",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 31,
+      "requested_rate": 0.124
+    },
+    {
+      "condition": "power_location_102",
+      "phase": "main",
+      "procedure": "fixed_cv",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 15,
+      "requested_rate": 0.06
+    },
+    {
+      "condition": "power_location_102",
+      "phase": "main",
+      "procedure": "mvs_pilot",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 31,
+      "requested_rate": 0.124
+    },
+    {
+      "condition": "power_location_102",
+      "phase": "main",
+      "procedure": "mvs_strict",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 31,
+      "requested_rate": 0.124
+    },
+    {
+      "condition": "power_location_102",
+      "phase": "main",
+      "procedure": "mvs_lenient",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 31,
+      "requested_rate": 0.124
+    },
+    {
+      "condition": "power_location_102",
+      "phase": "main",
+      "procedure": "mvs_registry_corrected",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 12,
+      "requested_rate": 0.048
+    },
+    {
+      "condition": "power_location_105",
+      "phase": "main",
+      "procedure": "cherry_pick",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 141,
+      "requested_rate": 0.564
+    },
+    {
+      "condition": "power_location_105",
+      "phase": "main",
+      "procedure": "bonferroni",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 35,
+      "requested_rate": 0.14
+    },
+    {
+      "condition": "power_location_105",
+      "phase": "main",
+      "procedure": "fixed_median",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 115,
+      "requested_rate": 0.46
+    },
+    {
+      "condition": "power_location_105",
+      "phase": "main",
+      "procedure": "fixed_cv",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 23,
+      "requested_rate": 0.092
+    },
+    {
+      "condition": "power_location_105",
+      "phase": "main",
+      "procedure": "mvs_pilot",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 110,
+      "requested_rate": 0.44
+    },
+    {
+      "condition": "power_location_105",
+      "phase": "main",
+      "procedure": "mvs_strict",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 110,
+      "requested_rate": 0.44
+    },
+    {
+      "condition": "power_location_105",
+      "phase": "main",
+      "procedure": "mvs_lenient",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 110,
+      "requested_rate": 0.44
+    },
+    {
+      "condition": "power_location_105",
+      "phase": "main",
+      "procedure": "mvs_registry_corrected",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 35,
+      "requested_rate": 0.14
+    },
+    {
+      "condition": "power_location_110",
+      "phase": "main",
+      "procedure": "cherry_pick",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 247,
+      "requested_rate": 0.988
+    },
+    {
+      "condition": "power_location_110",
+      "phase": "main",
+      "procedure": "bonferroni",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 190,
+      "requested_rate": 0.76
+    },
+    {
+      "condition": "power_location_110",
+      "phase": "main",
+      "procedure": "fixed_median",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 241,
+      "requested_rate": 0.964
+    },
+    {
+      "condition": "power_location_110",
+      "phase": "main",
+      "procedure": "fixed_cv",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 41,
+      "requested_rate": 0.164
+    },
+    {
+      "condition": "power_location_110",
+      "phase": "main",
+      "procedure": "mvs_pilot",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 242,
+      "requested_rate": 0.968
+    },
+    {
+      "condition": "power_location_110",
+      "phase": "main",
+      "procedure": "mvs_strict",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 237,
+      "requested_rate": 0.948
+    },
+    {
+      "condition": "power_location_110",
+      "phase": "main",
+      "procedure": "mvs_lenient",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 242,
+      "requested_rate": 0.968
+    },
+    {
+      "condition": "power_location_110",
+      "phase": "main",
+      "procedure": "mvs_registry_corrected",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 190,
+      "requested_rate": 0.76
+    },
+    {
+      "condition": "power_location_120",
+      "phase": "main",
+      "procedure": "cherry_pick",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 250,
+      "requested_rate": 1.0
+    },
+    {
+      "condition": "power_location_120",
+      "phase": "main",
+      "procedure": "bonferroni",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 250,
+      "requested_rate": 1.0
+    },
+    {
+      "condition": "power_location_120",
+      "phase": "main",
+      "procedure": "fixed_median",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 250,
+      "requested_rate": 1.0
+    },
+    {
+      "condition": "power_location_120",
+      "phase": "main",
+      "procedure": "fixed_cv",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 103,
+      "requested_rate": 0.412
+    },
+    {
+      "condition": "power_location_120",
+      "phase": "main",
+      "procedure": "mvs_pilot",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 250,
+      "requested_rate": 1.0
+    },
+    {
+      "condition": "power_location_120",
+      "phase": "main",
+      "procedure": "mvs_strict",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 54,
+      "requested_rate": 0.216
+    },
+    {
+      "condition": "power_location_120",
+      "phase": "main",
+      "procedure": "mvs_lenient",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 250,
+      "requested_rate": 1.0
+    },
+    {
+      "condition": "power_location_120",
+      "phase": "main",
+      "procedure": "mvs_registry_corrected",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 250,
+      "requested_rate": 1.0
+    },
+    {
+      "condition": "power_dispersion_102",
+      "phase": "main",
+      "procedure": "cherry_pick",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 38,
+      "requested_rate": 0.152
+    },
+    {
+      "condition": "power_dispersion_102",
+      "phase": "main",
+      "procedure": "bonferroni",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 6,
+      "requested_rate": 0.024
+    },
+    {
+      "condition": "power_dispersion_102",
+      "phase": "main",
+      "procedure": "fixed_median",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 13,
+      "requested_rate": 0.052
+    },
+    {
+      "condition": "power_dispersion_102",
+      "phase": "main",
+      "procedure": "fixed_cv",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 13,
+      "requested_rate": 0.052
+    },
+    {
+      "condition": "power_dispersion_102",
+      "phase": "main",
+      "procedure": "mvs_pilot",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 14,
+      "requested_rate": 0.056
+    },
+    {
+      "condition": "power_dispersion_102",
+      "phase": "main",
+      "procedure": "mvs_strict",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 13,
+      "requested_rate": 0.052
+    },
+    {
+      "condition": "power_dispersion_102",
+      "phase": "main",
+      "procedure": "mvs_lenient",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 13,
+      "requested_rate": 0.052
+    },
+    {
+      "condition": "power_dispersion_102",
+      "phase": "main",
+      "procedure": "mvs_registry_corrected",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 6,
+      "requested_rate": 0.024
+    },
+    {
+      "condition": "power_dispersion_105",
+      "phase": "main",
+      "procedure": "cherry_pick",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 45,
+      "requested_rate": 0.18
+    },
+    {
+      "condition": "power_dispersion_105",
+      "phase": "main",
+      "procedure": "bonferroni",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 7,
+      "requested_rate": 0.028
+    },
+    {
+      "condition": "power_dispersion_105",
+      "phase": "main",
+      "procedure": "fixed_median",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 13,
+      "requested_rate": 0.052
+    },
+    {
+      "condition": "power_dispersion_105",
+      "phase": "main",
+      "procedure": "fixed_cv",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 14,
+      "requested_rate": 0.056
+    },
+    {
+      "condition": "power_dispersion_105",
+      "phase": "main",
+      "procedure": "mvs_pilot",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 14,
+      "requested_rate": 0.056
+    },
+    {
+      "condition": "power_dispersion_105",
+      "phase": "main",
+      "procedure": "mvs_strict",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 13,
+      "requested_rate": 0.052
+    },
+    {
+      "condition": "power_dispersion_105",
+      "phase": "main",
+      "procedure": "mvs_lenient",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 13,
+      "requested_rate": 0.052
+    },
+    {
+      "condition": "power_dispersion_105",
+      "phase": "main",
+      "procedure": "mvs_registry_corrected",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 7,
+      "requested_rate": 0.028
+    },
+    {
+      "condition": "power_dispersion_110",
+      "phase": "main",
+      "procedure": "cherry_pick",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 61,
+      "requested_rate": 0.244
+    },
+    {
+      "condition": "power_dispersion_110",
+      "phase": "main",
+      "procedure": "bonferroni",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 11,
+      "requested_rate": 0.044
+    },
+    {
+      "condition": "power_dispersion_110",
+      "phase": "main",
+      "procedure": "fixed_median",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 13,
+      "requested_rate": 0.052
+    },
+    {
+      "condition": "power_dispersion_110",
+      "phase": "main",
+      "procedure": "fixed_cv",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 30,
+      "requested_rate": 0.12
+    },
+    {
+      "condition": "power_dispersion_110",
+      "phase": "main",
+      "procedure": "mvs_pilot",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 14,
+      "requested_rate": 0.056
+    },
+    {
+      "condition": "power_dispersion_110",
+      "phase": "main",
+      "procedure": "mvs_strict",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 13,
+      "requested_rate": 0.052
+    },
+    {
+      "condition": "power_dispersion_110",
+      "phase": "main",
+      "procedure": "mvs_lenient",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 13,
+      "requested_rate": 0.052
+    },
+    {
+      "condition": "power_dispersion_110",
+      "phase": "main",
+      "procedure": "mvs_registry_corrected",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 11,
+      "requested_rate": 0.044
+    },
+    {
+      "condition": "power_dispersion_120",
+      "phase": "main",
+      "procedure": "cherry_pick",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 121,
+      "requested_rate": 0.484
+    },
+    {
+      "condition": "power_dispersion_120",
+      "phase": "main",
+      "procedure": "bonferroni",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 32,
+      "requested_rate": 0.128
+    },
+    {
+      "condition": "power_dispersion_120",
+      "phase": "main",
+      "procedure": "fixed_median",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 13,
+      "requested_rate": 0.052
+    },
+    {
+      "condition": "power_dispersion_120",
+      "phase": "main",
+      "procedure": "fixed_cv",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 77,
+      "requested_rate": 0.308
+    },
+    {
+      "condition": "power_dispersion_120",
+      "phase": "main",
+      "procedure": "mvs_pilot",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 14,
+      "requested_rate": 0.056
+    },
+    {
+      "condition": "power_dispersion_120",
+      "phase": "main",
+      "procedure": "mvs_strict",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 13,
+      "requested_rate": 0.052
+    },
+    {
+      "condition": "power_dispersion_120",
+      "phase": "main",
+      "procedure": "mvs_lenient",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 13,
+      "requested_rate": 0.052
+    },
+    {
+      "condition": "power_dispersion_120",
+      "phase": "main",
+      "procedure": "mvs_registry_corrected",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 32,
+      "requested_rate": 0.128
+    },
+    {
+      "condition": "power_dispersion_130",
+      "phase": "main",
+      "procedure": "cherry_pick",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 182,
+      "requested_rate": 0.728
+    },
+    {
+      "condition": "power_dispersion_130",
+      "phase": "main",
+      "procedure": "bonferroni",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 72,
+      "requested_rate": 0.288
+    },
+    {
+      "condition": "power_dispersion_130",
+      "phase": "main",
+      "procedure": "fixed_median",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 14,
+      "requested_rate": 0.056
+    },
+    {
+      "condition": "power_dispersion_130",
+      "phase": "main",
+      "procedure": "fixed_cv",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 137,
+      "requested_rate": 0.548
+    },
+    {
+      "condition": "power_dispersion_130",
+      "phase": "main",
+      "procedure": "mvs_pilot",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 15,
+      "requested_rate": 0.06
+    },
+    {
+      "condition": "power_dispersion_130",
+      "phase": "main",
+      "procedure": "mvs_strict",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 14,
+      "requested_rate": 0.056
+    },
+    {
+      "condition": "power_dispersion_130",
+      "phase": "main",
+      "procedure": "mvs_lenient",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 14,
+      "requested_rate": 0.056
+    },
+    {
+      "condition": "power_dispersion_130",
+      "phase": "main",
+      "procedure": "mvs_registry_corrected",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 72,
+      "requested_rate": 0.288
+    },
+    {
+      "condition": "robust_null_2",
+      "phase": "main",
+      "procedure": "cherry_pick",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 52,
+      "requested_rate": 0.208
+    },
+    {
+      "condition": "robust_null_2",
+      "phase": "main",
+      "procedure": "bonferroni",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 7,
+      "requested_rate": 0.028
+    },
+    {
+      "condition": "robust_null_2",
+      "phase": "main",
+      "procedure": "fixed_median",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 12,
+      "requested_rate": 0.048
+    },
+    {
+      "condition": "robust_null_2",
+      "phase": "main",
+      "procedure": "fixed_cv",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 13,
+      "requested_rate": 0.052
+    },
+    {
+      "condition": "robust_null_2",
+      "phase": "main",
+      "procedure": "mvs_pilot",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 10,
+      "requested_rate": 0.04
+    },
+    {
+      "condition": "robust_null_2",
+      "phase": "main",
+      "procedure": "mvs_strict",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 11,
+      "requested_rate": 0.044
+    },
+    {
+      "condition": "robust_null_2",
+      "phase": "main",
+      "procedure": "mvs_lenient",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 11,
+      "requested_rate": 0.044
+    },
+    {
+      "condition": "robust_null_2",
+      "phase": "main",
+      "procedure": "mvs_registry_corrected",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 7,
+      "requested_rate": 0.028
+    },
+    {
+      "condition": "robust_null_5",
+      "phase": "main",
+      "procedure": "cherry_pick",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 53,
+      "requested_rate": 0.212
+    },
+    {
+      "condition": "robust_null_5",
+      "phase": "main",
+      "procedure": "bonferroni",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 6,
+      "requested_rate": 0.024
+    },
+    {
+      "condition": "robust_null_5",
+      "phase": "main",
+      "procedure": "fixed_median",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 12,
+      "requested_rate": 0.048
+    },
+    {
+      "condition": "robust_null_5",
+      "phase": "main",
+      "procedure": "fixed_cv",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 13,
+      "requested_rate": 0.052
+    },
+    {
+      "condition": "robust_null_5",
+      "phase": "main",
+      "procedure": "mvs_pilot",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 12,
+      "requested_rate": 0.048
+    },
+    {
+      "condition": "robust_null_5",
+      "phase": "main",
+      "procedure": "mvs_strict",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 12,
+      "requested_rate": 0.048
+    },
+    {
+      "condition": "robust_null_5",
+      "phase": "main",
+      "procedure": "mvs_lenient",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 12,
+      "requested_rate": 0.048
+    },
+    {
+      "condition": "robust_null_5",
+      "phase": "main",
+      "procedure": "mvs_registry_corrected",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 6,
+      "requested_rate": 0.024
+    },
+    {
+      "condition": "robust_null_10",
+      "phase": "main",
+      "procedure": "cherry_pick",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 50,
+      "requested_rate": 0.2
+    },
+    {
+      "condition": "robust_null_10",
+      "phase": "main",
+      "procedure": "bonferroni",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 5,
+      "requested_rate": 0.02
+    },
+    {
+      "condition": "robust_null_10",
+      "phase": "main",
+      "procedure": "fixed_median",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 11,
+      "requested_rate": 0.044
+    },
+    {
+      "condition": "robust_null_10",
+      "phase": "main",
+      "procedure": "fixed_cv",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 15,
+      "requested_rate": 0.06
+    },
+    {
+      "condition": "robust_null_10",
+      "phase": "main",
+      "procedure": "mvs_pilot",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 12,
+      "requested_rate": 0.048
+    },
+    {
+      "condition": "robust_null_10",
+      "phase": "main",
+      "procedure": "mvs_strict",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 12,
+      "requested_rate": 0.048
+    },
+    {
+      "condition": "robust_null_10",
+      "phase": "main",
+      "procedure": "mvs_lenient",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 12,
+      "requested_rate": 0.048
+    },
+    {
+      "condition": "robust_null_10",
+      "phase": "main",
+      "procedure": "mvs_registry_corrected",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 5,
+      "requested_rate": 0.02
+    },
+    {
+      "condition": "shape_normal_null",
+      "phase": "main",
+      "procedure": "cherry_pick",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 48,
+      "requested_rate": 0.192
+    },
+    {
+      "condition": "shape_normal_null",
+      "phase": "main",
+      "procedure": "bonferroni",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 4,
+      "requested_rate": 0.016
+    },
+    {
+      "condition": "shape_normal_null",
+      "phase": "main",
+      "procedure": "fixed_median",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 10,
+      "requested_rate": 0.04
+    },
+    {
+      "condition": "shape_normal_null",
+      "phase": "main",
+      "procedure": "fixed_cv",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 14,
+      "requested_rate": 0.056
+    },
+    {
+      "condition": "shape_normal_null",
+      "phase": "main",
+      "procedure": "mvs_pilot",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 10,
+      "requested_rate": 0.04
+    },
+    {
+      "condition": "shape_normal_null",
+      "phase": "main",
+      "procedure": "mvs_strict",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 10,
+      "requested_rate": 0.04
+    },
+    {
+      "condition": "shape_normal_null",
+      "phase": "main",
+      "procedure": "mvs_lenient",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 10,
+      "requested_rate": 0.04
+    },
+    {
+      "condition": "shape_normal_null",
+      "phase": "main",
+      "procedure": "mvs_registry_corrected",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 4,
+      "requested_rate": 0.016
+    },
+    {
+      "condition": "shape_lognormal_null",
+      "phase": "main",
+      "procedure": "cherry_pick",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 34,
+      "requested_rate": 0.136
+    },
+    {
+      "condition": "shape_lognormal_null",
+      "phase": "main",
+      "procedure": "bonferroni",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 0,
+      "requested_rate": 0.0
+    },
+    {
+      "condition": "shape_lognormal_null",
+      "phase": "main",
+      "procedure": "fixed_median",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 6,
+      "requested_rate": 0.024
+    },
+    {
+      "condition": "shape_lognormal_null",
+      "phase": "main",
+      "procedure": "fixed_cv",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 6,
+      "requested_rate": 0.024
+    },
+    {
+      "condition": "shape_lognormal_null",
+      "phase": "main",
+      "procedure": "mvs_pilot",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 6,
+      "requested_rate": 0.024
+    },
+    {
+      "condition": "shape_lognormal_null",
+      "phase": "main",
+      "procedure": "mvs_strict",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 5,
+      "requested_rate": 0.02
+    },
+    {
+      "condition": "shape_lognormal_null",
+      "phase": "main",
+      "procedure": "mvs_lenient",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 5,
+      "requested_rate": 0.02
+    },
+    {
+      "condition": "shape_lognormal_null",
+      "phase": "main",
+      "procedure": "mvs_registry_corrected",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 0,
+      "requested_rate": 0.0
+    },
+    {
+      "condition": "design_voice_null",
+      "phase": "main",
+      "procedure": "cherry_pick",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 45,
+      "requested_rate": 0.18
+    },
+    {
+      "condition": "design_voice_null",
+      "phase": "main",
+      "procedure": "bonferroni",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 3,
+      "requested_rate": 0.012
+    },
+    {
+      "condition": "design_voice_null",
+      "phase": "main",
+      "procedure": "fixed_median",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 10,
+      "requested_rate": 0.04
+    },
+    {
+      "condition": "design_voice_null",
+      "phase": "main",
+      "procedure": "fixed_cv",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 9,
+      "requested_rate": 0.036
+    },
+    {
+      "condition": "design_voice_null",
+      "phase": "main",
+      "procedure": "mvs_pilot",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 9,
+      "requested_rate": 0.036
+    },
+    {
+      "condition": "design_voice_null",
+      "phase": "main",
+      "procedure": "mvs_strict",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 0,
+      "requested_rate": 0.0
+    },
+    {
+      "condition": "design_voice_null",
+      "phase": "main",
+      "procedure": "mvs_lenient",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 10,
+      "requested_rate": 0.04
+    },
+    {
+      "condition": "design_voice_null",
+      "phase": "main",
+      "procedure": "mvs_registry_corrected",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 3,
+      "requested_rate": 0.012
+    },
+    {
+      "condition": "design_voice_location_105",
+      "phase": "main",
+      "procedure": "cherry_pick",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 59,
+      "requested_rate": 0.236
+    },
+    {
+      "condition": "design_voice_location_105",
+      "phase": "main",
+      "procedure": "bonferroni",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 3,
+      "requested_rate": 0.012
+    },
+    {
+      "condition": "design_voice_location_105",
+      "phase": "main",
+      "procedure": "fixed_median",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 21,
+      "requested_rate": 0.084
+    },
+    {
+      "condition": "design_voice_location_105",
+      "phase": "main",
+      "procedure": "fixed_cv",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 7,
+      "requested_rate": 0.028
+    },
+    {
+      "condition": "design_voice_location_105",
+      "phase": "main",
+      "procedure": "mvs_pilot",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 24,
+      "requested_rate": 0.096
+    },
+    {
+      "condition": "design_voice_location_105",
+      "phase": "main",
+      "procedure": "mvs_strict",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 0,
+      "requested_rate": 0.0
+    },
+    {
+      "condition": "design_voice_location_105",
+      "phase": "main",
+      "procedure": "mvs_lenient",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 23,
+      "requested_rate": 0.092
+    },
+    {
+      "condition": "design_voice_location_105",
+      "phase": "main",
+      "procedure": "mvs_registry_corrected",
+      "requested": 250,
+      "completed": 250,
+      "failed": 0,
+      "rejections": 3,
+      "requested_rate": 0.012
+    },
+    {
+      "condition": "determinism_replay",
+      "phase": "replay-first",
+      "procedure": "cherry_pick",
+      "requested": 60,
+      "completed": 60,
+      "failed": 0,
+      "rejections": 11,
+      "requested_rate": 0.18333333333333332
+    },
+    {
+      "condition": "determinism_replay",
+      "phase": "replay-first",
+      "procedure": "bonferroni",
+      "requested": 60,
+      "completed": 60,
+      "failed": 0,
+      "rejections": 0,
+      "requested_rate": 0.0
+    },
+    {
+      "condition": "determinism_replay",
+      "phase": "replay-first",
+      "procedure": "fixed_median",
+      "requested": 60,
+      "completed": 60,
+      "failed": 0,
+      "rejections": 3,
+      "requested_rate": 0.05
+    },
+    {
+      "condition": "determinism_replay",
+      "phase": "replay-first",
+      "procedure": "fixed_cv",
+      "requested": 60,
+      "completed": 60,
+      "failed": 0,
+      "rejections": 5,
+      "requested_rate": 0.08333333333333333
+    },
+    {
+      "condition": "determinism_replay",
+      "phase": "replay-first",
+      "procedure": "mvs_pilot",
+      "requested": 60,
+      "completed": 60,
+      "failed": 0,
+      "rejections": 3,
+      "requested_rate": 0.05
+    },
+    {
+      "condition": "determinism_replay",
+      "phase": "replay-first",
+      "procedure": "mvs_strict",
+      "requested": 60,
+      "completed": 60,
+      "failed": 0,
+      "rejections": 3,
+      "requested_rate": 0.05
+    },
+    {
+      "condition": "determinism_replay",
+      "phase": "replay-first",
+      "procedure": "mvs_lenient",
+      "requested": 60,
+      "completed": 60,
+      "failed": 0,
+      "rejections": 3,
+      "requested_rate": 0.05
+    },
+    {
+      "condition": "determinism_replay",
+      "phase": "replay-first",
+      "procedure": "mvs_registry_corrected",
+      "requested": 60,
+      "completed": 60,
+      "failed": 0,
+      "rejections": 0,
+      "requested_rate": 0.0
+    },
+    {
+      "condition": "determinism_replay",
+      "phase": "replay-second",
+      "procedure": "cherry_pick",
+      "requested": 60,
+      "completed": 60,
+      "failed": 0,
+      "rejections": 11,
+      "requested_rate": 0.18333333333333332
+    },
+    {
+      "condition": "determinism_replay",
+      "phase": "replay-second",
+      "procedure": "bonferroni",
+      "requested": 60,
+      "completed": 60,
+      "failed": 0,
+      "rejections": 0,
+      "requested_rate": 0.0
+    },
+    {
+      "condition": "determinism_replay",
+      "phase": "replay-second",
+      "procedure": "fixed_median",
+      "requested": 60,
+      "completed": 60,
+      "failed": 0,
+      "rejections": 3,
+      "requested_rate": 0.05
+    },
+    {
+      "condition": "determinism_replay",
+      "phase": "replay-second",
+      "procedure": "fixed_cv",
+      "requested": 60,
+      "completed": 60,
+      "failed": 0,
+      "rejections": 5,
+      "requested_rate": 0.08333333333333333
+    },
+    {
+      "condition": "determinism_replay",
+      "phase": "replay-second",
+      "procedure": "mvs_pilot",
+      "requested": 60,
+      "completed": 60,
+      "failed": 0,
+      "rejections": 3,
+      "requested_rate": 0.05
+    },
+    {
+      "condition": "determinism_replay",
+      "phase": "replay-second",
+      "procedure": "mvs_strict",
+      "requested": 60,
+      "completed": 60,
+      "failed": 0,
+      "rejections": 3,
+      "requested_rate": 0.05
+    },
+    {
+      "condition": "determinism_replay",
+      "phase": "replay-second",
+      "procedure": "mvs_lenient",
+      "requested": 60,
+      "completed": 60,
+      "failed": 0,
+      "rejections": 3,
+      "requested_rate": 0.05
+    },
+    {
+      "condition": "determinism_replay",
+      "phase": "replay-second",
+      "procedure": "mvs_registry_corrected",
+      "requested": 60,
+      "completed": 60,
+      "failed": 0,
+      "rejections": 0,
+      "requested_rate": 0.0
+    }
+  ],
+  "note": "Counts and selected decisions reconciled, not every manifest/uncertainty field. Failures count as non-rejections; these rates do not establish error control or power."
+}

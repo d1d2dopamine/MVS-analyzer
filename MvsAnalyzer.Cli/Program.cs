@@ -10,23 +10,29 @@ internal static class CliProgram
         try { Console.OutputEncoding = Encoding.UTF8; } catch (IOException) { }
         Console.CancelKeyPress += (_, e) => { e.Cancel = true; CliCancellation.Source.Cancel(); };
         var args = new CliArguments(arguments);
-        bool machine = args.Flag("--json");
-        bool quiet = args.Flag("--quiet");
-        CliMachineContext.Reset(machine, quiet);
+        bool machineErrors = args.FlagRequested("--json");
+        bool machine = false;
+        CliMachineContext.Reset(machineErrors, false);
         TextWriter originalOut = Console.Out;
 
-        if (arguments.Length == 0 || args.Command == "help" || args.Flag("--help") || args.Flag("-h")) { Usage(); return 0; }
-        if (args.Command.Length == 0 && args.Flag("--version"))
-        {
-            if (machine) Console.SetOut(Console.Error);
-            int code = machine ? 0 : HeadlessRun.ShowVersions();
-            if (machine) { Console.SetOut(originalOut); CliMachineProtocol.Write(originalOut, "version", code); }
-            return code;
-        }
-
-        if (machine) Console.SetOut(Console.Error);
         try
         {
+            machine = args.Flag("--json");
+            bool quiet = args.Flag("--quiet");
+            bool help = args.Flag("--help");
+            bool shortHelp = args.Flag("-h");
+            bool version = args.Flag("--version");
+            CliMachineContext.Reset(machine, quiet);
+
+            if (arguments.Length == 0 || args.Command == "help" || help || shortHelp) { Usage(); return 0; }
+            if (machine) Console.SetOut(Console.Error);
+            if (args.Command.Length == 0 && version)
+            {
+                int versionCode = machine ? 0 : HeadlessRun.ShowVersions();
+                if (machine) { Console.SetOut(originalOut); CliMachineProtocol.Write(originalOut, "version", versionCode); }
+                return versionCode;
+            }
+
             int code = args.Command switch {
                 "resume" => Resume(args),
                 "calibrate" => HeadlessRun.Calibrate(args), "analyze" or "analyse" => HeadlessRun.Analyze(args),
@@ -40,19 +46,19 @@ internal static class CliProgram
         catch (OperationCanceledException error)
         {
             Console.Error.WriteLine("Cancelled. Incomplete output may remain; only a completed manifest identifies a finished run.");
-            if (machine) { Console.SetOut(originalOut); CliMachineProtocol.Write(originalOut, args.Command, 1, error); }
+            if (machineErrors) { Console.SetOut(originalOut); CliMachineProtocol.Write(originalOut, args.Command, 1, error); }
             return 1;
         }
         catch (Exception error)
         {
             Console.Error.WriteLine(error.GetType().Name + ": " + error.Message);
             if (System.Environment.GetEnvironmentVariable("MVS_DEBUG") == "1") Console.Error.WriteLine(error.StackTrace);
-            if (machine) { Console.SetOut(originalOut); CliMachineProtocol.Write(originalOut, args.Command, 1, error); }
+            if (machineErrors) { Console.SetOut(originalOut); CliMachineProtocol.Write(originalOut, args.Command, 1, error); }
             return 1;
         }
         finally
         {
-            if (machine) Console.SetOut(originalOut);
+            if (machine || machineErrors) Console.SetOut(originalOut);
         }
     }
 

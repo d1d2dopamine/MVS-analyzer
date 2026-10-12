@@ -1,0 +1,228 @@
+{
+  "schema": "MVS-HUBER-REFERENCE-1",
+  "metric": "huber_location",
+  "tuning_constant": "1.345",
+  "mad_normal_consistency": "1.482602218505602",
+  "definition": "Fixed sample-MAD Huber clipped-score root; zero sample MAD returns median as the declared project policy.",
+  "tolerance": "max(1e-10 * fixed_MAD_scale, 4 * ulp(reference rounded to binary64)); binary64 inputs are interpreted exactly.",
+  "cases": [
+    {
+      "id": "scale_1e-14",
+      "category": "scale",
+      "values": [
+        0.0,
+        1e-14,
+        2e-14,
+        7e-14,
+        3e-13
+      ]
+    },
+    {
+      "id": "scale_1e-13",
+      "category": "scale",
+      "values": [
+        0.0,
+        1e-13,
+        2e-13,
+        7e-13,
+        3e-12
+      ]
+    },
+    {
+      "id": "scale_1e-10",
+      "category": "scale",
+      "values": [
+        0.0,
+        1e-10,
+        2e-10,
+        7.000000000000001e-10,
+        3e-09
+      ]
+    },
+    {
+      "id": "scale_1e-06",
+      "category": "scale",
+      "values": [
+        0.0,
+        1e-06,
+        2e-06,
+        7e-06,
+        2.9999999999999997e-05
+      ]
+    },
+    {
+      "id": "scale_1.0",
+      "category": "scale",
+      "values": [
+        0.0,
+        1.0,
+        2.0,
+        7.0,
+        30.0
+      ]
+    },
+    {
+      "id": "scale_1000000.0",
+      "category": "scale",
+      "values": [
+        0.0,
+        1000000.0,
+        2000000.0,
+        7000000.0,
+        30000000.0
+      ]
+    },
+    {
+      "id": "scale_1000000000000.0",
+      "category": "scale",
+      "values": [
+        0.0,
+        1000000000000.0,
+        2000000000000.0,
+        7000000000000.0,
+        30000000000000.0
+      ]
+    },
+    {
+      "id": "shift_10000.0",
+      "category": "translation",
+      "values": [
+        10000.0,
+        10001.0,
+        10002.0,
+        10007.0,
+        10030.0
+      ]
+    },
+    {
+      "id": "shift_1000000000.0",
+      "category": "translation",
+      "values": [
+        1000000000.0,
+        1000000001.0,
+        1000000002.0,
+        1000000007.0,
+        1000000030.0
+      ]
+    },
+    {
+      "id": "shift_1000000000000.0",
+      "category": "translation",
+      "values": [
+        1000000000000.0,
+        1000000000001.0,
+        1000000000002.0,
+        1000000000007.0,
+        1000000000030.0
+      ]
+    },
+    {
+      "id": "shift_3000000000000.0",
+      "category": "translation",
+      "values": [
+        3000000000000.0,
+        3000000000001.0,
+        3000000000002.0,
+        3000000000007.0,
+        3000000000030.0
+      ]
+    },
+    {
+      "id": "shift_-3000000000000.0",
+      "category": "translation",
+      "values": [
+        -3000000000000.0,
+        -2999999999999.0,
+        -2999999999998.0,
+        -2999999999993.0,
+        -2999999999970.0
+      ]
+    },
+    {
+      "id": "extreme_positive_outlier",
+      "category": "scale_guard",
+      "values": [
+        0.0,
+        1.0,
+        2.0,
+        7.0,
+        10000000000000.0
+      ]
+    },
+    {
+      "id": "negative_reflection",
+      "category": "reflection",
+      "values": [
+        -0.0,
+        -1.0,
+        -2.0,
+        -7.0,
+        -30.0
+      ]
+    },
+    {
+      "id": "symmetric",
+      "category": "control",
+      "values": [
+        -2.0,
+        -1.0,
+        0.0,
+        1.0,
+        2.0
+      ]
+    },
+    {
+      "id": "constant",
+      "category": "zero_mad_policy",
+      "values": [
+        4.0,
+        4.0,
+        4.0,
+        4.0,
+        4.0
+      ]
+    },
+    {
+      "id": "zero_mad_contamination",
+      "category": "zero_mad_policy",
+      "values": [
+        1.0,
+        1.0,
+        1.0,
+        2.0,
+        10000000000000.0
+      ]
+    },
+    {
+      "id": "two_values",
+      "category": "control",
+      "values": [
+        0.0,
+        4.0
+      ]
+    },
+    {
+      "id": "even_asymmetric",
+      "category": "control",
+      "values": [
+        0.0,
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+        20.0
+      ]
+    },
+    {
+      "id": "permuted",
+      "category": "order",
+      "values": [
+        30.0,
+        2.0,
+        7.0,
+        0.0,
+        1.0
+      ]
+    }
+  ]
+}

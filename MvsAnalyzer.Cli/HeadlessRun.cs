@@ -27,11 +27,14 @@ internal static class HeadlessRun
     public static int Calibrate(CliArguments args)
     {
         args.Validate(Common.Concat(new[] { "--repetitions", "--overwrite" }));
-        AppSettings settings = Settings(args, out RemoteJobFile? job); string input = Input(args, job), output = args.Require("--out");
+        AppSettings settings = Settings(args, out RemoteJobFile? job, out string? jobPath); string input = Input(args, job, jobPath), output = args.Require("--out");
         int repetitions = args.Int("--repetitions", job?.Repetitions ?? settings.CustomRepetitions);
         if (repetitions < 100) throw new ArgumentException("Use at least 100 repetitions. Small budgets are smoke checks, not scientific validation.");
         string statePath = Path.Combine(output, StateFileName);
-        if (File.Exists(statePath) && !args.Flag("--overwrite")) throw new InvalidDataException("A calibration already exists here. Choose another output folder or pass --overwrite.");
+        string? profilePath = jobPath != null && !string.IsNullOrEmpty(job?.Processing?.ImportProfile)
+            ? Path.Combine(Path.GetDirectoryName(jobPath)!, "import_profile.json") : null;
+        if (profilePath != null && !File.Exists(profilePath)) profilePath = null;
+        OutputSafety.Preflight(output, OutputSafety.CalibrationFiles, new[] { input, jobPath, profilePath }, args.Flag("--overwrite"));
         Console.WriteLine("MVS calibration"); ShowVersions(); Console.WriteLine("Environment: " + BenchmarkEnvironment.Describe());
         List<Observation> observations = CsvImporter.Read(input, settings.MinValue, settings.MaxValue, Profile(settings));
         CheckIndependentIds(observations, args.Flag("--allow-group-scoped-ids"));
@@ -72,7 +75,7 @@ internal static class HeadlessRun
     public static int Analyze(CliArguments args)
     {
         args.Validate(Common.Concat(new[] { "--calibration", "--project", "--description", "--force" }));
-        AppSettings settings = Settings(args, out RemoteJobFile? job); string input = Input(args, job), output = args.Require("--out");
+        AppSettings settings = Settings(args, out RemoteJobFile? job, out string? jobPath); string input = Input(args, job, jobPath), output = args.Require("--out");
         string statePath = args.Require("--calibration"); if (Directory.Exists(statePath)) statePath = Path.Combine(statePath, StateFileName);
         CalibrationState state = CalibrationPersistence.Read(statePath);
         if (state.EnvironmentHash != BenchmarkEnvironment.Hash)
@@ -130,11 +133,15 @@ internal static class HeadlessRun
         bool overlap = rows.GroupBy(o => o.Entity, StringComparer.OrdinalIgnoreCase).Any(g => g.Select(o => o.Group).Distinct(StringComparer.OrdinalIgnoreCase).Count() > 1);
         if (overlap && !explicitlyScoped) throw new InvalidDataException("Entity IDs repeat across groups. Use melsm for the same subjects in different conditions. If IDs merely restart for INDEPENDENT groups, explicitly pass --allow-group-scoped-ids.");
     }
-    private static AppSettings Settings(CliArguments args, out RemoteJobFile? job)
+    private static AppSettings Settings(CliArguments args, out RemoteJobFile? job, out string? jobPath)
     {
         // CLI runs do not secretly inherit a desktop configuration unless explicitly requested.
-        AppSettings settings = args.Flag("--local-settings") ? AppSettings.Load() : new AppSettings(); job = null;
-        if (args.Value("--job") is string path) { if (Directory.Exists(path)) path = Path.Combine(path, RemoteJob.JobFileName); job = RemoteJob.Read(path); RemoteJob.Apply(job, settings); }
+        AppSettings settings = args.Flag("--local-settings") ? AppSettings.Load() : new AppSettings(); job = null; jobPath = null;
+        if (args.Value("--job") is string path)
+        {
+            jobPath = Path.GetFullPath(Directory.Exists(path) ? Path.Combine(path, RemoteJob.JobFileName) : path);
+            job = RemoteJob.Read(jobPath); RemoteJob.Apply(job, settings);
+        }
         settings.CalibrationSeed = args.Int("--seed", settings.CalibrationSeed); settings.CalibrationEffect = args.Number("--effect", settings.CalibrationEffect);
         settings.Alpha = args.Number("--alpha", settings.Alpha); settings.OutlierRate = args.Number("--outliers", settings.OutlierRate); settings.MissingRate = args.Number("--missing", settings.MissingRate);
         settings.EquivalenceMargin = args.Number("--margin", settings.EquivalenceMargin); settings.MinMeasurements = args.Int("--min-measurements", settings.MinMeasurements);
@@ -143,12 +150,12 @@ internal static class HeadlessRun
         if (args.Value("--scenario") is string scenario) settings.SimulationScenario = SimulationScenarios.Canonicalize(scenario);
         SettingsContract.Validate(settings); return settings;
     }
-    private static string Input(CliArguments args, RemoteJobFile? job)
+    private static string Input(CliArguments args, RemoteJobFile? job, string? jobPath)
     {
         string? input = args.Value("--in");
         if (input == null && job != null)
         {
-            string jobPath = args.Require("--job"); string folder = Directory.Exists(jobPath) ? jobPath : Path.GetDirectoryName(Path.GetFullPath(jobPath))!;
+            string folder = Path.GetDirectoryName(jobPath!)!;
             if (job.Dataset != Path.GetFileName(job.Dataset)) throw new InvalidDataException("A job dataset must be a file name, not a path.");
             input = Path.Combine(folder, job.Dataset);
         }

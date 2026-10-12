@@ -49,3 +49,28 @@ Human mode writes progress and summaries to stdout and errors/warnings to stderr
 ## Change rule
 
 If a change intentionally modifies a command, artifact, schema or exit-code meaning, update the implementation and `validation/cli-contract-v1.json` in the same change. A statistical-method change also needs the existing method-hash and scientific regression process; changing the CLI contract alone does not authorize a numerical change.
+
+## Output preflight and input preservation
+
+The round-13 safety checkpoint reserves each command's generated filenames.
+Calibration requires `--overwrite` when any of its four generated targets already
+exists, even if `calibration_state.json` is absent. Variance, MELSM and estimation
+retain their existing nonempty-output-directory overwrite requirement. Unrelated
+files are not deleted by either rule.
+
+`--overwrite` permits replacement of generated outputs; it does not authorize
+replacement of the current dataset, explicit job file or imported profile by a
+reserved output. The CLI checks these collisions before computation and output
+writes, including aliases through existing parent/input symlinks. Detectable
+invalid target entries are rejected before writing an earlier output. This is a
+preflight safeguard, not a transaction or a guarantee against concurrent
+filesystem changes and unexpected mid-write failures. See
+[the round-13 report](ROUND13_CLI_INPUT_PRESERVATION.md) for tested coverage and
+remaining limitations.
+
+Malformed global boolean values now use the normal input-error path rather than
+terminating the process outside its error handler. An invalid explicit
+`--json=...` requests a structured error; `--json=false` alone retains human mode.
+A short token used as an option's value (for example `--project -h`) is not a
+standalone help request. Human help output, including the pre-existing
+`help --json` exception, is unchanged in this checkpoint.

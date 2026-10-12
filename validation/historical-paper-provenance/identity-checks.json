@@ -1,0 +1,31 @@
+{
+  "auditDateUtc": "2026-10-11",
+  "candidate": "561442711faa0bf69dc766f61d89869ce683af0e",
+  "staticIdentityPreflight": "passed",
+  "runSuccessAndSourceMatch": true,
+  "exactBenchmarkStepTimestampMatch": true,
+  "artifactMetadataMatches": true,
+  "committedArchiveFilesVerified": 9,
+  "sourceFiles": [
+    {
+      "path": "Benchmark/BenchmarkProtocol.cs",
+      "sha256": "a617c83e327ded5a0d597d0753aa81c84aab3e908b03ed546ec87a4b6f7ed861",
+      "url": "https://github.com/d1d2dopamine/MVS-analyzer/blob/561442711faa0bf69dc766f61d89869ce683af0e/Benchmark/BenchmarkProtocol.cs"
+    },
+    {
+      "path": "Core/ScientificInfrastructure.cs",
+      "sha256": "c85fffa4af1810adb806fd7e02d60e22a7aaf618a7b33fbb31c2a90d5c570f73",
+      "url": "https://github.com/d1d2dopamine/MVS-analyzer/blob/561442711faa0bf69dc766f61d89869ce683af0e/Core/ScientificInfrastructure.cs"
+    },
+    {
+      "path": "Infrastructure/OutputExporter.cs",
+      "sha256": "6077b57255013753f62b76ccc224484d156e68dbe20cbb72aaee28dae1071094",
+      "url": "https://github.com/d1d2dopamine/MVS-analyzer/blob/561442711faa0bf69dc766f61d89869ce683af0e/Infrastructure/OutputExporter.cs"
+    }
+  ],
+  "originalArtifactDownloaded": false,
+  "originalArtifactShaVerified": false,
+  "sourceToArchivedOutputBindingVerified": false,
+  "reproductionExecuted": false,
+  "downloadBlocker": "HTTP401 Requires authentication"
+}

@@ -8,7 +8,7 @@ internal static class ScientificCommands
     public static int Variance(CliArguments args)
     {
         args.Validate(new[] { "--in", "--out", "--repetitions", "--bootstrap", "--seed", "--alpha", "--within-effect", "--between-effect", "--min-measurements", "--overwrite", "--allow-group-scoped-ids", "--import-profile", "--min-value", "--max-value" });
-        string input = args.Require("--in"), folder = Prepare(args);
+        string input = args.Require("--in"), folder = Prepare(args, OutputSafety.VarianceFiles, input);
         int minimum = args.Int("--min-value", int.MinValue), maximum = args.Int("--max-value", int.MaxValue);
         List<Observation> observations = CsvImporter.Read(input, minimum, maximum, Profile(args));
         HeadlessRun.CheckIndependentIds(observations, args.Flag("--allow-group-scoped-ids"));
@@ -29,7 +29,7 @@ internal static class ScientificCommands
     public static int Estimation(CliArguments args)
     {
         args.Validate(new[] { "--out", "--target", "--shape", "--entities", "--measurements", "--repetitions", "--bootstrap", "--seed", "--location", "--within-sd", "--between-sd", "--overwrite" });
-        string folder = Prepare(args), shape = args.Value("--shape") ?? "normal"; bool lognormal = shape == "lognormal";
+        string folder = Prepare(args, OutputSafety.EstimationFiles, null), shape = args.Value("--shape") ?? "normal"; bool lognormal = shape == "lognormal";
         var options = new EstimationOptions(args.Value("--target") ?? "mean", shape, args.Int("--entities", 20), args.Int("--measurements", 12),
             args.Int("--repetitions", 500), args.Int("--bootstrap", 199), args.Int("--seed", 20260719),
             args.Number("--location", lognormal ? 1 : 100), args.Number("--within-sd", lognormal ? .3 : 10), args.Number("--between-sd", lognormal ? .2 : 5));
@@ -47,7 +47,7 @@ internal static class ScientificCommands
     public static int Melsm(CliArguments args)
     {
         args.Validate(new[] { "--in", "--out", "--mean-time", "--scale-time", "--correlate", "--no-random-scale", "--quadrature", "--max-iterations", "--overwrite", "--include-entity-ids", "--import-profile", "--min-value", "--max-value" });
-        string input = args.Require("--in"), folder = Prepare(args);
+        string input = args.Require("--in"), folder = Prepare(args, OutputSafety.MelsmFiles, input);
         List<Observation> rows = CsvImporter.Read(input, args.Int("--min-value", int.MinValue), args.Int("--max-value", int.MaxValue), Profile(args), allowSingleGroup: true);
         if ((args.Flag("--mean-time") || args.Flag("--scale-time")) && !CsvImporter.LastSequenceWasProvided)
             throw new InvalidDataException("A real integer sequence/timepoint column is required for time effects; row order is not a time variable.");
@@ -65,11 +65,10 @@ internal static class ScientificCommands
         return diagnostic ? 2 : 0;
     }
     private static ImportProfile? Profile(CliArguments args) => args.Value("--import-profile") is string file ? ScientificJson.Read<ImportProfile>(file) : null;
-    private static string Prepare(CliArguments args)
+    private static string Prepare(CliArguments args, IEnumerable<string> outputNames, string? input)
     {
         string folder = Path.GetFullPath(args.Require("--out"));
-        if (Directory.Exists(folder) && Directory.EnumerateFileSystemEntries(folder).Any() && !args.Flag("--overwrite"))
-            throw new InvalidDataException("The output directory is not empty. Use a new directory or explicitly pass --overwrite.");
+        OutputSafety.Preflight(folder, outputNames, new[] { input, args.Value("--import-profile") }, args.Flag("--overwrite"), requireEmptyDirectory: true);
         Directory.CreateDirectory(folder); return folder;
     }
     internal static string Table<T>(IEnumerable<T> rows)

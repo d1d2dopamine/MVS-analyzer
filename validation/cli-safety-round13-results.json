@@ -1,0 +1,45 @@
+{
+  "syntheticOnly": true,
+  "cliSha256": "9987fb5c7f30d0070c7cab58df2f7f39dcddf420d07e9454cf9cbc29908427c6",
+  "fixture": {
+    "rows": 48,
+    "subjects": 8,
+    "repetitions": 100,
+    "sha256": "4ab95711f8437a93e370d1db75d8c7c10d98aa7361357bbb136d56ab73c7a4ff"
+  },
+  "testsRun": 135,
+  "checks": 1690,
+  "cliInvocations": 138,
+  "pythonCliInvocations": 6,
+  "passed": true,
+  "failures": [],
+  "errors": [],
+  "skipped": [],
+  "limits": [
+    "I/O and error-contract smoke checks, not scientific validation",
+    "Variance, estimation and MELSM probes stop before computation via preflight or a late invalid option",
+    "Preflight is not transactional or race-proof; no FIFO/device or adversarial filesystem tests"
+  ],
+  "managedAssemblies": [
+    {
+      "name": "mvs.dll",
+      "sha256": "0bf1c27a680b7d59af423492b00ff3a910242808c1f8ec54e3015a47372af063",
+      "sizeBytes": 66560
+    },
+    {
+      "name": "MvsAnalyzer.Core.dll",
+      "sha256": "53d8d4c0680417a47c98c45b082da774c4e027720d34f2068446e929d4ca807e",
+      "sizeBytes": 595456
+    }
+  ],
+  "elapsedSeconds": 17.562,
+  "metadataNote": "Managed assembly hashes added from the same unchanged tested binaries after the passing run; harness metadata addition does not change test cases.",
+  "sourceSha256": {
+    "MvsAnalyzer.Cli/OutputSafety.cs": "08d1ec734639b3e2a249e465ab4c9389b9707f7befbeca0b55b675e044f80905",
+    "MvsAnalyzer.Cli/HeadlessRun.cs": "fd4ea8e1e05b16ff6b95068eb9850428c32f7c424c7b0c13a17cea7de13c4a44",
+    "MvsAnalyzer.Cli/ScientificCommands.cs": "da7f382f580109b1e186a686732cc515c9be83991b09bafd2a7534db38c7a965",
+    "MvsAnalyzer.Cli/Program.cs": "c29a404638819c32c45d319a0844a69253109ee310eec636f9277ec9ce495564",
+    "Infrastructure/CliArguments.cs": "2ebf386f46fc1d2541af3373015312a24ac3d1efc9d614da7acb05fa9bcd8660",
+    "tools/test_cli_safety.py": "8338823fd2853483f028ce260c2735dc150fcf9201f817eef146c69619a4cf77"
+  }
+}

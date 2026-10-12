@@ -629,5 +629,12 @@
       "rank_test_unavailable"
     ],
     "schemaChange": "Additive fields and table; engine 1.6.2 rejects earlier calibration identities."
+  },
+  "outputSafety": {
+    "overwriteScope": "Generated outputs only; never the current explicit dataset/job/import profile via a reserved output target.",
+    "calibrationExistingTargets": "Any existing reserved calibration target requires --overwrite.",
+    "preflightScope": "Reserved target and input aliases checked before computation/writes; not transactional or concurrent-filesystem protection.",
+    "globalBooleanErrors": "Malformed global booleans return exit 1; invalid explicit --json value requests a v1 JSON error.",
+    "knownHelpException": "Human help, including help --json, remains prose."
   }
 }

@@ -6,6 +6,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Core/AnalysisEngine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core/MetricRegistry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core/MetricAvailability.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core/Multiplicity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core/MaxT.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core/CalibrationRecommendations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core/Models.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core/SimulationScenarios.cs" />

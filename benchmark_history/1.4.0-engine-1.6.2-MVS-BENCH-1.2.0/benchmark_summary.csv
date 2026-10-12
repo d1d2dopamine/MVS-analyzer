@@ -1,0 +1,153 @@
+﻿condition,stage,design,shape,mode,effect,contamination,source,planned,completed,failed,procedure,procedure_label,rejections,rate,standard_error,wilson_low,wilson_high,claim_rate
+primary_null,primary,gait_stride_like,heavy_tail,none,1,0,synthetic,1000,1000,0,cherry_pick,"Try all twelve, report the best",178,0.178,0.012096,0.155538,0.202927,1
+primary_null,primary,gait_stride_like,heavy_tail,none,1,0,synthetic,1000,1000,0,bonferroni,"Try all twelve, Bonferroni",18,0.018,0.004204,0.011416,0.028273,1
+primary_null,primary,gait_stride_like,heavy_tail,none,1,0,synthetic,1000,1000,0,fixed_median,"Median, fixed in advance",48,0.048,0.00676,0.036393,0.063066,1
+primary_null,primary,gait_stride_like,heavy_tail,none,1,0,synthetic,1000,1000,0,fixed_cv,"Coefficient of variation, fixed in advance",58,0.058,0.007392,0.045133,0.07425,1
+primary_null,primary,gait_stride_like,heavy_tail,none,1,0,synthetic,1000,1000,0,mvs_pilot,"MVS, metric locked on a pilot",46,0.046,0.006624,0.034662,0.060812,1
+primary_null,primary,gait_stride_like,heavy_tail,none,1,0,synthetic,1000,1000,0,mvs_strict,"MVS, gate respected",46,0.046,0.006624,0.034662,0.060812,0.999
+primary_null,primary,gait_stride_like,heavy_tail,none,1,0,synthetic,1000,1000,0,mvs_lenient,"MVS, gate ignored",46,0.046,0.006624,0.034662,0.060812,1
+primary_null,primary,gait_stride_like,heavy_tail,none,1,0,synthetic,1000,1000,0,mvs_registry_corrected,"MVS, all applicable metrics with registry correction",18,0.018,0.004204,0.011416,0.028273,1
+power_location_100,power,gait_stride_like,heavy_tail,location,1,0,synthetic,250,250,0,cherry_pick,"Try all twelve, report the best",48,0.192,0.024911,0.147984,0.245338,1
+power_location_100,power,gait_stride_like,heavy_tail,location,1,0,synthetic,250,250,0,bonferroni,"Try all twelve, Bonferroni",6,0.024,0.00968,0.011045,0.051362,1
+power_location_100,power,gait_stride_like,heavy_tail,location,1,0,synthetic,250,250,0,fixed_median,"Median, fixed in advance",13,0.052,0.014042,0.030638,0.086922,1
+power_location_100,power,gait_stride_like,heavy_tail,location,1,0,synthetic,250,250,0,fixed_cv,"Coefficient of variation, fixed in advance",13,0.052,0.014042,0.030638,0.086922,1
+power_location_100,power,gait_stride_like,heavy_tail,location,1,0,synthetic,250,250,0,mvs_pilot,"MVS, metric locked on a pilot",14,0.056,0.014542,0.033648,0.091791,1
+power_location_100,power,gait_stride_like,heavy_tail,location,1,0,synthetic,250,250,0,mvs_strict,"MVS, gate respected",13,0.052,0.014042,0.030638,0.086922,1
+power_location_100,power,gait_stride_like,heavy_tail,location,1,0,synthetic,250,250,0,mvs_lenient,"MVS, gate ignored",13,0.052,0.014042,0.030638,0.086922,1
+power_location_100,power,gait_stride_like,heavy_tail,location,1,0,synthetic,250,250,0,mvs_registry_corrected,"MVS, all applicable metrics with registry correction",6,0.024,0.00968,0.011045,0.051362,1
+power_location_102,power,gait_stride_like,heavy_tail,location,1.02,0,synthetic,250,250,0,cherry_pick,"Try all twelve, report the best",62,0.248,0.027313,0.198552,0.305076,1
+power_location_102,power,gait_stride_like,heavy_tail,location,1.02,0,synthetic,250,250,0,bonferroni,"Try all twelve, Bonferroni",12,0.048,0.01352,0.027668,0.082012,1
+power_location_102,power,gait_stride_like,heavy_tail,location,1.02,0,synthetic,250,250,0,fixed_median,"Median, fixed in advance",31,0.124,0.020845,0.088748,0.170632,1
+power_location_102,power,gait_stride_like,heavy_tail,location,1.02,0,synthetic,250,250,0,fixed_cv,"Coefficient of variation, fixed in advance",15,0.06,0.01502,0.036694,0.096623,1
+power_location_102,power,gait_stride_like,heavy_tail,location,1.02,0,synthetic,250,250,0,mvs_pilot,"MVS, metric locked on a pilot",31,0.124,0.020845,0.088748,0.170632,1
+power_location_102,power,gait_stride_like,heavy_tail,location,1.02,0,synthetic,250,250,0,mvs_strict,"MVS, gate respected",31,0.124,0.020845,0.088748,0.170632,1
+power_location_102,power,gait_stride_like,heavy_tail,location,1.02,0,synthetic,250,250,0,mvs_lenient,"MVS, gate ignored",31,0.124,0.020845,0.088748,0.170632,1
+power_location_102,power,gait_stride_like,heavy_tail,location,1.02,0,synthetic,250,250,0,mvs_registry_corrected,"MVS, all applicable metrics with registry correction",12,0.048,0.01352,0.027668,0.082012,1
+power_location_105,power,gait_stride_like,heavy_tail,location,1.05,0,synthetic,250,250,0,cherry_pick,"Try all twelve, report the best",141,0.564,0.031363,0.502021,0.624042,1
+power_location_105,power,gait_stride_like,heavy_tail,location,1.05,0,synthetic,250,250,0,bonferroni,"Try all twelve, Bonferroni",35,0.14,0.021945,0.102416,0.18848,1
+power_location_105,power,gait_stride_like,heavy_tail,location,1.05,0,synthetic,250,250,0,fixed_median,"Median, fixed in advance",115,0.46,0.031521,0.399291,0.52192,1
+power_location_105,power,gait_stride_like,heavy_tail,location,1.05,0,synthetic,250,250,0,fixed_cv,"Coefficient of variation, fixed in advance",23,0.092,0.01828,0.062087,0.134262,1
+power_location_105,power,gait_stride_like,heavy_tail,location,1.05,0,synthetic,250,250,0,mvs_pilot,"MVS, metric locked on a pilot",110,0.44,0.031394,0.379837,0.501979,1
+power_location_105,power,gait_stride_like,heavy_tail,location,1.05,0,synthetic,250,250,0,mvs_strict,"MVS, gate respected",110,0.44,0.031394,0.379837,0.501979,1
+power_location_105,power,gait_stride_like,heavy_tail,location,1.05,0,synthetic,250,250,0,mvs_lenient,"MVS, gate ignored",110,0.44,0.031394,0.379837,0.501979,1
+power_location_105,power,gait_stride_like,heavy_tail,location,1.05,0,synthetic,250,250,0,mvs_registry_corrected,"MVS, all applicable metrics with registry correction",35,0.14,0.021945,0.102416,0.18848,1
+power_location_110,power,gait_stride_like,heavy_tail,location,1.1,0,synthetic,250,250,0,cherry_pick,"Try all twelve, report the best",247,0.988,0.006887,0.965319,0.995911,1
+power_location_110,power,gait_stride_like,heavy_tail,location,1.1,0,synthetic,250,250,0,bonferroni,"Try all twelve, Bonferroni",190,0.76,0.027011,0.70338,0.808751,1
+power_location_110,power,gait_stride_like,heavy_tail,location,1.1,0,synthetic,250,250,0,fixed_median,"Median, fixed in advance",241,0.964,0.011782,0.93301,0.980947,1
+power_location_110,power,gait_stride_like,heavy_tail,location,1.1,0,synthetic,250,250,0,fixed_cv,"Coefficient of variation, fixed in advance",41,0.164,0.023418,0.123251,0.214918,1
+power_location_110,power,gait_stride_like,heavy_tail,location,1.1,0,synthetic,250,250,0,mvs_pilot,"MVS, metric locked on a pilot",242,0.968,0.011131,0.938138,0.983698,1
+power_location_110,power,gait_stride_like,heavy_tail,location,1.1,0,synthetic,250,250,0,mvs_strict,"MVS, gate respected",237,0.948,0.014042,0.913078,0.969362,0.98
+power_location_110,power,gait_stride_like,heavy_tail,location,1.1,0,synthetic,250,250,0,mvs_lenient,"MVS, gate ignored",242,0.968,0.011131,0.938138,0.983698,1
+power_location_110,power,gait_stride_like,heavy_tail,location,1.1,0,synthetic,250,250,0,mvs_registry_corrected,"MVS, all applicable metrics with registry correction",190,0.76,0.027011,0.70338,0.808751,1
+power_location_120,power,gait_stride_like,heavy_tail,location,1.2,0,synthetic,250,250,0,cherry_pick,"Try all twelve, report the best",250,1,0,0.984867,1,1
+power_location_120,power,gait_stride_like,heavy_tail,location,1.2,0,synthetic,250,250,0,bonferroni,"Try all twelve, Bonferroni",250,1,0,0.984867,1,1
+power_location_120,power,gait_stride_like,heavy_tail,location,1.2,0,synthetic,250,250,0,fixed_median,"Median, fixed in advance",250,1,0,0.984867,1,1
+power_location_120,power,gait_stride_like,heavy_tail,location,1.2,0,synthetic,250,250,0,fixed_cv,"Coefficient of variation, fixed in advance",103,0.412,0.031129,0.352768,0.473895,1
+power_location_120,power,gait_stride_like,heavy_tail,location,1.2,0,synthetic,250,250,0,mvs_pilot,"MVS, metric locked on a pilot",250,1,0,0.984867,1,1
+power_location_120,power,gait_stride_like,heavy_tail,location,1.2,0,synthetic,250,250,0,mvs_strict,"MVS, gate respected",54,0.216,0.026026,0.169492,0.271103,0.216
+power_location_120,power,gait_stride_like,heavy_tail,location,1.2,0,synthetic,250,250,0,mvs_lenient,"MVS, gate ignored",250,1,0,0.984867,1,1
+power_location_120,power,gait_stride_like,heavy_tail,location,1.2,0,synthetic,250,250,0,mvs_registry_corrected,"MVS, all applicable metrics with registry correction",250,1,0,0.984867,1,1
+power_dispersion_102,power,gait_stride_like,heavy_tail,dispersion,1.02,0,synthetic,250,250,0,cherry_pick,"Try all twelve, report the best",38,0.152,0.022706,0.112788,0.201745,1
+power_dispersion_102,power,gait_stride_like,heavy_tail,dispersion,1.02,0,synthetic,250,250,0,bonferroni,"Try all twelve, Bonferroni",6,0.024,0.00968,0.011045,0.051362,1
+power_dispersion_102,power,gait_stride_like,heavy_tail,dispersion,1.02,0,synthetic,250,250,0,fixed_median,"Median, fixed in advance",13,0.052,0.014042,0.030638,0.086922,1
+power_dispersion_102,power,gait_stride_like,heavy_tail,dispersion,1.02,0,synthetic,250,250,0,fixed_cv,"Coefficient of variation, fixed in advance",13,0.052,0.014042,0.030638,0.086922,1
+power_dispersion_102,power,gait_stride_like,heavy_tail,dispersion,1.02,0,synthetic,250,250,0,mvs_pilot,"MVS, metric locked on a pilot",14,0.056,0.014542,0.033648,0.091791,1
+power_dispersion_102,power,gait_stride_like,heavy_tail,dispersion,1.02,0,synthetic,250,250,0,mvs_strict,"MVS, gate respected",13,0.052,0.014042,0.030638,0.086922,1
+power_dispersion_102,power,gait_stride_like,heavy_tail,dispersion,1.02,0,synthetic,250,250,0,mvs_lenient,"MVS, gate ignored",13,0.052,0.014042,0.030638,0.086922,1
+power_dispersion_102,power,gait_stride_like,heavy_tail,dispersion,1.02,0,synthetic,250,250,0,mvs_registry_corrected,"MVS, all applicable metrics with registry correction",6,0.024,0.00968,0.011045,0.051362,1
+power_dispersion_105,power,gait_stride_like,heavy_tail,dispersion,1.05,0,synthetic,250,250,0,cherry_pick,"Try all twelve, report the best",45,0.18,0.024298,0.137333,0.232352,1
+power_dispersion_105,power,gait_stride_like,heavy_tail,dispersion,1.05,0,synthetic,250,250,0,bonferroni,"Try all twelve, Bonferroni",7,0.028,0.010434,0.013628,0.056658,1
+power_dispersion_105,power,gait_stride_like,heavy_tail,dispersion,1.05,0,synthetic,250,250,0,fixed_median,"Median, fixed in advance",13,0.052,0.014042,0.030638,0.086922,1
+power_dispersion_105,power,gait_stride_like,heavy_tail,dispersion,1.05,0,synthetic,250,250,0,fixed_cv,"Coefficient of variation, fixed in advance",14,0.056,0.014542,0.033648,0.091791,1
+power_dispersion_105,power,gait_stride_like,heavy_tail,dispersion,1.05,0,synthetic,250,250,0,mvs_pilot,"MVS, metric locked on a pilot",14,0.056,0.014542,0.033648,0.091791,1
+power_dispersion_105,power,gait_stride_like,heavy_tail,dispersion,1.05,0,synthetic,250,250,0,mvs_strict,"MVS, gate respected",13,0.052,0.014042,0.030638,0.086922,1
+power_dispersion_105,power,gait_stride_like,heavy_tail,dispersion,1.05,0,synthetic,250,250,0,mvs_lenient,"MVS, gate ignored",13,0.052,0.014042,0.030638,0.086922,1
+power_dispersion_105,power,gait_stride_like,heavy_tail,dispersion,1.05,0,synthetic,250,250,0,mvs_registry_corrected,"MVS, all applicable metrics with registry correction",7,0.028,0.010434,0.013628,0.056658,1
+power_dispersion_110,power,gait_stride_like,heavy_tail,dispersion,1.1,0,synthetic,250,250,0,cherry_pick,"Try all twelve, report the best",61,0.244,0.027164,0.194897,0.300851,1
+power_dispersion_110,power,gait_stride_like,heavy_tail,dispersion,1.1,0,synthetic,250,250,0,bonferroni,"Try all twelve, Bonferroni",11,0.044,0.012971,0.024744,0.077058,1
+power_dispersion_110,power,gait_stride_like,heavy_tail,dispersion,1.1,0,synthetic,250,250,0,fixed_median,"Median, fixed in advance",13,0.052,0.014042,0.030638,0.086922,1
+power_dispersion_110,power,gait_stride_like,heavy_tail,dispersion,1.1,0,synthetic,250,250,0,fixed_cv,"Coefficient of variation, fixed in advance",30,0.12,0.020552,0.085363,0.166138,1
+power_dispersion_110,power,gait_stride_like,heavy_tail,dispersion,1.1,0,synthetic,250,250,0,mvs_pilot,"MVS, metric locked on a pilot",14,0.056,0.014542,0.033648,0.091791,1
+power_dispersion_110,power,gait_stride_like,heavy_tail,dispersion,1.1,0,synthetic,250,250,0,mvs_strict,"MVS, gate respected",13,0.052,0.014042,0.030638,0.086922,1
+power_dispersion_110,power,gait_stride_like,heavy_tail,dispersion,1.1,0,synthetic,250,250,0,mvs_lenient,"MVS, gate ignored",13,0.052,0.014042,0.030638,0.086922,1
+power_dispersion_110,power,gait_stride_like,heavy_tail,dispersion,1.1,0,synthetic,250,250,0,mvs_registry_corrected,"MVS, all applicable metrics with registry correction",11,0.044,0.012971,0.024744,0.077058,1
+power_dispersion_120,power,gait_stride_like,heavy_tail,dispersion,1.2,0,synthetic,250,250,0,cherry_pick,"Try all twelve, report the best",121,0.484,0.031607,0.422764,0.54572,1
+power_dispersion_120,power,gait_stride_like,heavy_tail,dispersion,1.2,0,synthetic,250,250,0,bonferroni,"Try all twelve, Bonferroni",32,0.128,0.02113,0.092147,0.175112,1
+power_dispersion_120,power,gait_stride_like,heavy_tail,dispersion,1.2,0,synthetic,250,250,0,fixed_median,"Median, fixed in advance",13,0.052,0.014042,0.030638,0.086922,1
+power_dispersion_120,power,gait_stride_like,heavy_tail,dispersion,1.2,0,synthetic,250,250,0,fixed_cv,"Coefficient of variation, fixed in advance",77,0.308,0.029198,0.254038,0.367773,1
+power_dispersion_120,power,gait_stride_like,heavy_tail,dispersion,1.2,0,synthetic,250,250,0,mvs_pilot,"MVS, metric locked on a pilot",14,0.056,0.014542,0.033648,0.091791,1
+power_dispersion_120,power,gait_stride_like,heavy_tail,dispersion,1.2,0,synthetic,250,250,0,mvs_strict,"MVS, gate respected",13,0.052,0.014042,0.030638,0.086922,1
+power_dispersion_120,power,gait_stride_like,heavy_tail,dispersion,1.2,0,synthetic,250,250,0,mvs_lenient,"MVS, gate ignored",13,0.052,0.014042,0.030638,0.086922,1
+power_dispersion_120,power,gait_stride_like,heavy_tail,dispersion,1.2,0,synthetic,250,250,0,mvs_registry_corrected,"MVS, all applicable metrics with registry correction",32,0.128,0.02113,0.092147,0.175112,1
+power_dispersion_130,power,gait_stride_like,heavy_tail,dispersion,1.3,0,synthetic,250,250,0,cherry_pick,"Try all twelve, report the best",182,0.728,0.028144,0.669699,0.7794,1
+power_dispersion_130,power,gait_stride_like,heavy_tail,dispersion,1.3,0,synthetic,250,250,0,bonferroni,"Try all twelve, Bonferroni",72,0.288,0.02864,0.23541,0.347007,1
+power_dispersion_130,power,gait_stride_like,heavy_tail,dispersion,1.3,0,synthetic,250,250,0,fixed_median,"Median, fixed in advance",14,0.056,0.014542,0.033648,0.091791,1
+power_dispersion_130,power,gait_stride_like,heavy_tail,dispersion,1.3,0,synthetic,250,250,0,fixed_cv,"Coefficient of variation, fixed in advance",137,0.548,0.031477,0.486045,0.608503,1
+power_dispersion_130,power,gait_stride_like,heavy_tail,dispersion,1.3,0,synthetic,250,250,0,mvs_pilot,"MVS, metric locked on a pilot",15,0.06,0.01502,0.036694,0.096623,1
+power_dispersion_130,power,gait_stride_like,heavy_tail,dispersion,1.3,0,synthetic,250,250,0,mvs_strict,"MVS, gate respected",14,0.056,0.014542,0.033648,0.091791,1
+power_dispersion_130,power,gait_stride_like,heavy_tail,dispersion,1.3,0,synthetic,250,250,0,mvs_lenient,"MVS, gate ignored",14,0.056,0.014542,0.033648,0.091791,1
+power_dispersion_130,power,gait_stride_like,heavy_tail,dispersion,1.3,0,synthetic,250,250,0,mvs_registry_corrected,"MVS, all applicable metrics with registry correction",72,0.288,0.02864,0.23541,0.347007,1
+robust_null_2,robust,gait_stride_like,heavy_tail,none,1,0.02,synthetic,250,250,0,cherry_pick,"Try all twelve, report the best",52,0.208,0.02567,0.162294,0.262544,1
+robust_null_2,robust,gait_stride_like,heavy_tail,none,1,0.02,synthetic,250,250,0,bonferroni,"Try all twelve, Bonferroni",7,0.028,0.010434,0.013628,0.056658,1
+robust_null_2,robust,gait_stride_like,heavy_tail,none,1,0.02,synthetic,250,250,0,fixed_median,"Median, fixed in advance",12,0.048,0.01352,0.027668,0.082012,1
+robust_null_2,robust,gait_stride_like,heavy_tail,none,1,0.02,synthetic,250,250,0,fixed_cv,"Coefficient of variation, fixed in advance",13,0.052,0.014042,0.030638,0.086922,1
+robust_null_2,robust,gait_stride_like,heavy_tail,none,1,0.02,synthetic,250,250,0,mvs_pilot,"MVS, metric locked on a pilot",10,0.04,0.012394,0.02187,0.072053,1
+robust_null_2,robust,gait_stride_like,heavy_tail,none,1,0.02,synthetic,250,250,0,mvs_strict,"MVS, gate respected",11,0.044,0.012971,0.024744,0.077058,0.996
+robust_null_2,robust,gait_stride_like,heavy_tail,none,1,0.02,synthetic,250,250,0,mvs_lenient,"MVS, gate ignored",11,0.044,0.012971,0.024744,0.077058,1
+robust_null_2,robust,gait_stride_like,heavy_tail,none,1,0.02,synthetic,250,250,0,mvs_registry_corrected,"MVS, all applicable metrics with registry correction",7,0.028,0.010434,0.013628,0.056658,1
+robust_null_5,robust,gait_stride_like,heavy_tail,none,1,0.05,synthetic,250,250,0,cherry_pick,"Try all twelve, report the best",53,0.212,0.02585,0.16589,0.266827,1
+robust_null_5,robust,gait_stride_like,heavy_tail,none,1,0.05,synthetic,250,250,0,bonferroni,"Try all twelve, Bonferroni",6,0.024,0.00968,0.011045,0.051362,1
+robust_null_5,robust,gait_stride_like,heavy_tail,none,1,0.05,synthetic,250,250,0,fixed_median,"Median, fixed in advance",12,0.048,0.01352,0.027668,0.082012,1
+robust_null_5,robust,gait_stride_like,heavy_tail,none,1,0.05,synthetic,250,250,0,fixed_cv,"Coefficient of variation, fixed in advance",13,0.052,0.014042,0.030638,0.086922,1
+robust_null_5,robust,gait_stride_like,heavy_tail,none,1,0.05,synthetic,250,250,0,mvs_pilot,"MVS, metric locked on a pilot",12,0.048,0.01352,0.027668,0.082012,1
+robust_null_5,robust,gait_stride_like,heavy_tail,none,1,0.05,synthetic,250,250,0,mvs_strict,"MVS, gate respected",12,0.048,0.01352,0.027668,0.082012,0.996
+robust_null_5,robust,gait_stride_like,heavy_tail,none,1,0.05,synthetic,250,250,0,mvs_lenient,"MVS, gate ignored",12,0.048,0.01352,0.027668,0.082012,1
+robust_null_5,robust,gait_stride_like,heavy_tail,none,1,0.05,synthetic,250,250,0,mvs_registry_corrected,"MVS, all applicable metrics with registry correction",6,0.024,0.00968,0.011045,0.051362,1
+robust_null_10,robust,gait_stride_like,heavy_tail,none,1,0.1,synthetic,250,250,0,cherry_pick,"Try all twelve, report the best",50,0.2,0.025298,0.155124,0.253956,1
+robust_null_10,robust,gait_stride_like,heavy_tail,none,1,0.1,synthetic,250,250,0,bonferroni,"Try all twelve, Bonferroni",5,0.02,0.008854,0.008572,0.045956,1
+robust_null_10,robust,gait_stride_like,heavy_tail,none,1,0.1,synthetic,250,250,0,fixed_median,"Median, fixed in advance",11,0.044,0.012971,0.024744,0.077058,1
+robust_null_10,robust,gait_stride_like,heavy_tail,none,1,0.1,synthetic,250,250,0,fixed_cv,"Coefficient of variation, fixed in advance",15,0.06,0.01502,0.036694,0.096623,1
+robust_null_10,robust,gait_stride_like,heavy_tail,none,1,0.1,synthetic,250,250,0,mvs_pilot,"MVS, metric locked on a pilot",12,0.048,0.01352,0.027668,0.082012,1
+robust_null_10,robust,gait_stride_like,heavy_tail,none,1,0.1,synthetic,250,250,0,mvs_strict,"MVS, gate respected",12,0.048,0.01352,0.027668,0.082012,0.996
+robust_null_10,robust,gait_stride_like,heavy_tail,none,1,0.1,synthetic,250,250,0,mvs_lenient,"MVS, gate ignored",12,0.048,0.01352,0.027668,0.082012,1
+robust_null_10,robust,gait_stride_like,heavy_tail,none,1,0.1,synthetic,250,250,0,mvs_registry_corrected,"MVS, all applicable metrics with registry correction",5,0.02,0.008854,0.008572,0.045956,1
+shape_normal_null,shape,gait_stride_like,normal,none,1,0,synthetic,250,250,0,cherry_pick,"Try all twelve, report the best",48,0.192,0.024911,0.147984,0.245338,1
+shape_normal_null,shape,gait_stride_like,normal,none,1,0,synthetic,250,250,0,bonferroni,"Try all twelve, Bonferroni",4,0.016,0.007936,0.006239,0.04041,1
+shape_normal_null,shape,gait_stride_like,normal,none,1,0,synthetic,250,250,0,fixed_median,"Median, fixed in advance",10,0.04,0.012394,0.02187,0.072053,1
+shape_normal_null,shape,gait_stride_like,normal,none,1,0,synthetic,250,250,0,fixed_cv,"Coefficient of variation, fixed in advance",14,0.056,0.014542,0.033648,0.091791,1
+shape_normal_null,shape,gait_stride_like,normal,none,1,0,synthetic,250,250,0,mvs_pilot,"MVS, metric locked on a pilot",10,0.04,0.012394,0.02187,0.072053,1
+shape_normal_null,shape,gait_stride_like,normal,none,1,0,synthetic,250,250,0,mvs_strict,"MVS, gate respected",10,0.04,0.012394,0.02187,0.072053,1
+shape_normal_null,shape,gait_stride_like,normal,none,1,0,synthetic,250,250,0,mvs_lenient,"MVS, gate ignored",10,0.04,0.012394,0.02187,0.072053,1
+shape_normal_null,shape,gait_stride_like,normal,none,1,0,synthetic,250,250,0,mvs_registry_corrected,"MVS, all applicable metrics with registry correction",4,0.016,0.007936,0.006239,0.04041,1
+shape_lognormal_null,shape,gait_stride_like,lognormal,none,1,0,synthetic,250,250,0,cherry_pick,"Try all twelve, report the best",34,0.136,0.02168,0.098981,0.184036,1
+shape_lognormal_null,shape,gait_stride_like,lognormal,none,1,0,synthetic,250,250,0,bonferroni,"Try all twelve, Bonferroni",0,0,0,0,0.015133,1
+shape_lognormal_null,shape,gait_stride_like,lognormal,none,1,0,synthetic,250,250,0,fixed_median,"Median, fixed in advance",6,0.024,0.00968,0.011045,0.051362,1
+shape_lognormal_null,shape,gait_stride_like,lognormal,none,1,0,synthetic,250,250,0,fixed_cv,"Coefficient of variation, fixed in advance",6,0.024,0.00968,0.011045,0.051362,1
+shape_lognormal_null,shape,gait_stride_like,lognormal,none,1,0,synthetic,250,250,0,mvs_pilot,"MVS, metric locked on a pilot",6,0.024,0.00968,0.011045,0.051362,1
+shape_lognormal_null,shape,gait_stride_like,lognormal,none,1,0,synthetic,250,250,0,mvs_strict,"MVS, gate respected",5,0.02,0.008854,0.008572,0.045956,1
+shape_lognormal_null,shape,gait_stride_like,lognormal,none,1,0,synthetic,250,250,0,mvs_lenient,"MVS, gate ignored",5,0.02,0.008854,0.008572,0.045956,1
+shape_lognormal_null,shape,gait_stride_like,lognormal,none,1,0,synthetic,250,250,0,mvs_registry_corrected,"MVS, all applicable metrics with registry correction",0,0,0,0,0.015133,1
+design_voice_null,shape,voice_jitter_like,lognormal,none,1,0,synthetic,250,250,0,cherry_pick,"Try all twelve, report the best",45,0.18,0.024298,0.137333,0.232352,1
+design_voice_null,shape,voice_jitter_like,lognormal,none,1,0,synthetic,250,250,0,bonferroni,"Try all twelve, Bonferroni",3,0.012,0.006887,0.004089,0.034681,1
+design_voice_null,shape,voice_jitter_like,lognormal,none,1,0,synthetic,250,250,0,fixed_median,"Median, fixed in advance",10,0.04,0.012394,0.02187,0.072053,1
+design_voice_null,shape,voice_jitter_like,lognormal,none,1,0,synthetic,250,250,0,fixed_cv,"Coefficient of variation, fixed in advance",9,0.036,0.011782,0.019053,0.06699,1
+design_voice_null,shape,voice_jitter_like,lognormal,none,1,0,synthetic,250,250,0,mvs_pilot,"MVS, metric locked on a pilot",9,0.036,0.011782,0.019053,0.06699,1
+design_voice_null,shape,voice_jitter_like,lognormal,none,1,0,synthetic,250,250,0,mvs_strict,"MVS, gate respected",0,0,0,0,0.015133,0
+design_voice_null,shape,voice_jitter_like,lognormal,none,1,0,synthetic,250,250,0,mvs_lenient,"MVS, gate ignored",10,0.04,0.012394,0.02187,0.072053,1
+design_voice_null,shape,voice_jitter_like,lognormal,none,1,0,synthetic,250,250,0,mvs_registry_corrected,"MVS, all applicable metrics with registry correction",3,0.012,0.006887,0.004089,0.034681,1
+design_voice_location_105,shape,voice_jitter_like,lognormal,location,1.05,0,synthetic,250,250,0,cherry_pick,"Try all twelve, report the best",59,0.236,0.026855,0.187607,0.292384,1
+design_voice_location_105,shape,voice_jitter_like,lognormal,location,1.05,0,synthetic,250,250,0,bonferroni,"Try all twelve, Bonferroni",3,0.012,0.006887,0.004089,0.034681,1
+design_voice_location_105,shape,voice_jitter_like,lognormal,location,1.05,0,synthetic,250,250,0,fixed_median,"Median, fixed in advance",21,0.084,0.017544,0.055596,0.124995,1
+design_voice_location_105,shape,voice_jitter_like,lognormal,location,1.05,0,synthetic,250,250,0,fixed_cv,"Coefficient of variation, fixed in advance",7,0.028,0.010434,0.013628,0.056658,1
+design_voice_location_105,shape,voice_jitter_like,lognormal,location,1.05,0,synthetic,250,250,0,mvs_pilot,"MVS, metric locked on a pilot",24,0.096,0.018632,0.065362,0.138866,1
+design_voice_location_105,shape,voice_jitter_like,lognormal,location,1.05,0,synthetic,250,250,0,mvs_strict,"MVS, gate respected",0,0,0,0,0.015133,0
+design_voice_location_105,shape,voice_jitter_like,lognormal,location,1.05,0,synthetic,250,250,0,mvs_lenient,"MVS, gate ignored",23,0.092,0.01828,0.062087,0.134262,1
+design_voice_location_105,shape,voice_jitter_like,lognormal,location,1.05,0,synthetic,250,250,0,mvs_registry_corrected,"MVS, all applicable metrics with registry correction",3,0.012,0.006887,0.004089,0.034681,1
+determinism_replay,determinism,gait_stride_like,heavy_tail,none,1,0,synthetic,60,60,0,cherry_pick,"Try all twelve, report the best",11,0.183333,0.049954,0.105578,0.299198,1
+determinism_replay,determinism,gait_stride_like,heavy_tail,none,1,0,synthetic,60,60,0,bonferroni,"Try all twelve, Bonferroni",0,0,0,0,0.060172,1
+determinism_replay,determinism,gait_stride_like,heavy_tail,none,1,0,synthetic,60,60,0,fixed_median,"Median, fixed in advance",3,0.05,0.028137,0.01715,0.137005,1
+determinism_replay,determinism,gait_stride_like,heavy_tail,none,1,0,synthetic,60,60,0,fixed_cv,"Coefficient of variation, fixed in advance",5,0.083333,0.035681,0.03612,0.180689,1
+determinism_replay,determinism,gait_stride_like,heavy_tail,none,1,0,synthetic,60,60,0,mvs_pilot,"MVS, metric locked on a pilot",3,0.05,0.028137,0.01715,0.137005,1
+determinism_replay,determinism,gait_stride_like,heavy_tail,none,1,0,synthetic,60,60,0,mvs_strict,"MVS, gate respected",3,0.05,0.028137,0.01715,0.137005,1
+determinism_replay,determinism,gait_stride_like,heavy_tail,none,1,0,synthetic,60,60,0,mvs_lenient,"MVS, gate ignored",3,0.05,0.028137,0.01715,0.137005,1
+determinism_replay,determinism,gait_stride_like,heavy_tail,none,1,0,synthetic,60,60,0,mvs_registry_corrected,"MVS, all applicable metrics with registry correction",0,0,0,0,0.060172,1

@@ -1,0 +1,400 @@
+{
+  "protocolId": "MVS-SCIENTIFIC-INTERFACE-1",
+  "version": 1,
+  "scope": "Frozen bounded actual same-native-engine CLI/Python/export consistency; not canonical scientific validation.",
+  "scientificReleaseDecision": "NO-GO retained",
+  "nativeCoreSha256": "0b5e856f110927c1d270a82da2fcecc13406b5645a16377db2a6d5e364d6725d",
+  "numericTolerance": {
+    "absolute": 1e-12,
+    "relative": 1e-10
+  },
+  "limits": {
+    "cpus": 2,
+    "rssLimitMiB": 768,
+    "pollSeconds": 0.05,
+    "negativeTimeoutSeconds": 20
+  },
+  "inputs": [
+    {
+      "name": "variance_demo.csv",
+      "sha256": "26c9058dbe9ed5c296fe6eb4ca3160c07a8f77c2d592dd016b5ac6d04baa75e0",
+      "sizeBytes": 13767,
+      "rows": 320,
+      "entities": 40
+    },
+    {
+      "name": "repeated_conditions.csv",
+      "sha256": "56823acaee6e3eeb544e2fd8953bff7c061301dbe122d442c78fd053a0368599",
+      "sizeBytes": 20709,
+      "rows": 576,
+      "entities": 48
+    },
+    {
+      "name": "repeated_conditions_8_subjects.csv",
+      "sha256": "09372ea5b4462fa8a6c94b3cd9fd840a8d63702467389e592984d03a1928ef9d",
+      "sizeBytes": 3486,
+      "rows": 96,
+      "entities": 8
+    },
+    {
+      "name": "repeated_conditions_no_sequence.csv",
+      "sha256": "af94b91b147e1bbedee7e788cd0a9e6f7deed3bcc1755a3e305fa3bec511d52f",
+      "sizeBytes": 3285,
+      "rows": 96,
+      "entities": 8
+    },
+    {
+      "name": "constant_variance.csv",
+      "sha256": "c3d97c15d02f1d8a1340f938bc66383b76a53685b93ea8a62609d0186fc57857",
+      "sizeBytes": 618,
+      "rows": 24,
+      "entities": 8
+    }
+  ],
+  "inputConstruction": {
+    "variance_demo.csv": "Exact source bytes from examples/variance_demo.csv",
+    "repeated_conditions.csv": "Exact source bytes from examples/repeated_conditions.csv",
+    "repeated_conditions_8_subjects.csv": "Keep header and original lines for entity IDs P001-P008; preserve order/values",
+    "repeated_conditions_no_sequence.csv": "Drop only the sequence column from the frozen 8-subject subset",
+    "constant_variance.csv": "Two groups A/B, four globally unique entities each, three sequence 1-3 repeats, all values 1"
+  },
+  "scientificCases": [
+    {
+      "id": "variance-smoke",
+      "command": "variance",
+      "input": "variance_demo.csv",
+      "options": {
+        "repetitions": 100,
+        "bootstrap": 99,
+        "seed": 20260719,
+        "alpha": 0.05,
+        "within_effect": 1.3,
+        "between_effect": 1.3,
+        "min_measurements": 3
+      },
+      "timeoutSeconds": 240,
+      "expectedExit": [
+        0,
+        2
+      ],
+      "negative": false
+    },
+    {
+      "id": "estimation-mean-normal-smoke",
+      "command": "estimation",
+      "input": null,
+      "options": {
+        "target": "mean",
+        "shape": "normal",
+        "entities": 8,
+        "measurements": 6,
+        "repetitions": 100,
+        "bootstrap": 99,
+        "seed": 20260719,
+        "location": 100,
+        "within_sd": 10,
+        "between_sd": 5
+      },
+      "timeoutSeconds": 60,
+      "expectedExit": [
+        0,
+        2
+      ],
+      "negative": false
+    },
+    {
+      "id": "melsm-random-scale-8-subjects",
+      "command": "melsm",
+      "input": "repeated_conditions_8_subjects.csv",
+      "options": {
+        "quadrature": 7,
+        "max_iterations": 4000
+      },
+      "timeoutSeconds": 180,
+      "expectedExit": [
+        0,
+        2
+      ],
+      "negative": false
+    },
+    {
+      "id": "melsm-analytic-48-subjects",
+      "command": "melsm",
+      "input": "repeated_conditions.csv",
+      "options": {
+        "quadrature": 7,
+        "max_iterations": 4000,
+        "no_random_scale": true
+      },
+      "timeoutSeconds": 180,
+      "expectedExit": [
+        0,
+        2
+      ],
+      "negative": false
+    },
+    {
+      "id": "variance-degenerate",
+      "command": "variance",
+      "input": "constant_variance.csv",
+      "options": {
+        "repetitions": 100,
+        "bootstrap": 99,
+        "seed": 20260719,
+        "alpha": 0.05,
+        "within_effect": 1.3,
+        "between_effect": 1.3,
+        "min_measurements": 3
+      },
+      "timeoutSeconds": 30,
+      "expectedExit": [
+        2
+      ],
+      "negative": false
+    }
+  ],
+  "negativeCases": [
+    {
+      "id": "variance-repetitions",
+      "command": "variance",
+      "input": "variance_demo.csv",
+      "options": {
+        "repetitions": 99,
+        "bootstrap": 99,
+        "seed": 20260719,
+        "alpha": 0.05,
+        "within_effect": 1.3,
+        "between_effect": 1.3,
+        "min_measurements": 3
+      },
+      "timeoutSeconds": 20,
+      "expectedExit": [
+        1
+      ],
+      "negative": true
+    },
+    {
+      "id": "variance-bootstrap",
+      "command": "variance",
+      "input": "variance_demo.csv",
+      "options": {
+        "repetitions": 100,
+        "bootstrap": 98,
+        "seed": 20260719,
+        "alpha": 0.05,
+        "within_effect": 1.3,
+        "between_effect": 1.3,
+        "min_measurements": 3
+      },
+      "timeoutSeconds": 20,
+      "expectedExit": [
+        1
+      ],
+      "negative": true
+    },
+    {
+      "id": "variance-min-measurements",
+      "command": "variance",
+      "input": "variance_demo.csv",
+      "options": {
+        "repetitions": 100,
+        "bootstrap": 99,
+        "seed": 20260719,
+        "alpha": 0.05,
+        "within_effect": 1.3,
+        "between_effect": 1.3,
+        "min_measurements": 1
+      },
+      "timeoutSeconds": 20,
+      "expectedExit": [
+        1
+      ],
+      "negative": true
+    },
+    {
+      "id": "estimation-entities",
+      "command": "estimation",
+      "input": null,
+      "options": {
+        "target": "mean",
+        "shape": "normal",
+        "entities": 3,
+        "measurements": 6,
+        "repetitions": 100,
+        "bootstrap": 99,
+        "seed": 20260719,
+        "location": 100,
+        "within_sd": 10,
+        "between_sd": 5
+      },
+      "timeoutSeconds": 20,
+      "expectedExit": [
+        1
+      ],
+      "negative": true
+    },
+    {
+      "id": "estimation-geometric-normal",
+      "command": "estimation",
+      "input": null,
+      "options": {
+        "target": "geometric_mean",
+        "shape": "normal",
+        "entities": 8,
+        "measurements": 6,
+        "repetitions": 100,
+        "bootstrap": 99,
+        "seed": 20260719,
+        "location": 100,
+        "within_sd": 10,
+        "between_sd": 5
+      },
+      "timeoutSeconds": 20,
+      "expectedExit": [
+        1
+      ],
+      "negative": true
+    },
+    {
+      "id": "melsm-quadrature",
+      "command": "melsm",
+      "input": "repeated_conditions_8_subjects.csv",
+      "options": {
+        "quadrature": 6,
+        "max_iterations": 4000
+      },
+      "timeoutSeconds": 20,
+      "expectedExit": [
+        1
+      ],
+      "negative": true
+    },
+    {
+      "id": "melsm-correlation-without-scale",
+      "command": "melsm",
+      "input": "repeated_conditions_8_subjects.csv",
+      "options": {
+        "quadrature": 7,
+        "max_iterations": 4000,
+        "correlate": true,
+        "no_random_scale": true
+      },
+      "timeoutSeconds": 20,
+      "expectedExit": [
+        1
+      ],
+      "negative": true
+    },
+    {
+      "id": "melsm-time-without-sequence",
+      "command": "melsm",
+      "input": "repeated_conditions_no_sequence.csv",
+      "options": {
+        "quadrature": 7,
+        "max_iterations": 4000,
+        "mean_time": true
+      },
+      "timeoutSeconds": 20,
+      "expectedExit": [
+        1
+      ],
+      "negative": true
+    },
+    {
+      "id": "variance-existing-output",
+      "command": "variance",
+      "input": "variance_demo.csv",
+      "options": {
+        "repetitions": 100,
+        "bootstrap": 99,
+        "seed": 20260719,
+        "alpha": 0.05,
+        "within_effect": 1.3,
+        "between_effect": 1.3,
+        "min_measurements": 3
+      },
+      "timeoutSeconds": 20,
+      "expectedExit": [
+        1
+      ],
+      "negative": true,
+      "sentinel": true
+    },
+    {
+      "id": "estimation-existing-output",
+      "command": "estimation",
+      "input": null,
+      "options": {
+        "target": "mean",
+        "shape": "normal",
+        "entities": 8,
+        "measurements": 6,
+        "repetitions": 100,
+        "bootstrap": 99,
+        "seed": 20260719,
+        "location": 100,
+        "within_sd": 10,
+        "between_sd": 5
+      },
+      "timeoutSeconds": 20,
+      "expectedExit": [
+        1
+      ],
+      "negative": true,
+      "sentinel": true
+    },
+    {
+      "id": "melsm-existing-output",
+      "command": "melsm",
+      "input": "repeated_conditions_8_subjects.csv",
+      "options": {
+        "quadrature": 7,
+        "max_iterations": 4000
+      },
+      "timeoutSeconds": 20,
+      "expectedExit": [
+        1
+      ],
+      "negative": true,
+      "sentinel": true
+    }
+  ],
+  "additionalRuns": {
+    "preFix": "Direct CLI and original Python variance-min-measurements, retained before mapping edit",
+    "strictDiagnostic": "Python variance-degenerate with allow_diagnostic=False; ScientificDiagnostic.result must remain typed and accessible"
+  },
+  "comparison": {
+    "reports": "Every nested field, array item/order, identity, integer count, status and null; finite floats only",
+    "manifestExclusions": [
+      "created",
+      "runId",
+      "files"
+    ],
+    "manifestOperations": "Check every own artifact path, size, checksum, created/runId structure and input hash separately",
+    "machineOperations": [
+      "outputDirectory",
+      "manifestPath",
+      "runId",
+      "artifacts"
+    ],
+    "errorMessageNormalization": "Existing-output negative only: replace the verified own absolute output directory with <own-output>",
+    "csv": "All exported scalar fields exactly aligned with JSON; arrays EffectGrid/PowerCurve are JSON-only; empty random-effect CSV with correct header allowed on failed fit"
+  },
+  "preserved": [
+    "12 active summary metrics",
+    "Bonferroni production inference",
+    "engine 1.6.2",
+    "all native source/defaults/statistical code",
+    "all historical evidence",
+    "NO-GO decision"
+  ],
+  "limitations": [
+    "Same-engine parity does not establish correctness of likelihood, optimization, tests or DGP.",
+    "Small smoke budgets differ from cli-contract-v1.json canonical scientific fixtures; no canonical validation claim.",
+    "One seed/input/options set; no parameter or seed tuning, no convergence-based reruns.",
+    "Random-scale MELSM remains experimental; failure/diagnostic statuses and null intervals must be preserved.",
+    "Resource monitoring is sampled, bounded operational safety; sampled descendant RSS is not an exact simultaneous tree peak.",
+    "Independent consistency arithmetic checks exported accounting and performance identities, not external-model certification.",
+    "No new inferential method, active metric, default, scientific-release decision or external publication."
+  ]
+}

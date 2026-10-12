@@ -14,6 +14,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="HeadlessRun.cs" />
     <Compile Include="ScientificCommands.cs" />
+    <Compile Include="OutputSafety.cs" />
     <Compile Include="MachineProtocol.cs" />
     <ProjectReference Include="../MvsAnalyzer.Core/MvsAnalyzer.Core.csproj" />
   </ItemGroup>

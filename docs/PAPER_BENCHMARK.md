@@ -12,7 +12,32 @@ The fixed settings are:
 
 The workflow uses the portable checkpoint support already present in MVS. A GitHub-hosted job runs for about 5 hours 17 minutes, sends an interrupt, saves the latest completed computational units, and the next job resumes them. Up to six compute chunks are chained automatically. The statistical protocol, random seed, simulation budgets, thresholds, and decision rules are unchanged.
 
-## Run it
+## Current source identity gate
+
+The development checkout is engine **1.6.2**. It is not the historical engine
+1.6.0 source target required by this manuscript workflow. The chunk workflow now
+checks that target before setup/build/compute and exits with an actionable error
+on a mismatch. Previously it could spend the entire run computing a result that
+the final historical verifier would necessarily reject.
+
+Do not change the expected engine to relabel a development result as historical
+paper evidence. No verified historical source commit was recorded in the inspected
+archive; identifying that target is still required before a new historical run.
+Round 11 subsequently identified source candidate
+`561442711faa0bf69dc766f61d89869ce683af0e` from the successful original Actions run;
+its declared identities pass the historical preflight. The original run artifact
+still needs authenticated retrieval and byte comparison to complete the binding.
+See `ROUND11_HISTORICAL_SOURCE_PROVENANCE.md`; do not substitute the older release
+tag or interpret this as an executed reproduction.
+
+The preserved engine-1.6.0 archive can be checked without recomputing it. The separate
+engine-1.6.2 development run remains archived with its own identity and NO-GO.
+
+The strengthened verifier requires complete frozen budgets/conditions, the required
+artifacts and manifest checksum, rather than trusting an optional file list or a
+self-declared verdict. Artifact integrity is not scientific certification.
+
+## Run it with a verified historical source target
 
 1. Push these files to GitHub.
 2. Open **Actions**.
@@ -33,3 +58,17 @@ If the final job says that six chunks were insufficient, keep `paper-benchmark-s
 The workflow does not split one simulation condition across different machines and then merge statistics. That would require a new distributed reduction layer and its own validation. This version uses MVS's existing checkpoint/resume path, so completed outer replications are reused exactly as the application already supports.
 
 It also does not add real-data plasmodes. The paper benchmark described here is the frozen synthetic benchmark unless a real-data folder is deliberately supplied in a separate analysis.
+
+## Safe manual chunk directories
+
+The chunk runner now requires fresh or empty state/work destinations. It never
+resets an existing directory. Incoming, state and work must be disjoint, including
+parent/child paths; symlink traversal and ambiguous incoming artifacts are refused
+before writing. Use a new chunk number and new output paths for each manual segment.
+Keep the previous checkpoint as the separate incoming directory.
+
+Completed results are verified before pass-through. Computation still requires a
+separately verified historical source checkout and matching provenance. Technical
+failure retains original/new checkpoints without declaring completion. Fake-command
+regressions cover these operational rules, not native resume correctness; see
+`ROUND9_CHECKPOINT_RUNNER_SAFETY.md`.

@@ -1,0 +1,38 @@
+{
+  "stage": "round6-development-baseline",
+  "purpose": "development, not independent confirmatory validation",
+  "sourceZip": "MVS-analyzer-round5-huber-validation.zip",
+  "sourceSha256": "ba95a9b5b9dfb6dccafdffb0b4140e09d343358e6f1a61d1b1c923247d881431",
+  "engineVersion": "1.6.2",
+  "protocol": "MVS-BENCH-1.2.0",
+  "protocolHash": "b81be4a1a86e8ba4b013eb63b75256d16e439fb824e7fa68efae5f28e48de268",
+  "profile": "full",
+  "seed": 20260904,
+  "threads": 8,
+  "plannedWorkUnits": 5490,
+  "realData": "none; frozen synthetic benchmark",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+  "processorCount": 9,
+  "command": [
+    "/tmp/mvs-dotnet/dotnet",
+    "/workspace/scratch/8105054a3211/mvs_full_run_20261011/cli/mvs.dll",
+    "benchmark",
+    "--profile",
+    "full",
+    "--seed",
+    "20260904",
+    "--threads",
+    "8",
+    "--out",
+    "/workspace/scratch/8105054a3211/mvs_full_run_20261011/results"
+  ],
+  "startedUtc": "2026-10-11T20:12:14.029233+00:00",
+  "status": "finished",
+  "assemblies": {
+    "mvs.dll": "04917b261bc81e1ed14dee6198ae02df5bbc07c76c2615ff2d800b478cb91a6d",
+    "MvsAnalyzer.Core.dll": "4d9906f5b0d750b486d9dcb9a52740afd3d17481d75fcf9261a153b8692ee715"
+  },
+  "pid": 7,
+  "exitCode": 2,
+  "finishedUtc": "2026-10-11T21:12:40.407975+00:00"
+}

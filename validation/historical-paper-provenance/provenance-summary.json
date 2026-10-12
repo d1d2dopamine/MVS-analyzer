@@ -1,0 +1,45 @@
+{
+  "sourceCandidateCommit": "561442711faa0bf69dc766f61d89869ce683af0e",
+  "sourceCandidateBasis": "Public Actions run and job metadata; declared source identities match; first benchmark step times exactly match archived manifest. Artifact bytes unavailable without authentication.",
+  "runUrl": "https://github.com/d1d2dopamine/MVS-analyzer/actions/runs/35388409546",
+  "benchmarkJobUrl": "https://github.com/d1d2dopamine/MVS-analyzer/actions/runs/35388409546/job/105740768659",
+  "manifestStartedUtc": "2026-09-18T19:53:35Z",
+  "stepStartedAt": "2026-09-18T19:53:35Z",
+  "manifestFinishedUtc": "2026-09-18T21:50:35Z",
+  "stepCompletedAt": "2026-09-18T21:50:35Z",
+  "timestampsMatch": true,
+  "matchingDeclaredIdentities": {
+    "appVersion": "1.4.0",
+    "engineVersion": "1.6.0",
+    "formulaVersion": "MVS-1.4.0",
+    "formulaHash": "10a1e72218bd65ec024fc981aab9b9d0a9de8ac00db9188f9d80d54e1170598c",
+    "protocolVersion": "MVS-BENCH-1.2.0",
+    "protocolHash": "b81be4a1a86e8ba4b013eb63b75256d16e439fb824e7fa68efae5f28e48de268",
+    "protocolHashFrozen": "b81be4a1a86e8ba4b013eb63b75256d16e439fb824e7fa68efae5f28e48de268"
+  },
+  "artifact": {
+    "id": 10569962325,
+    "node_id": "MDg6QXJ0aWZhY3QxMDU2OTk2MjMyNQ==",
+    "name": "mvs-paper-benchmark-full-seed-20260904",
+    "size_in_bytes": 203551,
+    "url": "https://api.github.com/repos/d1d2dopamine/MVS-analyzer/actions/artifacts/10569962325",
+    "archive_download_url": "https://api.github.com/repos/d1d2dopamine/MVS-analyzer/actions/artifacts/10569962325/zip",
+    "expired": false,
+    "digest": "sha256:499e12e3bc4c28b6d1ff03905fe34710453636f0b5f5c3d19479e26f4b954fa0",
+    "created_at": "2026-09-18T21:54:14Z",
+    "updated_at": "2026-09-18T21:54:14Z",
+    "expires_at": "2026-12-17T19:53:08Z",
+    "workflow_run": {
+      "id": 35388409546,
+      "repository_id": 1304808683,
+      "head_repository_id": 1304808683,
+      "head_branch": "main",
+      "head_sha": "561442711faa0bf69dc766f61d89869ce683af0e"
+    }
+  },
+  "archiveFirstCommit": "f085a40e9a349dcfb00a76a648c0110571f81491",
+  "committedArchiveByteIdentity": true,
+  "archiveSourceBuildBindingVerified": false,
+  "reproductionExecuted": false,
+  "historicalGateChanged": false
+}
