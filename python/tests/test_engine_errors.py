@@ -274,6 +274,22 @@ class EngineErrorTests(unittest.TestCase):
             with self.assertRaisesRegex(InputError, "out of range"):
                 engine.variance("synthetic.csv", output=self.root / "output", min_measurements=1)
 
+    def test_completed_analysis_preserves_journal_warning_without_raising(self):
+        engine = self.mock_engine()
+        warning = {"level": "warning", "code": "journal_write_failed",
+                   "message": "Analysis artifacts were saved, but the local run journal could not be updated."}
+        process = response("analyze", diagnostics=[warning])
+        with patch("mvs.engine.subprocess.run", return_value=process):
+            result = engine.analyze("synthetic.csv", calibration="synthetic-calibration",
+                                    output=self.root / "output", allow_diagnostic=False)
+        self.assertEqual(result.status, "completed")
+        self.assertEqual(result.exit_code, 0)
+        self.assertEqual(len(result.diagnostics), 1)
+        self.assertEqual(result.diagnostics[0].code, warning["code"])
+        self.assertEqual(result.diagnostics[0].level, "warning")
+        self.assertEqual(result.diagnostics[0].message, warning["message"])
+        self.assertEqual(result.raw["diagnostics"], [warning])
+
     def test_scientific_diagnostic_mapping_is_preserved(self):
         engine = self.mock_engine()
         process = response("estimation", exitCode=2, status="diagnostic",

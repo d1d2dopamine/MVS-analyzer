@@ -51,6 +51,8 @@ internal static class CliMachineProtocol
             status,
             command,
             exitCode,
+            execution = new { completed = exitCode is 0 or 2, outcome = exitCode switch { 0 => "completed", 2 => "completed_with_diagnostic", _ => "failed" } },
+            scientificReadiness = new { scope = "project_release_readiness", status = "no_go", basis = "MVS-BENCH-1.2.0 development", independentConfirmatoryValidation = false },
             runId,
             outputDirectory = folder,
             appVersion = ReleaseInfo.Version,
@@ -67,7 +69,16 @@ internal static class CliMachineProtocol
             diagnostics = CliMachineContext.Diagnostics,
             error = errorPayload
         };
-        writer.WriteLine(JsonSerializer.Serialize(payload, new JsonSerializerOptions { WriteIndented = true }));
+        var options = new JsonSerializerOptions { WriteIndented = true };
+        if (command == "version")
+        {
+            // Capability handshake is read-only; older backends must not be used
+            // for bounded Windows workflow state until they advertise this support.
+            var versionPayload = JsonSerializer.SerializeToNode(payload)!;
+            versionPayload["localAppDataOverride"] = "MVS_APPDATA_ROOT/v1";
+            writer.WriteLine(versionPayload.ToJsonString(options));
+        }
+        else writer.WriteLine(JsonSerializer.Serialize(payload, options));
         writer.Flush();
     }
 

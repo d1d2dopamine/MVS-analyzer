@@ -1,5 +1,26 @@
 # Documentation
 
+## Experimental local workflow checkpoint
+
+Round 23 adds an experimental Windows local-NTFS backend to the Round 22
+exploratory/frozen workflow and local stdio MCP. **Windows runtime verification
+requires the owner-run manual CI gate; no Windows run is claimed here.** Existing native
+commands remain compatible, and scientific NO-GO is retained. See
+[workflow setup and contract](WORKFLOW_PROTOCOL.md),
+[local MCP setup](LOCAL_MCP.md), and
+[Windows setup, checks and remaining gate](ROUND23_WINDOWS_MCP.md).
+
+Round 21 repairs reproduced cross-session journal chain races and unlocked reads.
+The bounded concurrency evidence, locking compatibility limits and retained
+scientific NO-GO are documented in [round 21](ROUND21_JOURNAL_CONCURRENCY.md)
+and [кратком отчёте](ROUND21_JOURNAL_CONCURRENCY_RU.md).
+
+- [Structured journal warning](ROUND20_JOURNAL_WARNING.md): privacy-minimal provenance warning through CLI/Python.
+- [Этап 20: краткий отчёт](ROUND20_JOURNAL_WARNING_RU.md).
+
+- [Journal path repair](ROUND19_JOURNAL_PATH_REPAIR.md): reproduced Linux fallback, preserved legacy journals and executed regressions.
+- [Этап 19: краткий отчёт](ROUND19_JOURNAL_PATH_REPAIR_RU.md).
+
 - [Current readiness and next decision](PROJECT_READINESS_HANDOFF.md): completed work, scientific NO-GO, recommendation and stopping boundary.
 - [Existing scientific interface audit](ROUND18_SCIENTIFIC_INTERFACE_AUDIT.md): actual variance/estimation/MELSM wrapper and export consistency.
 

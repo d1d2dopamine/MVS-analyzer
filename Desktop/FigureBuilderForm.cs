@@ -34,7 +34,7 @@ internal sealed class FigureBuilderForm : Form
     private void SaveTemplate(bool russian)
     {
         if (string.IsNullOrWhiteSpace(name.Text)) { MessageBox.Show(russian?"Введите название.":"Enter a template name."); return; }
-        string folder=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"MVS_Analyzer","figure-templates"); Directory.CreateDirectory(folder);
+        string folder=Path.Combine(ApplicationDataPaths.GetLocalApplicationData(),"MVS_Analyzer","figure-templates"); Directory.CreateDirectory(folder);
         string id=new string(name.Text.ToLowerInvariant().Select(c=>char.IsLetterOrDigit(c)?c:'_').ToArray()).Trim('_'); if (id.Length==0) id="custom_figure";
         var template=new { id, name=name.Text.Trim(), source=source.Text, chart=chart.Text, x=xAxis.Text, y=yAxis.Text, grouping=grouping.Text, description=description.Text.Trim(), version=1 };
         SavedFile=Path.Combine(folder,id+".json"); File.WriteAllText(SavedFile,JsonSerializer.Serialize(template,new JsonSerializerOptions{WriteIndented=true})); DialogResult=DialogResult.OK; Close();

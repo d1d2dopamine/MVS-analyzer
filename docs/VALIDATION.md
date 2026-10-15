@@ -1,5 +1,10 @@
 # Validation and limitations
 
+Round 21 repairs reproduced cross-session journal chain races and unlocked reads.
+The bounded concurrency evidence, locking compatibility limits and retained
+scientific NO-GO are documented in [round 21](ROUND21_JOURNAL_CONCURRENCY.md)
+and [кратком отчёте](ROUND21_JOURNAL_CONCURRENCY_RU.md).
+
 MVS calibration is a simulation conditional on observed data and selected scenarios. It does not establish external validity or a universally optimal metric. Use independent data and a justified analysis plan for confirmatory conclusions.
 
 ## What checks mean
@@ -120,3 +125,13 @@ Its frozen small workloads preserve diagnostic outcomes and scientific nulls.
 The [current readiness handoff](PROJECT_READINESS_HANDOFF.md) consolidates remaining
 scientific assumptions, operational limits and the decision needed before the
 next dependent method-development stage.
+
+Round 19 repairs the reproduced application-data journal fallback and preserves
+legacy journal bytes, scientific outputs and the NO-GO. See
+[executed checks and limits](ROUND19_JOURNAL_PATH_REPAIR.md). The scientific
+claim/null decision remains open; this is independent reliability work.
+
+Round 20 adds the stable `journal_write_failed` warning to existing machine
+diagnostics after a failed provenance write, preserving exit-0 analysis, prior
+diagnostics and scientific outputs. See [actual checks](ROUND20_JOURNAL_WARNING.md).
+This reliability improvement does not resolve the scientific claim/null gate.

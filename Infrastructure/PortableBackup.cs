@@ -68,7 +68,7 @@ internal sealed class BackupSession : IDisposable
     internal bool EnvironmentChanged { get; private set; }
     internal bool WasRestored { get; private set; }
     internal static string Folder => Path.GetFullPath(Environment.GetEnvironmentVariable("MVS_BACKUP_DIR") ??
-        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MVS_Analyzer", "MVS_Backups"));
+        Path.Combine(ApplicationDataPaths.GetLocalApplicationData(), "MVS_Analyzer", "MVS_Backups"));
     internal static string Pack<T>(T value) => JsonSerializer.Serialize(value, Json);
     internal static BackupDocument? Pending => pending.Value;
     private sealed class Scope(Action restore) : IDisposable { public void Dispose() => restore(); }

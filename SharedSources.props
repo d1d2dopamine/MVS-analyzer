@@ -1,6 +1,7 @@
 <Project>
   <!-- Explicit platform-neutral source registry compiled by MvsAnalyzer.Core. -->
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/ApplicationDataPaths.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/PortableBackup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/BackupRunner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core/AnalysisEngine.cs" />

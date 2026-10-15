@@ -1,0 +1,73 @@
+{
+  "stage": 22,
+  "status": "passed_with_platform_gate",
+  "scope": "Experimental Linux/cloud summary analyze + existing calibration; Windows MCP incomplete",
+  "scientificReadiness": "NO-GO retained",
+  "sourceBaseline": {
+    "file": "MVS-analyzer-round21-journal-concurrency.zip",
+    "sha256": "69dfcca396b794ccef4bf686e73d357a30e5e1e3ba6c95e12c2132b7dbdc79e3",
+    "files": 369
+  },
+  "verification": {
+    "nativeTests": 144,
+    "pythonTests": 490,
+    "pythonSkipped": 0,
+    "pythonSuiteCounts": [
+      77,
+      17,
+      6,
+      40,
+      34,
+      34,
+      21,
+      261
+    ],
+    "pythonApiBreakdown": {
+      "legacy": 28,
+      "workflow": 35,
+      "mcp": 14
+    },
+    "scipyFrozenRankCases": 53,
+    "nativeBuildWarnings": 0,
+    "nativeBuildErrors": 0,
+    "actualLegacyNativeParity": true,
+    "actualExploratoryFrozenCliMcpParity": true,
+    "actualNativeExit2": true,
+    "installedWheelNativeSmoke": true,
+    "packageDependencyCheck": "passed",
+    "releaseLayout": {
+      "files": 129,
+      "markdownFiles": 60,
+      "localLinks": 153
+    }
+  },
+  "environment": {
+    "dotnetSdk": "8.0.425",
+    "dotnetRuntime": "8.0.31",
+    "python": "3.12.14",
+    "scipy": "1.17.0",
+    "mcpSdk": "1.30.0",
+    "mcpProtocol": "2025-11-25",
+    "olderProtocolNegotiation": "2024-11-05"
+  },
+  "evidence": {
+    "file": "round22-evidence.zip",
+    "bytes": 1095720,
+    "files": 340,
+    "sha256": "3be0f5bf031a80d63ffb51855eac31a2f0f1e314d676dcebbb4278dc0b4d6321",
+    "crcAndInventoryVerified": true
+  },
+  "limitations": [
+    "Linux local trusted-host workflow only; no Windows/macOS workflow runtime verification.",
+    "Same native engine parity is not independent statistical certification.",
+    "Frozen local protocol is not prospective preregistration or an external timestamp; calibration preexists and prior exposure is caller-declared.",
+    "Local records do not prove complete campaign accounting, authenticity or campaign-wide error control.",
+    "Cooperative cancellation is bounded; forcibly killed coordinator can leave unknown/ongoing native work, never automatically rerun.",
+    "No full benchmark, external registrar, remote service, publication or commit."
+  ],
+  "retainedFailures": [
+    "Initial Python baseline invocation missed PYTHONPATH; corrected 28-test run passed.",
+    "Initial actual MCP/native test rejected a runtime diagnostic socket; only excerpt retained because unittest cleaned its temporary workspace.",
+    "Intermediate combined test ran before new report existed and failed README link checking; final suite passed after documentation completed."
+  ]
+}

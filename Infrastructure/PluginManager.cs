@@ -21,7 +21,7 @@ internal sealed class PluginManifest
 
 internal static class PluginManager
 {
-    private static string Root => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MVS_Analyzer", "plugins");
+    private static string Root => Path.Combine(ApplicationDataPaths.GetLocalApplicationData(), "MVS_Analyzer", "plugins");
     private static readonly string[] Forbidden = { ".dll", ".exe", ".bat", ".cmd", ".ps1", ".vbs", ".js", ".hta", ".com", ".scr" };
 
     public static List<PluginManifest> ListInstalled()

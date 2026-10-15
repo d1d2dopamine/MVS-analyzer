@@ -122,7 +122,12 @@ internal static class HeadlessRun
             Path.GetFileName(input), hash, analysed, state.Rows, results, settings, state.Repetitions, artifacts,
             state.CalibrationSource, state.DatasetHash, mismatch));
         try { RunAuditor.AppendJournal(runId, folder, hash, settings, state.Repetitions, string.Join(",", results.Where(r => r.CandidateInAnyTrack).Select(r => r.Metric))); }
-        catch (Exception error) { Console.Error.WriteLine("Warning: journal write failed: " + error.Message); }
+        catch (Exception error)
+        {
+            Console.Error.WriteLine("Warning: journal write failed: " + error.Message);
+            CliMachineContext.Diagnostic("warning", "journal_write_failed",
+                "Analysis artifacts were saved, but the local run journal could not be updated.");
+        }
         CliMachineContext.RecordOutput(folder, runId);
         Console.WriteLine("Analysis saved: " + folder);
         foreach (ResultRow row in results) Console.WriteLine(row.Metric.PadRight(25) + row.Verdict.PadRight(16) + " adjusted p=" + Num(row.AdjustedP));

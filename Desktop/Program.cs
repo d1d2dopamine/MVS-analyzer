@@ -13,7 +13,7 @@ internal static class Program
         Application.ThreadException += (_, e) => MessageBox.Show(e.Exception.Message, "MVS Analyzer", MessageBoxButtons.OK, MessageBoxIcon.Error);
         AppDomain.CurrentDomain.UnhandledException += (_, e) => MessageBox.Show((e.ExceptionObject as Exception)?.Message ?? "Unknown error", "MVS Analyzer", MessageBoxButtons.OK, MessageBoxIcon.Error);
         AppSettings settings = AppSettings.Load();
-        string marker = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MVS_Analyzer", "language.txt");
+        string marker = Path.Combine(ApplicationDataPaths.GetLocalApplicationData(), "MVS_Analyzer", "language.txt");
         if (!File.Exists(marker))
         {
             using var dialog = new LanguageDialog();

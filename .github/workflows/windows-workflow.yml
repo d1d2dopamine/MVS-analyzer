@@ -1,0 +1,105 @@
+name: Manual Windows workflow acceptance
+
+# Deliberately opt-in; adding this file does not schedule or dispatch a run.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows-runtime:
+    name: Win32 runtime (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2022, windows-2025]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+      DOTNET_EnableDiagnostics: '0'
+      DOTNET_PROCESSOR_COUNT: '2'
+      MVS_DISABLE_BACKUPS: '1'
+      PYTHONUTF8: '1'
+    steps:
+      - uses: actions/checkout@v7.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7.0.0
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-dotnet@v6.0.0
+        with:
+          dotnet-version: '8.0.x'
+      - name: Prepare short, runner-owned NTFS paths
+        run: |
+          $root = Join-Path $env:RUNNER_TEMP 'mvsw'
+          if (Test-Path $root) { throw "Refusing to reuse existing acceptance directory: $root" }
+          New-Item -ItemType Directory $root | Out-Null
+          "MVS_GATE_ROOT=$root" >> $env:GITHUB_ENV
+          "MVS_APPDATA_ROOT=$root\appdata" >> $env:GITHUB_ENV
+          "MVS_BACKUP_DIR=$root\backups" >> $env:GITHUB_ENV
+          "MVS_TEST_CLI=$root\cli\mvs.exe" >> $env:GITHUB_ENV
+          "MVS_TEST_CALIBRATION=$root\calibration\calibration_state.json" >> $env:GITHUB_ENV
+      - name: Install wrapper and pinned official MCP SDK
+        run: |
+          python -m pip install --disable-pip-version-check './python[mcp]'
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -c "from importlib.metadata import version; assert version('mcp') == '1.30.0'; print('official mcp', version('mcp'))"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Build native CLI and run portable core checks
+        run: |
+          dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release 2>&1 | Tee-Object "$env:MVS_GATE_ROOT\core-tests.log"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet publish MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj -c Release -r win-x64 --self-contained true -p:DebugType=None -p:DebugSymbols=false -o "$env:MVS_GATE_ROOT\cli" 2>&1 | Tee-Object "$env:MVS_GATE_ROOT\build.log"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Real Win32 file, ACL, lock and Job Object gates
+        run: |
+          python -m unittest discover -s python/tests -p 'test_windows*.py' -v 2>&1 | Tee-Object "$env:MVS_GATE_ROOT\win32-tests.log"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $gateLog = Get-Content -Raw "$env:MVS_GATE_ROOT\win32-tests.log"
+          if ($gateLog -notmatch 'Ran 18 tests' -or $gateLog -match '(?im)skipped|FAILED|ERROR') {
+            throw 'Expected all 18 Win32/contract checks with zero skips and zero failures'
+          }
+          @{ expected = 18; skipped = 0; actualWindows = $true } | ConvertTo-Json | Set-Content "$env:MVS_GATE_ROOT\win32-counts.json"
+      - name: Small canonical calibration (150 repetitions)
+        run: |
+          & $env:MVS_TEST_CLI calibrate --in examples/demo_three_groups.csv --out "$env:MVS_GATE_ROOT\calibration" --repetitions 150 --seed 20260719 --json --quiet 2>&1 | Tee-Object "$env:MVS_GATE_ROOT\calibration.log"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          if (-not (Test-Path $env:MVS_TEST_CALIBRATION)) { throw 'Calibration state missing' }
+      - name: Real native exploratory, frozen, and MCP parity
+        run: |
+          python tools/test_windows_workflow.py --artifacts "$env:MVS_GATE_ROOT\acceptance" 2>&1 | Tee-Object "$env:MVS_GATE_ROOT\acceptance.log"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Record artifact counts and runtime provenance
+        if: always()
+        run: |
+          if (Test-Path $env:MVS_GATE_ROOT) {
+            $files = @(Get-ChildItem -LiteralPath $env:MVS_GATE_ROOT -File -Recurse)
+            [pscustomobject]@{
+              os = '${{ matrix.os }}'
+              windowsVersion = [Environment]::OSVersion.VersionString
+              pythonVersion = (python --version)
+              fileCount = $files.Count
+              totalBytes = ($files | Measure-Object Length -Sum).Sum
+              windows11DesktopValidated = $false
+              scientificReadiness = 'NO-GO retained; synthetic interface parity only'
+            } | ConvertTo-Json | Set-Content "$env:MVS_GATE_ROOT\artifact-counts.json"
+          }
+      - name: Upload bounded acceptance evidence
+        if: always()
+        uses: actions/upload-artifact@v6.0.0
+        with:
+          name: windows-workflow-${{ matrix.os }}
+          path: |
+            ${{ env.MVS_GATE_ROOT }}/*.log
+            ${{ env.MVS_GATE_ROOT }}/artifact-counts.json
+            ${{ env.MVS_GATE_ROOT }}/win32-counts.json
+            ${{ env.MVS_GATE_ROOT }}/acceptance/**
+            ${{ env.MVS_GATE_ROOT }}/calibration/**
+          if-no-files-found: warn
+          retention-days: 14

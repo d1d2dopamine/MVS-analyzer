@@ -645,7 +645,7 @@ internal static class BenchmarkReport
         try
         {
             string root = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MVS_Analyzer");
+                ApplicationDataPaths.GetLocalApplicationData(), "MVS_Analyzer");
             Directory.CreateDirectory(root);
             string path = Path.Combine(root, "benchmark_journal.jsonl");
 

@@ -330,7 +330,7 @@ internal sealed partial class MainForm : Form
         finally { fittingContent = false; }
     }
 
-    private static string WindowFile => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MVS_Analyzer", "window.txt");
+    private static string WindowFile => Path.Combine(ApplicationDataPaths.GetLocalApplicationData(), "MVS_Analyzer", "window.txt");
 
     private void RestoreWindow()
     {

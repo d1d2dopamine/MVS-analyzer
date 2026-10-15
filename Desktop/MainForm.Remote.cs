@@ -19,7 +19,7 @@ internal sealed partial class MainForm
     private readonly List<(Button Button, Label Status, string Action, Func<int> Repetitions)> colabButtons = new();
     private bool layoutTestMode;
     private ColabSessionStore Sessions => colabSessions ??= new ColabSessionStore(Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MVS_Analyzer", "Colab"));
+        ApplicationDataPaths.GetLocalApplicationData(), "MVS_Analyzer", "Colab"));
     private string CalibrationKey(int repetitions) => ColabSessionStore.KeyFor(datasetHash, SettingsContract.Fingerprint(settings), repetitions, "standard");
 
     private Button ColabButton(Action action)

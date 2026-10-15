@@ -279,7 +279,7 @@ internal static class FigureGenerator
     private static FigureSpec? LoadSpec(string id)
     {
         var files = new List<string>();
-        string customFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MVS_Analyzer", "figure-templates");
+        string customFolder = Path.Combine(ApplicationDataPaths.GetLocalApplicationData(), "MVS_Analyzer", "figure-templates");
         if (Directory.Exists(customFolder)) files.AddRange(Directory.GetFiles(customFolder, "*.json"));
         try { files.AddRange(PluginManager.EnabledTemplateFiles()); } catch { }
         foreach (string file in files.Where(x => string.Equals(Path.GetFileNameWithoutExtension(x), id, StringComparison.OrdinalIgnoreCase)).Concat(files))

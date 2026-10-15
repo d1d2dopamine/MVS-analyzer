@@ -1,0 +1,56 @@
+{
+  "stage": 21,
+  "status": "passed",
+  "scientificDecision": "NO-GO retained",
+  "sourceBaseline": "MVS-analyzer-round20-journal-warning.zip",
+  "sourceBaselineSha256": "668ce5aa994a40164fe48f4fad3024dff52a59646b2ac8d49a61f84083fc20c8",
+  "before": {
+    "scenarios": 6,
+    "failures": [
+      "separate-session-appenders",
+      "controlled-held-partial"
+    ]
+  },
+  "final": {
+    "scenarios": 11,
+    "allPassed": true,
+    "protocolRevision": 3,
+    "protocolSha256": "2d1fe2d20bca3fbc454650d7fbbca1e64a73ba3a3fa92506a6435397d26c842f"
+  },
+  "nativeTests": 144,
+  "pythonTests": 441,
+  "pythonSuiteCounts": [
+    17,
+    6,
+    40,
+    34,
+    34,
+    28,
+    21,
+    261
+  ],
+  "scipyRankFixtures": 53,
+  "actualPathCases": 7,
+  "actualWarningCases": 6,
+  "disabledLockPythonCase": "completed/exit0/warning/artifact verification/scientific parity passed",
+  "runtime": {
+    "sdk": "8.0.425",
+    "runtime": "8.0.31",
+    "platform": "Linux local filesystem"
+  },
+  "compatibilityLimits": [
+    "Upgrade all concurrent readers/writers or operate exclusively; mixed old cross-session writers ignore file lock.",
+    "Existing journal reads now require adjacent lock-file creation/read-write access. No permissions expanded.",
+    "Persistent lock file must not be removed while processes may use it.",
+    "No Windows/macOS/network filesystem or hostile alias validation.",
+    "Crash-partial records fail closed, no automatic repair."
+  ],
+  "evidence": {
+    "file": "journal-concurrency-round21.zip",
+    "bytes": 990794,
+    "files": 779,
+    "sha256": "ed9a25474b3fd95bbfbfafa7d8a109e228050d087ea26be3422554385b5a4c5c",
+    "inventoryVerified": true
+  },
+  "payloadSha256": "8bd05a5289afb41dec31e8ce47255eaa39bac09be9eda6e1673c0b28315466bc"
+}

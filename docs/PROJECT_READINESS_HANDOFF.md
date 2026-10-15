@@ -1,5 +1,20 @@
 # MVS current readiness and next decision
 
+## Experimental local workflow checkpoint
+
+Round 23 adds an experimental Windows local-NTFS backend to the Round 22
+exploratory/frozen workflow and local stdio MCP. **Windows runtime verification
+requires the owner-run manual CI gate; no Windows run is claimed here.** Existing native
+commands remain compatible, and scientific NO-GO is retained. See
+[workflow setup and contract](WORKFLOW_PROTOCOL.md),
+[local MCP setup](LOCAL_MCP.md), and
+[Windows setup, checks and remaining gate](ROUND23_WINDOWS_MCP.md).
+
+Round 21 repairs reproduced cross-session journal chain races and unlocked reads.
+The bounded concurrency evidence, locking compatibility limits and retained
+scientific NO-GO are documented in [round 21](ROUND21_JOURNAL_CONCURRENCY.md)
+and [кратком отчёте](ROUND21_JOURNAL_CONCURRENCY_RU.md).
+
 ## What is ready
 
 The current deliverable is a reproducible **development source checkpoint** of the
@@ -80,8 +95,8 @@ Do not choose seeds, remove failed cases or relax gates to obtain a passing resu
 - With a nonexistent synthetic `XDG_DATA_HOME`, this Linux environment returned
   an empty .NET application-data path and the existing journal fell back to the
   working directory. The new synthetic entries were preserved outside source.
-  Create isolated runner data directories before execution; a robust application
-  journal-location fallback remains a separate operational repair.
+  Create isolated runner data directories before execution; the [round-19 repair](ROUND19_JOURNAL_PATH_REPAIR.md) now prevents application
+  journal fallback to the working directory and preserves legacy journals.
 - Current output preflight protects demonstrated predictable input collisions and
   obstructions. It does not make multi-file output transactional or eliminate
   concurrent filesystem races. Unexpected mid-write failure remains a separate
@@ -109,3 +124,8 @@ checks, or reruns of the already-used development benchmark would add activity
 without establishing the missing scientific readiness. Resume dependent work when
 the intended claim and its validation assumptions are decided, or when new concrete
 failure evidence supports a separately bounded safe repair.
+
+Round 20 adds the stable `journal_write_failed` warning to existing machine
+diagnostics after a failed provenance write, preserving exit-0 analysis, prior
+diagnostics and scientific outputs. See [actual checks](ROUND20_JOURNAL_WARNING.md).
+This reliability improvement does not resolve the scientific claim/null gate.

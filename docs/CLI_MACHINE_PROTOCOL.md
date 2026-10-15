@@ -48,3 +48,27 @@ The existing human help path remains an exception to the machine-output
 promise (`help --json` prints usage). This known gap is recorded rather than
 represented as a passing structured-help check. Unexpected failures after writes
 begin can still leave partial artifacts; preflight is not transactional output.
+
+## Completed analysis with a provenance warning (round 20)
+
+If analysis artifacts were saved but local journal append failed, `diagnostics`
+contains level `warning`, code `journal_write_failed`. The generic message omits
+local journal paths and exception details. Existing stderr detail remains local
+troubleshooting output. Status remains `completed`, exit code 0 and error null;
+other diagnostics and generated artifacts are preserved. Consumers must inspect
+diagnostics even on successful exit. This is runtime response metadata, not a new
+manifest field. See [round 20](ROUND20_JOURNAL_WARNING.md).
+
+## Additive execution/readiness metadata (round 22)
+
+The schema remains `mvs-cli-result/v1`; all earlier fields, types and exit/status
+meanings remain. New `execution.completed` is true for exits 0 and 2; its
+`outcome` distinguishes `completed`, `completed_with_diagnostic` and `failed`.
+New `scientificReadiness` explicitly describes **project release readiness**,
+with retained development `no_go`, not a new per-run hypothesis verdict.
+A successful version command or analysis is not scientific certification.
+The existing human `help --json` exception is unchanged.
+
+The optional `mvs-workflow-result/v1` envelope is a separate application-layer
+contract, shared by `mvs-workflow` and local MCP; it does not replace native v1.
+See [scope, exit semantics and examples](WORKFLOW_PROTOCOL.md).

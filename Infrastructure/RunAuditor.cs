@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
@@ -5,9 +6,9 @@ using System.Text.Json;
 namespace MvsAnalyzer;
 
 /// <summary>
-/// Verifies saved runs. Hashes prove integrity (nothing was edited after the run);
-/// the append-only journal is what makes hidden or deleted runs visible, which is
-/// the part that actually exposes result shopping.
+/// Checks saved artifacts and local journal consistency. Hashes identify bytes;
+/// a party controlling these files can rewrite them and the chain. This cannot
+/// establish authenticity or absence of omitted runs/selective reporting.
 /// </summary>
 internal static class RunAuditor
 {
@@ -15,7 +16,18 @@ internal static class RunAuditor
     public const string Warn = "warn";
     public const string Ok = "ok";
 
-    private static string Folder => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MVS_Analyzer");
+    // The default GetFolderPath option returns an empty string if the configured
+    // directory does not exist. Never combine that with a relative journal name:
+    // doing so silently writes to whichever working directory launched the CLI.
+    private static string Folder => ResolveJournalFolder(ApplicationDataPaths.GetLocalApplicationData(
+        Environment.SpecialFolderOption.DoNotVerify));
+
+    internal static string ResolveJournalFolder(string applicationData)
+    {
+        if (string.IsNullOrWhiteSpace(applicationData) || !Path.IsPathFullyQualified(applicationData))
+            throw new DirectoryNotFoundException("An absolute local application-data directory is required for the run journal.");
+        return Path.Combine(applicationData, "MVS_Analyzer");
+    }
     public static string JournalPath => Path.Combine(Folder, "run_journal.jsonl");
 
     private static string HashText(string value) => Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(value))).ToLowerInvariant();
@@ -24,53 +36,113 @@ internal static class RunAuditor
     // ---------- append-only journal ----------
 
     /// <summary>
-    /// Appends one tamper-evident line. Every entry stores the SHA-256 of the previous
-    /// line, so deleting or rewriting an inconvenient run breaks the chain.
+    /// Appends one chained line. Each entry stores the SHA-256 of the previous
+    /// line; unmatched edits break the chain, but rewriting the whole chain is possible.
     /// </summary>
     public static void AppendJournal(string runId, string folder, string datasetHash, AppSettings settings, int repetitions, string candidateSet)
     {
-        using var mutex = new Mutex(false, "MVSAnalyzerJournalV2");
-        bool acquired;
-        try { acquired = mutex.WaitOne(TimeSpan.FromSeconds(10)); } catch (AbandonedMutexException) { acquired = true; }
-        if (!acquired) throw new IOException("The run journal is busy.");
+        string journalFolder = Folder;
+        string journalPath = Path.Combine(journalFolder, "run_journal.jsonl");
+        Directory.CreateDirectory(journalFolder);
+        using var journalLock = AcquireJournalLock(journalPath);
+        string previous = "genesis";
+        if (File.Exists(journalPath))
+        {
+            string[] lines = File.ReadAllLines(journalPath).Where(line => line.Trim().Length > 0).ToArray();
+            if (lines.Length > 0) previous = HashText(lines[^1]);
+        }
+        var entry = new
+        {
+            runId,
+            created = DateTimeOffset.Now,
+            folder,
+            datasetHash,
+            seed = settings.CalibrationSeed,
+            effect = settings.CalibrationEffect,
+            scenario = settings.SimulationScenario,
+            repetitions,
+            alpha = settings.Alpha,
+            outlierRate = settings.OutlierRate,
+            missingRate = settings.MissingRate,
+            minMeasurements = settings.MinMeasurements,
+            candidateSet,
+            engineVersion = AnalysisEngine.EngineVersion,
+            formulaHash = OutputExporter.FormulaHash,
+            previous
+        };
+        File.AppendAllText(journalPath, JsonSerializer.Serialize(entry) + "\n", new UTF8Encoding(false));
+    }
+
+    // Retain the legacy session mutex for older same-session writers. The
+    // persistent per-journal lock file additionally coordinates upgraded processes
+    // in different OS sessions. Never delete it on release (that creates an inode
+    // replacement race); the open handle owns the lock, not file existence.
+    internal static IDisposable AcquireJournalLock(string journalPath)
+    {
+        if (string.IsNullOrWhiteSpace(journalPath) || !Path.IsPathFullyQualified(journalPath))
+            throw new DirectoryNotFoundException("An absolute journal path is required for locking.");
+        var timer = Stopwatch.StartNew();
+        var mutex = new Mutex(false, "MVSAnalyzerJournalV2");
+        bool acquired = false;
+        FileStream? stream = null;
         try
         {
-            Directory.CreateDirectory(Folder);
-            string previous = "genesis";
-            if (File.Exists(JournalPath))
+            try { acquired = mutex.WaitOne(TimeSpan.FromSeconds(10)); }
+            catch (AbandonedMutexException) { acquired = true; }
+            if (!acquired) throw new IOException("The run journal is busy.");
+            while (true)
             {
-                string[] lines = File.ReadAllLines(JournalPath).Where(line => line.Trim().Length > 0).ToArray();
-                if (lines.Length > 0) previous = HashText(lines[^1]);
+                try
+                {
+                    stream = new FileStream(journalPath + ".lock", FileMode.OpenOrCreate,
+                        FileAccess.ReadWrite, FileShare.None);
+                    // Unix FileShare locking can be disabled or unsupported. A
+                    // second exclusive open must be rejected before we touch data.
+                    // This is a capability check, not protection from hostile aliases.
+                    bool excludesSecondOpen = false;
+                    try
+                    {
+                        using var second = new FileStream(journalPath + ".lock", FileMode.Open,
+                            FileAccess.ReadWrite, FileShare.None);
+                    }
+                    catch (IOException) { excludesSecondOpen = true; }
+                    if (!excludesSecondOpen)
+                        throw new NotSupportedException("Exclusive local file locking is required for the run journal.");
+                    return new JournalLock(mutex, stream);
+                }
+                catch (IOException error) when (error is not DirectoryNotFoundException && error is not PathTooLongException)
+                {
+                    if (timer.Elapsed >= TimeSpan.FromSeconds(10))
+                        throw new IOException("The run journal lock could not be acquired within 10 seconds.", error);
+                    Thread.Sleep(25);
+                }
             }
-            var entry = new
-            {
-                runId,
-                created = DateTimeOffset.Now,
-                folder,
-                datasetHash,
-                seed = settings.CalibrationSeed,
-                effect = settings.CalibrationEffect,
-                scenario = settings.SimulationScenario,
-                repetitions,
-                alpha = settings.Alpha,
-                outlierRate = settings.OutlierRate,
-                missingRate = settings.MissingRate,
-                minMeasurements = settings.MinMeasurements,
-                candidateSet,
-                engineVersion = AnalysisEngine.EngineVersion,
-                formulaHash = OutputExporter.FormulaHash,
-                previous
-            };
-            File.AppendAllText(JournalPath, JsonSerializer.Serialize(entry) + "\n", new UTF8Encoding(false));
         }
-        finally { mutex.ReleaseMutex(); }
+        catch
+        {
+            stream?.Dispose();
+            if (acquired) mutex.ReleaseMutex();
+            mutex.Dispose();
+            throw;
+        }
+    }
+
+    private sealed class JournalLock(Mutex mutex, FileStream stream) : IDisposable
+    {
+        public void Dispose()
+        {
+            try { stream.Dispose(); }
+            finally { mutex.ReleaseMutex(); mutex.Dispose(); }
+        }
     }
 
     private static List<JournalEntry> ReadJournal(List<AuditFinding> findings)
     {
         var entries = new List<JournalEntry>();
-        if (!File.Exists(JournalPath)) return entries;
-        string[] lines = File.ReadAllLines(JournalPath).Where(line => line.Trim().Length > 0).ToArray();
+        string journalPath = JournalPath;
+        if (!File.Exists(journalPath)) return entries;
+        using var journalLock = AcquireJournalLock(journalPath);
+        string[] lines = File.ReadAllLines(journalPath).Where(line => line.Trim().Length > 0).ToArray();
         string expected = "genesis";
         for (int i = 0; i < lines.Length; i++)
         {

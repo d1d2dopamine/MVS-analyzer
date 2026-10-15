@@ -57,3 +57,12 @@ as `__cause__`, and the message identifies the executable and requested command.
 The wrapper does not silently switch engines or claim a scientific result after
 a launch failure. This boundary does not convert every filesystem error from
 independent result/artifact convenience methods into an engine error.
+
+## Provenance warnings on completed results
+
+A completed analysis can contain `result.diagnostics` with code
+`journal_write_failed`: result artifacts were saved, but the local journal was not
+updated. `allow_diagnostic=False` does not raise for this exit-0 warning; that option
+controls exit-2 scientific diagnostics. Inspect warning codes even when the call
+succeeds. The added message does not disclose the journal path. See
+[round 20](ROUND20_JOURNAL_WARNING.md) for actual CLI/Python checks and limits.

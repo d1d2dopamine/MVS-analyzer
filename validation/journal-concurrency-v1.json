@@ -1,0 +1,90 @@
+{
+  "protocolId": "MVS-JOURNAL-CONCURRENCY-1",
+  "scope": "One bounded Linux synthetic journal locking audit; no statistical computation or real user journals.",
+  "cpuAffinityCount": 2,
+  "dotnetProcessorCountPerChild": 1,
+  "aggregateSampledRssLimitMiB": 512,
+  "processTimeoutSeconds": 20,
+  "readyTimeoutSeconds": 10,
+  "pollSeconds": 0.02,
+  "scenarios": [
+    {
+      "id": "same-session-appenders",
+      "writers": 3,
+      "entriesEach": 24,
+      "payloadChars": 128,
+      "newSessions": false
+    },
+    {
+      "id": "separate-session-appenders",
+      "writers": 3,
+      "entriesEach": 24,
+      "payloadChars": 128,
+      "newSessions": true
+    },
+    {
+      "id": "append-read-overlap",
+      "writers": 2,
+      "entriesEach": 24,
+      "payloadChars": 65536,
+      "readerIterations": 96,
+      "newSessions": false
+    },
+    {
+      "id": "controlled-held-partial",
+      "writer": "test probe holding the actual production coordination lock while pausing after the first byte of a synthetic JSON entry",
+      "reader": "actual RunAuditor.Audit",
+      "observationWindowSeconds": 1,
+      "expected": "reader waits for writer, then reads one complete entry"
+    },
+    {
+      "id": "malformed-json",
+      "expected": "JOURNAL_UNREADABLE failure, not successful empty journal"
+    },
+    {
+      "id": "broken-chain",
+      "expected": "JOURNAL_BROKEN failure"
+    },
+    {
+      "id": "controlled-held-partial-separate-session",
+      "newSessions": true,
+      "observationWindowSeconds": 1,
+      "expected": "actual reader waits across an OS-session boundary, then reads the complete entry"
+    },
+    {
+      "id": "owner-crash-release",
+      "newSessions": true,
+      "expected": "terminate only the owned paused synthetic writer; reader acquires released file lock and reports retained partial JSON as JOURNAL_UNREADABLE"
+    },
+    {
+      "id": "lock-timeout",
+      "newSessions": true,
+      "expected": "reader fails explicitly after the 10-second lock deadline; no unsafe fallback or corruption verdict"
+    },
+    {
+      "id": "disabled-file-locking-1",
+      "value": "1",
+      "expected": "Explicit NotSupportedException, no journal append, no unsafe fallback"
+    },
+    {
+      "id": "disabled-file-locking-true",
+      "value": "true",
+      "expected": "Explicit NotSupportedException, no journal append, no unsafe fallback"
+    }
+  ],
+  "invariants": [
+    "Exact deterministic writer IDs, no lost or duplicate entries",
+    "Every previous hash equals SHA256 of the exact preceding UTF8 line",
+    "No premature corruption finding during a mutex-protected cooperative write",
+    "Persistent malformed data still fails closed",
+    "Finite watchdogs and preserved failures; no stress loop or tuning"
+  ],
+  "limits": [
+    "One local Linux host/filesystem",
+    "Synthetic large-entry overlap is a controlled integrity test, not a normal workload estimate",
+    "Named-lock cooperation does not protect against arbitrary external file editors or authenticate the journal",
+    "No inference about Windows/macOS/network-filesystem behavior"
+  ],
+  "revision": 3,
+  "revisionReason": "After preserved revision-2 passes, official runtime source and two actual disabled-lock probes showed that FileShare can silently skip locking. Add explicit capability-failure cases before final execution."
+}

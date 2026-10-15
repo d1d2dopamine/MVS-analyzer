@@ -7,6 +7,7 @@ if (args.Length == 2 && args[0] == "--export-benchmark-diagnostics") { Benchmark
 if (args.Length == 3 && args[0] == "--export-huber-diagnostics") { HuberDiagnosticChecks.Export(args[1], args[2]); return 0; }
 if (args.Length == 3 && args[0] == "--export-multiplicity-diagnostics") { MultiplicityChecks.Export(args[1], args[2]); return 0; }
 if (args.Length == 3 && args[0] == "--export-maxt-diagnostics") { MaxTChecks.Export(args[1], args[2]); return 0; }
+if (args.Length == 2 && args[0] == "--journal-process-probe") return RunAuditorProcessProbe.Run(args[1]);
 if (args.Length != 0) { Console.Error.WriteLine("Unknown test harness arguments."); return 2; }
 Environment.SetEnvironmentVariable("MVS_DISABLE_BACKUPS", "1");
 var tests = new (string Name, Action Run)[]
@@ -36,7 +37,7 @@ var tests = new (string Name, Action Run)[]
     ("The environment fingerprint is stable and honest", EnvironmentFingerprint),
     ("A remote job survives the round trip", RemoteJobRoundTrip),
     ("Command line options are read the same way twice", CliArgumentReading)
-}.Concat(CliArgumentChecks.All).Concat(HuberNumericalChecks.All).Concat(BenchmarkDiagnosticChecks.All).Concat(MultiplicityChecks.All).Concat(MaxTChecks.All).Concat(AvailabilityChecks.All).Concat(ScientificChecks.All).Concat(RankTestChecks.All).Concat(SerializationChecks.All).Concat(ColabChecks.All).Concat(BackupChecks.All).ToArray();
+}.Concat(ApplicationDataChecks.All).Concat(RunAuditorChecks.All).Concat(CliArgumentChecks.All).Concat(HuberNumericalChecks.All).Concat(BenchmarkDiagnosticChecks.All).Concat(MultiplicityChecks.All).Concat(MaxTChecks.All).Concat(AvailabilityChecks.All).Concat(ScientificChecks.All).Concat(RankTestChecks.All).Concat(SerializationChecks.All).Concat(ColabChecks.All).Concat(BackupChecks.All).ToArray();
 int failed=0;foreach(var test in tests){try{test.Run();Console.WriteLine($"PASS  {test.Name}");}catch(Exception ex){failed++;Console.WriteLine($"FAIL  {test.Name}: {ex.Message}");}}
 Console.WriteLine($"{tests.Length-failed}/{tests.Length} tests passed");return failed==0?0:1;
 

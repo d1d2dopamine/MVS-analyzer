@@ -1,5 +1,20 @@
 <p align="center"><img src="docs/assets/logo.png" width="176" alt="MVS Analyzer logo"></p>
 
+## Experimental local workflow checkpoint
+
+Round 23 adds an experimental Windows local-NTFS backend to the Round 22
+exploratory/frozen workflow and local stdio MCP. **Windows runtime verification
+requires the owner-run manual CI gate; no Windows run is claimed here.** Existing native
+commands remain compatible, and scientific NO-GO is retained. See
+[workflow setup and contract](docs/WORKFLOW_PROTOCOL.md),
+[local MCP setup](docs/LOCAL_MCP.md), and
+[Windows setup, checks and remaining gate](docs/ROUND23_WINDOWS_MCP.md).
+
+Round 21 repairs reproduced cross-session journal chain races and unlocked reads.
+The bounded concurrency evidence, locking compatibility limits and retained
+scientific NO-GO are documented in [round 21](docs/ROUND21_JOURNAL_CONCURRENCY.md)
+and [кратком отчёте](docs/ROUND21_JOURNAL_CONCURRENCY_RU.md).
+
 <h1 align="center">MVS Analyzer</h1>
 <p align="center">Statistical analysis for repeated measurements, with reproducible calibration, diagnostics and saved run metadata.</p>
 <p align="center"><a href="#русский">Русский</a></p>
@@ -34,7 +49,10 @@ now preserve linked documentation and align future release verification with CI;
 no release was published by these checkpoints. The [bounded CLI resource audit](docs/ROUND17_CLI_RESOURCE_AUDIT.md)
 records resource/cancellation evidence. The [current readiness handoff](docs/PROJECT_READINESS_HANDOFF.md)
 consolidates completed work, the final existing-interface audit and the next
-scientific decision.
+scientific decision. Subsequent [journal path repair](docs/ROUND19_JOURNAL_PATH_REPAIR.md)
+fixes a reproduced Linux storage fallback without changing scientific methods.
+[Structured journal warnings](docs/ROUND20_JOURNAL_WARNING.md) also make failed
+provenance writes visible to automation while preserving completed analysis.
 
 ## What MVS does
 

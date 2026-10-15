@@ -1,0 +1,349 @@
+{
+  "status": "passed",
+  "baselineGapReproduced": true,
+  "newCases": 6,
+  "workloadInvocations": 7,
+  "nativeInvocationsIncludingVersion": 10,
+  "cpuAffinity": [
+    0,
+    1
+  ],
+  "timeoutSecondsPerNativeInvocation": 60,
+  "warning": {
+    "level": "warning",
+    "code": "journal_write_failed",
+    "message": "Analysis artifacts were saved, but the local run journal could not be updated."
+  },
+  "records": [
+    {
+      "case": "baseline-warning-invisible",
+      "interface": "cli",
+      "blockedJournal": true,
+      "allowDiagnostic": null,
+      "quiet": true,
+      "status": "completed",
+      "exit": 0,
+      "diagnostics": [
+        {
+          "level": "warning",
+          "code": "data_warning",
+          "message": "Summary resampling assumes exchangeable observations within entities; time dependence is not modelled in this mode."
+        }
+      ],
+      "artifactCount": 9,
+      "diagnosticPrivacyVerified": true,
+      "outputDirectory": "/workspace/scratch/8105054a3211/mvs-r20-warning-final/baseline-warning-invisible/output/MVS_2026-10-12_162747_12f68af4",
+      "calls": [
+        {
+          "argv": [
+            "/workspace/scratch/8105054a3211/mvs_stage19/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs",
+            "analyze",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs_stage20/MVS-analyzer-main/examples/demo_three_groups.csv",
+            "--calibration",
+            "/workspace/scratch/8105054a3211/mvs-r19-canonical/calibration",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r20-warning-final/baseline-warning-invisible/output",
+            "--json",
+            "--quiet=true"
+          ],
+          "exit": 0,
+          "stdoutSha256": "1e0476621e0fac32329eea5374b24e6c647248aae745026896c990d5af63006d"
+        }
+      ]
+    },
+    {
+      "case": "cli-blocked-quiet",
+      "interface": "cli",
+      "blockedJournal": true,
+      "allowDiagnostic": null,
+      "quiet": true,
+      "status": "completed",
+      "exit": 0,
+      "diagnostics": [
+        {
+          "level": "warning",
+          "code": "data_warning",
+          "message": "Summary resampling assumes exchangeable observations within entities; time dependence is not modelled in this mode."
+        },
+        {
+          "level": "warning",
+          "code": "journal_write_failed",
+          "message": "Analysis artifacts were saved, but the local run journal could not be updated."
+        }
+      ],
+      "artifactCount": 9,
+      "diagnosticPrivacyVerified": true,
+      "outputDirectory": "/workspace/scratch/8105054a3211/mvs-r20-warning-final/cli-blocked-quiet/output/MVS_2026-10-12_162747_ddf95bd9",
+      "calls": [
+        {
+          "argv": [
+            "/workspace/scratch/8105054a3211/mvs_stage20/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs",
+            "analyze",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs_stage20/MVS-analyzer-main/examples/demo_three_groups.csv",
+            "--calibration",
+            "/workspace/scratch/8105054a3211/mvs-r19-canonical/calibration",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r20-warning-final/cli-blocked-quiet/output",
+            "--json",
+            "--quiet=true"
+          ],
+          "exit": 0,
+          "stdoutSha256": "23cbf56cd179b351cf47cf9554b9448a89ae6b87b860ca34b471d7a15ea39dc4"
+        }
+      ],
+      "scientificParity": true
+    },
+    {
+      "case": "cli-blocked-nonquiet",
+      "interface": "cli",
+      "blockedJournal": true,
+      "allowDiagnostic": null,
+      "quiet": false,
+      "status": "completed",
+      "exit": 0,
+      "diagnostics": [
+        {
+          "level": "warning",
+          "code": "data_warning",
+          "message": "Summary resampling assumes exchangeable observations within entities; time dependence is not modelled in this mode."
+        },
+        {
+          "level": "warning",
+          "code": "journal_write_failed",
+          "message": "Analysis artifacts were saved, but the local run journal could not be updated."
+        }
+      ],
+      "artifactCount": 9,
+      "diagnosticPrivacyVerified": true,
+      "outputDirectory": "/workspace/scratch/8105054a3211/mvs-r20-warning-final/cli-blocked-nonquiet/output/MVS_2026-10-12_162748_d7faff20",
+      "calls": [
+        {
+          "argv": [
+            "/workspace/scratch/8105054a3211/mvs_stage20/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs",
+            "analyze",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs_stage20/MVS-analyzer-main/examples/demo_three_groups.csv",
+            "--calibration",
+            "/workspace/scratch/8105054a3211/mvs-r19-canonical/calibration",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r20-warning-final/cli-blocked-nonquiet/output",
+            "--json",
+            "--quiet=false"
+          ],
+          "exit": 0,
+          "stdoutSha256": "98f2b4b515e920310b9cec60948e1e9ae102f78ef2857c9f8cbe1fb0048d31e0"
+        }
+      ],
+      "scientificParity": true
+    },
+    {
+      "case": "cli-normal",
+      "interface": "cli",
+      "blockedJournal": false,
+      "allowDiagnostic": null,
+      "quiet": true,
+      "status": "completed",
+      "exit": 0,
+      "diagnostics": [
+        {
+          "level": "warning",
+          "code": "data_warning",
+          "message": "Summary resampling assumes exchangeable observations within entities; time dependence is not modelled in this mode."
+        }
+      ],
+      "artifactCount": 9,
+      "diagnosticPrivacyVerified": true,
+      "outputDirectory": "/workspace/scratch/8105054a3211/mvs-r20-warning-final/cli-normal/output/MVS_2026-10-12_162748_2a9dc157",
+      "calls": [
+        {
+          "argv": [
+            "/workspace/scratch/8105054a3211/mvs_stage20/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs",
+            "analyze",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs_stage20/MVS-analyzer-main/examples/demo_three_groups.csv",
+            "--calibration",
+            "/workspace/scratch/8105054a3211/mvs-r19-canonical/calibration",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r20-warning-final/cli-normal/output",
+            "--json",
+            "--quiet=true"
+          ],
+          "exit": 0,
+          "stdoutSha256": "7a4d64ab7e5a7dfcab35e1987cc928fadb74bdbed83bfceece42af19748639d2"
+        }
+      ],
+      "scientificParity": true
+    },
+    {
+      "case": "python-blocked-strict",
+      "interface": "python",
+      "blockedJournal": true,
+      "allowDiagnostic": false,
+      "quiet": true,
+      "status": "completed",
+      "exit": 0,
+      "diagnostics": [
+        {
+          "level": "warning",
+          "code": "data_warning",
+          "message": "Summary resampling assumes exchangeable observations within entities; time dependence is not modelled in this mode."
+        },
+        {
+          "level": "warning",
+          "code": "journal_write_failed",
+          "message": "Analysis artifacts were saved, but the local run journal could not be updated."
+        }
+      ],
+      "artifactCount": 9,
+      "diagnosticPrivacyVerified": true,
+      "outputDirectory": "/workspace/scratch/8105054a3211/mvs-r20-warning-final/python-blocked-strict/output/MVS_2026-10-12_162749_076a7120",
+      "calls": [
+        {
+          "argv": [
+            "/workspace/scratch/8105054a3211/mvs_stage20/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs",
+            "version",
+            "--json",
+            "--quiet"
+          ],
+          "exit": 0,
+          "stdoutSha256": "d1d833a77b48dd7cf966c14a8647e646eb2985842891c9c2d216424067e7f9b5"
+        },
+        {
+          "argv": [
+            "/workspace/scratch/8105054a3211/mvs_stage20/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs",
+            "analyze",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs_stage20/MVS-analyzer-main/examples/demo_three_groups.csv",
+            "--calibration",
+            "/workspace/scratch/8105054a3211/mvs-r19-canonical/calibration",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r20-warning-final/python-blocked-strict/output",
+            "--json",
+            "--quiet"
+          ],
+          "exit": 0,
+          "stdoutSha256": "a2b8911e6a50e1ef9109b2c4e499c7dd5d4ca8b4f07522577856970231f814c5"
+        }
+      ],
+      "scientificParity": true
+    },
+    {
+      "case": "python-blocked-allow-diagnostic",
+      "interface": "python",
+      "blockedJournal": true,
+      "allowDiagnostic": true,
+      "quiet": true,
+      "status": "completed",
+      "exit": 0,
+      "diagnostics": [
+        {
+          "level": "warning",
+          "code": "data_warning",
+          "message": "Summary resampling assumes exchangeable observations within entities; time dependence is not modelled in this mode."
+        },
+        {
+          "level": "warning",
+          "code": "journal_write_failed",
+          "message": "Analysis artifacts were saved, but the local run journal could not be updated."
+        }
+      ],
+      "artifactCount": 9,
+      "diagnosticPrivacyVerified": true,
+      "outputDirectory": "/workspace/scratch/8105054a3211/mvs-r20-warning-final/python-blocked-allow-diagnostic/output/MVS_2026-10-12_162749_f2b3f6c2",
+      "calls": [
+        {
+          "argv": [
+            "/workspace/scratch/8105054a3211/mvs_stage20/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs",
+            "version",
+            "--json",
+            "--quiet"
+          ],
+          "exit": 0,
+          "stdoutSha256": "d1d833a77b48dd7cf966c14a8647e646eb2985842891c9c2d216424067e7f9b5"
+        },
+        {
+          "argv": [
+            "/workspace/scratch/8105054a3211/mvs_stage20/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs",
+            "analyze",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs_stage20/MVS-analyzer-main/examples/demo_three_groups.csv",
+            "--calibration",
+            "/workspace/scratch/8105054a3211/mvs-r19-canonical/calibration",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r20-warning-final/python-blocked-allow-diagnostic/output",
+            "--json",
+            "--quiet"
+          ],
+          "exit": 0,
+          "stdoutSha256": "4fa8529a8a0fae62b3301d5551a51050e4f07dff02ae302fabee6aabf3f964cd"
+        }
+      ],
+      "scientificParity": true
+    },
+    {
+      "case": "python-normal",
+      "interface": "python",
+      "blockedJournal": false,
+      "allowDiagnostic": false,
+      "quiet": true,
+      "status": "completed",
+      "exit": 0,
+      "diagnostics": [
+        {
+          "level": "warning",
+          "code": "data_warning",
+          "message": "Summary resampling assumes exchangeable observations within entities; time dependence is not modelled in this mode."
+        }
+      ],
+      "artifactCount": 9,
+      "diagnosticPrivacyVerified": true,
+      "outputDirectory": "/workspace/scratch/8105054a3211/mvs-r20-warning-final/python-normal/output/MVS_2026-10-12_162750_00d45357",
+      "calls": [
+        {
+          "argv": [
+            "/workspace/scratch/8105054a3211/mvs_stage20/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs",
+            "version",
+            "--json",
+            "--quiet"
+          ],
+          "exit": 0,
+          "stdoutSha256": "d1d833a77b48dd7cf966c14a8647e646eb2985842891c9c2d216424067e7f9b5"
+        },
+        {
+          "argv": [
+            "/workspace/scratch/8105054a3211/mvs_stage20/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs",
+            "analyze",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs_stage20/MVS-analyzer-main/examples/demo_three_groups.csv",
+            "--calibration",
+            "/workspace/scratch/8105054a3211/mvs-r19-canonical/calibration",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r20-warning-final/python-normal/output",
+            "--json",
+            "--quiet"
+          ],
+          "exit": 0,
+          "stdoutSha256": "aa5d34a6bc915ed4f4de78e5aecaaeaaaa697b912c6f6dedb620710c9845002f"
+        }
+      ],
+      "scientificParity": true
+    }
+  ],
+  "scientificDecision": "NO-GO retained",
+  "beforeCliSha256": "68484ab2bebbd5406286371f3b68909d2e0a4cb0e5b0a97ee00f4639ab313d0e",
+  "afterCliSha256": "88e56deaa4b678ff1358782b870ca4e6c72bfa884e69259365db6d827f596b2f",
+  "limitations": [
+    "Linux XDG fixture only; no Windows/macOS runtime check.",
+    "Warning is runtime machine metadata, not a new artifact-manifest field.",
+    "Existing stderr detail remains; no private journal path added to the diagnostic.",
+    "No scientific method, status/exit, artifact content, or calibration change."
+  ],
+  "pythonTests": 441,
+  "scipyRankFixtures": 53,
+  "coreNativeTests": "141 passed in round19; unchanged Core/test sources, not rerun in round20",
+  "baselineSourceZipSha256": "b7fad939442fde0ff8fd5df4223e938d4f7b6ea1dc11d4adf460577d20a835dd",
+  "initialHarnessFailure": "Existing data_warning was present; corrected tool filters journal_write_failed and requires all other diagnostics unchanged",
+  "embeddedSourceSha256": "68c64e69078ca7df3f793ef345239ce30e53cbec15d6378273cbd069a3a5e5a8"
+}

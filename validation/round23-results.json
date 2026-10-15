@@ -1,0 +1,84 @@
+{
+  "stage": 23,
+  "status": "linux_verified_windows_runtime_pending",
+  "scientificReadiness": "NO-GO retained",
+  "baseline": {
+    "file": "MVS-analyzer-round22-local-workflow-mcp-linux.zip",
+    "sha256": "eaf0eeb21258aa9c127637eb7cd84d9ed70d84ac10a4cd8cb9bb4688c729ebfb"
+  },
+  "verification": {
+    "nativePassed": 148,
+    "nativeBuildWarnings": 0,
+    "nativeBuildErrors": 0,
+    "pythonDiscovered": 512,
+    "pythonPassed": 498,
+    "pythonSkippedWindowsOnly": 14,
+    "pythonSuiteCounts": [
+      99,
+      17,
+      6,
+      40,
+      34,
+      34,
+      21,
+      261
+    ],
+    "workflowPassed": 39,
+    "mcpPassed": 14,
+    "windowsPattern": {
+      "portablePassed": 4,
+      "windowsSkipped": 14,
+      "expectedActualWindowsGateCount": 18,
+      "allowedWindowsGateSkips": 0
+    },
+    "actualLinuxCliMcpParity": true,
+    "nativeDiagnosticExit2": true,
+    "legacyFieldsPreserved": true,
+    "installedFinalWheelNativeSmoke": true,
+    "installedSourceBytesMatch": true,
+    "dependencyCheck": "passed",
+    "frozenScipyCases": 53,
+    "releaseLayout": {
+      "files": 131,
+      "markdownFiles": 62,
+      "links": 156
+    }
+  },
+  "windows": {
+    "implemented": true,
+    "runtimeExecuted": false,
+    "ciDispatched": false,
+    "win11AgentHostExecuted": false,
+    "minimum": "Windows10+x64; local fixed NTFS; paths under248chars",
+    "manualWorkflow": "Manual Windows workflow acceptance",
+    "runners": [
+      "windows-2022",
+      "windows-2025"
+    ]
+  },
+  "scientificChanges": false,
+  "sourcePathOnlyChanges": [
+    "Core/Models.cs",
+    "Benchmark/BenchmarkOptions.cs",
+    "Benchmark/BenchmarkReport.cs"
+  ],
+  "historicalBenchmarkEvidenceUnchanged": true,
+  "evidence": {
+    "file": "round23-evidence.zip",
+    "bytes": 1205132,
+    "files": 364,
+    "sha256": "b9af4eced493d5c1de5c125c2e7546b445b219851c2e1d48b4e3089d4860cff3",
+    "crcInventoryVerified": true
+  },
+  "retainedFailures": [
+    "First wheel attempt lacked setuptools in runtime venv; built using installed build interpreter, installed and byte-verified final wheel.",
+    "Pre-fix installed Round23 smoke returned unsafe_path with native output retained. Deterministic reproduction establishes disappeared-temp classification defect; original missing filename was not instrumented, so attribution remains an inference.",
+    "Final quotas use single lstat; only FileNotFound skipped, special paths and permission errors remain fail-closed."
+  ],
+  "limits": [
+    "Windows tests skipped on Linux are not verification; owner Windows CI and actual Windows11 host smoke remain.",
+    "Forced Windows Job tree cancellation retains partial evidence; unknown/incomplete IDs never rerun automatically.",
+    "Trusted host/owner only; no complete campaign or prospective registration proof.",
+    "No scientific algorithm/threshold change, full benchmark rerun, remote dispatch, commit, release or external registrar."
+  ]
+}

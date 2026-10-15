@@ -1,5 +1,20 @@
 # MVS 1.5.0 development plan
 
+## Experimental local workflow checkpoint
+
+Round 23 adds an experimental Windows local-NTFS backend to the Round 22
+exploratory/frozen workflow and local stdio MCP. **Windows runtime verification
+requires the owner-run manual CI gate; no Windows run is claimed here.** Existing native
+commands remain compatible, and scientific NO-GO is retained. See
+[workflow setup and contract](WORKFLOW_PROTOCOL.md),
+[local MCP setup](LOCAL_MCP.md), and
+[Windows setup, checks and remaining gate](ROUND23_WINDOWS_MCP.md).
+
+Round 21 repairs reproduced cross-session journal chain races and unlocked reads.
+The bounded concurrency evidence, locking compatibility limits and retained
+scientific NO-GO are documented in [round 21](ROUND21_JOURNAL_CONCURRENCY.md)
+and [кратком отчёте](ROUND21_JOURNAL_CONCURRENCY_RU.md).
+
 MVS 1.5.0 is the first CLI/Python-first development line. The Windows desktop application is frozen at 1.4.0 and is no longer part of CI, release builds, or active feature work. Its source remains in the repository for historical reproducibility.
 
 The statistical goal for 1.5.0 is narrower than a general rewrite: preserve the error-control strengths of 1.4.0 while recovering power and making the automatic result describe the kind of change in repeated measurements rather than forcing all summary metrics into one ranking.
@@ -154,3 +169,13 @@ See `ROUND18_SCIENTIFIC_INTERFACE_AUDIT.md` for executed outcomes and
 `PROJECT_READINESS_HANDOFF.md` for the scientific claim/null decision, recommendation
 and explicit stopping boundary. No unused layers or repeated development benchmark
 runs can substitute for that decision and subsequent unseen validation.
+
+Round 19 repairs the reproduced application-data journal fallback and preserves
+legacy journal bytes, scientific outputs and the NO-GO. See
+[executed checks and limits](ROUND19_JOURNAL_PATH_REPAIR.md). The scientific
+claim/null decision remains open; this is independent reliability work.
+
+Round 20 adds the stable `journal_write_failed` warning to existing machine
+diagnostics after a failed provenance write, preserving exit-0 analysis, prior
+diagnostics and scientific outputs. See [actual checks](ROUND20_JOURNAL_WARNING.md).
+This reliability improvement does not resolve the scientific claim/null gate.

@@ -13,7 +13,7 @@ internal sealed class BenchmarkOptions
     public string RealDataFolder { get; set; } = "";
 
     private static string Folder => Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MVS_Analyzer");
+        ApplicationDataPaths.GetLocalApplicationData(), "MVS_Analyzer");
 
     private static string FilePath => Path.Combine(Folder, "benchmark.txt");
 

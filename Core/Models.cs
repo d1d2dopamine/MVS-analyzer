@@ -143,7 +143,7 @@ internal sealed class AppSettings
     public string ImportProfileId { get; set; } = "";
     public bool SplitCalibration { get; set; }
     public double EquivalenceMargin { get; set; } = .147;
-    private static string Folder => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MVS_Analyzer");
+    private static string Folder => Path.Combine(ApplicationDataPaths.GetLocalApplicationData(), "MVS_Analyzer");
     private static string FileName => Path.Combine(Folder, "settings.txt");
 
     public static AppSettings Load()

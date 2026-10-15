@@ -17,6 +17,13 @@ classifiers = [
   "Operating System :: OS Independent",
 ]
 
+[project.optional-dependencies]
+mcp = ["mcp==1.30.0"]
+
+[project.scripts]
+mvs-workflow = "mvs.workflow_cli:main"
+mvs-mcp = "mvs.mcp_server:main"
+
 [project.urls]
 Repository = "https://github.com/d1d2dopamine/MVS-Analyzer"
 
