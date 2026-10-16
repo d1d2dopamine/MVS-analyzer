@@ -65,10 +65,11 @@ internal static class HeadlessRun
             BenchmarkEnvironment.Hash, DateTime.UtcNow.ToString("O", CultureInfo.InvariantCulture), calibration, ProcessingSnapshot.From(settings),
             SettingsHash: SettingsContract.Fingerprint(settings));
         Directory.CreateDirectory(output);
-        ScientificJson.AtomicText(Path.Combine(output, "calibration.csv"), OutputExporter.CalibrationCsv(calibration));
-        ScientificJson.AtomicText(Path.Combine(output, "calibration_tracks.csv"), OutputExporter.TrackCsv(calibration));
-        ScientificJson.AtomicText(Path.Combine(output, "calibration_recommendations.csv"), OutputExporter.RecommendationCsv(calibration));
-        CalibrationPersistence.Write(statePath, state);
+        CliMachineContext.BeginOutput(output);
+        CliMachineContext.WriteOutput(Path.Combine(output, "calibration.csv"), () => ScientificJson.AtomicText(Path.Combine(output, "calibration.csv"), OutputExporter.CalibrationCsv(calibration)));
+        CliMachineContext.WriteOutput(Path.Combine(output, "calibration_tracks.csv"), () => ScientificJson.AtomicText(Path.Combine(output, "calibration_tracks.csv"), OutputExporter.TrackCsv(calibration)));
+        CliMachineContext.WriteOutput(Path.Combine(output, "calibration_recommendations.csv"), () => ScientificJson.AtomicText(Path.Combine(output, "calibration_recommendations.csv"), OutputExporter.RecommendationCsv(calibration)));
+        CliMachineContext.WriteOutput(statePath, () => CalibrationPersistence.Write(statePath, state));
         CliMachineContext.RecordOutput(output);
         Console.WriteLine("Calibration saved: " + statePath);
         return 0;
@@ -116,13 +117,16 @@ internal static class HeadlessRun
         string folder = OutputExporter.PrepareRunFolder(settings, runId);
         string project = args.Value("--project") ?? job?.Project ?? "Headless analysis";
         string description = args.Value("--description") ?? job?.Description ?? "";
-        string copy = Path.Combine(folder, StateFileName); File.Copy(statePath, copy, true);
+        CliMachineContext.BeginOutput(folder, runId);
+        string copy = Path.Combine(folder, StateFileName);
+        CliMachineContext.WriteOutput(copy, () => File.Copy(statePath, copy, true));
         var artifacts = new List<OutputArtifact> { OutputExporter.FromFile("Calibration state", copy) };
         try { artifacts.AddRange(PluginAssets.WriteReports(folder, runId, project, Path.GetFileName(input), analysed, results, settings).Select(x => OutputExporter.FromFile("Report", x))); }
         catch (Exception error) { Console.Error.WriteLine("Plugin report was skipped: " + error.Message); }
+        foreach (OutputArtifact artifact in artifacts.Skip(1)) CliMachineContext.ObserveOutput(artifact.FullPath, true);
         artifacts.AddRange(OutputExporter.Export(folder, runId, project, description, "Exploratory; full-registry multiplicity correction",
             Path.GetFileName(input), hash, analysed, state.Rows, results, settings, state.Repetitions, artifacts,
-            state.CalibrationSource, state.DatasetHash, mismatch));
+            state.CalibrationSource, state.DatasetHash, mismatch, CliMachineContext.ObserveOutput));
         try { RunAuditor.AppendJournal(runId, folder, hash, settings, state.Repetitions, string.Join(",", results.Where(r => r.CandidateInAnyTrack).Select(r => r.Metric))); }
         catch (Exception error)
         {

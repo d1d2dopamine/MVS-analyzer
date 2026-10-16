@@ -9,6 +9,10 @@ internal sealed record BackupRunResult(string Folder, AnalysisData? Data = null,
 internal static class BackupRunner
 {
     internal static BackupRunResult Run(BackupDocument document, string parent, IProgress<ProgressInfo> progress, CancellationToken token, bool russian = false)
+        => RunWithOutputObserver(document, parent, progress, token, null, null, russian);
+
+    internal static BackupRunResult RunWithOutputObserver(BackupDocument document, string parent, IProgress<ProgressInfo> progress,
+        CancellationToken token, Action<string>? outputStarted, Action<string, bool>? observeWrite, bool russian = false)
     {
         BackupSession.Validate(document);
         DateTime resumedFrom = document.SavedUtc; int retainedUnits = document.Units.Count;
@@ -23,6 +27,21 @@ internal static class BackupRunner
             backupId = document.Id, requestHash = document.RequestHash, resumedFromUtc = resumedFrom, retainedUnits,
             environments = document.Environments, originalProcessing = r.Context?.Processing,
             note = "Completed units retained; unfinished work after the last durable checkpoint repeated. Stored observations are already imported, not parsed again. Mixed-platform floating-point replay is not guaranteed bit-identical. Benchmark duration covers the final execution segment only." });
+        bool outputObserved = false;
+        void Observe(string path, bool completed)
+        {
+            if (!outputObserved)
+            {
+                outputStarted?.Invoke(folder);
+                outputObserved = true;
+            }
+            observeWrite?.Invoke(path, completed);
+        }
+        void Write(string name, Action write)
+        {
+            string path = Path.Combine(folder, name);
+            Observe(path, false); write(); Observe(path, true);
+        }
         object? modelReport = null; int exitCode = 0;
         switch (r.Kind)
         {
@@ -32,45 +51,47 @@ internal static class BackupRunner
             case "calibrate":
                 var calibration = AnalysisEngine.Calibrate(Data(r), r.Repetitions, r.Effect, r.Seed, progress, token, r.Scenario, r.Outliers, r.Missing, r.Alpha, r.Tracks);
                 CalibrationState state = State(r, calibration, dataset, hash, document);
-                CalibrationPersistence.Write(Path.Combine(folder, CalibrationPersistence.FileName), state);
+                Write(CalibrationPersistence.FileName, () => CalibrationPersistence.Write(Path.Combine(folder, CalibrationPersistence.FileName), state));
                 state = CalibrationPersistence.Read(Path.Combine(folder, CalibrationPersistence.FileName));
-                ScientificJson.AtomicText(Path.Combine(folder, "calibration.csv"), OutputExporter.CalibrationCsv(calibration));
-                ScientificJson.AtomicText(Path.Combine(folder, "calibration_tracks.csv"), OutputExporter.TrackCsv(calibration));
-                Provenance(folder); return new(folder, full, calibration, State: state);
+                Write("calibration.csv", () => ScientificJson.AtomicText(Path.Combine(folder, "calibration.csv"), OutputExporter.CalibrationCsv(calibration)));
+                Write("calibration_tracks.csv", () => ScientificJson.AtomicText(Path.Combine(folder, "calibration_tracks.csv"), OutputExporter.TrackCsv(calibration)));
+                Write("backup_resume.json", () => Provenance(folder)); return new(folder, full, calibration, State: state);
             case "analyze":
                 List<CalibrationRow> rows = r.Calibration ?? throw new InvalidDataException("Missing calibration.");
                 var results = AnalysisEngine.Results(Data(r), rows, progress, token, r.Alpha, r.Margin, r.Seed);
                 CalibrationState analysisState = State(r, rows, dataset, hash, document);
                 var settings = Settings(r); settings.FigureOutputFolder = folder; settings.FigureFolderConfirmed = true; settings.GenerateFigures = false;
                 settings.AutoExportResults = settings.AutoExportCalibration = settings.AutoExportQuality = settings.AutoExportManifest = true;
-                CalibrationPersistence.Write(Path.Combine(folder, CalibrationPersistence.FileName), analysisState);
-                analysisState = CalibrationPersistence.Read(Path.Combine(folder, CalibrationPersistence.FileName)); Provenance(folder);
+                Write(CalibrationPersistence.FileName, () => CalibrationPersistence.Write(Path.Combine(folder, CalibrationPersistence.FileName), analysisState));
+                analysisState = CalibrationPersistence.Read(Path.Combine(folder, CalibrationPersistence.FileName)); Write("backup_resume.json", () => Provenance(folder));
                 var files = new List<OutputArtifact> { OutputExporter.FromFile("Calibration state", Path.Combine(folder, CalibrationPersistence.FileName)), OutputExporter.FromFile("Resume provenance", Path.Combine(folder, "backup_resume.json")) };
                 OutputExporter.Export(folder, "restored_" + DateTime.UtcNow.ToString("yyyyMMdd_HHmmss", CultureInfo.InvariantCulture), r.Context?.Project ?? "Restored project", r.Context?.Description ?? "", "Exploratory; resumed from checkpoint",
-                    dataset, hash, Data(r), rows, results, settings, analysisState.Repetitions, files, analysisState.CalibrationSource);
+                    dataset, hash, Data(r), rows, results, settings, analysisState.Repetitions, files, analysisState.CalibrationSource, observeWrite: Observe);
                 return new(folder, full, rows, results, analysisState);
             case "variance":
                 var variance = VarianceAnalysis.Run(Data(r), r.Repetitions, r.ReferenceReplications, r.Effect, r.SecondEffect, r.Seed, r.Alpha, progress, token);
-                ScientificJson.Write(Path.Combine(folder, "variance_report.json"), variance);
-                ScientificJson.AtomicText(Path.Combine(folder, "variance_components.csv"), VarianceAnalysis.Csv(variance));
-                ScientificJson.AtomicText(Path.Combine(folder, "variance_tests.csv"), ScientificTables.Csv(variance.Tracks));
+                Write("variance_report.json", () => ScientificJson.Write(Path.Combine(folder, "variance_report.json"), variance));
+                Write("variance_components.csv", () => ScientificJson.AtomicText(Path.Combine(folder, "variance_components.csv"), VarianceAnalysis.Csv(variance)));
+                Write("variance_tests.csv", () => ScientificJson.AtomicText(Path.Combine(folder, "variance_tests.csv"), ScientificTables.Csv(variance.Tracks)));
                 modelReport = variance; exitCode = variance.Groups.Any(g => g.Status == "not_converged_or_degenerate") || variance.Tracks.Any(t => t.Status is "bootstrap_or_fit_failure" or "excess_simulation_failures") ? 2 : 0; break;
             case "estimation":
                 var estimation = EstimationStudy.Run(r.Estimation ?? throw new InvalidDataException("Missing estimation options."), progress, token);
-                ScientificJson.Write(Path.Combine(folder, "estimation_report.json"), estimation);
-                ScientificJson.AtomicText(Path.Combine(folder, "estimation_performance.csv"), ScientificTables.Csv(estimation.Performance));
-                ScientificJson.AtomicText(Path.Combine(folder, "estimation_draws.csv"), ScientificTables.Csv(estimation.Draws));
+                Write("estimation_report.json", () => ScientificJson.Write(Path.Combine(folder, "estimation_report.json"), estimation));
+                Write("estimation_performance.csv", () => ScientificJson.AtomicText(Path.Combine(folder, "estimation_performance.csv"), ScientificTables.Csv(estimation.Performance)));
+                Write("estimation_draws.csv", () => ScientificJson.AtomicText(Path.Combine(folder, "estimation_draws.csv"), ScientificTables.Csv(estimation.Draws)));
                 modelReport = estimation; exitCode = estimation.Performance.Any(p => p.Status == "excess_failures") ? 2 : 0; break;
             case "melsm":
                 var melsm = MelsmAnalysis.Run(r.Observations ?? throw new InvalidDataException("Missing observations."), r.Melsm ?? throw new InvalidDataException("Missing model options."), progress, token);
                 melsm = melsm with { RandomEffects = melsm.RandomEffects.Select(x => x with { Entity = "P_" + ScientificMath.Hash(x.Entity)[..12] }).ToArray() };
-                ScientificJson.Write(Path.Combine(folder, "melsm_report.json"), melsm);
-                ScientificJson.AtomicText(Path.Combine(folder, "melsm_parameters.csv"), ScientificTables.Csv(melsm.Parameters));
-                ScientificJson.AtomicText(Path.Combine(folder, "melsm_random_effects.csv"), ScientificTables.Csv(melsm.RandomEffects));
+                Write("melsm_report.json", () => ScientificJson.Write(Path.Combine(folder, "melsm_report.json"), melsm));
+                Write("melsm_parameters.csv", () => ScientificJson.AtomicText(Path.Combine(folder, "melsm_parameters.csv"), ScientificTables.Csv(melsm.Parameters)));
+                Write("melsm_random_effects.csv", () => ScientificJson.AtomicText(Path.Combine(folder, "melsm_random_effects.csv"), ScientificTables.Csv(melsm.RandomEffects)));
                 modelReport = melsm; exitCode = melsm.Status == "converged_experimental" ? 0 : 2; break;
             default: throw new InvalidDataException("Unsupported backup operation.");
         }
-        Provenance(folder); ScientificTables.WriteManifest(folder, "resumed-" + r.Kind, modelReport, hash); return new(folder, ExitCode: exitCode);
+        Write("backup_resume.json", () => Provenance(folder));
+        Write("run_manifest.json", () => ScientificTables.WriteManifest(folder, "resumed-" + r.Kind, modelReport, hash));
+        return new(folder, ExitCode: exitCode);
     }
     private static void RefreshBenchmarkChecksums(string folder)
     {

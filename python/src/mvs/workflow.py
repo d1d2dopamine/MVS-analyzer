@@ -521,6 +521,66 @@ class WorkflowService:
                 raise WorkflowError("invalid_artifacts", "Native artifact size or hash mismatch.")
         if manifest_path.resolve() not in verified_paths: raise WorkflowError("invalid_artifacts", "Manifest is absent from verified artifacts.")
 
+    def _partial_output(self, folder, payload):
+        """Validate failure evidence without discovering files or granting reads."""
+        partial = payload.get("partialOutput")
+        if (not isinstance(partial, dict) or partial.get("status") != "incomplete"
+                or partial.get("scope") != "current_invocation_successful_writes"
+                or "attemptedPath" not in partial or not isinstance(partial.get("unverifiedPaths"), list)
+                or not isinstance(payload.get("artifacts"), list)):
+            raise WorkflowError("invalid_artifacts", "Invalid native partial-output metadata.")
+
+        def managed_path(value):
+            if not isinstance(value, str) or not value or "\x00" in value:
+                raise WorkflowError("unsafe_artifact", "Invalid native partial-output path.")
+            path = Path(value)
+            if ".." in path.parts:
+                raise WorkflowError("unsafe_artifact", "Native partial output escaped its managed directory.")
+            path = path if path.is_absolute() else self.work_root / path
+            _safe_components(path)
+            path = path.resolve()
+            if not path.is_relative_to((folder / "output").resolve()):
+                raise WorkflowError("unsafe_artifact", "Native partial output escaped its managed directory.")
+            return path
+
+        output = managed_path(payload.get("outputDirectory"))
+        if not output.is_dir():
+            raise WorkflowError("invalid_artifacts", "Native partial-output directory does not exist.")
+
+        def output_path(value):
+            path = managed_path(value)
+            if (path.parent != output or path.name in {"", ".", ".."}
+                    or any(c in path.name for c in ("/", "\\", ":"))
+                    or any(ord(c) < 32 for c in path.name)):
+                raise WorkflowError("unsafe_artifact", "Invalid native partial-output target.")
+            return path
+
+        attempted = output_path(partial["attemptedPath"]) if partial["attemptedPath"] is not None else None
+        unverified = [output_path(value) for value in partial["unverifiedPaths"]]
+        if len(set(unverified)) != len(unverified):
+            raise WorkflowError("invalid_artifacts", "Duplicate unverified partial-output targets.")
+        uncertain = set(unverified)
+        if attempted is not None: uncertain.add(attempted)
+        artifacts = []; verified = set()
+        for item in payload["artifacts"]:
+            if not isinstance(item, dict):
+                raise WorkflowError("invalid_artifacts", "Invalid native partial-output artifact.")
+            path = output_path(item.get("path"))
+            if path.name != item.get("name") or path in verified or path in uncertain:
+                raise WorkflowError("invalid_artifacts", "Duplicate or uncertain native partial-output artifact.")
+            raw = _read_regular(path, MAX_ARTIFACT)
+            if type(item.get("sizeBytes")) is not int or len(raw) != item["sizeBytes"] or digest(raw) != item.get("sha256"):
+                raise WorkflowError("invalid_artifacts", "Native partial-output artifact size or hash mismatch.")
+            verified.add(path)
+            artifacts.append({"name": path.name, "sizeBytes": len(raw), "sha256": digest(raw)})
+        if payload.get("manifestPath") is not None and output_path(payload["manifestPath"]) not in verified:
+            raise WorkflowError("invalid_artifacts", "Partial-output manifest is absent from verified artifacts.")
+        # Native messages, run IDs and paths may contain private local details.
+        # Persist only this bounded, portable receipt of the verified evidence.
+        return {"status": "incomplete", "scope": "current_invocation_successful_writes",
+                "artifacts": artifacts, "attemptedName": attempted.name if attempted is not None else None,
+                "unverifiedNames": [path.name for path in unverified]}
+
     def run_analysis(self, params, cancel):
         _fields(params, {"run_id", "data", "calibration"}, {"mode", "protocol_id", "allow_group_scoped_ids"})
         run_id = _id(params["run_id"]); mode = params.get("mode", "exploratory")
@@ -556,6 +616,7 @@ class WorkflowService:
             # Only private snapshots are passed to the native process.
             _snapshot_bytes(folder / "input.csv", _read_regular(staged / "input.csv", MAX_INPUT))
             _snapshot_bytes(folder / "calibration_state.json", _read_regular(staged / "calibration_state.json", MAX_CALIBRATION))
+            partial_output = None
             try:
                 self._verify_inputs(folder, hashes)
                 args = ["analyze", "--in", str(folder / "input.csv"), "--calibration", str(folder / "calibration_state.json"), "--out", str(folder / "output")]
@@ -563,7 +624,10 @@ class WorkflowService:
                 payload = self._native(args, folder, cancel)
                 self._verify_inputs(folder, hashes)
                 if identity["bundleSha256"] != self._bundle_hash(): raise WorkflowError("engine_changed", "Native bundle changed during execution.")
-                if payload["exitCode"] == 1: raise WorkflowError("native_error", "Native analysis failed; local diagnostics and partial artifacts are retained.")
+                if payload["exitCode"] == 1:
+                    if "partialOutput" in payload:
+                        partial_output = self._partial_output(folder, payload)
+                    raise WorkflowError("native_error", "Native analysis failed; local diagnostics and partial artifacts are retained.")
                 self._verify_artifacts(folder, payload)
                 # Keep the native scientific metadata, but make managed paths portable.
                 for key in ("outputDirectory", "manifestPath"):
@@ -574,7 +638,9 @@ class WorkflowService:
                                    "inputs": hashes, "engine": identity, "localBindingVerified": True, "confirmatoryCertified": False,
                                    "priorExposure": protocol["content"]["priorExposure"] if protocol else "unknown", "native": payload}, native_exit=payload["exitCode"])
             except WorkflowError as exc:
-                result = envelope({"runId": run_id, "inputs": hashes, "partialEvidenceRetained": True},
+                data = {"runId": run_id, "inputs": hashes, "partialEvidenceRetained": True}
+                if partial_output is not None: data["partialOutput"] = partial_output
+                result = envelope(data, native_exit=1 if partial_output is not None else None,
                                   status="cancelled" if exc.code == "cancelled" else "error", error={"code": exc.code, "message": str(exc)})
             except (OSError, ValueError, TypeError, UnicodeError):
                 result = envelope({"runId": run_id, "partialEvidenceRetained": True}, status="error",

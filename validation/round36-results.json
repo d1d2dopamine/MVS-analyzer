@@ -1,0 +1,44 @@
+{
+  "stage": 36,
+  "scope": "Current-invocation attribution for successful overwrite outputs and scoped Python consumers",
+  "baselineCounterexample": true,
+  "scientificByteParity": true,
+  "oldCanariesRetained": true,
+  "scientificSourceFilesUnchanged": 24,
+  "tests": {
+    "corePassed": 195,
+    "existingPartialPassed": 14,
+    "existingResumePassed": 26,
+    "overwriteBaselineCandidatePassed": 21,
+    "overwriteCandidateOnlyPassed": 19,
+    "overwriteSavedChecksPassed": 44,
+    "pythonTotal": 154,
+    "pythonPassed": 140,
+    "pythonWindowsSkipped": 14,
+    "actualNativeLinuxMcpWire": true,
+    "focusedPythonPassed": 34,
+    "validationTotal": 479,
+    "validationPassed": 478,
+    "validationBaselineOnlySkipped": 1,
+    "otherToolsPassed": 152,
+    "pinPassed": 43,
+    "colabPassed": 48,
+    "uiPassed": 18
+  },
+  "performanceClaim": false,
+  "scientificReadiness": "NO-GO unchanged",
+  "actualWindowsVerified": false,
+  "limits": [
+    "Untracked legacy benchmark/state-check retain previous behavior",
+    "Individual verified writes, not atomic transaction or hostile-host guarantee",
+    "Scoped Python rejects symlink/reparse ancestors; use real paths",
+    "Old unmarked engines retain legacy wrapper behavior"
+  ],
+  "evidence": {
+    "path": "validation/round36-evidence.zip",
+    "bytes": 1704511,
+    "sha256": "e478c462b5e6c8a3c81ed5cd2ccc1dedde631bf91095a13ea1f6ddd4eda1fb7d",
+    "entries": 1007
+  },
+  "packagingRequirement": "Fresh extraction must pass check_source, check_cli_contract, notebooks check, pins, Colab, UI and Python scope tests before delivery"
+}

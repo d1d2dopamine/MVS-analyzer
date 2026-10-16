@@ -1,0 +1,322 @@
+{
+  "schema": "mvs-source-pin-revisions/v2",
+  "stage": 35,
+  "note": "Explicit current-source review of 17 historical mismatches: 13 retained effective-legacy-to-current chains; 4 current baselines with acknowledged missing historical transitions. This is source integrity, not scientific validation or cryptographic authorship proof. Historical manifests are preserved byte-for-byte.",
+  "historicalManifestSha256": "f616b9060f762d636bc7214f37894845237694cc64f010da91d471697282c22e",
+  "previousRevisionManifestSha256": "77e5002db1ddf0bd3deb3b623f137273067ff37a5d26950de7db60edc5feb53f",
+  "revisions": {
+    "Benchmark/BenchmarkDatasets.cs": {
+      "originalSha256": "eb4a320c9c52221f1792f668f02cd6930a885a4cc10d2a8a5e932a779ad0cc96",
+      "previousSha256": "eb4a320c9c52221f1792f668f02cd6930a885a4cc10d2a8a5e932a779ad0cc96",
+      "sha256": "51600284f4612df7f27106901d882beb8d2b63349df0d082125af99bd96d0ea6",
+      "review": {
+        "completeness": "complete-retained-chain",
+        "stages": [
+          25
+        ],
+        "reason": "Real-data benchmark imports one CsvImportResult and records its captured SourceSha256 instead of reopening the pathname.",
+        "evidence": [
+          "docs/ROUND25_IMPORT_BOUNDARY.md",
+          "validation/round25-results.json"
+        ],
+        "limitation": "Complete retained source-diff trace starts at the effective legacy expected hash. Earlier original-to-checkpoint revisions are preserved, not re-proven here. Source review and retained prior results are not a new runtime or scientific validation. This trace starts at the effective legacy expected hash; original UI-to-checkpoint revisions are retained, not newly reconstructed."
+      }
+    },
+    "Benchmark/BenchmarkOptions.cs": {
+      "originalSha256": "eaf1122cb56ceaa89dae1cb6eb421809f8457ac6d7e2825c172a6e9fb7000f0c",
+      "previousSha256": "eaf1122cb56ceaa89dae1cb6eb421809f8457ac6d7e2825c172a6e9fb7000f0c",
+      "sha256": "7355cd2d9e4d2959645f00dd032792a4cfdc0494b73549f347d9beb9cc5de66c",
+      "review": {
+        "completeness": "complete-retained-chain",
+        "stages": [
+          23
+        ],
+        "reason": "Application-data folder resolution uses ApplicationDataPaths.GetLocalApplicationData; otherwise this file is byte-unchanged.",
+        "evidence": [
+          "docs/ROUND23_WINDOWS_MCP.md",
+          "validation/round23-results.json"
+        ],
+        "limitation": "Complete retained source-diff trace starts at the effective legacy expected hash. Earlier original-to-checkpoint revisions are preserved, not re-proven here. Source review and retained prior results are not a new runtime or scientific validation. This trace starts at the effective legacy expected hash; original UI-to-checkpoint revisions are retained, not newly reconstructed."
+      }
+    },
+    "Benchmark/BenchmarkReport.cs": {
+      "originalSha256": "98d633079904fef5eb25c653e77b02e21bfc01f06c88510e39733942a34dc167",
+      "previousSha256": "fb0b6001c414eadbaef6a9e9510f609983a475fa672977fc509fd60a59244610",
+      "sha256": "1407ec587e5967559fbe5413a2af3e16e2eab458773059a0f564f14a1be8aa00",
+      "review": {
+        "completeness": "complete-retained-chain",
+        "stages": [
+          23
+        ],
+        "reason": "Benchmark journal root uses ApplicationDataPaths.GetLocalApplicationData; otherwise this file is byte-unchanged.",
+        "evidence": [
+          "docs/ROUND23_WINDOWS_MCP.md",
+          "validation/round23-results.json"
+        ],
+        "limitation": "Complete retained source-diff trace starts at the effective legacy expected hash. Earlier original-to-checkpoint revisions are preserved, not re-proven here. Source review and retained prior results are not a new runtime or scientific validation. This trace starts at the effective legacy expected hash; original UI-to-checkpoint revisions are retained, not newly reconstructed."
+      }
+    },
+    "Core/AnalysisEngine.cs": {
+      "originalSha256": "6d20f4e5a752f1c78d16120a4ce7d2c84885758fa32139a9138508345499f25f",
+      "previousSha256": "b5375596481cc3e5b24081052c8a1e614ebca55fbb6d0eb1cb549612fbf74e3c",
+      "sha256": "bc4caa7600034781861784cedaf64cc19d22ecc5eb26841ada291c0c6d66bd05",
+      "review": {
+        "completeness": "complete-retained-chain",
+        "stages": [
+          31
+        ],
+        "reason": "Legacy calibration/results entrypoints forward to explicit WithRecording methods; acquisition uses the supplied factory. Computation bodies and ordering are retained.",
+        "evidence": [
+          "docs/ROUND31_RUN_RECORDING_BOUNDARY.md",
+          "validation/round31-results.json"
+        ],
+        "limitation": "Complete retained source-diff trace starts at the effective legacy expected hash. Earlier original-to-checkpoint revisions are preserved, not re-proven here. Source review and retained prior results are not a new runtime or scientific validation. This trace starts at the effective legacy expected hash; original UI-to-checkpoint revisions are retained, not newly reconstructed."
+      }
+    },
+    "Core/EstimationStudy.cs": {
+      "originalSha256": "9691548a15584b044bb5917849b9cda24e3c37417a4c6c17c098d551bbe95d7f",
+      "previousSha256": "51a3428fe0057899ee479580c65e4fce2e8b410c61f72229966718def7c06bea",
+      "sha256": "4b10cf9c1085656d40f40099a283585545fa2b986f0b7fc67a51bdb6ba4d40c6",
+      "review": {
+        "completeness": "complete-retained-chain",
+        "stages": [
+          31
+        ],
+        "reason": "Adds RunWithRecording forwarding boundary and substitutes supplied factory at existing acquisition point.",
+        "evidence": [
+          "docs/ROUND31_RUN_RECORDING_BOUNDARY.md",
+          "validation/round31-results.json"
+        ],
+        "limitation": "Complete retained source-diff trace starts at the effective legacy expected hash. Earlier original-to-checkpoint revisions are preserved, not re-proven here. Source review and retained prior results are not a new runtime or scientific validation. This trace starts at the effective legacy expected hash; original UI-to-checkpoint revisions are retained, not newly reconstructed."
+      }
+    },
+    "Core/MelsmAnalysis.cs": {
+      "originalSha256": "c2b69e612209548c17c23befcde4d576d788b11d44fe4d5647c5cc6adab79ede",
+      "previousSha256": "c03cac81fc97018b0a3fe9c5752cea9670569bbaf9ad4c42e536c3c9658f0561",
+      "sha256": "7af9e49439091d7da4998ab94785e3a405a7622f7ea0c620364d4e26c63b7ac6",
+      "review": {
+        "completeness": "complete-retained-chain",
+        "stages": [
+          31
+        ],
+        "reason": "Adds RunWithRecording factory boundary; owned recording is passed to borrowed MinimizeWithRecording calls at existing three optimizer sites.",
+        "evidence": [
+          "docs/ROUND31_RUN_RECORDING_BOUNDARY.md",
+          "validation/round31-results.json"
+        ],
+        "limitation": "Complete retained source-diff trace starts at the effective legacy expected hash. Earlier original-to-checkpoint revisions are preserved, not re-proven here. Source review and retained prior results are not a new runtime or scientific validation. This trace starts at the effective legacy expected hash; original UI-to-checkpoint revisions are retained, not newly reconstructed."
+      }
+    },
+    "Core/Models.cs": {
+      "originalSha256": "0144bf6d42f61f909e2cf3f84357b43afb52031354dc66be3b4a44cea45b7602",
+      "previousSha256": "ff67e4eed3014d0897af187996f06991b45201feab8273136cd5aab48c189457",
+      "sha256": "d4f51d62c5972d866af3bf59a224b7a314df43c02d4475547ed83405a969d706",
+      "review": {
+        "completeness": "complete-retained-chain",
+        "stages": [
+          23
+        ],
+        "reason": "AppSettings storage root uses ApplicationDataPaths.GetLocalApplicationData; otherwise this file is byte-unchanged.",
+        "evidence": [
+          "docs/ROUND23_WINDOWS_MCP.md",
+          "validation/round23-results.json"
+        ],
+        "limitation": "Complete retained source-diff trace starts at the effective legacy expected hash. Earlier original-to-checkpoint revisions are preserved, not re-proven here. Source review and retained prior results are not a new runtime or scientific validation. This trace starts at the effective legacy expected hash; original UI-to-checkpoint revisions are retained, not newly reconstructed."
+      }
+    },
+    "Core/NumericalMethods.cs": {
+      "originalSha256": "a0c2ede15dcf1e925640c6da42d2bb2770422c90cd5e1fe4db20427e4ed24d1b",
+      "previousSha256": "5ee3ef4f2c1cde3b1ffe0c7161b2afdf6228efcc2aa7898372bdd5bc208f3eb0",
+      "sha256": "bee20900e007f6d9c390898c82671751af910cecfb0095c190f22698adab7a4e",
+      "review": {
+        "completeness": "complete-retained-chain",
+        "stages": [
+          31
+        ],
+        "reason": "Legacy Minimize forwards to MinimizeWithRecording; borrowed optional BackupSession parameter is generalized internally to IRunRecording. Optimizer body remains byte-identical.",
+        "evidence": [
+          "docs/ROUND31_RUN_RECORDING_BOUNDARY.md",
+          "validation/round31-results.json"
+        ],
+        "limitation": "Complete retained source-diff trace starts at the effective legacy expected hash. Earlier original-to-checkpoint revisions are preserved, not re-proven here. Source review and retained prior results are not a new runtime or scientific validation. This trace starts at the effective legacy expected hash; original UI-to-checkpoint revisions are retained, not newly reconstructed."
+      }
+    },
+    "Core/VarianceAnalysis.cs": {
+      "originalSha256": "e3c57391797cb3b94dd02c37ad767a783883f66120642bdf6eb9381368b811d6",
+      "previousSha256": "5e19899d008bff8dc1f04cb67d0d975c670fd87dc0f91c70668630dbe8a3205f",
+      "sha256": "0dd3cb00151058b0042a0cbc03e161ec5a39869c726d39d3576fa17cd9463a7a",
+      "review": {
+        "completeness": "complete-retained-chain",
+        "stages": [
+          31
+        ],
+        "reason": "Adds RunWithRecording forwarding boundary and substitutes supplied factory at existing acquisition point.",
+        "evidence": [
+          "docs/ROUND31_RUN_RECORDING_BOUNDARY.md",
+          "validation/round31-results.json"
+        ],
+        "limitation": "Complete retained source-diff trace starts at the effective legacy expected hash. Earlier original-to-checkpoint revisions are preserved, not re-proven here. Source review and retained prior results are not a new runtime or scientific validation. This trace starts at the effective legacy expected hash; original UI-to-checkpoint revisions are retained, not newly reconstructed."
+      }
+    },
+    "Infrastructure/CliArguments.cs": {
+      "originalSha256": "fb69acf4b2ba701903a0688d2ad2c555ab44c63c9c8cede48704a4bac1718a86",
+      "previousSha256": "b530ca5bc59c452a32cbb79450ddb7c3690ffd05780566f60bab6ba050c45f1b",
+      "sha256": "2ebf386f46fc1d2541af3373015312a24ac3d1efc9d614da7acb05fa9bcd8660",
+      "review": {
+        "completeness": "reviewed-current-with-historical-gap",
+        "stages": [
+          13
+        ],
+        "reason": "Current parser behavior is explicitly supported by Round13 source-hash record and flag/input-safety documentation; exact current bytes occur in Round21 input archive.",
+        "evidence": [
+          "docs/ROUND13_CLI_INPUT_PRESERVATION.md",
+          "docs/CLI_MACHINE_PROTOCOL.md",
+          "validation/cli-safety-round13-results.json"
+        ],
+        "limitation": "No retained source bytes at prior effective expected b530ca5b... were found. Round13 metadata binds the current hash, but the exact before/after diff was not recovered."
+      }
+    },
+    "Infrastructure/CsvImporter.cs": {
+      "originalSha256": "f758bdac9ec5c8c805ff38048e4c46f0e50047722b12e8cf0a64dbf1216949c5",
+      "previousSha256": "f758bdac9ec5c8c805ff38048e4c46f0e50047722b12e8cf0a64dbf1216949c5",
+      "sha256": "093cf83527c307f7fb40e53320d9cb2ba5afc58d443e8cf123b412e68309ecc5",
+      "review": {
+        "completeness": "complete-retained-chain",
+        "stages": [
+          25
+        ],
+        "reason": "Adds source-bound CsvImportResult with hash of the captured raw bytes, instance metadata and cancellation checks; preserves legacy Read/ReadText global behavior for old callers.",
+        "evidence": [
+          "docs/ROUND25_IMPORT_BOUNDARY.md",
+          "validation/round25-results.json"
+        ],
+        "limitation": "Complete retained source-diff trace starts at the effective legacy expected hash. Earlier original-to-checkpoint revisions are preserved, not re-proven here. Source review and retained prior results are not a new runtime or scientific validation. This trace starts at the effective legacy expected hash; original UI-to-checkpoint revisions are retained, not newly reconstructed."
+      }
+    },
+    "Infrastructure/OutputExporter.cs": {
+      "originalSha256": "6077b57255013753f62b76ccc224484d156e68dbe20cbb72aaee28dae1071094",
+      "previousSha256": "aeb34b25ecfbb0427aeb6adde2e1762920e574f09512821c13380d9fd026f021",
+      "sha256": "b6d40a3eb66b8989dbeb4a66967deae39a711e54a710b6f87cd938cc1c4908ff",
+      "review": {
+        "completeness": "complete-retained-chain",
+        "stages": [
+          33
+        ],
+        "reason": "Adds optional observeWrite and local Save wrapper around the existing export writes, preserving write order and content generation.",
+        "evidence": [
+          "docs/ROUND33_PARTIAL_OUTPUT_REPORTING.md",
+          "validation/round33-results.json"
+        ],
+        "limitation": "Complete retained source-diff trace starts at the effective legacy expected hash. Earlier original-to-checkpoint revisions are preserved, not re-proven here. Source review and retained prior results are not a new runtime or scientific validation. This trace starts at the effective legacy expected hash; original UI-to-checkpoint revisions are retained, not newly reconstructed."
+      }
+    },
+    "Infrastructure/PluginManager.cs": {
+      "originalSha256": "1461fb5b96ba62778fa7e81837a441a4013f33ebc511b1f0e2c3d96d61443228",
+      "previousSha256": "1461fb5b96ba62778fa7e81837a441a4013f33ebc511b1f0e2c3d96d61443228",
+      "sha256": "e1802d5ea1d45a894c480c854d2a5479795872f9384a0be8e93fe21870e30924",
+      "review": {
+        "completeness": "complete-retained-chain",
+        "stages": [
+          23
+        ],
+        "reason": "Plugin root uses ApplicationDataPaths.GetLocalApplicationData; otherwise this file is byte-unchanged.",
+        "evidence": [
+          "docs/ROUND23_WINDOWS_MCP.md",
+          "validation/round23-results.json"
+        ],
+        "limitation": "Complete retained source-diff trace starts at the effective legacy expected hash. Earlier original-to-checkpoint revisions are preserved, not re-proven here. Source review and retained prior results are not a new runtime or scientific validation. This trace starts at the effective legacy expected hash; original UI-to-checkpoint revisions are retained, not newly reconstructed."
+      }
+    },
+    "Infrastructure/RunAuditor.cs": {
+      "originalSha256": "944c4616c53471c4c37ec0ea62aed3102fce980e1c35d9bfddf7a1c6e290fc81",
+      "previousSha256": "944c4616c53471c4c37ec0ea62aed3102fce980e1c35d9bfddf7a1c6e290fc81",
+      "sha256": "cb0550d1616a3cb66cb4f55de84dfb9564d8bc0ee5b6ce018b4a5739704bd45e",
+      "review": {
+        "completeness": "complete-retained-chain",
+        "stages": [
+          19,
+          21,
+          23
+        ],
+        "reason": "Round19 absolute app-data resolver/path capture; Round21 shared reader/writer lock with cross-session exclusive file capability check and bounded wait; Round23 application-data override.",
+        "evidence": [
+          "docs/ROUND19_JOURNAL_PATH_REPAIR.md",
+          "docs/ROUND21_JOURNAL_CONCURRENCY.md",
+          "docs/ROUND23_WINDOWS_MCP.md",
+          "validation/journal-path-round19.json",
+          "validation/journal-concurrency-round21.json",
+          "validation/round23-results.json"
+        ],
+        "limitation": "Complete retained source-diff trace starts at the effective legacy expected hash. Earlier original-to-checkpoint revisions are preserved, not re-proven here. Source review and retained prior results are not a new runtime or scientific validation. This trace starts at the effective legacy expected hash; original UI-to-checkpoint revisions are retained, not newly reconstructed."
+      }
+    },
+    "MvsAnalyzer.Cli/HeadlessRun.cs": {
+      "originalSha256": "268a3de63b6f49bc80f8accdc49b3b6daf30f54b3adffbda9d723cb9ee3af4f7",
+      "previousSha256": "608db77961a4c599e049a32d653687654c6d186d31a51af145cec65ba27f312f",
+      "sha256": "272cccf6014a80f872ef8c3126be3d0715691cbc68f86a1a57875229c350d535",
+      "review": {
+        "completeness": "reviewed-current-with-historical-gap",
+        "stages": [
+          4,
+          8,
+          13,
+          20,
+          25,
+          33
+        ],
+        "reason": "Retained Round20 journal-warning snapshot, Round25 captured import identity and Round33 per-invocation partial-output tracking. Current source roles reviewed; earlier exact history remains incomplete.",
+        "evidence": [
+          "docs/ROUND4_BENCHMARK_DIAGNOSTICS.md",
+          "docs/ROUND8_BENCHMARK_EVIDENCE_AUDIT.md",
+          "docs/ROUND13_CLI_INPUT_PRESERVATION.md",
+          "docs/ROUND20_JOURNAL_WARNING.md",
+          "docs/ROUND25_IMPORT_BOUNDARY.md",
+          "docs/ROUND33_PARTIAL_OUTPUT_REPORTING.md",
+          "validation/cli-safety-round13-results.json",
+          "validation/journal-warning-round20.json",
+          "validation/round33-results.json"
+        ],
+        "limitation": "Historical 608db779... to 679369121... mismatch was explicitly unreconciled in Round4/Round8. Round13 records fd4ea8e1... and Round20 supplies 59a199a9... bytes, but prior sources/diffs are unavailable. Do not claim that older discrepancy has been resolved."
+      }
+    },
+    "MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj": {
+      "originalSha256": "622b104f4d886e435f15b9b4e950fb3fe43c62edd1bea324c95818424d24d778",
+      "previousSha256": "587f7159290f52b56de0fd5b15f3904d1d6bd1bac0fabff8e48d07d3945c19c5",
+      "sha256": "3112a4eb55143c96841f8d107c682bb6cc26bcac3b8c52ede65f7e895d632908",
+      "review": {
+        "completeness": "reviewed-current-with-historical-gap",
+        "stages": [
+          21
+        ],
+        "reason": "Current explicit net8 CLI file list includes OutputSafety.cs and references compiled Core; the full current file is present in the Round21 input archive and unchanged afterward.",
+        "evidence": [
+          "docs/ROUND13_CLI_INPUT_PRESERVATION.md",
+          "docs/CLI_PYTHON_ROADMAP.md"
+        ],
+        "limitation": "No retained source at prior effective expected 587f7159... was found. OutputSafety compile inclusion is consistent with Round13, but the exact introducing stage and complete historical diff are unproven."
+      }
+    },
+    "MvsAnalyzer.Cli/ScientificCommands.cs": {
+      "originalSha256": "03ddc962bc5bf407fae5d7c2c71073fbe3903ab3d4da90c641f2585a16c3637a",
+      "previousSha256": "95e42af15d68a2b8faaa191b5fe3fce9ef66a793066d33c02fb9af345ea49072",
+      "sha256": "e12037cf7b6dcc9229f13642344126f3f0ef50075c4daca0834a4a882e198663",
+      "review": {
+        "completeness": "reviewed-current-with-historical-gap",
+        "stages": [
+          13,
+          25,
+          33
+        ],
+        "reason": "Round13 input/output-safety source hash da7f382f... is retained in metadata and matching Round21 bytes; exact Round25 captured import hash and Round33 write-observation diffs are retained.",
+        "evidence": [
+          "docs/ROUND13_CLI_INPUT_PRESERVATION.md",
+          "docs/ROUND25_IMPORT_BOUNDARY.md",
+          "docs/ROUND33_PARTIAL_OUTPUT_REPORTING.md",
+          "validation/cli-safety-round13-results.json",
+          "validation/round33-results.json"
+        ],
+        "limitation": "No retained source at prior effective expected 95e42af1... was found. Round13 result metadata binds the earliest recovered source, not the missing before/after diff."
+      }
+    }
+  }
+}

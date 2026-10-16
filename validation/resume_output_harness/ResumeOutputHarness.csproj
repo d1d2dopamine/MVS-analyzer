@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <ItemGroup><Content Include="../resume-output-fixtures-v1.zip" Link="resume-output-fixtures-v1.zip" CopyToOutputDirectory="PreserveNewest" /></ItemGroup>
+</Project>

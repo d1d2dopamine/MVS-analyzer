@@ -1,0 +1,126 @@
+{
+  "protocolId": "MVS-ROUND34-RESUME-EXPORT-PARITY-1-AMENDMENT1",
+  "preparedUtc": "2026-10-16T17:33:05.811715+00:00",
+  "scope": "TEST-only actual CLI resume/export engineering parity and descriptive process cost. Five completed-result cached fixtures copied from retained Round33 results; no unfinished scientific recomputation, independent model validation, or scientific GO claim. The separate genuine unfinished calibration export-failure regression is complementary evidence.",
+  "baselineSource": "/workspace/scratch/8105054a3211/mvs_round33/MVS-analyzer-main",
+  "candidateSource": "/workspace/scratch/8105054a3211/mvs_round34/MVS-analyzer-main",
+  "fixtureManifest": "fixtures/manifest.json",
+  "fixtureManifestSha256": "85d5bfba7b3a23933c7012a4e4979a752d26a3750bb64b8518098b176085b10f",
+  "fixtureClasses": {
+    "calibrate": "completed-result cached; 72 observations, 12 entities, 12 calibration rows",
+    "analyze": "completed-result cached; 72 observations, 12 entities, 12 results",
+    "variance": "completed-result cached; 320 observations, 40 entities, 2 groups and 2 tracks",
+    "estimation": "completed-result cached; 3 performance rows and 300 draws",
+    "melsm": "completed-result cached; 96 observations, 8 subjects, 6 parameters, 0 random effects; not_converged diagnostic exit 2"
+  },
+  "fixturePreparation": "Native baseline deserialization/serialization plus authorized deterministic AnalysisEngine.Build input aggregation; no new calibrate/analyze/variance/estimation/MELSM simulation, model fit, or resume. Retained Round33 candidate results are baseline data for Round34. Full source identities, constructor/request guards, fixed IDs/time and hashes in fixture manifest. Exact byte regeneration independently checked.",
+  "execution": {
+    "measuredProcesses": 30,
+    "pairsPerWorkload": 3,
+    "pairOrder": [
+      "AB",
+      "BA",
+      "AB"
+    ],
+    "workloadOrder": [
+      "calibrate",
+      "analyze",
+      "variance",
+      "estimation",
+      "melsm"
+    ],
+    "A": "baseline Round33",
+    "B": "candidate Round34",
+    "freshProcessEachInvocation": true,
+    "warmupInvocations": 0,
+    "arguments": [
+      "resume",
+      "--in",
+      "{frozen-completed-checkpoint}",
+      "--out",
+      "{fresh-invocation}/output",
+      "--json",
+      "--quiet"
+    ],
+    "restoreEnabled": true,
+    "restorationPolicy": "MVS_DISABLE_BACKUPS absent. Each CLI process decodes the same immutable original checkpoint; MVS_BACKUP_DIR is a different empty private directory per invocation. Genuine restored session primary archive must exist, preserve exact Request and result bytes, unit keys, completion, ID/request hash and original environment-history prefix. Restored session publication timestamp may change; histories may only append one current environment.",
+    "environment": {
+      "DOTNET_PROCESSOR_COUNT": "2",
+      "OMP_NUM_THREADS": "2",
+      "OPENBLAS_NUM_THREADS": "2",
+      "MKL_NUM_THREADS": "2",
+      "LANG": "C.UTF-8",
+      "LC_ALL": "C.UTF-8",
+      "TZ": "UTC"
+    },
+    "environmentPolicy": "Minimal explicit environment plus frozen dotnet host PATH/DOTNET_ROOT; no inherited tuning. Per invocation isolated HOME/TMPDIR/MVS_APPDATA_ROOT/MVS_BACKUP_DIR. Same runtime/host/affinity, no installed plugins or external/user paths.",
+    "cpuAffinity": "Two lowest-numbered allowed CPUs frozen at binding; task child gets exactly this affinity.",
+    "timeoutSeconds": 60,
+    "rssLimitMiB": 1024,
+    "watchdogPollSeconds": 0.02,
+    "lifecycle": "stdout/stderr exclusive-open precedes timer. Main thread blocks in wait4(exact_pid,0); first operation after return captures perf_counter_ns endpoint. An independent daemon watchdog checks timeout/affinity/RSS and SIGKILLs owned process group; main wait reaps and returns exact child rusage. Event notification and bounded watchdog join happen after the elapsed endpoint. No WNOHANG exit polling, no 50ms timer quantization.",
+    "onFailure": "Every launch/exit/watchdog failure is retained with stdout/stderr and record before validation. Continue all remaining planned attempts unless frozen provenance/input binding becomes invalid or user interruption/unresolved child cleanup stops the comparison. Do not delete, replace, cherry-rerun, or discard first runs. Incomplete sets and any failure cannot pass.",
+    "timingAuthorization": "No actual baseline/candidate resume invocation until lead explicitly approves an exclusive measurement window after final builds/tests. The --approved-exclusive-window flag is mandatory and does not create authority by itself."
+  },
+  "comparisons": {
+    "floatingTolerance": null,
+    "bytePolicy": "Compare all CSV and scientific JSON byte-for-byte; only exact enumerated JSON token pointers are replaced. Preserve all unlisted whitespace, field order, numeric lexemes, scientific values, methods, status, nulls and row order. No parse/re-serialize normalization or tolerance.",
+    "metadataPointers": {
+      "calibration_state.json": [
+        "/CreatedUtc",
+        "/PayloadHash: independently verify raw unsigned JSON SHA256, then derive from timestamp-normalized unsigned exact bytes"
+      ],
+      "run_manifest.json": [
+        "/created",
+        "/runId",
+        "/files/*/sha256 and /files/*/SizeBytes: independently verify raw artifact, then derive normalized artifact hash/length"
+      ],
+      "stdout.json": [
+        "/runId",
+        "/outputDirectory",
+        "/manifestPath",
+        "/artifacts/*/path",
+        "/artifacts/*/sha256 and /artifacts/*/sizeBytes: independently verify raw artifact then derive normalized artifact hash/length"
+      ],
+      "resumed_checkpoint.json": [
+        "/SavedUtc only: newly published session timestamp, independently parsed; frozen original SavedUtc is never normalized"
+      ],
+      "backup_resume.json": []
+    },
+    "integrity": "Verify strict JSON duplicates/nonfinite rejection; regular output file set; unique machine artifact names and exact own-output paths; raw SHA256 and size independently; complete manifest association and runId/path relationship; raw calibration-state payload checksum; frozen input ZIP members/checksums/request checksum; resumed request and cached result exact bytes; original environment history preservation. Raw checkpoint ZIP bytes retained (ZIP metadata may differ); compare independently validated decoded document except SavedUtc.",
+    "comparisonSet": "All six runs per workload against first baseline, plus all three explicit paired A/B comparisons. Scientific status and process exit exact; MELSM expected diagnostic exit 2 is fixed in manifest.",
+    "rawCapture": "Every stdout, stderr, invocation context, exact resource record, generated output, newly saved backups/archives and normalization retained. Human stderr text retained but not scientific parity target.",
+    "bindings": "Bind exact production sources/binary directory manifests for both builds, dotnet host/CoreCLR, original fixture bytes/manifest, plan and driver; refuse overwrite. Check before/after each invocation. Verify performs no native or model rerun and is read-only: missing evidence is an error, never repaired."
+  },
+  "performance": {
+    "metrics": [
+      "wallSeconds",
+      "cpuUserSeconds",
+      "cpuSystemSeconds",
+      "cpuTotalSeconds",
+      "peakRssKiB"
+    ],
+    "accounting": "Linux blocking wait4(exact child PID,0) rusage; CPU user/system/total, kernel ru_maxrss KiB; monotonic wall immediately before Popen to immediate return from blocking wait. No cumulative-child resource accounting or WNOHANG polling.",
+    "report": "All 30 measurements, all three matched B/A ratios for every workload/metric, build medians/min/max and ratio medians/min/max, available counts and explicit null for unavailable/zero-baseline ratios. No speed acceptance threshold or significance claim.",
+    "limitations": [
+      "Completed-result checkpoints intentionally measure real resume/session/cache/export/startup; no remaining scientific work or interruption-recovery claim.",
+      "Same-engine exact parity does not establish statistical correctness or validate retained result values.",
+      "Three pairs are descriptive only; startup/JIT/export/hash/backup I/O, OS caching and shared-host scheduling noise remain.",
+      "Independent watchdog observation adds some runtime overhead but does not define the timer endpoint. Kernel peak RSS includes process startup; sampled RSS is only a watchdog diagnostic.",
+      "Genuine unfinished calibration regression is separate from this completed-cache comparison.",
+      "No scientific release promotion; existing NO-GO remains.",
+      "Sampling timeout is not a hard real-time guarantee if process creation or system observation stalls; unresolved child cleanup aborts further launches."
+    ]
+  },
+  "infrastructureAmendment": {
+    "approvedUtc": "2026-10-16T17:39:36.695376+00:00",
+    "reason": "Original frozen 30-attempt set failed because strict_json parsed watchdogPollSeconds as Decimal and threading.Event.wait requires float. Watchdog errors killed and reaped all30 before output. Original evidence is retained without modification.",
+    "change": "At execute timer boundary convert timeout and interval to native float; operational timing only, no scientific payload conversion. Add actual parsed-plan success test and Decimal timeout/interval kill-reap test.",
+    "unchanged": "Native sources, compiled binaries, input checkpoint bytes, scientific settings, cache contents, workload order, AB/BA/AB order, number of30 measured attempts, normalization, measurement endpoints and CPU/RSS collection.",
+    "newEvidenceRoot": "/workspace/scratch/8105054a3211/mvs-r34-comparison-amended",
+    "originalEvidenceRoot": "/workspace/scratch/8105054a3211/mvs-r34-comparison",
+    "originalBindingSha256": "eef643225326ed10f3615c4eaeb08e81241eaa870bb29daf8b39ebc7889d6c8d",
+    "originalResultSha256": "1571b7a050da48939729ec9efd6c475a050c685b4bcbb59f00111f3c01259efa",
+    "policy": "New attestation and complete new30 only after renewed exclusive GO. No selective attempt rerun or discarded failed measurements."
+  }
+}

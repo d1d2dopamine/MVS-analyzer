@@ -14,10 +14,12 @@ from .models import (
     BaseResult,
     BenchmarkResult,
     Calibration,
+    CURRENT_INVOCATION_ARTIFACT_SCOPE,
     Diagnostic,
     EstimationResult,
     MelsmResult,
     VarianceResult,
+    _validate_scoped_artifact_metadata,
 )
 
 SCHEMA = "mvs-cli-result/v1"
@@ -27,6 +29,10 @@ T = TypeVar("T", bound=BaseResult)
 
 class MvsError(RuntimeError):
     """Base error raised by the Python interface."""
+
+    def __init__(self, *args: object, result: BaseResult | None = None):
+        super().__init__(*args)
+        self.result = result
 
 
 class EngineNotFoundError(MvsError):
@@ -47,8 +53,7 @@ class EngineError(MvsError):
 
 class ScientificDiagnostic(MvsError):
     def __init__(self, message: str, result: BaseResult):
-        super().__init__(message)
-        self.result = result
+        super().__init__(message, result=result)
 
 
 def _default_output(command: str) -> Path:
@@ -101,13 +106,14 @@ class Engine:
         self.identity = self._invoke(["version"], allow_diagnostic=False, result_type=BaseResult)
         if self.identity.raw.get("schemaVersion") != SCHEMA:
             raise EngineCompatibilityError(
-                f"Unsupported MVS CLI machine schema: {self.identity.raw.get('schemaVersion')!r}; expected {SCHEMA!r}."
+                f"Unsupported MVS CLI machine schema: {self.identity.raw.get('schemaVersion')!r}; expected {SCHEMA!r}.",
+                result=self.identity,
             )
         protocol = self.identity.raw.get("cliProtocol")
         if not isinstance(protocol, dict) or (protocol.get("name"), protocol.get("major")) != SUPPORTED_CLI_PROTOCOL:
-            raise EngineCompatibilityError(f"Unsupported MVS CLI command protocol: {protocol!r}.")
+            raise EngineCompatibilityError(f"Unsupported MVS CLI command protocol: {protocol!r}.", result=self.identity)
         if not self.identity.engine_version:
-            raise EngineCompatibilityError("The MVS CLI did not publish an engine version.")
+            raise EngineCompatibilityError("The MVS CLI did not publish an engine version.", result=self.identity)
 
     def _invoke(self, args: Sequence[str], *, allow_diagnostic: bool, result_type: type[T]) -> T:
         command = args[0] if args else ""
@@ -141,13 +147,14 @@ class Engine:
             raise EngineCompatibilityError(f"Unsupported or missing MVS CLI machine schema in {command!r} response.")
         result = _result_from_payload(payload, result_type)
         if result.command != command:
-            raise EngineCompatibilityError(f"MVS response command {result.command!r} does not match request {command!r}.")
+            raise EngineCompatibilityError(f"MVS response command {result.command!r} does not match request {command!r}.", result=result)
         expected_status = {0: "completed", 1: "error", 2: "diagnostic"}.get(result.exit_code)
         if expected_status is None or result.status != expected_status:
-            raise EngineCompatibilityError(f"Invalid status/exitCode pair from MVS: {result.status!r}/{result.exit_code!r}.")
+            raise EngineCompatibilityError(f"Invalid status/exitCode pair from MVS: {result.status!r}/{result.exit_code!r}.", result=result)
         if process.returncode != result.exit_code:
             raise EngineError(
-                f"MVS process exit code {process.returncode} disagrees with JSON exitCode {result.exit_code} for {command!r}."
+                f"MVS process exit code {process.returncode} disagrees with JSON exitCode {result.exit_code} for {command!r}.",
+                result=result,
             )
         if result.exit_code == 0:
             return result
@@ -160,8 +167,8 @@ class Engine:
         message = message or process.stderr.strip() or f"MVS command {command!r} failed."
         error_type = error.get("type", "") if isinstance(error, dict) else ""
         if error_type in {"ArgumentException", "ArgumentOutOfRangeException", "InvalidDataException", "FileNotFoundException", "FormatException"}:
-            raise InputError(message)
-        raise EngineError(message)
+            raise InputError(message, result=result)
+        raise EngineError(message, result=result)
 
     def calibrate(self, data: str | os.PathLike[str], *, output: str | os.PathLike[str] | None = None,
                   allow_diagnostic: bool = False, **options: Any) -> Calibration:
@@ -173,8 +180,16 @@ class Engine:
     def analyze(self, data: str | os.PathLike[str], *, calibration: Calibration | str | os.PathLike[str],
                 output: str | os.PathLike[str] | None = None, allow_diagnostic: bool = False,
                 **options: Any) -> AnalysisResult:
+        if isinstance(calibration, Calibration) and (calibration.status, calibration.exit_code) not in {
+                ("completed", 0), ("diagnostic", 2)}:
+            raise InputError("Cannot analyze with an incomplete or failed calibration result.", result=calibration)
         out = Path(output) if output is not None else _default_output("analysis")
         calibration_path = calibration.output_directory if isinstance(calibration, Calibration) else Path(calibration)
+        if isinstance(calibration, Calibration) and "artifactScope" in calibration.raw:
+            try:
+                calibration_path = calibration.state_path
+            except (OSError, ValueError) as exc:
+                raise InputError("Cannot analyze with an invalid scoped calibration state.", result=calibration) from exc
         if calibration_path is None:
             raise InputError("Calibration result does not have an output directory.")
         args = ["analyze", "--in", str(Path(data)), "--calibration", str(calibration_path), "--out", str(out)]
@@ -217,6 +232,16 @@ def _diagnostic_message(result: BaseResult) -> str:
 
 
 def _result_from_payload(payload: Mapping[str, Any], result_type: type[T]) -> T:
+    scoped = "artifactScope" in payload
+    if scoped:
+        if payload["artifactScope"] != CURRENT_INVOCATION_ARTIFACT_SCOPE:
+            raise EngineCompatibilityError(f"Unsupported MVS artifact scope: {payload['artifactScope']!r}.")
+        records = payload.get("artifacts")
+        if (not isinstance(records, list)
+                or any(not isinstance(item, dict) or not isinstance(item.get("name"), str)
+                       or not isinstance(item.get("path"), str) or not item["path"]
+                       for item in records)):
+            raise EngineCompatibilityError("Invalid scoped MVS artifact records.")
     artifacts = tuple(
         Artifact(
             name=str(item.get("name", "")),
@@ -227,6 +252,12 @@ def _result_from_payload(payload: Mapping[str, Any], result_type: type[T]) -> T:
         for item in payload.get("artifacts", [])
         if isinstance(item, dict) and item.get("path")
     )
+    if scoped:
+        try:
+            for item in artifacts:
+                _validate_scoped_artifact_metadata(item)
+        except ValueError as exc:
+            raise EngineCompatibilityError(str(exc)) from exc
     diagnostics = tuple(
         Diagnostic(str(item.get("level", "warning")), str(item.get("code", "diagnostic")), str(item.get("message", "")))
         for item in payload.get("diagnostics", [])

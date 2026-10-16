@@ -178,3 +178,17 @@ Inspect the local processes/evidence before deliberately issuing a new run ID.
 
 The scientific claim/null specification and independent unseen validation remain
 separate open gates. See [current readiness](PROJECT_READINESS_HANDOFF.md).
+
+### Failed native partial-output receipt
+
+When a native error advertises Round33 partial-output metadata, the local
+workflow validates containment, regular files, sizes and hashes before including
+`data.partialOutput` in its failed receipt. It contains `status`, `scope`,
+`artifacts` (names, sizes and hashes), `attemptedName` and `unverifiedNames`.
+Absolute native paths and native error messages are not copied into this
+portable metadata. Invalid metadata produces an error without this receipt.
+Old native errors without the field retain the previous behavior. The recorded
+hashes describe the receipt-time check; replay of a failed receipt does not
+rerun analysis or promise that files remain unchanged. `read_artifact` still
+requires a completed verified run. This is evidence retention, not permission
+to use partial scientific results; scientific NO-GO remains.

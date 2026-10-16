@@ -72,3 +72,22 @@ The existing human `help --json` exception is unchanged.
 The optional `mvs-workflow-result/v1` envelope is a separate application-layer
 contract, shared by `mvs-workflow` and local MCP; it does not replace native v1.
 See [scope, exit semantics and examples](WORKFLOW_PROTOCOL.md).
+
+### Failed output emission (Round33 additive metadata)
+
+For `calibrate`, `analyze`, `variance`, `estimation` and `melsm`, a failure after
+output emission begins retains exit 1/error and may include `partialOutput`.
+Its `status` is `incomplete` and `scope` is
+`current_invocation_successful_writes`. `outputDirectory` locates the incomplete
+output; `artifacts` lists only successfully observed current writes that still
+verify. `attemptedPath` identifies an uncertain attempted target, and
+`unverifiedPaths` lists writes whose metadata could not be verified. Neither is
+a successful artifact. Untouched old files/manifests are excluded. An older
+backend may omit this metadata. Successful/diagnostic envelopes are unchanged.
+See [the complete boundary and limits](ROUND33_PARTIAL_OUTPUT_REPORTING.md).
+
+Round34 extends this same additive failure evidence to `resume` for calibration,
+analysis, variance, estimation and MELSM checkpoints. Observation starts only
+at output emission; failures before that boundary do not acquire partial-output
+metadata. Benchmark resume remains outside this observer boundary. See
+[resume scope and checkpoint guarantees](ROUND34_RESUME_OUTPUT_REPORTING.md).

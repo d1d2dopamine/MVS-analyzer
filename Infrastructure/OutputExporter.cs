@@ -21,23 +21,31 @@ internal static class OutputExporter
     public static List<OutputArtifact> Export(string folder, string runId, string project, string projectDescription, string projectMode,
         string dataset, string datasetHash, AnalysisData data, List<CalibrationRow> calibration, List<ResultRow> results, AppSettings settings,
         int calibrationRepetitions, IEnumerable<OutputArtifact> existing, string calibrationSource = "same_dataset",
-        string? calibrationDatasetHash = null, bool forcedCalibrationReuse = false)
+        string? calibrationDatasetHash = null, bool forcedCalibrationReuse = false, Action<string, bool>? observeWrite = null)
     {
         var artifacts = new List<OutputArtifact>();
+        OutputArtifact Save(string name, string kind, string text)
+        {
+            string path = Path.Combine(folder, name);
+            observeWrite?.Invoke(path, false);
+            OutputArtifact artifact = Write(folder, name, kind, text);
+            observeWrite?.Invoke(path, true);
+            return artifact;
+        }
         if (settings.AutoExportResults)
         {
-            artifacts.Add(Write(folder, "results.csv", "Results", ResultsCsv(results)));
-            artifacts.Add(Write(folder, "metric_availability.csv", "Observed metric availability", AvailabilityCsv(results)));
-            artifacts.Add(Write(folder, "results.json", "Structured results", ScientificJson.Serialize(new { schemaVersion = 2, policy = DecisionPolicy.Id, rows = results,
+            artifacts.Add(Save("results.csv", "Results", ResultsCsv(results)));
+            artifacts.Add(Save("metric_availability.csv", "Observed metric availability", AvailabilityCsv(results)));
+            artifacts.Add(Save("results.json", "Structured results", ScientificJson.Serialize(new { schemaVersion = 2, policy = DecisionPolicy.Id, rows = results,
                 note = "Applicable and ObservedStatus describe observed-data testability, independent of CalibrationApplicable. GroupAvailability counts independent retained entities per metric/group. Null numerical values are unavailable; effectIntervalStatus identifies descriptive selected-pair intervals. A null equivalence_p is intentional: bootstrap tail fractions are not p-values." })));
         }
         if (settings.AutoExportCalibration)
         {
-            artifacts.Add(Write(folder, "calibration.csv", "Calibration", CalibrationCsv(calibration)));
-            artifacts.Add(Write(folder, "calibration_tracks.csv", "Calibration tracks", TrackCsv(calibration)));
-            artifacts.Add(Write(folder, "calibration_recommendations.csv", "Calibration recommendations", RecommendationCsv(calibration)));
+            artifacts.Add(Save("calibration.csv", "Calibration", CalibrationCsv(calibration)));
+            artifacts.Add(Save("calibration_tracks.csv", "Calibration tracks", TrackCsv(calibration)));
+            artifacts.Add(Save("calibration_recommendations.csv", "Calibration recommendations", RecommendationCsv(calibration)));
         }
-        if (settings.AutoExportQuality) artifacts.Add(Write(folder, "data_quality.csv", "Data quality", QualityCsv(data, settings.AnonymousReports)));
+        if (settings.AutoExportQuality) artifacts.Add(Save("data_quality.csv", "Data quality", QualityCsv(data, settings.AnonymousReports)));
         if (settings.AutoExportManifest)
         {
             var prior = existing.Concat(artifacts).GroupBy(a => a.FileName).Select(g => g.First()).Select(a => new { a.Kind, a.FileName, a.SizeBytes, sha256 = HashFile(a.FullPath) }).ToArray();
@@ -74,7 +82,7 @@ internal static class OutputExporter
                 warnings = data.Warnings.Concat(forcedCalibrationReuse ? new[] { "Calibration deliberately reused on different input bytes; scientific compatibility has NOT been established." } : Array.Empty<string>()).ToArray(),
                 files = prior
             };
-            artifacts.Add(Write(folder, "run_manifest.json", "Run manifest", ScientificJson.Serialize(manifest)));
+            artifacts.Add(Save("run_manifest.json", "Run manifest", ScientificJson.Serialize(manifest)));
         }
         return artifacts;
     }

@@ -1,0 +1,4964 @@
+{
+  "stage": 33,
+  "kind": "Reliability: partial-output evidence; scientific methods unchanged",
+  "bug": {
+    "baselineReproduced": true,
+    "candidateFixed": true,
+    "scope": [
+      "calibrate",
+      "analyze",
+      "variance",
+      "estimation",
+      "melsm"
+    ],
+    "residual": [
+      "benchmark",
+      "resume",
+      "archived desktop",
+      "files produced by throwing plugin",
+      "multi-file transactions"
+    ]
+  },
+  "tests": {
+    "nativeCorePassed": 195,
+    "nativeCandidatePassed": 14,
+    "nativeWithBaselineControlsPassed": 16,
+    "pythonFinalUniqueDiscovered": 619,
+    "pythonFinalUniquePassed": 605,
+    "actualWindowsSkipped": 14,
+    "actualLinuxNativeMcp": true,
+    "newPythonFocused": 18,
+    "nativeEvidenceValidator": 22,
+    "independentFocusedPass": true,
+    "fullAggregateRunBeforeTwoValidatorAdditions": 617,
+    "finalValidationSuiteAfterAdditions": 347
+  },
+  "comparison": {
+    "planSha256": "34424b028eaa2290ae232d04261fc549d9241b60f88e42a953cafc952dc12445",
+    "invocations": 30,
+    "artifactsVerified": 150,
+    "normalizedFilesVerified": 180,
+    "exactParity": true,
+    "exit0Count": 24,
+    "melsmDiagnosticExit2Count": 6,
+    "wallTimingLimitation": "wait4 WNOHANG with 50ms polling; detection time includes observer delay, not precise exit instant",
+    "performanceGate": null,
+    "performanceClaim": "Descriptive only; estimation and MELSM CPU medians increased; no overall speedup or no-regression assertion",
+    "results": {
+      "schema": "mvs-round33-output-comparison/v1",
+      "verifiedUtc": "2026-10-16T17:15:35.569914+00:00",
+      "planSha256": "34424b028eaa2290ae232d04261fc549d9241b60f88e42a953cafc952dc12445",
+      "bindingSha256": "e0e513eff05fbe862c078356253e5f8288d0e4414f85c9878277a4b2dab9c726",
+      "driverSha256": "0303335b1e5e6329166e0eed374f6e9b8a3fb4daa927aacf4963eb6b6a92b7b3",
+      "scientificReleaseDecision": "NO-GO retained",
+      "scope": "Actual CLI same-engine output parity and descriptive process cost. This is deterministic engineering evidence, not independent scientific/model validation. Scientific NO-GO remains.",
+      "invocationCount": 30,
+      "passed": true,
+      "workloads": [
+        {
+          "workload": "calibrate",
+          "passed": true,
+          "invocations": 6,
+          "comparisons": [
+            {
+              "reference": "calibrate-pair1-1-A",
+              "actual": "calibrate-pair1-2-B",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            },
+            {
+              "reference": "calibrate-pair1-1-A",
+              "actual": "calibrate-pair2-1-B",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            },
+            {
+              "reference": "calibrate-pair1-1-A",
+              "actual": "calibrate-pair2-2-A",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            },
+            {
+              "reference": "calibrate-pair1-1-A",
+              "actual": "calibrate-pair3-1-A",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            },
+            {
+              "reference": "calibrate-pair1-1-A",
+              "actual": "calibrate-pair3-2-B",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            }
+          ],
+          "errors": [],
+          "performance": {
+            "wallSeconds": {
+              "A": {
+                "values": [
+                  0.9199403820093721,
+                  0.8659868860122515,
+                  0.8660676860017702
+                ],
+                "median": 0.8660676860017702,
+                "min": 0.8659868860122515,
+                "max": 0.9199403820093721
+              },
+              "B": {
+                "values": [
+                  0.8145980359986424,
+                  0.9171563109994167,
+                  0.8170872100017732
+                ],
+                "median": 0.8170872100017732,
+                "min": 0.8145980359986424,
+                "max": 0.9171563109994167
+              },
+              "pairedBOverA": {
+                "values": [
+                  0.8854900294944804,
+                  1.0590879906077946,
+                  0.9434449791954288
+                ],
+                "median": 0.9434449791954288,
+                "min": 0.8854900294944804,
+                "max": 1.0590879906077946
+              },
+              "medianBOverMedianA": 0.9434449791954288
+            },
+            "cpuUserSeconds": {
+              "A": {
+                "values": [
+                  0.960633,
+                  0.887941,
+                  0.92121
+                ],
+                "median": 0.92121,
+                "min": 0.887941,
+                "max": 0.960633
+              },
+              "B": {
+                "values": [
+                  0.8426469999999999,
+                  0.916682,
+                  0.878366
+                ],
+                "median": 0.878366,
+                "min": 0.8426469999999999,
+                "max": 0.916682
+              },
+              "pairedBOverA": {
+                "values": [
+                  0.8771789018282736,
+                  1.032368141576974,
+                  0.9534916034346131
+                ],
+                "median": 0.9534916034346131,
+                "min": 0.8771789018282736,
+                "max": 1.032368141576974
+              },
+              "medianBOverMedianA": 0.9534916034346131
+            },
+            "cpuSystemSeconds": {
+              "A": {
+                "values": [
+                  0.037429,
+                  0.029082,
+                  0.034115
+                ],
+                "median": 0.034115,
+                "min": 0.029082,
+                "max": 0.037429
+              },
+              "B": {
+                "values": [
+                  0.050255999999999995,
+                  0.036850999999999995,
+                  0.031575
+                ],
+                "median": 0.036850999999999995,
+                "min": 0.031575,
+                "max": 0.050255999999999995
+              },
+              "pairedBOverA": {
+                "values": [
+                  1.3427021827994337,
+                  1.267141186988515,
+                  0.9255459475304119
+                ],
+                "median": 1.267141186988515,
+                "min": 0.9255459475304119,
+                "max": 1.3427021827994337
+              },
+              "medianBOverMedianA": 1.0801993258097609
+            },
+            "cpuTotalSeconds": {
+              "A": {
+                "values": [
+                  0.998062,
+                  0.917023,
+                  0.955325
+                ],
+                "median": 0.955325,
+                "min": 0.917023,
+                "max": 0.998062
+              },
+              "B": {
+                "values": [
+                  0.8929029999999999,
+                  0.953533,
+                  0.909941
+                ],
+                "median": 0.909941,
+                "min": 0.8929029999999999,
+                "max": 0.953533
+              },
+              "pairedBOverA": {
+                "values": [
+                  0.8946368061302804,
+                  1.0398136142713976,
+                  0.952493653992097
+                ],
+                "median": 0.952493653992097,
+                "min": 0.8946368061302804,
+                "max": 1.0398136142713976
+              },
+              "medianBOverMedianA": 0.952493653992097
+            },
+            "peakRssKiB": {
+              "A": {
+                "values": [
+                  48128.0,
+                  47992.0,
+                  48476.0
+                ],
+                "median": 48128.0,
+                "min": 47992.0,
+                "max": 48476.0
+              },
+              "B": {
+                "values": [
+                  47928.0,
+                  47844.0,
+                  47916.0
+                ],
+                "median": 47916.0,
+                "min": 47844.0,
+                "max": 47928.0
+              },
+              "pairedBOverA": {
+                "values": [
+                  0.995844414893617,
+                  0.9969161526921153,
+                  0.9884478917402426
+                ],
+                "median": 0.995844414893617,
+                "min": 0.9884478917402426,
+                "max": 0.9969161526921153
+              },
+              "medianBOverMedianA": 0.995595079787234
+            }
+          },
+          "artifacts": [
+            {
+              "invocation": "calibrate-pair1-1-A",
+              "actual": {
+                "calibration.csv": {
+                  "sizeBytes": 4770,
+                  "sha256": "25e685ad5f16421dabbfb37eaaf200ebf503f0e5940f39b59c62378cef8911d0"
+                },
+                "calibration_recommendations.csv": {
+                  "sizeBytes": 7341,
+                  "sha256": "15fe0709a6ad39ceaebfd28b94edb799eb8d819257b36733dbb93b697aa51bed"
+                },
+                "calibration_state.json": {
+                  "sizeBytes": 17673,
+                  "sha256": "68d1bc5c9d142fca8d606223117143b2325faf3c1afdbea56e1177a34b2fe016"
+                },
+                "calibration_tracks.csv": {
+                  "sizeBytes": 4014,
+                  "sha256": "8278ad1a52d2937aa0d53f32eef19fd04f2147e78b14d1c0e019df8832e2a2c1"
+                }
+              },
+              "normalized": {
+                "calibration.csv": {
+                  "sha256": "25e685ad5f16421dabbfb37eaaf200ebf503f0e5940f39b59c62378cef8911d0",
+                  "sizeBytes": 4770
+                },
+                "calibration_tracks.csv": {
+                  "sha256": "8278ad1a52d2937aa0d53f32eef19fd04f2147e78b14d1c0e019df8832e2a2c1",
+                  "sizeBytes": 4014
+                },
+                "calibration_recommendations.csv": {
+                  "sha256": "15fe0709a6ad39ceaebfd28b94edb799eb8d819257b36733dbb93b697aa51bed",
+                  "sizeBytes": 7341
+                },
+                "calibration_state.json": {
+                  "sha256": "386be0aff598e63783e627708a8b5fe7cc20117456689db1e59f73b182ef20b5",
+                  "sizeBytes": 17656
+                },
+                "stdout.json": {
+                  "sha256": "6edfc12af54926252c3fc4096e873203992cf6a75be7d9020619fddadc1fc829",
+                  "sizeBytes": 2824
+                }
+              }
+            },
+            {
+              "invocation": "calibrate-pair1-2-B",
+              "actual": {
+                "calibration.csv": {
+                  "sizeBytes": 4770,
+                  "sha256": "25e685ad5f16421dabbfb37eaaf200ebf503f0e5940f39b59c62378cef8911d0"
+                },
+                "calibration_recommendations.csv": {
+                  "sizeBytes": 7341,
+                  "sha256": "15fe0709a6ad39ceaebfd28b94edb799eb8d819257b36733dbb93b697aa51bed"
+                },
+                "calibration_state.json": {
+                  "sizeBytes": 17673,
+                  "sha256": "aa3679dee3729a7b8ab3f9da0fc7ce0befecaf96d411348609b750194beb1d7a"
+                },
+                "calibration_tracks.csv": {
+                  "sizeBytes": 4014,
+                  "sha256": "8278ad1a52d2937aa0d53f32eef19fd04f2147e78b14d1c0e019df8832e2a2c1"
+                }
+              },
+              "normalized": {
+                "calibration.csv": {
+                  "sha256": "25e685ad5f16421dabbfb37eaaf200ebf503f0e5940f39b59c62378cef8911d0",
+                  "sizeBytes": 4770
+                },
+                "calibration_tracks.csv": {
+                  "sha256": "8278ad1a52d2937aa0d53f32eef19fd04f2147e78b14d1c0e019df8832e2a2c1",
+                  "sizeBytes": 4014
+                },
+                "calibration_recommendations.csv": {
+                  "sha256": "15fe0709a6ad39ceaebfd28b94edb799eb8d819257b36733dbb93b697aa51bed",
+                  "sizeBytes": 7341
+                },
+                "calibration_state.json": {
+                  "sha256": "386be0aff598e63783e627708a8b5fe7cc20117456689db1e59f73b182ef20b5",
+                  "sizeBytes": 17656
+                },
+                "stdout.json": {
+                  "sha256": "6edfc12af54926252c3fc4096e873203992cf6a75be7d9020619fddadc1fc829",
+                  "sizeBytes": 2824
+                }
+              }
+            },
+            {
+              "invocation": "calibrate-pair2-1-B",
+              "actual": {
+                "calibration.csv": {
+                  "sizeBytes": 4770,
+                  "sha256": "25e685ad5f16421dabbfb37eaaf200ebf503f0e5940f39b59c62378cef8911d0"
+                },
+                "calibration_recommendations.csv": {
+                  "sizeBytes": 7341,
+                  "sha256": "15fe0709a6ad39ceaebfd28b94edb799eb8d819257b36733dbb93b697aa51bed"
+                },
+                "calibration_state.json": {
+                  "sizeBytes": 17673,
+                  "sha256": "73c2a918f7c50a8956a8e83bae6ccd4203b280864f0f6e1885d507ba09ee7754"
+                },
+                "calibration_tracks.csv": {
+                  "sizeBytes": 4014,
+                  "sha256": "8278ad1a52d2937aa0d53f32eef19fd04f2147e78b14d1c0e019df8832e2a2c1"
+                }
+              },
+              "normalized": {
+                "calibration.csv": {
+                  "sha256": "25e685ad5f16421dabbfb37eaaf200ebf503f0e5940f39b59c62378cef8911d0",
+                  "sizeBytes": 4770
+                },
+                "calibration_tracks.csv": {
+                  "sha256": "8278ad1a52d2937aa0d53f32eef19fd04f2147e78b14d1c0e019df8832e2a2c1",
+                  "sizeBytes": 4014
+                },
+                "calibration_recommendations.csv": {
+                  "sha256": "15fe0709a6ad39ceaebfd28b94edb799eb8d819257b36733dbb93b697aa51bed",
+                  "sizeBytes": 7341
+                },
+                "calibration_state.json": {
+                  "sha256": "386be0aff598e63783e627708a8b5fe7cc20117456689db1e59f73b182ef20b5",
+                  "sizeBytes": 17656
+                },
+                "stdout.json": {
+                  "sha256": "6edfc12af54926252c3fc4096e873203992cf6a75be7d9020619fddadc1fc829",
+                  "sizeBytes": 2824
+                }
+              }
+            },
+            {
+              "invocation": "calibrate-pair2-2-A",
+              "actual": {
+                "calibration.csv": {
+                  "sizeBytes": 4770,
+                  "sha256": "25e685ad5f16421dabbfb37eaaf200ebf503f0e5940f39b59c62378cef8911d0"
+                },
+                "calibration_recommendations.csv": {
+                  "sizeBytes": 7341,
+                  "sha256": "15fe0709a6ad39ceaebfd28b94edb799eb8d819257b36733dbb93b697aa51bed"
+                },
+                "calibration_state.json": {
+                  "sizeBytes": 17673,
+                  "sha256": "92d6db233c0a5abc1f7851c03c86a747a65f48638e32b5762dfb5d8cad050cc3"
+                },
+                "calibration_tracks.csv": {
+                  "sizeBytes": 4014,
+                  "sha256": "8278ad1a52d2937aa0d53f32eef19fd04f2147e78b14d1c0e019df8832e2a2c1"
+                }
+              },
+              "normalized": {
+                "calibration.csv": {
+                  "sha256": "25e685ad5f16421dabbfb37eaaf200ebf503f0e5940f39b59c62378cef8911d0",
+                  "sizeBytes": 4770
+                },
+                "calibration_tracks.csv": {
+                  "sha256": "8278ad1a52d2937aa0d53f32eef19fd04f2147e78b14d1c0e019df8832e2a2c1",
+                  "sizeBytes": 4014
+                },
+                "calibration_recommendations.csv": {
+                  "sha256": "15fe0709a6ad39ceaebfd28b94edb799eb8d819257b36733dbb93b697aa51bed",
+                  "sizeBytes": 7341
+                },
+                "calibration_state.json": {
+                  "sha256": "386be0aff598e63783e627708a8b5fe7cc20117456689db1e59f73b182ef20b5",
+                  "sizeBytes": 17656
+                },
+                "stdout.json": {
+                  "sha256": "6edfc12af54926252c3fc4096e873203992cf6a75be7d9020619fddadc1fc829",
+                  "sizeBytes": 2824
+                }
+              }
+            },
+            {
+              "invocation": "calibrate-pair3-1-A",
+              "actual": {
+                "calibration.csv": {
+                  "sizeBytes": 4770,
+                  "sha256": "25e685ad5f16421dabbfb37eaaf200ebf503f0e5940f39b59c62378cef8911d0"
+                },
+                "calibration_recommendations.csv": {
+                  "sizeBytes": 7341,
+                  "sha256": "15fe0709a6ad39ceaebfd28b94edb799eb8d819257b36733dbb93b697aa51bed"
+                },
+                "calibration_state.json": {
+                  "sizeBytes": 17673,
+                  "sha256": "591172684b8b468e96f45a0df3100d3c5d33ff619331bdad71f6c8fac9b3f2a5"
+                },
+                "calibration_tracks.csv": {
+                  "sizeBytes": 4014,
+                  "sha256": "8278ad1a52d2937aa0d53f32eef19fd04f2147e78b14d1c0e019df8832e2a2c1"
+                }
+              },
+              "normalized": {
+                "calibration.csv": {
+                  "sha256": "25e685ad5f16421dabbfb37eaaf200ebf503f0e5940f39b59c62378cef8911d0",
+                  "sizeBytes": 4770
+                },
+                "calibration_tracks.csv": {
+                  "sha256": "8278ad1a52d2937aa0d53f32eef19fd04f2147e78b14d1c0e019df8832e2a2c1",
+                  "sizeBytes": 4014
+                },
+                "calibration_recommendations.csv": {
+                  "sha256": "15fe0709a6ad39ceaebfd28b94edb799eb8d819257b36733dbb93b697aa51bed",
+                  "sizeBytes": 7341
+                },
+                "calibration_state.json": {
+                  "sha256": "386be0aff598e63783e627708a8b5fe7cc20117456689db1e59f73b182ef20b5",
+                  "sizeBytes": 17656
+                },
+                "stdout.json": {
+                  "sha256": "6edfc12af54926252c3fc4096e873203992cf6a75be7d9020619fddadc1fc829",
+                  "sizeBytes": 2824
+                }
+              }
+            },
+            {
+              "invocation": "calibrate-pair3-2-B",
+              "actual": {
+                "calibration.csv": {
+                  "sizeBytes": 4770,
+                  "sha256": "25e685ad5f16421dabbfb37eaaf200ebf503f0e5940f39b59c62378cef8911d0"
+                },
+                "calibration_recommendations.csv": {
+                  "sizeBytes": 7341,
+                  "sha256": "15fe0709a6ad39ceaebfd28b94edb799eb8d819257b36733dbb93b697aa51bed"
+                },
+                "calibration_state.json": {
+                  "sizeBytes": 17673,
+                  "sha256": "e6c7ba1f8c23183a29b390918d315c1d9e0297976d834983220ef0b5346b8c20"
+                },
+                "calibration_tracks.csv": {
+                  "sizeBytes": 4014,
+                  "sha256": "8278ad1a52d2937aa0d53f32eef19fd04f2147e78b14d1c0e019df8832e2a2c1"
+                }
+              },
+              "normalized": {
+                "calibration.csv": {
+                  "sha256": "25e685ad5f16421dabbfb37eaaf200ebf503f0e5940f39b59c62378cef8911d0",
+                  "sizeBytes": 4770
+                },
+                "calibration_tracks.csv": {
+                  "sha256": "8278ad1a52d2937aa0d53f32eef19fd04f2147e78b14d1c0e019df8832e2a2c1",
+                  "sizeBytes": 4014
+                },
+                "calibration_recommendations.csv": {
+                  "sha256": "15fe0709a6ad39ceaebfd28b94edb799eb8d819257b36733dbb93b697aa51bed",
+                  "sizeBytes": 7341
+                },
+                "calibration_state.json": {
+                  "sha256": "386be0aff598e63783e627708a8b5fe7cc20117456689db1e59f73b182ef20b5",
+                  "sizeBytes": 17656
+                },
+                "stdout.json": {
+                  "sha256": "6edfc12af54926252c3fc4096e873203992cf6a75be7d9020619fddadc1fc829",
+                  "sizeBytes": 2824
+                }
+              }
+            }
+          ]
+        },
+        {
+          "workload": "analyze",
+          "passed": true,
+          "invocations": 6,
+          "comparisons": [
+            {
+              "reference": "analyze-pair1-1-A",
+              "actual": "analyze-pair1-2-B",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            },
+            {
+              "reference": "analyze-pair1-1-A",
+              "actual": "analyze-pair2-1-B",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            },
+            {
+              "reference": "analyze-pair1-1-A",
+              "actual": "analyze-pair2-2-A",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            },
+            {
+              "reference": "analyze-pair1-1-A",
+              "actual": "analyze-pair3-1-A",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            },
+            {
+              "reference": "analyze-pair1-1-A",
+              "actual": "analyze-pair3-2-B",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            }
+          ],
+          "errors": [],
+          "performance": {
+            "wallSeconds": {
+              "A": {
+                "values": [
+                  0.4089195300039137,
+                  0.4591208630008623,
+                  0.4597119950049091
+                ],
+                "median": 0.4591208630008623,
+                "min": 0.4089195300039137,
+                "max": 0.4597119950049091
+              },
+              "B": {
+                "values": [
+                  0.40851004800060764,
+                  0.407918744997005,
+                  0.4089231149991974
+                ],
+                "median": 0.40851004800060764,
+                "min": 0.407918744997005,
+                "max": 0.4089231149991974
+              },
+              "pairedBOverA": {
+                "values": [
+                  0.9989986244890232,
+                  0.8884779104369275,
+                  0.8895202201431152
+                ],
+                "median": 0.8895202201431152,
+                "min": 0.8884779104369275,
+                "max": 0.9989986244890232
+              },
+              "medianBOverMedianA": 0.889765813146767
+            },
+            "cpuUserSeconds": {
+              "A": {
+                "values": [
+                  0.281265,
+                  0.335333,
+                  0.360957
+                ],
+                "median": 0.335333,
+                "min": 0.281265,
+                "max": 0.360957
+              },
+              "B": {
+                "values": [
+                  0.316249,
+                  0.328571,
+                  0.324882
+                ],
+                "median": 0.324882,
+                "min": 0.316249,
+                "max": 0.328571
+              },
+              "pairedBOverA": {
+                "values": [
+                  1.1243809219063872,
+                  0.9798349700148807,
+                  0.9000573475510935
+                ],
+                "median": 0.9798349700148807,
+                "min": 0.9000573475510935,
+                "max": 1.1243809219063872
+              },
+              "medianBOverMedianA": 0.9688339650437029
+            },
+            "cpuSystemSeconds": {
+              "A": {
+                "values": [
+                  0.045082,
+                  0.055737999999999996,
+                  0.039431
+                ],
+                "median": 0.045082,
+                "min": 0.039431,
+                "max": 0.055737999999999996
+              },
+              "B": {
+                "values": [
+                  0.037808,
+                  0.024600999999999998,
+                  0.02828
+                ],
+                "median": 0.02828,
+                "min": 0.024600999999999998,
+                "max": 0.037808
+              },
+              "pairedBOverA": {
+                "values": [
+                  0.8386495718912206,
+                  0.44136854569593453,
+                  0.7172022013136872
+                ],
+                "median": 0.7172022013136872,
+                "min": 0.44136854569593453,
+                "max": 0.8386495718912206
+              },
+              "medianBOverMedianA": 0.6273013619626459
+            },
+            "cpuTotalSeconds": {
+              "A": {
+                "values": [
+                  0.326347,
+                  0.391071,
+                  0.40038799999999997
+                ],
+                "median": 0.391071,
+                "min": 0.326347,
+                "max": 0.40038799999999997
+              },
+              "B": {
+                "values": [
+                  0.354057,
+                  0.353172,
+                  0.353162
+                ],
+                "median": 0.353172,
+                "min": 0.353162,
+                "max": 0.354057
+              },
+              "pairedBOverA": {
+                "values": [
+                  1.084909620741113,
+                  0.9030892088648864,
+                  0.8820494120702919
+                ],
+                "median": 0.9030892088648864,
+                "min": 0.8820494120702919,
+                "max": 1.084909620741113
+              },
+              "medianBOverMedianA": 0.9030892088648864
+            },
+            "peakRssKiB": {
+              "A": {
+                "values": [
+                  51172.0,
+                  51048.0,
+                  51076.0
+                ],
+                "median": 51076.0,
+                "min": 51048.0,
+                "max": 51172.0
+              },
+              "B": {
+                "values": [
+                  51376.0,
+                  51424.0,
+                  51508.0
+                ],
+                "median": 51424.0,
+                "min": 51376.0,
+                "max": 51508.0
+              },
+              "pairedBOverA": {
+                "values": [
+                  1.0039865551473461,
+                  1.0073656166745024,
+                  1.008457984180437
+                ],
+                "median": 1.0073656166745024,
+                "min": 1.0039865551473461,
+                "max": 1.008457984180437
+              },
+              "medianBOverMedianA": 1.006813376145352
+            }
+          },
+          "artifacts": [
+            {
+              "invocation": "analyze-pair1-1-A",
+              "actual": {
+                "calibration.csv": {
+                  "sizeBytes": 4770,
+                  "sha256": "25e685ad5f16421dabbfb37eaaf200ebf503f0e5940f39b59c62378cef8911d0"
+                },
+                "calibration_recommendations.csv": {
+                  "sizeBytes": 7341,
+                  "sha256": "15fe0709a6ad39ceaebfd28b94edb799eb8d819257b36733dbb93b697aa51bed"
+                },
+                "calibration_state.json": {
+                  "sizeBytes": 17673,
+                  "sha256": "68d1bc5c9d142fca8d606223117143b2325faf3c1afdbea56e1177a34b2fe016"
+                },
+                "calibration_tracks.csv": {
+                  "sizeBytes": 4014,
+                  "sha256": "8278ad1a52d2937aa0d53f32eef19fd04f2147e78b14d1c0e019df8832e2a2c1"
+                },
+                "data_quality.csv": {
+                  "sizeBytes": 2725,
+                  "sha256": "e69d1756fe9d387431bc657eb94ef9f520489256b506340104a3d53273432eaa"
+                },
+                "metric_availability.csv": {
+                  "sizeBytes": 1160,
+                  "sha256": "91671e40cc7a56c9a5bc245dd4876ad32996970aed28f8641aa9b7a6b2382671"
+                },
+                "results.csv": {
+                  "sizeBytes": 4381,
+                  "sha256": "07cb13fb691183a1494939a2d398331f1484a762670b11c992915ed22971e875"
+                },
+                "results.json": {
+                  "sizeBytes": 22436,
+                  "sha256": "2a69777091c53df45d9b4b36f467e3edd9289512ddccb81fd89d44cd1ac58a6b"
+                },
+                "run_manifest.json": {
+                  "sizeBytes": 7629,
+                  "sha256": "7621887cf1ecf83feb2446c7ab68fe3613a3a2490d4076957877609df7c6136c"
+                }
+              },
+              "normalized": {
+                "calibration.csv": {
+                  "sha256": "25e685ad5f16421dabbfb37eaaf200ebf503f0e5940f39b59c62378cef8911d0",
+                  "sizeBytes": 4770
+                },
+                "data_quality.csv": {
+                  "sha256": "e69d1756fe9d387431bc657eb94ef9f520489256b506340104a3d53273432eaa",
+                  "sizeBytes": 2725
+                },
+                "results.csv": {
+                  "sha256": "07cb13fb691183a1494939a2d398331f1484a762670b11c992915ed22971e875",
+                  "sizeBytes": 4381
+                },
+                "results.json": {
+                  "sha256": "2a69777091c53df45d9b4b36f467e3edd9289512ddccb81fd89d44cd1ac58a6b",
+                  "sizeBytes": 22436
+                },
+                "calibration_tracks.csv": {
+                  "sha256": "8278ad1a52d2937aa0d53f32eef19fd04f2147e78b14d1c0e019df8832e2a2c1",
+                  "sizeBytes": 4014
+                },
+                "calibration_recommendations.csv": {
+                  "sha256": "15fe0709a6ad39ceaebfd28b94edb799eb8d819257b36733dbb93b697aa51bed",
+                  "sizeBytes": 7341
+                },
+                "metric_availability.csv": {
+                  "sha256": "91671e40cc7a56c9a5bc245dd4876ad32996970aed28f8641aa9b7a6b2382671",
+                  "sizeBytes": 1160
+                },
+                "calibration_state.json": {
+                  "sha256": "386be0aff598e63783e627708a8b5fe7cc20117456689db1e59f73b182ef20b5",
+                  "sizeBytes": 17656
+                },
+                "run_manifest.json": {
+                  "sha256": "64caf5ec16e2e7d67ad3ed65239a29fb757d1fa74790bda04625e87ec60a4f6e",
+                  "sizeBytes": 7598
+                },
+                "stdout.json": {
+                  "sha256": "5b440c1a2a88ca2bb99445e30c05140224f3b9b1f6d6e42081c5ecf91fc17208",
+                  "sizeBytes": 3841
+                }
+              }
+            },
+            {
+              "invocation": "analyze-pair1-2-B",
+              "actual": {
+                "calibration.csv": {
+                  "sizeBytes": 4770,
+                  "sha256": "25e685ad5f16421dabbfb37eaaf200ebf503f0e5940f39b59c62378cef8911d0"
+                },
+                "calibration_recommendations.csv": {
+                  "sizeBytes": 7341,
+                  "sha256": "15fe0709a6ad39ceaebfd28b94edb799eb8d819257b36733dbb93b697aa51bed"
+                },
+                "calibration_state.json": {
+                  "sizeBytes": 17673,
+                  "sha256": "68d1bc5c9d142fca8d606223117143b2325faf3c1afdbea56e1177a34b2fe016"
+                },
+                "calibration_tracks.csv": {
+                  "sizeBytes": 4014,
+                  "sha256": "8278ad1a52d2937aa0d53f32eef19fd04f2147e78b14d1c0e019df8832e2a2c1"
+                },
+                "data_quality.csv": {
+                  "sizeBytes": 2725,
+                  "sha256": "e69d1756fe9d387431bc657eb94ef9f520489256b506340104a3d53273432eaa"
+                },
+                "metric_availability.csv": {
+                  "sizeBytes": 1160,
+                  "sha256": "91671e40cc7a56c9a5bc245dd4876ad32996970aed28f8641aa9b7a6b2382671"
+                },
+                "results.csv": {
+                  "sizeBytes": 4381,
+                  "sha256": "07cb13fb691183a1494939a2d398331f1484a762670b11c992915ed22971e875"
+                },
+                "results.json": {
+                  "sizeBytes": 22436,
+                  "sha256": "2a69777091c53df45d9b4b36f467e3edd9289512ddccb81fd89d44cd1ac58a6b"
+                },
+                "run_manifest.json": {
+                  "sizeBytes": 7629,
+                  "sha256": "84525f45950b00d19c8f67ad9fa5c85125a3b0fb4f67969395fb6c51e9e90bc3"
+                }
+              },
+              "normalized": {
+                "calibration.csv": {
+                  "sha256": "25e685ad5f16421dabbfb37eaaf200ebf503f0e5940f39b59c62378cef8911d0",
+                  "sizeBytes": 4770
+                },
+                "data_quality.csv": {
+                  "sha256": "e69d1756fe9d387431bc657eb94ef9f520489256b506340104a3d53273432eaa",
+                  "sizeBytes": 2725
+                },
+                "results.csv": {
+                  "sha256": "07cb13fb691183a1494939a2d398331f1484a762670b11c992915ed22971e875",
+                  "sizeBytes": 4381
+                },
+                "results.json": {
+                  "sha256": "2a69777091c53df45d9b4b36f467e3edd9289512ddccb81fd89d44cd1ac58a6b",
+                  "sizeBytes": 22436
+                },
+                "calibration_tracks.csv": {
+                  "sha256": "8278ad1a52d2937aa0d53f32eef19fd04f2147e78b14d1c0e019df8832e2a2c1",
+                  "sizeBytes": 4014
+                },
+                "calibration_recommendations.csv": {
+                  "sha256": "15fe0709a6ad39ceaebfd28b94edb799eb8d819257b36733dbb93b697aa51bed",
+                  "sizeBytes": 7341
+                },
+                "metric_availability.csv": {
+                  "sha256": "91671e40cc7a56c9a5bc245dd4876ad32996970aed28f8641aa9b7a6b2382671",
+                  "sizeBytes": 1160
+                },
+                "calibration_state.json": {
+                  "sha256": "386be0aff598e63783e627708a8b5fe7cc20117456689db1e59f73b182ef20b5",
+                  "sizeBytes": 17656
+                },
+                "run_manifest.json": {
+                  "sha256": "64caf5ec16e2e7d67ad3ed65239a29fb757d1fa74790bda04625e87ec60a4f6e",
+                  "sizeBytes": 7598
+                },
+                "stdout.json": {
+                  "sha256": "5b440c1a2a88ca2bb99445e30c05140224f3b9b1f6d6e42081c5ecf91fc17208",
+                  "sizeBytes": 3841
+                }
+              }
+            },
+            {
+              "invocation": "analyze-pair2-1-B",
+              "actual": {
+                "calibration.csv": {
+                  "sizeBytes": 4770,
+                  "sha256": "25e685ad5f16421dabbfb37eaaf200ebf503f0e5940f39b59c62378cef8911d0"
+                },
+                "calibration_recommendations.csv": {
+                  "sizeBytes": 7341,
+                  "sha256": "15fe0709a6ad39ceaebfd28b94edb799eb8d819257b36733dbb93b697aa51bed"
+                },
+                "calibration_state.json": {
+                  "sizeBytes": 17673,
+                  "sha256": "68d1bc5c9d142fca8d606223117143b2325faf3c1afdbea56e1177a34b2fe016"
+                },
+                "calibration_tracks.csv": {
+                  "sizeBytes": 4014,
+                  "sha256": "8278ad1a52d2937aa0d53f32eef19fd04f2147e78b14d1c0e019df8832e2a2c1"
+                },
+                "data_quality.csv": {
+                  "sizeBytes": 2725,
+                  "sha256": "e69d1756fe9d387431bc657eb94ef9f520489256b506340104a3d53273432eaa"
+                },
+                "metric_availability.csv": {
+                  "sizeBytes": 1160,
+                  "sha256": "91671e40cc7a56c9a5bc245dd4876ad32996970aed28f8641aa9b7a6b2382671"
+                },
+                "results.csv": {
+                  "sizeBytes": 4381,
+                  "sha256": "07cb13fb691183a1494939a2d398331f1484a762670b11c992915ed22971e875"
+                },
+                "results.json": {
+                  "sizeBytes": 22436,
+                  "sha256": "2a69777091c53df45d9b4b36f467e3edd9289512ddccb81fd89d44cd1ac58a6b"
+                },
+                "run_manifest.json": {
+                  "sizeBytes": 7629,
+                  "sha256": "7b98f245b1d353ab693cd920dc15005ae84113c71eb06f98859656217e0785ce"
+                }
+              },
+              "normalized": {
+                "calibration.csv": {
+                  "sha256": "25e685ad5f16421dabbfb37eaaf200ebf503f0e5940f39b59c62378cef8911d0",
+                  "sizeBytes": 4770
+                },
+                "data_quality.csv": {
+                  "sha256": "e69d1756fe9d387431bc657eb94ef9f520489256b506340104a3d53273432eaa",
+                  "sizeBytes": 2725
+                },
+                "results.csv": {
+                  "sha256": "07cb13fb691183a1494939a2d398331f1484a762670b11c992915ed22971e875",
+                  "sizeBytes": 4381
+                },
+                "results.json": {
+                  "sha256": "2a69777091c53df45d9b4b36f467e3edd9289512ddccb81fd89d44cd1ac58a6b",
+                  "sizeBytes": 22436
+                },
+                "calibration_tracks.csv": {
+                  "sha256": "8278ad1a52d2937aa0d53f32eef19fd04f2147e78b14d1c0e019df8832e2a2c1",
+                  "sizeBytes": 4014
+                },
+                "calibration_recommendations.csv": {
+                  "sha256": "15fe0709a6ad39ceaebfd28b94edb799eb8d819257b36733dbb93b697aa51bed",
+                  "sizeBytes": 7341
+                },
+                "metric_availability.csv": {
+                  "sha256": "91671e40cc7a56c9a5bc245dd4876ad32996970aed28f8641aa9b7a6b2382671",
+                  "sizeBytes": 1160
+                },
+                "calibration_state.json": {
+                  "sha256": "386be0aff598e63783e627708a8b5fe7cc20117456689db1e59f73b182ef20b5",
+                  "sizeBytes": 17656
+                },
+                "run_manifest.json": {
+                  "sha256": "64caf5ec16e2e7d67ad3ed65239a29fb757d1fa74790bda04625e87ec60a4f6e",
+                  "sizeBytes": 7598
+                },
+                "stdout.json": {
+                  "sha256": "5b440c1a2a88ca2bb99445e30c05140224f3b9b1f6d6e42081c5ecf91fc17208",
+                  "sizeBytes": 3841
+                }
+              }
+            },
+            {
+              "invocation": "analyze-pair2-2-A",
+              "actual": {
+                "calibration.csv": {
+                  "sizeBytes": 4770,
+                  "sha256": "25e685ad5f16421dabbfb37eaaf200ebf503f0e5940f39b59c62378cef8911d0"
+                },
+                "calibration_recommendations.csv": {
+                  "sizeBytes": 7341,
+                  "sha256": "15fe0709a6ad39ceaebfd28b94edb799eb8d819257b36733dbb93b697aa51bed"
+                },
+                "calibration_state.json": {
+                  "sizeBytes": 17673,
+                  "sha256": "68d1bc5c9d142fca8d606223117143b2325faf3c1afdbea56e1177a34b2fe016"
+                },
+                "calibration_tracks.csv": {
+                  "sizeBytes": 4014,
+                  "sha256": "8278ad1a52d2937aa0d53f32eef19fd04f2147e78b14d1c0e019df8832e2a2c1"
+                },
+                "data_quality.csv": {
+                  "sizeBytes": 2725,
+                  "sha256": "e69d1756fe9d387431bc657eb94ef9f520489256b506340104a3d53273432eaa"
+                },
+                "metric_availability.csv": {
+                  "sizeBytes": 1160,
+                  "sha256": "91671e40cc7a56c9a5bc245dd4876ad32996970aed28f8641aa9b7a6b2382671"
+                },
+                "results.csv": {
+                  "sizeBytes": 4381,
+                  "sha256": "07cb13fb691183a1494939a2d398331f1484a762670b11c992915ed22971e875"
+                },
+                "results.json": {
+                  "sizeBytes": 22436,
+                  "sha256": "2a69777091c53df45d9b4b36f467e3edd9289512ddccb81fd89d44cd1ac58a6b"
+                },
+                "run_manifest.json": {
+                  "sizeBytes": 7628,
+                  "sha256": "3017ec91315f2d8fc1934800d977f5af87352d948c0239b69123d2dbfaf88321"
+                }
+              },
+              "normalized": {
+                "calibration.csv": {
+                  "sha256": "25e685ad5f16421dabbfb37eaaf200ebf503f0e5940f39b59c62378cef8911d0",
+                  "sizeBytes": 4770
+                },
+                "data_quality.csv": {
+                  "sha256": "e69d1756fe9d387431bc657eb94ef9f520489256b506340104a3d53273432eaa",
+                  "sizeBytes": 2725
+                },
+                "results.csv": {
+                  "sha256": "07cb13fb691183a1494939a2d398331f1484a762670b11c992915ed22971e875",
+                  "sizeBytes": 4381
+                },
+                "results.json": {
+                  "sha256": "2a69777091c53df45d9b4b36f467e3edd9289512ddccb81fd89d44cd1ac58a6b",
+                  "sizeBytes": 22436
+                },
+                "calibration_tracks.csv": {
+                  "sha256": "8278ad1a52d2937aa0d53f32eef19fd04f2147e78b14d1c0e019df8832e2a2c1",
+                  "sizeBytes": 4014
+                },
+                "calibration_recommendations.csv": {
+                  "sha256": "15fe0709a6ad39ceaebfd28b94edb799eb8d819257b36733dbb93b697aa51bed",
+                  "sizeBytes": 7341
+                },
+                "metric_availability.csv": {
+                  "sha256": "91671e40cc7a56c9a5bc245dd4876ad32996970aed28f8641aa9b7a6b2382671",
+                  "sizeBytes": 1160
+                },
+                "calibration_state.json": {
+                  "sha256": "386be0aff598e63783e627708a8b5fe7cc20117456689db1e59f73b182ef20b5",
+                  "sizeBytes": 17656
+                },
+                "run_manifest.json": {
+                  "sha256": "64caf5ec16e2e7d67ad3ed65239a29fb757d1fa74790bda04625e87ec60a4f6e",
+                  "sizeBytes": 7598
+                },
+                "stdout.json": {
+                  "sha256": "5b440c1a2a88ca2bb99445e30c05140224f3b9b1f6d6e42081c5ecf91fc17208",
+                  "sizeBytes": 3841
+                }
+              }
+            },
+            {
+              "invocation": "analyze-pair3-1-A",
+              "actual": {
+                "calibration.csv": {
+                  "sizeBytes": 4770,
+                  "sha256": "25e685ad5f16421dabbfb37eaaf200ebf503f0e5940f39b59c62378cef8911d0"
+                },
+                "calibration_recommendations.csv": {
+                  "sizeBytes": 7341,
+                  "sha256": "15fe0709a6ad39ceaebfd28b94edb799eb8d819257b36733dbb93b697aa51bed"
+                },
+                "calibration_state.json": {
+                  "sizeBytes": 17673,
+                  "sha256": "68d1bc5c9d142fca8d606223117143b2325faf3c1afdbea56e1177a34b2fe016"
+                },
+                "calibration_tracks.csv": {
+                  "sizeBytes": 4014,
+                  "sha256": "8278ad1a52d2937aa0d53f32eef19fd04f2147e78b14d1c0e019df8832e2a2c1"
+                },
+                "data_quality.csv": {
+                  "sizeBytes": 2725,
+                  "sha256": "e69d1756fe9d387431bc657eb94ef9f520489256b506340104a3d53273432eaa"
+                },
+                "metric_availability.csv": {
+                  "sizeBytes": 1160,
+                  "sha256": "91671e40cc7a56c9a5bc245dd4876ad32996970aed28f8641aa9b7a6b2382671"
+                },
+                "results.csv": {
+                  "sizeBytes": 4381,
+                  "sha256": "07cb13fb691183a1494939a2d398331f1484a762670b11c992915ed22971e875"
+                },
+                "results.json": {
+                  "sizeBytes": 22436,
+                  "sha256": "2a69777091c53df45d9b4b36f467e3edd9289512ddccb81fd89d44cd1ac58a6b"
+                },
+                "run_manifest.json": {
+                  "sizeBytes": 7629,
+                  "sha256": "8fed7a8df56d95f72fbdec818fa5cd50cbebc2ea4081ba37b669c8c22e967fac"
+                }
+              },
+              "normalized": {
+                "calibration.csv": {
+                  "sha256": "25e685ad5f16421dabbfb37eaaf200ebf503f0e5940f39b59c62378cef8911d0",
+                  "sizeBytes": 4770
+                },
+                "data_quality.csv": {
+                  "sha256": "e69d1756fe9d387431bc657eb94ef9f520489256b506340104a3d53273432eaa",
+                  "sizeBytes": 2725
+                },
+                "results.csv": {
+                  "sha256": "07cb13fb691183a1494939a2d398331f1484a762670b11c992915ed22971e875",
+                  "sizeBytes": 4381
+                },
+                "results.json": {
+                  "sha256": "2a69777091c53df45d9b4b36f467e3edd9289512ddccb81fd89d44cd1ac58a6b",
+                  "sizeBytes": 22436
+                },
+                "calibration_tracks.csv": {
+                  "sha256": "8278ad1a52d2937aa0d53f32eef19fd04f2147e78b14d1c0e019df8832e2a2c1",
+                  "sizeBytes": 4014
+                },
+                "calibration_recommendations.csv": {
+                  "sha256": "15fe0709a6ad39ceaebfd28b94edb799eb8d819257b36733dbb93b697aa51bed",
+                  "sizeBytes": 7341
+                },
+                "metric_availability.csv": {
+                  "sha256": "91671e40cc7a56c9a5bc245dd4876ad32996970aed28f8641aa9b7a6b2382671",
+                  "sizeBytes": 1160
+                },
+                "calibration_state.json": {
+                  "sha256": "386be0aff598e63783e627708a8b5fe7cc20117456689db1e59f73b182ef20b5",
+                  "sizeBytes": 17656
+                },
+                "run_manifest.json": {
+                  "sha256": "64caf5ec16e2e7d67ad3ed65239a29fb757d1fa74790bda04625e87ec60a4f6e",
+                  "sizeBytes": 7598
+                },
+                "stdout.json": {
+                  "sha256": "5b440c1a2a88ca2bb99445e30c05140224f3b9b1f6d6e42081c5ecf91fc17208",
+                  "sizeBytes": 3841
+                }
+              }
+            },
+            {
+              "invocation": "analyze-pair3-2-B",
+              "actual": {
+                "calibration.csv": {
+                  "sizeBytes": 4770,
+                  "sha256": "25e685ad5f16421dabbfb37eaaf200ebf503f0e5940f39b59c62378cef8911d0"
+                },
+                "calibration_recommendations.csv": {
+                  "sizeBytes": 7341,
+                  "sha256": "15fe0709a6ad39ceaebfd28b94edb799eb8d819257b36733dbb93b697aa51bed"
+                },
+                "calibration_state.json": {
+                  "sizeBytes": 17673,
+                  "sha256": "68d1bc5c9d142fca8d606223117143b2325faf3c1afdbea56e1177a34b2fe016"
+                },
+                "calibration_tracks.csv": {
+                  "sizeBytes": 4014,
+                  "sha256": "8278ad1a52d2937aa0d53f32eef19fd04f2147e78b14d1c0e019df8832e2a2c1"
+                },
+                "data_quality.csv": {
+                  "sizeBytes": 2725,
+                  "sha256": "e69d1756fe9d387431bc657eb94ef9f520489256b506340104a3d53273432eaa"
+                },
+                "metric_availability.csv": {
+                  "sizeBytes": 1160,
+                  "sha256": "91671e40cc7a56c9a5bc245dd4876ad32996970aed28f8641aa9b7a6b2382671"
+                },
+                "results.csv": {
+                  "sizeBytes": 4381,
+                  "sha256": "07cb13fb691183a1494939a2d398331f1484a762670b11c992915ed22971e875"
+                },
+                "results.json": {
+                  "sizeBytes": 22436,
+                  "sha256": "2a69777091c53df45d9b4b36f467e3edd9289512ddccb81fd89d44cd1ac58a6b"
+                },
+                "run_manifest.json": {
+                  "sizeBytes": 7629,
+                  "sha256": "43afd19a8e9438f2f8475b38b930b28556ff706f3f6808fd4ffd00a42b1f0584"
+                }
+              },
+              "normalized": {
+                "calibration.csv": {
+                  "sha256": "25e685ad5f16421dabbfb37eaaf200ebf503f0e5940f39b59c62378cef8911d0",
+                  "sizeBytes": 4770
+                },
+                "data_quality.csv": {
+                  "sha256": "e69d1756fe9d387431bc657eb94ef9f520489256b506340104a3d53273432eaa",
+                  "sizeBytes": 2725
+                },
+                "results.csv": {
+                  "sha256": "07cb13fb691183a1494939a2d398331f1484a762670b11c992915ed22971e875",
+                  "sizeBytes": 4381
+                },
+                "results.json": {
+                  "sha256": "2a69777091c53df45d9b4b36f467e3edd9289512ddccb81fd89d44cd1ac58a6b",
+                  "sizeBytes": 22436
+                },
+                "calibration_tracks.csv": {
+                  "sha256": "8278ad1a52d2937aa0d53f32eef19fd04f2147e78b14d1c0e019df8832e2a2c1",
+                  "sizeBytes": 4014
+                },
+                "calibration_recommendations.csv": {
+                  "sha256": "15fe0709a6ad39ceaebfd28b94edb799eb8d819257b36733dbb93b697aa51bed",
+                  "sizeBytes": 7341
+                },
+                "metric_availability.csv": {
+                  "sha256": "91671e40cc7a56c9a5bc245dd4876ad32996970aed28f8641aa9b7a6b2382671",
+                  "sizeBytes": 1160
+                },
+                "calibration_state.json": {
+                  "sha256": "386be0aff598e63783e627708a8b5fe7cc20117456689db1e59f73b182ef20b5",
+                  "sizeBytes": 17656
+                },
+                "run_manifest.json": {
+                  "sha256": "64caf5ec16e2e7d67ad3ed65239a29fb757d1fa74790bda04625e87ec60a4f6e",
+                  "sizeBytes": 7598
+                },
+                "stdout.json": {
+                  "sha256": "5b440c1a2a88ca2bb99445e30c05140224f3b9b1f6d6e42081c5ecf91fc17208",
+                  "sizeBytes": 3841
+                }
+              }
+            }
+          ]
+        },
+        {
+          "workload": "variance",
+          "passed": true,
+          "invocations": 6,
+          "comparisons": [
+            {
+              "reference": "variance-pair1-1-A",
+              "actual": "variance-pair1-2-B",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            },
+            {
+              "reference": "variance-pair1-1-A",
+              "actual": "variance-pair2-1-B",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            },
+            {
+              "reference": "variance-pair1-1-A",
+              "actual": "variance-pair2-2-A",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            },
+            {
+              "reference": "variance-pair1-1-A",
+              "actual": "variance-pair3-1-A",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            },
+            {
+              "reference": "variance-pair1-1-A",
+              "actual": "variance-pair3-2-B",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            }
+          ],
+          "errors": [],
+          "performance": {
+            "wallSeconds": {
+              "A": {
+                "values": [
+                  1.1211018890026025,
+                  1.1224528099992312,
+                  1.225322062993655
+                ],
+                "median": 1.1224528099992312,
+                "min": 1.1211018890026025,
+                "max": 1.225322062993655
+              },
+              "B": {
+                "values": [
+                  1.118348481002613,
+                  1.2217847629945027,
+                  1.1220098249905277
+                ],
+                "median": 1.1220098249905277,
+                "min": 1.118348481002613,
+                "max": 1.2217847629945027
+              },
+              "pairedBOverA": {
+                "values": [
+                  0.9975440162691732,
+                  1.0884954379465979,
+                  0.9156856461470063
+                ],
+                "median": 0.9975440162691732,
+                "min": 0.9156856461470063,
+                "max": 1.0884954379465979
+              },
+              "medianBOverMedianA": 0.9996053419753977
+            },
+            "cpuUserSeconds": {
+              "A": {
+                "values": [
+                  1.1574309999999999,
+                  1.158766,
+                  1.3199130000000001
+                ],
+                "median": 1.158766,
+                "min": 1.1574309999999999,
+                "max": 1.3199130000000001
+              },
+              "B": {
+                "values": [
+                  1.145369,
+                  1.243453,
+                  1.17276
+                ],
+                "median": 1.17276,
+                "min": 1.145369,
+                "max": 1.243453
+              },
+              "pairedBOverA": {
+                "values": [
+                  0.9895786444289122,
+                  1.073083780504433,
+                  0.8885131065456586
+                ],
+                "median": 0.9895786444289122,
+                "min": 0.8885131065456586,
+                "max": 1.073083780504433
+              },
+              "medianBOverMedianA": 1.0120766401499526
+            },
+            "cpuSystemSeconds": {
+              "A": {
+                "values": [
+                  0.051151999999999996,
+                  0.047345,
+                  0.026743
+                ],
+                "median": 0.047345,
+                "min": 0.026743,
+                "max": 0.051151999999999996
+              },
+              "B": {
+                "values": [
+                  0.050151999999999995,
+                  0.045118,
+                  0.033103
+                ],
+                "median": 0.045118,
+                "min": 0.033103,
+                "max": 0.050151999999999995
+              },
+              "pairedBOverA": {
+                "values": [
+                  0.980450422270879,
+                  0.9529622980251347,
+                  1.2378192424185768
+                ],
+                "median": 0.980450422270879,
+                "min": 0.9529622980251347,
+                "max": 1.2378192424185768
+              },
+              "medianBOverMedianA": 0.9529622980251347
+            },
+            "cpuTotalSeconds": {
+              "A": {
+                "values": [
+                  1.208583,
+                  1.206111,
+                  1.346656
+                ],
+                "median": 1.208583,
+                "min": 1.206111,
+                "max": 1.346656
+              },
+              "B": {
+                "values": [
+                  1.195521,
+                  1.288571,
+                  1.2058630000000001
+                ],
+                "median": 1.2058630000000001,
+                "min": 1.195521,
+                "max": 1.288571
+              },
+              "pairedBOverA": {
+                "values": [
+                  0.9891923020595194,
+                  1.0683685000800092,
+                  0.895449914454768
+                ],
+                "median": 0.9891923020595194,
+                "min": 0.895449914454768,
+                "max": 1.0683685000800092
+              },
+              "medianBOverMedianA": 0.9977494305314573
+            },
+            "peakRssKiB": {
+              "A": {
+                "values": [
+                  52688.0,
+                  52932.0,
+                  52760.0
+                ],
+                "median": 52760.0,
+                "min": 52688.0,
+                "max": 52932.0
+              },
+              "B": {
+                "values": [
+                  52908.0,
+                  52792.0,
+                  52632.0
+                ],
+                "median": 52792.0,
+                "min": 52632.0,
+                "max": 52908.0
+              },
+              "pairedBOverA": {
+                "values": [
+                  1.004175523838445,
+                  0.9973550971057206,
+                  0.997573919636088
+                ],
+                "median": 0.997573919636088,
+                "min": 0.9973550971057206,
+                "max": 1.004175523838445
+              },
+              "medianBOverMedianA": 1.000606520090978
+            }
+          },
+          "artifacts": [
+            {
+              "invocation": "variance-pair1-1-A",
+              "actual": {
+                "run_manifest.json": {
+                  "sizeBytes": 6062,
+                  "sha256": "eaad22b07e094ab74e9e58666bd8da0500b88066bd4110b4c80b9c8d3767bfea"
+                },
+                "variance_components.csv": {
+                  "sizeBytes": 723,
+                  "sha256": "e0c634d07d05f4806b8fb18ef482d3eefaa4d1d9166197237d394aac49f4f3ed"
+                },
+                "variance_report.json": {
+                  "sizeBytes": 4327,
+                  "sha256": "a206c4975d1e0dc3f5183328ac35349bec1ab9240aeb7a8b56bad69c3df8455b"
+                },
+                "variance_tests.csv": {
+                  "sizeBytes": 655,
+                  "sha256": "71f8f61a36ab187553b2a0cc94c9690adafe5b9b05cdcc7222fb245138d9cf19"
+                }
+              },
+              "normalized": {
+                "variance_tests.csv": {
+                  "sha256": "71f8f61a36ab187553b2a0cc94c9690adafe5b9b05cdcc7222fb245138d9cf19",
+                  "sizeBytes": 655
+                },
+                "variance_components.csv": {
+                  "sha256": "e0c634d07d05f4806b8fb18ef482d3eefaa4d1d9166197237d394aac49f4f3ed",
+                  "sizeBytes": 723
+                },
+                "variance_report.json": {
+                  "sha256": "a206c4975d1e0dc3f5183328ac35349bec1ab9240aeb7a8b56bad69c3df8455b",
+                  "sizeBytes": 4327
+                },
+                "run_manifest.json": {
+                  "sha256": "c7ea0336161d61359059d170d0498c09619707767d8d921ffda6aa20850046d2",
+                  "sizeBytes": 6013
+                },
+                "stdout.json": {
+                  "sha256": "4fda13392303fe3a400d36cd1615ea3ac926d538c73846c77fafb9974e28c709",
+                  "sizeBytes": 2396
+                }
+              }
+            },
+            {
+              "invocation": "variance-pair1-2-B",
+              "actual": {
+                "run_manifest.json": {
+                  "sizeBytes": 6062,
+                  "sha256": "4164a52c4c35713d8009d4dd0a5f8b41005194992fae6dfc83ed0379134d36ba"
+                },
+                "variance_components.csv": {
+                  "sizeBytes": 723,
+                  "sha256": "e0c634d07d05f4806b8fb18ef482d3eefaa4d1d9166197237d394aac49f4f3ed"
+                },
+                "variance_report.json": {
+                  "sizeBytes": 4327,
+                  "sha256": "a206c4975d1e0dc3f5183328ac35349bec1ab9240aeb7a8b56bad69c3df8455b"
+                },
+                "variance_tests.csv": {
+                  "sizeBytes": 655,
+                  "sha256": "71f8f61a36ab187553b2a0cc94c9690adafe5b9b05cdcc7222fb245138d9cf19"
+                }
+              },
+              "normalized": {
+                "variance_tests.csv": {
+                  "sha256": "71f8f61a36ab187553b2a0cc94c9690adafe5b9b05cdcc7222fb245138d9cf19",
+                  "sizeBytes": 655
+                },
+                "variance_components.csv": {
+                  "sha256": "e0c634d07d05f4806b8fb18ef482d3eefaa4d1d9166197237d394aac49f4f3ed",
+                  "sizeBytes": 723
+                },
+                "variance_report.json": {
+                  "sha256": "a206c4975d1e0dc3f5183328ac35349bec1ab9240aeb7a8b56bad69c3df8455b",
+                  "sizeBytes": 4327
+                },
+                "run_manifest.json": {
+                  "sha256": "c7ea0336161d61359059d170d0498c09619707767d8d921ffda6aa20850046d2",
+                  "sizeBytes": 6013
+                },
+                "stdout.json": {
+                  "sha256": "4fda13392303fe3a400d36cd1615ea3ac926d538c73846c77fafb9974e28c709",
+                  "sizeBytes": 2396
+                }
+              }
+            },
+            {
+              "invocation": "variance-pair2-1-B",
+              "actual": {
+                "run_manifest.json": {
+                  "sizeBytes": 6062,
+                  "sha256": "4755dd3aea9833f3f6932dc5a0a6c9cf77275972c38cb5fd653dbc562a7dff32"
+                },
+                "variance_components.csv": {
+                  "sizeBytes": 723,
+                  "sha256": "e0c634d07d05f4806b8fb18ef482d3eefaa4d1d9166197237d394aac49f4f3ed"
+                },
+                "variance_report.json": {
+                  "sizeBytes": 4327,
+                  "sha256": "a206c4975d1e0dc3f5183328ac35349bec1ab9240aeb7a8b56bad69c3df8455b"
+                },
+                "variance_tests.csv": {
+                  "sizeBytes": 655,
+                  "sha256": "71f8f61a36ab187553b2a0cc94c9690adafe5b9b05cdcc7222fb245138d9cf19"
+                }
+              },
+              "normalized": {
+                "variance_tests.csv": {
+                  "sha256": "71f8f61a36ab187553b2a0cc94c9690adafe5b9b05cdcc7222fb245138d9cf19",
+                  "sizeBytes": 655
+                },
+                "variance_components.csv": {
+                  "sha256": "e0c634d07d05f4806b8fb18ef482d3eefaa4d1d9166197237d394aac49f4f3ed",
+                  "sizeBytes": 723
+                },
+                "variance_report.json": {
+                  "sha256": "a206c4975d1e0dc3f5183328ac35349bec1ab9240aeb7a8b56bad69c3df8455b",
+                  "sizeBytes": 4327
+                },
+                "run_manifest.json": {
+                  "sha256": "c7ea0336161d61359059d170d0498c09619707767d8d921ffda6aa20850046d2",
+                  "sizeBytes": 6013
+                },
+                "stdout.json": {
+                  "sha256": "4fda13392303fe3a400d36cd1615ea3ac926d538c73846c77fafb9974e28c709",
+                  "sizeBytes": 2396
+                }
+              }
+            },
+            {
+              "invocation": "variance-pair2-2-A",
+              "actual": {
+                "run_manifest.json": {
+                  "sizeBytes": 6062,
+                  "sha256": "8efff33805b99577ad0b944b480fa1c7afc9ec7e5f23f45910f0b9023617fb24"
+                },
+                "variance_components.csv": {
+                  "sizeBytes": 723,
+                  "sha256": "e0c634d07d05f4806b8fb18ef482d3eefaa4d1d9166197237d394aac49f4f3ed"
+                },
+                "variance_report.json": {
+                  "sizeBytes": 4327,
+                  "sha256": "a206c4975d1e0dc3f5183328ac35349bec1ab9240aeb7a8b56bad69c3df8455b"
+                },
+                "variance_tests.csv": {
+                  "sizeBytes": 655,
+                  "sha256": "71f8f61a36ab187553b2a0cc94c9690adafe5b9b05cdcc7222fb245138d9cf19"
+                }
+              },
+              "normalized": {
+                "variance_tests.csv": {
+                  "sha256": "71f8f61a36ab187553b2a0cc94c9690adafe5b9b05cdcc7222fb245138d9cf19",
+                  "sizeBytes": 655
+                },
+                "variance_components.csv": {
+                  "sha256": "e0c634d07d05f4806b8fb18ef482d3eefaa4d1d9166197237d394aac49f4f3ed",
+                  "sizeBytes": 723
+                },
+                "variance_report.json": {
+                  "sha256": "a206c4975d1e0dc3f5183328ac35349bec1ab9240aeb7a8b56bad69c3df8455b",
+                  "sizeBytes": 4327
+                },
+                "run_manifest.json": {
+                  "sha256": "c7ea0336161d61359059d170d0498c09619707767d8d921ffda6aa20850046d2",
+                  "sizeBytes": 6013
+                },
+                "stdout.json": {
+                  "sha256": "4fda13392303fe3a400d36cd1615ea3ac926d538c73846c77fafb9974e28c709",
+                  "sizeBytes": 2396
+                }
+              }
+            },
+            {
+              "invocation": "variance-pair3-1-A",
+              "actual": {
+                "run_manifest.json": {
+                  "sizeBytes": 6062,
+                  "sha256": "0de5f2dfadc61eb4e56b7d89391933dc73327283b74cb9e23bd889f24edf1bcd"
+                },
+                "variance_components.csv": {
+                  "sizeBytes": 723,
+                  "sha256": "e0c634d07d05f4806b8fb18ef482d3eefaa4d1d9166197237d394aac49f4f3ed"
+                },
+                "variance_report.json": {
+                  "sizeBytes": 4327,
+                  "sha256": "a206c4975d1e0dc3f5183328ac35349bec1ab9240aeb7a8b56bad69c3df8455b"
+                },
+                "variance_tests.csv": {
+                  "sizeBytes": 655,
+                  "sha256": "71f8f61a36ab187553b2a0cc94c9690adafe5b9b05cdcc7222fb245138d9cf19"
+                }
+              },
+              "normalized": {
+                "variance_tests.csv": {
+                  "sha256": "71f8f61a36ab187553b2a0cc94c9690adafe5b9b05cdcc7222fb245138d9cf19",
+                  "sizeBytes": 655
+                },
+                "variance_components.csv": {
+                  "sha256": "e0c634d07d05f4806b8fb18ef482d3eefaa4d1d9166197237d394aac49f4f3ed",
+                  "sizeBytes": 723
+                },
+                "variance_report.json": {
+                  "sha256": "a206c4975d1e0dc3f5183328ac35349bec1ab9240aeb7a8b56bad69c3df8455b",
+                  "sizeBytes": 4327
+                },
+                "run_manifest.json": {
+                  "sha256": "c7ea0336161d61359059d170d0498c09619707767d8d921ffda6aa20850046d2",
+                  "sizeBytes": 6013
+                },
+                "stdout.json": {
+                  "sha256": "4fda13392303fe3a400d36cd1615ea3ac926d538c73846c77fafb9974e28c709",
+                  "sizeBytes": 2396
+                }
+              }
+            },
+            {
+              "invocation": "variance-pair3-2-B",
+              "actual": {
+                "run_manifest.json": {
+                  "sizeBytes": 6062,
+                  "sha256": "a753bd6f0c99373c8e964c42acceaede0b16eb780fd94a641f7a718e36d733a3"
+                },
+                "variance_components.csv": {
+                  "sizeBytes": 723,
+                  "sha256": "e0c634d07d05f4806b8fb18ef482d3eefaa4d1d9166197237d394aac49f4f3ed"
+                },
+                "variance_report.json": {
+                  "sizeBytes": 4327,
+                  "sha256": "a206c4975d1e0dc3f5183328ac35349bec1ab9240aeb7a8b56bad69c3df8455b"
+                },
+                "variance_tests.csv": {
+                  "sizeBytes": 655,
+                  "sha256": "71f8f61a36ab187553b2a0cc94c9690adafe5b9b05cdcc7222fb245138d9cf19"
+                }
+              },
+              "normalized": {
+                "variance_tests.csv": {
+                  "sha256": "71f8f61a36ab187553b2a0cc94c9690adafe5b9b05cdcc7222fb245138d9cf19",
+                  "sizeBytes": 655
+                },
+                "variance_components.csv": {
+                  "sha256": "e0c634d07d05f4806b8fb18ef482d3eefaa4d1d9166197237d394aac49f4f3ed",
+                  "sizeBytes": 723
+                },
+                "variance_report.json": {
+                  "sha256": "a206c4975d1e0dc3f5183328ac35349bec1ab9240aeb7a8b56bad69c3df8455b",
+                  "sizeBytes": 4327
+                },
+                "run_manifest.json": {
+                  "sha256": "c7ea0336161d61359059d170d0498c09619707767d8d921ffda6aa20850046d2",
+                  "sizeBytes": 6013
+                },
+                "stdout.json": {
+                  "sha256": "4fda13392303fe3a400d36cd1615ea3ac926d538c73846c77fafb9974e28c709",
+                  "sizeBytes": 2396
+                }
+              }
+            }
+          ]
+        },
+        {
+          "workload": "estimation",
+          "passed": true,
+          "invocations": 6,
+          "comparisons": [
+            {
+              "reference": "estimation-pair1-1-A",
+              "actual": "estimation-pair1-2-B",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            },
+            {
+              "reference": "estimation-pair1-1-A",
+              "actual": "estimation-pair2-1-B",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            },
+            {
+              "reference": "estimation-pair1-1-A",
+              "actual": "estimation-pair2-2-A",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            },
+            {
+              "reference": "estimation-pair1-1-A",
+              "actual": "estimation-pair3-1-A",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            },
+            {
+              "reference": "estimation-pair1-1-A",
+              "actual": "estimation-pair3-2-B",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            }
+          ],
+          "errors": [],
+          "performance": {
+            "wallSeconds": {
+              "A": {
+                "values": [
+                  0.40767217900429387,
+                  0.40847126000153366,
+                  0.4089104609884089
+                ],
+                "median": 0.40847126000153366,
+                "min": 0.40767217900429387,
+                "max": 0.4089104609884089
+              },
+              "B": {
+                "values": [
+                  0.40832807699916884,
+                  0.4594583129946841,
+                  0.40894575499987695
+                ],
+                "median": 0.40894575499987695,
+                "min": 0.40832807699916884,
+                "max": 0.4594583129946841
+              },
+              "pairedBOverA": {
+                "values": [
+                  1.001608885836843,
+                  1.1248240891977541,
+                  1.0000863123222203
+                ],
+                "median": 1.001608885836843,
+                "min": 1.0000863123222203,
+                "max": 1.1248240891977541
+              },
+              "medianBOverMedianA": 1.0011616361903688
+            },
+            "cpuUserSeconds": {
+              "A": {
+                "values": [
+                  0.340874,
+                  0.36103799999999997,
+                  0.377502
+                ],
+                "median": 0.36103799999999997,
+                "min": 0.340874,
+                "max": 0.377502
+              },
+              "B": {
+                "values": [
+                  0.400856,
+                  0.44374399999999997,
+                  0.35002
+                ],
+                "median": 0.400856,
+                "min": 0.35002,
+                "max": 0.44374399999999997
+              },
+              "pairedBOverA": {
+                "values": [
+                  1.1759653126961869,
+                  1.2290783795611542,
+                  0.9272003856933209
+                ],
+                "median": 1.1759653126961869,
+                "min": 0.9272003856933209,
+                "max": 1.2290783795611542
+              },
+              "medianBOverMedianA": 1.1102875597582527
+            },
+            "cpuSystemSeconds": {
+              "A": {
+                "values": [
+                  0.052478,
+                  0.016409,
+                  0.028492
+                ],
+                "median": 0.028492,
+                "min": 0.016409,
+                "max": 0.052478
+              },
+              "B": {
+                "values": [
+                  0.014393,
+                  0.028189,
+                  0.045452
+                ],
+                "median": 0.028189,
+                "min": 0.014393,
+                "max": 0.045452
+              },
+              "pairedBOverA": {
+                "values": [
+                  0.27426731201646404,
+                  1.7178987141202997,
+                  1.5952548083672609
+                ],
+                "median": 1.5952548083672609,
+                "min": 0.27426731201646404,
+                "max": 1.7178987141202997
+              },
+              "medianBOverMedianA": 0.9893654359118349
+            },
+            "cpuTotalSeconds": {
+              "A": {
+                "values": [
+                  0.39335200000000003,
+                  0.377447,
+                  0.405994
+                ],
+                "median": 0.39335200000000003,
+                "min": 0.377447,
+                "max": 0.405994
+              },
+              "B": {
+                "values": [
+                  0.415249,
+                  0.471933,
+                  0.395472
+                ],
+                "median": 0.415249,
+                "min": 0.395472,
+                "max": 0.471933
+              },
+              "pairedBOverA": {
+                "values": [
+                  1.055667697126238,
+                  1.2503291852895904,
+                  0.9740833608378449
+                ],
+                "median": 1.055667697126238,
+                "min": 0.9740833608378449,
+                "max": 1.2503291852895904
+              },
+              "medianBOverMedianA": 1.055667697126238
+            },
+            "peakRssKiB": {
+              "A": {
+                "values": [
+                  47108.0,
+                  47160.0,
+                  47176.0
+                ],
+                "median": 47160.0,
+                "min": 47108.0,
+                "max": 47176.0
+              },
+              "B": {
+                "values": [
+                  47160.0,
+                  47292.0,
+                  47200.0
+                ],
+                "median": 47200.0,
+                "min": 47160.0,
+                "max": 47292.0
+              },
+              "pairedBOverA": {
+                "values": [
+                  1.001103846480428,
+                  1.0027989821882952,
+                  1.000508733254197
+                ],
+                "median": 1.001103846480428,
+                "min": 1.000508733254197,
+                "max": 1.0027989821882952
+              },
+              "medianBOverMedianA": 1.0008481764206956
+            }
+          },
+          "artifacts": [
+            {
+              "invocation": "estimation-pair1-1-A",
+              "actual": {
+                "estimation_draws.csv": {
+                  "sizeBytes": 28080,
+                  "sha256": "4292486876fafa1e9179d97f2daffc5a01373eed5eab9341d93acebcb40871c8"
+                },
+                "estimation_performance.csv": {
+                  "sizeBytes": 1080,
+                  "sha256": "5305a86e40b330b14928905b82e25064995eb1e22110af409ae724eb00642a47"
+                },
+                "estimation_report.json": {
+                  "sizeBytes": 67528,
+                  "sha256": "05dcfc63a685fffdd1b290e35723d74d4eeb7a3b71320f659ab3fdcbebed879e"
+                },
+                "run_manifest.json": {
+                  "sizeBytes": 1721,
+                  "sha256": "57f037facccc6da6aad81957cd0f1585240b0a885c761f498d03e7549af7ac05"
+                }
+              },
+              "normalized": {
+                "estimation_draws.csv": {
+                  "sha256": "4292486876fafa1e9179d97f2daffc5a01373eed5eab9341d93acebcb40871c8",
+                  "sizeBytes": 28080
+                },
+                "estimation_report.json": {
+                  "sha256": "05dcfc63a685fffdd1b290e35723d74d4eeb7a3b71320f659ab3fdcbebed879e",
+                  "sizeBytes": 67528
+                },
+                "estimation_performance.csv": {
+                  "sha256": "5305a86e40b330b14928905b82e25064995eb1e22110af409ae724eb00642a47",
+                  "sizeBytes": 1080
+                },
+                "run_manifest.json": {
+                  "sha256": "a08b6bfdc284a53f9926b3559d21e00ae046795e56487fbf31753fc88fb18ee7",
+                  "sizeBytes": 1669
+                },
+                "stdout.json": {
+                  "sha256": "f4481f643f22fc0db8da35d90573b3c926d12eb4504ea1f74ae2f7608901f505",
+                  "sizeBytes": 2416
+                }
+              }
+            },
+            {
+              "invocation": "estimation-pair1-2-B",
+              "actual": {
+                "estimation_draws.csv": {
+                  "sizeBytes": 28080,
+                  "sha256": "4292486876fafa1e9179d97f2daffc5a01373eed5eab9341d93acebcb40871c8"
+                },
+                "estimation_performance.csv": {
+                  "sizeBytes": 1080,
+                  "sha256": "5305a86e40b330b14928905b82e25064995eb1e22110af409ae724eb00642a47"
+                },
+                "estimation_report.json": {
+                  "sizeBytes": 67528,
+                  "sha256": "05dcfc63a685fffdd1b290e35723d74d4eeb7a3b71320f659ab3fdcbebed879e"
+                },
+                "run_manifest.json": {
+                  "sizeBytes": 1721,
+                  "sha256": "7f252cf2c18e84c91934277d8fe50dbc0e8572b6d592798e84302e1312d5a0de"
+                }
+              },
+              "normalized": {
+                "estimation_draws.csv": {
+                  "sha256": "4292486876fafa1e9179d97f2daffc5a01373eed5eab9341d93acebcb40871c8",
+                  "sizeBytes": 28080
+                },
+                "estimation_report.json": {
+                  "sha256": "05dcfc63a685fffdd1b290e35723d74d4eeb7a3b71320f659ab3fdcbebed879e",
+                  "sizeBytes": 67528
+                },
+                "estimation_performance.csv": {
+                  "sha256": "5305a86e40b330b14928905b82e25064995eb1e22110af409ae724eb00642a47",
+                  "sizeBytes": 1080
+                },
+                "run_manifest.json": {
+                  "sha256": "a08b6bfdc284a53f9926b3559d21e00ae046795e56487fbf31753fc88fb18ee7",
+                  "sizeBytes": 1669
+                },
+                "stdout.json": {
+                  "sha256": "f4481f643f22fc0db8da35d90573b3c926d12eb4504ea1f74ae2f7608901f505",
+                  "sizeBytes": 2416
+                }
+              }
+            },
+            {
+              "invocation": "estimation-pair2-1-B",
+              "actual": {
+                "estimation_draws.csv": {
+                  "sizeBytes": 28080,
+                  "sha256": "4292486876fafa1e9179d97f2daffc5a01373eed5eab9341d93acebcb40871c8"
+                },
+                "estimation_performance.csv": {
+                  "sizeBytes": 1080,
+                  "sha256": "5305a86e40b330b14928905b82e25064995eb1e22110af409ae724eb00642a47"
+                },
+                "estimation_report.json": {
+                  "sizeBytes": 67528,
+                  "sha256": "05dcfc63a685fffdd1b290e35723d74d4eeb7a3b71320f659ab3fdcbebed879e"
+                },
+                "run_manifest.json": {
+                  "sizeBytes": 1721,
+                  "sha256": "e52169460513eaf329b4dddc75c8277f004f69798006bc754dbb51a03ab45dc9"
+                }
+              },
+              "normalized": {
+                "estimation_draws.csv": {
+                  "sha256": "4292486876fafa1e9179d97f2daffc5a01373eed5eab9341d93acebcb40871c8",
+                  "sizeBytes": 28080
+                },
+                "estimation_report.json": {
+                  "sha256": "05dcfc63a685fffdd1b290e35723d74d4eeb7a3b71320f659ab3fdcbebed879e",
+                  "sizeBytes": 67528
+                },
+                "estimation_performance.csv": {
+                  "sha256": "5305a86e40b330b14928905b82e25064995eb1e22110af409ae724eb00642a47",
+                  "sizeBytes": 1080
+                },
+                "run_manifest.json": {
+                  "sha256": "a08b6bfdc284a53f9926b3559d21e00ae046795e56487fbf31753fc88fb18ee7",
+                  "sizeBytes": 1669
+                },
+                "stdout.json": {
+                  "sha256": "f4481f643f22fc0db8da35d90573b3c926d12eb4504ea1f74ae2f7608901f505",
+                  "sizeBytes": 2416
+                }
+              }
+            },
+            {
+              "invocation": "estimation-pair2-2-A",
+              "actual": {
+                "estimation_draws.csv": {
+                  "sizeBytes": 28080,
+                  "sha256": "4292486876fafa1e9179d97f2daffc5a01373eed5eab9341d93acebcb40871c8"
+                },
+                "estimation_performance.csv": {
+                  "sizeBytes": 1080,
+                  "sha256": "5305a86e40b330b14928905b82e25064995eb1e22110af409ae724eb00642a47"
+                },
+                "estimation_report.json": {
+                  "sizeBytes": 67528,
+                  "sha256": "05dcfc63a685fffdd1b290e35723d74d4eeb7a3b71320f659ab3fdcbebed879e"
+                },
+                "run_manifest.json": {
+                  "sizeBytes": 1721,
+                  "sha256": "2f9127f94c9ea43170723eb4ff433a860241a3c494b013784545cefd10533c13"
+                }
+              },
+              "normalized": {
+                "estimation_draws.csv": {
+                  "sha256": "4292486876fafa1e9179d97f2daffc5a01373eed5eab9341d93acebcb40871c8",
+                  "sizeBytes": 28080
+                },
+                "estimation_report.json": {
+                  "sha256": "05dcfc63a685fffdd1b290e35723d74d4eeb7a3b71320f659ab3fdcbebed879e",
+                  "sizeBytes": 67528
+                },
+                "estimation_performance.csv": {
+                  "sha256": "5305a86e40b330b14928905b82e25064995eb1e22110af409ae724eb00642a47",
+                  "sizeBytes": 1080
+                },
+                "run_manifest.json": {
+                  "sha256": "a08b6bfdc284a53f9926b3559d21e00ae046795e56487fbf31753fc88fb18ee7",
+                  "sizeBytes": 1669
+                },
+                "stdout.json": {
+                  "sha256": "f4481f643f22fc0db8da35d90573b3c926d12eb4504ea1f74ae2f7608901f505",
+                  "sizeBytes": 2416
+                }
+              }
+            },
+            {
+              "invocation": "estimation-pair3-1-A",
+              "actual": {
+                "estimation_draws.csv": {
+                  "sizeBytes": 28080,
+                  "sha256": "4292486876fafa1e9179d97f2daffc5a01373eed5eab9341d93acebcb40871c8"
+                },
+                "estimation_performance.csv": {
+                  "sizeBytes": 1080,
+                  "sha256": "5305a86e40b330b14928905b82e25064995eb1e22110af409ae724eb00642a47"
+                },
+                "estimation_report.json": {
+                  "sizeBytes": 67528,
+                  "sha256": "05dcfc63a685fffdd1b290e35723d74d4eeb7a3b71320f659ab3fdcbebed879e"
+                },
+                "run_manifest.json": {
+                  "sizeBytes": 1721,
+                  "sha256": "ae3484d398df881dcf8b1010aa35a5432aad57b1e3236d6ecc320b1087e69ca3"
+                }
+              },
+              "normalized": {
+                "estimation_draws.csv": {
+                  "sha256": "4292486876fafa1e9179d97f2daffc5a01373eed5eab9341d93acebcb40871c8",
+                  "sizeBytes": 28080
+                },
+                "estimation_report.json": {
+                  "sha256": "05dcfc63a685fffdd1b290e35723d74d4eeb7a3b71320f659ab3fdcbebed879e",
+                  "sizeBytes": 67528
+                },
+                "estimation_performance.csv": {
+                  "sha256": "5305a86e40b330b14928905b82e25064995eb1e22110af409ae724eb00642a47",
+                  "sizeBytes": 1080
+                },
+                "run_manifest.json": {
+                  "sha256": "a08b6bfdc284a53f9926b3559d21e00ae046795e56487fbf31753fc88fb18ee7",
+                  "sizeBytes": 1669
+                },
+                "stdout.json": {
+                  "sha256": "f4481f643f22fc0db8da35d90573b3c926d12eb4504ea1f74ae2f7608901f505",
+                  "sizeBytes": 2416
+                }
+              }
+            },
+            {
+              "invocation": "estimation-pair3-2-B",
+              "actual": {
+                "estimation_draws.csv": {
+                  "sizeBytes": 28080,
+                  "sha256": "4292486876fafa1e9179d97f2daffc5a01373eed5eab9341d93acebcb40871c8"
+                },
+                "estimation_performance.csv": {
+                  "sizeBytes": 1080,
+                  "sha256": "5305a86e40b330b14928905b82e25064995eb1e22110af409ae724eb00642a47"
+                },
+                "estimation_report.json": {
+                  "sizeBytes": 67528,
+                  "sha256": "05dcfc63a685fffdd1b290e35723d74d4eeb7a3b71320f659ab3fdcbebed879e"
+                },
+                "run_manifest.json": {
+                  "sizeBytes": 1721,
+                  "sha256": "ec23300311d77b15146464395469ecf38dc43129c39816f9092da7d4cc78acb4"
+                }
+              },
+              "normalized": {
+                "estimation_draws.csv": {
+                  "sha256": "4292486876fafa1e9179d97f2daffc5a01373eed5eab9341d93acebcb40871c8",
+                  "sizeBytes": 28080
+                },
+                "estimation_report.json": {
+                  "sha256": "05dcfc63a685fffdd1b290e35723d74d4eeb7a3b71320f659ab3fdcbebed879e",
+                  "sizeBytes": 67528
+                },
+                "estimation_performance.csv": {
+                  "sha256": "5305a86e40b330b14928905b82e25064995eb1e22110af409ae724eb00642a47",
+                  "sizeBytes": 1080
+                },
+                "run_manifest.json": {
+                  "sha256": "a08b6bfdc284a53f9926b3559d21e00ae046795e56487fbf31753fc88fb18ee7",
+                  "sizeBytes": 1669
+                },
+                "stdout.json": {
+                  "sha256": "f4481f643f22fc0db8da35d90573b3c926d12eb4504ea1f74ae2f7608901f505",
+                  "sizeBytes": 2416
+                }
+              }
+            }
+          ]
+        },
+        {
+          "workload": "melsm",
+          "passed": true,
+          "invocations": 6,
+          "comparisons": [
+            {
+              "reference": "melsm-pair1-1-A",
+              "actual": "melsm-pair1-2-B",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            },
+            {
+              "reference": "melsm-pair1-1-A",
+              "actual": "melsm-pair2-1-B",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            },
+            {
+              "reference": "melsm-pair1-1-A",
+              "actual": "melsm-pair2-2-A",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            },
+            {
+              "reference": "melsm-pair1-1-A",
+              "actual": "melsm-pair3-1-A",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            },
+            {
+              "reference": "melsm-pair1-1-A",
+              "actual": "melsm-pair3-2-B",
+              "exactNormalizedBytesEqual": true,
+              "differentFiles": [],
+              "statusExitEqual": true
+            }
+          ],
+          "errors": [],
+          "performance": {
+            "wallSeconds": {
+              "A": {
+                "values": [
+                  0.2561004809977021,
+                  0.3073292030021548,
+                  0.2556487649999326
+                ],
+                "median": 0.2561004809977021,
+                "min": 0.2556487649999326,
+                "max": 0.3073292030021548
+              },
+              "B": {
+                "values": [
+                  0.25576418099808507,
+                  0.25503784100874327,
+                  0.3059526709985221
+                ],
+                "median": 0.25576418099808507,
+                "min": 0.25503784100874327,
+                "max": 0.3059526709985221
+              },
+              "pairedBOverA": {
+                "values": [
+                  0.9986868435455221,
+                  0.8298522838617295,
+                  1.196769603008263
+                ],
+                "median": 0.9986868435455221,
+                "min": 0.8298522838617295,
+                "max": 1.196769603008263
+              },
+              "medianBOverMedianA": 0.9986868435455221
+            },
+            "cpuUserSeconds": {
+              "A": {
+                "values": [
+                  0.178483,
+                  0.21917699999999998,
+                  0.174981
+                ],
+                "median": 0.178483,
+                "min": 0.174981,
+                "max": 0.21917699999999998
+              },
+              "B": {
+                "values": [
+                  0.170293,
+                  0.19916499999999998,
+                  0.239835
+                ],
+                "median": 0.19916499999999998,
+                "min": 0.170293,
+                "max": 0.239835
+              },
+              "pairedBOverA": {
+                "values": [
+                  0.9541132768947183,
+                  0.908694799180571,
+                  1.3706345260342552
+                ],
+                "median": 0.9541132768947183,
+                "min": 0.908694799180571,
+                "max": 1.3706345260342552
+              },
+              "medianBOverMedianA": 1.1158765820834475
+            },
+            "cpuSystemSeconds": {
+              "A": {
+                "values": [
+                  0.012086,
+                  0.030244999999999998,
+                  0.023403999999999998
+                ],
+                "median": 0.023403999999999998,
+                "min": 0.012086,
+                "max": 0.030244999999999998
+              },
+              "B": {
+                "values": [
+                  0.036444,
+                  0.028213,
+                  0.027819
+                ],
+                "median": 0.028213,
+                "min": 0.027819,
+                "max": 0.036444
+              },
+              "pairedBOverA": {
+                "values": [
+                  3.0153897070991227,
+                  0.9328153413787403,
+                  1.1886429670141858
+                ],
+                "median": 1.1886429670141858,
+                "min": 0.9328153413787403,
+                "max": 3.0153897070991227
+              },
+              "medianBOverMedianA": 1.2054776961203213
+            },
+            "cpuTotalSeconds": {
+              "A": {
+                "values": [
+                  0.190569,
+                  0.24942199999999998,
+                  0.198385
+                ],
+                "median": 0.198385,
+                "min": 0.190569,
+                "max": 0.24942199999999998
+              },
+              "B": {
+                "values": [
+                  0.206737,
+                  0.22737799999999997,
+                  0.267654
+                ],
+                "median": 0.22737799999999997,
+                "min": 0.206737,
+                "max": 0.267654
+              },
+              "pairedBOverA": {
+                "values": [
+                  1.0848406613877388,
+                  0.9116196646647048,
+                  1.3491645033646698
+                ],
+                "median": 1.0848406613877388,
+                "min": 0.9116196646647048,
+                "max": 1.3491645033646698
+              },
+              "medianBOverMedianA": 1.1461451218590113
+            },
+            "peakRssKiB": {
+              "A": {
+                "values": [
+                  48392.0,
+                  48672.0,
+                  48528.0
+                ],
+                "median": 48528.0,
+                "min": 48392.0,
+                "max": 48672.0
+              },
+              "B": {
+                "values": [
+                  48968.0,
+                  49088.0,
+                  48808.0
+                ],
+                "median": 48968.0,
+                "min": 48808.0,
+                "max": 49088.0
+              },
+              "pairedBOverA": {
+                "values": [
+                  1.0119027938502232,
+                  1.0085470085470085,
+                  1.00576986482031
+                ],
+                "median": 1.0085470085470085,
+                "min": 1.00576986482031,
+                "max": 1.0119027938502232
+              },
+              "medianBOverMedianA": 1.0090669304319155
+            }
+          },
+          "artifacts": [
+            {
+              "invocation": "melsm-pair1-1-A",
+              "actual": {
+                "melsm_parameters.csv": {
+                  "sizeBytes": 833,
+                  "sha256": "fdcc16fd639259d77e85a07e83e2eba7afeea698d3b731989cbf6937ab6ade16"
+                },
+                "melsm_random_effects.csv": {
+                  "sizeBytes": 54,
+                  "sha256": "03045e6619e087eeb9140e5ae9da3524398ddf21197a3bfb269aec5a097f7692"
+                },
+                "melsm_report.json": {
+                  "sizeBytes": 3483,
+                  "sha256": "50cd382e7e5c395649d9e89f539759d7eddcce1c819da50be7466677d4f1ef37"
+                },
+                "run_manifest.json": {
+                  "sizeBytes": 1648,
+                  "sha256": "9e788bc8ed36c3bd7de3db4156ccdd4952fb3aabcf21567047ce6a1dab974e36"
+                }
+              },
+              "normalized": {
+                "melsm_report.json": {
+                  "sha256": "50cd382e7e5c395649d9e89f539759d7eddcce1c819da50be7466677d4f1ef37",
+                  "sizeBytes": 3483
+                },
+                "melsm_random_effects.csv": {
+                  "sha256": "03045e6619e087eeb9140e5ae9da3524398ddf21197a3bfb269aec5a097f7692",
+                  "sizeBytes": 54
+                },
+                "melsm_parameters.csv": {
+                  "sha256": "fdcc16fd639259d77e85a07e83e2eba7afeea698d3b731989cbf6937ab6ade16",
+                  "sizeBytes": 833
+                },
+                "run_manifest.json": {
+                  "sha256": "50bdfe55a87eb9ced197bb6817181bc683ae64da5a5dba35f2df2e886abe7e9b",
+                  "sizeBytes": 1600
+                },
+                "stdout.json": {
+                  "sha256": "04c709a5b020def424f985d3f9b2e36b062aa79e14a98d50309caabb3036537c",
+                  "sizeBytes": 2594
+                }
+              }
+            },
+            {
+              "invocation": "melsm-pair1-2-B",
+              "actual": {
+                "melsm_parameters.csv": {
+                  "sizeBytes": 833,
+                  "sha256": "fdcc16fd639259d77e85a07e83e2eba7afeea698d3b731989cbf6937ab6ade16"
+                },
+                "melsm_random_effects.csv": {
+                  "sizeBytes": 54,
+                  "sha256": "03045e6619e087eeb9140e5ae9da3524398ddf21197a3bfb269aec5a097f7692"
+                },
+                "melsm_report.json": {
+                  "sizeBytes": 3483,
+                  "sha256": "50cd382e7e5c395649d9e89f539759d7eddcce1c819da50be7466677d4f1ef37"
+                },
+                "run_manifest.json": {
+                  "sizeBytes": 1648,
+                  "sha256": "ebd12b95b992bb8f347fd697bec2b5086c718c5f63d3dcfb03ee17088d9b1a31"
+                }
+              },
+              "normalized": {
+                "melsm_report.json": {
+                  "sha256": "50cd382e7e5c395649d9e89f539759d7eddcce1c819da50be7466677d4f1ef37",
+                  "sizeBytes": 3483
+                },
+                "melsm_random_effects.csv": {
+                  "sha256": "03045e6619e087eeb9140e5ae9da3524398ddf21197a3bfb269aec5a097f7692",
+                  "sizeBytes": 54
+                },
+                "melsm_parameters.csv": {
+                  "sha256": "fdcc16fd639259d77e85a07e83e2eba7afeea698d3b731989cbf6937ab6ade16",
+                  "sizeBytes": 833
+                },
+                "run_manifest.json": {
+                  "sha256": "50bdfe55a87eb9ced197bb6817181bc683ae64da5a5dba35f2df2e886abe7e9b",
+                  "sizeBytes": 1600
+                },
+                "stdout.json": {
+                  "sha256": "04c709a5b020def424f985d3f9b2e36b062aa79e14a98d50309caabb3036537c",
+                  "sizeBytes": 2594
+                }
+              }
+            },
+            {
+              "invocation": "melsm-pair2-1-B",
+              "actual": {
+                "melsm_parameters.csv": {
+                  "sizeBytes": 833,
+                  "sha256": "fdcc16fd639259d77e85a07e83e2eba7afeea698d3b731989cbf6937ab6ade16"
+                },
+                "melsm_random_effects.csv": {
+                  "sizeBytes": 54,
+                  "sha256": "03045e6619e087eeb9140e5ae9da3524398ddf21197a3bfb269aec5a097f7692"
+                },
+                "melsm_report.json": {
+                  "sizeBytes": 3483,
+                  "sha256": "50cd382e7e5c395649d9e89f539759d7eddcce1c819da50be7466677d4f1ef37"
+                },
+                "run_manifest.json": {
+                  "sizeBytes": 1648,
+                  "sha256": "af9a92d2b66549bacdece7154ddf49dc722199a278936a66bc00e20f8ebfa38e"
+                }
+              },
+              "normalized": {
+                "melsm_report.json": {
+                  "sha256": "50cd382e7e5c395649d9e89f539759d7eddcce1c819da50be7466677d4f1ef37",
+                  "sizeBytes": 3483
+                },
+                "melsm_random_effects.csv": {
+                  "sha256": "03045e6619e087eeb9140e5ae9da3524398ddf21197a3bfb269aec5a097f7692",
+                  "sizeBytes": 54
+                },
+                "melsm_parameters.csv": {
+                  "sha256": "fdcc16fd639259d77e85a07e83e2eba7afeea698d3b731989cbf6937ab6ade16",
+                  "sizeBytes": 833
+                },
+                "run_manifest.json": {
+                  "sha256": "50bdfe55a87eb9ced197bb6817181bc683ae64da5a5dba35f2df2e886abe7e9b",
+                  "sizeBytes": 1600
+                },
+                "stdout.json": {
+                  "sha256": "04c709a5b020def424f985d3f9b2e36b062aa79e14a98d50309caabb3036537c",
+                  "sizeBytes": 2594
+                }
+              }
+            },
+            {
+              "invocation": "melsm-pair2-2-A",
+              "actual": {
+                "melsm_parameters.csv": {
+                  "sizeBytes": 833,
+                  "sha256": "fdcc16fd639259d77e85a07e83e2eba7afeea698d3b731989cbf6937ab6ade16"
+                },
+                "melsm_random_effects.csv": {
+                  "sizeBytes": 54,
+                  "sha256": "03045e6619e087eeb9140e5ae9da3524398ddf21197a3bfb269aec5a097f7692"
+                },
+                "melsm_report.json": {
+                  "sizeBytes": 3483,
+                  "sha256": "50cd382e7e5c395649d9e89f539759d7eddcce1c819da50be7466677d4f1ef37"
+                },
+                "run_manifest.json": {
+                  "sizeBytes": 1648,
+                  "sha256": "0b027dd3f10a5a7f5ede66c765dfe23040be304519d6b097b6a539bbf921ae77"
+                }
+              },
+              "normalized": {
+                "melsm_report.json": {
+                  "sha256": "50cd382e7e5c395649d9e89f539759d7eddcce1c819da50be7466677d4f1ef37",
+                  "sizeBytes": 3483
+                },
+                "melsm_random_effects.csv": {
+                  "sha256": "03045e6619e087eeb9140e5ae9da3524398ddf21197a3bfb269aec5a097f7692",
+                  "sizeBytes": 54
+                },
+                "melsm_parameters.csv": {
+                  "sha256": "fdcc16fd639259d77e85a07e83e2eba7afeea698d3b731989cbf6937ab6ade16",
+                  "sizeBytes": 833
+                },
+                "run_manifest.json": {
+                  "sha256": "50bdfe55a87eb9ced197bb6817181bc683ae64da5a5dba35f2df2e886abe7e9b",
+                  "sizeBytes": 1600
+                },
+                "stdout.json": {
+                  "sha256": "04c709a5b020def424f985d3f9b2e36b062aa79e14a98d50309caabb3036537c",
+                  "sizeBytes": 2594
+                }
+              }
+            },
+            {
+              "invocation": "melsm-pair3-1-A",
+              "actual": {
+                "melsm_parameters.csv": {
+                  "sizeBytes": 833,
+                  "sha256": "fdcc16fd639259d77e85a07e83e2eba7afeea698d3b731989cbf6937ab6ade16"
+                },
+                "melsm_random_effects.csv": {
+                  "sizeBytes": 54,
+                  "sha256": "03045e6619e087eeb9140e5ae9da3524398ddf21197a3bfb269aec5a097f7692"
+                },
+                "melsm_report.json": {
+                  "sizeBytes": 3483,
+                  "sha256": "50cd382e7e5c395649d9e89f539759d7eddcce1c819da50be7466677d4f1ef37"
+                },
+                "run_manifest.json": {
+                  "sizeBytes": 1648,
+                  "sha256": "babd6b6ceb28f13ba1cbb1b40066f69589b210c1cb76d7548cd98ec05c6f4275"
+                }
+              },
+              "normalized": {
+                "melsm_report.json": {
+                  "sha256": "50cd382e7e5c395649d9e89f539759d7eddcce1c819da50be7466677d4f1ef37",
+                  "sizeBytes": 3483
+                },
+                "melsm_random_effects.csv": {
+                  "sha256": "03045e6619e087eeb9140e5ae9da3524398ddf21197a3bfb269aec5a097f7692",
+                  "sizeBytes": 54
+                },
+                "melsm_parameters.csv": {
+                  "sha256": "fdcc16fd639259d77e85a07e83e2eba7afeea698d3b731989cbf6937ab6ade16",
+                  "sizeBytes": 833
+                },
+                "run_manifest.json": {
+                  "sha256": "50bdfe55a87eb9ced197bb6817181bc683ae64da5a5dba35f2df2e886abe7e9b",
+                  "sizeBytes": 1600
+                },
+                "stdout.json": {
+                  "sha256": "04c709a5b020def424f985d3f9b2e36b062aa79e14a98d50309caabb3036537c",
+                  "sizeBytes": 2594
+                }
+              }
+            },
+            {
+              "invocation": "melsm-pair3-2-B",
+              "actual": {
+                "melsm_parameters.csv": {
+                  "sizeBytes": 833,
+                  "sha256": "fdcc16fd639259d77e85a07e83e2eba7afeea698d3b731989cbf6937ab6ade16"
+                },
+                "melsm_random_effects.csv": {
+                  "sizeBytes": 54,
+                  "sha256": "03045e6619e087eeb9140e5ae9da3524398ddf21197a3bfb269aec5a097f7692"
+                },
+                "melsm_report.json": {
+                  "sizeBytes": 3483,
+                  "sha256": "50cd382e7e5c395649d9e89f539759d7eddcce1c819da50be7466677d4f1ef37"
+                },
+                "run_manifest.json": {
+                  "sizeBytes": 1648,
+                  "sha256": "880a5d9abdb375d66fd6cdf389c4da06f7f003065f7c8c53165bfe10569268be"
+                }
+              },
+              "normalized": {
+                "melsm_report.json": {
+                  "sha256": "50cd382e7e5c395649d9e89f539759d7eddcce1c819da50be7466677d4f1ef37",
+                  "sizeBytes": 3483
+                },
+                "melsm_random_effects.csv": {
+                  "sha256": "03045e6619e087eeb9140e5ae9da3524398ddf21197a3bfb269aec5a097f7692",
+                  "sizeBytes": 54
+                },
+                "melsm_parameters.csv": {
+                  "sha256": "fdcc16fd639259d77e85a07e83e2eba7afeea698d3b731989cbf6937ab6ade16",
+                  "sizeBytes": 833
+                },
+                "run_manifest.json": {
+                  "sha256": "50bdfe55a87eb9ced197bb6817181bc683ae64da5a5dba35f2df2e886abe7e9b",
+                  "sizeBytes": 1600
+                },
+                "stdout.json": {
+                  "sha256": "04c709a5b020def424f985d3f9b2e36b062aa79e14a98d50309caabb3036537c",
+                  "sizeBytes": 2594
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "allRawMeasurements": [
+        {
+          "id": "calibrate-pair1-1-A",
+          "workload": "calibrate",
+          "pair": 1,
+          "position": 1,
+          "build": "A",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs-r33-repro/baseline-cli/mvs.dll",
+            "calibrate",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/inputs/summary_fixture.csv",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/calibrate-pair1-1-A/output",
+            "--repetitions",
+            "100",
+            "--seed",
+            "20260719",
+            "--scenario",
+            "location",
+            "--effect",
+            "1.15",
+            "--alpha",
+            "0.05",
+            "--outliers",
+            "0.02",
+            "--missing",
+            "0",
+            "--margin",
+            "0.147",
+            "--min-measurements",
+            "6",
+            "--min-value",
+            "-1000000",
+            "--max-value",
+            "1000000",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/calibrate-pair1-1-A/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/calibrate-pair1-1-A/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/calibrate-pair1-1-A/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:12.075079+00:00",
+          "pid": 11,
+          "returncode": 0,
+          "wallSeconds": 0.9199403820093721,
+          "cpuUserSeconds": 0.960633,
+          "cpuSystemSeconds": 0.037429,
+          "cpuTotalSeconds": 0.998062,
+          "peakRssKiB": 48128,
+          "sampledPeakRssKiB": 47096,
+          "minorFaults": 7173,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:12.995592+00:00",
+          "stdout": {
+            "sizeBytes": 3219,
+            "sha256": "f571328dd86571fcd103403327ccceefc945606dc2309698c10c2f7ff0218b57"
+          },
+          "stderr": {
+            "sizeBytes": 998,
+            "sha256": "4984b23bc18308b34021cc07c69e51dd560a90c8412627c844087247b626b804"
+          }
+        },
+        {
+          "id": "calibrate-pair1-2-B",
+          "workload": "calibrate",
+          "pair": 1,
+          "position": 2,
+          "build": "B",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs_round33/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs.dll",
+            "calibrate",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/inputs/summary_fixture.csv",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/calibrate-pair1-2-B/output",
+            "--repetitions",
+            "100",
+            "--seed",
+            "20260719",
+            "--scenario",
+            "location",
+            "--effect",
+            "1.15",
+            "--alpha",
+            "0.05",
+            "--outliers",
+            "0.02",
+            "--missing",
+            "0",
+            "--margin",
+            "0.147",
+            "--min-measurements",
+            "6",
+            "--min-value",
+            "-1000000",
+            "--max-value",
+            "1000000",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/calibrate-pair1-2-B/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/calibrate-pair1-2-B/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/calibrate-pair1-2-B/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:13.157303+00:00",
+          "pid": 18,
+          "returncode": 0,
+          "wallSeconds": 0.8145980359986424,
+          "cpuUserSeconds": 0.8426469999999999,
+          "cpuSystemSeconds": 0.050255999999999995,
+          "cpuTotalSeconds": 0.8929029999999999,
+          "peakRssKiB": 47928,
+          "sampledPeakRssKiB": 47088,
+          "minorFaults": 7132,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:13.972235+00:00",
+          "stdout": {
+            "sizeBytes": 3219,
+            "sha256": "4efebec35f071890365d5f484f4029c03fcd60d996fc30b3d6aba1442052ed3d"
+          },
+          "stderr": {
+            "sizeBytes": 998,
+            "sha256": "b090c37c25aca1267a5e09be696354274554a988fcb1d09d2a49ee55efa1ab0c"
+          }
+        },
+        {
+          "id": "calibrate-pair2-1-B",
+          "workload": "calibrate",
+          "pair": 2,
+          "position": 1,
+          "build": "B",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs_round33/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs.dll",
+            "calibrate",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/inputs/summary_fixture.csv",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/calibrate-pair2-1-B/output",
+            "--repetitions",
+            "100",
+            "--seed",
+            "20260719",
+            "--scenario",
+            "location",
+            "--effect",
+            "1.15",
+            "--alpha",
+            "0.05",
+            "--outliers",
+            "0.02",
+            "--missing",
+            "0",
+            "--margin",
+            "0.147",
+            "--min-measurements",
+            "6",
+            "--min-value",
+            "-1000000",
+            "--max-value",
+            "1000000",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/calibrate-pair2-1-B/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/calibrate-pair2-1-B/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/calibrate-pair2-1-B/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:14.121384+00:00",
+          "pid": 25,
+          "returncode": 0,
+          "wallSeconds": 0.9171563109994167,
+          "cpuUserSeconds": 0.916682,
+          "cpuSystemSeconds": 0.036850999999999995,
+          "cpuTotalSeconds": 0.953533,
+          "peakRssKiB": 47844,
+          "sampledPeakRssKiB": 48044,
+          "minorFaults": 7152,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:15.038840+00:00",
+          "stdout": {
+            "sizeBytes": 3219,
+            "sha256": "177af36568db3fc949af936537491a90b26ed6b38016543354bcb41b15e551a2"
+          },
+          "stderr": {
+            "sizeBytes": 998,
+            "sha256": "26458d7ad1ced13c1256a93c2693ce700e3ca4cadd1cbecd045093d5d73e1a52"
+          }
+        },
+        {
+          "id": "calibrate-pair2-2-A",
+          "workload": "calibrate",
+          "pair": 2,
+          "position": 2,
+          "build": "A",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs-r33-repro/baseline-cli/mvs.dll",
+            "calibrate",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/inputs/summary_fixture.csv",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/calibrate-pair2-2-A/output",
+            "--repetitions",
+            "100",
+            "--seed",
+            "20260719",
+            "--scenario",
+            "location",
+            "--effect",
+            "1.15",
+            "--alpha",
+            "0.05",
+            "--outliers",
+            "0.02",
+            "--missing",
+            "0",
+            "--margin",
+            "0.147",
+            "--min-measurements",
+            "6",
+            "--min-value",
+            "-1000000",
+            "--max-value",
+            "1000000",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/calibrate-pair2-2-A/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/calibrate-pair2-2-A/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/calibrate-pair2-2-A/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:15.176137+00:00",
+          "pid": 32,
+          "returncode": 0,
+          "wallSeconds": 0.8659868860122515,
+          "cpuUserSeconds": 0.887941,
+          "cpuSystemSeconds": 0.029082,
+          "cpuTotalSeconds": 0.917023,
+          "peakRssKiB": 47992,
+          "sampledPeakRssKiB": 48068,
+          "minorFaults": 7159,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:16.042579+00:00",
+          "stdout": {
+            "sizeBytes": 3219,
+            "sha256": "289ea2fba986cf77ea13a77e995877a3d7e4fa42118f8b2ca34d90ad5c5476e9"
+          },
+          "stderr": {
+            "sizeBytes": 998,
+            "sha256": "10a513c05c0c0204f6fc2279cdea000790a4d06892beae045f1958203a495cd2"
+          }
+        },
+        {
+          "id": "calibrate-pair3-1-A",
+          "workload": "calibrate",
+          "pair": 3,
+          "position": 1,
+          "build": "A",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs-r33-repro/baseline-cli/mvs.dll",
+            "calibrate",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/inputs/summary_fixture.csv",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/calibrate-pair3-1-A/output",
+            "--repetitions",
+            "100",
+            "--seed",
+            "20260719",
+            "--scenario",
+            "location",
+            "--effect",
+            "1.15",
+            "--alpha",
+            "0.05",
+            "--outliers",
+            "0.02",
+            "--missing",
+            "0",
+            "--margin",
+            "0.147",
+            "--min-measurements",
+            "6",
+            "--min-value",
+            "-1000000",
+            "--max-value",
+            "1000000",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/calibrate-pair3-1-A/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/calibrate-pair3-1-A/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/calibrate-pair3-1-A/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:16.195874+00:00",
+          "pid": 39,
+          "returncode": 0,
+          "wallSeconds": 0.8660676860017702,
+          "cpuUserSeconds": 0.92121,
+          "cpuSystemSeconds": 0.034115,
+          "cpuTotalSeconds": 0.955325,
+          "peakRssKiB": 48476,
+          "sampledPeakRssKiB": 47412,
+          "minorFaults": 7239,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:17.062427+00:00",
+          "stdout": {
+            "sizeBytes": 3219,
+            "sha256": "f866f4dd731188cc7be528c296c38a34ac3d080f561d5f71a161f5265a507986"
+          },
+          "stderr": {
+            "sizeBytes": 998,
+            "sha256": "0b7de8524c33b7f53d765a75f94f471f4fb074a1e49b80836860ab5db7638fb4"
+          }
+        },
+        {
+          "id": "calibrate-pair3-2-B",
+          "workload": "calibrate",
+          "pair": 3,
+          "position": 2,
+          "build": "B",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs_round33/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs.dll",
+            "calibrate",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/inputs/summary_fixture.csv",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/calibrate-pair3-2-B/output",
+            "--repetitions",
+            "100",
+            "--seed",
+            "20260719",
+            "--scenario",
+            "location",
+            "--effect",
+            "1.15",
+            "--alpha",
+            "0.05",
+            "--outliers",
+            "0.02",
+            "--missing",
+            "0",
+            "--margin",
+            "0.147",
+            "--min-measurements",
+            "6",
+            "--min-value",
+            "-1000000",
+            "--max-value",
+            "1000000",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/calibrate-pair3-2-B/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/calibrate-pair3-2-B/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/calibrate-pair3-2-B/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:17.218127+00:00",
+          "pid": 46,
+          "returncode": 0,
+          "wallSeconds": 0.8170872100017732,
+          "cpuUserSeconds": 0.878366,
+          "cpuSystemSeconds": 0.031575,
+          "cpuTotalSeconds": 0.909941,
+          "peakRssKiB": 47916,
+          "sampledPeakRssKiB": 46744,
+          "minorFaults": 7183,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:18.035469+00:00",
+          "stdout": {
+            "sizeBytes": 3219,
+            "sha256": "92506ebe699fcb34f12ede531e701b87b6cce65cd0a434643c4ef201326fd862"
+          },
+          "stderr": {
+            "sizeBytes": 998,
+            "sha256": "c6d9480562fb25db1d9dc1e7b582aef37e979cda689ad7cc3da58c6c240f33d0"
+          }
+        },
+        {
+          "id": "analyze-pair1-1-A",
+          "workload": "analyze",
+          "pair": 1,
+          "position": 1,
+          "build": "A",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs-r33-repro/baseline-cli/mvs.dll",
+            "analyze",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/inputs/summary_fixture.csv",
+            "--calibration",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/frozen-calibration/calibration_state.json",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/analyze-pair1-1-A/output",
+            "--project",
+            "Round33 frozen comparison",
+            "--description",
+            "Deterministic engineering output parity only",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/analyze-pair1-1-A/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/analyze-pair1-1-A/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/analyze-pair1-1-A/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:18.175601+00:00",
+          "pid": 53,
+          "returncode": 0,
+          "wallSeconds": 0.4089195300039137,
+          "cpuUserSeconds": 0.281265,
+          "cpuSystemSeconds": 0.045082,
+          "cpuTotalSeconds": 0.326347,
+          "peakRssKiB": 51172,
+          "sampledPeakRssKiB": 51340,
+          "minorFaults": 8557,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:18.584918+00:00",
+          "stdout": {
+            "sizeBytes": 5038,
+            "sha256": "6a8dadbccce5fbdb7e4cae90063a10c1f01d78cb0cf63f7a31cb050935a0b8dd"
+          },
+          "stderr": {
+            "sizeBytes": 954,
+            "sha256": "c1e6b484ea1a689c93697299c878d813d15421c763a8e109194a019bba9e603e"
+          }
+        },
+        {
+          "id": "analyze-pair1-2-B",
+          "workload": "analyze",
+          "pair": 1,
+          "position": 2,
+          "build": "B",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs_round33/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs.dll",
+            "analyze",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/inputs/summary_fixture.csv",
+            "--calibration",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/frozen-calibration/calibration_state.json",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/analyze-pair1-2-B/output",
+            "--project",
+            "Round33 frozen comparison",
+            "--description",
+            "Deterministic engineering output parity only",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/analyze-pair1-2-B/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/analyze-pair1-2-B/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/analyze-pair1-2-B/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:18.736403+00:00",
+          "pid": 60,
+          "returncode": 0,
+          "wallSeconds": 0.40851004800060764,
+          "cpuUserSeconds": 0.316249,
+          "cpuSystemSeconds": 0.037808,
+          "cpuTotalSeconds": 0.354057,
+          "peakRssKiB": 51376,
+          "sampledPeakRssKiB": 50896,
+          "minorFaults": 8584,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:19.145182+00:00",
+          "stdout": {
+            "sizeBytes": 5038,
+            "sha256": "33140dcb2b31933543c8098e87e1a563b6b156d1cb886b581579c564f6062e8c"
+          },
+          "stderr": {
+            "sizeBytes": 954,
+            "sha256": "5bc589ab8b476072be04a0b835df6b2601b18974e841e58d80d7f460ccf3772a"
+          }
+        },
+        {
+          "id": "analyze-pair2-1-B",
+          "workload": "analyze",
+          "pair": 2,
+          "position": 1,
+          "build": "B",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs_round33/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs.dll",
+            "analyze",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/inputs/summary_fixture.csv",
+            "--calibration",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/frozen-calibration/calibration_state.json",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/analyze-pair2-1-B/output",
+            "--project",
+            "Round33 frozen comparison",
+            "--description",
+            "Deterministic engineering output parity only",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/analyze-pair2-1-B/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/analyze-pair2-1-B/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/analyze-pair2-1-B/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:19.302214+00:00",
+          "pid": 67,
+          "returncode": 0,
+          "wallSeconds": 0.407918744997005,
+          "cpuUserSeconds": 0.328571,
+          "cpuSystemSeconds": 0.024600999999999998,
+          "cpuTotalSeconds": 0.353172,
+          "peakRssKiB": 51424,
+          "sampledPeakRssKiB": 50944,
+          "minorFaults": 8588,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:19.710381+00:00",
+          "stdout": {
+            "sizeBytes": 5038,
+            "sha256": "5efb7efbb8cc6ac22474c8356c84a6ee4edfbf22c585f9d71cb55ea76e7e34a5"
+          },
+          "stderr": {
+            "sizeBytes": 954,
+            "sha256": "a08b84c4c2d2cae963097d5b37a12b8c256e84cd8724dc8694d446834aa02b84"
+          }
+        },
+        {
+          "id": "analyze-pair2-2-A",
+          "workload": "analyze",
+          "pair": 2,
+          "position": 2,
+          "build": "A",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs-r33-repro/baseline-cli/mvs.dll",
+            "analyze",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/inputs/summary_fixture.csv",
+            "--calibration",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/frozen-calibration/calibration_state.json",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/analyze-pair2-2-A/output",
+            "--project",
+            "Round33 frozen comparison",
+            "--description",
+            "Deterministic engineering output parity only",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/analyze-pair2-2-A/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/analyze-pair2-2-A/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/analyze-pair2-2-A/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:19.861025+00:00",
+          "pid": 74,
+          "returncode": 0,
+          "wallSeconds": 0.4591208630008623,
+          "cpuUserSeconds": 0.335333,
+          "cpuSystemSeconds": 0.055737999999999996,
+          "cpuTotalSeconds": 0.391071,
+          "peakRssKiB": 51048,
+          "sampledPeakRssKiB": 50660,
+          "minorFaults": 8569,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:20.320386+00:00",
+          "stdout": {
+            "sizeBytes": 5038,
+            "sha256": "736e7c39339ac5199c311cb4d880fc5b807b0dedcbc91fb033eca0dddf819b4d"
+          },
+          "stderr": {
+            "sizeBytes": 954,
+            "sha256": "4f553b41021cf44ee7019d627eb68ef6baf00dba74760754ac80dccd2821ed8d"
+          }
+        },
+        {
+          "id": "analyze-pair3-1-A",
+          "workload": "analyze",
+          "pair": 3,
+          "position": 1,
+          "build": "A",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs-r33-repro/baseline-cli/mvs.dll",
+            "analyze",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/inputs/summary_fixture.csv",
+            "--calibration",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/frozen-calibration/calibration_state.json",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/analyze-pair3-1-A/output",
+            "--project",
+            "Round33 frozen comparison",
+            "--description",
+            "Deterministic engineering output parity only",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/analyze-pair3-1-A/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/analyze-pair3-1-A/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/analyze-pair3-1-A/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:20.479389+00:00",
+          "pid": 81,
+          "returncode": 0,
+          "wallSeconds": 0.4597119950049091,
+          "cpuUserSeconds": 0.360957,
+          "cpuSystemSeconds": 0.039431,
+          "cpuTotalSeconds": 0.40038799999999997,
+          "peakRssKiB": 51076,
+          "sampledPeakRssKiB": 51260,
+          "minorFaults": 8558,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:20.939369+00:00",
+          "stdout": {
+            "sizeBytes": 5038,
+            "sha256": "dae356d60e0be9879caccdb438fb26c14fb3fd5369cca0f0b3649ad32ee3df9f"
+          },
+          "stderr": {
+            "sizeBytes": 954,
+            "sha256": "dde9cf0f7465fb763f8798a8420dbab54797b1b878b0f3b3cbb711fb442595c3"
+          }
+        },
+        {
+          "id": "analyze-pair3-2-B",
+          "workload": "analyze",
+          "pair": 3,
+          "position": 2,
+          "build": "B",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs_round33/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs.dll",
+            "analyze",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/inputs/summary_fixture.csv",
+            "--calibration",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/frozen-calibration/calibration_state.json",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/analyze-pair3-2-B/output",
+            "--project",
+            "Round33 frozen comparison",
+            "--description",
+            "Deterministic engineering output parity only",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/analyze-pair3-2-B/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/analyze-pair3-2-B/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/analyze-pair3-2-B/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:21.085494+00:00",
+          "pid": 88,
+          "returncode": 0,
+          "wallSeconds": 0.4089231149991974,
+          "cpuUserSeconds": 0.324882,
+          "cpuSystemSeconds": 0.02828,
+          "cpuTotalSeconds": 0.353162,
+          "peakRssKiB": 51508,
+          "sampledPeakRssKiB": 51032,
+          "minorFaults": 8578,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:21.494660+00:00",
+          "stdout": {
+            "sizeBytes": 5038,
+            "sha256": "c71527a0b6b6585bf47f7f5fab5f1d86714e1e88748eb63d5bac967884f5696b"
+          },
+          "stderr": {
+            "sizeBytes": 954,
+            "sha256": "c1ffd326466da2842037c9c56f4ae56b439ef4f4da7302bbfccbea26e906b19a"
+          }
+        },
+        {
+          "id": "variance-pair1-1-A",
+          "workload": "variance",
+          "pair": 1,
+          "position": 1,
+          "build": "A",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs-r33-repro/baseline-cli/mvs.dll",
+            "variance",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/inputs/variance_demo.csv",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/variance-pair1-1-A/output",
+            "--repetitions",
+            "100",
+            "--bootstrap",
+            "99",
+            "--seed",
+            "20260719",
+            "--alpha",
+            "0.05",
+            "--within-effect",
+            "1.3",
+            "--between-effect",
+            "1.3",
+            "--min-measurements",
+            "3",
+            "--min-value",
+            "-2147483648",
+            "--max-value",
+            "2147483647",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/variance-pair1-1-A/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/variance-pair1-1-A/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/variance-pair1-1-A/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:21.649643+00:00",
+          "pid": 95,
+          "returncode": 0,
+          "wallSeconds": 1.1211018890026025,
+          "cpuUserSeconds": 1.1574309999999999,
+          "cpuSystemSeconds": 0.051151999999999996,
+          "cpuTotalSeconds": 1.208583,
+          "peakRssKiB": 52688,
+          "sampledPeakRssKiB": 52496,
+          "minorFaults": 8330,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:22.771287+00:00",
+          "stdout": {
+            "sizeBytes": 2891,
+            "sha256": "0aa8b94d54d330aa501180463c303ec2a5ea90ac1a07682293fc18ca56cba6fd"
+          },
+          "stderr": {
+            "sizeBytes": 211,
+            "sha256": "a2cdc9ce6e9efe47ceea26e04f6bcb653fbb1dd2f3dd094d0144809169052f6a"
+          }
+        },
+        {
+          "id": "variance-pair1-2-B",
+          "workload": "variance",
+          "pair": 1,
+          "position": 2,
+          "build": "B",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs_round33/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs.dll",
+            "variance",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/inputs/variance_demo.csv",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/variance-pair1-2-B/output",
+            "--repetitions",
+            "100",
+            "--bootstrap",
+            "99",
+            "--seed",
+            "20260719",
+            "--alpha",
+            "0.05",
+            "--within-effect",
+            "1.3",
+            "--between-effect",
+            "1.3",
+            "--min-measurements",
+            "3",
+            "--min-value",
+            "-2147483648",
+            "--max-value",
+            "2147483647",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/variance-pair1-2-B/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/variance-pair1-2-B/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/variance-pair1-2-B/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:22.902313+00:00",
+          "pid": 102,
+          "returncode": 0,
+          "wallSeconds": 1.118348481002613,
+          "cpuUserSeconds": 1.145369,
+          "cpuSystemSeconds": 0.050151999999999995,
+          "cpuTotalSeconds": 1.195521,
+          "peakRssKiB": 52908,
+          "sampledPeakRssKiB": 53240,
+          "minorFaults": 8406,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:24.020912+00:00",
+          "stdout": {
+            "sizeBytes": 2891,
+            "sha256": "de35c1833c8cb05bdd48be443c20eea0d7e20f5bad489ea0d99f22a261b56319"
+          },
+          "stderr": {
+            "sizeBytes": 211,
+            "sha256": "663286e4f9030aeb322b470c2a8e54328161af1b5e07b40c11116159ad95fe4c"
+          }
+        },
+        {
+          "id": "variance-pair2-1-B",
+          "workload": "variance",
+          "pair": 2,
+          "position": 1,
+          "build": "B",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs_round33/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs.dll",
+            "variance",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/inputs/variance_demo.csv",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/variance-pair2-1-B/output",
+            "--repetitions",
+            "100",
+            "--bootstrap",
+            "99",
+            "--seed",
+            "20260719",
+            "--alpha",
+            "0.05",
+            "--within-effect",
+            "1.3",
+            "--between-effect",
+            "1.3",
+            "--min-measurements",
+            "3",
+            "--min-value",
+            "-2147483648",
+            "--max-value",
+            "2147483647",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/variance-pair2-1-B/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/variance-pair2-1-B/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/variance-pair2-1-B/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:24.162932+00:00",
+          "pid": 109,
+          "returncode": 0,
+          "wallSeconds": 1.2217847629945027,
+          "cpuUserSeconds": 1.243453,
+          "cpuSystemSeconds": 0.045118,
+          "cpuTotalSeconds": 1.288571,
+          "peakRssKiB": 52792,
+          "sampledPeakRssKiB": 53084,
+          "minorFaults": 8382,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:25.384996+00:00",
+          "stdout": {
+            "sizeBytes": 2891,
+            "sha256": "168154076fde3394948dfdc143ae0d6327aa98cd2dd8077c4f3dc715b2a15a59"
+          },
+          "stderr": {
+            "sizeBytes": 211,
+            "sha256": "e41c8aceb1595767cb6d41a68101d25207ac3069896930473565a232b11dab2e"
+          }
+        },
+        {
+          "id": "variance-pair2-2-A",
+          "workload": "variance",
+          "pair": 2,
+          "position": 2,
+          "build": "A",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs-r33-repro/baseline-cli/mvs.dll",
+            "variance",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/inputs/variance_demo.csv",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/variance-pair2-2-A/output",
+            "--repetitions",
+            "100",
+            "--bootstrap",
+            "99",
+            "--seed",
+            "20260719",
+            "--alpha",
+            "0.05",
+            "--within-effect",
+            "1.3",
+            "--between-effect",
+            "1.3",
+            "--min-measurements",
+            "3",
+            "--min-value",
+            "-2147483648",
+            "--max-value",
+            "2147483647",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/variance-pair2-2-A/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/variance-pair2-2-A/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/variance-pair2-2-A/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:25.522827+00:00",
+          "pid": 116,
+          "returncode": 0,
+          "wallSeconds": 1.1224528099992312,
+          "cpuUserSeconds": 1.158766,
+          "cpuSystemSeconds": 0.047345,
+          "cpuTotalSeconds": 1.206111,
+          "peakRssKiB": 52932,
+          "sampledPeakRssKiB": 52688,
+          "minorFaults": 8382,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:26.645550+00:00",
+          "stdout": {
+            "sizeBytes": 2891,
+            "sha256": "0e78edea633437be47a5dd71f60f44c721d933cf6cceecc43195fbd02a7879c5"
+          },
+          "stderr": {
+            "sizeBytes": 211,
+            "sha256": "fdfef823bb79c41246fed0200bcfb682d08b674e721e41afbbe0a981f65e62ae"
+          }
+        },
+        {
+          "id": "variance-pair3-1-A",
+          "workload": "variance",
+          "pair": 3,
+          "position": 1,
+          "build": "A",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs-r33-repro/baseline-cli/mvs.dll",
+            "variance",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/inputs/variance_demo.csv",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/variance-pair3-1-A/output",
+            "--repetitions",
+            "100",
+            "--bootstrap",
+            "99",
+            "--seed",
+            "20260719",
+            "--alpha",
+            "0.05",
+            "--within-effect",
+            "1.3",
+            "--between-effect",
+            "1.3",
+            "--min-measurements",
+            "3",
+            "--min-value",
+            "-2147483648",
+            "--max-value",
+            "2147483647",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/variance-pair3-1-A/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/variance-pair3-1-A/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/variance-pair3-1-A/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:26.806661+00:00",
+          "pid": 123,
+          "returncode": 0,
+          "wallSeconds": 1.225322062993655,
+          "cpuUserSeconds": 1.3199130000000001,
+          "cpuSystemSeconds": 0.026743,
+          "cpuTotalSeconds": 1.346656,
+          "peakRssKiB": 52760,
+          "sampledPeakRssKiB": 52524,
+          "minorFaults": 8354,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:28.032313+00:00",
+          "stdout": {
+            "sizeBytes": 2891,
+            "sha256": "672659d293563b44fe429a03d30dc9005c95d04484371421bedf28db3344fd6b"
+          },
+          "stderr": {
+            "sizeBytes": 211,
+            "sha256": "79d7a2f875ca427a97a86d1bc93c467f509611b745feb8f18f82e133fcf9d9f4"
+          }
+        },
+        {
+          "id": "variance-pair3-2-B",
+          "workload": "variance",
+          "pair": 3,
+          "position": 2,
+          "build": "B",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs_round33/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs.dll",
+            "variance",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/inputs/variance_demo.csv",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/variance-pair3-2-B/output",
+            "--repetitions",
+            "100",
+            "--bootstrap",
+            "99",
+            "--seed",
+            "20260719",
+            "--alpha",
+            "0.05",
+            "--within-effect",
+            "1.3",
+            "--between-effect",
+            "1.3",
+            "--min-measurements",
+            "3",
+            "--min-value",
+            "-2147483648",
+            "--max-value",
+            "2147483647",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/variance-pair3-2-B/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/variance-pair3-2-B/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/variance-pair3-2-B/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:28.197342+00:00",
+          "pid": 130,
+          "returncode": 0,
+          "wallSeconds": 1.1220098249905277,
+          "cpuUserSeconds": 1.17276,
+          "cpuSystemSeconds": 0.033103,
+          "cpuTotalSeconds": 1.2058630000000001,
+          "peakRssKiB": 52632,
+          "sampledPeakRssKiB": 52300,
+          "minorFaults": 8417,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:29.319597+00:00",
+          "stdout": {
+            "sizeBytes": 2891,
+            "sha256": "0afaf466a01be8b89fd43dc02188f1a8898d9727010f7a012827f8257090bc83"
+          },
+          "stderr": {
+            "sizeBytes": 211,
+            "sha256": "842a6c004afbf589e451ea4d22cd8ad6a6368505ade70883a8619852b4b3e326"
+          }
+        },
+        {
+          "id": "estimation-pair1-1-A",
+          "workload": "estimation",
+          "pair": 1,
+          "position": 1,
+          "build": "A",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs-r33-repro/baseline-cli/mvs.dll",
+            "estimation",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/estimation-pair1-1-A/output",
+            "--target",
+            "mean",
+            "--shape",
+            "normal",
+            "--entities",
+            "8",
+            "--measurements",
+            "6",
+            "--repetitions",
+            "100",
+            "--bootstrap",
+            "99",
+            "--seed",
+            "20260719",
+            "--location",
+            "100",
+            "--within-sd",
+            "10",
+            "--between-sd",
+            "5",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/estimation-pair1-1-A/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/estimation-pair1-1-A/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/estimation-pair1-1-A/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:29.463301+00:00",
+          "pid": 137,
+          "returncode": 0,
+          "wallSeconds": 0.40767217900429387,
+          "cpuUserSeconds": 0.340874,
+          "cpuSystemSeconds": 0.052478,
+          "cpuTotalSeconds": 0.39335200000000003,
+          "peakRssKiB": 47108,
+          "sampledPeakRssKiB": 46724,
+          "minorFaults": 6824,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:29.871442+00:00",
+          "stdout": {
+            "sizeBytes": 2926,
+            "sha256": "ecb53f42897f3301e9a14a045f3b737072c32310818a449bbd70acc9aeade88e"
+          },
+          "stderr": {
+            "sizeBytes": 126,
+            "sha256": "d00a4ad3fb452612c81e78615134b8945fdb1cb5a94cc9bb7601651b33a3bc20"
+          }
+        },
+        {
+          "id": "estimation-pair1-2-B",
+          "workload": "estimation",
+          "pair": 1,
+          "position": 2,
+          "build": "B",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs_round33/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs.dll",
+            "estimation",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/estimation-pair1-2-B/output",
+            "--target",
+            "mean",
+            "--shape",
+            "normal",
+            "--entities",
+            "8",
+            "--measurements",
+            "6",
+            "--repetitions",
+            "100",
+            "--bootstrap",
+            "99",
+            "--seed",
+            "20260719",
+            "--location",
+            "100",
+            "--within-sd",
+            "10",
+            "--between-sd",
+            "5",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/estimation-pair1-2-B/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/estimation-pair1-2-B/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/estimation-pair1-2-B/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:30.030316+00:00",
+          "pid": 144,
+          "returncode": 0,
+          "wallSeconds": 0.40832807699916884,
+          "cpuUserSeconds": 0.400856,
+          "cpuSystemSeconds": 0.014393,
+          "cpuTotalSeconds": 0.415249,
+          "peakRssKiB": 47160,
+          "sampledPeakRssKiB": 45100,
+          "minorFaults": 6842,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:30.438899+00:00",
+          "stdout": {
+            "sizeBytes": 2926,
+            "sha256": "697c9eaf8b3da298ec2e22d5a727df00af58c3062c7f194fc2b118994d29225a"
+          },
+          "stderr": {
+            "sizeBytes": 126,
+            "sha256": "3c4791a1077eff0317c3b9862f09489472968b93575a93bfb6994e1e6cd81a69"
+          }
+        },
+        {
+          "id": "estimation-pair2-1-B",
+          "workload": "estimation",
+          "pair": 2,
+          "position": 1,
+          "build": "B",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs_round33/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs.dll",
+            "estimation",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/estimation-pair2-1-B/output",
+            "--target",
+            "mean",
+            "--shape",
+            "normal",
+            "--entities",
+            "8",
+            "--measurements",
+            "6",
+            "--repetitions",
+            "100",
+            "--bootstrap",
+            "99",
+            "--seed",
+            "20260719",
+            "--location",
+            "100",
+            "--within-sd",
+            "10",
+            "--between-sd",
+            "5",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/estimation-pair2-1-B/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/estimation-pair2-1-B/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/estimation-pair2-1-B/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:30.579307+00:00",
+          "pid": 151,
+          "returncode": 0,
+          "wallSeconds": 0.4594583129946841,
+          "cpuUserSeconds": 0.44374399999999997,
+          "cpuSystemSeconds": 0.028189,
+          "cpuTotalSeconds": 0.471933,
+          "peakRssKiB": 47292,
+          "sampledPeakRssKiB": 47572,
+          "minorFaults": 6813,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:31.039165+00:00",
+          "stdout": {
+            "sizeBytes": 2926,
+            "sha256": "d26fd0e18fd896baec854eb26ac6a0baa9b8b9e67abdde890cdada107db44a21"
+          },
+          "stderr": {
+            "sizeBytes": 126,
+            "sha256": "0031383e4a361ce170a6316884da82c59a64f92467db6cda1f17fdf7ab409267"
+          }
+        },
+        {
+          "id": "estimation-pair2-2-A",
+          "workload": "estimation",
+          "pair": 2,
+          "position": 2,
+          "build": "A",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs-r33-repro/baseline-cli/mvs.dll",
+            "estimation",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/estimation-pair2-2-A/output",
+            "--target",
+            "mean",
+            "--shape",
+            "normal",
+            "--entities",
+            "8",
+            "--measurements",
+            "6",
+            "--repetitions",
+            "100",
+            "--bootstrap",
+            "99",
+            "--seed",
+            "20260719",
+            "--location",
+            "100",
+            "--within-sd",
+            "10",
+            "--between-sd",
+            "5",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/estimation-pair2-2-A/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/estimation-pair2-2-A/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/estimation-pair2-2-A/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:31.195224+00:00",
+          "pid": 158,
+          "returncode": 0,
+          "wallSeconds": 0.40847126000153366,
+          "cpuUserSeconds": 0.36103799999999997,
+          "cpuSystemSeconds": 0.016409,
+          "cpuTotalSeconds": 0.377447,
+          "peakRssKiB": 47160,
+          "sampledPeakRssKiB": 47144,
+          "minorFaults": 6781,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:31.603966+00:00",
+          "stdout": {
+            "sizeBytes": 2926,
+            "sha256": "623e23806c51a3b5545cce2b200664895ee6aca7b72d592041b24b349112cd2f"
+          },
+          "stderr": {
+            "sizeBytes": 126,
+            "sha256": "e24ae446c0b6880f0034070ec833cc5c1c079e2be3367412b18b1f5b8e8fdde7"
+          }
+        },
+        {
+          "id": "estimation-pair3-1-A",
+          "workload": "estimation",
+          "pair": 3,
+          "position": 1,
+          "build": "A",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs-r33-repro/baseline-cli/mvs.dll",
+            "estimation",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/estimation-pair3-1-A/output",
+            "--target",
+            "mean",
+            "--shape",
+            "normal",
+            "--entities",
+            "8",
+            "--measurements",
+            "6",
+            "--repetitions",
+            "100",
+            "--bootstrap",
+            "99",
+            "--seed",
+            "20260719",
+            "--location",
+            "100",
+            "--within-sd",
+            "10",
+            "--between-sd",
+            "5",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/estimation-pair3-1-A/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/estimation-pair3-1-A/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/estimation-pair3-1-A/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:31.747260+00:00",
+          "pid": 165,
+          "returncode": 0,
+          "wallSeconds": 0.4089104609884089,
+          "cpuUserSeconds": 0.377502,
+          "cpuSystemSeconds": 0.028492,
+          "cpuTotalSeconds": 0.405994,
+          "peakRssKiB": 47176,
+          "sampledPeakRssKiB": 46608,
+          "minorFaults": 6809,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:32.156444+00:00",
+          "stdout": {
+            "sizeBytes": 2926,
+            "sha256": "eec3d24c447bb74b1c1c09d1572969227578c231db544fbb5b7e246bd97afafd"
+          },
+          "stderr": {
+            "sizeBytes": 126,
+            "sha256": "619c3881a68a5a88f9d3684ea36b1925c635224b147e49538ada6182ac2f887f"
+          }
+        },
+        {
+          "id": "estimation-pair3-2-B",
+          "workload": "estimation",
+          "pair": 3,
+          "position": 2,
+          "build": "B",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs_round33/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs.dll",
+            "estimation",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/estimation-pair3-2-B/output",
+            "--target",
+            "mean",
+            "--shape",
+            "normal",
+            "--entities",
+            "8",
+            "--measurements",
+            "6",
+            "--repetitions",
+            "100",
+            "--bootstrap",
+            "99",
+            "--seed",
+            "20260719",
+            "--location",
+            "100",
+            "--within-sd",
+            "10",
+            "--between-sd",
+            "5",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/estimation-pair3-2-B/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/estimation-pair3-2-B/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/estimation-pair3-2-B/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:32.298080+00:00",
+          "pid": 172,
+          "returncode": 0,
+          "wallSeconds": 0.40894575499987695,
+          "cpuUserSeconds": 0.35002,
+          "cpuSystemSeconds": 0.045452,
+          "cpuTotalSeconds": 0.395472,
+          "peakRssKiB": 47200,
+          "sampledPeakRssKiB": 47248,
+          "minorFaults": 6833,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:32.707294+00:00",
+          "stdout": {
+            "sizeBytes": 2926,
+            "sha256": "9d474878e4c3f70e718c8f8759c0e3f0519f43d6e6a1425f5e82a00cfd016416"
+          },
+          "stderr": {
+            "sizeBytes": 126,
+            "sha256": "52de77be30bc77482134fd59cb4adab381508a12a30e2fb1e8e7c35d40ea6277"
+          }
+        },
+        {
+          "id": "melsm-pair1-1-A",
+          "workload": "melsm",
+          "pair": 1,
+          "position": 1,
+          "build": "A",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs-r33-repro/baseline-cli/mvs.dll",
+            "melsm",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/inputs/repeated_conditions_8_subjects.csv",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/melsm-pair1-1-A/output",
+            "--quadrature",
+            "7",
+            "--max-iterations",
+            "100",
+            "--min-value",
+            "-2147483648",
+            "--max-value",
+            "2147483647",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/melsm-pair1-1-A/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/melsm-pair1-1-A/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/melsm-pair1-1-A/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:32.865621+00:00",
+          "pid": 179,
+          "returncode": 2,
+          "wallSeconds": 0.2561004809977021,
+          "cpuUserSeconds": 0.178483,
+          "cpuSystemSeconds": 0.012086,
+          "cpuTotalSeconds": 0.190569,
+          "peakRssKiB": 48392,
+          "sampledPeakRssKiB": 45892,
+          "minorFaults": 7105,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:33.122016+00:00",
+          "stdout": {
+            "sizeBytes": 3070,
+            "sha256": "2bfd9fe9e9457d8d5b4a3f90849f48d460263c89b17788eab3a6399a0e279887"
+          },
+          "stderr": {
+            "sizeBytes": 120,
+            "sha256": "d1a8c4bf9f8a81e1900897241dab65e934156576d24e7704bf174604e446172c"
+          }
+        },
+        {
+          "id": "melsm-pair1-2-B",
+          "workload": "melsm",
+          "pair": 1,
+          "position": 2,
+          "build": "B",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs_round33/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs.dll",
+            "melsm",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/inputs/repeated_conditions_8_subjects.csv",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/melsm-pair1-2-B/output",
+            "--quadrature",
+            "7",
+            "--max-iterations",
+            "100",
+            "--min-value",
+            "-2147483648",
+            "--max-value",
+            "2147483647",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/melsm-pair1-2-B/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/melsm-pair1-2-B/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/melsm-pair1-2-B/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:33.274348+00:00",
+          "pid": 186,
+          "returncode": 2,
+          "wallSeconds": 0.25576418099808507,
+          "cpuUserSeconds": 0.170293,
+          "cpuSystemSeconds": 0.036444,
+          "cpuTotalSeconds": 0.206737,
+          "peakRssKiB": 48968,
+          "sampledPeakRssKiB": 48468,
+          "minorFaults": 7160,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:33.530367+00:00",
+          "stdout": {
+            "sizeBytes": 3070,
+            "sha256": "e7159470480531d52e7cd24b2311d449adbb953910dd2a528e0f3e18b6d70858"
+          },
+          "stderr": {
+            "sizeBytes": 120,
+            "sha256": "fa7c8c3fa5dbab00d588e808e14918a19896d4181c30cde2ea490f34180945f6"
+          }
+        },
+        {
+          "id": "melsm-pair2-1-B",
+          "workload": "melsm",
+          "pair": 2,
+          "position": 1,
+          "build": "B",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs_round33/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs.dll",
+            "melsm",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/inputs/repeated_conditions_8_subjects.csv",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/melsm-pair2-1-B/output",
+            "--quadrature",
+            "7",
+            "--max-iterations",
+            "100",
+            "--min-value",
+            "-2147483648",
+            "--max-value",
+            "2147483647",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/melsm-pair2-1-B/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/melsm-pair2-1-B/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/melsm-pair2-1-B/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:33.681101+00:00",
+          "pid": 193,
+          "returncode": 2,
+          "wallSeconds": 0.25503784100874327,
+          "cpuUserSeconds": 0.19916499999999998,
+          "cpuSystemSeconds": 0.028213,
+          "cpuTotalSeconds": 0.22737799999999997,
+          "peakRssKiB": 49088,
+          "sampledPeakRssKiB": 47228,
+          "minorFaults": 7154,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:33.936402+00:00",
+          "stdout": {
+            "sizeBytes": 3070,
+            "sha256": "007aafd6893707e4684e3b171e0a04afc9e17db277e18574fb063c03d7cb1329"
+          },
+          "stderr": {
+            "sizeBytes": 120,
+            "sha256": "b8e466342c19ea0af449551df0e0d50dfdc5fdec97cc28d714bc988034459432"
+          }
+        },
+        {
+          "id": "melsm-pair2-2-A",
+          "workload": "melsm",
+          "pair": 2,
+          "position": 2,
+          "build": "A",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs-r33-repro/baseline-cli/mvs.dll",
+            "melsm",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/inputs/repeated_conditions_8_subjects.csv",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/melsm-pair2-2-A/output",
+            "--quadrature",
+            "7",
+            "--max-iterations",
+            "100",
+            "--min-value",
+            "-2147483648",
+            "--max-value",
+            "2147483647",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/melsm-pair2-2-A/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/melsm-pair2-2-A/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/melsm-pair2-2-A/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:34.072373+00:00",
+          "pid": 200,
+          "returncode": 2,
+          "wallSeconds": 0.3073292030021548,
+          "cpuUserSeconds": 0.21917699999999998,
+          "cpuSystemSeconds": 0.030244999999999998,
+          "cpuTotalSeconds": 0.24942199999999998,
+          "peakRssKiB": 48672,
+          "sampledPeakRssKiB": 47732,
+          "minorFaults": 7124,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:34.380307+00:00",
+          "stdout": {
+            "sizeBytes": 3070,
+            "sha256": "801ea94cebd6f841ff23efdc7e832dfbfad9765b00d68c93bedacce69346c838"
+          },
+          "stderr": {
+            "sizeBytes": 120,
+            "sha256": "e9b8baaaffb2079542af7de9788ce1fa9ac6b3f77b2f1904964509a18787cbd9"
+          }
+        },
+        {
+          "id": "melsm-pair3-1-A",
+          "workload": "melsm",
+          "pair": 3,
+          "position": 1,
+          "build": "A",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs-r33-repro/baseline-cli/mvs.dll",
+            "melsm",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/inputs/repeated_conditions_8_subjects.csv",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/melsm-pair3-1-A/output",
+            "--quadrature",
+            "7",
+            "--max-iterations",
+            "100",
+            "--min-value",
+            "-2147483648",
+            "--max-value",
+            "2147483647",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/melsm-pair3-1-A/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/melsm-pair3-1-A/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/melsm-pair3-1-A/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:34.528036+00:00",
+          "pid": 207,
+          "returncode": 2,
+          "wallSeconds": 0.2556487649999326,
+          "cpuUserSeconds": 0.174981,
+          "cpuSystemSeconds": 0.023403999999999998,
+          "cpuTotalSeconds": 0.198385,
+          "peakRssKiB": 48528,
+          "sampledPeakRssKiB": 48900,
+          "minorFaults": 7112,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:34.784157+00:00",
+          "stdout": {
+            "sizeBytes": 3070,
+            "sha256": "bcabdc0f7fd6f7484885dcf1101d49cedc6895210647ca5039e67a4f1b28e8fb"
+          },
+          "stderr": {
+            "sizeBytes": 120,
+            "sha256": "d0c154bdaf0169ceedee345da9612e228c58215596e0e30cb58a909fb5242f8e"
+          }
+        },
+        {
+          "id": "melsm-pair3-2-B",
+          "workload": "melsm",
+          "pair": 3,
+          "position": 2,
+          "build": "B",
+          "command": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/dotnet",
+            "/workspace/scratch/8105054a3211/mvs_round33/MVS-analyzer-main/MvsAnalyzer.Cli/bin/Release/net8.0/mvs.dll",
+            "melsm",
+            "--in",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/inputs/repeated_conditions_8_subjects.csv",
+            "--out",
+            "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/melsm-pair3-2-B/output",
+            "--quadrature",
+            "7",
+            "--max-iterations",
+            "100",
+            "--min-value",
+            "-2147483648",
+            "--max-value",
+            "2147483647",
+            "--json",
+            "--quiet"
+          ],
+          "environment": {
+            "PATH": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk:/usr/bin:/bin",
+            "DOTNET_ROOT": "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk",
+            "DOTNET_PROCESSOR_COUNT": "2",
+            "OMP_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "MVS_DISABLE_BACKUPS": "1",
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "TZ": "UTC",
+            "HOME": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/melsm-pair3-2-B/home",
+            "TMPDIR": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/melsm-pair3-2-B/tmp",
+            "MVS_APPDATA_ROOT": "/workspace/scratch/8105054a3211/mvs-r33-comparison/execution/melsm-pair3-2-B/appdata"
+          },
+          "cpuAffinity": [
+            0,
+            1
+          ],
+          "startedUtc": "2026-10-16T17:15:34.961591+00:00",
+          "pid": 214,
+          "returncode": 2,
+          "wallSeconds": 0.3059526709985221,
+          "cpuUserSeconds": 0.239835,
+          "cpuSystemSeconds": 0.027819,
+          "cpuTotalSeconds": 0.267654,
+          "peakRssKiB": 48808,
+          "sampledPeakRssKiB": 48432,
+          "minorFaults": 7147,
+          "majorFaults": 0,
+          "coreclrPaths": [
+            "/workspace/scratch/8105054a3211/mvs_r22_baseline/sdk/shared/Microsoft.NETCore.App/8.0.31/libcoreclr.so"
+          ],
+          "events": [],
+          "forcedKill": false,
+          "finishedUtc": "2026-10-16T17:15:35.267846+00:00",
+          "stdout": {
+            "sizeBytes": 3070,
+            "sha256": "fd848a3aace913b75da5cd8171028e933bc2f1e2cfc42419de5e7dcbc6f9b68d"
+          },
+          "stderr": {
+            "sizeBytes": 120,
+            "sha256": "cba2a4cf00dfbfa3b8ad500373b07a83091a416fb6015193123b0725802961d0"
+          }
+        }
+      ],
+      "errors": [],
+      "limitations": [
+        "Fresh process includes JIT/startup/export/hash cost; caching and shared-host noise remain possible.",
+        "Same-engine exact agreement does not establish statistical correctness.",
+        "Small minimum repetition budgets and intentionally bounded MELSM diagnostic are engineering smoke workloads.",
+        "Independent error reproduction is separate from these successful/diagnostic workloads."
+      ]
+    }
+  },
+  "build": {
+    "cliWarnings": 0,
+    "cliErrors": 0
+  },
+  "scientificReadiness": "NO-GO unchanged",
+  "windows": "Actual repaired Windows gate pending owner evidence",
+  "evidence": {
+    "path": "validation/round33-evidence.zip",
+    "bytes": 1060639,
+    "sha256": "4ea1aded16916e3b7b074238afa04e67ab3b5453649857f3760f8abe9f90fa05"
+  },
+  "rollback": "Restore full32 source and rebuild; preserve user files"
+}

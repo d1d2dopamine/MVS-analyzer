@@ -30,6 +30,12 @@ jobs:
           python tools/test_paper_benchmark.py
           python tools/test_paper_benchmark_runner.py
           python tools/test_release_bundle.py
+      - name: Reviewed source pins and broader Colab contracts
+        run: |
+          node --version
+          python tools/test_source_pins.py
+          python tools/test_colab_connection.py
+          python tools/test_ui_patch.py
       - name: Python API wrapper tests
         run: |
           PYTHONPATH=python/src python -m unittest discover -s python/tests -v
@@ -84,6 +90,19 @@ jobs:
           for report in reports:
               subprocess.run([sys.executable, 'validation/check_benchmark_diagnostics.py', str(report)], check=True)
           PYCODE
+      - name: Partial export error evidence regressions
+        run: |
+          dotnet build MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj -c Release
+          dotnet run --project validation/partial_output_harness/PartialOutputHarness.csproj -c Release -- --candidate "$PWD/MvsAnalyzer.Cli/bin/Release/net8.0/mvs.dll" --out "$PWD/regression-evidence/partial-output"
+          MVS_PARTIAL_OUTPUT_RESULTS="$PWD/regression-evidence/partial-output/report.json" python -m unittest discover -s validation -p 'test_partial_output_contract.py' -v
+      - name: Resumed partial export evidence regressions
+        run: |
+          dotnet run --project validation/resume_output_harness/ResumeOutputHarness.csproj -c Release -- --candidate "$PWD/MvsAnalyzer.Cli/bin/Release/net8.0/mvs.dll" --out "$PWD/regression-evidence/resume-output"
+          MVS_RESUME_OUTPUT_RESULTS="$PWD/regression-evidence/resume-output/report.json" python -m unittest discover -s validation -p 'test_resume_output_contract.py' -v
+      - name: Successful overwrite artifact ownership regressions
+        run: |
+          dotnet run --project validation/overwrite_output_harness/OverwriteOutputHarness.csproj -c Release -- --candidate "$PWD/MvsAnalyzer.Cli/bin/Release/net8.0/mvs.dll" --out "$PWD/regression-evidence/overwrite-output"
+          MVS_OVERWRITE_OUTPUT_RESULTS="$PWD/regression-evidence/overwrite-output/report.json" python -m unittest discover -s validation -p 'test_overwrite_output_contract.py' -v
       - name: Publish Linux CLI
         run: dotnet publish MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -o publish/linux-cli
       - name: Calibration and analysis smoke
@@ -124,6 +143,7 @@ jobs:
           name: MVS-cli-python-smoke
           path: |
             artifacts/
+            regression-evidence/
             publish/linux-cli/
             publish/python/
           if-no-files-found: warn

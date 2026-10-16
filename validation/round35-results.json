@@ -1,0 +1,40 @@
+{
+  "stage": 35,
+  "scope": "Validation-only historical source-pin reconciliation",
+  "changedProductionFiles": 0,
+  "comparedProductionAssetWrapperFiles": 89,
+  "historicalManifestsByteIdentical": true,
+  "reviewedRevisionCount": 17,
+  "completeEffectiveLegacyToCurrentTraces": 13,
+  "currentReviewBaselinesWithHistoricalGaps": [
+    "Infrastructure/CliArguments.cs",
+    "MvsAnalyzer.Cli/HeadlessRun.cs",
+    "MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj",
+    "MvsAnalyzer.Cli/ScientificCommands.cs"
+  ],
+  "historicalHeadlessGapResolved": false,
+  "tests": {
+    "focusedPassed": 24,
+    "colabConnectionPassed": 48,
+    "uiSourcePassed": 18,
+    "otherToolsPassed": 152,
+    "validationPassed": 435,
+    "skips": 0,
+    "nativeRerun": false,
+    "nativeSavedEvidenceSource": "Round34"
+  },
+  "priorFailuresRetained": {
+    "colab": "47/48",
+    "ui": "18 tests,17 failed source subtests"
+  },
+  "checkSource": true,
+  "scientificReadiness": "NO-GO unchanged; integrity checks do not establish scientific validity",
+  "windows": "Actual Windows acceptance remains pending",
+  "evidence": {
+    "path": "validation/round35-evidence.zip",
+    "sha256": "519f08f26b3e5fda95183c4b14dd41073f763e35b778ea9f54c50534edac1012",
+    "bytes": 63767,
+    "entries": 25
+  },
+  "rollback": "Restore complete Round34; user data and native results unaffected"
+}

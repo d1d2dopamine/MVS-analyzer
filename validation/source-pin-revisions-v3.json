@@ -1,0 +1,25 @@
+{
+  "schema": "mvs-source-pin-revisions/v3",
+  "stage": 36,
+  "note": "One explicit Round36 successor to the byte-preserved 17-entry Round35 v2 manifest. The new ScientificCommands.cs transition is fully reviewed; all four v2 historical provenance gaps remain unresolved. Expected hashes are literal review records, not computed from live production source. Source integrity is not scientific validation or cryptographic authorship proof.",
+  "previousReviewedManifestSha256": "2ace7d73f042dff2b3f0bca5d206c7e0f22d70e54fce41588ccb622c94eb0923",
+  "revisions": {
+    "MvsAnalyzer.Cli/ScientificCommands.cs": {
+      "originalSha256": "03ddc962bc5bf407fae5d7c2c71073fbe3903ab3d4da90c641f2585a16c3637a",
+      "previousSha256": "e12037cf7b6dcc9229f13642344126f3f0ef50075c4daca0834a4a882e198663",
+      "sha256": "e645752d8b009ea4d5428e856d8741c2ece40d73de0142256587c255462ba8a8",
+      "review": {
+        "completeness": "reviewed-current-with-historical-gap",
+        "transitionCompleteness": "complete-reviewed-transition",
+        "stages": [
+          36
+        ],
+        "reason": "Replaces post-hoc directory enumeration in the shared scientific-command manifest helper with each variance, estimation, and MELSM command's explicit three current output filenames. Stale retained files are not claimed as outputs of this invocation. No scientific computation is changed.",
+        "evidence": [
+          "docs/ROUND36_OVERWRITE_PROVENANCE.md"
+        ],
+        "limitation": "The retained Round35 e12037cf... to Round36 e645752d... source transition is fully reviewed. The older missing 95e42af1... transition recorded by v2 remains unresolved; this successor does not repair that historical provenance gap. Source review is an integrity check, not scientific or runtime validation. A local owner can edit source and manifests together."
+      }
+    }
+  }
+}

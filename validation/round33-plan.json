@@ -1,0 +1,309 @@
+{
+  "protocolId": "MVS-ROUND33-OUTPUT-PARITY-1",
+  "frozenUtc": "2026-10-16T17:08:54.547621+00:00",
+  "scope": "Actual CLI same-engine output parity and descriptive process cost. This is deterministic engineering evidence, not independent scientific/model validation. Scientific NO-GO remains.",
+  "baselineSource": "/workspace/scratch/8105054a3211/mvs_round32/MVS-analyzer-main",
+  "candidateSource": "/workspace/scratch/8105054a3211/mvs_round33/MVS-analyzer-main",
+  "inputs": [
+    {
+      "name": "summary_fixture.csv",
+      "sha256": "40ef76d099efccabc7c3a0a6a3adb6d99cc49fc3a2be41d2d1eb40cc6a501158",
+      "sizeBytes": 1158,
+      "rows": 72,
+      "entities": 12
+    },
+    {
+      "name": "variance_demo.csv",
+      "sha256": "26c9058dbe9ed5c296fe6eb4ca3160c07a8f77c2d592dd016b5ac6d04baa75e0",
+      "sizeBytes": 13767,
+      "rows": 320,
+      "entities": 40
+    },
+    {
+      "name": "repeated_conditions_8_subjects.csv",
+      "sha256": "09372ea5b4462fa8a6c94b3cd9fd840a8d63702467389e592984d03a1928ef9d",
+      "sizeBytes": 3486,
+      "rows": 96,
+      "entities": 8
+    }
+  ],
+  "inputConstruction": {
+    "summary_fixture.csv": "Exact retained 72-row repro fixture bytes: 2 groups, 6 entities/group, 6 measurements/entity.",
+    "variance_demo.csv": "Exact baseline examples/variance_demo.csv bytes.",
+    "repeated_conditions_8_subjects.csv": "Baseline repeated_conditions.csv header and all original lines for P001-P008 in original order."
+  },
+  "workloads": [
+    {
+      "id": "calibrate",
+      "arguments": [
+        "calibrate",
+        "--in",
+        "{inputs}/summary_fixture.csv",
+        "--out",
+        "{output}",
+        "--repetitions",
+        "100",
+        "--seed",
+        "20260719",
+        "--scenario",
+        "location",
+        "--effect",
+        "1.15",
+        "--alpha",
+        "0.05",
+        "--outliers",
+        "0.02",
+        "--missing",
+        "0",
+        "--margin",
+        "0.147",
+        "--min-measurements",
+        "6",
+        "--min-value",
+        "-1000000",
+        "--max-value",
+        "1000000",
+        "--json",
+        "--quiet"
+      ],
+      "expectedExit": [
+        0
+      ],
+      "timeoutSeconds": 180,
+      "artifacts": [
+        "calibration.csv",
+        "calibration_tracks.csv",
+        "calibration_recommendations.csv",
+        "calibration_state.json"
+      ]
+    },
+    {
+      "id": "analyze",
+      "arguments": [
+        "analyze",
+        "--in",
+        "{inputs}/summary_fixture.csv",
+        "--calibration",
+        "{frozen_calibration}",
+        "--out",
+        "{output}",
+        "--project",
+        "Round33 frozen comparison",
+        "--description",
+        "Deterministic engineering output parity only",
+        "--json",
+        "--quiet"
+      ],
+      "expectedExit": [
+        0
+      ],
+      "timeoutSeconds": 60,
+      "artifacts": [
+        "calibration.csv",
+        "calibration_tracks.csv",
+        "calibration_recommendations.csv",
+        "calibration_state.json",
+        "results.csv",
+        "results.json",
+        "metric_availability.csv",
+        "data_quality.csv",
+        "run_manifest.json"
+      ]
+    },
+    {
+      "id": "variance",
+      "arguments": [
+        "variance",
+        "--in",
+        "{inputs}/variance_demo.csv",
+        "--out",
+        "{output}",
+        "--repetitions",
+        "100",
+        "--bootstrap",
+        "99",
+        "--seed",
+        "20260719",
+        "--alpha",
+        "0.05",
+        "--within-effect",
+        "1.3",
+        "--between-effect",
+        "1.3",
+        "--min-measurements",
+        "3",
+        "--min-value",
+        "-2147483648",
+        "--max-value",
+        "2147483647",
+        "--json",
+        "--quiet"
+      ],
+      "expectedExit": [
+        0,
+        2
+      ],
+      "timeoutSeconds": 240,
+      "artifacts": [
+        "variance_report.json",
+        "variance_components.csv",
+        "variance_tests.csv",
+        "run_manifest.json"
+      ]
+    },
+    {
+      "id": "estimation",
+      "arguments": [
+        "estimation",
+        "--out",
+        "{output}",
+        "--target",
+        "mean",
+        "--shape",
+        "normal",
+        "--entities",
+        "8",
+        "--measurements",
+        "6",
+        "--repetitions",
+        "100",
+        "--bootstrap",
+        "99",
+        "--seed",
+        "20260719",
+        "--location",
+        "100",
+        "--within-sd",
+        "10",
+        "--between-sd",
+        "5",
+        "--json",
+        "--quiet"
+      ],
+      "expectedExit": [
+        0,
+        2
+      ],
+      "timeoutSeconds": 60,
+      "artifacts": [
+        "estimation_report.json",
+        "estimation_performance.csv",
+        "estimation_draws.csv",
+        "run_manifest.json"
+      ]
+    },
+    {
+      "id": "melsm",
+      "arguments": [
+        "melsm",
+        "--in",
+        "{inputs}/repeated_conditions_8_subjects.csv",
+        "--out",
+        "{output}",
+        "--quadrature",
+        "7",
+        "--max-iterations",
+        "100",
+        "--min-value",
+        "-2147483648",
+        "--max-value",
+        "2147483647",
+        "--json",
+        "--quiet"
+      ],
+      "expectedExit": [
+        0,
+        2
+      ],
+      "timeoutSeconds": 180,
+      "artifacts": [
+        "melsm_report.json",
+        "melsm_parameters.csv",
+        "melsm_random_effects.csv",
+        "run_manifest.json"
+      ]
+    }
+  ],
+  "execution": {
+    "measuredProcesses": 30,
+    "pairsPerWorkload": 3,
+    "pairOrder": [
+      "AB",
+      "BA",
+      "AB"
+    ],
+    "workloadOrder": [
+      "calibrate",
+      "analyze",
+      "variance",
+      "estimation",
+      "melsm"
+    ],
+    "A": "baseline Round32",
+    "B": "candidate Round33",
+    "freshProcessEachInvocation": true,
+    "warmupInvocations": 0,
+    "calibrationDependency": "After first baseline calibrate run, copy its completed calibration_state.json bytes to frozen-calibration/calibration_state.json and record hash; every analyze invocation consumes that identical immutable file. No separate calibration setup/model run.",
+    "sameHostAndRuntime": true,
+    "cpuAffinity": "Two lowest-numbered CPUs allowed to driver at bind; frozen thereafter for all processes.",
+    "environment": {
+      "DOTNET_PROCESSOR_COUNT": "2",
+      "OMP_NUM_THREADS": "2",
+      "OPENBLAS_NUM_THREADS": "2",
+      "MKL_NUM_THREADS": "2",
+      "MVS_DISABLE_BACKUPS": "1",
+      "LANG": "C.UTF-8",
+      "LC_ALL": "C.UTF-8",
+      "TZ": "UTC"
+    },
+    "environmentPolicy": "Explicit minimal identical process environment, except per-invocation empty HOME, TMPDIR, MVS_APPDATA_ROOT and output paths; no inherited COMPlus/DOTNET/MVS tuning beyond frozen variables. Private empty appdata gives no installed plugins. No local settings.",
+    "rssLimitMiB": 1024,
+    "watchdogPollSeconds": 0.05,
+    "onFailure": "Retain all evidence and continue remaining planned invocations unless dependency or frozen provenance is invalid. No replacement/cherry-picked reruns. Any incomplete run set or parity failure is reported.",
+    "timingAuthorization": "Do not execute until parent explicitly approves exclusive measurement window after final build/tests."
+  },
+  "comparisons": {
+    "floatingTolerance": null,
+    "bytePolicy": "CSV and all scientific JSON are compared byte-for-byte. JSON token replacement is permitted only at enumerated metadata pointers; numeric spellings, formatting, field order, methods, row identity/order, status, nulls and all scientific values remain exact. Raw originals always retained.",
+    "metadataPointers": {
+      "calibration_state.json": [
+        "/CreatedUtc",
+        "/PayloadHash (derived integrity field; independently validate SHA256 of raw JSON with this one value replaced by empty string, then normalize hash of timestamp-normalized payload)"
+      ],
+      "run_manifest.json": [
+        "/created",
+        "/runId",
+        "/files/*/sha256 and /files/*/SizeBytes (independently verify actual artifact first, then replace with normalized artifact hash/length so timestamp-only changes propagate correctly)"
+      ],
+      "stdout.json": [
+        "/runId",
+        "/outputDirectory",
+        "/manifestPath",
+        "/artifacts/*/path",
+        "/artifacts/*/sha256 and /artifacts/*/sizeBytes (independently verify actual artifact first, then replace with normalized artifact hash/length)"
+      ]
+    },
+    "timestampValidation": "ISO datetime parsing required before normalization. Run IDs required nonempty where manifest exists; stdout/manifest association exact.",
+    "artifactVerification": "Recompute SHA256 and size of every machine artifact from regular file on disk; require unique artifact names, exact expected file set, exact resolved path below own fresh output, complete manifest association, exact manifest file size/hash, machine manifest path and runId association; never trust declared hashes. Calibration has no manifest; all others require one.",
+    "crossRepetition": "Compare all six invocations per workload to its first baseline invocation and each matched A/B pair. Status/process exit exact. Analyze calibration copy must exactly equal frozen state bytes.",
+    "sourceBinding": "Before execution, bind exact source and binary manifests for both builds, runtime host/libcoreclr identity, input hashes, plan hash and driver hash. Check before and after execution and before each invocation. Binding refuses overwrite.",
+    "stderr": "Retain every raw stderr file; human log text is not scientific parity target."
+  },
+  "performance": {
+    "metrics": [
+      "wallSeconds",
+      "cpuUserSeconds",
+      "cpuSystemSeconds",
+      "cpuTotalSeconds",
+      "peakRssKiB"
+    ],
+    "accounting": "Linux wait4 usage for exact child PID, monotonic wall including startup; kernel maximum RSS. No cumulative-child RSS.",
+    "report": "All 30 raw metrics, all three paired B/A ratios per workload/metric, each build median/min/max and ratio median/min/max. No speed pass threshold, significance claim, cherry-rerun, or removal of first run. Three pairs are descriptive only.",
+    "limitations": [
+      "Fresh process includes JIT/startup/export/hash cost; caching and shared-host noise remain possible.",
+      "Same-engine exact agreement does not establish statistical correctness.",
+      "Small minimum repetition budgets and intentionally bounded MELSM diagnostic are engineering smoke workloads.",
+      "Independent error reproduction is separate from these successful/diagnostic workloads."
+    ]
+  }
+}

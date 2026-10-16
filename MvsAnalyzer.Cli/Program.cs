@@ -75,7 +75,8 @@ internal static class CliProgram
         if (args.Value("--id") is string id) backups = backups.Where(b => b.Id == id).OrderByDescending(b => b.SavedUtc).Take(1).ToList();
         else backups = backups.GroupBy(b => b.Id).Select(g => g.OrderByDescending(b => b.SavedUtc).First()).ToList();
         if (backups.Count != 1) throw new ArgumentException("Choose a backup in MVS Data or pass --id. Available: " + string.Join(", ", backups.Select(b => b.Id + " (" + b.Request.Kind + ")")));
-        var result = BackupRunner.Run(backups[0], args.Require("--out"), new CliProgress(), CliCancellation.Token);
+        var result = BackupRunner.RunWithOutputObserver(backups[0], args.Require("--out"), new CliProgress(), CliCancellation.Token,
+            folder => CliMachineContext.BeginOutput(folder), CliMachineContext.ObserveOutput);
         CliMachineContext.RecordOutput(result.Folder);
         if (result.ExitCode == 2) CliMachineContext.Diagnostic("warning", "scientific_diagnostic", "Resumed run completed with a scientific/numerical diagnostic; inspect the saved report.");
         Console.WriteLine("Resumed result saved: " + result.Folder); return result.ExitCode;

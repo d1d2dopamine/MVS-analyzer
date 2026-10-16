@@ -66,3 +66,16 @@ updated. `allow_diagnostic=False` does not raise for this exit-0 warning; that o
 controls exit-2 scientific diagnostics. Inspect warning codes even when the call
 succeeds. The added message does not disclose the journal path. See
 [round 20](ROUND20_JOURNAL_WARNING.md) for actual CLI/Python checks and limits.
+
+### Inspecting a failed export
+
+A validated native error response is available as `exc.result` on `InputError`
+or `EngineError`; transport/handshake errors without such a response leave it
+`None`. Exception classes and messages retain their existing meaning. Inspect
+`exc.result.artifacts` and `exc.result.raw.get("partialOutput")` for incomplete
+export evidence. This is a failed result, never a completed scientific analysis.
+For failed results, `artifact(name)` only accepts explicitly listed artifacts;
+`copy_to` refuses copying the directory, and `analyze` refuses a failed
+`Calibration` object. These rules prevent accidental reuse of untouched stale
+files from an overwrite directory. See
+[Round33](ROUND33_PARTIAL_OUTPUT_REPORTING.md) for the exact scope and limits.

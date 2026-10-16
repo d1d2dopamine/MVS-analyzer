@@ -16,10 +16,11 @@ internal static class ScientificCommands
         AnalysisData data = AnalysisEngine.Build(observations, minimum, maximum, args.Int("--min-measurements", 3));
         VarianceReport report = VarianceAnalysis.Run(data, args.Int("--repetitions", 200), args.Int("--bootstrap", 199), args.Number("--within-effect", 1.3),
             args.Number("--between-effect", 1.3), args.Int("--seed", 20260719), args.Number("--alpha", .05), new CliProgress(), CliCancellation.Token);
-        ScientificJson.Write(Path.Combine(folder, "variance_report.json"), report);
-        ScientificJson.AtomicText(Path.Combine(folder, "variance_components.csv"), VarianceAnalysis.Csv(report));
-        ScientificJson.AtomicText(Path.Combine(folder, "variance_tests.csv"), Table(report.Tracks));
-        Manifest(folder, "variance-components", input, report, imported.SourceSha256);
+        CliMachineContext.BeginOutput(folder);
+        CliMachineContext.WriteOutput(Path.Combine(folder, "variance_report.json"), () => ScientificJson.Write(Path.Combine(folder, "variance_report.json"), report));
+        CliMachineContext.WriteOutput(Path.Combine(folder, "variance_components.csv"), () => ScientificJson.AtomicText(Path.Combine(folder, "variance_components.csv"), VarianceAnalysis.Csv(report)));
+        CliMachineContext.WriteOutput(Path.Combine(folder, "variance_tests.csv"), () => ScientificJson.AtomicText(Path.Combine(folder, "variance_tests.csv"), Table(report.Tracks)));
+        CliMachineContext.WriteOutput(Path.Combine(folder, "run_manifest.json"), () => Manifest(folder, "variance-components", input, report, new[] { "variance_report.json", "variance_components.csv", "variance_tests.csv" }, imported.SourceSha256));
         CliMachineContext.RecordOutput(folder);
         Console.WriteLine("Variance report saved: " + folder);
         foreach (VarianceTrack track in report.Tracks) Console.WriteLine(track.Track + ": " + track.Verdict + " | " + track.Status);
@@ -35,10 +36,11 @@ internal static class ScientificCommands
             args.Int("--repetitions", 500), args.Int("--bootstrap", 199), args.Int("--seed", 20260719),
             args.Number("--location", lognormal ? 1 : 100), args.Number("--within-sd", lognormal ? .3 : 10), args.Number("--between-sd", lognormal ? .2 : 5));
         EstimationReport report = EstimationStudy.Run(options, new CliProgress(), CliCancellation.Token);
-        ScientificJson.Write(Path.Combine(folder, "estimation_report.json"), report);
-        ScientificJson.AtomicText(Path.Combine(folder, "estimation_performance.csv"), Table(report.Performance));
-        ScientificJson.AtomicText(Path.Combine(folder, "estimation_draws.csv"), Table(report.Draws));
-        Manifest(folder, "known-truth-estimation", null, options);
+        CliMachineContext.BeginOutput(folder);
+        CliMachineContext.WriteOutput(Path.Combine(folder, "estimation_report.json"), () => ScientificJson.Write(Path.Combine(folder, "estimation_report.json"), report));
+        CliMachineContext.WriteOutput(Path.Combine(folder, "estimation_performance.csv"), () => ScientificJson.AtomicText(Path.Combine(folder, "estimation_performance.csv"), Table(report.Performance)));
+        CliMachineContext.WriteOutput(Path.Combine(folder, "estimation_draws.csv"), () => ScientificJson.AtomicText(Path.Combine(folder, "estimation_draws.csv"), Table(report.Draws)));
+        CliMachineContext.WriteOutput(Path.Combine(folder, "run_manifest.json"), () => Manifest(folder, "known-truth-estimation", null, options, new[] { "estimation_report.json", "estimation_performance.csv", "estimation_draws.csv" }));
         CliMachineContext.RecordOutput(folder);
         Console.WriteLine("Known-truth estimation report saved: " + folder);
         bool diagnostic = report.Performance.Any(p => p.Status == "excess_failures");
@@ -56,10 +58,11 @@ internal static class ScientificCommands
         var options = new MelsmOptions(args.Flag("--mean-time"), args.Flag("--scale-time"), args.Flag("--correlate"), !args.Flag("--no-random-scale"), args.Int("--quadrature", 15), args.Int("--max-iterations", 4000));
         MelsmReport report = MelsmAnalysis.Run(rows, options, new CliProgress(), CliCancellation.Token);
         if (!args.Flag("--include-entity-ids")) report = report with { RandomEffects = report.RandomEffects.Select(r => r with { Entity = "P_" + ScientificMath.Hash(r.Entity)[..12] }).ToArray() };
-        ScientificJson.Write(Path.Combine(folder, "melsm_report.json"), report);
-        ScientificJson.AtomicText(Path.Combine(folder, "melsm_parameters.csv"), Table(report.Parameters));
-        ScientificJson.AtomicText(Path.Combine(folder, "melsm_random_effects.csv"), Table(report.RandomEffects));
-        Manifest(folder, "experimental-melsm", input, options, imported.SourceSha256);
+        CliMachineContext.BeginOutput(folder);
+        CliMachineContext.WriteOutput(Path.Combine(folder, "melsm_report.json"), () => ScientificJson.Write(Path.Combine(folder, "melsm_report.json"), report));
+        CliMachineContext.WriteOutput(Path.Combine(folder, "melsm_parameters.csv"), () => ScientificJson.AtomicText(Path.Combine(folder, "melsm_parameters.csv"), Table(report.Parameters)));
+        CliMachineContext.WriteOutput(Path.Combine(folder, "melsm_random_effects.csv"), () => ScientificJson.AtomicText(Path.Combine(folder, "melsm_random_effects.csv"), Table(report.RandomEffects)));
+        CliMachineContext.WriteOutput(Path.Combine(folder, "run_manifest.json"), () => Manifest(folder, "experimental-melsm", input, options, new[] { "melsm_report.json", "melsm_parameters.csv", "melsm_random_effects.csv" }, imported.SourceSha256));
         CliMachineContext.RecordOutput(folder);
         Console.WriteLine("MELSM report saved: " + folder + " | " + report.Status);
         bool diagnostic = report.Status != "converged_experimental";
@@ -82,9 +85,9 @@ internal static class ScientificCommands
             IFormattable f => f.ToString(null, CultureInfo.InvariantCulture), _ => value.ToString() ?? "" };
         return string.Join(",", columns.Select(p => p.Name)) + "\n" + string.Join("\n", rows.Select(r => string.Join(",", columns.Select(p => Value(p.GetValue(r)))))) + "\n";
     }
-    private static void Manifest<T>(string folder, string kind, string? input, T configuration, string? capturedInputHash = null)
+    private static void Manifest<T>(string folder, string kind, string? input, T configuration, IReadOnlyList<string> producedFiles, string? capturedInputHash = null)
     {
-        var files = Directory.GetFiles(folder).Where(f => Path.GetFileName(f) != "run_manifest.json").Select(f => new { FileName = Path.GetFileName(f), sha256 = OutputExporter.HashFile(f), SizeBytes = new FileInfo(f).Length }).ToArray();
+        var files = producedFiles.Select(name => Path.Combine(folder, name)).Select(f => new { FileName = Path.GetFileName(f), sha256 = OutputExporter.HashFile(f), SizeBytes = new FileInfo(f).Length }).ToArray();
         ScientificJson.Write(Path.Combine(folder, "run_manifest.json"), new { schemaVersion = 2, executionEnvironment = new { description = Benchmarking.BenchmarkEnvironment.Describe(), fingerprint = Benchmarking.BenchmarkEnvironment.Hash, replayScope = Benchmarking.BenchmarkEnvironment.Scope }, application = "MVS Analyzer", version = ReleaseInfo.Version,
             engineVersion = ReleaseInfo.EngineVersion, runId = kind + "_" + DateTime.UtcNow.ToString("yyyyMMdd_HHmmss", CultureInfo.InvariantCulture), created = DateTimeOffset.UtcNow,
             kind, configuration, inputData = new { file = input == null ? "synthetic" : Path.GetFileName(input), sha256 = input == null ? ScientificMath.Hash(ScientificJson.Serialize(configuration)) : capturedInputHash ?? throw new InvalidOperationException("Captured input identity is required.") },
