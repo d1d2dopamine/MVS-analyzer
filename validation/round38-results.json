@@ -1,0 +1,55 @@
+{
+  "stage": 38,
+  "status": "passed-local-engineering-gates",
+  "scope": "Benchmark CLI and restored benchmark export membership and partial failure evidence",
+  "nativeExportCases": 26,
+  "baselineExportCases": 10,
+  "completeCrossVersionFilePairs": 68,
+  "normalizationOrExclusions": false,
+  "exportEvidencePythonTests": 19,
+  "nativeCoreTests": 195,
+  "priorPartialExportCases": 14,
+  "priorResumeExportCases": 26,
+  "priorOverwriteCases": 19,
+  "python": {
+    "total": 154,
+    "passed": 140,
+    "skipped": 14,
+    "skipReason": "Real Windows runtime checks on Linux",
+    "actualLinuxNativeMcpExecuted": true
+  },
+  "sourcePins": {
+    "normalPassed": 64,
+    "optimizedPassed": 64,
+    "priorManifestsUnchanged": true
+  },
+  "colabTests": 48,
+  "uiStructuralTests": 18,
+  "rootLayoutTests": 59,
+  "otherToolTests": 153,
+  "scientificChanges": false,
+  "newScientificSimulations": 0,
+  "scientificReadiness": "NO-GO unchanged",
+  "windowsRuntimeTested": false,
+  "remoteActionsDispatched": false,
+  "readmeUnchanged": true,
+  "evidence": "validation/round38-evidence.zip",
+  "limitations": [
+    "Not an atomic multi-file transaction",
+    "Controlled concurrent canary insertion, not ordinary overwrite-folder reuse",
+    "Legacy figure callback cannot expose partial paths when it throws",
+    "Local-owner tampering is outside this provenance guarantee"
+  ],
+  "productionChanged": [
+    "Benchmark/BenchmarkReport.cs",
+    "Benchmark/BenchmarkCommandLine.cs",
+    "Infrastructure/BackupRunner.cs",
+    "MvsAnalyzer.Cli/Program.cs"
+  ],
+  "validationDiscovery": {
+    "total": 498,
+    "passed": 496,
+    "skipped": 2,
+    "skipReason": "Existing old resume/overwrite baseline-only checks: current-round candidate runs supplied; earlier baselines preserved separately"
+  }
+}

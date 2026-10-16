@@ -26,6 +26,10 @@ internal static class BenchmarkCommandLine
     }
 
     public static int Run(string[] args, Action<string>? outputFolder = null)
+        => RunWithOutputObserver(args, outputFolder, null, null);
+
+    public static int RunWithOutputObserver(string[] args, Action<string>? outputFolder,
+        Action<string>? outputStarted, Action<string, bool>? observeWrite)
     {
         // There is no parent console to attach to outside Windows, and the P/Invoke would only
         // throw to be swallowed. Asking first says why the call is skipped.
@@ -110,7 +114,7 @@ internal static class BenchmarkCommandLine
             BenchmarkReportResult report;
             try
             {
-                report = BenchmarkReport.RunAndWrite(profile, seed, output, realData, russian, progress, cancellation.Token);
+                report = BenchmarkReport.RunAndWriteWithOutputObserver(profile, seed, output, realData, russian, progress, cancellation.Token, outputStarted, observeWrite);
             }
             finally
             {
@@ -146,7 +150,7 @@ internal static class BenchmarkCommandLine
         }
         catch (OperationCanceledException)
         {
-            Console.Error.WriteLine("Cancelled. Nothing was written.");
+            Console.Error.WriteLine("Cancelled. Output may be incomplete; inspect the reported artifacts.");
             return 1;
         }
         catch (Exception error)

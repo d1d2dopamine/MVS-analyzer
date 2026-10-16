@@ -11,7 +11,7 @@ internal static class BackupRetryChecks
         ("Failed restore scope exits without leaking pending state", ScopeExit),
         ("Fresh publication failure does not create restore state", FreshFailure),
         ("Request mismatch and disabled begin preserve pending restore", MismatchAndDisabled)
-    };
+    }.Concat(BackupPublicationFault.All);
     private static void Assert(bool value, string message) { if (!value) throw new Exception(message); }
     private static BackupRequest Request() => new() { Kind = "estimation", Estimation = new() };
     private static BackupDocument Saved(BackupRequest request)
@@ -76,7 +76,7 @@ internal static class BackupRetryChecks
         string obstruction = Path.Combine(repaired, "MVS_Backups.zip"); Directory.CreateDirectory(obstruction);
         Environment.SetEnvironmentVariable("MVS_BACKUP_DIR", repaired);
         using (BackupSession.Restore(saved)) {
-            Fails(request);
+            BackupPublicationFault.ExpectDirectoryCollision(() => { using var ignored = BackupSession.Begin(request); }, obstruction);
             Assert(ReferenceEquals(BackupSession.Pending, saved) && BackupSession.Pack(saved) == original, "Late failure consumed restore metadata.");
             string[] installed = Directory.GetFiles(repaired, "*.mvsbackup");
             Assert(installed.Length > 0, "Fixture did not reach partial disk publication.");

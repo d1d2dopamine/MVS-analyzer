@@ -1,8 +1,8 @@
 {
   "sha256": {
-    "MVS_Report_Pack_v1.0.0.mvsplugin": "c88c910460dfb40b674f3e54db66e18e265f021198495735161f520bd1e81a5b",
+    "plugins/packages/MVS_Report_Pack_v1.0.0.mvsplugin": "c88c910460dfb40b674f3e54db66e18e265f021198495735161f520bd1e81a5b",
     "app.ico": "c1d8db876ad9001760c217a9b302b611b4bf77fa636c45bdc3c3069780c06231",
-    "example-visualization.mvsplugin": "4b48ab0ba965d38cd5d45878c84757f373fb82375bf8bca0be995deff97cec3f",
+    "plugins/packages/example-visualization.mvsplugin": "4b48ab0ba965d38cd5d45878c84757f373fb82375bf8bca0be995deff97cec3f",
     "Assets/inapp_logo.png": "e8dcbae11f19ca06e7986e4c4454f90b147e23ec818f47d71f8c8813793a7617",
     "docs/assets/logo.png": "a97166f0148ebad6a09f0b29c0e88907ae46796c07deb29d002df788cd139e77"
   }

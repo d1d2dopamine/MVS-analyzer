@@ -1,0 +1,36 @@
+{
+  "stage": 37,
+  "scope": "Six plugin root entries grouped; recoverable overlay migration and release path consumers",
+  "rootBefore": {
+    "files": 17,
+    "directories": 25
+  },
+  "rootAfter": {
+    "files": 15,
+    "directories": 23
+  },
+  "relocatedFiles": 22,
+  "byteChangedRelocatedFiles": [
+    "plugins/sources/plugin-report-pack-source/README.md"
+  ],
+  "productionSourceAndBuildFilesUnchanged": 112,
+  "readmeUnchanged": true,
+  "embeddedPayloadUnchanged": true,
+  "protectedAssetHashesUnchanged": true,
+  "cliBuild": true,
+  "releaseBundleTests": 35,
+  "rootLayoutMigrationTests": 59,
+  "optimizedPythonMigrationTests": 59,
+  "sourcePinTests": 43,
+  "colabTests": 48,
+  "uiTests": 18,
+  "scientificChanges": false,
+  "scientificReadiness": "NO-GO unchanged",
+  "windowsRuntimeTested": false,
+  "evidence": {
+    "path": "validation/round37-evidence.zip",
+    "bytes": 33692,
+    "sha256": "472b55fc05548143aaaa70d27d1f4a9a077e82aacad55d1340c2bb05c5d21795"
+  },
+  "migration": "Dry-run default; --apply verifies complete old/new inventories and moves old entries to unique ignored recoverable backup; no deletion or git actions"
+}

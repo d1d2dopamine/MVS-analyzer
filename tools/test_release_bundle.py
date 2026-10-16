@@ -31,7 +31,8 @@ class ReleaseBundleTests(unittest.TestCase):
             "CHANGELOG.md": b"[Guide](docs/README.md)\r\n",
             "CITATION.cff": b"title: Fixture\n",
             "validation/README.md": b"[Metrics](../docs/METRIC_REGISTRY.md)\n",
-            "MVS_Report_Pack_v1.0.0.mvsplugin": b"\x00plugin\xff",
+            "plugins/packages/MVS_Report_Pack_v1.0.0.mvsplugin": b"\x00plugin\xff",
+            "plugins/packages/example-visualization.mvsplugin": b"\x00example-plugin\xff",
             "docs/README.md": b"[Validation](../validation/README.md) [History](../benchmark_history/)\n",
             "docs/METRIC_REGISTRY.md": b"\xef\xbb\xbfRegistry\r\n",
             "docs/assets/logo.png": b"\x89PNG\r\n\x00\xfffixture",
@@ -39,11 +40,11 @@ class ReleaseBundleTests(unittest.TestCase):
             "notebooks/example.ipynb": b'{"cells": []}\n',
             "benchmark_history/old/checkpoint.zip": b"archived bytes\x00\xff",
             "benchmark_history/old/report.md": b"Historical evidence.\n",
-            "plugin-example-source/plugin.json": b"{}\n",
-            "plugin-report-pack-source/README.md": b"[Plugin](../MVS_Report_Pack_v1.0.0.mvsplugin)\n",
-            "plugin-report-pack-source/plugin.json": b"{}\n",
-            "plugin-lab-pack-source/plugin.json": b"{}\n",
-            "plugin-stress-pack-source/plugin.json": b"{}\n",
+            "plugins/sources/plugin-example-source/plugin.json": b"{}\n",
+            "plugins/sources/plugin-report-pack-source/README.md": b"[Plugin](../../packages/MVS_Report_Pack_v1.0.0.mvsplugin)\n",
+            "plugins/sources/plugin-report-pack-source/plugin.json": b"{}\n",
+            "plugins/sources/plugin-lab-pack-source/plugin.json": b"{}\n",
+            "plugins/sources/plugin-stress-pack-source/plugin.json": b"{}\n",
         }
         for relative, content in self.fixture.items():
             self.write(relative, content)
@@ -74,6 +75,13 @@ class ReleaseBundleTests(unittest.TestCase):
         self.assertEqual(result.local_links, 7)
         self.assertEqual(stat.S_IMODE((self.out / "mvs").stat().st_mode), 0o755)
 
+    def test_relocated_plugins_have_no_old_root_aliases(self):
+        self.bundle()
+        for path in ("plugin-example-source", "plugin-report-pack-source", "plugin-lab-pack-source", "plugin-stress-pack-source", "MVS_Report_Pack_v1.0.0.mvsplugin", "example-visualization.mvsplugin"):
+            self.assertFalse((self.out / path).exists())
+        for path in ("plugins/packages/MVS_Report_Pack_v1.0.0.mvsplugin", "plugins/packages/example-visualization.mvsplugin"):
+            self.assertEqual((self.out / path).read_bytes(), self.fixture[path])
+
     def test_future_checkpoint_and_assets_are_automatically_preserved(self):
         self.write("docs/ROUND999_NEW_CHECKPOINT.md", "[Data](assets/future.dat)")
         self.write("docs/assets/future.dat", b"\x00future\xff")
@@ -88,8 +96,8 @@ class ReleaseBundleTests(unittest.TestCase):
         self.assertTrue((self.out / "docs/assets/empty").is_dir())
 
     def test_missing_required_tree_fails_before_writes(self):
-        (self.root / "plugin-example-source/plugin.json").unlink()
-        (self.root / "plugin-example-source").rmdir()
+        (self.root / "plugins/sources/plugin-example-source/plugin.json").unlink()
+        (self.root / "plugins/sources/plugin-example-source").rmdir()
         self.rejected("Missing required source")
 
     def test_missing_root_readme_fails_before_writes(self):
@@ -101,9 +109,9 @@ class ReleaseBundleTests(unittest.TestCase):
         self.rejected("Missing required source")
 
     def test_required_directory_cannot_be_a_file(self):
-        (self.root / "plugin-example-source/plugin.json").unlink()
-        (self.root / "plugin-example-source").rmdir()
-        self.write("plugin-example-source", b"not a directory")
+        (self.root / "plugins/sources/plugin-example-source/plugin.json").unlink()
+        (self.root / "plugins/sources/plugin-example-source").rmdir()
+        self.write("plugins/sources/plugin-example-source", b"not a directory")
         self.rejected("Expected source directory")
 
     def test_missing_markdown_target_fails_before_writes(self):
@@ -124,7 +132,7 @@ class ReleaseBundleTests(unittest.TestCase):
 
     def test_links_inside_every_copied_markdown_tree_are_checked(self):
         for relative in ("examples/README.md", "notebooks/README.md",
-                         "benchmark_history/old/report.md", "plugin-lab-pack-source/README.md",
+                         "benchmark_history/old/report.md", "plugins/sources/plugin-lab-pack-source/README.md",
                          "validation/README.md"):
             with self.subTest(document=relative):
                 path = self.write(relative, "[Missing](MISSING.md)")
@@ -268,12 +276,12 @@ class ReleaseBundleTests(unittest.TestCase):
             self.assertEqual((self.out / relative).read_bytes(), (self.root / relative).read_bytes())
 
     def test_unselected_trees_are_not_traversed_or_copied(self):
-        for name in ("private", "bin", "obj", "python", "validation/unselected"):
+        for name in ("private", "bin", "obj", "python", "validation/unselected", "plugins/private", "plugins/sources/unselected"):
             path = self.root / name
             path.parent.mkdir(parents=True, exist_ok=True)
             path.symlink_to(self.base, target_is_directory=True)
         self.bundle()
-        for name in ("private", "bin", "obj", "python", "validation/unselected"):
+        for name in ("private", "bin", "obj", "python", "validation/unselected", "plugins/private", "plugins/sources/unselected"):
             self.assertFalse((self.out / name).exists())
 
     def test_command_line_success_and_failure(self):
@@ -291,10 +299,11 @@ class ReleaseBundleTests(unittest.TestCase):
         self.assertEqual((self.out / "mvs").read_bytes(), SENTINEL)
         for relative in ("README.md", "docs/assets/logo.png", "docs/METRIC_REGISTRY.md",
                          "docs/CALIBRATION_RECOMMENDATIONS.md", "docs/ROUND15_PROJECT_READINESS_AUDIT.md",
-                         "validation/README.md", "MVS_Report_Pack_v1.0.0.mvsplugin"):
+                         "validation/README.md", "plugins/packages/MVS_Report_Pack_v1.0.0.mvsplugin",
+                         "plugins/packages/example-visualization.mvsplugin"):
             self.assertEqual((self.out / relative).read_bytes(), (ROOT / relative).read_bytes())
-        for name in ("docs", "benchmark_history", "examples", "notebooks", "plugin-example-source",
-                     "plugin-report-pack-source", "plugin-lab-pack-source", "plugin-stress-pack-source"):
+        for name in ("docs", "benchmark_history", "examples", "notebooks", "plugins/sources/plugin-example-source",
+                     "plugins/sources/plugin-report-pack-source", "plugins/sources/plugin-lab-pack-source", "plugins/sources/plugin-stress-pack-source"):
             expected = {path.relative_to(ROOT) for path in (ROOT / name).rglob("*")
                         if path.is_file() and "__pycache__" not in path.relative_to(ROOT).parts[:-1]}
             actual = {path.relative_to(self.out) for path in (self.out / name).rglob("*") if path.is_file()}

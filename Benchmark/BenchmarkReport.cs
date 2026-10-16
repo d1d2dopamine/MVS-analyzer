@@ -38,6 +38,14 @@ internal static class BenchmarkReport
         IProgress<ProgressInfo>? progress,
         CancellationToken token,
         Func<BenchmarkOutcome, string, bool, List<string>>? figureGenerator = null)
+        => RunAndWriteWithOutputObserver(profile, seed, root, realDataFolder, russian, progress, token,
+            null, null, figureGenerator);
+
+    public static BenchmarkReportResult RunAndWriteWithOutputObserver(
+        BenchmarkProfile profile, int seed, string root, string realDataFolder, bool russian,
+        IProgress<ProgressInfo>? progress, CancellationToken token,
+        Action<string>? outputStarted, Action<string, bool>? observeWrite,
+        Func<BenchmarkOutcome, string, bool, List<string>>? figureGenerator = null)
     {
         if (string.IsNullOrWhiteSpace(root))
             throw new InvalidDataException("Choose a folder for the benchmark output first.");
@@ -49,28 +57,39 @@ internal static class BenchmarkReport
         string figuresFolder = Path.Combine(folder, "figures");
         Directory.CreateDirectory(figuresFolder);
 
+        outputStarted?.Invoke(folder);
+        string WriteObserved(string directory, string name, string content)
+        {
+            string path = Path.Combine(directory, name);
+            observeWrite?.Invoke(path, false);
+            Write(directory, name, content);
+            observeWrite?.Invoke(path, true);
+            return path;
+        }
         progress?.Report(new ProgressInfo(.99,
             russian ? "Сохранение графиков" : "Saving the figures", figuresFolder));
         // Rendering is supplied by the Windows front end. Core and the headless CLI stay platform-neutral.
         List<string> figures = figureGenerator?.Invoke(outcome, figuresFolder, russian) ?? new List<string>();
+        // A legacy renderer exposes only returned files, not partial writes before an exception.
+        foreach (string figure in figures) observeWrite?.Invoke(figure, true);
 
         progress?.Report(new ProgressInfo(.995,
             russian ? "Сохранение таблиц и отчёта" : "Saving the tables and the report", folder));
         var files = new List<string>
         {
-            Write(folder, "benchmark_report.md", Markdown(outcome, russian)),
-            Write(folder, "benchmark_summary.csv", SummaryCsv(outcome)),
-            Write(folder, "benchmark_replications.csv", ReplicationsCsv(outcome)),
-            Write(folder, "benchmark_replication_procedures.csv", ReplicationProceduresCsv(outcome)),
-            Write(folder, "benchmark_replication_metrics.csv", ReplicationMetricsCsv(outcome)),
-            Write(folder, "benchmark_metrics.csv", MetricsCsv(outcome)),
-            Write(folder, "benchmark_choices.csv", ChoicesCsv(outcome)),
-            Write(folder, "benchmark_stability.csv", StabilityCsv(outcome)),
-            Write(folder, "benchmark_stability_replications.csv", StabilityReplicationsCsv(outcome)),
-            Write(folder, "benchmark_verdicts.csv", VerdictsCsv(outcome)),
-            Write(folder, "benchmark_protocol.txt", BenchmarkProtocol.Specification)
+            WriteObserved(folder, "benchmark_report.md", Markdown(outcome, russian)),
+            WriteObserved(folder, "benchmark_summary.csv", SummaryCsv(outcome)),
+            WriteObserved(folder, "benchmark_replications.csv", ReplicationsCsv(outcome)),
+            WriteObserved(folder, "benchmark_replication_procedures.csv", ReplicationProceduresCsv(outcome)),
+            WriteObserved(folder, "benchmark_replication_metrics.csv", ReplicationMetricsCsv(outcome)),
+            WriteObserved(folder, "benchmark_metrics.csv", MetricsCsv(outcome)),
+            WriteObserved(folder, "benchmark_choices.csv", ChoicesCsv(outcome)),
+            WriteObserved(folder, "benchmark_stability.csv", StabilityCsv(outcome)),
+            WriteObserved(folder, "benchmark_stability_replications.csv", StabilityReplicationsCsv(outcome)),
+            WriteObserved(folder, "benchmark_verdicts.csv", VerdictsCsv(outcome)),
+            WriteObserved(folder, "benchmark_protocol.txt", BenchmarkProtocol.Specification)
         };
-        files.Add(Write(folder, "benchmark_manifest.json", Manifest(outcome, figures, files)));
+        files.Add(WriteObserved(folder, "benchmark_manifest.json", Manifest(outcome, figures, files)));
 
         var everything = new List<string>(files);
         everything.AddRange(figures);
@@ -79,7 +98,7 @@ internal static class BenchmarkReport
         foreach (string file in everything)
             sums.Append(OutputExporter.HashFile(file)).Append("  ")
                 .Append(Path.GetRelativePath(folder, file).Replace('\\', '/')).Append('\n');
-        files.Add(Write(folder, "SHA256SUMS.txt", sums.ToString()));
+        files.Add(WriteObserved(folder, "SHA256SUMS.txt", sums.ToString()));
 
         AppendJournal(outcome, folder);
 

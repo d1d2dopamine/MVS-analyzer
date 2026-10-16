@@ -175,9 +175,9 @@ Rename-Item ..\My_Pack_v1.0.0.zip ..\My_Pack_v1.0.0.mvsplugin
 
 | Source | Id | Type | Contents |
 |---|---|---|---|
-| [`plugin-example-source`](../plugin-example-source) | `example.mvs.visualization` | visualization | one template (`publication_score`) — the minimal working example |
-| [`plugin-report-pack-source`](../plugin-report-pack-source) | `mvs.report.pack` | visualization | four templates: MVS ranking, FPR × power map, value spread, group medians |
-| [`plugin-lab-pack-source`](../plugin-lab-pack-source) | `mvs.lab.pack` | import-export | `lab-device` import profile, `strict-qc` settings, RU summary report, validation rules, lab terminology |
-| [`plugin-stress-pack-source`](../plugin-stress-pack-source) | `mvs.stress.pack` | visualization | adversarial profiles and rules for hostile datasets (requires app ≥ 1.3.0) |
+| [`plugins/sources/plugin-example-source`](../plugins/sources/plugin-example-source) | `example.mvs.visualization` | visualization | one template (`publication_score`) — the minimal working example |
+| [`plugins/sources/plugin-report-pack-source`](../plugins/sources/plugin-report-pack-source) | `mvs.report.pack` | visualization | four templates: MVS ranking, FPR × power map, value spread, group medians |
+| [`plugins/sources/plugin-lab-pack-source`](../plugins/sources/plugin-lab-pack-source) | `mvs.lab.pack` | import-export | `lab-device` import profile, `strict-qc` settings, RU summary report, validation rules, lab terminology |
+| [`plugins/sources/plugin-stress-pack-source`](../plugins/sources/plugin-stress-pack-source) | `mvs.stress.pack` | visualization | adversarial profiles and rules for hostile datasets (requires app ≥ 1.3.0) |
 
-Two prebuilt packages are committed for convenience: `example-visualization.mvsplugin` and `MVS_Report_Pack_v1.0.0.mvsplugin`.
+Two prebuilt packages are committed for convenience: `plugins/packages/example-visualization.mvsplugin` and `plugins/packages/MVS_Report_Pack_v1.0.0.mvsplugin`.

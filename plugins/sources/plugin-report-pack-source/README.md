@@ -2,11 +2,11 @@
 
 Пакет шаблонов визуализации для MVS Analyzer 1.1.0 и выше · `mvs.report.pack` · тип `visualization`
 
-> Visualization template pack for MVS Analyzer 1.1.0+. English documentation: [`../docs/PLUGINS.md`](../docs/PLUGINS.md).
+> Visualization template pack for MVS Analyzer 1.1.0+. English documentation: [`../../../docs/PLUGINS.md`](../../../docs/PLUGINS.md).
 
 ## Установка
 
-1. **Плагины** → «Установить пакет» → выбрать [`MVS_Report_Pack_v1.0.0.mvsplugin`](../MVS_Report_Pack_v1.0.0.mvsplugin)
+1. **Плагины** → «Установить пакет» → выбрать [`MVS_Report_Pack_v1.0.0.mvsplugin`](../../packages/MVS_Report_Pack_v1.0.0.mvsplugin)
 2. **Графики** → в списке появятся четыре пункта «Плагин: …»
 3. Отметить нужные, сохранить выбор, запустить анализ с включёнными графиками
 
@@ -29,8 +29,8 @@
 
 ```powershell
 # из этой папки: plugin.json должен оказаться В КОРНЕ архива
-Compress-Archive -Path * -DestinationPath ..\MVS_Report_Pack_v1.0.0.zip -Force
-Rename-Item ..\MVS_Report_Pack_v1.0.0.zip ..\MVS_Report_Pack_v1.0.0.mvsplugin
+Compress-Archive -Path * -DestinationPath ..\..\packages\MVS_Report_Pack_v1.0.0.zip -Force
+Rename-Item ..\..\packages\MVS_Report_Pack_v1.0.0.zip ..\..\packages\MVS_Report_Pack_v1.0.0.mvsplugin
 ```
 
-Формат `.mvsplugin`, ограничения безопасности и поля шаблонов описаны в [`../docs/PLUGINS.md`](../docs/PLUGINS.md).
+Формат `.mvsplugin`, ограничения безопасности и поля шаблонов описаны в [`../../../docs/PLUGINS.md`](../../../docs/PLUGINS.md).

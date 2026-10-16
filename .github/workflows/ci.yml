@@ -34,6 +34,7 @@ jobs:
         run: |
           node --version
           python tools/test_source_pins.py
+          python tools/test_root_layout.py
           python tools/test_colab_connection.py
           python tools/test_ui_patch.py
       - name: Python API wrapper tests
@@ -103,6 +104,11 @@ jobs:
         run: |
           dotnet run --project validation/overwrite_output_harness/OverwriteOutputHarness.csproj -c Release -- --candidate "$PWD/MvsAnalyzer.Cli/bin/Release/net8.0/mvs.dll" --out "$PWD/regression-evidence/overwrite-output"
           MVS_OVERWRITE_OUTPUT_RESULTS="$PWD/regression-evidence/overwrite-output/report.json" python -m unittest discover -s validation -p 'test_overwrite_output_contract.py' -v
+      - name: Benchmark export artifact ownership regressions
+        run: |
+          dotnet build validation/benchmark_export_contract/BenchmarkExportContract.csproj -c Release
+          dotnet validation/benchmark_export_contract/bin/Release/net8.0/BenchmarkExportContract.dll "$PWD/MvsAnalyzer.Cli/bin/Release/net8.0/mvs.dll" "$PWD/regression-evidence/benchmark-export"
+          MVS_BENCHMARK_EXPORT_RESULTS="$PWD/regression-evidence/benchmark-export/report.json" python -m unittest discover -s validation -p 'test_benchmark_export_contract.py' -v
       - name: Publish Linux CLI
         run: dotnet publish MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -o publish/linux-cli
       - name: Calibration and analysis smoke

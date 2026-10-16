@@ -46,8 +46,17 @@ internal static class BackupRunner
         switch (r.Kind)
         {
             case "benchmark":
-                var report = BenchmarkReport.RunAndWrite(r.Benchmark ?? throw new InvalidDataException("Missing benchmark profile."), r.Seed, folder, "", russian, progress, token);
-                Provenance(report.Folder); RefreshBenchmarkChecksums(report.Folder); return new(report.Folder, ExitCode: report.Outcome.Overall == "no-go" ? 2 : 0);
+                var report = BenchmarkReport.RunAndWriteWithOutputObserver(r.Benchmark ?? throw new InvalidDataException("Missing benchmark profile."), r.Seed, folder, "", russian, progress, token, outputStarted, observeWrite);
+                // The initial checksum describes the pre-resume export. It is no longer a
+                // completed artifact once provenance/manifest publication begins, even if
+                // its old bytes survive a later failure. Do not delete those old bytes.
+                observeWrite?.Invoke(Path.Combine(report.Folder, "SHA256SUMS.txt"), false);
+                string provenance = Path.Combine(report.Folder, "backup_resume.json");
+                observeWrite?.Invoke(provenance, false);
+                Provenance(report.Folder);
+                observeWrite?.Invoke(provenance, true);
+                RefreshBenchmarkChecksums(report, provenance, observeWrite);
+                return new(report.Folder, ExitCode: report.Outcome.Overall == "no-go" ? 2 : 0);
             case "calibrate":
                 var calibration = AnalysisEngine.Calibrate(Data(r), r.Repetitions, r.Effect, r.Seed, progress, token, r.Scenario, r.Outliers, r.Missing, r.Alpha, r.Tracks);
                 CalibrationState state = State(r, calibration, dataset, hash, document);
@@ -93,16 +102,23 @@ internal static class BackupRunner
         Write("run_manifest.json", () => ScientificTables.WriteManifest(folder, "resumed-" + r.Kind, modelReport, hash));
         return new(folder, ExitCode: exitCode);
     }
-    private static void RefreshBenchmarkChecksums(string folder)
+    private static void RefreshBenchmarkChecksums(BenchmarkReportResult report, string provenance, Action<string, bool>? observeWrite)
     {
+        string folder = report.Folder;
         string manifest = Path.Combine(folder, "benchmark_manifest.json");
         JsonNode document = JsonNode.Parse(File.ReadAllText(manifest)) ?? throw new InvalidDataException("Missing benchmark manifest.");
         if (document["files"] is not JsonArray files) throw new InvalidDataException("Invalid benchmark manifest files.");
         files.Add("backup_resume.json");
+        observeWrite?.Invoke(manifest, false);
         ScientificJson.AtomicText(manifest, document.ToJsonString(ScientificJson.Options));
-        string[] names = Directory.GetFiles(folder, "*", SearchOption.AllDirectories)
-            .Where(p => Path.GetFileName(p) != "SHA256SUMS.txt").OrderBy(p => p, StringComparer.Ordinal).ToArray();
-        ScientificJson.AtomicText(Path.Combine(folder, "SHA256SUMS.txt"), string.Join("\n", names.Select(p => OutputExporter.HashFile(p) + "  " + Path.GetRelativePath(folder, p).Replace('\\', '/'))) + "\n");
+        observeWrite?.Invoke(manifest, true);
+        string[] names = report.Files.Concat(report.Figures).Append(provenance)
+            .Where(p => Path.GetFileName(p) != "SHA256SUMS.txt").Distinct(StringComparer.Ordinal)
+            .OrderBy(p => p, StringComparer.Ordinal).ToArray();
+        string checksums = Path.Combine(folder, "SHA256SUMS.txt");
+        observeWrite?.Invoke(checksums, false);
+        ScientificJson.AtomicText(checksums, string.Join("\n", names.Select(p => OutputExporter.HashFile(p) + "  " + Path.GetRelativePath(folder, p).Replace('\\', '/'))) + "\n");
+        observeWrite?.Invoke(checksums, true);
     }
     private static AnalysisData Data(BackupRequest r) => r.Data ?? throw new InvalidDataException("Missing analysis data.");
     internal static AppSettings Settings(BackupRequest r)

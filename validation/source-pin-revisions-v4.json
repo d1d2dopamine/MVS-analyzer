@@ -1,0 +1,40 @@
+{
+  "schema": "mvs-source-pin-revisions/v4",
+  "stage": 38,
+  "note": "Two explicit Round38 benchmark output-observation transitions following the byte-preserved Round36 v3 manifest. Expected hashes are literal independent source-review records. BenchmarkCommandLine.cs is resolved from its applicable checkpoint anchor, not an invented v2 entry. All earlier historical provenance labels and gaps remain unchanged. Source integrity is not scientific validation or cryptographic authorship proof.",
+  "previousReviewedManifestSha256": "b576b1cf0097da8ecbce5fc1f4e25317d459f8f58c0632ebe7f2b03c3f6262c1",
+  "revisions": {
+    "Benchmark/BenchmarkReport.cs": {
+      "originalSha256": "98d633079904fef5eb25c653e77b02e21bfc01f06c88510e39733942a34dc167",
+      "previousSha256": "1407ec587e5967559fbe5413a2af3e16e2eab458773059a0f564f14a1be8aa00",
+      "sha256": "049856902263c6404fc91fc2b6c3ba2561ca5f65813a9e8e5bd155d145fced65",
+      "review": {
+        "completeness": "complete-retained-chain",
+        "transitionCompleteness": "complete-reviewed-transition",
+        "stages": [38],
+        "reason": "Retains the existing RunAndWrite API as a forwarding wrapper and adds an explicit output-start and per-file write-observation entry point. Existing report serializers, write order, CSV BOM behavior, checksum formatting, benchmark runner invocation, and numerical methods are unchanged. A legacy figure renderer exposes only the files it returns, not partial writes before an exception.",
+        "evidence": [
+          "docs/ROUND38_BENCHMARK_OUTPUT_RU.md",
+          "validation/round38-results.json"
+        ],
+        "limitation": "The retained Round35 1407ec58... to Round38 04985690... transition is fully source-reviewed and inherits v2 complete-retained-chain scope. Earlier original-to-checkpoint revisions remain retained, not newly reconstructed. Observation does not make output transactional or establish scientific correctness. A local owner can edit source and manifests together."
+      }
+    },
+    "Benchmark/BenchmarkCommandLine.cs": {
+      "originalSha256": "169be84cf825dd7b69e88f046f66081353c3f1e539b9a9194c0022e48f27349f",
+      "previousSha256": "e932746a20f412deb558f6d22beef9e169c66727aa9579db6bb9ae07ec2ab935",
+      "sha256": "80697a50588711f030b7079d644ea06239b9c8f696036632477422ce1dddcf46",
+      "review": {
+        "completeness": "complete-retained-chain",
+        "transitionCompleteness": "complete-reviewed-transition",
+        "stages": [38],
+        "reason": "Retains the existing Run API as a forwarding wrapper and passes output-start and per-file observers through the new report entry point. Cancellation text now warns that output may be incomplete instead of incorrectly claiming no files were written. Argument parsing, benchmark options, runner parameters, numerical behavior, and exit codes are unchanged.",
+        "evidence": [
+          "docs/ROUND38_BENCHMARK_OUTPUT_RU.md",
+          "validation/round38-results.json"
+        ],
+        "limitation": "The directly applicable retained checkpoint e932746a... to Round38 80697a50... transition is fully source-reviewed. This source has no v2 or v3 revision; completeness refers to its retained applicable chain, not a new reconstruction of original-to-checkpoint history. Source integrity and output observation are not scientific validation. A local owner can edit source and manifests together."
+      }
+    }
+  }
+}

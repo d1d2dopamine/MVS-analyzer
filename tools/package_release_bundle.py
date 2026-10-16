@@ -22,12 +22,13 @@ from urllib.parse import unquote, urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_FILES = (
     "README.md", "LICENSE", "CHANGELOG.md", "CITATION.cff",
-    "validation/README.md", "MVS_Report_Pack_v1.0.0.mvsplugin",
+    "validation/README.md", "plugins/packages/MVS_Report_Pack_v1.0.0.mvsplugin",
+    "plugins/packages/example-visualization.mvsplugin",
 )
 REQUIRED_TREES = (
     "docs", "examples", "notebooks", "benchmark_history",
-    "plugin-example-source", "plugin-report-pack-source",
-    "plugin-lab-pack-source", "plugin-stress-pack-source",
+    "plugins/sources/plugin-example-source", "plugins/sources/plugin-report-pack-source",
+    "plugins/sources/plugin-lab-pack-source", "plugins/sources/plugin-stress-pack-source",
 )
 
 

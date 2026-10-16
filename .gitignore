@@ -97,3 +97,6 @@ MVS_Backups.zip
 python/build/
 python/dist/
 python/src/*.egg-info/
+
+# Local recoverable root-layout migration originals; never a release input.
+.mvs-layout-backup/

@@ -1,0 +1,105 @@
+{
+  "schema": "mvs-root-layout-migration/v1",
+  "stage": 37,
+  "sourceStage": 36,
+  "moves": [
+    {
+      "oldPath": "plugin-example-source",
+      "newPath": "plugins/sources/plugin-example-source",
+      "kind": "directory",
+      "sourceFiles": {
+        "plugin.json": "68f8b70ee4fa22fb2ef00135b973d64506b1cf9a81ff620b13b9855f3d600d50",
+        "templates/publication_score.json": "689f7e7aa9210a7397b55c0d929b1031bcf483764dfb53f4c2fa3fbd5f891ee0"
+      },
+      "destinationFiles": {
+        "plugin.json": "68f8b70ee4fa22fb2ef00135b973d64506b1cf9a81ff620b13b9855f3d600d50",
+        "templates/publication_score.json": "689f7e7aa9210a7397b55c0d929b1031bcf483764dfb53f4c2fa3fbd5f891ee0"
+      }
+    },
+    {
+      "oldPath": "plugin-lab-pack-source",
+      "newPath": "plugins/sources/plugin-lab-pack-source",
+      "kind": "directory",
+      "sourceFiles": {
+        "import-profiles/lab-device.json": "08642cb661a493c6c77030cbd5b8f1d1883829665a25a07fb8360df9878eb47b",
+        "plugin.json": "6faee43dc4a46630150607abb7fce5d4947ad1f7ca03bf2210fa18edcdc5f5e4",
+        "report-templates/summary-ru.txt": "3a78ebec924bd54ebc9cec2a5f2478870ea171f821dd4f789b0a27c509c07069",
+        "settings-profiles/strict-qc.json": "80e57d2e31056b116068f1117d3e73769dd8965256e1efb0a3ff5acebfd8dc00",
+        "terms/lab-ru.json": "5cd8d51d3087a7a9c90c6ca9b6cb9935da45deb60b4a83ce659f5735d8819d05",
+        "validation-rules/basic.json": "eb3844f4789599ee04ab9a085f8903702edc60b2df92c52d1e40334664f3d8ed"
+      },
+      "destinationFiles": {
+        "import-profiles/lab-device.json": "08642cb661a493c6c77030cbd5b8f1d1883829665a25a07fb8360df9878eb47b",
+        "plugin.json": "6faee43dc4a46630150607abb7fce5d4947ad1f7ca03bf2210fa18edcdc5f5e4",
+        "report-templates/summary-ru.txt": "3a78ebec924bd54ebc9cec2a5f2478870ea171f821dd4f789b0a27c509c07069",
+        "settings-profiles/strict-qc.json": "80e57d2e31056b116068f1117d3e73769dd8965256e1efb0a3ff5acebfd8dc00",
+        "terms/lab-ru.json": "5cd8d51d3087a7a9c90c6ca9b6cb9935da45deb60b4a83ce659f5735d8819d05",
+        "validation-rules/basic.json": "eb3844f4789599ee04ab9a085f8903702edc60b2df92c52d1e40334664f3d8ed"
+      }
+    },
+    {
+      "oldPath": "plugin-report-pack-source",
+      "newPath": "plugins/sources/plugin-report-pack-source",
+      "kind": "directory",
+      "sourceFiles": {
+        "README.md": "275ee7fcb53698a82a25206fad0fb93948757f9b168dc184a2a6278707a392e9",
+        "plugin.json": "456247caf7aa6e64f8f0ca906093dd36fd10769416ffe31beced0d4efc3be597",
+        "templates/fpr_power_map.json": "993c57a170a210c78eb30c6fa89c3355d38344fac7c7614cbe496b2fd64be29a",
+        "templates/group_medians.json": "6fba6b41da3e3031378bf5b8b23331cd3dfb43c30eebf907f1e273aab6ea12c9",
+        "templates/mvs_ranking.json": "4aceb169dfb1310bd38b2d22f0f0f69509055c9e2e6bd71df0574b9db7dc65f7",
+        "templates/value_spread.json": "027202a2475342361f936f241b9199d5259979a3b2d50c7cf4944affd5d1d129"
+      },
+      "destinationFiles": {
+        "README.md": "e6e0d39055f3f530e567589a87dc81ab00d7399276d5bddb8bfac50e8f29330d",
+        "plugin.json": "456247caf7aa6e64f8f0ca906093dd36fd10769416ffe31beced0d4efc3be597",
+        "templates/fpr_power_map.json": "993c57a170a210c78eb30c6fa89c3355d38344fac7c7614cbe496b2fd64be29a",
+        "templates/group_medians.json": "6fba6b41da3e3031378bf5b8b23331cd3dfb43c30eebf907f1e273aab6ea12c9",
+        "templates/mvs_ranking.json": "4aceb169dfb1310bd38b2d22f0f0f69509055c9e2e6bd71df0574b9db7dc65f7",
+        "templates/value_spread.json": "027202a2475342361f936f241b9199d5259979a3b2d50c7cf4944affd5d1d129"
+      }
+    },
+    {
+      "oldPath": "plugin-stress-pack-source",
+      "newPath": "plugins/sources/plugin-stress-pack-source",
+      "kind": "directory",
+      "sourceFiles": {
+        "import-profiles/stress-test.json": "15d846fdeb33335a203e481d200ca12ae10b85bbac20b5b7388f7d3d7c491014",
+        "plugin.json": "cc49e473f88f0eb0e1c9e43aa62d1d992d8085c62bec551ec244a39bf7cd13ed",
+        "report-templates/stress-ru.txt": "3daa17e1889ffa1c5f9016dbb9c0343cbd565d27089e51a1c4bd9f7b191b1ace",
+        "settings-profiles/stress-test.json": "c591846209c9a94601afe80854688441c044e3c226bc50b96e89bbd2af9cf9c0",
+        "terms/stress-ru.json": "31bcc0a0d3ab9043da77723082631f2ee1a17647fdb527d223762c7d1f0ea226",
+        "validation-rules/stress.json": "6ddaa274dbaa43fe321359161b6b625a82ea3ae8c9dad50670c723fe723687c4"
+      },
+      "destinationFiles": {
+        "import-profiles/stress-test.json": "15d846fdeb33335a203e481d200ca12ae10b85bbac20b5b7388f7d3d7c491014",
+        "plugin.json": "cc49e473f88f0eb0e1c9e43aa62d1d992d8085c62bec551ec244a39bf7cd13ed",
+        "report-templates/stress-ru.txt": "3daa17e1889ffa1c5f9016dbb9c0343cbd565d27089e51a1c4bd9f7b191b1ace",
+        "settings-profiles/stress-test.json": "c591846209c9a94601afe80854688441c044e3c226bc50b96e89bbd2af9cf9c0",
+        "terms/stress-ru.json": "31bcc0a0d3ab9043da77723082631f2ee1a17647fdb527d223762c7d1f0ea226",
+        "validation-rules/stress.json": "6ddaa274dbaa43fe321359161b6b625a82ea3ae8c9dad50670c723fe723687c4"
+      }
+    },
+    {
+      "oldPath": "MVS_Report_Pack_v1.0.0.mvsplugin",
+      "newPath": "plugins/packages/MVS_Report_Pack_v1.0.0.mvsplugin",
+      "kind": "file",
+      "sourceFiles": {
+        ".": "c88c910460dfb40b674f3e54db66e18e265f021198495735161f520bd1e81a5b"
+      },
+      "destinationFiles": {
+        ".": "c88c910460dfb40b674f3e54db66e18e265f021198495735161f520bd1e81a5b"
+      }
+    },
+    {
+      "oldPath": "example-visualization.mvsplugin",
+      "newPath": "plugins/packages/example-visualization.mvsplugin",
+      "kind": "file",
+      "sourceFiles": {
+        ".": "4b48ab0ba965d38cd5d45878c84757f373fb82375bf8bca0be995deff97cec3f"
+      },
+      "destinationFiles": {
+        ".": "4b48ab0ba965d38cd5d45878c84757f373fb82375bf8bca0be995deff97cec3f"
+      }
+    }
+  ]
+}

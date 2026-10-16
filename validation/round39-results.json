@@ -1,0 +1,29 @@
+{
+  "stage": 39,
+  "status": "passed-local-test-portability-checks-windows-pending",
+  "scope": "Test-only platform exception expectation for deliberate late backup archive directory collision",
+  "productionChanges": false,
+  "scientificChanges": false,
+  "windowsRuntimeTested": false,
+  "ownerWindowsEvidence": {
+    "run": 38955858018,
+    "commit": "621ebde9f48348391bd9425ff213919359cb74f8",
+    "suppliedLogs": 2,
+    "passedPerLog": 181,
+    "totalPerLog": 188,
+    "sameFailures": 7,
+    "exceptionTypeAndStackPresent": false
+  },
+  "diagnosis": "Source-supported UnauthorizedAccessException alternative to IOException; actual Windows rerun still required",
+  "addedClassifierTests": 5,
+  "sourcePinsPassed": 64,
+  "colabPassed": 48,
+  "rootLayoutPassed": 59,
+  "uiStructuralPassed": 18,
+  "releaseBundlePassed": 35,
+  "unchangedProductionBuildPayloadIdentityFiles": 83,
+  "evidence": "validation/round39-evidence.zip",
+  "nextAction": "Owner runs Manual Windows workflow acceptance on current source; both Windows jobs and21Win32 gates plus actualnative/MCP must succeed",
+  "nativeLinuxTestsPassed": 200,
+  "independentTargetedChecksPassed": 41
+}

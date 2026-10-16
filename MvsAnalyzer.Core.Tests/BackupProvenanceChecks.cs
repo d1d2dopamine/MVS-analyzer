@@ -81,9 +81,7 @@ internal static class BackupProvenanceChecks
             if (!late) { using var b = BackupSession.Begin(d.Request); }
             else
             {
-                bool failed = false;
-                try { using var b = BackupSession.Begin(d.Request); } catch (IOException) { failed = true; }
-                Assert(failed, "Owned archive-directory obstruction did not fail.");
+                BackupPublicationFault.ExpectDirectoryCollision(() => { using var b = BackupSession.Begin(d.Request); }, obstruction);
                 Assert(ReferenceEquals(BackupSession.Pending, d) && BackupSession.Pack(d) == original, "Failed Begin changed pending document.");
             }
         }

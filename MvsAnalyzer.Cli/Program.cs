@@ -64,7 +64,8 @@ internal static class CliProgram
 
     private static int RunBenchmark(string[] arguments)
     {
-        int code = BenchmarkCommandLine.Run(arguments, folder => CliMachineContext.RecordOutput(folder));
+        int code = BenchmarkCommandLine.RunWithOutputObserver(arguments, folder => CliMachineContext.RecordOutput(folder),
+            folder => CliMachineContext.BeginOutput(folder), CliMachineContext.ObserveOutput);
         if (code == 2) CliMachineContext.Diagnostic("warning", "benchmark_threshold", "Benchmark completed but at least one threshold was not satisfied; inspect the benchmark report.");
         return code;
     }
