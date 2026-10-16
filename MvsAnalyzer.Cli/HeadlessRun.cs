@@ -36,15 +36,16 @@ internal static class HeadlessRun
         if (profilePath != null && !File.Exists(profilePath)) profilePath = null;
         OutputSafety.Preflight(output, OutputSafety.CalibrationFiles, new[] { input, jobPath, profilePath }, args.Flag("--overwrite"));
         Console.WriteLine("MVS calibration"); ShowVersions(); Console.WriteLine("Environment: " + BenchmarkEnvironment.Describe());
-        List<Observation> observations = CsvImporter.Read(input, settings.MinValue, settings.MaxValue, Profile(settings));
+        CsvImportResult imported = CsvImporter.Import(input, settings.MinValue, settings.MaxValue, Profile(settings), cancellationToken: CliCancellation.Token);
+        List<Observation> observations = imported.Observations;
         CheckIndependentIds(observations, args.Flag("--allow-group-scoped-ids"));
         AnalysisData data = AnalysisEngine.Build(observations, settings.MinValue, settings.MaxValue, settings.MinMeasurements);
-        data.ImportSummary = CsvImporter.LastImportSummary;
-        Console.WriteLine(CsvImporter.LastImportSummary);
-        string hash = OutputExporter.HashFile(input);
+        data.ImportSummary = imported.Summary;
+        Console.WriteLine(imported.Summary);
+        string hash = imported.SourceSha256;
         if (job != null && job.DatasetHash != hash) throw new InvalidDataException("The input does not match the job's dataset checksum.");
         string[] tracks = AnalysisEngine.NormalizeTracks(settings.SimulationScenario, AnalysisEngine.DefaultTracks);
-        Console.WriteLine("Data: " + Path.GetFileName(input) + " | " + data.TotalEntities + " entities | " + data.ValidRows + " rows | " + CsvImporter.LastEncodingName);
+        Console.WriteLine("Data: " + Path.GetFileName(input) + " | " + data.TotalEntities + " entities | " + data.ValidRows + " rows | " + imported.EncodingName);
         Console.WriteLine("Tracks: " + string.Join(", ", tracks)); Console.WriteLine("Seed: " + settings.CalibrationSeed + " | repetitions: " + repetitions);
         Console.WriteLine("Input SHA256: " + hash);
         foreach (string warning in data.Warnings)
@@ -88,10 +89,11 @@ internal static class HeadlessRun
         foreach (string flag in new[] { "--seed", "--effect", "--scenario", "--alpha", "--outliers", "--missing", "--margin", "--min-measurements", "--min-value", "--max-value", "--split" })
             if (args.Has(flag)) throw new ArgumentException(flag + " is fixed by the calibration. Recalibrate to change it.");
         CalibrationPersistence.Apply(state, settings);
-        List<Observation> observations = CsvImporter.Read(input, settings.MinValue, settings.MaxValue, Profile(settings));
+        CsvImportResult imported = CsvImporter.Import(input, settings.MinValue, settings.MaxValue, Profile(settings), cancellationToken: CliCancellation.Token);
+        List<Observation> observations = imported.Observations;
         CheckIndependentIds(observations, args.Flag("--allow-group-scoped-ids"));
-        Console.WriteLine(CsvImporter.LastImportSummary);
-        string hash = OutputExporter.HashFile(input); bool mismatch = !hash.Equals(state.DatasetHash, StringComparison.OrdinalIgnoreCase);
+        Console.WriteLine(imported.Summary);
+        string hash = imported.SourceSha256; bool mismatch = !hash.Equals(state.DatasetHash, StringComparison.OrdinalIgnoreCase);
         if (mismatch && !args.Flag("--force")) throw new InvalidDataException("Calibration belongs to different input bytes. Recalibrate, or explicitly use --force for an exploratory comparison.");
         if (mismatch)
         {
@@ -100,7 +102,7 @@ internal static class HeadlessRun
             Console.Error.WriteLine("Warning: " + warning);
         }
         AnalysisData data = AnalysisEngine.Build(observations, settings.MinValue, settings.MaxValue, settings.MinMeasurements);
-        data.ImportSummary = CsvImporter.LastImportSummary;
+        data.ImportSummary = imported.Summary;
         foreach (string warning in data.Warnings) CliMachineContext.Diagnostic("warning", "data_warning", warning);
         AnalysisData analysed = settings.SplitCalibration ? AnalysisEngine.SplitEntities(data, settings.CalibrationSeed).Analysis : data;
         analysed.ImportSummary = data.ImportSummary;

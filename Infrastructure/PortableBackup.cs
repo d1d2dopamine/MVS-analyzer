@@ -51,7 +51,7 @@ internal sealed record BackupDocument
     public Dictionary<string, JsonElement> Units { get; init; } = new(StringComparer.Ordinal);
     public bool CalculationComplete { get; set; }
 }
-internal sealed class BackupSession : IDisposable
+internal sealed class BackupSession : IRunRecording
 {
     internal const int MaxBytes = 64 * 1024 * 1024;
     internal static readonly JsonSerializerOptions Json = new()
@@ -89,11 +89,27 @@ internal sealed class BackupSession : IDisposable
         string hash = ScientificMath.Hash(Pack(request));
         if (saved != null && saved.RequestHash != hash) throw new InvalidDataException("Backup inputs/settings do not match this calculation.");
         var session = new BackupSession { document = saved ?? new BackupDocument { Request = request, RequestHash = hash }, WasRestored = saved != null };
-        pending.Value = null;
-        session.EnvironmentChanged = session.document.Environments.Count > 0 && session.document.Environments[^1] != BenchmarkEnvironment.Hash;
-        if (session.document.Environments.Count == 0 || session.document.Environments[^1] != BenchmarkEnvironment.Hash) session.document.Environments.Add(BenchmarkEnvironment.Hash);
+        // Initial publication may fail. Do not consume a restore selection or its
+        // environment transition until the session has been successfully opened.
+        int previousEnvironmentCount = session.document.Environments.Count;
+        DateTime previousSavedUtc = session.document.SavedUtc;
+        // A last-seen environment is not per-unit arithmetic provenance. A
+        // previous foreign environment may still own cached simplex values.
+        // Unknown restored origin must stay unknown across publication/restart.
+        bool restoredUnknownOrigin = saved != null && previousEnvironmentCount == 0;
+        session.EnvironmentChanged = saved != null && (restoredUnknownOrigin || session.document.Environments.Any(e => e != BenchmarkEnvironment.Hash));
+        if (!restoredUnknownOrigin && (session.document.Environments.Count == 0 || session.document.Environments[^1] != BenchmarkEnvironment.Hash))
+            session.document.Environments.Add(BenchmarkEnvironment.Hash);
         active.Value = session; session.dirty = true;
-        try { session.Flush(true); } catch { active.Value = null; throw; }
+        try { session.Flush(true); }
+        catch
+        {
+            active.Value = null;
+            session.document.Environments.RemoveRange(previousEnvironmentCount, session.document.Environments.Count - previousEnvironmentCount);
+            session.document.SavedUtc = previousSavedUtc;
+            throw;
+        }
+        pending.Value = null;
         return session;
     }
     internal bool Try<T>(string key, out T value)
@@ -116,6 +132,12 @@ internal sealed class BackupSession : IDisposable
         { document.Units["result"] = JsonSerializer.SerializeToElement(value, Json); document.CalculationComplete = true; dirty = true; Flush(true); }
         return value;
     }
+    bool IRunRecording.EnvironmentChanged => EnvironmentChanged;
+    bool IRunRecording.Try<T>(string key, out T value) => Try(key, out value);
+    T IRunRecording.Cached<T>(string key, Func<T> calculate) => Cached(key, calculate);
+    void IRunRecording.Put<T>(string key, T value) => Put(key, value);
+    T IRunRecording.Finish<T>(T value) => Finish(value);
+
     private void Flush(bool force)
     {
         if (document == null || !dirty || (!force && DateTime.UtcNow - lastSave < TimeSpan.FromSeconds(15))) return;

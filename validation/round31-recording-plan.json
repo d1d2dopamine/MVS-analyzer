@@ -1,0 +1,52 @@
+{
+  "id": "R31-PER-RUN-RECORDING-1",
+  "frozenUtc": "2026-10-16T15:33:39.351374+00:00",
+  "baseline": "acceptedRound30",
+  "baselineSourceHashes": {
+    "Core/AnalysisEngine.cs": "b5375596481cc3e5b24081052c8a1e614ebca55fbb6d0eb1cb549612fbf74e3c",
+    "Core/VarianceAnalysis.cs": "5e19899d008bff8dc1f04cb67d0d975c670fd87dc0f91c70668630dbe8a3205f",
+    "Core/EstimationStudy.cs": "51a3428fe0057899ee479580c65e4fce2e8b410c61f72229966718def7c06bea",
+    "Core/MelsmAnalysis.cs": "c03cac81fc97018b0a3fe9c5752cea9670569bbaf9ad4c42e536c3c9658f0561",
+    "Core/NumericalMethods.cs": "5ee3ef4f2c1cde3b1ffe0c7161b2afdf6228efcc2aa7898372bdd5bc208f3eb0",
+    "Infrastructure/PortableBackup.cs": "303fdfc7eeb784c6ff742be955ef168aebe56a61507861478b22b251df4ea662",
+    "SharedSources.props": "13aa668c7f5cac882b0d8cdabf6e00816171972377dbddf7982d9e960092f7d9"
+  },
+  "scope": [
+    "internal recording session/factory contract",
+    "explicit per-invocation injection entrypoints forfiveCoreoperations",
+    "legacyentrypointwrappers delegate statelessportablefactory",
+    "optimizer borrowed recordinginterface with legacyconcrete signature retained",
+    "defaultBackupSession implementation/adapter retains ambient behavior"
+  ],
+  "invariants": [
+    "no mutable global currentfactory",
+    "no new AsyncLocal service locator",
+    "oneownedrecordingsession peroperation disposedonce",
+    "optimizerborrowssession neverdisposes",
+    "Begin staysafter samevalidation andbefore samecachelookup",
+    "exact cachekeys/types/ordering/requests/RNG/progress/cancellation checkpoints",
+    "Round29/30restore semantics preserved",
+    "defaultpublicsignatures/optionalvalues/namedargs preserved",
+    "failures propagate no automaticfallback",
+    "fake cache serializes snapshots toavoid mutablealias"
+  ],
+  "acceptance": [
+    "allfiveentrypoint acquisition/cachehit/failure/disposal/independence checks",
+    "Put/Finish/delegate/cancellation exceptions preserveorder/no falsecompletion",
+    "optimizer cache/replay/foreignenvironment reevaluation/borrowedownership",
+    "normaldefault/nested/disabled/restore/context compatibility",
+    "exactscientific andfinaldecodedcheckpoint comparisons against30",
+    "orderedinjectedrecordevents checked independently; no fabricatedbaselinehooktrace",
+    "fullnative/PythonactualCLIregression",
+    "frozenABBAcomparison suppliedexternalrevision2 beforetimings"
+  ],
+  "performance": "3pairedAB/BA/AB trials, fixedfixtures, default/disabled modes, warmups, no concurrentcompute; allrawoutcomes; no speedclaim from structuralextraction",
+  "deferred": [
+    "RunAuditor journal boundary",
+    "per-unitprovenance schema",
+    "mathlibrary substitution",
+    "scientificglobalrankactivation/pilot/holdout"
+  ],
+  "rollback": "sourcecopy30; no backupconversion",
+  "risk": "Core still uses unchanged BackupRequest compatibility descriptor; seam is testability/invocation ownership, not complete physical layer separation"
+}

@@ -10,7 +10,8 @@ internal static class ScientificCommands
         args.Validate(new[] { "--in", "--out", "--repetitions", "--bootstrap", "--seed", "--alpha", "--within-effect", "--between-effect", "--min-measurements", "--overwrite", "--allow-group-scoped-ids", "--import-profile", "--min-value", "--max-value" });
         string input = args.Require("--in"), folder = Prepare(args, OutputSafety.VarianceFiles, input);
         int minimum = args.Int("--min-value", int.MinValue), maximum = args.Int("--max-value", int.MaxValue);
-        List<Observation> observations = CsvImporter.Read(input, minimum, maximum, Profile(args));
+        CsvImportResult imported = CsvImporter.Import(input, minimum, maximum, Profile(args), cancellationToken: CliCancellation.Token);
+        List<Observation> observations = imported.Observations;
         HeadlessRun.CheckIndependentIds(observations, args.Flag("--allow-group-scoped-ids"));
         AnalysisData data = AnalysisEngine.Build(observations, minimum, maximum, args.Int("--min-measurements", 3));
         VarianceReport report = VarianceAnalysis.Run(data, args.Int("--repetitions", 200), args.Int("--bootstrap", 199), args.Number("--within-effect", 1.3),
@@ -18,7 +19,7 @@ internal static class ScientificCommands
         ScientificJson.Write(Path.Combine(folder, "variance_report.json"), report);
         ScientificJson.AtomicText(Path.Combine(folder, "variance_components.csv"), VarianceAnalysis.Csv(report));
         ScientificJson.AtomicText(Path.Combine(folder, "variance_tests.csv"), Table(report.Tracks));
-        Manifest(folder, "variance-components", input, report);
+        Manifest(folder, "variance-components", input, report, imported.SourceSha256);
         CliMachineContext.RecordOutput(folder);
         Console.WriteLine("Variance report saved: " + folder);
         foreach (VarianceTrack track in report.Tracks) Console.WriteLine(track.Track + ": " + track.Verdict + " | " + track.Status);
@@ -48,8 +49,9 @@ internal static class ScientificCommands
     {
         args.Validate(new[] { "--in", "--out", "--mean-time", "--scale-time", "--correlate", "--no-random-scale", "--quadrature", "--max-iterations", "--overwrite", "--include-entity-ids", "--import-profile", "--min-value", "--max-value" });
         string input = args.Require("--in"), folder = Prepare(args, OutputSafety.MelsmFiles, input);
-        List<Observation> rows = CsvImporter.Read(input, args.Int("--min-value", int.MinValue), args.Int("--max-value", int.MaxValue), Profile(args), allowSingleGroup: true);
-        if ((args.Flag("--mean-time") || args.Flag("--scale-time")) && !CsvImporter.LastSequenceWasProvided)
+        CsvImportResult imported = CsvImporter.Import(input, args.Int("--min-value", int.MinValue), args.Int("--max-value", int.MaxValue), Profile(args), allowSingleGroup: true, cancellationToken: CliCancellation.Token);
+        List<Observation> rows = imported.Observations;
+        if ((args.Flag("--mean-time") || args.Flag("--scale-time")) && !imported.SequenceWasProvided)
             throw new InvalidDataException("A real integer sequence/timepoint column is required for time effects; row order is not a time variable.");
         var options = new MelsmOptions(args.Flag("--mean-time"), args.Flag("--scale-time"), args.Flag("--correlate"), !args.Flag("--no-random-scale"), args.Int("--quadrature", 15), args.Int("--max-iterations", 4000));
         MelsmReport report = MelsmAnalysis.Run(rows, options, new CliProgress(), CliCancellation.Token);
@@ -57,7 +59,7 @@ internal static class ScientificCommands
         ScientificJson.Write(Path.Combine(folder, "melsm_report.json"), report);
         ScientificJson.AtomicText(Path.Combine(folder, "melsm_parameters.csv"), Table(report.Parameters));
         ScientificJson.AtomicText(Path.Combine(folder, "melsm_random_effects.csv"), Table(report.RandomEffects));
-        Manifest(folder, "experimental-melsm", input, options);
+        Manifest(folder, "experimental-melsm", input, options, imported.SourceSha256);
         CliMachineContext.RecordOutput(folder);
         Console.WriteLine("MELSM report saved: " + folder + " | " + report.Status);
         bool diagnostic = report.Status != "converged_experimental";
@@ -80,12 +82,12 @@ internal static class ScientificCommands
             IFormattable f => f.ToString(null, CultureInfo.InvariantCulture), _ => value.ToString() ?? "" };
         return string.Join(",", columns.Select(p => p.Name)) + "\n" + string.Join("\n", rows.Select(r => string.Join(",", columns.Select(p => Value(p.GetValue(r)))))) + "\n";
     }
-    private static void Manifest<T>(string folder, string kind, string? input, T configuration)
+    private static void Manifest<T>(string folder, string kind, string? input, T configuration, string? capturedInputHash = null)
     {
         var files = Directory.GetFiles(folder).Where(f => Path.GetFileName(f) != "run_manifest.json").Select(f => new { FileName = Path.GetFileName(f), sha256 = OutputExporter.HashFile(f), SizeBytes = new FileInfo(f).Length }).ToArray();
         ScientificJson.Write(Path.Combine(folder, "run_manifest.json"), new { schemaVersion = 2, executionEnvironment = new { description = Benchmarking.BenchmarkEnvironment.Describe(), fingerprint = Benchmarking.BenchmarkEnvironment.Hash, replayScope = Benchmarking.BenchmarkEnvironment.Scope }, application = "MVS Analyzer", version = ReleaseInfo.Version,
             engineVersion = ReleaseInfo.EngineVersion, runId = kind + "_" + DateTime.UtcNow.ToString("yyyyMMdd_HHmmss", CultureInfo.InvariantCulture), created = DateTimeOffset.UtcNow,
-            kind, configuration, inputData = new { file = input == null ? "synthetic" : Path.GetFileName(input), sha256 = input == null ? ScientificMath.Hash(ScientificJson.Serialize(configuration)) : OutputExporter.HashFile(input) },
+            kind, configuration, inputData = new { file = input == null ? "synthetic" : Path.GetFileName(input), sha256 = input == null ? ScientificMath.Hash(ScientificJson.Serialize(configuration)) : capturedInputHash ?? throw new InvalidOperationException("Captured input identity is required.") },
             formula = new { version = "model-specific", hash = "", specification = "See model/configuration in the corresponding report; the summary-metric score is not used here." },
             files, warning = "Numerical and scientific validation status is reported explicitly; a saved result does not by itself certify model adequacy." });
     }

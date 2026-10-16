@@ -1,0 +1,554 @@
+{
+  "stage": 27,
+  "delivery": "cumulative25+26+27PATCH",
+  "scientificProductionChanged": false,
+  "productionFilesUnchangedComparedWith26": 92,
+  "scientificReadiness": "NO-GO retained",
+  "development": {
+    "schemaVersion": "mvs-global-rank-development-report/v1",
+    "planned": 1300,
+    "completed": 1300,
+    "conditions": [
+      {
+        "condition": "primary_null",
+        "conditionOrdinal": 0,
+        "planned": 200,
+        "completed": 200,
+        "missing": 0,
+        "methods": {
+          "shipped": {
+            "rejections": 7,
+            "plannedDenominator": 200,
+            "rejectionRateBounds": [
+              0.035,
+              0.035
+            ]
+          },
+          "candidate": {
+            "rejections": 19,
+            "plannedDenominator": 200,
+            "rejectionRateBounds": [
+              0.095,
+              0.095
+            ]
+          },
+          "permutationBonferroni": {
+            "rejections": 6,
+            "plannedDenominator": 200,
+            "rejectionRateBounds": [
+              0.03,
+              0.03
+            ]
+          },
+          "fixedMedian": {
+            "rejections": 16,
+            "plannedDenominator": 200,
+            "rejectionRateBounds": [
+              0.08,
+              0.08
+            ]
+          },
+          "fixedCv": {
+            "rejections": 16,
+            "plannedDenominator": 200,
+            "rejectionRateBounds": [
+              0.08,
+              0.08
+            ]
+          }
+        },
+        "candidateWilson95": [
+          0.06166310271738653,
+          0.1436016116481994
+        ],
+        "nullScreen": "inconclusive"
+      },
+      {
+        "condition": "shape_normal_null",
+        "conditionOrdinal": 1,
+        "planned": 200,
+        "completed": 200,
+        "missing": 0,
+        "methods": {
+          "shipped": {
+            "rejections": 4,
+            "plannedDenominator": 200,
+            "rejectionRateBounds": [
+              0.02,
+              0.02
+            ]
+          },
+          "candidate": {
+            "rejections": 10,
+            "plannedDenominator": 200,
+            "rejectionRateBounds": [
+              0.05,
+              0.05
+            ]
+          },
+          "permutationBonferroni": {
+            "rejections": 4,
+            "plannedDenominator": 200,
+            "rejectionRateBounds": [
+              0.02,
+              0.02
+            ]
+          },
+          "fixedMedian": {
+            "rejections": 7,
+            "plannedDenominator": 200,
+            "rejectionRateBounds": [
+              0.035,
+              0.035
+            ]
+          },
+          "fixedCv": {
+            "rejections": 12,
+            "plannedDenominator": 200,
+            "rejectionRateBounds": [
+              0.06,
+              0.06
+            ]
+          }
+        },
+        "candidateWilson95": [
+          0.02738264560076393,
+          0.08957814813877599
+        ],
+        "nullScreen": "eligible"
+      },
+      {
+        "condition": "robust_null_10",
+        "conditionOrdinal": 2,
+        "planned": 200,
+        "completed": 200,
+        "missing": 0,
+        "methods": {
+          "shipped": {
+            "rejections": 5,
+            "plannedDenominator": 200,
+            "rejectionRateBounds": [
+              0.025,
+              0.025
+            ]
+          },
+          "candidate": {
+            "rejections": 8,
+            "plannedDenominator": 200,
+            "rejectionRateBounds": [
+              0.04,
+              0.04
+            ]
+          },
+          "permutationBonferroni": {
+            "rejections": 6,
+            "plannedDenominator": 200,
+            "rejectionRateBounds": [
+              0.03,
+              0.03
+            ]
+          },
+          "fixedMedian": {
+            "rejections": 10,
+            "plannedDenominator": 200,
+            "rejectionRateBounds": [
+              0.05,
+              0.05
+            ]
+          },
+          "fixedCv": {
+            "rejections": 14,
+            "plannedDenominator": 200,
+            "rejectionRateBounds": [
+              0.07,
+              0.07
+            ]
+          }
+        },
+        "candidateWilson95": [
+          0.020405632066152306,
+          0.07693206820093293
+        ],
+        "nullScreen": "eligible"
+      },
+      {
+        "condition": "design_voice_null",
+        "conditionOrdinal": 3,
+        "planned": 200,
+        "completed": 200,
+        "missing": 0,
+        "methods": {
+          "shipped": {
+            "rejections": 2,
+            "plannedDenominator": 200,
+            "rejectionRateBounds": [
+              0.01,
+              0.01
+            ]
+          },
+          "candidate": {
+            "rejections": 9,
+            "plannedDenominator": 200,
+            "rejectionRateBounds": [
+              0.045,
+              0.045
+            ]
+          },
+          "permutationBonferroni": {
+            "rejections": 4,
+            "plannedDenominator": 200,
+            "rejectionRateBounds": [
+              0.02,
+              0.02
+            ]
+          },
+          "fixedMedian": {
+            "rejections": 7,
+            "plannedDenominator": 200,
+            "rejectionRateBounds": [
+              0.035,
+              0.035
+            ]
+          },
+          "fixedCv": {
+            "rejections": 7,
+            "plannedDenominator": 200,
+            "rejectionRateBounds": [
+              0.035,
+              0.035
+            ]
+          }
+        },
+        "candidateWilson95": [
+          0.023852543001492997,
+          0.0832967040018196
+        ],
+        "nullScreen": "eligible"
+      },
+      {
+        "condition": "power_location_105",
+        "conditionOrdinal": 4,
+        "planned": 250,
+        "completed": 250,
+        "missing": 0,
+        "methods": {
+          "shipped": {
+            "rejections": 35,
+            "plannedDenominator": 250,
+            "rejectionRateBounds": [
+              0.14,
+              0.14
+            ]
+          },
+          "candidate": {
+            "rejections": 79,
+            "plannedDenominator": 250,
+            "rejectionRateBounds": [
+              0.316,
+              0.316
+            ]
+          },
+          "permutationBonferroni": {
+            "rejections": 43,
+            "plannedDenominator": 250,
+            "rejectionRateBounds": [
+              0.172,
+              0.172
+            ]
+          },
+          "fixedMedian": {
+            "rejections": 112,
+            "plannedDenominator": 250,
+            "rejectionRateBounds": [
+              0.448,
+              0.448
+            ]
+          },
+          "fixedCv": {
+            "rejections": 22,
+            "plannedDenominator": 250,
+            "rejectionRateBounds": [
+              0.088,
+              0.088
+            ]
+          }
+        }
+      },
+      {
+        "condition": "power_dispersion_130",
+        "conditionOrdinal": 5,
+        "planned": 250,
+        "completed": 250,
+        "missing": 0,
+        "methods": {
+          "shipped": {
+            "rejections": 72,
+            "plannedDenominator": 250,
+            "rejectionRateBounds": [
+              0.288,
+              0.288
+            ]
+          },
+          "candidate": {
+            "rejections": 125,
+            "plannedDenominator": 250,
+            "rejectionRateBounds": [
+              0.5,
+              0.5
+            ]
+          },
+          "permutationBonferroni": {
+            "rejections": 78,
+            "plannedDenominator": 250,
+            "rejectionRateBounds": [
+              0.312,
+              0.312
+            ]
+          },
+          "fixedMedian": {
+            "rejections": 14,
+            "plannedDenominator": 250,
+            "rejectionRateBounds": [
+              0.056,
+              0.056
+            ]
+          },
+          "fixedCv": {
+            "rejections": 135,
+            "plannedDenominator": 250,
+            "rejectionRateBounds": [
+              0.54,
+              0.54
+            ]
+          }
+        }
+      }
+    ],
+    "pairedComparisons": [
+      {
+        "condition": "power_location_105",
+        "comparator": "shipped",
+        "planned": 250,
+        "completed": 250,
+        "n": 250,
+        "table": {
+          "bothReject": 35,
+          "candidateOnly": 44,
+          "comparatorOnly": 0,
+          "neitherReject": 171
+        },
+        "delta": 0.176,
+        "conservative95PairedInterval": [
+          0.10784135363408945,
+          0.2367214685592557
+        ],
+        "oneSidedExactMcNemarP": 5.684341886080802e-14,
+        "intervalCoverage": "at least 95% per comparison; not simultaneous across four comparisons"
+      },
+      {
+        "condition": "power_location_105",
+        "comparator": "permutationBonferroni",
+        "planned": 250,
+        "completed": 250,
+        "n": 250,
+        "table": {
+          "bothReject": 43,
+          "candidateOnly": 36,
+          "comparatorOnly": 0,
+          "neitherReject": 171
+        },
+        "delta": 0.144,
+        "conservative95PairedInterval": [
+          0.08050432746983746,
+          0.20108053591783237
+        ],
+        "oneSidedExactMcNemarP": 1.4551915228366852e-11,
+        "intervalCoverage": "at least 95% per comparison; not simultaneous across four comparisons"
+      },
+      {
+        "condition": "power_dispersion_130",
+        "comparator": "shipped",
+        "planned": 250,
+        "completed": 250,
+        "n": 250,
+        "table": {
+          "bothReject": 72,
+          "candidateOnly": 53,
+          "comparatorOnly": 0,
+          "neitherReject": 125
+        },
+        "delta": 0.212,
+        "conservative95PairedInterval": [
+          0.13937573800086187,
+          0.27605620713397605
+        ],
+        "oneSidedExactMcNemarP": 1.1102230246251565e-16,
+        "intervalCoverage": "at least 95% per comparison; not simultaneous across four comparisons"
+      },
+      {
+        "condition": "power_dispersion_130",
+        "comparator": "permutationBonferroni",
+        "planned": 250,
+        "completed": 250,
+        "n": 250,
+        "table": {
+          "bothReject": 78,
+          "candidateOnly": 47,
+          "comparatorOnly": 0,
+          "neitherReject": 125
+        },
+        "delta": 0.188,
+        "conservative95PairedInterval": [
+          0.11826971012408041,
+          0.2499143561688698
+        ],
+        "oneSidedExactMcNemarP": 7.105427357601002e-15,
+        "intervalCoverage": "at least 95% per comparison; not simultaneous across four comparisons"
+      }
+    ],
+    "interpretation": "Reused development screening only; no GO, component attribution, individual discoveries or nominal .05-control certification.",
+    "attribution": "Maximum-statistic calibration, dependence and discreteness effects are combined.",
+    "timingDefinition": "Shared preprocessing reported separately; baseline total is preprocessing+shipped, candidate total is preprocessing+candidate. No speed-win claim.",
+    "promising": false,
+    "pilotEvidenceOfImprovement": false,
+    "validityGatePassed": true,
+    "timingMedians": {
+      "preprocessingMs": 39.778999999999996,
+      "shippedMs": 5.79155,
+      "candidateMs": 29.4011,
+      "totalMs": 86.0784,
+      "cpuMs": 80.0,
+      "peakWorkingSetBytes": 43171840.0,
+      "baselineIncludingSharedMs": 45.95295,
+      "candidateIncludingSharedMs": 70.27795
+    },
+    "rawTimingLocation": "Each case JSON timing object; never successful-only performance certification when incomplete."
+  },
+  "replay": {
+    "planned": 1300,
+    "completed": 1300,
+    "mismatches": 0,
+    "failures": 0,
+    "startUtc": "2026-10-16T14:41:37Z",
+    "endUtc": "2026-10-16T14:44:16Z",
+    "elapsedSeconds": 159
+  },
+  "pilotTiming": {
+    "startUtc": "2026-10-16T14:44:50Z",
+    "endUtc": "2026-10-16T14:47:45Z",
+    "elapsedSeconds": 175,
+    "maxNativeWorkingSetBytes": 43433984,
+    "maxSampledRssBytes": 49688576,
+    "confirmedExitWithoutRssCases": 59
+  },
+  "oracle": {
+    "matrixFixtures": 9,
+    "assignments": 987,
+    "rawSummarySlots": 192,
+    "expectedFailureStages": 4,
+    "mismatches": 0,
+    "scalarTolerance": 2e-13
+  },
+  "tests": {
+    "pythonDiscovered": 524,
+    "passed": 510,
+    "actualWindowsSkipped": 14,
+    "suiteCounts": [
+      102,
+      17,
+      6,
+      40,
+      34,
+      34,
+      21,
+      270
+    ],
+    "actualLinuxNativeMcpPassed": true,
+    "driverCountCorruptionsRejected": 17,
+    "envelopeCorruptionsRejected": 8,
+    "lifecycleMocksPassed": 7,
+    "buildWarnings": 0,
+    "buildErrors": 0,
+    "fullNativeSuiteRepeated": false,
+    "previousRound25NativePassed": 158
+  },
+  "heldoutGenerated": false,
+  "productionActivation": false,
+  "windowsRuntime": "Round26 repair still pending owner rerun",
+  "firstReplayAttempt": {
+    "scope": "First archived replay attempt; interrupted before candidatepilot; no successful subset substituted",
+    "counts": {
+      "completed": 288,
+      "failed": 9,
+      "not-started": 1003
+    },
+    "failures": [
+      {
+        "conditionOrdinal": 0,
+        "replication": 40,
+        "driverReason": "RuntimeError: process RSS unavailable",
+        "nativeStatus": "ok",
+        "fileSha256": "d852e9df67b967ac6d34cc34de1baba631b9f9a79fa975be783b909f5bbadf29"
+      },
+      {
+        "conditionOrdinal": 0,
+        "replication": 103,
+        "driverReason": "RuntimeError: process RSS unavailable",
+        "nativeStatus": "ok",
+        "fileSha256": "5ef162ff6976a9534c4c30bd0825582b1c71f61f64965551d743b5c888efd0e6"
+      },
+      {
+        "conditionOrdinal": 0,
+        "replication": 123,
+        "driverReason": "RuntimeError: process RSS unavailable",
+        "nativeStatus": "ok",
+        "fileSha256": "98c5c56ff3102b5877ce779e4a2cc4eee6965734a07c6f8a7e034cb0c311acb1"
+      },
+      {
+        "conditionOrdinal": 0,
+        "replication": 158,
+        "driverReason": "RuntimeError: process RSS unavailable",
+        "nativeStatus": "ok",
+        "fileSha256": "5973d1a13909c45891588eb0fff0bfa1f6dba3a6df8e3226736bb88d2225751c"
+      },
+      {
+        "conditionOrdinal": 0,
+        "replication": 166,
+        "driverReason": "RuntimeError: process RSS unavailable",
+        "nativeStatus": "ok",
+        "fileSha256": "4b57c39bdf1868534e854e0035c4ea4101f48ebf1986fd6053f93bbd9206b9eb"
+      },
+      {
+        "conditionOrdinal": 0,
+        "replication": 178,
+        "driverReason": "RuntimeError: process RSS unavailable",
+        "nativeStatus": "ok",
+        "fileSha256": "6ecd1bc66abfc8b829f4fbbe10737e7ac3fa2570fd4bcdd78bdf9a1b1965e0dc"
+      },
+      {
+        "conditionOrdinal": 0,
+        "replication": 181,
+        "driverReason": "RuntimeError: process RSS unavailable",
+        "nativeStatus": "ok",
+        "fileSha256": "4cf70dcb2a903283de0e285d14b4897552ee429b204a9371d64a28b6f7524dab"
+      },
+      {
+        "conditionOrdinal": 1,
+        "replication": 37,
+        "driverReason": "RuntimeError: process RSS unavailable",
+        "nativeStatus": "ok",
+        "fileSha256": "06c650c41f28fdfa59a026984deadbd891c05bbc7efc7c51598ea5ba3a821a27"
+      },
+      {
+        "conditionOrdinal": 1,
+        "replication": 65,
+        "driverReason": "RuntimeError: process RSS unavailable",
+        "nativeStatus": "ok",
+        "fileSha256": "4012ef6c0e4169eee6750729b3844357f50d5aab2d4774f1f0fcb5086c67a03d"
+      }
+    ],
+    "processExitObservation": "Tool execution interrupted exit130; checkpoint stable on two observations; no claim of completed whole replay",
+    "next": "Reproduce resourcewatchdog exit race, review boundedfix, retain all outputs and repeat entire fixed1300baseline replay with new sourcebinding"
+  },
+  "reportRegeneratedByteIdentically": true
+}

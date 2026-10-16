@@ -78,6 +78,10 @@ internal static class EstimationStudy
         }).ToArray();
     }
     public static EstimationReport Run(EstimationOptions options, IProgress<ProgressInfo>? progress = null, CancellationToken token = default)
+        => RunWithRecording(PortableRunRecordingFactory.Instance, options, progress, token);
+
+    internal static EstimationReport RunWithRecording(IRunRecordingFactory recordingFactory, EstimationOptions options,
+        IProgress<ProgressInfo>? progress = null, CancellationToken token = default)
     {
         if (!new[] { "normal", "lognormal", "student_t5" }.Contains(options.Shape)) throw new ArgumentException("Shape must be normal, lognormal or student_t5.");
         if (options.Entities < 4 || options.Measurements < 3 || options.Repetitions < 100 || options.BootstrapReplications < 99)
@@ -88,7 +92,7 @@ internal static class EstimationStudy
         if ((options.Target == "within_variance" || options.Target == "between_variance") && options.Shape != "normal")
             throw new ArgumentException("Variance-estimation studies currently use the Gaussian random-intercept model only.");
         string[] methods = Methods(options); double truth = Truth(options); ScientificMath.RequireFinite(truth, "simulation truth");
-        using var backup = BackupSession.Begin(new BackupRequest { Kind = "estimation", Estimation = options });
+        using var backup = recordingFactory.Begin(new BackupRequest { Kind = "estimation", Estimation = options });
         if (backup.Try<EstimationReport>("result", out var restoredResult)) return restoredResult;
         var draws = new List<EstimationDraw>();
         for (int rep = 0; rep < options.Repetitions; rep++)

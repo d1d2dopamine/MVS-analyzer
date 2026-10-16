@@ -86,13 +86,21 @@ registration**, unseen data, campaign completeness or statistical validity.
   an OS memory sandbox. Windows locks/ACLs/API layouts must pass actual runtime
   gates; Linux mocks are insufficient evidence.
 
+## Round26 correction
+
+The supplied Windows CI logs failed the original 18-check gate. Round26 fixes
+a cleanup-completion race and replaces the PowerShell ACL test probe with a
+read-only .NET helper. See [repair and owner rerun](ROUND26_WINDOWS_GATE_REPAIR.md).
+The new 21-check gate includes three additional portable ordering/deadline tests;
+all fourteen Windows-only checks still must execute, without skips.
+
 ## Owner-run acceptance gate
 
 1. Inspect and commit this source to your repository using your own normal workflow.
 2. GitHub Actions: choose **Manual Windows workflow acceptance**, Run workflow, select that
    commit/branch. The dispatch-only matrix targets windows-2022 and windows-2025,
    uses read-only repository permission, no secrets and no release/publish step.
-   The Win32 gate requires exactly 18 tests and zero skips, so an all-skipped suite
+   The Win32 gate requires exactly 21 tests and zero skips, so an all-skipped suite
    cannot produce a green runtime gate. Action versions are exact release tags
    verified against official release pages (checkout/setup-python 7.0.0,
    setup-dotnet/upload-artifact 6.0.0); tags are not full commit-SHA pins.

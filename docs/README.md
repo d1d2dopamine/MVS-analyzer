@@ -1,5 +1,21 @@
 # Documentation
 
+## Windows acceptance repair
+
+[Round26: cleanup race and independent ACL probe](ROUND26_WINDOWS_GATE_REPAIR.md)
+addresses the newly supplied failed Windows CI logs.
+[Краткий отчёт и повторная проверка](ROUND26_WINDOWS_GATE_REPAIR_RU.md).
+Windows acceptance remains pending an actual rerun.
+
+## Input provenance and local import state
+
+Round 25 binds active headless CLI and real-data benchmark imports to the exact
+raw bytes consumed, with per-import metadata rather than shared `Last*` state.
+See [engineering report and residual boundaries](ROUND25_IMPORT_BOUNDARY.md),
+[краткий отчёт](ROUND25_IMPORT_BOUNDARY_RU.md), and the
+[frozen comparison protocol](ROUND25_COMPARISON_PROTOCOL.md).
+
+
 ## Experimental local workflow checkpoint
 
 Round 23 adds an experimental Windows local-NTFS backend to the Round 22

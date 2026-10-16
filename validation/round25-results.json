@@ -1,0 +1,116 @@
+{
+  "stage": 25,
+  "delivery": "patch_over_round24_preserving_readme",
+  "codeBaseline": "Round23",
+  "scientificReadiness": "NO-GO retained",
+  "native": {
+    "configuration": "Debug",
+    "passed": 158,
+    "newImportChecks": 10,
+    "independentTargetedPassed": 10
+  },
+  "cli": {
+    "configuration": "Release",
+    "buildWarnings": 0,
+    "buildErrors": 0,
+    "pairedExactChecks": 152,
+    "pairedNumericTolerance": 0,
+    "byteIdenticalExports": 16,
+    "safetyCases": 135,
+    "safetyAssertions": 1690,
+    "safetySkips": 0
+  },
+  "python": {
+    "discovered": 512,
+    "passed": 498,
+    "windowsOnlySkipped": 14,
+    "suiteCounts": [
+      99,
+      17,
+      6,
+      40,
+      34,
+      34,
+      21,
+      261
+    ],
+    "actualNativeMcp": true,
+    "initialValidationFailure": "MCP-only venv lacked NumPy/SciPy; log retained; scientific-runtime rerun passed261"
+  },
+  "stableImportFixtures": 17,
+  "timing": {
+    "original": "42 contaminated observations retained",
+    "clean": "42 full prespecified observations; no selective exclusions",
+    "cleanMedians": [
+      {
+        "Size": 4500,
+        "old": {
+          "ElapsedMs": 28.0037,
+          "AllocatedBytes": 4626232,
+          "Gen0": 1,
+          "Gen1": 0,
+          "Gen2": 0
+        },
+        "new": {
+          "ElapsedMs": 27.1021,
+          "AllocatedBytes": 4625608,
+          "Gen0": 1,
+          "Gen1": 0,
+          "Gen2": 0
+        },
+        "candidateToBaselineTimeRatio": 0.9678042544378065
+      },
+      {
+        "Size": 45000,
+        "old": {
+          "ElapsedMs": 91.52,
+          "AllocatedBytes": 45788128,
+          "Gen0": 7,
+          "Gen1": 4,
+          "Gen2": 2
+        },
+        "new": {
+          "ElapsedMs": 89.8711,
+          "AllocatedBytes": 45787512,
+          "Gen0": 7,
+          "Gen1": 4,
+          "Gen2": 2
+        },
+        "candidateToBaselineTimeRatio": 0.9819831730769231
+      },
+      {
+        "Size": 150000,
+        "old": {
+          "ElapsedMs": 239.3787,
+          "AllocatedBytes": 150479240,
+          "Gen0": 22,
+          "Gen1": 9,
+          "Gen2": 2
+        },
+        "new": {
+          "ElapsedMs": 234.3617,
+          "AllocatedBytes": 150478576,
+          "Gen0": 22,
+          "Gen1": 10,
+          "Gen2": 2
+        },
+        "candidateToBaselineTimeRatio": 0.9790415772163522
+      }
+    ],
+    "conclusion": "No material regression observed; no general speedup claim"
+  },
+  "unchangedProtectedScienceFiles": 52,
+  "windows": "New supplied CI logs fail18-check gate; separate Round26 repair required; no runtime acceptance claimed",
+  "residuals": [
+    "Archived Desktop Last* state",
+    "Remote transfer rereads",
+    "Noninterruptible capture/hash/decode/initial Split",
+    "Mutable caller-owned observations and profile",
+    "No atomic filesystem snapshot during concurrent write"
+  ],
+  "evidence": {
+    "file": "round25-evidence.zip",
+    "sha256": "8ac3ccd957e490d0791ff6441633631b8758feb8ab2febbea6c2f40fd8b51b01",
+    "bytes": 699191
+  }
+}

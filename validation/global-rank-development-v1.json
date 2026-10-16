@@ -1,0 +1,146 @@
+{
+  "schemaVersion": "mvs-global-rank-development/v1",
+  "protocolId": "R27-GLOBAL-MAXRANK-DEV-1",
+  "origin": "R26-GLOBAL-MAXRANK-DEV-1 proposal; delivery stage renumbered, seed coordinates preserved",
+  "status": "frozen_pre_pilot",
+  "scientificReadiness": "NO-GO retained",
+  "productionActivation": false,
+  "conditions": [
+    {
+      "ordinal": 0,
+      "id": "primary_null",
+      "count": 200,
+      "design": "gait",
+      "shape": "heavy_tail",
+      "injection": "none",
+      "effect": 1,
+      "contamination": 0,
+      "dataStage": 1,
+      "dataStream": 1
+    },
+    {
+      "ordinal": 1,
+      "id": "shape_normal_null",
+      "count": 200,
+      "design": "gait",
+      "shape": "normal",
+      "injection": "none",
+      "effect": 1,
+      "contamination": 0,
+      "dataStage": 4,
+      "dataStream": 0
+    },
+    {
+      "ordinal": 2,
+      "id": "robust_null_10",
+      "count": 200,
+      "design": "gait",
+      "shape": "heavy_tail",
+      "injection": "none",
+      "effect": 1,
+      "contamination": 0.1,
+      "dataStage": 3,
+      "dataStream": 1
+    },
+    {
+      "ordinal": 3,
+      "id": "design_voice_null",
+      "count": 200,
+      "design": "voice",
+      "shape": "lognormal",
+      "injection": "none",
+      "effect": 1,
+      "contamination": 0,
+      "dataStage": 4,
+      "dataStream": 12
+    },
+    {
+      "ordinal": 4,
+      "id": "power_location_105",
+      "count": 250,
+      "design": "gait",
+      "shape": "heavy_tail",
+      "injection": "location",
+      "effect": 1.05,
+      "contamination": 0,
+      "dataStage": 2,
+      "dataStream": 1
+    },
+    {
+      "ordinal": 5,
+      "id": "power_dispersion_130",
+      "count": 250,
+      "design": "gait",
+      "shape": "heavy_tail",
+      "injection": "dispersion",
+      "effect": 1.3,
+      "contamination": 0,
+      "dataStage": 2,
+      "dataStream": 1
+    }
+  ],
+  "dataMasterSeed": 20260904,
+  "permutationMasterSeed": 2026102601,
+  "permutationStage": 26,
+  "draws": 999,
+  "alpha": 0.05,
+  "familySize": 12,
+  "fixedComparators": {
+    "medianIndex": 0,
+    "cvIndex": 2,
+    "method": "same-draw marginal permutation; strict p<.05"
+  },
+  "arithmetic": {
+    "operational": "exact rational doubled-midrank scores; inclusive rational >=",
+    "doubleHelper": "double scores and existing MaxT helper must match exact order and counts; mismatch fails entire case",
+    "noContinuityCorrection": true,
+    "maximumEntities": 128,
+    "oracleScalarValueAbsoluteTolerance": 2e-13,
+    "oracleScalarValueRelativeTolerance": 2e-13,
+    "countOrderingTieTolerance": 0
+  },
+  "availability": "Build unchanged; two groups at least4 each; complete12finite summary slots; synthetic expected entity count preserved; any candidate failure retained, never converted to non-rejection",
+  "pilotRequirements": {
+    "oracleMismatches": 0,
+    "unexplainedReplayMismatches": 0,
+    "invalidCases": 0,
+    "allFourNullConditionsEligible": true,
+    "powerDeltaNonnegativeBoth": true,
+    "powerDeltaAtLeastOne": 0.05,
+    "strongerLabelMcNemarAnyEndpointBelow": 0.025
+  },
+  "nullIntervals": {
+    "method": "two-sided Wilson95",
+    "eligibleUpperAtMost": 0.1,
+    "inflationLowerAbove": 0.075,
+    "other": "inconclusive"
+  },
+  "pairedIntervals": {
+    "method": "conservative discordance Clopper-Pearson difference",
+    "individualBinomialConfidence": 0.975,
+    "betaLowerQuantile": 0.0125,
+    "betaUpperQuantile": 0.9875,
+    "differenceLower": "L(b)-U(c)",
+    "differenceUpper": "U(b)-L(c)",
+    "coverage": "at least95% marginal for each paired difference, not simultaneous across4",
+    "mcnemar": "sum k=b..b+c choose(b+c,k)/2^(b+c); no discordance =>1"
+  },
+  "resources": {
+    "workers": 2,
+    "maxProcessRssBytes": 1073741824,
+    "pilotWallSeconds": 1200
+  },
+  "holdout": {
+    "generationAllowed": false,
+    "reason": "Independent evaluation decision gates not yet frozen; reserved seeds are not authorization to generate",
+    "reservedDataMaster": 2026102602,
+    "reservedDataStage": 27,
+    "reservedPermutationMaster": 2026102602,
+    "reservedPermutationStage": 28
+  },
+  "interpretation": "Global equality under exchangeability; rank-location maximum not omnibus-sensitive; no component/member claims; max-v-marginal gains combine joint calibration/dependence/discreteness; reused development only",
+  "freezeUtc": "2026-10-16T14:23:23.835222+00:00",
+  "fixturesSha256": "6deb504907cca453a000caa3433da3cd45a2a8556dd8d12c6e732616e5400c78",
+  "oracleExpectedSha256": "e289eb7f06478f4a96ff2b75eaf97a1f311de7c4f67c6efca8f313dc35607cb5",
+  "freezeChronology": "Literal fixtures and independent expected values preceded native comparison; consolidated record14:23:23.835Z followed first arithmetic comparison start~14:23:13Z; no development data generated. Scalar oracle tolerance2e-13 existed before raw comparisons; exact count/order gates unchanged."
+}

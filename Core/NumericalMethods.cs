@@ -7,6 +7,11 @@ internal static class NumericalMethods
 {
     public static OptimizationResult Minimize(Func<double[], double> function, double[] start, double[] lower, double[] upper,
         int maximumIterations = 3000, double tolerance = 1e-8, CancellationToken token = default, BackupSession? backup = null, string checkpointKey = "")
+        => MinimizeWithRecording(function, start, lower, upper, maximumIterations, tolerance, token, backup, checkpointKey);
+
+    // The caller owns the recording session; optimization only borrows it.
+    internal static OptimizationResult MinimizeWithRecording(Func<double[], double> function, double[] start, double[] lower, double[] upper,
+        int maximumIterations = 3000, double tolerance = 1e-8, CancellationToken token = default, IRunRecording? backup = null, string checkpointKey = "")
     {
         int n = start.Length;
         if (n == 0 || lower.Length != n || upper.Length != n || lower.Where((x, i) => !double.IsFinite(x) || !double.IsFinite(upper[i]) || upper[i] <= x).Any())

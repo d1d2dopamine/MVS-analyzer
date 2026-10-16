@@ -44,6 +44,24 @@ class WindowsFilesystemTests(unittest.TestCase):
         return subprocess.run([sys.executable, "-c", code, *map(str, args)],
                               env=env(), capture_output=True, text=True, timeout=15)
 
+    def acl(self, folder):
+        # Use a prebuilt independent .NET witness, never the production ACL reader.
+        configured = os.environ.get("MVS_ACL_TEST_PROBE")
+        self.assertTrue(configured, "Set MVS_ACL_TEST_PROBE to the prebuilt WindowsAclProbe.exe")
+        probe = Path(configured)
+        self.assertTrue(probe.is_absolute() and probe.is_file(),
+                        "MVS_ACL_TEST_PROBE must be an existing absolute executable path")
+        self.assertTrue(folder.is_absolute() and folder.is_relative_to(self.root),
+                        "ACL probe must target this test's absolute fixture path")
+        result = subprocess.run([str(probe), str(folder)], capture_output=True,
+                                text=True, timeout=15)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        acl = json.loads(result.stdout)
+        self.assertTrue(acl["Sddl"].strip(), "ACL probe returned an empty descriptor")
+        self.assertTrue(acl["User"])
+        self.assertTrue(acl["Owner"])
+        return acl
+
     def test_lock_excludes_same_and_other_process(self):
         path = self.root / "gate.lock"
         with self.fs.lock(path):
@@ -137,12 +155,8 @@ except FileExistsError: sys.exit(17)
     def test_existing_broad_acl_workspace_is_rejected_without_repair(self):
         folder = self.root / "ordinary"; folder.mkdir()
         # A normal inherited ACL must not be silently changed by this backend.
-        script = "(Get-Acl -LiteralPath $env:MVS_ACL_TEST_PATH).Sddl"
         def descriptor():
-            r = subprocess.run(["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", script],
-                env=dict(os.environ, MVS_ACL_TEST_PATH=str(folder)), capture_output=True, text=True, timeout=15)
-            self.assertEqual(r.returncode, 0, r.stderr)
-            return r.stdout.strip()
+            return self.acl(folder)["Sddl"]
         before = descriptor()
         with self.assertRaises(ValueError): self.fs.private_mkdir(folder, exist_ok=True)
         self.assertEqual(descriptor(), before)
@@ -152,17 +166,20 @@ except FileExistsError: sys.exit(17)
     def test_private_workspace_acl(self):
         folder = self.root / "private"
         self.fs.private_mkdir(folder)
-        # PowerShell returns numeric SIDs and inheritance flags, independent of locale.
-        script = "$a=Get-Acl -LiteralPath $env:MVS_ACL_TEST_PATH; [pscustomobject]@{Protected=$a.AreAccessRulesProtected;User=[System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value; Rules=@($a.Access|ForEach-Object{[pscustomobject]@{Sid=$_.IdentityReference.Translate([System.Security.Principal.SecurityIdentifier]).Value;Inherited=$_.IsInherited;Type=$_.AccessControlType.ToString()}})}|ConvertTo-Json -Depth 4 -Compress"
-        result = subprocess.run(["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", script], env=dict(os.environ, MVS_ACL_TEST_PATH=str(folder)), capture_output=True, text=True, timeout=15)
-        self.assertEqual(result.returncode, 0, result.stderr)
-        acl = json.loads(result.stdout)
+        acl = self.acl(folder)
+        self.assertEqual(acl["Owner"], acl["User"])
         self.assertTrue(acl["Protected"])
         rules = acl["Rules"]
         self.assertTrue(rules)
         self.assertTrue(all(not rule["Inherited"] for rule in rules))
         self.assertTrue(all(rule["Type"] != "Allow" or rule["Sid"] in {acl["User"], "S-1-5-18"} for rule in rules))
         self.assertTrue(any(rule["Type"] == "Allow" and rule["Sid"] == acl["User"] for rule in rules))
+        self.assertTrue(any(rule["Type"] == "Allow" and rule["Sid"] == "S-1-5-18" for rule in rules))
+        for rule in rules:
+            self.assertEqual(rule["Type"], "Allow")
+            self.assertEqual(rule["RightsMask"], 0x1F01FF)  # FILE_ALL_ACCESS
+            self.assertEqual(set(rule["Inheritance"].split(", ")), {"ContainerInherit", "ObjectInherit"})
+            self.assertEqual(rule["Propagation"], "None")
         self.fs.private_mkdir(folder, exist_ok=True)  # Existing private ACL is accepted.
 
 

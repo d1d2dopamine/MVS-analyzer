@@ -22,6 +22,10 @@ internal static class MelsmAnalysis
     private sealed record Integral(double LogLikelihood, double Location, double LogScale);
 
     public static MelsmReport Run(List<Observation> observations, MelsmOptions options, IProgress<ProgressInfo>? progress = null, CancellationToken token = default)
+        => RunWithRecording(PortableRunRecordingFactory.Instance, observations, options, progress, token);
+
+    internal static MelsmReport RunWithRecording(IRunRecordingFactory recordingFactory, List<Observation> observations, MelsmOptions options,
+        IProgress<ProgressInfo>? progress = null, CancellationToken token = default)
     {
         if (options.Correlate && !options.RandomScale) throw new ArgumentException("Correlation requires a random scale effect.");
         if (options.QuadraturePoints < 7 || options.QuadraturePoints > 31 || options.MaxIterations < 100)
@@ -38,7 +42,7 @@ internal static class MelsmAnalysis
         if (grouped.Length < 8 || grouped.Any(g => g.Count() < 3)) throw new InvalidDataException("MELSM requires at least eight distinct entity IDs and at least three observations per entity. More are usually needed for reliable variance inference.");
         if ((options.MeanTime || options.ScaleTime) && observations.GroupBy(o => o.Group, StringComparer.OrdinalIgnoreCase).All(g => g.Select(o => o.Sequence).Distinct().Count() < 2))
             throw new InvalidDataException("Time is collinear with condition; a mean time coefficient is not identifiable.");
-        using var backup = BackupSession.Begin(new BackupRequest { Kind = "melsm", Observations = observations, Melsm = options });
+        using var backup = recordingFactory.Begin(new BackupRequest { Kind = "melsm", Observations = observations, Melsm = options });
         if (backup.Try<MelsmReport>("result", out var restoredResult)) return restoredResult;
         double center = observations.Average(o => o.Value), scale = Math.Sqrt(ScientificMath.Variance(observations.Select(o => o.Value).ToArray()));
         if (!double.IsFinite(scale) || scale <= 0) throw new InvalidDataException("The outcome is constant; the model is not identifiable.");
@@ -132,12 +136,12 @@ internal static class MelsmAnalysis
             if (++evaluations % 100 == 0) progress?.Report(new ProgressInfo(0, "MELSM likelihood evaluations: " + evaluations, "Adaptive quadrature; convergence is checked, not assumed"));
             return double.IsFinite(value) ? value : 1e100;
         }
-        OptimizationResult bestFit = backup.Cached("fit/first", () => NumericalMethods.Minimize(Objective, start, lower, upper, options.MaxIterations, 1e-8, token, backup, "simplex/first"));
+        OptimizationResult bestFit = backup.Cached("fit/first", () => NumericalMethods.MinimizeWithRecording(Objective, start, lower, upper, options.MaxIterations, 1e-8, token, backup, "simplex/first"));
         // Independent scale starting values are important for the random-scale likelihood.
         if (omegaIndex >= 0)
         {
             double[] alternate = (double[])start.Clone(); alternate[omegaIndex] = Math.Log(.8); alternate[tauIndex] = Math.Log(.6);
-            OptimizationResult second = backup.Cached("fit/alternate", () => NumericalMethods.Minimize(Objective, alternate, lower, upper, options.MaxIterations, 1e-8, token, backup, "simplex/alternate"));
+            OptimizationResult second = backup.Cached("fit/alternate", () => NumericalMethods.MinimizeWithRecording(Objective, alternate, lower, upper, options.MaxIterations, 1e-8, token, backup, "simplex/alternate"));
             if (second.Value < bestFit.Value) bestFit = second;
         }
         var refined = NumericalMethods.NormalQuadrature(Math.Min(61, options.QuadraturePoints * 2 + 1));
@@ -146,7 +150,7 @@ internal static class MelsmAnalysis
         if (quadratureDifference > .01 && double.IsFinite(refinedValue))
         {
             quadrature = refined;
-            bestFit = backup.Cached("fit/refined", () => NumericalMethods.Minimize(Objective, bestFit.Parameters, lower, upper, options.MaxIterations, 1e-8, token, backup, "simplex/refined"));
+            bestFit = backup.Cached("fit/refined", () => NumericalMethods.MinimizeWithRecording(Objective, bestFit.Parameters, lower, upper, options.MaxIterations, 1e-8, token, backup, "simplex/refined"));
             var check = NumericalMethods.NormalQuadrature(quadrature.Nodes.Length == 61 ? 47 : Math.Min(61, quadrature.Nodes.Length + 16));
             refinedValue = -subjects.Sum(s => Integrate(s, bestFit.Parameters, check).LogLikelihood);
             quadratureDifference = Math.Abs(refinedValue - bestFit.Value);

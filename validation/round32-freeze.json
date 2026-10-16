@@ -1,0 +1,25 @@
+{
+  "stage": 32,
+  "frozenBeforeCandidateExecutionUtc": "2026-10-16T16:09:53.197629+00:00",
+  "schema": "mvs-normal-tail-execution-freeze/v1",
+  "candidateExecutionNotYetStarted": true,
+  "scope": "Isolated normal-tail numerical/dependency comparison; production unchanged; scientificNO-GO retained",
+  "files": {
+    "MVS-normal-tail-experiment-protocol-original.md": "86d4f5e87b06e7755ce2c9f301ac23ae5d087c1817fb20a5c064e91e52f994b0",
+    "MVS-normal-tail-experiment-amendment-v2.md": "5b81f65830cee7a46a5f9096c7d053bb714a2e377f1d67f90259fd8e9e04c492",
+    "mvs-r32-reference/pre-generation-freeze.json": "56747d15ac259271ea42a1c899f81e96b15ef6709e65bf9b8905340cb5146b70",
+    "mvs-r32-reference/frozen/reference-manifest.json": "8ca1a9dff53bb2954cd566a9a7ff79fb3c27fe3320d47b357dd16f5cd6a74a73",
+    "mvs-r32-native/builds-final/build-manifest.json": "33caff808e32133fb255effa6e052f24646856f377c999486a6c083c07ddacc7",
+    "mvs-r32-driver/frozen-config-v1.json": "7b5edc3fd9f62f085fde57b0f0b8608a3b49e795c828878ab3200f808cfa81c3",
+    "mvs-r32-driver/run_normal_tail_comparison.py": "8744841c8ee3a7ee4563d46d95062e1037240184a6428be45e7c107d283c669f",
+    "mvs-r32-driver/test_normal_tail_comparison.py": "bbcc69a96342e4bc578e23104eff20b181623f1e7d39fed4465ff0e6144f5f13",
+    "mvs-r32-driver/synthetic-driver-tests.log": "56099035cc46e50f7cde9c96a9376ef73ff276420c47075525f45fca6fce7d28",
+    "mvs-r32-driver-config-verify-environment.log": "a9d2385e43b94737df3b6a241f9112f6275b8cbed1c94c3c37e002e3cf883c16",
+    "mvs-r32-targeted-tests.log": "7e26f98f4ad86ef1d23714772b9395b4609b75177cbc5f4340c0037192badd9c"
+  },
+  "tests": {
+    "referenceAndPreparation": 16,
+    "driverSynthetic": 27
+  },
+  "review": "Independent source/reference/native/driver review passed; exact config verification passed with required environment. An earlier parent verify without sourcing environment was correctly rejected and retained."
+}

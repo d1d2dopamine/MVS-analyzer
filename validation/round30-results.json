@@ -1,0 +1,120 @@
+{
+  "stage": 30,
+  "delivery": "cumulative25\u201330PATCH",
+  "repair": "Restored simplex trust requires nonempty all-current history; unknown history stays unknown across publication",
+  "baseline": "Round29",
+  "targeted": {
+    "baselineFailed": 13,
+    "baselinePassed": 18,
+    "fixedPassed": 31,
+    "independentPassed": 31
+  },
+  "native": {
+    "passed": 189,
+    "failed": 0
+  },
+  "python": {
+    "discovered": 536,
+    "passed": 522,
+    "actualWindowsSkipped": 14,
+    "actualCurrentLinuxNativeMcpPassed": true
+  },
+  "build": {
+    "warnings": 0,
+    "errors": 0
+  },
+  "comparisonStatus": {
+    "status": "passed",
+    "expectedObservations": 66,
+    "completedObservations": 66,
+    "incompleteOrNotStartedObservations": 0,
+    "completedInvocations": 108,
+    "expectedInvocations": 108,
+    "error": null
+  },
+  "comparison": {
+    "restartObservations": 36,
+    "costObservations": 30,
+    "actualChildInvocations": 108,
+    "startUtc": "2026-10-16T15:22:41Z",
+    "endUtc": "2026-10-16T15:23:00Z",
+    "processBoundary": "Normal Environment.Exit without Dispose, not forced kill"
+  },
+  "cost": [
+    {
+      "history": "foreign",
+      "implementation": "baseline",
+      "n": 5,
+      "medianMs": 8.99632,
+      "medianAllocatedBytes": 30344,
+      "objectiveCalls": [
+        0
+      ]
+    },
+    {
+      "history": "foreign",
+      "implementation": "fixed",
+      "n": 5,
+      "medianMs": 8.637148000000002,
+      "medianAllocatedBytes": 30344,
+      "objectiveCalls": [
+        2
+      ]
+    },
+    {
+      "history": "empty",
+      "implementation": "baseline",
+      "n": 5,
+      "medianMs": 7.912844000000001,
+      "medianAllocatedBytes": 30344,
+      "objectiveCalls": [
+        0
+      ]
+    },
+    {
+      "history": "empty",
+      "implementation": "fixed",
+      "n": 5,
+      "medianMs": 8.236754000000001,
+      "medianAllocatedBytes": 30344,
+      "objectiveCalls": [
+        2
+      ]
+    },
+    {
+      "history": "current",
+      "implementation": "baseline",
+      "n": 5,
+      "medianMs": 8.014624999999999,
+      "medianAllocatedBytes": 30344,
+      "objectiveCalls": [
+        0
+      ]
+    },
+    {
+      "history": "current",
+      "implementation": "fixed",
+      "n": 5,
+      "medianMs": 8.125759,
+      "medianAllocatedBytes": 30344,
+      "objectiveCalls": [
+        0
+      ]
+    }
+  ],
+  "costCaveat": "cold method/JIT dominates elapsed microcases; exact N1 objective counts0same-current or2foreign/unknown; no speedup claim",
+  "unchanged": [
+    "scientific formulas/RNG/checkpoint keys",
+    "backup schema/public API",
+    "Round27 inconclusive advancement/NO-GO",
+    "README files"
+  ],
+  "limitations": [
+    "simplex objective cache only, not all completed-result shortcuts",
+    "unknown/foreign history incurs repeated reevaluation",
+    "older binaries retain unsafe assumption",
+    "no transactional disk rollback guarantee",
+    "actual Windows acceptance pending"
+  ],
+  "evidenceSha256": "88469b8736c9c6a37fe5487dcad10fd38bd2f6516317067bb0b6f2648ff832f9"
+}

@@ -57,15 +57,22 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           dotnet publish MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj -c Release -r win-x64 --self-contained true -p:DebugType=None -p:DebugSymbols=false -o "$env:MVS_GATE_ROOT\cli" 2>&1 | Tee-Object "$env:MVS_GATE_ROOT\build.log"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Build independent read-only ACL witness
+        run: |
+          dotnet build tools/windows_acl_probe/WindowsAclProbe.csproj -c Release -o "$env:MVS_GATE_ROOT\acl-probe" 2>&1 | Tee-Object "$env:MVS_GATE_ROOT\acl-probe-build.log"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $probe = Join-Path $env:MVS_GATE_ROOT 'acl-probe\WindowsAclProbe.exe'
+          if (-not (Test-Path -LiteralPath $probe -PathType Leaf)) { throw 'ACL witness executable missing' }
+          "MVS_ACL_TEST_PROBE=$probe" >> $env:GITHUB_ENV
       - name: Real Win32 file, ACL, lock and Job Object gates
         run: |
           python -m unittest discover -s python/tests -p 'test_windows*.py' -v 2>&1 | Tee-Object "$env:MVS_GATE_ROOT\win32-tests.log"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           $gateLog = Get-Content -Raw "$env:MVS_GATE_ROOT\win32-tests.log"
-          if ($gateLog -notmatch 'Ran 18 tests' -or $gateLog -match '(?im)skipped|FAILED|ERROR') {
-            throw 'Expected all 18 Win32/contract checks with zero skips and zero failures'
+          if ($gateLog -notmatch 'Ran 21 tests' -or $gateLog -match '(?im)skipped|FAILED|ERROR') {
+            throw 'Expected all 21 Win32/contract checks with zero skips and zero failures'
           }
-          @{ expected = 18; skipped = 0; actualWindows = $true } | ConvertTo-Json | Set-Content "$env:MVS_GATE_ROOT\win32-counts.json"
+          @{ expected = 21; skipped = 0; actualWindows = $true } | ConvertTo-Json | Set-Content "$env:MVS_GATE_ROOT\win32-counts.json"
       - name: Small canonical calibration (150 repetitions)
         run: |
           & $env:MVS_TEST_CLI calibrate --in examples/demo_three_groups.csv --out "$env:MVS_GATE_ROOT\calibration" --repetitions 150 --seed 20260719 --json --quiet 2>&1 | Tee-Object "$env:MVS_GATE_ROOT\calibration.log"

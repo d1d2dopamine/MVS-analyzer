@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>MvsAnalyzer.Core.Tests</AssemblyName>
+    <RootNamespace>MvsNormalTailExperiment</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <SelfContained>false</SelfContained>
+    <PublishSingleFile>false</PublishSingleFile>
+    <PublishTrimmed>false</PublishTrimmed>
+    <PublishReadyToRun>false</PublishReadyToRun>
+    <Deterministic>true</Deterministic>
+    <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+    <UseAppHost>true</UseAppHost>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(MvsTailVariant)' == 'B'">
+    <DefineConstants>$(DefineConstants);EXPERIMENTAL_MATHNET</DefineConstants>
+  </PropertyGroup>
+  <Target Name="RequireExplicitVariant" BeforeTargets="PrepareForBuild">
+    <Error Condition="'$(MvsTailVariant)' != 'A' and '$(MvsTailVariant)' != 'B'" Text="Set MvsTailVariant=A or B explicitly; this is a test-only experiment." />
+  </Target>
+  <ItemGroup>
+    <ProjectReference Include="../source/MvsAnalyzer.Core/MvsAnalyzer.Core.csproj" />
+  </ItemGroup>
+</Project>

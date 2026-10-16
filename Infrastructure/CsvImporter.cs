@@ -1,16 +1,41 @@
 using System.Globalization;
 using System.Text;
 namespace MvsAnalyzer;
+
+// Metadata belongs to this capture, not to the next call of a shared importer.
+// Observations remain a caller-owned List for the existing engine API; this is
+// not a claim of deep immutability or an atomic filesystem snapshot during writes.
+internal sealed record CsvImportResult(List<Observation> Observations, string Summary,
+    string EncodingName, bool SequenceWasProvided, string SourceSha256);
+
 internal static class CsvImporter
 {
     // An import profile from a plugin may declare the delimiter, the decimal comma
     // and its own column names. Without a profile the built-in recognition is used.
     internal static bool LastSequenceWasProvided { get; private set; }
     internal static string LastImportSummary { get; private set; } = "";
-    public static List<Observation> Read(string path, int minValue, int maxValue, ImportProfile? profile = null, bool allowSingleGroup = false)
+    // Compatibility boundary for archived callers. Last* remains intentionally
+    // process-global; active commands use Import and never depend on these fields.
+    public static List<Observation> Read(string path, int minValue, int maxValue, ImportProfile? profile = null, bool allowSingleGroup = false) =>
+        ReadCore(path, minValue, maxValue, profile, allowSingleGroup, true, default).Observations;
+
+    public static CsvImportResult Import(string path, int minValue, int maxValue, ImportProfile? profile = null,
+        bool allowSingleGroup = false, CancellationToken cancellationToken = default) =>
+        ReadCore(path, minValue, maxValue, profile, allowSingleGroup, false, cancellationToken);
+
+    private static CsvImportResult ReadCore(string path, int minValue, int maxValue, ImportProfile? profile,
+        bool allowSingleGroup, bool publishLegacy, CancellationToken cancellationToken)
     {
         if (maxValue <= minValue) throw new ArgumentException("Invalid input bounds.");
-        string text = ReadText(path); var rows = Parse(text, profile?.Delimiter ?? char.MinValue);
+        cancellationToken.ThrowIfCancellationRequested();
+        // Hash and decode the same capture. Do not reopen the pathname for identity.
+        // The current decoder/parser still materializes bytes, text and CSV rows.
+        byte[] bytes = File.ReadAllBytes(path);
+        string sourceHash = publishLegacy ? "" : Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(bytes)).ToLowerInvariant();
+        string text = Decode(bytes, out string encodingName);
+        if (publishLegacy) LastEncodingName = encodingName;
+        cancellationToken.ThrowIfCancellationRequested();
+        var rows = Parse(text, profile?.Delimiter ?? char.MinValue, cancellationToken);
         if (rows.Count < 2) throw new InvalidDataException("The file does not contain data rows.");
         string[] h = rows[0].Select(x => x.Trim()).ToArray();
         int entity = Find(h, profile, "entity", "entity", "entity_id", "device", "device_id", "machine", "asset", "item", "sample", "object", "participant", "participant_id", "subject", "subject_id", "id");
@@ -21,9 +46,11 @@ internal static class CsvImporter
         if (entity < 0 || value < 0 || group < 0) throw new InvalidDataException("Required columns: entity, group/condition, value.");
         var output = new List<Observation>(); var counters = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
         var variables = new HashSet<string>(StringComparer.OrdinalIgnoreCase); int malformed = 0, invalid = 0, excluded = 0, missingId = 0, sequenceFallback = 0;
-        LastSequenceWasProvided = sequence >= 0;
+        bool sequenceWasProvided = sequence >= 0;
+        if (publishLegacy) LastSequenceWasProvided = sequenceWasProvided;
         for (int i = 1; i < rows.Count; i++)
         {
+            if ((i & 1023) == 1) cancellationToken.ThrowIfCancellationRequested();
             string[] row = rows[i];
             if (new[] { entity, value, group }.Any(x => x >= row.Length)) { malformed++; continue; }
             if (!TryDouble(row[value], profile?.DecimalComma ?? false, out double number)) { invalid++; continue; }
@@ -34,15 +61,17 @@ internal static class CsvImporter
             string key = AnalysisEngine.Key(g, e); counters.TryGetValue(key, out int n); counters[key] = ++n;
             int seq = n;
             if (sequence >= 0 && (sequence >= row.Length || !int.TryParse(row[sequence], NumberStyles.Integer, CultureInfo.InvariantCulture, out seq)))
-            { seq = n; sequenceFallback++; LastSequenceWasProvided = false; }
+            { seq = n; sequenceFallback++; sequenceWasProvided = false; if (publishLegacy) LastSequenceWasProvided = false; }
             output.Add(new Observation(e, g, number, seq, name, u));
         }
-        LastImportSummary = $"Rows read: {rows.Count - 1}; kept: {output.Count}; malformed: {malformed}; invalid/nonfinite: {invalid}; outside limits: {excluded}; missing IDs: {missingId}; sequence fallbacks: {sequenceFallback}.";
-        if (output.Count == 0) throw new InvalidDataException("No valid measurements. " + LastImportSummary);
+        string summary = $"Rows read: {rows.Count - 1}; kept: {output.Count}; malformed: {malformed}; invalid/nonfinite: {invalid}; outside limits: {excluded}; missing IDs: {missingId}; sequence fallbacks: {sequenceFallback}.";
+        if (publishLegacy) LastImportSummary = summary;
+        if (output.Count == 0) throw new InvalidDataException("No valid measurements. " + summary);
         if (variables.Count > 1) throw new InvalidDataException("Use one outcome variable per run.");
         int count = output.Select(o => o.Group).Distinct(StringComparer.OrdinalIgnoreCase).Count();
         if (count < (allowSingleGroup ? 1 : 2) || count > 10) throw new InvalidDataException(allowSingleGroup ? "Use 1–10 conditions." : "Use 2–10 independent groups.");
-        return output;
+        cancellationToken.ThrowIfCancellationRequested();
+        return new CsvImportResult(output, summary, encodingName, sequenceWasProvided, sourceHash);
     }
     private static int Find(string[] h,ImportProfile? profile,string role,params string[] names)
     {
@@ -119,5 +148,5 @@ internal static class CsvImporter
         }
         return score;
     }
-    private static List<string[]> Parse(string text,char forced=char.MinValue){text=text.TrimStart('\uFEFF');string first=text.Split(new[]{"\r\n","\n"},StringSplitOptions.None)[0];char d=forced!=char.MinValue?forced:new[]{',',';','\t'}.OrderByDescending(x=>first.Count(c=>c==x)).First();var o=new List<string[]>();var row=new List<string>();var cell=new StringBuilder();bool q=false;for(int i=0;i<text.Length;i++){char c=text[i];if(q){if(c=='"'&&i+1<text.Length&&text[i+1]=='"'){cell.Append('"');i++;}else if(c=='"')q=false;else cell.Append(c);}else if(c=='"')q=true;else if(c==d){row.Add(cell.ToString());cell.Clear();}else if(c=='\n'){row.Add(cell.ToString().TrimEnd('\r'));cell.Clear();if(row.Any(x=>x.Length>0))o.Add(row.ToArray());row.Clear();}else cell.Append(c);}if(q)throw new InvalidDataException("Unterminated quoted CSV field.");row.Add(cell.ToString().TrimEnd('\r'));if(row.Any(x=>x.Length>0))o.Add(row.ToArray());return o;}
+    private static List<string[]> Parse(string text,char forced=char.MinValue,CancellationToken cancellationToken=default){text=text.TrimStart('\uFEFF');string first=text.Split(new[]{"\r\n","\n"},StringSplitOptions.None)[0];char d=forced!=char.MinValue?forced:new[]{',',';','\t'}.OrderByDescending(x=>first.Count(c=>c==x)).First();var o=new List<string[]>();var row=new List<string>();var cell=new StringBuilder();bool q=false;for(int i=0;i<text.Length;i++){if((i&4095)==0)cancellationToken.ThrowIfCancellationRequested();char c=text[i];if(q){if(c=='"'&&i+1<text.Length&&text[i+1]=='"'){cell.Append('"');i++;}else if(c=='"')q=false;else cell.Append(c);}else if(c=='"')q=true;else if(c==d){row.Add(cell.ToString());cell.Clear();}else if(c=='\n'){row.Add(cell.ToString().TrimEnd('\r'));cell.Clear();if(row.Any(x=>x.Length>0))o.Add(row.ToArray());row.Clear();}else cell.Append(c);}if(q)throw new InvalidDataException("Unterminated quoted CSV field.");row.Add(cell.ToString().TrimEnd('\r'));if(row.Any(x=>x.Length>0))o.Add(row.ToArray());return o;}
 }

@@ -69,13 +69,19 @@ internal static class AnalysisEngine
     public static List<CalibrationRow> Calibrate(AnalysisData data, int repetitions, double effect, int seed,
         IProgress<ProgressInfo> progress, CancellationToken token, string scenario = "location", double outlierRate = .02,
         double missingRate = 0, double alpha = .05, string[]? tracks = null)
+        => CalibrateWithRecording(PortableRunRecordingFactory.Instance, data, repetitions, effect, seed, progress, token,
+            scenario, outlierRate, missingRate, alpha, tracks);
+
+    internal static List<CalibrationRow> CalibrateWithRecording(IRunRecordingFactory recordingFactory, AnalysisData data,
+        int repetitions, double effect, int seed, IProgress<ProgressInfo> progress, CancellationToken token,
+        string scenario = "location", double outlierRate = .02, double missingRate = 0, double alpha = .05, string[]? tracks = null)
     {
         if (repetitions < 100) throw new ArgumentOutOfRangeException(nameof(repetitions), "At least 100 simulations are required.");
         ScientificMath.RequireFinite(effect, "effect"); if (effect <= 1) throw new ArgumentOutOfRangeException(nameof(effect));
         ScientificMath.RequireRange(alpha, 0, 1, "alpha", false);
         ScientificMath.RequireRange(outlierRate, 0, 1, "outlier rate"); ScientificMath.RequireRange(missingRate, 0, 1, "missing rate");
         string[] names = NormalizeTracks(scenario, tracks);
-        using var backup = BackupSession.Begin(new BackupRequest { Kind = "calibrate", Data = data, Repetitions = repetitions, Effect = effect, Seed = seed, Scenario = scenario, Outliers = outlierRate, Missing = missingRate, Alpha = alpha, Tracks = tracks });
+        using var backup = recordingFactory.Begin(new BackupRequest { Kind = "calibrate", Data = data, Repetitions = repetitions, Effect = effect, Seed = seed, Scenario = scenario, Outliers = outlierRate, Missing = missingRate, Alpha = alpha, Tracks = tracks });
         if (backup.Try<List<CalibrationRow>>("result", out var restoredResult)) return restoredResult;
         var pool = data.Observations.GroupBy(o => Key(o.Group, o.Entity), StringComparer.OrdinalIgnoreCase).Select(g => g.Select(o => o.Value).ToArray()).ToArray();
         double center = pool.Average(x => x.Average());
@@ -203,11 +209,16 @@ internal static class AnalysisEngine
 
     public static List<ResultRow> Results(AnalysisData data, List<CalibrationRow> calibration, IProgress<ProgressInfo> progress,
         CancellationToken token, double alpha = .05, double equivalenceMargin = .147, int seed = 20260719)
+        => ResultsWithRecording(PortableRunRecordingFactory.Instance, data, calibration, progress, token, alpha, equivalenceMargin, seed);
+
+    internal static List<ResultRow> ResultsWithRecording(IRunRecordingFactory recordingFactory, AnalysisData data,
+        List<CalibrationRow> calibration, IProgress<ProgressInfo> progress, CancellationToken token,
+        double alpha = .05, double equivalenceMargin = .147, int seed = 20260719)
     {
         ScientificMath.RequireRange(alpha, 0, 1, "alpha", false); ScientificMath.RequireRange(equivalenceMargin, 0, 1, "equivalence margin", false);
         if (calibration.Count != MetricKeys.Length || calibration.Select(c => c.Metric).Distinct().Count() != MetricKeys.Length || MetricKeys.Any(key => !calibration.Any(c => c.Metric == key)))
             throw new InvalidDataException("The calibration metric registry is incompatible; recalibrate.");
-        using var backup = BackupSession.Begin(new BackupRequest { Kind = "analyze", Data = data, Calibration = calibration, Alpha = alpha, Margin = equivalenceMargin, Seed = seed });
+        using var backup = recordingFactory.Begin(new BackupRequest { Kind = "analyze", Data = data, Calibration = calibration, Alpha = alpha, Margin = equivalenceMargin, Seed = seed });
         if (backup.Try<List<ResultRow>>("result", out var restoredResult)) return restoredResult;
         string[] tracks = calibration.First().Tracks ?? new[] { SimulationScenarios.Default };
         double[][][] arrays = GroupMetricArrays(data);

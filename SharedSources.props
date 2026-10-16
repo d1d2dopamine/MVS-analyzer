@@ -3,8 +3,10 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/ApplicationDataPaths.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/PortableBackup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/PortableRunRecording.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructure/BackupRunner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core/AnalysisEngine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Core/RunRecording.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core/MetricRegistry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core/MetricAvailability.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Core/Multiplicity.cs" />

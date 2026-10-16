@@ -1,0 +1,39 @@
+{
+  "stage": 29,
+  "status": "same-live-scope repair verified; not final cross-environment restart repair",
+  "baselineCounterexample": {
+    "initialError": "IOException",
+    "pendingSurvived": false,
+    "restored": false,
+    "unitSurvived": false,
+    "idPreserved": false
+  },
+  "targeted": {
+    "beforeFailed": 3,
+    "beforePassed": 3,
+    "afterPassed": 6,
+    "independentPassed": 6
+  },
+  "native": {
+    "fullPassed": 163,
+    "latePublicationCheckPassedSeparately": true,
+    "totalUniqueChecks": 164
+  },
+  "python": {
+    "discovered": 536,
+    "passed": 522,
+    "actualWindowsSkipped": 14,
+    "rebuiltCurrentCliPythonSuitePassed": 88,
+    "rebuiltCurrentCliPythonSuiteSkipped": 14,
+    "actualLinuxNativeMcpPassed": true
+  },
+  "build": {
+    "warnings": 0,
+    "errors": 0
+  },
+  "successPathParity": "exact decoded JSON excluding only top-level Id/SavedUtc",
+  "residual": "Fresh process reload may trust stale optimizer objective values after environment marker was persisted before reevaluation; deterministic Value=-999/calls0; separate30 repair required",
+  "scienceChanged": false,
+  "scientificReadiness": "NO-GO retained",
+  "evidenceSha256": "443fa8641d43b4e894c475efa4ace8aef7068d34fd7d90da2306d4349d96cfa6"
+}

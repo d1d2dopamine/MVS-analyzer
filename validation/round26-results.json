@@ -1,0 +1,62 @@
+{
+  "stage": 26,
+  "delivery": "cumulative_Round25_plus26_PATCH",
+  "windowsRuntime": "PENDING owner rerun; two prior supplied CI excerpts failed18-test gate",
+  "fix": "empty job AND signaled leader required under one5-second deadline",
+  "preFixPortableRegressions": {
+    "failed": 2,
+    "passed": 1
+  },
+  "postFixPortableRegressions": {
+    "passed": 3
+  },
+  "independentReview": {
+    "processAndWorkflowChecksPassed": 4,
+    "windowsPatternPortablePassed": 7,
+    "actualWindowsSkipped": 14
+  },
+  "python": {
+    "discovered": 515,
+    "passed": 501,
+    "windowsOnlySkipped": 14,
+    "actualLinuxNativeMcp": true,
+    "suiteCounts": [
+      102,
+      17,
+      6,
+      40,
+      34,
+      34,
+      21,
+      261
+    ]
+  },
+  "aclHelper": {
+    "framework": "net8.0 only",
+    "productionAclBackendChanged": false,
+    "buildWarnings": 0,
+    "buildErrors": 0,
+    "firstBuildFailure": "8 CA1416 diagnostics in LINQ callback; retained; repaired guarded foreach, no suppression",
+    "linuxNegativeExit": 2,
+    "linuxNegativeStdoutEmpty": true,
+    "actualWindowsAclRun": false
+  },
+  "manualCi": {
+    "expectedWin32TestCount": 21,
+    "allowedSkips": 0,
+    "dispatched": false,
+    "requires": "both Windows runners plus native calibration/workflow/MCP and later own Windows11 smoke"
+  },
+  "science": {
+    "changed": false,
+    "unchangedComparedWith25Files": 82,
+    "readiness": "NO-GO retained",
+    "fullNativeSuiteRepeated": false,
+    "previous25NativePassed": 158
+  },
+  "evidence": {
+    "file": "round26-evidence.zip",
+    "sha256": "e0487a2d50d077b4f14f7783db2266a0e892a18a7761540e239f9e1adbe93f10",
+    "bytes": 19668
+  }
+}

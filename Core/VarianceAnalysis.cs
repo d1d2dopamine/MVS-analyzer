@@ -109,11 +109,17 @@ internal static class VarianceAnalysis
     }
     public static VarianceReport Run(AnalysisData data, int repetitions, int referenceReplications, double withinEffect,
         double betweenEffect, int seed, double alpha, IProgress<ProgressInfo>? progress = null, CancellationToken token = default)
+        => RunWithRecording(PortableRunRecordingFactory.Instance, data, repetitions, referenceReplications, withinEffect,
+            betweenEffect, seed, alpha, progress, token);
+
+    internal static VarianceReport RunWithRecording(IRunRecordingFactory recordingFactory, AnalysisData data, int repetitions,
+        int referenceReplications, double withinEffect, double betweenEffect, int seed, double alpha,
+        IProgress<ProgressInfo>? progress = null, CancellationToken token = default)
     {
         if (repetitions < 100 || referenceReplications < 99) throw new ArgumentException("Use at least 100 evaluation and 99 reference replications.");
         ScientificMath.RequireRange(alpha, 0, 1, "alpha", false); ScientificMath.RequireFinite(withinEffect, "within effect"); ScientificMath.RequireFinite(betweenEffect, "between effect");
         if (withinEffect <= 1 || betweenEffect <= 1) throw new ArgumentException("SD multipliers must exceed one.");
-        using var backup = BackupSession.Begin(new BackupRequest { Kind = "variance", Data = data, Repetitions = repetitions, ReferenceReplications = referenceReplications, Effect = withinEffect, SecondEffect = betweenEffect, Seed = seed, Alpha = alpha });
+        using var backup = recordingFactory.Begin(new BackupRequest { Kind = "variance", Data = data, Repetitions = repetitions, ReferenceReplications = referenceReplications, Effect = withinEffect, SecondEffect = betweenEffect, Seed = seed, Alpha = alpha });
         if (backup.Try<VarianceReport>("result", out var restoredResult)) return restoredResult;
         ClusterSummary[] clusters = Summaries(data); int groups = data.GroupNames.Length;
         VarianceFit estimates = backup.Cached("initial-fit", () => Fit(clusters, groups, reml: true, token: token));

@@ -1,0 +1,29 @@
+{
+  "id": "R29-RESTORE-RETRY-1",
+  "frozenUtc": "2026-10-16T15:05:52.670972+00:00",
+  "baselineSha256": "1dc65a19f84b63261c58f678283d99af29496808b3be70c3d2453b662b982a1d",
+  "counterexample": "Owned file blocks backup directory; retry same Restore scope after repair loses pending/saved units/identity",
+  "scope": [
+    "Pending consumed only after successful initial Flush",
+    "Restore environment list and SavedUtc on initialFlush exception so EnvironmentChanged remains true on retry"
+  ],
+  "invariants": [
+    "unchanged successful request/units/format/scientificformula",
+    "unchanged exception type on original storagefailure",
+    "no automaticretry",
+    "same default nested/disabled/context semantics",
+    "no RNG/statistics changes"
+  ],
+  "acceptance": [
+    "old counterexample fails; fixed preservesidentity/units",
+    "repeatedfailedBegin preserves pending/docmetadata",
+    "foreignenvironment retry retains EnvironmentChanged and objective reevaluation",
+    "requesthashmismatch retains pending",
+    "scopeexit clears pending after failure",
+    "new-sessionfailedBegin creates no pending and clears active",
+    "success consumes pending; normal retry notrestored outside scope",
+    "exact decoded successful-path checkpoint parity excludingId/SavedUtc only"
+  ],
+  "limits": "isolated temporary directories, no userjournals, bounded existingnative/Pythonregressions; no new scientificpilot",
+  "rollback": "Round28 immutable source copy; no archive conversion"
+}

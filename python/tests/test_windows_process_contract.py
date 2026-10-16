@@ -9,6 +9,7 @@ import sys
 import tempfile
 import threading
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 from mvs._windows_process import (
@@ -51,6 +52,83 @@ class EnvironmentContract(unittest.TestCase):
         for timeout in (-1, float("inf"), float("nan")):
             with self.assertRaises(ValueError):
                 process.wait(timeout)
+
+
+class TerminationCompletionContract(unittest.TestCase):
+    """Deterministic API ordering probes; these are not Win32 runtime evidence."""
+
+    def process(self, active, waits):
+        class Kernel:
+            def __init__(self):
+                self.active = iter(active)
+                self.waits = iter(waits)
+                self.queries = self.wait_calls = self.terminations = 0
+                self.closed = []
+
+            def TerminateJobObject(self, job, code):
+                self.terminations += 1
+                return True
+
+            def QueryInformationJobObject(self, job, kind, target, size, returned):
+                self.queries += 1
+                target._obj.ActiveProcesses = next(self.active)
+                return True
+
+            def WaitForSingleObject(self, handle, timeout):
+                self.wait_calls += 1
+                return next(self.waits)
+
+            def GetExitCodeProcess(self, handle, target):
+                target._obj.value = 7
+                return True
+
+            def CloseHandle(self, handle):
+                self.closed.append(handle)
+                return True
+
+        process = object.__new__(WindowsProcess)
+        process._lock = threading.RLock()
+        process._job, process._process = 11, 12
+        process.args = ["owned-test-child"]
+        process.returncode = None
+        process._k = Kernel()
+        self.addCleanup(process.close)
+        return process
+
+    def test_empty_job_waits_for_leader_handle_signal(self):
+        process = self.process([0, 0], [258, 0])
+        with patch("mvs._windows_process.time.monotonic", side_effect=[0, 1]), \
+             patch("mvs._windows_process.time.sleep") as sleep:
+            process.terminate_tree()
+        self.assertEqual(process.returncode, 7)
+        self.assertEqual(process._k.queries, 2)
+        self.assertEqual(process._k.wait_calls, 2)
+        self.assertEqual(process._k.terminations, 1)
+        sleep.assert_called_once_with(.01)
+
+    def test_empty_job_unsignaled_leader_expires_same_deadline(self):
+        process = self.process([0, 0], [258, 258])
+        with patch("mvs._windows_process.time.monotonic", side_effect=[0, 1, 5]), \
+             patch("mvs._windows_process.time.sleep") as sleep:
+            with self.assertRaises(subprocess.TimeoutExpired) as raised:
+                process.terminate_tree()
+        self.assertEqual(raised.exception.timeout, 5.0)
+        self.assertIsNone(process.returncode)
+        self.assertEqual(process._k.queries, 2)
+        self.assertEqual(sleep.call_count, 1)
+        process.close()
+        self.assertEqual(process._k.closed, [11, 12])
+
+    def test_signaled_leader_still_waits_for_remaining_job_members(self):
+        process = self.process([1, 0], [0])
+        self.assertEqual(process.poll(), 7)
+        with patch("mvs._windows_process.time.monotonic", side_effect=[0, 1]), \
+             patch("mvs._windows_process.time.sleep") as sleep:
+            process.terminate_tree()
+        self.assertEqual(process._k.queries, 2)
+        self.assertEqual(process._k.wait_calls, 1)
+        self.assertEqual(process.returncode, 7)
+        sleep.assert_called_once_with(.01)
 
 
 @unittest.skipUnless(os.name == "nt" and ctypes.sizeof(ctypes.c_void_p) == 8,

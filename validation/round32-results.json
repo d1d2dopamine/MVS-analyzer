@@ -1,0 +1,400 @@
+{
+  "schema": "mvs-normal-tail-round32/v2",
+  "candidateOutcome": "NO-GO",
+  "scientificStatus": "NO-GO unchanged",
+  "productionActivated": false,
+  "candidateNumericalAndDecisionPass": false,
+  "numericFailureIsTerminalInformativeOutcome": true,
+  "counts": {
+    "scalar": 3173,
+    "specials": 8,
+    "ranks": 165
+  },
+  "scalarRegions": {
+    "central": {
+      "count": 462,
+      "A_fails": 462,
+      "B_fails": 0,
+      "S_fails": 0
+    },
+    "normal_tail": {
+      "count": 1087,
+      "A_fails": 1087,
+      "B_fails": 0,
+      "S_fails": 0
+    },
+    "subnormal_tail": {
+      "count": 1062,
+      "A_fails": 1062,
+      "B_fails": 118,
+      "S_fails": 997
+    },
+    "rounded_zero": {
+      "count": 562,
+      "A_fails": 0,
+      "B_fails": 52,
+      "S_fails": 0
+    }
+  },
+  "scalarChecks": {
+    "all_candidate_numeric_gates": false,
+    "candidate_monotone_nonincreasing": true,
+    "special_domain_and_underflow": true,
+    "max_absolute_error_improved_at_least_10x": true,
+    "all_A_premature_zeros_eliminated": true,
+    "all_threshold_B_decisions_match_policy": false
+  },
+  "scalarCandidateFailureCount": 170,
+  "rankFailureCount": 0,
+  "rankFailures": [],
+  "centralMaxAbsoluteError": {
+    "A": "0.000000146296271663472992284573108908129162791222879855072589315781087201352448299060563484957652",
+    "B": "0.000000000000000102340420418716282624936025314113401127264455197646722542847103020336974966574240154900035",
+    "improvementFactor": "1429506260.23339991188788833533613963752453285947726604205232079267142433179055111321000682"
+  },
+  "prematureZeroCounts": {
+    "A": 2108,
+    "B": 0
+  },
+  "monotonicityViolationCount": 0,
+  "decisions": {
+    "thresholdCount": 365,
+    "thresholdCandidateMismatchCount": 5,
+    "rankDiagnosticCount": 690,
+    "rankCandidateMismatchCount": 0,
+    "changedCount": 174,
+    "changedClassificationCounts": {
+      "improving": 174,
+      "worsening": 0,
+      "both_incorrect": 0,
+      "unresolved": 0
+    },
+    "policyRoundingDiscrepancyCount": 1
+  },
+  "cost": {
+    "startup": {
+      "A": {
+        "n": 29,
+        "medianMs": 94.010421,
+        "p95Ms": 109.925479,
+        "minMs": 81.088015,
+        "maxMs": 110.508803,
+        "rangeMs": 29.420788,
+        "meanMs": 96.01333382758621,
+        "stdevMs": 8.639037811446787
+      },
+      "B": {
+        "n": 29,
+        "medianMs": 98.078239,
+        "p95Ms": 108.619653,
+        "minMs": 85.038704,
+        "maxMs": 109.643927,
+        "rangeMs": 24.60522300000001,
+        "meanMs": 97.59408165517242,
+        "stdevMs": 6.893789103197579
+      },
+      "firstPairExcluded": true,
+      "medianIncrementMs": 4.067818000000003,
+      "medianLimitMs": 20.0,
+      "p95IncrementMs": -1.3058259999999962,
+      "p95LimitMs": 50.0,
+      "pairedRatios": [
+        0.8064447960623501,
+        1.0962427240649686,
+        0.915922008387266,
+        0.9652402505543205,
+        1.045815557762149,
+        0.9678276907531863,
+        0.9067917444139939,
+        0.8803626169057219,
+        1.1800853705311414,
+        1.2412250872204564,
+        0.8920382701084637,
+        1.0838699352426528,
+        0.9343092785105996,
+        1.0774509845834543,
+        1.0999909106131884,
+        0.9839833839878012,
+        1.111405535874526,
+        0.8715418951640369,
+        1.0594288381378618,
+        1.0014447800404973,
+        1.0119757445252748,
+        1.0041923633813123,
+        1.0829411953422063,
+        0.9983840248209357,
+        1.048520479088226,
+        1.1247945873825127,
+        1.0684902455561536,
+        0.9154052628690388,
+        0.9147937865313889,
+        1.164333656459589
+      ]
+    },
+    "throughput": {
+      "A": {
+        "n": 30,
+        "medianMs": 2.7017759999999997,
+        "p95Ms": 4.388356,
+        "minMs": 2.379649,
+        "maxMs": 4.451261,
+        "rangeMs": 2.0716119999999996,
+        "meanMs": 2.9664803,
+        "stdevMs": 0.6489520177020768
+      },
+      "B": {
+        "n": 30,
+        "medianMs": 12.034210000000002,
+        "p95Ms": 15.291978,
+        "minMs": 10.497925,
+        "maxMs": 15.58961,
+        "rangeMs": 5.091685,
+        "meanMs": 12.3990603,
+        "stdevMs": 1.3799814775924661
+      },
+      "medianBOverMedianA": 4.454184950935978,
+      "pairedRatios": [
+        3.5595410927375095,
+        5.245253915659227,
+        4.670723108172422,
+        4.7899273507165745,
+        5.0011139998649945,
+        3.793039796968404,
+        5.490591923715032,
+        3.1359404177604713,
+        3.817261098090139,
+        4.839992139030834,
+        2.7679750259094735,
+        2.638451441063555,
+        5.048162999529724,
+        4.902889369503731,
+        4.727516044953896,
+        4.756758048269708,
+        3.7833801739942423,
+        4.638662676722491,
+        4.121741446207761,
+        4.2908511779291985,
+        4.39545353813257,
+        4.267627872223919,
+        3.9455663901191085,
+        2.888330604320643,
+        5.5122853271419165,
+        3.158693597328931,
+        5.195396998580999,
+        5.7754097853678354,
+        4.2938003281449015,
+        4.4084979544952905
+      ]
+    },
+    "publishBytes": {
+      "A": 859369,
+      "B": 2460610,
+      "increment": 1601241
+    },
+    "checks": {
+      "publish_increment_lte_10MiB": true,
+      "startup_median_budget": true,
+      "startup_p95_budget": true,
+      "throughput_median_ratio_lte_1_25": false
+    },
+    "pass": false,
+    "status": "FAIL",
+    "failures": [],
+    "observationsMs": {
+      "startup": {
+        "A": [
+          115.562943,
+          89.56409,
+          109.116605,
+          101.693397,
+          81.843596,
+          107.99374,
+          93.779751,
+          109.06331,
+          88.921082,
+          87.161892,
+          101.421087,
+          88.847988,
+          110.508803,
+          88.88632,
+          93.394639,
+          92.865122,
+          82.69949,
+          102.205042,
+          101.546626,
+          97.77959,
+          97.129577,
+          97.668776,
+          87.245861,
+          93.896863,
+          104.570134,
+          96.568435,
+          92.99095,
+          109.925479,
+          94.010421,
+          81.088015
+        ],
+        "B": [
+          93.195134,
+          98.183982,
+          99.9423,
+          98.15856,
+          85.593306,
+          104.519332,
+          85.038704,
+          96.015261,
+          104.934468,
+          108.187527,
+          90.471491,
+          96.299663,
+          103.2494,
+          95.770653,
+          102.733254,
+          91.377737,
+          91.912671,
+          89.075976,
+          107.581424,
+          97.92086,
+          98.292776,
+          98.078239,
+          94.482137,
+          93.745128,
+          109.643927,
+          108.619653,
+          99.359923,
+          100.626362,
+          86.000149,
+          94.413505
+        ]
+      },
+      "throughput": {
+        "A": [
+          3.191233,
+          2.551103,
+          2.399558,
+          2.570982,
+          2.444345,
+          3.732621,
+          2.497163,
+          3.919423,
+          3.071114,
+          2.584923,
+          4.277393,
+          4.451261,
+          2.515541,
+          2.623029,
+          2.426308,
+          2.385637,
+          2.861474,
+          2.379649,
+          3.000219,
+          2.716929,
+          3.546758,
+          2.459897,
+          2.779992,
+          3.881135,
+          2.774163,
+          4.388356,
+          2.890766,
+          2.392838,
+          2.593976,
+          2.686623
+        ],
+        "B": [
+          11.359325,
+          13.381183,
+          11.207671,
+          12.314817,
+          12.224448,
+          14.15798,
+          13.710903,
+          12.291077,
+          11.723244,
+          12.511007,
+          11.839717,
+          11.744436,
+          12.698861,
+          12.860421,
+          11.47041,
+          11.347898,
+          10.826044,
+          11.038389,
+          12.366127,
+          11.657938,
+          15.58961,
+          10.497925,
+          10.968643,
+          11.210001,
+          15.291978,
+          13.861472,
+          15.018677,
+          13.81962,
+          11.138015,
+          11.843972
+        ]
+      }
+    },
+    "processCount": 120,
+    "startupPairs": 30,
+    "throughputPairs": 30,
+    "coldStartClaim": false,
+    "windowsCompatibility": "UNVERIFIED; linux harness only",
+    "scope": "framework-dependent Release linux-x64 harness dependency cost, not Windows application size"
+  },
+  "compatibility": {
+    "Windows": "UNVERIFIED; deliberately deferred",
+    "measuredPublication": "linux-x64 harness only"
+  },
+  "referenceDiagnostic": {
+    "scipyFailureCount": 997,
+    "explanation": "S/H disagreements are retained, never resolved by majority vote. Separate direct norm.logsf is diagnostic, not a replacement for log(returned p)."
+  },
+  "provenance": {
+    "protocolSha256": "86d4f5e87b06e7755ce2c9f301ac23ae5d087c1817fb20a5c064e91e52f994b0",
+    "amendmentSha256": "5b81f65830cee7a46a5f9096c7d053bb714a2e377f1d67f90259fd8e9e04c492",
+    "sourceTreeSha256": "c216435ed257cb4c3101e9326e778ef4741ad37c89dbb04be66350a47e3297e7",
+    "formulaVersion": "MVS-1.4.0",
+    "formulaHash": "10a1e72218bd65ec024fc981aab9b9d0a9de8ac00db9188f9d80d54e1170598c"
+  },
+  "stage": 32,
+  "delivery": "Cumulative25\u201332PATCH with separate complete numerical evidence",
+  "productionUnchanged": true,
+  "pythonTests": {
+    "discovered": 579,
+    "passed": 565,
+    "actualWindowsSkipped": 14,
+    "actualRebuiltLinuxMcpPassed": true
+  },
+  "newHelperTests": {
+    "reference": 8,
+    "nativePreparation": 8,
+    "driver": 27
+  },
+  "nativeTests": {
+    "currentStageFullSuiteRun": false,
+    "reason": "Production scientific source unchanged; Round31 full native suite195/195 retained; actual native A/B126processes executed in32"
+  },
+  "build": {
+    "cliWarnings": 0,
+    "cliErrors": 0,
+    "experimentalVariantsBuilt": 2
+  },
+  "independentAudit": {
+    "bindings": 359,
+    "successfulProcesses": 126,
+    "rankCases": 165,
+    "unchangedKwRows": 26,
+    "derivedFilesByteIdenticalOnRetainedReanalysis": 8
+  },
+  "companion": {
+    "filename": "MVS-analyzer-round32-normal-tail-evidence.zip",
+    "bytes": 8948441,
+    "sha256": "c2122916d2fef05d9904ca4d978b3c89c5692715c0788671a6e1caa425c2349b",
+    "placement": "Keep outside source tree; full audit evidence, not build/CI dependency"
+  },
+  "evidenceSha256": "5ed775d3c41538be36e8390ca86002a88a32371e61158b19555572ac00d989f3",
+  "decisionNuance": "All5 B mismatches also occur in A;4 disagree with both exact-real and rounded-policy,1 agrees with exact-real but not policy;174 changes all improve reference agreement",
+  "performanceNuance": "4.454x scalar microbatch ratio is not whole-MVS slowdown",
+  "scientificPeerReview": "Independent computational references/rechecks, not external human scientific peer review",
+  "next": "No automatic tuning or activation; versioned adoption contract and concrete research context required"
+}

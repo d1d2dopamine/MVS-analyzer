@@ -213,7 +213,8 @@ internal static class BenchmarkDatasets
         {
             try
             {
-                List<Observation> observations = CsvImporter.Read(file, -1000000, 1000000);
+                CsvImportResult imported = CsvImporter.Import(file, -1000000, 1000000);
+                List<Observation> observations = imported.Observations;
                 var byGroup = observations.GroupBy(x => x.Group, StringComparer.Ordinal)
                     .Select(g => new { Group = g.Key, Rows = g.ToList() })
                     .OrderByDescending(x => x.Rows.Select(r => r.Entity).Distinct(StringComparer.Ordinal).Count())
@@ -231,7 +232,7 @@ internal static class BenchmarkDatasets
                 datasets.Add(new RealDataset
                 {
                     Name = Path.GetFileNameWithoutExtension(file),
-                    FileHash = OutputExporter.HashFile(file),
+                    FileHash = imported.SourceSha256,
                     Pool = pool,
                     Entities = entities,
                     MinMeasurements = counts.Count == 0 ? 0 : counts.Min()

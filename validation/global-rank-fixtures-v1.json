@@ -1,0 +1,3880 @@
+{
+  "schemaVersion": "mvs-global-rank-fixtures/v1",
+  "status": "literal pre-pilot implementation fixtures; independent review required",
+  "null": "Exchangeability of independent complete entity-summary vectors including measurement/filtering mechanism",
+  "familySize": 12,
+  "comparison": "inclusive >= without epsilon",
+  "matrixFixtures": [
+    {
+      "id": "kernel_n4_k2",
+      "nCase": 2,
+      "rows": [
+        [
+          0,
+          0,
+          3,
+          7,
+          0,
+          0,
+          2,
+          1,
+          2,
+          2,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          2,
+          7,
+          0,
+          1,
+          0,
+          0,
+          5,
+          3,
+          1,
+          2
+        ],
+        [
+          2,
+          2,
+          1,
+          7,
+          0,
+          0,
+          3,
+          1,
+          8,
+          0,
+          0,
+          4
+        ],
+        [
+          3,
+          3,
+          0,
+          7,
+          1,
+          1,
+          1,
+          0,
+          11,
+          1,
+          0,
+          0
+        ]
+      ],
+      "observed": [
+        0,
+        1
+      ],
+      "draws": [
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "kind": "literal-kernel"
+    },
+    {
+      "id": "kernel_n6_k2",
+      "nCase": 2,
+      "rows": [
+        [
+          0,
+          0,
+          5,
+          7,
+          0,
+          0,
+          2,
+          1,
+          2,
+          2,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          4,
+          7,
+          0,
+          1,
+          5,
+          2,
+          5,
+          3,
+          1,
+          2
+        ],
+        [
+          2,
+          2,
+          3,
+          7,
+          0,
+          0,
+          0,
+          0,
+          8,
+          4,
+          1,
+          4
+        ],
+        [
+          3,
+          3,
+          2,
+          7,
+          1,
+          1,
+          4,
+          2,
+          11,
+          5,
+          0,
+          0
+        ],
+        [
+          4,
+          4,
+          1,
+          7,
+          1,
+          0,
+          1,
+          0,
+          14,
+          0,
+          0,
+          2
+        ],
+        [
+          5,
+          5,
+          0,
+          7,
+          1,
+          1,
+          3,
+          1,
+          17,
+          1,
+          0,
+          4
+        ]
+      ],
+      "observed": [
+        0,
+        1
+      ],
+      "draws": [
+        [
+          0,
+          1
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "kind": "literal-kernel"
+    },
+    {
+      "id": "kernel_n8_k4",
+      "nCase": 4,
+      "rows": [
+        [
+          0,
+          0,
+          7,
+          7,
+          0,
+          0,
+          2,
+          1,
+          2,
+          2,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          6,
+          7,
+          0,
+          1,
+          7,
+          3,
+          5,
+          3,
+          1,
+          2
+        ],
+        [
+          2,
+          2,
+          5,
+          7,
+          0,
+          0,
+          0,
+          0,
+          8,
+          4,
+          1,
+          4
+        ],
+        [
+          3,
+          3,
+          4,
+          7,
+          1,
+          1,
+          5,
+          2,
+          11,
+          5,
+          1,
+          0
+        ],
+        [
+          4,
+          4,
+          3,
+          7,
+          1,
+          0,
+          1,
+          0,
+          14,
+          6,
+          0,
+          2
+        ],
+        [
+          5,
+          5,
+          2,
+          7,
+          1,
+          1,
+          6,
+          3,
+          17,
+          7,
+          0,
+          4
+        ],
+        [
+          6,
+          6,
+          1,
+          7,
+          2,
+          0,
+          3,
+          1,
+          20,
+          0,
+          0,
+          0
+        ],
+        [
+          7,
+          7,
+          0,
+          7,
+          2,
+          1,
+          4,
+          2,
+          23,
+          1,
+          0,
+          2
+        ]
+      ],
+      "observed": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "draws": [
+        [
+          0,
+          1,
+          2,
+          3
+        ],
+        [
+          4,
+          5,
+          6,
+          7
+        ],
+        [
+          0,
+          1,
+          2,
+          3
+        ],
+        [
+          0,
+          2,
+          4,
+          6
+        ],
+        [
+          4,
+          5,
+          6,
+          7
+        ],
+        [
+          0,
+          2,
+          4,
+          6
+        ]
+      ],
+      "kind": "literal-kernel"
+    },
+    {
+      "id": "kernel_n9_k4",
+      "nCase": 4,
+      "rows": [
+        [
+          0,
+          0,
+          8,
+          7,
+          0,
+          0,
+          2,
+          1,
+          2,
+          2,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          7,
+          7,
+          0,
+          1,
+          7,
+          3,
+          5,
+          3,
+          1,
+          2
+        ],
+        [
+          2,
+          2,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          8,
+          4,
+          1,
+          4
+        ],
+        [
+          3,
+          3,
+          5,
+          7,
+          1,
+          1,
+          8,
+          4,
+          11,
+          5,
+          1,
+          0
+        ],
+        [
+          4,
+          4,
+          4,
+          7,
+          1,
+          0,
+          5,
+          2,
+          14,
+          6,
+          0,
+          2
+        ],
+        [
+          5,
+          5,
+          3,
+          7,
+          1,
+          1,
+          1,
+          0,
+          17,
+          7,
+          0,
+          4
+        ],
+        [
+          6,
+          6,
+          2,
+          7,
+          2,
+          0,
+          6,
+          3,
+          20,
+          8,
+          0,
+          0
+        ],
+        [
+          7,
+          7,
+          1,
+          7,
+          2,
+          1,
+          3,
+          1,
+          23,
+          0,
+          0,
+          2
+        ],
+        [
+          8,
+          8,
+          0,
+          7,
+          2,
+          0,
+          4,
+          2,
+          26,
+          1,
+          0,
+          4
+        ]
+      ],
+      "observed": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "draws": [
+        [
+          0,
+          1,
+          2,
+          3
+        ],
+        [
+          5,
+          6,
+          7,
+          8
+        ],
+        [
+          0,
+          1,
+          2,
+          3
+        ],
+        [
+          0,
+          2,
+          4,
+          6
+        ],
+        [
+          5,
+          6,
+          7,
+          8
+        ],
+        [
+          0,
+          2,
+          4,
+          6
+        ]
+      ],
+      "kind": "literal-kernel"
+    },
+    {
+      "id": "kernel_n10_k5",
+      "nCase": 5,
+      "rows": [
+        [
+          0,
+          0,
+          9,
+          7,
+          0,
+          0,
+          2,
+          1,
+          2,
+          2,
+          1,
+          0
+        ],
+        [
+          1,
+          1,
+          8,
+          7,
+          0,
+          1,
+          7,
+          3,
+          5,
+          3,
+          1,
+          2
+        ],
+        [
+          2,
+          2,
+          7,
+          7,
+          0,
+          0,
+          0,
+          0,
+          8,
+          4,
+          1,
+          4
+        ],
+        [
+          3,
+          3,
+          6,
+          7,
+          1,
+          1,
+          8,
+          4,
+          11,
+          5,
+          1,
+          0
+        ],
+        [
+          4,
+          4,
+          5,
+          7,
+          1,
+          0,
+          5,
+          2,
+          14,
+          6,
+          1,
+          2
+        ],
+        [
+          5,
+          5,
+          4,
+          7,
+          1,
+          1,
+          9,
+          4,
+          17,
+          7,
+          0,
+          4
+        ],
+        [
+          6,
+          6,
+          3,
+          7,
+          2,
+          0,
+          1,
+          0,
+          20,
+          8,
+          0,
+          0
+        ],
+        [
+          7,
+          7,
+          2,
+          7,
+          2,
+          1,
+          6,
+          3,
+          23,
+          9,
+          0,
+          2
+        ],
+        [
+          8,
+          8,
+          1,
+          7,
+          2,
+          0,
+          3,
+          1,
+          26,
+          0,
+          0,
+          4
+        ],
+        [
+          9,
+          9,
+          0,
+          7,
+          3,
+          1,
+          4,
+          2,
+          29,
+          1,
+          0,
+          0
+        ]
+      ],
+      "observed": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "draws": [
+        [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        [
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        [
+          0,
+          2,
+          4,
+          6,
+          8
+        ],
+        [
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        [
+          0,
+          2,
+          4,
+          6,
+          8
+        ]
+      ],
+      "kind": "literal-kernel"
+    },
+    {
+      "id": "rational_tie_n8_k4",
+      "nCase": 4,
+      "rows": [
+        [
+          -2,
+          -4,
+          2,
+          4,
+          -2,
+          -4,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          2,
+          -4,
+          -2,
+          4,
+          2,
+          -4,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          2,
+          -4,
+          -2,
+          4,
+          2,
+          -4,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          7,
+          4,
+          -7,
+          -4,
+          7,
+          4,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          -6,
+          -4,
+          6,
+          4,
+          -6,
+          -4,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          -6,
+          4,
+          6,
+          -4,
+          -6,
+          4,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          -2,
+          4,
+          2,
+          -4,
+          -2,
+          4,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          5,
+          4,
+          -5,
+          -4,
+          5,
+          4,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      ],
+      "observed": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "draws": [
+        [
+          0,
+          1,
+          2,
+          3
+        ],
+        [
+          0,
+          1,
+          2,
+          3
+        ],
+        [
+          4,
+          5,
+          6,
+          7
+        ],
+        [
+          4,
+          5,
+          6,
+          7
+        ],
+        [
+          0,
+          2,
+          4,
+          6
+        ]
+      ],
+      "kind": "literal-rational-tie"
+    },
+    {
+      "id": "rational_tie_n9_k4",
+      "nCase": 4,
+      "rows": [
+        [
+          -4,
+          -2,
+          4,
+          2,
+          -4,
+          -2,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          2,
+          -2,
+          -2,
+          2,
+          2,
+          -2,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          4,
+          -2,
+          -4,
+          2,
+          4,
+          -2,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          8,
+          -2,
+          -8,
+          2,
+          8,
+          -2,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          -4,
+          -2,
+          4,
+          2,
+          -4,
+          -2,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          -4,
+          -2,
+          4,
+          2,
+          -4,
+          -2,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          -4,
+          -2,
+          4,
+          2,
+          -4,
+          -2,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          -4,
+          6,
+          4,
+          -6,
+          -4,
+          6,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          6,
+          8,
+          -6,
+          -8,
+          6,
+          8,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      ],
+      "observed": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "draws": [
+        [
+          0,
+          1,
+          2,
+          3
+        ],
+        [
+          0,
+          1,
+          2,
+          3
+        ],
+        [
+          5,
+          6,
+          7,
+          8
+        ],
+        [
+          5,
+          6,
+          7,
+          8
+        ],
+        [
+          0,
+          2,
+          4,
+          6
+        ]
+      ],
+      "kind": "literal-rational-tie"
+    },
+    {
+      "id": "rational_tie_n10_k5",
+      "nCase": 5,
+      "rows": [
+        [
+          -4,
+          -4,
+          4,
+          4,
+          -4,
+          -4,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          -4,
+          -4,
+          4,
+          4,
+          -4,
+          -4,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          3,
+          -4,
+          -3,
+          4,
+          3,
+          -4,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          5,
+          -4,
+          -5,
+          4,
+          5,
+          -4,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          9,
+          8,
+          -9,
+          -8,
+          9,
+          8,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          -8,
+          -4,
+          8,
+          4,
+          -8,
+          -4,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          -8,
+          -4,
+          8,
+          4,
+          -8,
+          -4,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          0,
+          4,
+          0,
+          -4,
+          0,
+          4,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          0,
+          4,
+          0,
+          -4,
+          0,
+          4,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        [
+          7,
+          8,
+          -7,
+          -8,
+          7,
+          8,
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      ],
+      "observed": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "draws": [
+        [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        [
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        [
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        [
+          0,
+          2,
+          4,
+          6,
+          8
+        ]
+      ],
+      "kind": "literal-rational-tie"
+    },
+    {
+      "id": "all_constant_n8_k4",
+      "nCase": 4,
+      "rows": [
+        [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ]
+      ],
+      "observed": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "draws": [
+        [
+          0,
+          1,
+          2,
+          3
+        ],
+        [
+          4,
+          5,
+          6,
+          7
+        ],
+        [
+          0,
+          1,
+          2,
+          3
+        ]
+      ],
+      "kind": "literal-kernel"
+    }
+  ],
+  "rawFixtures": [
+    {
+      "id": "raw_positive_8x6",
+      "observations": [
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 10,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 11,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 13,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 12,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 15,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 18,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 12,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 14,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 13,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 17,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 19,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 16,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 9,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 12,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 10,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 14,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 16,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 15,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 15,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 16,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 20,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 18,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 22,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 24,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 11,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 13,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 12,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 16,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 19,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 17,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 14,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 15,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 18,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 17,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 21,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 23,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 8,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 11,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 13,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 12,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 15,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 17,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 16,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 18,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 17,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 23,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 21,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 26,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        }
+      ],
+      "expectedRetainedEntities": [
+        {
+          "Entity": "entity1",
+          "Group": "control"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case"
+        }
+      ],
+      "expectedRetainedCount": 8,
+      "expectedValidRows": 48
+    },
+    {
+      "id": "raw_short_excluded",
+      "observations": [
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 10,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 11,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 13,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 12,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 15,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 18,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 12,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 14,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 13,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 17,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 19,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 16,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 9,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 12,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 10,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 14,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 16,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 15,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 15,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 16,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 20,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 18,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 22,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 24,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 11,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 13,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 12,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 16,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 19,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 17,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 14,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 15,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 18,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 17,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 21,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 23,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 8,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 11,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 13,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 12,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 15,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 17,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 16,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 18,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 17,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 23,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 21,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 26,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "short",
+          "Group": "control",
+          "Value": 7,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "short",
+          "Group": "control",
+          "Value": 8,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "short",
+          "Group": "control",
+          "Value": 9,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "short",
+          "Group": "control",
+          "Value": 10,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "short",
+          "Group": "control",
+          "Value": 11,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        }
+      ],
+      "expectedRetainedEntities": [
+        {
+          "Entity": "entity1",
+          "Group": "control"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case"
+        }
+      ],
+      "expectedRetainedCount": 8,
+      "expectedValidRows": 48
+    }
+  ],
+  "expectedFailureRawFixtures": [
+    {
+      "id": "raw_zero_invalid_summary",
+      "observations": [
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 0,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 11,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 13,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 12,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 15,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 18,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 12,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 14,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 13,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 17,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 19,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 16,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 9,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 12,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 10,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 14,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 16,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 15,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 15,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 16,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 20,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 18,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 22,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 24,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 11,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 13,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 12,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 16,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 19,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 17,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 14,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 15,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 18,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 17,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 21,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 23,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 8,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 11,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 13,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 12,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 15,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 17,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 16,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 18,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 17,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 23,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 21,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 26,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        }
+      ],
+      "expectedFailureStage": "complete-summary-validation",
+      "expectedReason": "nonfinite geometric_mean slot invalidates entire candidate case"
+    },
+    {
+      "id": "raw_negative_invalid_summary",
+      "observations": [
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": -1,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 11,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 13,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 12,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 15,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 18,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 12,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 14,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 13,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 17,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 19,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 16,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 9,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 12,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 10,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 14,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 16,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 15,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 15,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 16,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 20,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 18,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 22,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 24,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 11,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 13,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 12,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 16,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 19,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 17,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 14,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 15,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 18,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 17,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 21,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 23,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 8,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 11,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 13,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 12,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 15,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 17,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 16,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 18,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 17,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 23,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 21,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 26,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        }
+      ],
+      "expectedFailureStage": "complete-summary-validation",
+      "expectedReason": "nonfinite geometric_mean slot invalidates entire candidate case"
+    },
+    {
+      "id": "raw_short_group_rejected",
+      "observations": [
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 11,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 13,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 12,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 15,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 18,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 12,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 14,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 13,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 17,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 19,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 16,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 9,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 12,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 10,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 14,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 16,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 15,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 15,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 16,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 20,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 18,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 22,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 24,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 11,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 13,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 12,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 16,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 19,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 17,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 14,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 15,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 18,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 17,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 21,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 23,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 8,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 11,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 13,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 12,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 15,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 17,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 16,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 18,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 17,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 23,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 21,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 26,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        }
+      ],
+      "expectedFailureStage": "Build",
+      "expectedReason": "one group retains only three entities"
+    },
+    {
+      "id": "raw_nonfinite_group_rejected",
+      "observations": [
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": "NaN",
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 11,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 13,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 12,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 15,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "control",
+          "Value": 18,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 12,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 14,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 13,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 17,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 19,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "control",
+          "Value": 16,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 9,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 12,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 10,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 14,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 16,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "control",
+          "Value": 15,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 15,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 16,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 20,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 18,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 22,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "control",
+          "Value": 24,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 11,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 13,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 12,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 16,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 19,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity1",
+          "Group": "case",
+          "Value": 17,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 14,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 15,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 18,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 17,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 21,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity2",
+          "Group": "case",
+          "Value": 23,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 8,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 11,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 13,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 12,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 15,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity3",
+          "Group": "case",
+          "Value": 17,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 16,
+          "Sequence": 1,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 18,
+          "Sequence": 2,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 17,
+          "Sequence": 3,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 23,
+          "Sequence": 4,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 21,
+          "Sequence": 5,
+          "Variable": "measurement",
+          "Unit": "unit"
+        },
+        {
+          "Entity": "entity4",
+          "Group": "case",
+          "Value": 26,
+          "Sequence": 6,
+          "Variable": "measurement",
+          "Unit": "unit"
+        }
+      ],
+      "expectedFailureStage": "Build",
+      "expectedReason": "Build filters NaN, leaving five measurements and only three retained control entities"
+    }
+  ],
+  "nonfiniteFixtureEncoding": {
+    "NaN": "IEEE754 NaN",
+    "Infinity": "IEEE754 positive infinity",
+    "-Infinity": "IEEE754 negative infinity"
+  }
+}

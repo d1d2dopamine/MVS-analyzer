@@ -225,12 +225,15 @@ class WindowsProcess:
                 accounting = _ACCOUNTING()
                 _check(self._k.QueryInformationJobObject(self._job, 1, ctypes.byref(accounting),
                                                         ctypes.sizeof(accounting), None))
-                if not accounting.ActiveProcesses:
-                    self.poll()
+                # Job accounting may reach zero before the original process
+                # handle is signaled. Both conditions are required before the
+                # caller can treat cleanup as complete and inspect its exit code.
+                if not accounting.ActiveProcesses and self.poll() is not None:
                     return
-            if time.monotonic() >= deadline:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
                 raise subprocess.TimeoutExpired(self.args, 5.0)
-            time.sleep(0.01)
+            time.sleep(min(0.01, remaining))
 
     def close(self):
         """Release owned handles; closing the job kills remaining members."""

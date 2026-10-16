@@ -1,0 +1,82 @@
+{
+  "id": "R30-SIMPLEX-ORIGIN-1",
+  "frozenUtc": "2026-10-16T15:16:22.291699+00:00",
+  "baseline": "Round29",
+  "baselinePortableBackupSha256": "e125130a0322855877cd438d07e19519ab953cd2d8a78c892293dcceb6161885",
+  "defect": "Current environment marker can be persisted before old objective values are reevaluated; fresh-process restore may trust stale values",
+  "rule": "Restored simplex cache trusted only if original history nonempty and every entry equals current; unknown/foreign history forces reevaluation",
+  "unknownPersistence": "Restored empty history remains empty on publication; no sentinel/schema change; new fresh documents still recordcurrent",
+  "scope": [
+    "PortableBackup EnvironmentChanged calculation and append condition",
+    "additive native and actual child-process tests"
+  ],
+  "invariants": [
+    "same-current history behavior/callcounts unchanged",
+    "no RNG or optimizer algorithm/checkpoint key changes",
+    "legacy schema/requesthash/units compatibility",
+    "same-live-scope29repair retained",
+    "full-result shortcuts not redesigned"
+  ],
+  "fixtures": {
+    "points": [
+      [
+        1
+      ],
+      [
+        2
+      ]
+    ],
+    "staleValues": [
+      -999,
+      -998
+    ],
+    "validValues": [
+      1,
+      4
+    ],
+    "objective": "x[0]^2",
+    "maximumIterations": 0,
+    "expectedReevaluations": 2,
+    "expectedValue": 1,
+    "histories": [
+      "empty",
+      "foreign",
+      "foreign_then_current",
+      "current_then_foreign",
+      "current",
+      "current_repeated"
+    ]
+  },
+  "acceptance": [
+    "baseline stalevalue/calls0 counterexample retained",
+    "fixedallforeign/unknowncalls2/value1",
+    "samecurrentvalidcachecalls0/value1",
+    "emptyhistory remainsunknown after repeatedpublication/reload",
+    "foreignhistory remainsuntrusted after repeatedpublication/reload",
+    "actual separateproducer/consumerprocesses normalandlatefailure",
+    "latefailure preserves valid installedcheckpoint, no diskrollbackclaim",
+    "objectiveexception/cancellation cannotreturnsuccessfulresult or markFinish",
+    "all29retrychecks stillpass"
+  ],
+  "cost": {
+    "metric": "exact objective callcount plus descriptive elapsed/allocations",
+    "repeats": 5,
+    "order": [
+      "baseline",
+      "fixed",
+      "fixed",
+      "baseline",
+      "baseline",
+      "fixed",
+      "fixed",
+      "baseline",
+      "baseline",
+      "fixed"
+    ],
+    "sameEnvironmentExpectedExtraCalls": 0,
+    "foreignExpectedCallsPerResume": 2,
+    "claim": "necessary repeated deterministic reevaluation cost; no speedup or generalaccuracyclaim"
+  },
+  "bounds": "ownedtemporarydirs; no userarchives modified; no scientificpilot/newseeds/holdout; ordinarysyntheticregressiononly",
+  "rollback": "Round29 sourcebackup; no archiveconversion; older executables retain unsafe last-entry assumption"
+}

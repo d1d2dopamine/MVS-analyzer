@@ -1,0 +1,2195 @@
+{
+  "stage": 31,
+  "delivery": "cumulative25\u201331PATCH plus separate full comparison evidence",
+  "baseline": "Round30",
+  "scope": "per-invocation recording interface for five compute entrypoints and borrowed optimizer",
+  "native": {
+    "passed": 195,
+    "failed": 0,
+    "newGroupedChecks": 6,
+    "independentNewGroupedChecks": 6
+  },
+  "python": {
+    "discovered": 536,
+    "passed": 522,
+    "actualWindowsSkipped": 14,
+    "actualCurrentLinuxNativeMcpPassed": true
+  },
+  "build": {
+    "warnings": 0,
+    "errors": 0
+  },
+  "correctness": {
+    "baselineTargetChecks": 78,
+    "explicitAndReplayChecks": 54,
+    "timingParityChecks": 360,
+    "allPassed": true
+  },
+  "comparison": {
+    "processes": 72,
+    "workloadCallsIncludingWarmup": 144,
+    "startUtc": "2026-10-16T15:42:38Z",
+    "endUtc": "2026-10-16T15:43:28Z",
+    "pairsPerWorkloadMode": 3,
+    "order": "AB/BA/AB",
+    "performanceGate": "No numeric performance threshold prespecified; descriptive complete observations only",
+    "interpretation": "Mixed timings; no speedup or absence-of-regression claim. Disabled estimation median increased19.7%.",
+    "allRows": [
+      {
+        "mode": "default",
+        "workload": "calibrate",
+        "baseline": [
+          {
+            "name": "calibrate",
+            "disabled": false,
+            "elapsedSeconds": 0.542099367,
+            "allocatedBytes": 728954032,
+            "cpuSeconds": 0.7000001,
+            "gcCollections": [
+              174,
+              0,
+              0
+            ],
+            "peakWorkingSet": 64811008
+          },
+          {
+            "name": "calibrate",
+            "disabled": false,
+            "elapsedSeconds": 0.542906052,
+            "allocatedBytes": 728954064,
+            "cpuSeconds": 0.68,
+            "gcCollections": [
+              174,
+              0,
+              0
+            ],
+            "peakWorkingSet": 64851968
+          },
+          {
+            "name": "calibrate",
+            "disabled": false,
+            "elapsedSeconds": 0.593859921,
+            "allocatedBytes": 728954056,
+            "cpuSeconds": 0.75,
+            "gcCollections": [
+              174,
+              0,
+              0
+            ],
+            "peakWorkingSet": 64962560
+          }
+        ],
+        "target": [
+          {
+            "name": "calibrate",
+            "disabled": false,
+            "elapsedSeconds": 0.549352303,
+            "allocatedBytes": 728953936,
+            "cpuSeconds": 0.73,
+            "gcCollections": [
+              174,
+              0,
+              0
+            ],
+            "peakWorkingSet": 65499136
+          },
+          {
+            "name": "calibrate",
+            "disabled": false,
+            "elapsedSeconds": 0.485588027,
+            "allocatedBytes": 728954008,
+            "cpuSeconds": 0.67,
+            "gcCollections": [
+              174,
+              0,
+              0
+            ],
+            "peakWorkingSet": 65335296
+          },
+          {
+            "name": "calibrate",
+            "disabled": false,
+            "elapsedSeconds": 0.505351329,
+            "allocatedBytes": 728953992,
+            "cpuSeconds": 0.67,
+            "gcCollections": [
+              174,
+              0,
+              0
+            ],
+            "peakWorkingSet": 65265664
+          }
+        ],
+        "elapsedSeconds": {
+          "baselineMedian": 0.542906052,
+          "targetMedian": 0.505351329,
+          "baselineRange": [
+            0.542099367,
+            0.593859921
+          ],
+          "targetRange": [
+            0.485588027,
+            0.549352303
+          ],
+          "pairedDeltas": [
+            0.007252935999999988,
+            -0.057318024999999995,
+            -0.08850859199999994
+          ],
+          "medianPairedDelta": -0.057318024999999995,
+          "pairedRatios": [
+            1.01337934784934,
+            0.8944236764559037,
+            0.8509604893844992
+          ]
+        },
+        "allocatedBytes": {
+          "baselineMedian": 728954056,
+          "targetMedian": 728953992,
+          "baselineRange": [
+            728954032,
+            728954064
+          ],
+          "targetRange": [
+            728953936,
+            728954008
+          ],
+          "pairedDeltas": [
+            -96,
+            -56,
+            -64
+          ],
+          "medianPairedDelta": -64,
+          "pairedRatios": [
+            0.999999868304453,
+            0.9999999231776009,
+            0.9999999122029716
+          ]
+        },
+        "cpuSeconds": {
+          "baselineMedian": 0.7000001,
+          "targetMedian": 0.67,
+          "baselineRange": [
+            0.68,
+            0.75
+          ],
+          "targetRange": [
+            0.67,
+            0.73
+          ],
+          "pairedDeltas": [
+            0.029999899999999968,
+            -0.010000000000000009,
+            -0.07999999999999996
+          ],
+          "medianPairedDelta": -0.010000000000000009,
+          "pairedRatios": [
+            1.0428569938775722,
+            0.9852941176470588,
+            0.8933333333333334
+          ]
+        },
+        "peakWorkingSet": {
+          "baselineMedian": 64851968,
+          "targetMedian": 65335296,
+          "baselineRange": [
+            64811008,
+            64962560
+          ],
+          "targetRange": [
+            65265664,
+            65499136
+          ],
+          "pairedDeltas": [
+            688128,
+            483328,
+            303104
+          ],
+          "medianPairedDelta": 483328,
+          "pairedRatios": [
+            1.0106174556026037,
+            1.0074527884797575,
+            1.0046658259773014
+          ]
+        }
+      },
+      {
+        "mode": "default",
+        "workload": "results",
+        "baseline": [
+          {
+            "name": "results",
+            "disabled": false,
+            "elapsedSeconds": 0.137270836,
+            "allocatedBytes": 60038984,
+            "cpuSeconds": 0.14,
+            "gcCollections": [
+              14,
+              0,
+              0
+            ],
+            "peakWorkingSet": 61890560
+          },
+          {
+            "name": "results",
+            "disabled": false,
+            "elapsedSeconds": 0.134589371,
+            "allocatedBytes": 60038968,
+            "cpuSeconds": 0.14,
+            "gcCollections": [
+              14,
+              0,
+              0
+            ],
+            "peakWorkingSet": 60928000
+          },
+          {
+            "name": "results",
+            "disabled": false,
+            "elapsedSeconds": 0.133412145,
+            "allocatedBytes": 60038984,
+            "cpuSeconds": 0.13,
+            "gcCollections": [
+              14,
+              0,
+              0
+            ],
+            "peakWorkingSet": 61173760
+          }
+        ],
+        "target": [
+          {
+            "name": "results",
+            "disabled": false,
+            "elapsedSeconds": 0.144720301,
+            "allocatedBytes": 60038864,
+            "cpuSeconds": 0.17,
+            "gcCollections": [
+              14,
+              0,
+              0
+            ],
+            "peakWorkingSet": 62017536
+          },
+          {
+            "name": "results",
+            "disabled": false,
+            "elapsedSeconds": 0.146401634,
+            "allocatedBytes": 60038936,
+            "cpuSeconds": 0.17,
+            "gcCollections": [
+              14,
+              0,
+              0
+            ],
+            "peakWorkingSet": 62005248
+          },
+          {
+            "name": "results",
+            "disabled": false,
+            "elapsedSeconds": 0.135174094,
+            "allocatedBytes": 60038896,
+            "cpuSeconds": 0.16,
+            "gcCollections": [
+              14,
+              0,
+              0
+            ],
+            "peakWorkingSet": 61853696
+          }
+        ],
+        "elapsedSeconds": {
+          "baselineMedian": 0.134589371,
+          "targetMedian": 0.144720301,
+          "baselineRange": [
+            0.133412145,
+            0.137270836
+          ],
+          "targetRange": [
+            0.135174094,
+            0.146401634
+          ],
+          "pairedDeltas": [
+            0.0074494649999999885,
+            0.01181226299999999,
+            0.0017619489999999849
+          ],
+          "medianPairedDelta": 0.0074494649999999885,
+          "pairedRatios": [
+            1.054268373509432,
+            1.0877651995267887,
+            1.0132068111190327
+          ]
+        },
+        "allocatedBytes": {
+          "baselineMedian": 60038984,
+          "targetMedian": 60038896,
+          "baselineRange": [
+            60038968,
+            60038984
+          ],
+          "targetRange": [
+            60038864,
+            60038936
+          ],
+          "pairedDeltas": [
+            -120,
+            -32,
+            -88
+          ],
+          "medianPairedDelta": -88,
+          "pairedRatios": [
+            0.9999980012986229,
+            0.999999467012824,
+            0.9999985342856568
+          ]
+        },
+        "cpuSeconds": {
+          "baselineMedian": 0.14,
+          "targetMedian": 0.17,
+          "baselineRange": [
+            0.13,
+            0.14
+          ],
+          "targetRange": [
+            0.16,
+            0.17
+          ],
+          "pairedDeltas": [
+            0.03,
+            0.03,
+            0.03
+          ],
+          "medianPairedDelta": 0.03,
+          "pairedRatios": [
+            1.2142857142857142,
+            1.2142857142857142,
+            1.2307692307692308
+          ]
+        },
+        "peakWorkingSet": {
+          "baselineMedian": 61173760,
+          "targetMedian": 62005248,
+          "baselineRange": [
+            60928000,
+            61890560
+          ],
+          "targetRange": [
+            61853696,
+            62017536
+          ],
+          "pairedDeltas": [
+            126976,
+            1077248,
+            679936
+          ],
+          "medianPairedDelta": 679936,
+          "pairedRatios": [
+            1.002051621442753,
+            1.0176806722689076,
+            1.0111148309340476
+          ]
+        }
+      },
+      {
+        "mode": "default",
+        "workload": "variance",
+        "baseline": [
+          {
+            "name": "variance",
+            "disabled": false,
+            "elapsedSeconds": 0.356282641,
+            "allocatedBytes": 210474024,
+            "cpuSeconds": 0.41,
+            "gcCollections": [
+              50,
+              0,
+              0
+            ],
+            "peakWorkingSet": 66736128
+          },
+          {
+            "name": "variance",
+            "disabled": false,
+            "elapsedSeconds": 0.308817023,
+            "allocatedBytes": 210474048,
+            "cpuSeconds": 0.34,
+            "gcCollections": [
+              50,
+              0,
+              0
+            ],
+            "peakWorkingSet": 65957888
+          },
+          {
+            "name": "variance",
+            "disabled": false,
+            "elapsedSeconds": 0.307135196,
+            "allocatedBytes": 210474032,
+            "cpuSeconds": 0.33,
+            "gcCollections": [
+              50,
+              0,
+              0
+            ],
+            "peakWorkingSet": 65949696
+          }
+        ],
+        "target": [
+          {
+            "name": "variance",
+            "disabled": false,
+            "elapsedSeconds": 0.306768896,
+            "allocatedBytes": 210473960,
+            "cpuSeconds": 0.33,
+            "gcCollections": [
+              50,
+              0,
+              0
+            ],
+            "peakWorkingSet": 66134016
+          },
+          {
+            "name": "variance",
+            "disabled": false,
+            "elapsedSeconds": 0.342028442,
+            "allocatedBytes": 210473936,
+            "cpuSeconds": 0.36,
+            "gcCollections": [
+              50,
+              0,
+              0
+            ],
+            "peakWorkingSet": 65978368
+          },
+          {
+            "name": "variance",
+            "disabled": false,
+            "elapsedSeconds": 0.3286445,
+            "allocatedBytes": 210473976,
+            "cpuSeconds": 0.34,
+            "gcCollections": [
+              50,
+              0,
+              0
+            ],
+            "peakWorkingSet": 66002944
+          }
+        ],
+        "elapsedSeconds": {
+          "baselineMedian": 0.308817023,
+          "targetMedian": 0.3286445,
+          "baselineRange": [
+            0.307135196,
+            0.356282641
+          ],
+          "targetRange": [
+            0.306768896,
+            0.342028442
+          ],
+          "pairedDeltas": [
+            -0.049513745,
+            0.033211418999999964,
+            0.021509304000000007
+          ],
+          "medianPairedDelta": 0.021509304000000007,
+          "pairedRatios": [
+            0.8610267823853928,
+            1.1075440034923203,
+            1.0700320389200852
+          ]
+        },
+        "allocatedBytes": {
+          "baselineMedian": 210474032,
+          "targetMedian": 210473960,
+          "baselineRange": [
+            210474024,
+            210474048
+          ],
+          "targetRange": [
+            210473936,
+            210473976
+          ],
+          "pairedDeltas": [
+            -64,
+            -112,
+            -56
+          ],
+          "medianPairedDelta": -64,
+          "pairedRatios": [
+            0.9999996959244719,
+            0.9999994678678865,
+            0.999999733933923
+          ]
+        },
+        "cpuSeconds": {
+          "baselineMedian": 0.34,
+          "targetMedian": 0.34,
+          "baselineRange": [
+            0.33,
+            0.41
+          ],
+          "targetRange": [
+            0.33,
+            0.36
+          ],
+          "pairedDeltas": [
+            -0.07999999999999996,
+            0.019999999999999962,
+            0.010000000000000009
+          ],
+          "medianPairedDelta": 0.010000000000000009,
+          "pairedRatios": [
+            0.8048780487804879,
+            1.0588235294117645,
+            1.0303030303030303
+          ]
+        },
+        "peakWorkingSet": {
+          "baselineMedian": 65957888,
+          "targetMedian": 66002944,
+          "baselineRange": [
+            65949696,
+            66736128
+          ],
+          "targetRange": [
+            65978368,
+            66134016
+          ],
+          "pairedDeltas": [
+            -602112,
+            20480,
+            53248
+          ],
+          "medianPairedDelta": 20480,
+          "pairedRatios": [
+            0.9909777204934634,
+            1.0003105011488542,
+            1.000807403266878
+          ]
+        }
+      },
+      {
+        "mode": "default",
+        "workload": "estimation",
+        "baseline": [
+          {
+            "name": "estimation",
+            "disabled": false,
+            "elapsedSeconds": 0.106237975,
+            "allocatedBytes": 46502672,
+            "cpuSeconds": 0.11,
+            "gcCollections": [
+              10,
+              0,
+              0
+            ],
+            "peakWorkingSet": 62652416
+          },
+          {
+            "name": "estimation",
+            "disabled": false,
+            "elapsedSeconds": 0.090752229,
+            "allocatedBytes": 46502680,
+            "cpuSeconds": 0.09,
+            "gcCollections": [
+              10,
+              0,
+              0
+            ],
+            "peakWorkingSet": 62459904
+          },
+          {
+            "name": "estimation",
+            "disabled": false,
+            "elapsedSeconds": 0.080523704,
+            "allocatedBytes": 46502664,
+            "cpuSeconds": 0.08,
+            "gcCollections": [
+              10,
+              0,
+              0
+            ],
+            "peakWorkingSet": 62431232
+          }
+        ],
+        "target": [
+          {
+            "name": "estimation",
+            "disabled": false,
+            "elapsedSeconds": 0.084898948,
+            "allocatedBytes": 46502640,
+            "cpuSeconds": 0.08,
+            "gcCollections": [
+              10,
+              0,
+              0
+            ],
+            "peakWorkingSet": 62386176
+          },
+          {
+            "name": "estimation",
+            "disabled": false,
+            "elapsedSeconds": 0.102308265,
+            "allocatedBytes": 46502648,
+            "cpuSeconds": 0.1,
+            "gcCollections": [
+              10,
+              0,
+              0
+            ],
+            "peakWorkingSet": 62439424
+          },
+          {
+            "name": "estimation",
+            "disabled": false,
+            "elapsedSeconds": 0.093693073,
+            "allocatedBytes": 46502648,
+            "cpuSeconds": 0.1,
+            "gcCollections": [
+              10,
+              0,
+              0
+            ],
+            "peakWorkingSet": 62517248
+          }
+        ],
+        "elapsedSeconds": {
+          "baselineMedian": 0.090752229,
+          "targetMedian": 0.093693073,
+          "baselineRange": [
+            0.080523704,
+            0.106237975
+          ],
+          "targetRange": [
+            0.084898948,
+            0.102308265
+          ],
+          "pairedDeltas": [
+            -0.021339026999999997,
+            0.011556035999999992,
+            0.013169369
+          ],
+          "medianPairedDelta": 0.011556035999999992,
+          "pairedRatios": [
+            0.7991393661259074,
+            1.127336112041942,
+            1.1635464881247888
+          ]
+        },
+        "allocatedBytes": {
+          "baselineMedian": 46502672,
+          "targetMedian": 46502648,
+          "baselineRange": [
+            46502664,
+            46502680
+          ],
+          "targetRange": [
+            46502640,
+            46502648
+          ],
+          "pairedDeltas": [
+            -32,
+            -32,
+            -16
+          ],
+          "medianPairedDelta": -32,
+          "pairedRatios": [
+            0.9999993118674987,
+            0.9999993118676171,
+            0.9999996559336901
+          ]
+        },
+        "cpuSeconds": {
+          "baselineMedian": 0.09,
+          "targetMedian": 0.1,
+          "baselineRange": [
+            0.08,
+            0.11
+          ],
+          "targetRange": [
+            0.08,
+            0.1
+          ],
+          "pairedDeltas": [
+            -0.03,
+            0.010000000000000009,
+            0.020000000000000004
+          ],
+          "medianPairedDelta": 0.010000000000000009,
+          "pairedRatios": [
+            0.7272727272727273,
+            1.1111111111111112,
+            1.25
+          ]
+        },
+        "peakWorkingSet": {
+          "baselineMedian": 62459904,
+          "targetMedian": 62439424,
+          "baselineRange": [
+            62431232,
+            62652416
+          ],
+          "targetRange": [
+            62386176,
+            62517248
+          ],
+          "pairedDeltas": [
+            -266240,
+            -20480,
+            86016
+          ],
+          "medianPairedDelta": -20480,
+          "pairedRatios": [
+            0.9957505230125523,
+            0.9996721096465342,
+            1.001377771945939
+          ]
+        }
+      },
+      {
+        "mode": "default",
+        "workload": "melsm",
+        "baseline": [
+          {
+            "name": "melsm",
+            "disabled": false,
+            "elapsedSeconds": 0.051900004,
+            "allocatedBytes": 3401480,
+            "cpuSeconds": 0.05,
+            "gcCollections": [
+              0,
+              0,
+              0
+            ],
+            "peakWorkingSet": 61009920
+          },
+          {
+            "name": "melsm",
+            "disabled": false,
+            "elapsedSeconds": 0.0473678,
+            "allocatedBytes": 3401480,
+            "cpuSeconds": 0.05,
+            "gcCollections": [
+              0,
+              0,
+              0
+            ],
+            "peakWorkingSet": 61173760
+          },
+          {
+            "name": "melsm",
+            "disabled": false,
+            "elapsedSeconds": 0.040158233,
+            "allocatedBytes": 3401488,
+            "cpuSeconds": 0.04,
+            "gcCollections": [
+              0,
+              0,
+              0
+            ],
+            "peakWorkingSet": 60977152
+          }
+        ],
+        "target": [
+          {
+            "name": "melsm",
+            "disabled": false,
+            "elapsedSeconds": 0.044144488,
+            "allocatedBytes": 3401424,
+            "cpuSeconds": 0.05,
+            "gcCollections": [
+              0,
+              0,
+              0
+            ],
+            "peakWorkingSet": 61394944
+          },
+          {
+            "name": "melsm",
+            "disabled": false,
+            "elapsedSeconds": 0.041059641,
+            "allocatedBytes": 3401472,
+            "cpuSeconds": 0.04,
+            "gcCollections": [
+              0,
+              0,
+              0
+            ],
+            "peakWorkingSet": 61284352
+          },
+          {
+            "name": "melsm",
+            "disabled": false,
+            "elapsedSeconds": 0.040892392,
+            "allocatedBytes": 3401448,
+            "cpuSeconds": 0.04,
+            "gcCollections": [
+              0,
+              0,
+              0
+            ],
+            "peakWorkingSet": 61255680
+          }
+        ],
+        "elapsedSeconds": {
+          "baselineMedian": 0.0473678,
+          "targetMedian": 0.041059641,
+          "baselineRange": [
+            0.040158233,
+            0.051900004
+          ],
+          "targetRange": [
+            0.040892392,
+            0.044144488
+          ],
+          "pairedDeltas": [
+            -0.007755515999999997,
+            -0.006308159000000001,
+            0.0007341589999999981
+          ],
+          "medianPairedDelta": -0.006308159000000001,
+          "pairedRatios": [
+            0.8505681040024583,
+            0.8668260083854432,
+            1.0182816559682792
+          ]
+        },
+        "allocatedBytes": {
+          "baselineMedian": 3401480,
+          "targetMedian": 3401448,
+          "baselineRange": [
+            3401480,
+            3401488
+          ],
+          "targetRange": [
+            3401424,
+            3401472
+          ],
+          "pairedDeltas": [
+            -56,
+            -8,
+            -40
+          ],
+          "medianPairedDelta": -40,
+          "pairedRatios": [
+            0.9999835365781954,
+            0.9999976480825994,
+            0.9999882404406542
+          ]
+        },
+        "cpuSeconds": {
+          "baselineMedian": 0.05,
+          "targetMedian": 0.04,
+          "baselineRange": [
+            0.04,
+            0.05
+          ],
+          "targetRange": [
+            0.04,
+            0.05
+          ],
+          "pairedDeltas": [
+            0.0,
+            -0.010000000000000002,
+            0.0
+          ],
+          "medianPairedDelta": 0.0,
+          "pairedRatios": [
+            1.0,
+            0.7999999999999999,
+            1.0
+          ]
+        },
+        "peakWorkingSet": {
+          "baselineMedian": 61009920,
+          "targetMedian": 61284352,
+          "baselineRange": [
+            60977152,
+            61173760
+          ],
+          "targetRange": [
+            61255680,
+            61394944
+          ],
+          "pairedDeltas": [
+            385024,
+            110592,
+            278528
+          ],
+          "medianPairedDelta": 278528,
+          "pairedRatios": [
+            1.006310842564619,
+            1.0018078339471042,
+            1.0045677436689728
+          ]
+        }
+      },
+      {
+        "mode": "default",
+        "workload": "optimizer",
+        "baseline": [
+          {
+            "name": "optimizer",
+            "disabled": false,
+            "elapsedSeconds": 0.001936811,
+            "allocatedBytes": 344176,
+            "cpuSeconds": 0.01,
+            "gcCollections": [
+              0,
+              0,
+              0
+            ],
+            "peakWorkingSet": 52563968
+          },
+          {
+            "name": "optimizer",
+            "disabled": false,
+            "elapsedSeconds": 0.00191497,
+            "allocatedBytes": 344184,
+            "cpuSeconds": 0,
+            "gcCollections": [
+              0,
+              0,
+              0
+            ],
+            "peakWorkingSet": 52695040
+          },
+          {
+            "name": "optimizer",
+            "disabled": false,
+            "elapsedSeconds": 0.002524203,
+            "allocatedBytes": 344184,
+            "cpuSeconds": 0,
+            "gcCollections": [
+              0,
+              0,
+              0
+            ],
+            "peakWorkingSet": 52711424
+          }
+        ],
+        "target": [
+          {
+            "name": "optimizer",
+            "disabled": false,
+            "elapsedSeconds": 0.001677437,
+            "allocatedBytes": 344144,
+            "cpuSeconds": 0.01,
+            "gcCollections": [
+              0,
+              0,
+              0
+            ],
+            "peakWorkingSet": 52682752
+          },
+          {
+            "name": "optimizer",
+            "disabled": false,
+            "elapsedSeconds": 0.002191309,
+            "allocatedBytes": 393344,
+            "cpuSeconds": 0,
+            "gcCollections": [
+              0,
+              0,
+              0
+            ],
+            "peakWorkingSet": 52846592
+          },
+          {
+            "name": "optimizer",
+            "disabled": false,
+            "elapsedSeconds": 0.001683146,
+            "allocatedBytes": 344144,
+            "cpuSeconds": 0,
+            "gcCollections": [
+              0,
+              0,
+              0
+            ],
+            "peakWorkingSet": 52887552
+          }
+        ],
+        "elapsedSeconds": {
+          "baselineMedian": 0.001936811,
+          "targetMedian": 0.001683146,
+          "baselineRange": [
+            0.00191497,
+            0.002524203
+          ],
+          "targetRange": [
+            0.001677437,
+            0.002191309
+          ],
+          "pairedDeltas": [
+            -0.00025937400000000015,
+            0.0002763389999999998,
+            -0.0008410570000000001
+          ],
+          "medianPairedDelta": -0.00025937400000000015,
+          "pairedRatios": [
+            0.8660819253917909,
+            1.1443046105160914,
+            0.6668029473065359
+          ]
+        },
+        "allocatedBytes": {
+          "baselineMedian": 344184,
+          "targetMedian": 344144,
+          "baselineRange": [
+            344176,
+            344184
+          ],
+          "targetRange": [
+            344144,
+            393344
+          ],
+          "pairedDeltas": [
+            -32,
+            49160,
+            -40
+          ],
+          "medianPairedDelta": -32,
+          "pairedRatios": [
+            0.9999070243131422,
+            1.1428305789926319,
+            0.9998837830927644
+          ]
+        },
+        "cpuSeconds": {
+          "baselineMedian": 0,
+          "targetMedian": 0,
+          "baselineRange": [
+            0,
+            0.01
+          ],
+          "targetRange": [
+            0,
+            0.01
+          ],
+          "pairedDeltas": [
+            0.0,
+            0,
+            0
+          ],
+          "medianPairedDelta": 0,
+          "pairedRatios": [
+            1.0,
+            null,
+            null
+          ]
+        },
+        "peakWorkingSet": {
+          "baselineMedian": 52695040,
+          "targetMedian": 52846592,
+          "baselineRange": [
+            52563968,
+            52711424
+          ],
+          "targetRange": [
+            52682752,
+            52887552
+          ],
+          "pairedDeltas": [
+            118784,
+            151552,
+            176128
+          ],
+          "medianPairedDelta": 151552,
+          "pairedRatios": [
+            1.002259798955817,
+            1.0028760202098717,
+            1.0033413629652654
+          ]
+        }
+      },
+      {
+        "mode": "disabled",
+        "workload": "calibrate",
+        "baseline": [
+          {
+            "name": "calibrate",
+            "disabled": true,
+            "elapsedSeconds": 0.548962737,
+            "allocatedBytes": 728030880,
+            "cpuSeconds": 0.61,
+            "gcCollections": [
+              173,
+              0,
+              0
+            ],
+            "peakWorkingSet": 56614912
+          },
+          {
+            "name": "calibrate",
+            "disabled": true,
+            "elapsedSeconds": 0.515347183,
+            "allocatedBytes": 728030880,
+            "cpuSeconds": 0.57,
+            "gcCollections": [
+              173,
+              0,
+              0
+            ],
+            "peakWorkingSet": 56557568
+          },
+          {
+            "name": "calibrate",
+            "disabled": true,
+            "elapsedSeconds": 0.522652471,
+            "allocatedBytes": 728030880,
+            "cpuSeconds": 0.58,
+            "gcCollections": [
+              174,
+              0,
+              0
+            ],
+            "peakWorkingSet": 56565760
+          }
+        ],
+        "target": [
+          {
+            "name": "calibrate",
+            "disabled": true,
+            "elapsedSeconds": 0.537134475,
+            "allocatedBytes": 728030880,
+            "cpuSeconds": 0.6000001,
+            "gcCollections": [
+              174,
+              0,
+              0
+            ],
+            "peakWorkingSet": 56598528
+          },
+          {
+            "name": "calibrate",
+            "disabled": true,
+            "elapsedSeconds": 0.515615886,
+            "allocatedBytes": 728030880,
+            "cpuSeconds": 0.58,
+            "gcCollections": [
+              173,
+              0,
+              0
+            ],
+            "peakWorkingSet": 56893440
+          },
+          {
+            "name": "calibrate",
+            "disabled": true,
+            "elapsedSeconds": 0.459506849,
+            "allocatedBytes": 728030880,
+            "cpuSeconds": 0.51,
+            "gcCollections": [
+              173,
+              0,
+              0
+            ],
+            "peakWorkingSet": 56549376
+          }
+        ],
+        "elapsedSeconds": {
+          "baselineMedian": 0.522652471,
+          "targetMedian": 0.515615886,
+          "baselineRange": [
+            0.515347183,
+            0.548962737
+          ],
+          "targetRange": [
+            0.459506849,
+            0.537134475
+          ],
+          "pairedDeltas": [
+            -0.011828261999999978,
+            0.00026870299999992575,
+            -0.06314562200000001
+          ],
+          "medianPairedDelta": -0.011828261999999978,
+          "pairedRatios": [
+            0.9784534337163945,
+            1.0005214018992705,
+            0.8791823907783648
+          ]
+        },
+        "allocatedBytes": {
+          "baselineMedian": 728030880,
+          "targetMedian": 728030880,
+          "baselineRange": [
+            728030880,
+            728030880
+          ],
+          "targetRange": [
+            728030880,
+            728030880
+          ],
+          "pairedDeltas": [
+            0,
+            0,
+            0
+          ],
+          "medianPairedDelta": 0,
+          "pairedRatios": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "cpuSeconds": {
+          "baselineMedian": 0.58,
+          "targetMedian": 0.58,
+          "baselineRange": [
+            0.57,
+            0.61
+          ],
+          "targetRange": [
+            0.51,
+            0.6000001
+          ],
+          "pairedDeltas": [
+            -0.00999989999999995,
+            0.010000000000000009,
+            -0.06999999999999995
+          ],
+          "medianPairedDelta": -0.00999989999999995,
+          "pairedRatios": [
+            0.9836067213114755,
+            1.0175438596491229,
+            0.8793103448275863
+          ]
+        },
+        "peakWorkingSet": {
+          "baselineMedian": 56565760,
+          "targetMedian": 56598528,
+          "baselineRange": [
+            56557568,
+            56614912
+          ],
+          "targetRange": [
+            56549376,
+            56893440
+          ],
+          "pairedDeltas": [
+            -16384,
+            335872,
+            -16384
+          ],
+          "medianPairedDelta": -16384,
+          "pairedRatios": [
+            0.9997106062798438,
+            1.0059385863267671,
+            0.9997103548153512
+          ]
+        }
+      },
+      {
+        "mode": "disabled",
+        "workload": "results",
+        "baseline": [
+          {
+            "name": "results",
+            "disabled": true,
+            "elapsedSeconds": 0.10658385,
+            "allocatedBytes": 59296968,
+            "cpuSeconds": 0.1099999,
+            "gcCollections": [
+              13,
+              0,
+              0
+            ],
+            "peakWorkingSet": 54464512
+          },
+          {
+            "name": "results",
+            "disabled": true,
+            "elapsedSeconds": 0.172936266,
+            "allocatedBytes": 59296968,
+            "cpuSeconds": 0.19,
+            "gcCollections": [
+              13,
+              0,
+              0
+            ],
+            "peakWorkingSet": 54575104
+          },
+          {
+            "name": "results",
+            "disabled": true,
+            "elapsedSeconds": 0.140289269,
+            "allocatedBytes": 59296968,
+            "cpuSeconds": 0.14,
+            "gcCollections": [
+              13,
+              0,
+              0
+            ],
+            "peakWorkingSet": 54112256
+          }
+        ],
+        "target": [
+          {
+            "name": "results",
+            "disabled": true,
+            "elapsedSeconds": 0.13118939,
+            "allocatedBytes": 59296968,
+            "cpuSeconds": 0.13,
+            "gcCollections": [
+              13,
+              0,
+              0
+            ],
+            "peakWorkingSet": 54132736
+          },
+          {
+            "name": "results",
+            "disabled": true,
+            "elapsedSeconds": 0.142312589,
+            "allocatedBytes": 59296968,
+            "cpuSeconds": 0.15,
+            "gcCollections": [
+              13,
+              0,
+              0
+            ],
+            "peakWorkingSet": 54579200
+          },
+          {
+            "name": "results",
+            "disabled": true,
+            "elapsedSeconds": 0.110367894,
+            "allocatedBytes": 59296968,
+            "cpuSeconds": 0.11,
+            "gcCollections": [
+              13,
+              0,
+              0
+            ],
+            "peakWorkingSet": 54628352
+          }
+        ],
+        "elapsedSeconds": {
+          "baselineMedian": 0.140289269,
+          "targetMedian": 0.13118939,
+          "baselineRange": [
+            0.10658385,
+            0.172936266
+          ],
+          "targetRange": [
+            0.110367894,
+            0.142312589
+          ],
+          "pairedDeltas": [
+            0.024605539999999995,
+            -0.030623677000000016,
+            -0.029921375
+          ],
+          "medianPairedDelta": -0.029921375,
+          "pairedRatios": [
+            1.2308561756776473,
+            0.8229192886586321,
+            0.7867165805817977
+          ]
+        },
+        "allocatedBytes": {
+          "baselineMedian": 59296968,
+          "targetMedian": 59296968,
+          "baselineRange": [
+            59296968,
+            59296968
+          ],
+          "targetRange": [
+            59296968,
+            59296968
+          ],
+          "pairedDeltas": [
+            0,
+            0,
+            0
+          ],
+          "medianPairedDelta": 0,
+          "pairedRatios": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "cpuSeconds": {
+          "baselineMedian": 0.14,
+          "targetMedian": 0.13,
+          "baselineRange": [
+            0.1099999,
+            0.19
+          ],
+          "targetRange": [
+            0.11,
+            0.15
+          ],
+          "pairedDeltas": [
+            0.020000100000000007,
+            -0.04000000000000001,
+            -0.030000000000000013
+          ],
+          "medianPairedDelta": -0.030000000000000013,
+          "pairedRatios": [
+            1.181819256199324,
+            0.7894736842105263,
+            0.7857142857142857
+          ]
+        },
+        "peakWorkingSet": {
+          "baselineMedian": 54464512,
+          "targetMedian": 54579200,
+          "baselineRange": [
+            54112256,
+            54575104
+          ],
+          "targetRange": [
+            54132736,
+            54628352
+          ],
+          "pairedDeltas": [
+            -331776,
+            4096,
+            516096
+          ],
+          "medianPairedDelta": 4096,
+          "pairedRatios": [
+            0.9939084003910656,
+            1.0000750525367756,
+            1.0095375066232686
+          ]
+        }
+      },
+      {
+        "mode": "disabled",
+        "workload": "variance",
+        "baseline": [
+          {
+            "name": "variance",
+            "disabled": true,
+            "elapsedSeconds": 0.277947317,
+            "allocatedBytes": 209391264,
+            "cpuSeconds": 0.36,
+            "gcCollections": [
+              49,
+              0,
+              0
+            ],
+            "peakWorkingSet": 59162624
+          },
+          {
+            "name": "variance",
+            "disabled": true,
+            "elapsedSeconds": 0.260549962,
+            "allocatedBytes": 209391264,
+            "cpuSeconds": 0.34,
+            "gcCollections": [
+              49,
+              0,
+              0
+            ],
+            "peakWorkingSet": 59064320
+          },
+          {
+            "name": "variance",
+            "disabled": true,
+            "elapsedSeconds": 0.280547878,
+            "allocatedBytes": 209391264,
+            "cpuSeconds": 0.3600001,
+            "gcCollections": [
+              49,
+              0,
+              0
+            ],
+            "peakWorkingSet": 58994688
+          }
+        ],
+        "target": [
+          {
+            "name": "variance",
+            "disabled": true,
+            "elapsedSeconds": 0.29244917,
+            "allocatedBytes": 209415888,
+            "cpuSeconds": 0.38,
+            "gcCollections": [
+              49,
+              0,
+              0
+            ],
+            "peakWorkingSet": 58978304
+          },
+          {
+            "name": "variance",
+            "disabled": true,
+            "elapsedSeconds": 0.284661223,
+            "allocatedBytes": 209391264,
+            "cpuSeconds": 0.35,
+            "gcCollections": [
+              49,
+              0,
+              0
+            ],
+            "peakWorkingSet": 59154432
+          },
+          {
+            "name": "variance",
+            "disabled": true,
+            "elapsedSeconds": 0.288687357,
+            "allocatedBytes": 209391264,
+            "cpuSeconds": 0.36,
+            "gcCollections": [
+              49,
+              0,
+              0
+            ],
+            "peakWorkingSet": 58884096
+          }
+        ],
+        "elapsedSeconds": {
+          "baselineMedian": 0.277947317,
+          "targetMedian": 0.288687357,
+          "baselineRange": [
+            0.260549962,
+            0.280547878
+          ],
+          "targetRange": [
+            0.284661223,
+            0.29244917
+          ],
+          "pairedDeltas": [
+            0.014501852999999953,
+            0.024111260999999995,
+            0.008139479000000005
+          ],
+          "medianPairedDelta": 0.014501852999999953,
+          "pairedRatios": [
+            1.0521748263538733,
+            1.092539875327251,
+            1.0290127983074604
+          ]
+        },
+        "allocatedBytes": {
+          "baselineMedian": 209391264,
+          "targetMedian": 209391264,
+          "baselineRange": [
+            209391264,
+            209391264
+          ],
+          "targetRange": [
+            209391264,
+            209415888
+          ],
+          "pairedDeltas": [
+            24624,
+            0,
+            0
+          ],
+          "medianPairedDelta": 0,
+          "pairedRatios": [
+            1.0001175980293047,
+            1.0,
+            1.0
+          ]
+        },
+        "cpuSeconds": {
+          "baselineMedian": 0.36,
+          "targetMedian": 0.36,
+          "baselineRange": [
+            0.34,
+            0.3600001
+          ],
+          "targetRange": [
+            0.35,
+            0.38
+          ],
+          "pairedDeltas": [
+            0.020000000000000018,
+            0.009999999999999953,
+            -1.0000000000287557e-07
+          ],
+          "medianPairedDelta": 0.009999999999999953,
+          "pairedRatios": [
+            1.0555555555555556,
+            1.0294117647058822,
+            0.9999997222222994
+          ]
+        },
+        "peakWorkingSet": {
+          "baselineMedian": 59064320,
+          "targetMedian": 58978304,
+          "baselineRange": [
+            58994688,
+            59162624
+          ],
+          "targetRange": [
+            58884096,
+            59154432
+          ],
+          "pairedDeltas": [
+            -184320,
+            90112,
+            -110592
+          ],
+          "medianPairedDelta": -110592,
+          "pairedRatios": [
+            0.9968845195236776,
+            1.0015256588072121,
+            0.9981253905436367
+          ]
+        }
+      },
+      {
+        "mode": "disabled",
+        "workload": "estimation",
+        "baseline": [
+          {
+            "name": "estimation",
+            "disabled": true,
+            "elapsedSeconds": 0.081702386,
+            "allocatedBytes": 45640032,
+            "cpuSeconds": 0.08,
+            "gcCollections": [
+              10,
+              0,
+              0
+            ],
+            "peakWorkingSet": 53223424
+          },
+          {
+            "name": "estimation",
+            "disabled": true,
+            "elapsedSeconds": 0.07559458,
+            "allocatedBytes": 45640032,
+            "cpuSeconds": 0.07,
+            "gcCollections": [
+              10,
+              0,
+              0
+            ],
+            "peakWorkingSet": 53166080
+          },
+          {
+            "name": "estimation",
+            "disabled": true,
+            "elapsedSeconds": 0.081244917,
+            "allocatedBytes": 45640032,
+            "cpuSeconds": 0.08,
+            "gcCollections": [
+              10,
+              0,
+              0
+            ],
+            "peakWorkingSet": 53071872
+          }
+        ],
+        "target": [
+          {
+            "name": "estimation",
+            "disabled": true,
+            "elapsedSeconds": 0.097266681,
+            "allocatedBytes": 45640032,
+            "cpuSeconds": 0.1,
+            "gcCollections": [
+              10,
+              0,
+              0
+            ],
+            "peakWorkingSet": 53338112
+          },
+          {
+            "name": "estimation",
+            "disabled": true,
+            "elapsedSeconds": 0.091527497,
+            "allocatedBytes": 45640032,
+            "cpuSeconds": 0.09,
+            "gcCollections": [
+              10,
+              0,
+              0
+            ],
+            "peakWorkingSet": 53239808
+          },
+          {
+            "name": "estimation",
+            "disabled": true,
+            "elapsedSeconds": 0.110062934,
+            "allocatedBytes": 45640032,
+            "cpuSeconds": 0.11,
+            "gcCollections": [
+              10,
+              0,
+              0
+            ],
+            "peakWorkingSet": 53202944
+          }
+        ],
+        "elapsedSeconds": {
+          "baselineMedian": 0.081244917,
+          "targetMedian": 0.097266681,
+          "baselineRange": [
+            0.07559458,
+            0.081702386
+          ],
+          "targetRange": [
+            0.091527497,
+            0.110062934
+          ],
+          "pairedDeltas": [
+            0.015564294999999992,
+            0.015932917000000005,
+            0.028818017
+          ],
+          "medianPairedDelta": 0.015932917000000005,
+          "pairedRatios": [
+            1.190499883320421,
+            1.2107679809848801,
+            1.3547054765284579
+          ]
+        },
+        "allocatedBytes": {
+          "baselineMedian": 45640032,
+          "targetMedian": 45640032,
+          "baselineRange": [
+            45640032,
+            45640032
+          ],
+          "targetRange": [
+            45640032,
+            45640032
+          ],
+          "pairedDeltas": [
+            0,
+            0,
+            0
+          ],
+          "medianPairedDelta": 0,
+          "pairedRatios": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "cpuSeconds": {
+          "baselineMedian": 0.08,
+          "targetMedian": 0.1,
+          "baselineRange": [
+            0.07,
+            0.08
+          ],
+          "targetRange": [
+            0.09,
+            0.11
+          ],
+          "pairedDeltas": [
+            0.020000000000000004,
+            0.01999999999999999,
+            0.03
+          ],
+          "medianPairedDelta": 0.020000000000000004,
+          "pairedRatios": [
+            1.25,
+            1.2857142857142856,
+            1.375
+          ]
+        },
+        "peakWorkingSet": {
+          "baselineMedian": 53166080,
+          "targetMedian": 53239808,
+          "baselineRange": [
+            53071872,
+            53223424
+          ],
+          "targetRange": [
+            53202944,
+            53338112
+          ],
+          "pairedDeltas": [
+            114688,
+            73728,
+            131072
+          ],
+          "medianPairedDelta": 114688,
+          "pairedRatios": [
+            1.0021548406957057,
+            1.001386748844376,
+            1.0024697074940188
+          ]
+        }
+      },
+      {
+        "mode": "disabled",
+        "workload": "melsm",
+        "baseline": [
+          {
+            "name": "melsm",
+            "disabled": true,
+            "elapsedSeconds": 0.036395401,
+            "allocatedBytes": 2512256,
+            "cpuSeconds": 0.04,
+            "gcCollections": [
+              0,
+              0,
+              0
+            ],
+            "peakWorkingSet": 47304704
+          },
+          {
+            "name": "melsm",
+            "disabled": true,
+            "elapsedSeconds": 0.035260559,
+            "allocatedBytes": 2512256,
+            "cpuSeconds": 0.03,
+            "gcCollections": [
+              0,
+              0,
+              0
+            ],
+            "peakWorkingSet": 47280128
+          },
+          {
+            "name": "melsm",
+            "disabled": true,
+            "elapsedSeconds": 0.036374039,
+            "allocatedBytes": 2487632,
+            "cpuSeconds": 0.04,
+            "gcCollections": [
+              0,
+              0,
+              0
+            ],
+            "peakWorkingSet": 47316992
+          }
+        ],
+        "target": [
+          {
+            "name": "melsm",
+            "disabled": true,
+            "elapsedSeconds": 0.033854103,
+            "allocatedBytes": 2487632,
+            "cpuSeconds": 0.03,
+            "gcCollections": [
+              0,
+              0,
+              0
+            ],
+            "peakWorkingSet": 47308800
+          },
+          {
+            "name": "melsm",
+            "disabled": true,
+            "elapsedSeconds": 0.037177921,
+            "allocatedBytes": 2487632,
+            "cpuSeconds": 0.04,
+            "gcCollections": [
+              0,
+              0,
+              0
+            ],
+            "peakWorkingSet": 47443968
+          },
+          {
+            "name": "melsm",
+            "disabled": true,
+            "elapsedSeconds": 0.03379734,
+            "allocatedBytes": 2487632,
+            "cpuSeconds": 0.04,
+            "gcCollections": [
+              0,
+              0,
+              0
+            ],
+            "peakWorkingSet": 47370240
+          }
+        ],
+        "elapsedSeconds": {
+          "baselineMedian": 0.036374039,
+          "targetMedian": 0.033854103,
+          "baselineRange": [
+            0.035260559,
+            0.036395401
+          ],
+          "targetRange": [
+            0.03379734,
+            0.037177921
+          ],
+          "pairedDeltas": [
+            -0.0025412979999999974,
+            0.0019173620000000058,
+            -0.002576698999999995
+          ],
+          "medianPairedDelta": -0.0025412979999999974,
+          "pairedRatios": [
+            0.9301752987966805,
+            1.0543769598207449,
+            0.9291610425776473
+          ]
+        },
+        "allocatedBytes": {
+          "baselineMedian": 2512256,
+          "targetMedian": 2487632,
+          "baselineRange": [
+            2487632,
+            2512256
+          ],
+          "targetRange": [
+            2487632,
+            2487632
+          ],
+          "pairedDeltas": [
+            -24624,
+            -24624,
+            0
+          ],
+          "medianPairedDelta": -24624,
+          "pairedRatios": [
+            0.9901984511132623,
+            0.9901984511132623,
+            1.0
+          ]
+        },
+        "cpuSeconds": {
+          "baselineMedian": 0.04,
+          "targetMedian": 0.04,
+          "baselineRange": [
+            0.03,
+            0.04
+          ],
+          "targetRange": [
+            0.03,
+            0.04
+          ],
+          "pairedDeltas": [
+            -0.010000000000000002,
+            0.010000000000000002,
+            0.0
+          ],
+          "medianPairedDelta": 0.0,
+          "pairedRatios": [
+            0.75,
+            1.3333333333333335,
+            1.0
+          ]
+        },
+        "peakWorkingSet": {
+          "baselineMedian": 47304704,
+          "targetMedian": 47370240,
+          "baselineRange": [
+            47280128,
+            47316992
+          ],
+          "targetRange": [
+            47308800,
+            47443968
+          ],
+          "pairedDeltas": [
+            4096,
+            163840,
+            53248
+          ],
+          "medianPairedDelta": 53248,
+          "pairedRatios": [
+            1.0000865875833405,
+            1.003465303647232,
+            1.0011253462603877
+          ]
+        }
+      },
+      {
+        "mode": "disabled",
+        "workload": "optimizer",
+        "baseline": [
+          {
+            "name": "optimizer",
+            "disabled": true,
+            "elapsedSeconds": 0.000193007,
+            "allocatedBytes": 60392,
+            "cpuSeconds": 0.01,
+            "gcCollections": [
+              0,
+              0,
+              0
+            ],
+            "peakWorkingSet": 39821312
+          },
+          {
+            "name": "optimizer",
+            "disabled": true,
+            "elapsedSeconds": 0.000243511,
+            "allocatedBytes": 60392,
+            "cpuSeconds": 0.01,
+            "gcCollections": [
+              0,
+              0,
+              0
+            ],
+            "peakWorkingSet": 39878656
+          },
+          {
+            "name": "optimizer",
+            "disabled": true,
+            "elapsedSeconds": 0.00016165,
+            "allocatedBytes": 60392,
+            "cpuSeconds": 0.01,
+            "gcCollections": [
+              0,
+              0,
+              0
+            ],
+            "peakWorkingSet": 39641088
+          }
+        ],
+        "target": [
+          {
+            "name": "optimizer",
+            "disabled": true,
+            "elapsedSeconds": 0.000165865,
+            "allocatedBytes": 60392,
+            "cpuSeconds": 0,
+            "gcCollections": [
+              0,
+              0,
+              0
+            ],
+            "peakWorkingSet": 39960576
+          },
+          {
+            "name": "optimizer",
+            "disabled": true,
+            "elapsedSeconds": 0.000170472,
+            "allocatedBytes": 60392,
+            "cpuSeconds": 0.01,
+            "gcCollections": [
+              0,
+              0,
+              0
+            ],
+            "peakWorkingSet": 39862272
+          },
+          {
+            "name": "optimizer",
+            "disabled": true,
+            "elapsedSeconds": 0.000166667,
+            "allocatedBytes": 60392,
+            "cpuSeconds": 0,
+            "gcCollections": [
+              0,
+              0,
+              0
+            ],
+            "peakWorkingSet": 39759872
+          }
+        ],
+        "elapsedSeconds": {
+          "baselineMedian": 0.000193007,
+          "targetMedian": 0.000166667,
+          "baselineRange": [
+            0.00016165,
+            0.000243511
+          ],
+          "targetRange": [
+            0.000165865,
+            0.000170472
+          ],
+          "pairedDeltas": [
+            -2.7141999999999992e-05,
+            -7.3039e-05,
+            5.01700000000001e-06
+          ],
+          "medianPairedDelta": -2.7141999999999992e-05,
+          "pairedRatios": [
+            0.8593729761096748,
+            0.7000587242465433,
+            1.031036189297866
+          ]
+        },
+        "allocatedBytes": {
+          "baselineMedian": 60392,
+          "targetMedian": 60392,
+          "baselineRange": [
+            60392,
+            60392
+          ],
+          "targetRange": [
+            60392,
+            60392
+          ],
+          "pairedDeltas": [
+            0,
+            0,
+            0
+          ],
+          "medianPairedDelta": 0,
+          "pairedRatios": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "cpuSeconds": {
+          "baselineMedian": 0.01,
+          "targetMedian": 0,
+          "baselineRange": [
+            0.01,
+            0.01
+          ],
+          "targetRange": [
+            0,
+            0.01
+          ],
+          "pairedDeltas": [
+            -0.01,
+            0.0,
+            -0.01
+          ],
+          "medianPairedDelta": -0.01,
+          "pairedRatios": [
+            0.0,
+            1.0,
+            0.0
+          ]
+        },
+        "peakWorkingSet": {
+          "baselineMedian": 39821312,
+          "targetMedian": 39862272,
+          "baselineRange": [
+            39641088,
+            39878656
+          ],
+          "targetRange": [
+            39759872,
+            39960576
+          ],
+          "pairedDeltas": [
+            139264,
+            -16384,
+            118784
+          ],
+          "medianPairedDelta": 118784,
+          "pairedRatios": [
+            1.0034972227936638,
+            0.9995891536565324,
+            1.0029964868774541
+          ]
+        }
+      }
+    ]
+  },
+  "companion": {
+    "filename": "MVS-analyzer-round31-comparison-evidence.zip",
+    "bytes": 7130592,
+    "sha256": "4cc2a82be8a6f5e7469eda15585828366e85dfb4c6b5a83ae62521258551e3ec",
+    "placement": "Keep outside source tree; audit evidence only; build and CI independent"
+  },
+  "evidenceSha256": "263014a7cb935a89312a72decf583b312f7e43f70a752c37b49dbd28fb9ddadb",
+  "unchanged": [
+    "scientific formulas/random draws/cache keys/public signatures",
+    "Round29/30 restore semantics",
+    "Round27 failed advancement gate/scientificNO-GO",
+    "README files"
+  ],
+  "limitations": [
+    "BackupRequest and existing ambient production adapter retained; not full physical decoupling",
+    "existing complete-result cache shortcuts unaffected",
+    "actualWindows acceptance pending",
+    "test-only seeded unavailable-fit branches cover orchestration, external comparison covers numerical parity"
+  ]
+}
