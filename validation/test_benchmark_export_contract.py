@@ -7,6 +7,8 @@ engineering only, not statistical validation. Set MVS_BENCHMARK_EXPORT_NEGATIVE_
 to a new directory to retain rejected JSON fixtures alongside regression evidence.
 """
 import copy
+import csv
+import io
 import hashlib
 import json
 import os
@@ -20,6 +22,7 @@ TABLES = {
     "benchmark_replication_procedures.csv", "benchmark_replication_metrics.csv",
     "benchmark_metrics.csv", "benchmark_choices.csv", "benchmark_stability.csv",
     "benchmark_stability_replications.csv", "benchmark_verdicts.csv", "benchmark_protocol.txt",
+    "benchmark_stability_method.txt",
 }
 BENCHMARK_FILES = TABLES | {"benchmark_manifest.json", "SHA256SUMS.txt"}
 REQUIRED_CASES = {
@@ -31,9 +34,17 @@ REQUIRED_CASES = {
     "resume_api_manifest_read", "resume_api_start_throw", "benchmark_legacy_parity",
     "resume_legacy_parity", "preoutput_failure", "benchmark_api_cancel_after_write",
     "resume_api_cancel_after_write", "benchmark_figure_parity",
+    "corrected_tau_identity", "mixed_tau_preoutput",
 }
 PARITY_CASES = {"benchmark_legacy_parity", "resume_legacy_parity"}
 SCOPE = "current_invocation_successful_writes"
+# Round 42 extends the v1 engineering evidence contract; historical Round 38/39
+# validators and reports remain in their original evidence, without relabeling.
+PROTOCOL_HASH = "b81be4a1a86e8ba4b013eb63b75256d16e439fb824e7fa68efae5f28e48de268"
+METHOD_HASHES = {
+    "kendall-tau-b-v2": "408d7cf64a8910cd90a423d7f995eaf756d1f687310cb7f1ea0ecf362b619a4f",
+    "kendall-legacy-v1": "39169e17ca56ce431c5695a955d0593efa9df5ad5b8a8da1308d85cb2db77a89",
+}
 
 
 def require(ok, message):
@@ -200,6 +211,68 @@ def validate_report(report, report_path):
     return root
 
 
+def validate_identity_metadata(manifest, method):
+    require(method in METHOD_HASHES, "Unknown expected stability method")
+    digest = METHOD_HASHES[method]
+    key = f"{PROTOCOL_HASH}/{method}/{digest}"
+    require(manifest.get("stabilityMethod") == method and manifest.get("stabilityMethodHash") == digest
+            and manifest.get("comparabilityKey") == key, "Wrong exact stability/comparison identity")
+    require(manifest.get("protocolHash") == manifest.get("protocolHashFrozen") == PROTOCOL_HASH
+            and manifest.get("protocolUnchanged") is True, "Frozen protocol identity changed")
+    require(manifest.get("stabilityMethodProvenance") == ("legacy_unversioned" if method == "kendall-legacy-v1" else "explicit_method_identity"), "Stability provenance overstated")
+    return [method, digest, key]
+
+
+def validate_csv_identity(text, identity):
+    rows = list(csv.reader(io.StringIO(text, newline=""), strict=True))
+    require(bool(rows) and rows[0][-3:] == ["stability_method", "stability_method_hash", "comparability_key"], "Missing CSV identity columns")
+    require(all(len(row) == len(rows[0]) and row[-3:] == identity for row in rows[1:]), "Wrong CSV logical-row identity")
+
+
+def validate_export_identity(folder, method):
+    manifest = load_json(folder / "benchmark_manifest.json")
+    identity = validate_identity_metadata(manifest, method)
+    require(sha(folder / "benchmark_protocol.txt") == PROTOCOL_HASH, "Frozen protocol bytes changed")
+    for name in sorted(TABLES):
+        if name.endswith(".csv"):
+            with (folder / name).open(encoding="utf-8-sig", newline="") as stream:
+                validate_csv_identity(stream.read(), identity)
+    sidecar = (folder / "benchmark_stability_method.txt").read_text()
+    markdown = (folder / "benchmark_report.md").read_text()
+    require(all(part in sidecar for part in identity) and identity[0] in markdown and identity[2] in markdown, "Report/sidecar identity missing")
+    if method == "kendall-legacy-v1":
+        require("original executable identity was not recorded" in sidecar, "Legacy provenance overclaimed")
+
+
+def validate_tau_case(directory, corrected):
+    details = load_json(directory / "details.json")
+    require(type(details.get("actualSimulations")) is int and details["actualSimulations"] == 0, "Tau fixture scope changed")
+    if not corrected:
+        require(details.get("callbacks") == 0 and type(details["callbacks"]) is int
+                and details.get("outputCreated") is False and not (directory / "output").exists()
+                and details.get("error") == details.get("legacyWrapperError") == "InvalidDataException", "Mixed provenance reached output")
+        return
+    folder = absolute(details.get("folder"), "corrected output folder")
+    require(directory in folder.parents and details.get("cachedOutcomeUnchanged") is True, "Invalid corrected fixture boundary")
+    validate_success_members(folder, True)
+    validate_export_identity(folder, "kendall-tau-b-v2")
+    before = load_json(directory / "document-before.json")
+    after = load_json(directory / "document-after.json")
+    require(set(before.get("Units", {})) == {"result"} and before["Units"] == after.get("Units"), "Cached units mutated")
+    require(after.get("SavedUtc", "") >= before.get("SavedUtc", ""), "Save timestamp regressed")
+    before.pop("SavedUtc"); after.pop("SavedUtc")
+    require(before == after, "Document changed beyond save timestamp")
+    outcome = before["Units"]["result"]
+    require(outcome.get("StabilityMethod") == "kendall-tau-b-v2" and outcome.get("Overall") == "no-go"
+            and outcome["Stability"]["Tau"] == [0.5] and outcome["Verdicts"][0]["Result"] == "fail", "Synthetic historical fields changed")
+    manifest = load_json(folder / "benchmark_manifest.json")
+    require(manifest["overall"] == "no-go" and manifest["stability"]["medianTau"] == .5, "Exported cached fields changed")
+    journal = directory.parent / "isolation/MVS_APPDATA_ROOT/MVS_Analyzer/benchmark_journal.jsonl"
+    entries = [json.loads(line) for line in journal.read_text().splitlines()]
+    matches = [entry for entry in entries if entry.get("folder") == str(folder)]
+    require(len(matches) == 1 and all(matches[0].get(key) == manifest[key] for key in ("stabilityMethod", "stabilityMethodHash", "comparabilityKey")), "Corrected journal identity differs")
+
+
 def validate_saved_report(path):
     report = load_json(path)
     root = validate_report(report, path)
@@ -213,6 +286,9 @@ def validate_saved_report(path):
     require(source["Units"]["result"].get("Conditions") == [] and source["Units"]["result"].get("Overall") == "no-go", "Fixture is not the empty synthetic no-go outcome")
     for case in sorted(REQUIRED_CASES):
         directory = root / case
+        if case in {"corrected_tau_identity", "mixed_tau_preoutput"}:
+            validate_tau_case(directory, case == "corrected_tau_identity")
+            continue
         if case == "benchmark_figure_parity":
             validate_figure_case(directory)
             continue
@@ -231,6 +307,8 @@ def validate_saved_report(path):
             require(directory in folder.parents, "Output folder escapes case evidence")
             require(details.get("sourceFixtureUnchanged") is True, "Case changed input fixture")
         validate_payload(load_json(directory / "stdout.json"), case, folder)
+        if folder is not None and case_mode(case) in {"clean", "foreign", "exit0"}:
+            validate_export_identity(folder, "kendall-legacy-v1")
         if case == "preoutput_failure":
             require(details.get("callbacks") == 0, "Pre-output validation called observer")
             continue
@@ -245,7 +323,7 @@ def validate_saved_report(path):
             if case.endswith("cancel_after_write"):
                 require(boundary.get("errorType") == "OperationCanceledException", "Cancellation exception was lost")
             if case == "resume_api_clean":
-                require(len(events) == 34, "Missing clean resume observer events")
+                require(len(events) == 36, "Missing clean resume observer events")
     return report
 
 def validate_figure_case(directory):
@@ -260,21 +338,22 @@ def validate_figure_case(directory):
             and payload.get("scientificReadiness", {}).get("status") == "no_go", "Invalid figure machine result")
     require(payload.get("outputDirectory") == str(folder) and payload.get("manifestPath") == str(folder / "benchmark_manifest.json"), "Wrong figure directory/manifest")
     artifacts = payload.get("artifacts")
-    require(isinstance(artifacts, list) and len(artifacts) == 14
+    require(isinstance(artifacts, list) and len(artifacts) == 15
             and {item["name"] for item in artifacts} == BENCHMARK_FILES | {"returned-fixture.svg"}, "Returned-figure artifacts differ")
     for item in artifacts:
         path = folder / ("figures/returned-fixture.svg" if item["name"] == "returned-fixture.svg" else item["name"])
         require(item["path"] == str(path) and item["sizeBytes"] == path.stat().st_size and item["sha256"] == sha(path), "Returned figure bytes differ")
+    validate_export_identity(folder, "kendall-legacy-v1")
     members = TABLES | {"figures/returned-fixture.svg"}
     manifest = load_json(folder / "benchmark_manifest.json")
     require(set(manifest.get("files", [])) == members and len(manifest["files"]) == len(members), "Figure manifest membership differs")
     sums = (folder / "SHA256SUMS.txt").read_text().splitlines()
-    require(len(sums) == 13 and {line[66:] for line in sums} == members | {"benchmark_manifest.json"}, "Figure checksum members differ")
+    require(len(sums) == 14 and {line[66:] for line in sums} == members | {"benchmark_manifest.json"}, "Figure checksum members differ")
     for line in sums:
         require(line[64:66] == "  " and sha(folder / line[66:]) == line[:64], "Figure checksum differs")
     require((folder / "figures/unreturned-canary.txt").is_file(), "Unreturned renderer file was lost")
     events = details.get("events")
-    require(isinstance(events, list) and len(events) == 27 and events[0] == {"path": str(folder / "figures/returned-fixture.svg"), "completed": True}, "Returned figure was not observed")
+    require(isinstance(events, list) and len(events) == 29 and events[0] == {"path": str(folder / "figures/returned-fixture.svg"), "completed": True}, "Returned figure was not observed")
     parity = load_json(directory / "parity.json")
     expected = BENCHMARK_FILES | {"figures/returned-fixture.svg"}
     require(len(parity.get("files", [])) == len(expected) and {item["name"] for item in parity["files"]} == expected, "Figure parity omitted files")
@@ -403,6 +482,69 @@ class BenchmarkExportCorruptionTests(unittest.TestCase):
     def test_duplicate_manifest_members(self):
         (self.folder / "benchmark_manifest.json").write_text(json.dumps({"files": sorted(TABLES) + ["benchmark_report.md"]}))
         self.reject(load_json(self.folder / "benchmark_manifest.json"), lambda _: validate_success_members(self.folder, False))
+
+
+class TauIdentityCorruptionTests(unittest.TestCase):
+    def setUp(self):
+        self.method = "kendall-tau-b-v2"
+        self.identity = [self.method, METHOD_HASHES[self.method], f"{PROTOCOL_HASH}/{self.method}/{METHOD_HASHES[self.method]}"]
+        self.manifest = dict(zip(("stabilityMethod", "stabilityMethodHash", "comparabilityKey"), self.identity))
+        self.manifest.update(protocolHash=PROTOCOL_HASH, protocolHashFrozen=PROTOCOL_HASH, protocolUnchanged=True, stabilityMethodProvenance="explicit_method_identity")
+
+    def test_valid_current_and_legacy_identity(self):
+        validate_identity_metadata(self.manifest, self.method)
+        legacy = "kendall-legacy-v1"
+        self.manifest.update(stabilityMethod=legacy, stabilityMethodHash=METHOD_HASHES[legacy], comparabilityKey=f"{PROTOCOL_HASH}/{legacy}/{METHOD_HASHES[legacy]}", stabilityMethodProvenance="legacy_unversioned")
+        validate_identity_metadata(self.manifest, legacy)
+
+    def test_identity_corruption_rejected(self):
+        for field in self.manifest:
+            with self.subTest(field=field):
+                damaged = dict(self.manifest)
+                damaged[field] = False if field == "protocolUnchanged" else "wrong"
+                with self.assertRaises(ValueError):
+                    validate_identity_metadata(damaged, self.method)
+
+    def csv_fixture(self):
+        stream = io.StringIO(newline="")
+        writer = csv.writer(stream)
+        writer.writerow(["tau", "reason", "stability_method", "stability_method_hash", "comparability_key"])
+        writer.writerow(["", 'undefined, "ties"\r\nretained reason', *self.identity])
+        writer.writerow(["0.5", "", *self.identity])
+        return stream.getvalue()
+
+    def test_quoted_newline_and_empty_tables(self):
+        validate_csv_identity(self.csv_fixture(), self.identity)
+        validate_csv_identity(self.csv_fixture().splitlines()[0] + "\n", self.identity)
+
+    def test_each_logical_row_identity_checked(self):
+        rows = list(csv.reader(io.StringIO(self.csv_fixture(), newline="")))
+        for row_index in (0, 1, 2):
+            with self.subTest(row=row_index):
+                damaged = copy.deepcopy(rows)
+                damaged[row_index][-1] = "wrong"
+                stream = io.StringIO(newline="")
+                csv.writer(stream).writerows(damaged)
+                with self.assertRaises(ValueError):
+                    validate_csv_identity(stream.getvalue(), self.identity)
+
+    def test_mixed_provenance_requires_zero_output(self):
+        with tempfile.TemporaryDirectory() as temp:
+            folder = Path(temp)
+            details = {"actualSimulations": 0, "callbacks": 0, "outputCreated": False,
+                       "error": "InvalidDataException", "legacyWrapperError": "InvalidDataException"}
+            path = folder / "details.json"
+            path.write_text(json.dumps(details))
+            validate_tau_case(folder, False)
+            for key, value in (("callbacks", 1), ("outputCreated", True), ("error", "IOException"), ("legacyWrapperError", None)):
+                with self.subTest(key=key):
+                    path.write_text(json.dumps(dict(details, **{key: value})))
+                    with self.assertRaises(ValueError):
+                        validate_tau_case(folder, False)
+            path.write_text(json.dumps(details))
+            (folder / "output").mkdir()
+            with self.assertRaises(ValueError):
+                validate_tau_case(folder, False)
 
 
 class SavedBenchmarkExportEvidenceTests(unittest.TestCase):

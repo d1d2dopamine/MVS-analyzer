@@ -1,0 +1,86 @@
+{
+  "schema": "mvs-prospective-cost-probe/v1",
+  "protocol_id": "MVS-PROSPECTIVE-ADAPTER-COST-1.0.0",
+  "status": "frozen_before_engineering_execution",
+  "purpose": "literal_fixture_adapter_equivalence_and_resource_screen_only",
+  "scientific_datasets_generated": 0,
+  "science_execution_authorized": false,
+  "prospective_protocol": {
+    "path": "validation/prospective-ademp-v1.json",
+    "sha256": "75d594af6fd2f249ca044340013ea02d16e8cdbae71aef8c4e16ff6853a324ed"
+  },
+  "request": {
+    "schemaVersion": 1,
+    "protocolId": "round55-prospective-adapter-engineering-v1",
+    "mode": "engineering-fixed-fixture",
+    "status": "frozen",
+    "fixtureId": "round50-fixed-2x16x40-v1",
+    "seed": 52000000,
+    "repetitions": 100,
+    "referenceReplications": 199,
+    "withinEffect": 2,
+    "betweenEffect": 2,
+    "alpha": 0.05,
+    "calls": 1,
+    "wallCapSeconds": 180
+  },
+  "request_canonical_sha256": "6aed9dd4fb65af09414db6b245edfe29173b72521807fa3dafa4008ef396e440",
+  "request_serialization": "UTF8_json_sort_keys_compact_separators_one_LF",
+  "schedule": {
+    "sequential_fresh_processes": 3,
+    "parallel_fresh_processes": 8,
+    "max_native_calculation_calls": 11,
+    "retries": 0
+  },
+  "limits": {
+    "total_wall_seconds": 300,
+    "native_case_wall_seconds": 180,
+    "cleanup_seconds": 10,
+    "max_workers": 8,
+    "aggregate_rss_bytes": 2147483648,
+    "retained_output_bytes": 20000000,
+    "rss_sampling_seconds": 0.05,
+    "per_process_cpu_count": 1
+  },
+  "required_environment": {
+    "MVS_DISABLE_BACKUPS": "1",
+    "DOTNET_PROCESSOR_COUNT": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1"
+  },
+  "parity": {
+    "reference": "retained_Round50_cost_two_call_payloads",
+    "reference_stdout_sha256": "b696300b6df17a094b2b120bc69cd05b9d4557e3bb764bb2ebd49a8cc03e725b",
+    "reference_result_sha256": "985a14cf4253caa12eb995d6a348937325013e65fc9db417bbc7ffe5e270405b",
+    "excluded_payload_fields": [
+      "call"
+    ],
+    "comparison": "exact_JSON_fields_and_binary64_bit_tokens_no_tolerances",
+    "require_complete_each_call": true,
+    "no_replacement_on_mismatch": true,
+    "excluded_trace_fields": [
+      "call"
+    ],
+    "expected_cached_callbacks_per_call": 1103,
+    "compare_all_callback_payloads": true
+  },
+  "admission": {
+    "wall_projection": "2*max(max_sequential_lifecycle_seconds,parallel_batch_lifecycle_seconds)*12000/8",
+    "max_projected_seconds": 86400,
+    "storage_projection": "2*max_retained_case_bytes*12000+1073741824",
+    "memory": "sampled_aggregate_RSS_plus_native_high_water_crosscheck",
+    "scientific_launch_authorized": false,
+    "historical_linear_reference_seconds": 41727.10178525085,
+    "limitation": "fixed_fixture_resource_screen_not_worst_case_or_statistical_evidence"
+  },
+  "measurement": {
+    "wall": "blocking_process_wait_with_independent_deadline_watchdog",
+    "output_setup": "before_measured_launch",
+    "parallel_batch": "first_launch_to_all_children_exited_including_launch_stagger",
+    "cpu": "native_process_cpu_per_call_and_host_children_delta_distinct",
+    "memory": "sampled_process_groups_and_native_high_water_scopes_separate",
+    "failures": "retain_partial_bytes_exit_and_reason_fail_closed_no_retry"
+  }
+}

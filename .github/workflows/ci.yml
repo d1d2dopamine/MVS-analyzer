@@ -37,6 +37,8 @@ jobs:
           python tools/test_root_layout.py
           python tools/test_colab_connection.py
           python tools/test_ui_patch.py
+      - name: Versioned benchmark registry and evidence table
+        run: python validation/benchmark_suite.py --root . --check
       - name: Python API wrapper tests
         run: |
           PYTHONPATH=python/src python -m unittest discover -s python/tests -v
@@ -57,7 +59,9 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: |
+            8.0.x
+            8.0.425
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
@@ -91,6 +95,8 @@ jobs:
           for report in reports:
               subprocess.run([sys.executable, 'validation/check_benchmark_diagnostics.py', str(report)], check=True)
           PYCODE
+      - name: Native failure diagnostic contract
+        run: python tools/test_failure_reporting.py --assembly MvsAnalyzer.Core.Tests/bin/Release/net8.0/MvsAnalyzer.Core.Tests.dll --out regression-evidence/failure-reporter
       - name: Partial export error evidence regressions
         run: |
           dotnet build MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj -c Release
@@ -109,6 +115,70 @@ jobs:
           dotnet build validation/benchmark_export_contract/BenchmarkExportContract.csproj -c Release
           dotnet validation/benchmark_export_contract/bin/Release/net8.0/BenchmarkExportContract.dll "$PWD/MvsAnalyzer.Cli/bin/Release/net8.0/mvs.dll" "$PWD/regression-evidence/benchmark-export"
           MVS_BENCHMARK_EXPORT_RESULTS="$PWD/regression-evidence/benchmark-export/report.json" python -m unittest discover -s validation -p 'test_benchmark_export_contract.py' -v
+      - name: Independent native scenario mechanism synthetic gate
+        env:
+          DOTNET_PROCESSOR_COUNT: '1'
+          MVS_DISABLE_BACKUPS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          OMP_NUM_THREADS: '1'
+        run: |
+          dotnet --list-runtimes | grep -E '^Microsoft\.NETCore\.App 8\.0\.31 '
+          python -m pip install -r validation/requirements-rank-reference.txt
+          dotnet build validation/scenario_mechanism/ScenarioMechanism.csproj -c Release
+          python validation/scenario_mechanism.py synthetic --root "$PWD" --out "$RUNNER_TEMP/mvs-r47-synthetic" --native-command "$(command -v dotnet)" "$PWD/validation/scenario_mechanism/bin/Release/net8.0/MvsAnalyzer.Core.Tests.dll"
+      - name: Retain scenario mechanism synthetic evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: MVS-scenario-mechanism-synthetic
+          path: ${{ runner.temp }}/mvs-r47-synthetic/
+          if-no-files-found: warn
+      - name: Independent bounded variance-fit numerical gate
+        env:
+          DOTNET_PROCESSOR_COUNT: '1'
+          MVS_DISABLE_BACKUPS: '1'
+          OPENBLAS_NUM_THREADS: '1'
+          OMP_NUM_THREADS: '1'
+        run: |
+          dotnet --list-runtimes | grep -E '^Microsoft\.NETCore\.App 8\.0\.31 '
+          python -m pip install -r validation/requirements-rank-reference.txt
+          dotnet build validation/variance_fit_reference/VarianceFitReference.csproj -c Release
+          python validation/variance_fit_reference.py --root "$PWD" --out "$RUNNER_TEMP/mvs-r48-variance-fit" --native-command "$(command -v dotnet)" "$PWD/validation/variance_fit_reference/bin/Release/net8.0/MvsAnalyzer.Core.Tests.dll"
+      - name: Retain variance-fit numerical evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: MVS-variance-fit-numerical
+          path: ${{ runner.temp }}/mvs-r48-variance-fit/
+          if-no-files-found: warn
+      - name: Deterministic variance generator and report contract
+        env:
+          DOTNET_PROCESSOR_COUNT: '1'
+          MVS_DISABLE_BACKUPS: '1'
+        run: |
+          dotnet build validation/variance_bootstrap_contract/VarianceBootstrapContract.csproj -c Release
+          dotnet validation/variance_bootstrap_contract/bin/Release/net8.0/MvsAnalyzer.Core.Tests.dll identity > "$RUNNER_TEMP/mvs-r49-identity.json"
+          python - <<'PYCODE'
+          import json, os, sys
+          from pathlib import Path
+          sys.path.insert(0, 'validation')
+          import variance_bootstrap_contract as audit
+          root = Path.cwd()
+          identity = json.loads((Path(os.environ['RUNNER_TEMP']) / 'mvs-r49-identity.json').read_text())
+          seal = audit.prepare_seal(root, root / 'validation/variance-bootstrap-fixtures-v1.json', root / 'docs/ROUND49_VARIANCE_BOOTSTRAP_PROTOCOL.md', root / 'validation/variance_bootstrap_contract/bin/Release/net8.0/MvsAnalyzer.Core.Tests.dll', identity)
+          audit.atomic_json(Path(os.environ['RUNNER_TEMP']) / 'mvs-r49-seal.json', seal)
+          PYCODE
+          python validation/variance_bootstrap_contract.py --root "$PWD" --fixtures validation/variance-bootstrap-fixtures-v1.json --protocol docs/ROUND49_VARIANCE_BOOTSTRAP_PROTOCOL.md --seal "$RUNNER_TEMP/mvs-r49-seal.json" --out "$RUNNER_TEMP/mvs-r49-contract" --native-command "$(command -v dotnet)" "$PWD/validation/variance_bootstrap_contract/bin/Release/net8.0/MvsAnalyzer.Core.Tests.dll"
+      - name: Retain variance generator and report evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: MVS-variance-bootstrap-contract
+          path: |
+            ${{ runner.temp }}/mvs-r49-contract/
+            ${{ runner.temp }}/mvs-r49-identity.json
+            ${{ runner.temp }}/mvs-r49-seal.json
+          if-no-files-found: warn
       - name: Publish Linux CLI
         run: dotnet publish MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -o publish/linux-cli
       - name: Calibration and analysis smoke

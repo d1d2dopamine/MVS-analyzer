@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "protocolId": "round50-variance-cost-v1",
+  "status": "frozen",
+  "groups": 2,
+  "entitiesPerGroup": 16,
+  "repeats": 40,
+  "repetitions": 100,
+  "referenceReplications": 199,
+  "withinEffect": 2,
+  "betweenEffect": 2,
+  "alpha": 0.05,
+  "seed": 52000000,
+  "calls": 2,
+  "wallCapSeconds": 180
+}

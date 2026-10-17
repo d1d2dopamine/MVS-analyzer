@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>MvsAnalyzer.Core.Tests</AssemblyName>
+    <RootNamespace>MvsVarianceSensitivity</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Deterministic>true</Deterministic>
+    <SelfContained>false</SelfContained>
+    <UseAppHost>false</UseAppHost>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../MvsAnalyzer.Core/MvsAnalyzer.Core.csproj" />
+    <!-- These are provenance bytes, never additional compiled implementations. -->
+    <EmbeddedResource Include="../../Core/VarianceAnalysis.cs" LogicalName="source/Core/VarianceAnalysis.cs" />
+    <EmbeddedResource Include="../../Core/ScientificInfrastructure.cs" LogicalName="source/Core/ScientificInfrastructure.cs" />
+    <EmbeddedResource Include="../../Core/AnalysisEngine.cs" LogicalName="source/Core/AnalysisEngine.cs" />
+    <EmbeddedResource Include="../../Core/RunRecording.cs" LogicalName="source/Core/RunRecording.cs" />
+    <EmbeddedResource Include="../../Core/Models.cs" LogicalName="source/Core/Models.cs" />
+    <EmbeddedResource Include="../../MvsAnalyzer.Core/MvsAnalyzer.Core.csproj" LogicalName="source/MvsAnalyzer.Core/MvsAnalyzer.Core.csproj" />
+    <EmbeddedResource Include="../../SharedSources.props" LogicalName="source/SharedSources.props" />
+    <EmbeddedResource Include="../../Core/MetricRegistry.cs" LogicalName="source/Core/MetricRegistry.cs" />
+    <EmbeddedResource Include="../../Infrastructure/PortableRunRecording.cs" LogicalName="source/Infrastructure/PortableRunRecording.cs" />
+    <EmbeddedResource Include="../../Infrastructure/PortableBackup.cs" LogicalName="source/Infrastructure/PortableBackup.cs" />
+    <EmbeddedResource Include="../../Core/NumericalMethods.cs" LogicalName="source/Core/NumericalMethods.cs" />
+    <EmbeddedResource Include="../../Core/MetricAvailability.cs" LogicalName="source/Core/MetricAvailability.cs" />
+    <EmbeddedResource Include="Program.cs" LogicalName="source/validation/variance_sensitivity/Program.cs" />
+    <EmbeddedResource Include="VarianceSensitivity.csproj" LogicalName="source/validation/variance_sensitivity/VarianceSensitivity.csproj" />
+  </ItemGroup>
+</Project>

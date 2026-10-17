@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>MvsAnalyzer.Core.Tests</AssemblyName>
+    <RootNamespace>MvsProspectiveCaseAdapter</RootNamespace>
+    <StartupObject>MvsProspectiveCaseAdapter.Program</StartupObject>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Deterministic>true</Deterministic>
+    <SelfContained>false</SelfContained>
+    <UseAppHost>false</UseAppHost>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../MvsAnalyzer.Core/MvsAnalyzer.Core.csproj" />
+    <!-- Reuse the existing test fixture, recording observer, completeness and summary seam.
+         The old entry point is compiled but is never dispatched by this executable. -->
+    <Compile Include="../variance_sensitivity/Program.cs" Link="Round50Program.cs" />
+    <!-- Exactly the original fourteen provenance resources: old Identity verifies this count. -->
+    <EmbeddedResource Include="../../Core/VarianceAnalysis.cs" LogicalName="source/Core/VarianceAnalysis.cs" />
+    <EmbeddedResource Include="../../Core/ScientificInfrastructure.cs" LogicalName="source/Core/ScientificInfrastructure.cs" />
+    <EmbeddedResource Include="../../Core/AnalysisEngine.cs" LogicalName="source/Core/AnalysisEngine.cs" />
+    <EmbeddedResource Include="../../Core/RunRecording.cs" LogicalName="source/Core/RunRecording.cs" />
+    <EmbeddedResource Include="../../Core/Models.cs" LogicalName="source/Core/Models.cs" />
+    <EmbeddedResource Include="../../MvsAnalyzer.Core/MvsAnalyzer.Core.csproj" LogicalName="source/MvsAnalyzer.Core/MvsAnalyzer.Core.csproj" />
+    <EmbeddedResource Include="../../SharedSources.props" LogicalName="source/SharedSources.props" />
+    <EmbeddedResource Include="../../Core/MetricRegistry.cs" LogicalName="source/Core/MetricRegistry.cs" />
+    <EmbeddedResource Include="../../Infrastructure/PortableRunRecording.cs" LogicalName="source/Infrastructure/PortableRunRecording.cs" />
+    <EmbeddedResource Include="../../Infrastructure/PortableBackup.cs" LogicalName="source/Infrastructure/PortableBackup.cs" />
+    <EmbeddedResource Include="../../Core/NumericalMethods.cs" LogicalName="source/Core/NumericalMethods.cs" />
+    <EmbeddedResource Include="../../Core/MetricAvailability.cs" LogicalName="source/Core/MetricAvailability.cs" />
+    <EmbeddedResource Include="../variance_sensitivity/Program.cs" LogicalName="source/validation/variance_sensitivity/Program.cs" />
+    <EmbeddedResource Include="../variance_sensitivity/VarianceSensitivity.csproj" LogicalName="source/validation/variance_sensitivity/VarianceSensitivity.csproj" />
+    <EmbeddedResource Include="../prospective-ademp-v1.json" LogicalName="case-config/prospective-ademp-v1.json" />
+    <!-- A separate prefix cannot alter the old identity contract. -->
+    <EmbeddedResource Include="Program.cs" LogicalName="adapter-source/validation/prospective_case_adapter/Program.cs" />
+    <EmbeddedResource Include="ProspectiveCaseAdapter.csproj" LogicalName="adapter-source/validation/prospective_case_adapter/ProspectiveCaseAdapter.csproj" />
+  </ItemGroup>
+</Project>

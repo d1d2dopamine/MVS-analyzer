@@ -1,0 +1,72 @@
+{
+  "schema": "mvs-prospective-case-verification/v1",
+  "protocol_id": "MVS-PROSPECTIVE-CASE-VERIFY-1.0.0",
+  "status": "frozen_before_calculation",
+  "study_protocol_sha256": "75d594af6fd2f249ca044340013ea02d16e8cdbae71aef8c4e16ff6853a324ed",
+  "scientific_datasets_generated": 0,
+  "study_execution_authorized": false,
+  "schedule": [
+    {
+      "fixture": "large",
+      "route": "reference",
+      "cell_template": 0,
+      "native_seed": 1540000000
+    },
+    {
+      "fixture": "large",
+      "route": "serialized",
+      "cell_template": 0,
+      "native_seed": 1540000000
+    },
+    {
+      "fixture": "small",
+      "route": "reference",
+      "cell_template": 10,
+      "native_seed": 1540010000
+    },
+    {
+      "fixture": "small",
+      "route": "serialized",
+      "cell_template": 10,
+      "native_seed": 1540010000
+    }
+  ],
+  "limits": {
+    "max_calls": 4,
+    "retries": 0,
+    "wall_seconds": 300,
+    "cleanup_seconds": 10,
+    "max_workers": 1,
+    "cpu_per_child": 1,
+    "sampled_rss_bytes": 2147483648,
+    "retained_bytes": 20000000
+  },
+  "comparison": {
+    "numeric_tolerance": 0,
+    "full_payload": true,
+    "ordered_observer_trace": true,
+    "input_bits_and_order": true,
+    "paired_only": true,
+    "no_replacements": true,
+    "allowed_different_top_level_fields": [
+      "mode",
+      "requestSha256",
+      "buildTiming",
+      "runTiming",
+      "legacyTiming",
+      "caseWallSeconds",
+      "processTotalCpuSeconds",
+      "processPeakWorkingSetBytes"
+    ],
+    "allowed_different_count_fields": [
+      "fixtureMaterializationCount"
+    ],
+    "start_envelope": "strictly validated separately, no comparison exclusions in payload or observer trace"
+  },
+  "fixture_definition": {
+    "large": "unchanged_Round50_Fixture",
+    "small": "retain_original_first8entities_first5repeats_eachgroup",
+    "large_ordered_binary64_sha256": "a7e6041a2e9b3afd24fc894ceecbac07baa43ee203e79f90a175f3363c0a75bf",
+    "small_ordered_binary64_sha256": "42fff4a06912fa90f2042c6945726d4298b7e61cf1ef9f4c30c5e2723b042c34"
+  }
+}

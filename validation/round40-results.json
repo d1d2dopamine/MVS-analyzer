@@ -1,0 +1,33 @@
+{
+  "stage": 40,
+  "status": "passed-local-diagnostics-checks",
+  "scope": "Native test failure detail and explicit Windows core/publish command exit evidence",
+  "productionChanges": false,
+  "scientificChanges": false,
+  "windowsRuntimeTested": false,
+  "powershellExecutedLocally": false,
+  "reporterValidatorTests": 5,
+  "actualControlledNativeFailureExit": 1,
+  "sourcePinsPassed": 64,
+  "colabPassed": 48,
+  "rootLayoutPassed": 59,
+  "uiStructuralPassed": 18,
+  "releaseBundlePassed": 35,
+  "unchangedProductionBuildPayloadIdentityFiles": 82,
+  "evidence": "validation/round40-evidence.zip",
+  "nativeLinuxTestsPassed": 205,
+  "independentReporterChecks": 11,
+  "independentWorkflowAndCliChecks": 26,
+  "ownerRound39WindowsMetadata": {
+    "run": 38962489804,
+    "conclusion": "success",
+    "commit": "b60824dc618b6f8cb5e1b14becadb6ef5acdafe4",
+    "bothWindows2022And2025": true,
+    "protectedRawLogsDownloaded": false,
+    "newRound40WorkflowExecuted": false
+  },
+  "ownerRound39CiMetadata": {
+    "run": 38962444124,
+    "conclusion": "success"
+  }
+}

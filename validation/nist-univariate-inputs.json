@@ -1,0 +1,1110 @@
+{
+  "schema_version": "mvs-r53-nist-inputs-1",
+  "purpose": "Frozen official NIST StRD univariate input/reference corpus for unchanged mean and sample-SD checks; no candidate evaluation performed by this parser",
+  "source_index": {
+    "url": "https://www.itl.nist.gov/div898/strd/univ/homepage.html",
+    "relative_path": "pages/homepage.html",
+    "size_bytes": 6566,
+    "sha256": "72dd4a9c2d5ca0939d598d579c892a878feb729df532403aa2cf1b62a3ef8eb1"
+  },
+  "dataset_order": [
+    "PiDigits",
+    "Lottery",
+    "Lew",
+    "Mavro",
+    "Michelso",
+    "NumAcc1",
+    "NumAcc2",
+    "NumAcc3",
+    "NumAcc4"
+  ],
+  "dataset_count": 9,
+  "total_observation_count": 8574,
+  "original_bytes_preserved": true,
+  "sample_standard_deviation_denominator": "n-1",
+  "reference_precision": {
+    "method_url": "https://www.itl.nist.gov/div898/strd/univ/certmethdef/pidigits.html",
+    "method_original_html_lines": [
+      89,
+      104
+    ],
+    "summary": "NIST describes exact decimal input to 500-digit multiple-precision calculations, followed by rounding to 15 significant digits. NumAcc1-4 explicitly label mean and sample standard deviation exact; preserve those markers as exceptions.",
+    "binary64_caveat": "These certify the printed decimal dataset, not a differently rounded binary64 input vector. The parser does not convert observations or references to binary floating point."
+  },
+  "issues": [
+    {
+      "dataset": "PiDigits",
+      "severity": "source_metadata_inconsistency",
+      "description": "Official index and dataset page classify source as Observed, while original data header describes a constructed/fabricated dataset (lines 10-13 and 20). Both source statements are preserved; inclusion remains all nine official datasets."
+    },
+    {
+      "dataset": "Michelso",
+      "severity": "missing_header_metadata",
+      "description": "Original data header omits the Model/difficulty block. Lower difficulty is verified from both the official index and dataset page; original header is not amended."
+    }
+  ],
+  "out_of_scope": [
+    "MVS candidate outputs",
+    "native execution",
+    "pass/fail thresholds",
+    "lag-1 autocorrelation evaluation",
+    "production changes"
+  ],
+  "datasets": [
+    {
+      "dataset": "PiDigits",
+      "source_url": "https://www.itl.nist.gov/div898/strd/univ/data/PiDigits.dat",
+      "effective_url": "https://www.itl.nist.gov/div898/strd/univ/data/PiDigits.dat",
+      "original_file": {
+        "relative_path": "original/PiDigits.dat",
+        "size_bytes": 46441,
+        "sha256": "e9421a2f4c0a31c505099332b4d22e507e808953c3c57bddae9226f25587d7d2"
+      },
+      "encoding": "ASCII",
+      "line_ending": "CRLF",
+      "final_newline": true,
+      "observation_count": 5000,
+      "strict_scalar_rows_validated": true,
+      "difficulty": "Lower",
+      "difficulty_original_line": 25,
+      "source_classification_in_official_index": "Observed",
+      "original_line_ranges": {
+        "numbering": "one-based inclusive",
+        "header": {
+          "start_line": 1,
+          "end_line": 60,
+          "line_count": 60,
+          "declaration_line": 4
+        },
+        "certified_values": {
+          "start_line": 41,
+          "end_line": 43,
+          "line_count": 3,
+          "declaration_line": 5
+        },
+        "data": {
+          "start_line": 61,
+          "end_line": 5060,
+          "line_count": 5000,
+          "declaration_line": 6
+        },
+        "number_of_observations_line": 45
+      },
+      "original_data_block": {
+        "start_byte_offset_zero_based": 1441,
+        "length_bytes": 45000,
+        "sha256": "7d880f05c3f506d279591ec138feab9761d90b183f96cbcc33268d680669c2a6"
+      },
+      "certified_references": {
+        "mean": {
+          "decimal": "4.53480000000000",
+          "exact": false,
+          "precision_convention": "rounded_to_15_significant_digits",
+          "significant_digits_printed": 15,
+          "original_line": 41,
+          "original_text": "Sample Mean                                ybar:  4.53480000000000"
+        },
+        "sample_standard_deviation": {
+          "decimal": "2.86733906028871",
+          "exact": false,
+          "precision_convention": "rounded_to_15_significant_digits",
+          "significant_digits_printed": 15,
+          "original_line": 42,
+          "original_text": "Sample Standard Deviation (denom. = n-1)      s:  2.86733906028871"
+        }
+      },
+      "parsed_tokens_file": {
+        "relative_path": "parsed/PiDigits.json",
+        "size_bytes": 45205,
+        "sha256": "bdbd73058f7c57097a55672558c3e37cbb52213056f77ca4bf490e2348dc3545"
+      },
+      "link_provenance": {
+        "index_url": "https://www.itl.nist.gov/div898/strd/univ/homepage.html",
+        "index_link": {
+          "href": "pidigits.html",
+          "label": "PiDigits",
+          "line": 57
+        },
+        "dataset_page_url": "https://www.itl.nist.gov/div898/strd/univ/pidigits.html",
+        "data_link": {
+          "href": "data/PiDigits.dat",
+          "label": "\n      Data file (ASCII Format) ",
+          "line": 102
+        }
+      },
+      "primary_pages": {
+        "page": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/pidigits.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/pidigits.html",
+          "status": 200,
+          "relative_path": "pages/PiDigits.html",
+          "size_bytes": 3488,
+          "sha256": "48fa823cfc4a6695c48da7881b8f72d979c670721c6671996a8daaf5d7d66867"
+        },
+        "certification_method": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/certmethdef/pidigits.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/certmethdef/pidigits.html",
+          "status": 200,
+          "relative_path": "pages/PiDigits-certification_method.html",
+          "size_bytes": 5060,
+          "sha256": "a56f9e1c33fdcc7b1947d5689d575f2c2828fd9cc71b85489ca07218afb92d96"
+        },
+        "certified_values": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/certvalues/pidigits.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/certvalues/pidigits.html",
+          "status": 200,
+          "relative_path": "pages/PiDigits-certified_values.html",
+          "size_bytes": 3699,
+          "sha256": "d296809ac12b777d856c428e9264cec0b5ffb5776469793ee7202b2632c57035"
+        },
+        "additional_information": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/addinfo/pidigits.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/addinfo/pidigits.html",
+          "status": 200,
+          "relative_path": "pages/PiDigits-additional_information.html",
+          "size_bytes": 3542,
+          "sha256": "d6533ade9e003f0464357eb820cbcff1e2b911434af0b148f07b3526ac9b4645"
+        }
+      },
+      "source_archive_file": "validation/nist_strd/PiDigits.dat"
+    },
+    {
+      "dataset": "Lottery",
+      "source_url": "https://www.itl.nist.gov/div898/strd/univ/data/Lottery.dat",
+      "effective_url": "https://www.itl.nist.gov/div898/strd/univ/data/Lottery.dat",
+      "original_file": {
+        "relative_path": "original/Lottery.dat",
+        "size_bytes": 3750,
+        "sha256": "956cb33392ee28683aa7978326fc356d1461e4a3b0e5a69d317fd481d02d6255"
+      },
+      "encoding": "ASCII",
+      "line_ending": "CRLF",
+      "final_newline": true,
+      "observation_count": 218,
+      "strict_scalar_rows_validated": true,
+      "difficulty": "Lower",
+      "difficulty_original_line": 28,
+      "source_classification_in_official_index": "Observed",
+      "original_line_ranges": {
+        "numbering": "one-based inclusive",
+        "header": {
+          "start_line": 1,
+          "end_line": 60,
+          "line_count": 60,
+          "declaration_line": 4
+        },
+        "certified_values": {
+          "start_line": 41,
+          "end_line": 43,
+          "line_count": 3,
+          "declaration_line": 5
+        },
+        "data": {
+          "start_line": 61,
+          "end_line": 278,
+          "line_count": 218,
+          "declaration_line": 6
+        },
+        "number_of_observations_line": 45
+      },
+      "original_data_block": {
+        "start_byte_offset_zero_based": 1570,
+        "length_bytes": 2180,
+        "sha256": "36e546e2750e396a68c7737e592141222dc6aedc85fdd88345bc55d5105b8720"
+      },
+      "certified_references": {
+        "mean": {
+          "decimal": "518.958715596330",
+          "exact": false,
+          "precision_convention": "rounded_to_15_significant_digits",
+          "significant_digits_printed": 15,
+          "original_line": 41,
+          "original_text": "Sample Mean                                ybar:  518.958715596330"
+        },
+        "sample_standard_deviation": {
+          "decimal": "291.699727470969",
+          "exact": false,
+          "precision_convention": "rounded_to_15_significant_digits",
+          "significant_digits_printed": 15,
+          "original_line": 42,
+          "original_text": "Sample Standard Deviation (denom. = n-1)      s:  291.699727470969"
+        }
+      },
+      "parsed_tokens_file": {
+        "relative_path": "parsed/Lottery.json",
+        "size_bytes": 2578,
+        "sha256": "3d05d81387c5b1a0f5e3b7b3e3e28e657eb2d1c3e7ccaabe1905ccf96b564ba2"
+      },
+      "link_provenance": {
+        "index_url": "https://www.itl.nist.gov/div898/strd/univ/homepage.html",
+        "index_link": {
+          "href": "lottery.html",
+          "label": "Lottery",
+          "line": 67
+        },
+        "dataset_page_url": "https://www.itl.nist.gov/div898/strd/univ/lottery.html",
+        "data_link": {
+          "href": "data/Lottery.dat",
+          "label": "\n      Data file (ASCII Format) ",
+          "line": 107
+        }
+      },
+      "primary_pages": {
+        "page": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/lottery.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/lottery.html",
+          "status": 200,
+          "relative_path": "pages/Lottery.html",
+          "size_bytes": 3621,
+          "sha256": "2d40febedb6cd81d121c11c732f8506ae2c49e40b94cb5f86fa49f53f170e789"
+        },
+        "certification_method": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/certmethdef/lottery.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/certmethdef/lottery.html",
+          "status": 200,
+          "relative_path": "pages/Lottery-certification_method.html",
+          "size_bytes": 4900,
+          "sha256": "81d4d3463ce116228b38f56af82ef9c562ab9816e99a8e5919ed12f68082a332"
+        },
+        "certified_values": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/certvalues/lottery.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/certvalues/lottery.html",
+          "status": 200,
+          "relative_path": "pages/Lottery-certified_values.html",
+          "size_bytes": 3683,
+          "sha256": "f972af1bcb73e17396163af5799b4909ec3d706ebec4f16359459957cbb8e7f8"
+        },
+        "additional_information": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/addinfo/lottery.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/addinfo/lottery.html",
+          "status": 200,
+          "relative_path": "pages/Lottery-additional_information.html",
+          "size_bytes": 3603,
+          "sha256": "d0521f5c826c845415f4b1d8cfd2afc4dadbc69f0b80d5853e59bfeec7b911b7"
+        }
+      },
+      "source_archive_file": "validation/nist_strd/Lottery.dat"
+    },
+    {
+      "dataset": "Lew",
+      "source_url": "https://www.itl.nist.gov/div898/strd/univ/data/Lew.dat",
+      "effective_url": "https://www.itl.nist.gov/div898/strd/univ/data/Lew.dat",
+      "original_file": {
+        "relative_path": "original/Lew.dat",
+        "size_bytes": 3518,
+        "sha256": "081b231f686d01fa00247b8072909206947c8321bd62e060d9aaae5f4866c44e"
+      },
+      "encoding": "ASCII",
+      "line_ending": "CRLF",
+      "final_newline": true,
+      "observation_count": 200,
+      "strict_scalar_rows_validated": true,
+      "difficulty": "Lower",
+      "difficulty_original_line": 27,
+      "source_classification_in_official_index": "Observed",
+      "original_line_ranges": {
+        "numbering": "one-based inclusive",
+        "header": {
+          "start_line": 1,
+          "end_line": 60,
+          "line_count": 60,
+          "declaration_line": 4
+        },
+        "certified_values": {
+          "start_line": 41,
+          "end_line": 43,
+          "line_count": 3,
+          "declaration_line": 5
+        },
+        "data": {
+          "start_line": 61,
+          "end_line": 260,
+          "line_count": 200,
+          "declaration_line": 6
+        },
+        "number_of_observations_line": 45
+      },
+      "original_data_block": {
+        "start_byte_offset_zero_based": 1518,
+        "length_bytes": 2000,
+        "sha256": "0f0bd38bfacb9de683ab96fd0d6780389e003d97d584a124df19b89b59604b12"
+      },
+      "certified_references": {
+        "mean": {
+          "decimal": "-177.435000000000",
+          "exact": false,
+          "precision_convention": "rounded_to_15_significant_digits",
+          "significant_digits_printed": 15,
+          "original_line": 41,
+          "original_text": "Sample Mean                                ybar:  -177.435000000000"
+        },
+        "sample_standard_deviation": {
+          "decimal": "277.332168044316",
+          "exact": false,
+          "precision_convention": "rounded_to_15_significant_digits",
+          "significant_digits_printed": 15,
+          "original_line": 42,
+          "original_text": "Sample Standard Deviation (denom. = n-1)      s:   277.332168044316"
+        }
+      },
+      "parsed_tokens_file": {
+        "relative_path": "parsed/Lew.json",
+        "size_bytes": 2486,
+        "sha256": "5f705abfd0d322ee1cc85094a42a12a4edf425b407d9a049546d98a8ed294812"
+      },
+      "link_provenance": {
+        "index_url": "https://www.itl.nist.gov/div898/strd/univ/homepage.html",
+        "index_link": {
+          "href": "lew.html",
+          "label": "Lew",
+          "line": 77
+        },
+        "dataset_page_url": "https://www.itl.nist.gov/div898/strd/univ/lew.html",
+        "data_link": {
+          "href": "data/Lew.dat",
+          "label": "\n      Data file (ASCII Format) ",
+          "line": 108
+        }
+      },
+      "primary_pages": {
+        "page": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/lew.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/lew.html",
+          "status": 200,
+          "relative_path": "pages/Lew.html",
+          "size_bytes": 3634,
+          "sha256": "89d5b3575009ef16a705339f5ba1a96a8722b2c4a46ee1b6140ec0604e6fcd45"
+        },
+        "certification_method": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/certmethdef/lew.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/certmethdef/lew.html",
+          "status": 200,
+          "relative_path": "pages/Lew-certification_method.html",
+          "size_bytes": 4883,
+          "sha256": "bad4699304932523fca53fc9ec8f28658e92949f554742076bfda1e48d48e75e"
+        },
+        "certified_values": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/certvalues/lew.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/certvalues/lew.html",
+          "status": 200,
+          "relative_path": "pages/Lew-certified_values.html",
+          "size_bytes": 3662,
+          "sha256": "f5b6ad08e45562eaec74788f0f69229956939b6d67adcf48035f0cf7685e0869"
+        },
+        "additional_information": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/addinfo/lew.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/addinfo/lew.html",
+          "status": 200,
+          "relative_path": "pages/Lew-additional_information.html",
+          "size_bytes": 3602,
+          "sha256": "e22c7db50541721e96afaf0ec040ecc713d2e27cf4b7136c198a0b392fcb91b8"
+        }
+      },
+      "source_archive_file": "validation/nist_strd/Lew.dat"
+    },
+    {
+      "dataset": "Mavro",
+      "source_url": "https://www.itl.nist.gov/div898/strd/univ/data/Mavro.dat",
+      "effective_url": "https://www.itl.nist.gov/div898/strd/univ/data/Mavro.dat",
+      "original_file": {
+        "relative_path": "original/Mavro.dat",
+        "size_bytes": 2187,
+        "sha256": "6b967538d6a607fdf30df054c6fbf4ca6bfb4fa6dc2ecbe613d4f93237a0b1dd"
+      },
+      "encoding": "ASCII",
+      "line_ending": "CRLF",
+      "final_newline": true,
+      "observation_count": 50,
+      "strict_scalar_rows_validated": true,
+      "difficulty": "Lower",
+      "difficulty_original_line": 28,
+      "source_classification_in_official_index": "Observed",
+      "original_line_ranges": {
+        "numbering": "one-based inclusive",
+        "header": {
+          "start_line": 1,
+          "end_line": 60,
+          "line_count": 60,
+          "declaration_line": 4
+        },
+        "certified_values": {
+          "start_line": 41,
+          "end_line": 43,
+          "line_count": 3,
+          "declaration_line": 5
+        },
+        "data": {
+          "start_line": 61,
+          "end_line": 110,
+          "line_count": 50,
+          "declaration_line": 6
+        },
+        "number_of_observations_line": 45
+      },
+      "original_data_block": {
+        "start_byte_offset_zero_based": 1587,
+        "length_bytes": 600,
+        "sha256": "f3ce5b756cbd43b900e2b6b2aece52b765c1d6403d4ba9f1517dce2b85f468a9"
+      },
+      "certified_references": {
+        "mean": {
+          "decimal": "2.00185600000000",
+          "exact": false,
+          "precision_convention": "rounded_to_15_significant_digits",
+          "significant_digits_printed": 15,
+          "original_line": 41,
+          "original_text": "Sample Mean                                ybar:  2.00185600000000"
+        },
+        "sample_standard_deviation": {
+          "decimal": "0.000429123454003053",
+          "exact": false,
+          "precision_convention": "rounded_to_15_significant_digits",
+          "significant_digits_printed": 15,
+          "original_line": 42,
+          "original_text": "Sample Standard Deviation (denom. = n-1)      s:  0.000429123454003053"
+        }
+      },
+      "parsed_tokens_file": {
+        "relative_path": "parsed/Mavro.json",
+        "size_bytes": 950,
+        "sha256": "d22d16f3b8fd439e837ea74cce1ba16d29867ec32fdfe2e77980da313ebba1d3"
+      },
+      "link_provenance": {
+        "index_url": "https://www.itl.nist.gov/div898/strd/univ/homepage.html",
+        "index_link": {
+          "href": "mavro.html",
+          "label": "Mavro",
+          "line": 87
+        },
+        "dataset_page_url": "https://www.itl.nist.gov/div898/strd/univ/mavro.html",
+        "data_link": {
+          "href": "data/Mavro.dat",
+          "label": "\n      Data file (ASCII Format) ",
+          "line": 104
+        }
+      },
+      "primary_pages": {
+        "page": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/mavro.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/mavro.html",
+          "status": 200,
+          "relative_path": "pages/Mavro.html",
+          "size_bytes": 3535,
+          "sha256": "c85738bdfb4446cd41910ab0c9f12b3955f80bd9f64623c3c59f3c3ae9d37b3f"
+        },
+        "certification_method": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/certmethdef/mavro.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/certmethdef/mavro.html",
+          "status": 200,
+          "relative_path": "pages/Mavro-certification_method.html",
+          "size_bytes": 5014,
+          "sha256": "bfeb517efcd7f1336da142912b4e06f48117850267c98d3730a92b9dc60ff592"
+        },
+        "certified_values": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/certvalues/mavro.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/certvalues/mavro.html",
+          "status": 200,
+          "relative_path": "pages/Mavro-certified_values.html",
+          "size_bytes": 3676,
+          "sha256": "a01a2890e0f207d6e7d4ba93cc920c1f173b1fb11d978ca8978f75099549a93a"
+        },
+        "additional_information": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/addinfo/mavro.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/addinfo/mavro.html",
+          "status": 200,
+          "relative_path": "pages/Mavro-additional_information.html",
+          "size_bytes": 3544,
+          "sha256": "889ceb5b711990d1bfe6b63f8894162a39835aeb70d563e8c279bb67a3f89b3e"
+        }
+      },
+      "source_archive_file": "validation/nist_strd/Mavro.dat"
+    },
+    {
+      "dataset": "Michelso",
+      "source_url": "https://www.itl.nist.gov/div898/strd/univ/data/Michelso.dat",
+      "effective_url": "https://www.itl.nist.gov/div898/strd/univ/data/Michelso.dat",
+      "original_file": {
+        "relative_path": "original/Michelso.dat",
+        "size_bytes": 2349,
+        "sha256": "68cad435641539ca020adafb4c9a6b7fcc4fefe1d6ab8f2af8fb858d4f1b12ab"
+      },
+      "encoding": "ASCII",
+      "line_ending": "CRLF",
+      "final_newline": true,
+      "observation_count": 100,
+      "strict_scalar_rows_validated": true,
+      "difficulty": "Lower",
+      "difficulty_original_line": null,
+      "source_classification_in_official_index": "Observed",
+      "original_line_ranges": {
+        "numbering": "one-based inclusive",
+        "header": {
+          "start_line": 1,
+          "end_line": 60,
+          "line_count": 60,
+          "declaration_line": 4
+        },
+        "certified_values": {
+          "start_line": 41,
+          "end_line": 43,
+          "line_count": 3,
+          "declaration_line": 5
+        },
+        "data": {
+          "start_line": 61,
+          "end_line": 160,
+          "line_count": 100,
+          "declaration_line": 6
+        },
+        "number_of_observations_line": 45
+      },
+      "original_data_block": {
+        "start_byte_offset_zero_based": 1349,
+        "length_bytes": 1000,
+        "sha256": "0e81629f11e739d9e93e83db1d11cb2a76ebe516c2b8d0edbd9853bbcd49c409"
+      },
+      "certified_references": {
+        "mean": {
+          "decimal": "299.852400000000",
+          "exact": false,
+          "precision_convention": "rounded_to_15_significant_digits",
+          "significant_digits_printed": 15,
+          "original_line": 41,
+          "original_text": "Sample Mean                                ybar:  299.852400000000"
+        },
+        "sample_standard_deviation": {
+          "decimal": "0.0790105478190518",
+          "exact": false,
+          "precision_convention": "rounded_to_15_significant_digits",
+          "significant_digits_printed": 15,
+          "original_line": 42,
+          "original_text": "Sample Standard Deviation (denom. = n-1)      s:  0.0790105478190518"
+        }
+      },
+      "parsed_tokens_file": {
+        "relative_path": "parsed/Michelso.json",
+        "size_bytes": 1604,
+        "sha256": "7b8f34f00ba6e62e0f4b08f100b298a432fc005c76e6eab3f2a89b9b7484f87a"
+      },
+      "link_provenance": {
+        "index_url": "https://www.itl.nist.gov/div898/strd/univ/homepage.html",
+        "index_link": {
+          "href": "michelso.html",
+          "label": "Michelso",
+          "line": 97
+        },
+        "dataset_page_url": "https://www.itl.nist.gov/div898/strd/univ/michelso.html",
+        "data_link": {
+          "href": "data/Michelso.dat",
+          "label": "\n      Data file (ASCII Format) ",
+          "line": 104
+        }
+      },
+      "primary_pages": {
+        "page": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/michelso.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/michelso.html",
+          "status": 200,
+          "relative_path": "pages/Michelso.html",
+          "size_bytes": 3667,
+          "sha256": "783e06263f7f890261f649a1b011e3560d7b85c6a9928b2fef852d6dc6e3c60a"
+        },
+        "certification_method": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/certmethdef/michelso.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/certmethdef/michelso.html",
+          "status": 200,
+          "relative_path": "pages/Michelso-certification_method.html",
+          "size_bytes": 5041,
+          "sha256": "2a559375f1fbb2b60c9ef1182c8a2d9bfb90442d0198a6b06154bd719ac7ec81"
+        },
+        "certified_values": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/certvalues/michelso.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/certvalues/michelso.html",
+          "status": 200,
+          "relative_path": "pages/Michelso-certified_values.html",
+          "size_bytes": 3694,
+          "sha256": "b3b73766dfe3bdf67196de77699d06a7157b592bea2a4e507097738084897ebf"
+        },
+        "additional_information": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/addinfo/michelso.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/addinfo/michelso.html",
+          "status": 200,
+          "relative_path": "pages/Michelso-additional_information.html",
+          "size_bytes": 3531,
+          "sha256": "73f18b91d2be26e31166d965048f55cd0e5c9933006056e888c13f790f78ab4b"
+        }
+      },
+      "source_archive_file": "validation/nist_strd/Michelso.dat"
+    },
+    {
+      "dataset": "NumAcc1",
+      "source_url": "https://www.itl.nist.gov/div898/strd/univ/data/NumAcc1.dat",
+      "effective_url": "https://www.itl.nist.gov/div898/strd/univ/data/NumAcc1.dat",
+      "original_file": {
+        "relative_path": "original/NumAcc1.dat",
+        "size_bytes": 1840,
+        "sha256": "ce7c7a0fc6d7cedd0d5e1f9911afb9337544be6836730beb9968ca0a4571d375"
+      },
+      "encoding": "ASCII",
+      "line_ending": "CRLF",
+      "final_newline": true,
+      "observation_count": 3,
+      "strict_scalar_rows_validated": true,
+      "difficulty": "Lower",
+      "difficulty_original_line": 31,
+      "source_classification_in_official_index": "Generated",
+      "original_line_ranges": {
+        "numbering": "one-based inclusive",
+        "header": {
+          "start_line": 1,
+          "end_line": 60,
+          "line_count": 60,
+          "declaration_line": 4
+        },
+        "certified_values": {
+          "start_line": 41,
+          "end_line": 43,
+          "line_count": 3,
+          "declaration_line": 5
+        },
+        "data": {
+          "start_line": 61,
+          "end_line": 63,
+          "line_count": 3,
+          "declaration_line": 6
+        },
+        "number_of_observations_line": 45
+      },
+      "original_data_block": {
+        "start_byte_offset_zero_based": 1810,
+        "length_bytes": 30,
+        "sha256": "03df79d0d2bc44cae8528b3430889549c004ce15afc1a2ba0e892f6c1f36d496"
+      },
+      "certified_references": {
+        "mean": {
+          "decimal": "10000002",
+          "exact": true,
+          "precision_convention": "explicitly_exact",
+          "significant_digits_printed": 8,
+          "original_line": 41,
+          "original_text": "Sample Mean                                ybar:  10000002 (exact)"
+        },
+        "sample_standard_deviation": {
+          "decimal": "1",
+          "exact": true,
+          "precision_convention": "explicitly_exact",
+          "significant_digits_printed": 1,
+          "original_line": 42,
+          "original_text": "Sample Standard Deviation (denom. = n-1)      s:         1 (exact)"
+        }
+      },
+      "parsed_tokens_file": {
+        "relative_path": "parsed/NumAcc1.json",
+        "size_bytes": 249,
+        "sha256": "b42b5952ce48cf7a9faf80bdcb321d977a11d09683054a06831d8f133a5db461"
+      },
+      "link_provenance": {
+        "index_url": "https://www.itl.nist.gov/div898/strd/univ/homepage.html",
+        "index_link": {
+          "href": "numacc1.html",
+          "label": "NumAcc1",
+          "line": 107
+        },
+        "dataset_page_url": "https://www.itl.nist.gov/div898/strd/univ/numacc1.html",
+        "data_link": {
+          "href": "data/NumAcc1.dat",
+          "label": "\n      Data file (ASCII Format) ",
+          "line": 105
+        }
+      },
+      "primary_pages": {
+        "page": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/numacc1.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/numacc1.html",
+          "status": 200,
+          "relative_path": "pages/NumAcc1.html",
+          "size_bytes": 3703,
+          "sha256": "a0df6b95984700beb536ebe6651b10e3502d7b2e1718109c43f46e35e532cb41"
+        },
+        "certification_method": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/certmethdef/numacc1.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/certmethdef/numacc1.html",
+          "status": 200,
+          "relative_path": "pages/NumAcc1-certification_method.html",
+          "size_bytes": 5023,
+          "sha256": "64f4da85ef6eb469c45bb2e61e5569a7b7ad005da966255e8947800277eb62e2"
+        },
+        "certified_values": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/certvalues/numacc1.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/certvalues/numacc1.html",
+          "status": 200,
+          "relative_path": "pages/NumAcc1-certified_values.html",
+          "size_bytes": 3816,
+          "sha256": "2cfaf97d9a19c8df934402790bedd8689ce6185f5762a55a15c617f181388d4a"
+        },
+        "additional_information": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/addinfo/numacc1.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/addinfo/numacc1.html",
+          "status": 200,
+          "relative_path": "pages/NumAcc1-additional_information.html",
+          "size_bytes": 3784,
+          "sha256": "75eff71624bd91bfc9e09ff403e612221067bbae46c05ce127e9c7506b358a24"
+        }
+      },
+      "source_archive_file": "validation/nist_strd/NumAcc1.dat"
+    },
+    {
+      "dataset": "NumAcc2",
+      "source_url": "https://www.itl.nist.gov/div898/strd/univ/data/NumAcc2.dat",
+      "effective_url": "https://www.itl.nist.gov/div898/strd/univ/data/NumAcc2.dat",
+      "original_file": {
+        "relative_path": "original/NumAcc2.dat",
+        "size_bytes": 11794,
+        "sha256": "5be29522dfbe299541f0ec98ec1c22a51a5587bf06561ba21a92c209fb7ef0f9"
+      },
+      "encoding": "ASCII",
+      "line_ending": "CRLF",
+      "final_newline": true,
+      "observation_count": 1001,
+      "strict_scalar_rows_validated": true,
+      "difficulty": "Average",
+      "difficulty_original_line": 32,
+      "source_classification_in_official_index": "Generated",
+      "original_line_ranges": {
+        "numbering": "one-based inclusive",
+        "header": {
+          "start_line": 1,
+          "end_line": 60,
+          "line_count": 60,
+          "declaration_line": 4
+        },
+        "certified_values": {
+          "start_line": 41,
+          "end_line": 43,
+          "line_count": 3,
+          "declaration_line": 5
+        },
+        "data": {
+          "start_line": 61,
+          "end_line": 1061,
+          "line_count": 1001,
+          "declaration_line": 6
+        },
+        "number_of_observations_line": 45
+      },
+      "original_data_block": {
+        "start_byte_offset_zero_based": 1784,
+        "length_bytes": 10010,
+        "sha256": "884bdf69ec3222545b7dfada41bdafe76646691845541ee3afef085bb9e8339c"
+      },
+      "certified_references": {
+        "mean": {
+          "decimal": "1.2",
+          "exact": true,
+          "precision_convention": "explicitly_exact",
+          "significant_digits_printed": 2,
+          "original_line": 41,
+          "original_text": "Sample Mean                                ybar:  1.2    (exact)"
+        },
+        "sample_standard_deviation": {
+          "decimal": "0.1",
+          "exact": true,
+          "precision_convention": "explicitly_exact",
+          "significant_digits_printed": 1,
+          "original_line": 42,
+          "original_text": "Sample Standard Deviation (denom. = n-1)      s:  0.1    (exact)"
+        }
+      },
+      "parsed_tokens_file": {
+        "relative_path": "parsed/NumAcc2.json",
+        "size_bytes": 11215,
+        "sha256": "1c33dc5446f933a0f991f1717d2b2478d7328ef3cee934215f3e2b5b2f61148c"
+      },
+      "link_provenance": {
+        "index_url": "https://www.itl.nist.gov/div898/strd/univ/homepage.html",
+        "index_link": {
+          "href": "numacc2.html",
+          "label": "NumAcc2",
+          "line": 117
+        },
+        "dataset_page_url": "https://www.itl.nist.gov/div898/strd/univ/numacc2.html",
+        "data_link": {
+          "href": "data/NumAcc2.dat",
+          "label": "\n      Data file (ASCII Format) ",
+          "line": 104
+        }
+      },
+      "primary_pages": {
+        "page": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/numacc2.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/numacc2.html",
+          "status": 200,
+          "relative_path": "pages/NumAcc2.html",
+          "size_bytes": 3692,
+          "sha256": "38a162e70572cb880ff5264c3a66c3ebddf6c1c16ef7024fc8fb107c270b9357"
+        },
+        "certification_method": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/certmethdef/numacc2.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/certmethdef/numacc2.html",
+          "status": 200,
+          "relative_path": "pages/NumAcc2-certification_method.html",
+          "size_bytes": 5013,
+          "sha256": "a4b2421ebfd096ad2131ba4756413bac17d0602dc037657521655362f90612b4"
+        },
+        "certified_values": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/certvalues/numacc2.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/certvalues/numacc2.html",
+          "status": 200,
+          "relative_path": "pages/NumAcc2-certified_values.html",
+          "size_bytes": 3769,
+          "sha256": "535a764e19ea3fc0882f007f661ed29225cfcfb0c31a3b29685fe8e8edf3bd21"
+        },
+        "additional_information": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/addinfo/numacc2.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/addinfo/numacc2.html",
+          "status": 200,
+          "relative_path": "pages/NumAcc2-additional_information.html",
+          "size_bytes": 3749,
+          "sha256": "c4d3f3fb72eea88f1976c5c91f26b7fae74133879ad80c1fbf2a8bcc5b1d11ab"
+        }
+      },
+      "source_archive_file": "validation/nist_strd/NumAcc2.dat"
+    },
+    {
+      "dataset": "NumAcc3",
+      "source_url": "https://www.itl.nist.gov/div898/strd/univ/data/NumAcc3.dat",
+      "effective_url": "https://www.itl.nist.gov/div898/strd/univ/data/NumAcc3.dat",
+      "original_file": {
+        "relative_path": "original/NumAcc3.dat",
+        "size_bytes": 14830,
+        "sha256": "66df1b96596735936f37fd889e7c1c6ce998eb2b523bfc46c98ec1737e992aec"
+      },
+      "encoding": "ASCII",
+      "line_ending": "CRLF",
+      "final_newline": true,
+      "observation_count": 1001,
+      "strict_scalar_rows_validated": true,
+      "difficulty": "Average",
+      "difficulty_original_line": 32,
+      "source_classification_in_official_index": "Generated",
+      "original_line_ranges": {
+        "numbering": "one-based inclusive",
+        "header": {
+          "start_line": 1,
+          "end_line": 60,
+          "line_count": 60,
+          "declaration_line": 4
+        },
+        "certified_values": {
+          "start_line": 41,
+          "end_line": 43,
+          "line_count": 3,
+          "declaration_line": 5
+        },
+        "data": {
+          "start_line": 61,
+          "end_line": 1061,
+          "line_count": 1001,
+          "declaration_line": 6
+        },
+        "number_of_observations_line": 45
+      },
+      "original_data_block": {
+        "start_byte_offset_zero_based": 1817,
+        "length_bytes": 13013,
+        "sha256": "82439a2db4ae1f5b9958dec9630fc59f790c2d1bdad012849c13efd6178e60b8"
+      },
+      "certified_references": {
+        "mean": {
+          "decimal": "1000000.2",
+          "exact": true,
+          "precision_convention": "explicitly_exact",
+          "significant_digits_printed": 8,
+          "original_line": 41,
+          "original_text": "Sample Mean                                ybar:  1000000.2 (exact)"
+        },
+        "sample_standard_deviation": {
+          "decimal": "0.1",
+          "exact": true,
+          "precision_convention": "explicitly_exact",
+          "significant_digits_printed": 1,
+          "original_line": 42,
+          "original_text": "Sample Standard Deviation (denom. = n-1)      s:  0.1       (exact)"
+        }
+      },
+      "parsed_tokens_file": {
+        "relative_path": "parsed/NumAcc3.json",
+        "size_bytes": 17221,
+        "sha256": "d5f5792a6c3f2db9817d10c5d083a0064c1b10f22c8d0c15561f4dc890daa6f4"
+      },
+      "link_provenance": {
+        "index_url": "https://www.itl.nist.gov/div898/strd/univ/homepage.html",
+        "index_link": {
+          "href": "numacc3.html",
+          "label": "NumAcc3",
+          "line": 127
+        },
+        "dataset_page_url": "https://www.itl.nist.gov/div898/strd/univ/numacc3.html",
+        "data_link": {
+          "href": "data/NumAcc3.dat",
+          "label": "\n      Data file (ASCII Format) ",
+          "line": 104
+        }
+      },
+      "primary_pages": {
+        "page": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/numacc3.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/numacc3.html",
+          "status": 200,
+          "relative_path": "pages/NumAcc3.html",
+          "size_bytes": 3691,
+          "sha256": "3b32a764a63e327365c44b9a19eae3c500239c3ccdc8c0d6fb435830870621ce"
+        },
+        "certification_method": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/certmethdef/numacc3.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/certmethdef/numacc3.html",
+          "status": 200,
+          "relative_path": "pages/NumAcc3-certification_method.html",
+          "size_bytes": 5019,
+          "sha256": "361d3aa985b43833a4e9a94ceb1ace140f039bbb52e0c2749a83cdcc39d5301e"
+        },
+        "certified_values": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/certvalues/numacc3.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/certvalues/numacc3.html",
+          "status": 200,
+          "relative_path": "pages/NumAcc3-certified_values.html",
+          "size_bytes": 3785,
+          "sha256": "3f0d9fbc15ee08a5d28242afc8f6bb89922737db3ca2b25d50f9bf346c5368f8"
+        },
+        "additional_information": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/addinfo/numacc3.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/addinfo/numacc3.html",
+          "status": 200,
+          "relative_path": "pages/NumAcc3-additional_information.html",
+          "size_bytes": 3772,
+          "sha256": "a189f9d0293004edcfcc43ef304586109e947ec0cfdf0283275f917c1aaaea38"
+        }
+      },
+      "source_archive_file": "validation/nist_strd/NumAcc3.dat"
+    },
+    {
+      "dataset": "NumAcc4",
+      "source_url": "https://www.itl.nist.gov/div898/strd/univ/data/NumAcc4.dat",
+      "effective_url": "https://www.itl.nist.gov/div898/strd/univ/data/NumAcc4.dat",
+      "original_file": {
+        "relative_path": "original/NumAcc4.dat",
+        "size_bytes": 15765,
+        "sha256": "ca310dc767f5130f980f8280bbe69e26ba414a4d85a89fc11b6c767b828e5fe4"
+      },
+      "encoding": "ASCII",
+      "line_ending": "CRLF",
+      "final_newline": true,
+      "observation_count": 1001,
+      "strict_scalar_rows_validated": true,
+      "difficulty": "Higher",
+      "difficulty_original_line": 30,
+      "source_classification_in_official_index": "Generated",
+      "original_line_ranges": {
+        "numbering": "one-based inclusive",
+        "header": {
+          "start_line": 1,
+          "end_line": 60,
+          "line_count": 60,
+          "declaration_line": 4
+        },
+        "certified_values": {
+          "start_line": 41,
+          "end_line": 43,
+          "line_count": 3,
+          "declaration_line": 5
+        },
+        "data": {
+          "start_line": 61,
+          "end_line": 1061,
+          "line_count": 1001,
+          "declaration_line": 6
+        },
+        "number_of_observations_line": 45
+      },
+      "original_data_block": {
+        "start_byte_offset_zero_based": 1751,
+        "length_bytes": 14014,
+        "sha256": "6a53db572f2dd8c7f76159381d4b78f2db394d632d3b2bc6be8747c0acb5fc78"
+      },
+      "certified_references": {
+        "mean": {
+          "decimal": "10000000.2",
+          "exact": true,
+          "precision_convention": "explicitly_exact",
+          "significant_digits_printed": 9,
+          "original_line": 41,
+          "original_text": "Sample Mean                                ybar:   10000000.2 (exact)"
+        },
+        "sample_standard_deviation": {
+          "decimal": "0.1",
+          "exact": true,
+          "precision_convention": "explicitly_exact",
+          "significant_digits_printed": 1,
+          "original_line": 42,
+          "original_text": "Sample Standard Deviation (denom. = n-1)      s:   0.1        (exact)"
+        }
+      },
+      "parsed_tokens_file": {
+        "relative_path": "parsed/NumAcc4.json",
+        "size_bytes": 18222,
+        "sha256": "250e1aaccff888b830ddd99fef1f99cedddec8ed3a77ccedd620ab309938706b"
+      },
+      "link_provenance": {
+        "index_url": "https://www.itl.nist.gov/div898/strd/univ/homepage.html",
+        "index_link": {
+          "href": "numacc4.html",
+          "label": "NumAcc4",
+          "line": 137
+        },
+        "dataset_page_url": "https://www.itl.nist.gov/div898/strd/univ/numacc4.html",
+        "data_link": {
+          "href": "data/NumAcc4.dat",
+          "label": "\n      Data file (ASCII Format) ",
+          "line": 99
+        }
+      },
+      "primary_pages": {
+        "page": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/numacc4.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/numacc4.html",
+          "status": 200,
+          "relative_path": "pages/NumAcc4.html",
+          "size_bytes": 3543,
+          "sha256": "d55ed6aeb925776e59b753f0b436be029f63d4bd6b2ba4c69016be497aa5c0bc"
+        },
+        "certification_method": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/certmethdef/numacc4.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/certmethdef/numacc4.html",
+          "status": 200,
+          "relative_path": "pages/NumAcc4-certification_method.html",
+          "size_bytes": 5022,
+          "sha256": "6888f9c4ac26387c11ac0b55b41cd5c2efa4b446f767b9397977af6d209726ac"
+        },
+        "certified_values": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/certvalues/numacc4.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/certvalues/numacc4.html",
+          "status": 200,
+          "relative_path": "pages/NumAcc4-certified_values.html",
+          "size_bytes": 3807,
+          "sha256": "6794eebd7448a19fcb93b7d716a403d305afe8f10fdb2f5d2ace2095f6ef9d3f"
+        },
+        "additional_information": {
+          "requested_url": "https://www.itl.nist.gov/div898/strd/univ/addinfo/numacc4.html",
+          "effective_url": "https://www.itl.nist.gov/div898/strd/univ/addinfo/numacc4.html",
+          "status": 200,
+          "relative_path": "pages/NumAcc4-additional_information.html",
+          "size_bytes": 3775,
+          "sha256": "50b4ee336554e41756a51dadebc3f0568ed2560af2a92207bd8a099c53a0ca2e"
+        }
+      },
+      "source_archive_file": "validation/nist_strd/NumAcc4.dat"
+    }
+  ],
+  "downloadManifestSha256": "642866fe39f6e0d4fcf24b8200472159a4196e30afbd32df7c620c40077ac5e1",
+  "archiveLayoutNote": "Original download-relative paths describe the separate provenance companion. Each source_archive_file below is included in the full source archive; HTML pages and parsed duplicate vectors are optional provenance, not build requirements."
+}

@@ -1,0 +1,32 @@
+{
+  "stage": 48,
+  "protocolId": "round48-variance-fit-v1",
+  "status": "passed",
+  "fixtureSha256": "dd7e80d2d331a8ad557541ebcce6ffb808fb8f13402bc4ddba44de2b7e205b60",
+  "protocolSha256": "3ed6924c458266542a4348e77e33fbe4f3aee91753b3c6d16162919e3b2b5484",
+  "nativeFitCalls": 20,
+  "numericalCases": 18,
+  "constantGuardCases": 2,
+  "referenceBudgetActual": {
+    "objectiveEvaluations": 1514,
+    "highPrecisionEvaluations": 13,
+    "optimizerCalls": 64,
+    "completedOptimizerCalls": 64,
+    "baseReferenceFits": 9,
+    "elapsedSeconds": 0.7670222639862914
+  },
+  "nativeElapsedSeconds": 0.19112471901462413,
+  "maximumObjectiveGap": 1.1400495658620002e-07,
+  "maximumParameterToleranceFraction": 0.5307179711142402,
+  "maximumLrError": 1.5380615181470603e-07,
+  "affineChecks": 9,
+  "productionChanged": false,
+  "scientificReadiness": "NO-GO unchanged",
+  "evidenceFiles": {
+    "native.stdout": "1e1dd2aa514955a8815fa146732701aab60bc0a220f98e2524f6e5b2a3c5056a",
+    "reference.json": "32a3eeea27ec131f58b7ada21c99092af84266be840957837dd2503a13e09e20",
+    "comparison.json": "406c5726dae628078293fecc5ad30f27bc9c7517dead2f936c0384c35a80bd11",
+    "native-process.json": "b9a0b250743284150debbf8e27f891b6b26a163d2e197202604566eb0c4fa96c",
+    "native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

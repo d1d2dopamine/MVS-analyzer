@@ -1,0 +1,77 @@
+{
+  "stage": 42,
+  "status": "verified-bounded-diagnostic-correction",
+  "scientificReadiness": "no_go_unchanged",
+  "newScientificDatasets": 0,
+  "productionAnalysisChanged": false,
+  "benchmarkHypothesisCAndOverallMayChangeOnNewRuns": true,
+  "correctedMethod": "kendall-tau-b-v2",
+  "legacyMarker": null,
+  "legacyExportIdentity": "kendall-legacy-v1",
+  "legacyActualExecutableProvenance": "unversioned",
+  "protocolTextUnchanged": "MVS-BENCH-1.2.0",
+  "checks": {
+    "linuxNative": {
+      "passed": 216,
+      "failed": 0
+    },
+    "nativeExportFaultCases": {
+      "passed": 28,
+      "failed": 0
+    },
+    "independentNativeOracleCases": 59085,
+    "independentPreoutputRejections": 3,
+    "nativeBuiltInOraclePairs": 6561,
+    "independentReferenceExhaustivePairs": 66420,
+    "independentReferenceMetamorphicChecks": 199260,
+    "pythonValidation": {
+      "run": 506,
+      "passed": 503,
+      "skipped": 3,
+      "failed": 0
+    },
+    "savedExportValidator": {
+      "passed": 24,
+      "failed": 0
+    },
+    "sourcePins": 88,
+    "colab": 48,
+    "uiStatic": 18,
+    "rootLayout": 59,
+    "releaseBundle": 35,
+    "failureReporting": 5
+  },
+  "skips": [
+    "SavedNativeOverwriteOutputTests: no explicitly rerun stage36 output evidence in this stage",
+    "SavedNativePartialOutputTests: no explicitly rerun stage33 output evidence in this stage",
+    "SavedNativeResumeOutputTests: no explicitly rerun stage34 output evidence in this stage"
+  ],
+  "retainedFailedAttempts": [
+    "Wrong csproj filename: no native test executed; corrected command retained",
+    "Initial export run27/28: test incorrectly prohibited normal SavedUtc publication; narrowed to exact result JSON/all other fields preservation; final28/28"
+  ],
+  "limits": [
+    "Windows runtime and visual figure rendering not run in this stage",
+    "No new power/null/stability study; historical tau not recomputed",
+    "Legacy old-build arithmetic preserved only for explicitly unversioned resume",
+    "Existing nonfinite tau exclusion from both tau and top-one denominators retained",
+    "CSV additive method identity columns and new method sidecar are intentional export evolution"
+  ],
+  "finalCoreSha256": "6e54b4aa58b0441e5ca497f851c3be51c958977a67b67e3e3809c6680b7b481f",
+  "logs": {
+    "cli-build-final.log": "102704a733e614fbb8210221d61bd4ba3ca9ec2ba29f20341208e4877ee4443c",
+    "static-checks.log": "418edf9d62e521b3dc8db0759eb4b5780d3fc4fc2e2150507623164c5cc1fcfc",
+    "source-pins.log": "7c4c9be438f55e0c07b79132b7fdaff8bf27bc7c65e6efe3e965f04e33bce06a",
+    "validation-suite-final.log": "8260c380bc0fd47213527581437a1928439bea0a82128effc53e029af1c2b3bb",
+    "export-python-validator-r42.log": "e458b95068c216cfd1594d91f986d919f0cd962445eb38f1d8fdf4d8399cd9e2",
+    "export-contract.log": "44f8b7988da9abbc66100779494d9e019cc34ae763fdc8c752fe68114813abfa",
+    "core-tests.log": "8285052ebea36aa4a740f4e12cd75241e1bc8c9d55650a070b4cc37306c632e9",
+    "native-build-final.log": "cb6b1bef4d92248bf36e18e3202ae5a8f74903011a02e92ef2c38fa815de60c2",
+    "export-command-wrong-project-attempt1.log": "f51d7a6ea8c5049c30fd31e56ca345647923829f67d1ce7aa95d088817d3a840",
+    "core-tests-final.log": "6be616d73c4800f4963daf755890dd5b70de9544ec5cb61467e16a1059116ba2",
+    "native-build.log": "a98d6d2ec68202488f76bcd9b728f980809adf8118d47b0ed4aae69851f7bfaa",
+    "validation-suite.log": "82c3ef921b82fa3591bb1f8562823800ba29f2f191159f7df9932dbbd8fc659c",
+    "cli-build.log": "cf6366481eaa30e1f187ecdd7fd79f3b7ed21c12535b2ab665de03b76c447871",
+    "export-contract-final.log": "3cc3376511d8d5fda71fac42451302488ee0b0577066fc05303a405637f0d548"
+  }
+}

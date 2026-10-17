@@ -13,8 +13,9 @@ return new Suite(args).Run();
 sealed class Suite
 {
     static readonly JsonSerializerOptions Json = new() { WriteIndented = true };
-    static readonly string[] Tables = {"benchmark_report.md","benchmark_summary.csv","benchmark_replications.csv","benchmark_replication_procedures.csv","benchmark_replication_metrics.csv","benchmark_metrics.csv","benchmark_choices.csv","benchmark_stability.csv","benchmark_stability_replications.csv","benchmark_verdicts.csv","benchmark_protocol.txt"};
-    static readonly string[] BenchmarkNames = Tables.Concat(new[]{"benchmark_manifest.json","SHA256SUMS.txt"}).ToArray();
+    static readonly string[] LegacyTables = {"benchmark_report.md","benchmark_summary.csv","benchmark_replications.csv","benchmark_replication_procedures.csv","benchmark_replication_metrics.csv","benchmark_metrics.csv","benchmark_choices.csv","benchmark_stability.csv","benchmark_stability_replications.csv","benchmark_verdicts.csv","benchmark_protocol.txt"};
+    string[] Tables => baseline ? LegacyTables : LegacyTables.Append("benchmark_stability_method.txt").ToArray();
+    string[] BenchmarkNames => Tables.Concat(new[]{"benchmark_manifest.json","SHA256SUMS.txt"}).ToArray();
     readonly string dll, root; readonly Api api; readonly List<object> results = new();
     readonly Dictionary<string,string> cleanFolders = new();
     string fixture = "", fixtureHash = "", outcomeHash = ""; int failures; readonly bool baseline;
@@ -51,6 +52,7 @@ sealed class Suite
             foreach(string mode in new[]{"manifest_rewrite","checksum_rewrite","manifest_read","start_throw","cancel_after_write"})Case("resume_api_"+mode,d=>Observed(d,true,mode));
             Case("benchmark_legacy_parity",d=>LegacyParity(d,false));Case("resume_legacy_parity",d=>LegacyParity(d,true));
             Case("preoutput_failure",Preoutput);Case("benchmark_figure_parity",FigureParity);
+            Case("corrected_tau_identity",CorrectedIdentity);Case("mixed_tau_preoutput",MixedIdentity);
         }
         Check(Hash(fixture)==fixtureHash,"Input fixture changed.");
         Save(root,"report.json",new{schema="mvs-benchmark-export-tests/v1",baseline,evidenceRoot=root,passed=results.Count-failures,failed=failures,total=results.Count,cases=results,fixture,fixtureSha256Before=fixtureHash,fixtureSha256After=Hash(fixture),cachedOutcomeSha256=outcomeHash,scientificSimulations=0,scientificReadiness="no_go"});
@@ -163,7 +165,7 @@ sealed class Suite
         Verify(dir,folder!,mode,resume,JsonNode.Parse(raw)!.AsObject(),code);CheckDocument(doc);
         if(mode=="cancel_after_write")Check(error is OperationCanceledException,"Cancellation exception was lost.");
         Check(starts==(baseline?0:1),"Unexpected output-start count.");
-        if(!baseline&&mode=="clean")Check(events.Count==(resume?34:27),"Unexpected clean observer event count: "+events.Count);
+        if(!baseline&&mode=="clean")Check(events.Count==(resume?36:29),"Unexpected clean observer event count: "+events.Count);
     }
     void Verify(string dir,string folder,string mode,bool resume,JsonObject payload,int code)
     {
@@ -207,6 +209,7 @@ sealed class Suite
             var expectedSums=expected.Where(n=>n!="SHA256SUMS.txt");if(baseline&&mode=="foreign"&&!resume)expectedSums=expectedSums.Where(n=>!n.StartsWith("foreign-",StringComparison.Ordinal));if(baseline&&mode=="foreign"&&resume)expectedSums=expectedSums.Append("foreign-nested/foreign-old-nested.txt");
             Check(checks.Keys.OrderBy(n=>n,StringComparer.Ordinal).SequenceEqual(expectedSums.OrderBy(n=>n,StringComparer.Ordinal)),"Checksum member set differs.");
             Save(dir,"checksums.json",checks);
+            if(!baseline)VerifyIdentity(folder,"kendall-legacy-v1");
         }
         if(mode=="foreign")Check(disk.Any(f=>f.name=="foreign-old-canary.txt")&&disk.Any(f=>f.name=="foreign-nested/foreign-old-nested.txt"),"Test canaries missing from disk.");
         Save(dir,"details.json",new{mode,resume,folder,exitCode=code,expectedArtifacts=expected.OrderBy(x=>x,StringComparer.Ordinal),artifactNames=names,partialOutputPresent=payload.ContainsKey("partialOutput"),sourceFixtureUnchanged=Hash(fixture)==fixtureHash,actualSimulations=0});
@@ -252,6 +255,74 @@ sealed class Suite
         Check(files.All(f=>f.legacySha256==f.observedSha256),"Figure wrapper bytes changed.");CheckDocument(doc);
         Save(dir,"parity.json",new{comparison="Exact bytes including deterministic returned SVG fixture; renderer itself is test code, not UI rendering validation",files});
         Save(dir,"details.json",new{folder,starts,events,actualSimulations=0,sourceFixtureUnchanged=true,scope="Returned-file observation only; renderer partial writes on thrown exceptions are outside this contract."});
+    }
+    void VerifyIdentity(string folder,string method)
+    {
+        var manifest=JsonNode.Parse(File.ReadAllText(Path.Combine(folder,"benchmark_manifest.json")))!;
+        Check(manifest["stabilityMethod"]!.GetValue<string>()==method,"Wrong exported stability method.");
+        string hash=manifest["stabilityMethodHash"]!.GetValue<string>(), key=manifest["comparabilityKey"]!.GetValue<string>();
+        Check(hash.Length==64&&key.Contains(method,StringComparison.Ordinal)&&key.Contains(hash,StringComparison.Ordinal),"Incomplete comparison identity.");
+        foreach(string file in Directory.GetFiles(folder,"*.csv"))
+        {
+            using var parser=new Microsoft.VisualBasic.FileIO.TextFieldParser(file){TextFieldType=Microsoft.VisualBasic.FileIO.FieldType.Delimited,HasFieldsEnclosedInQuotes=true,TrimWhiteSpace=false};
+            parser.SetDelimiters(","); string[] header=parser.ReadFields()!;
+            Check(header.TakeLast(3).SequenceEqual(new[]{"stability_method","stability_method_hash","comparability_key"}),"CSV identity header missing: "+file);
+            while(!parser.EndOfData){string[] row=parser.ReadFields()!;Check(row.Length==header.Length&&row.TakeLast(3).SequenceEqual(new[]{method,hash,key}),"Logical CSV row identity differs: "+file);}
+        }
+        string sidecar=File.ReadAllText(Path.Combine(folder,"benchmark_stability_method.txt"));
+        Check(sidecar.Contains(method)&&sidecar.Contains(hash)&&sidecar.Contains(key),"Sidecar identity incomplete.");
+        string markdown=File.ReadAllText(Path.Combine(folder,"benchmark_report.md"));
+        Check(markdown.Contains(method)&&markdown.Contains(key),"Report identity missing.");
+        string specification=(string)api.CoreType("Benchmarking.BenchmarkProtocol").GetField("Specification",BindingFlags.Static|BindingFlags.Public|BindingFlags.NonPublic)!.GetValue(null)!;
+        Check(File.ReadAllBytes(Path.Combine(folder,"benchmark_protocol.txt")).SequenceEqual(new UTF8Encoding(false).GetBytes(specification)),"Frozen protocol bytes changed.");
+        Check(manifest["stabilityMethodProvenance"]!.GetValue<string>()==(method=="kendall-legacy-v1"?"legacy_unversioned":"explicit_method_identity"),"Provenance overstated.");
+    }
+    object VersionedDocument(bool mixed)
+    {
+        object doc=Doc();
+        var request=JsonNode.Parse(api.Serialize(api.Get(doc,"Request")!))!;request["BenchmarkStabilityMethod"]="kendall-tau-b-v2";
+        object typedRequest=api.Deserialize(request.ToJsonString(),api.CoreType("BackupRequest"));api.Set(doc,"Request",typedRequest);
+        api.Set(doc,"RequestHash",api.Call(api.CoreType("ScientificMath"),"Hash",api.Serialize(typedRequest)));
+        var units=(IDictionary)api.Get(doc,"Units")!;var outcome=JsonNode.Parse(((JsonElement)units["result"]!).GetRawText())!;
+        outcome["StabilityMethod"]="kendall-tau-b-v2";
+        outcome["Stability"]!["ReplicationRecords"]=JsonSerializer.SerializeToNode(new[]{new {Tau=.5,Matched=true,Top=0,Failed=false,Error="synthetic, \"quoted\"\r\nretained line",TopRight=0,DiagnosticsRetained=true,StabilityMethod=mixed?null:"kendall-tau-b-v2"}});
+        outcome["Stability"]!["Tau"]=JsonSerializer.SerializeToNode(new[]{.5});outcome["Stability"]!["Repeats"]=1;outcome["Stability"]!["TopOneMatches"]=1;
+        outcome["Verdicts"]=JsonSerializer.SerializeToNode(new[]{new{Id="C",Question="synthetic, \"quoted\"\r\nquestion",QuestionRu="",Threshold="retained threshold",ThresholdRu="",Observed="0.5",Result="fail"}});
+        units["result"]=JsonSerializer.SerializeToElement(outcome);return doc;
+    }
+    void CorrectedIdentity(string dir)
+    {
+        object doc=VersionedDocument(false);string before=api.Serialize(doc);
+        string outcomeBefore=((JsonElement)((IDictionary)api.Get(doc,"Units")!)["result"]!).GetRawText();
+        object report=api.Call(api.CoreType("BackupRunner"),"Run",doc,Path.Combine(dir,"output"),api.Progress(p=>{double f=(double)api.Get(p,"Fraction")!;Check(f==0||f==.99||f==.995,"Corrected fixture escaped cached-only path.");}),default(CancellationToken))!;
+        string folder=(string)api.Get(report,"Folder")!;VerifyIdentity(folder,"kendall-tau-b-v2");
+        Check(File.ReadAllText(Path.Combine(folder,"benchmark_stability.csv")).Contains("1,0.5,kendall-tau-b-v2"),"Cached tau changed.");
+        var manifest=JsonNode.Parse(File.ReadAllText(Path.Combine(folder,"benchmark_manifest.json")))!;
+        Check(manifest["overall"]!.GetValue<string>()=="no-go","Cached overall changed.");
+        string after=api.Serialize(doc);
+        File.WriteAllText(Path.Combine(dir,"document-before.json"),before);File.WriteAllText(Path.Combine(dir,"document-after.json"),after);
+        Check(((JsonElement)((IDictionary)api.Get(doc,"Units")!)["result"]!).GetRawText()==outcomeBefore,"Corrected cached result bytes mutated.");
+        // Begin deliberately republishes a restored checkpoint and advances SavedUtc.
+        // Permit only that lifecycle timestamp; every other document field must remain equal.
+        var documentBefore=JsonNode.Parse(before)!.AsObject();var documentAfter=JsonNode.Parse(after)!.AsObject();
+        Check(documentAfter["SavedUtc"]!.GetValue<DateTime>()>=documentBefore["SavedUtc"]!.GetValue<DateTime>(),"Resume timestamp moved backwards.");
+        documentBefore.Remove("SavedUtc");documentAfter.Remove("SavedUtc");
+        Check(JsonNode.DeepEquals(documentBefore,documentAfter),"Corrected cached document changed beyond the save timestamp.");
+        string journal=Path.Combine(root,"isolation","MVS_APPDATA_ROOT","MVS_Analyzer","benchmark_journal.jsonl");
+        Check(File.Exists(journal),"Isolated benchmark journal missing.");
+        var last=JsonNode.Parse(File.ReadAllLines(journal).Last())!;
+        Check(last["stabilityMethod"]!.GetValue<string>()=="kendall-tau-b-v2"&&last["comparabilityKey"]!.GetValue<string>()==manifest["comparabilityKey"]!.GetValue<string>(),"Journal identity missing.");
+        Save(dir,"details.json",new{folder,actualSimulations=0,cachedOutcomeUnchanged=true});
+    }
+    void MixedIdentity(string dir)
+    {
+        object doc=VersionedDocument(true);string output=Path.Combine(dir,"output");int callbacks=0;Exception? error=null;
+        try{api.Call(api.CoreType("BackupRunner"),"RunWithOutputObserver",doc,output,null,default(CancellationToken),(Action<string>)(_=>callbacks++),(Action<string,bool>)((_,_)=>callbacks++));}catch(Exception e){error=e;}
+        Check(error is InvalidDataException&&callbacks==0&&!Directory.Exists(output),"Mixed method checkpoint allocated output or invoked callbacks.");
+        Exception? legacyError=null;
+        try{api.Call(api.CoreType("BackupRunner"),"Run",doc,output,null,default(CancellationToken));}catch(Exception e){legacyError=e;}
+        Check(legacyError is InvalidDataException&&!Directory.Exists(output),"Legacy resume wrapper allocated output for mixed provenance.");
+        Save(dir,"details.json",new{callbacks,outputCreated=Directory.Exists(output),error=error!.GetType().Name,legacyWrapperError=legacyError!.GetType().Name,actualSimulations=0});
     }
     void Preoutput(string dir)
     {

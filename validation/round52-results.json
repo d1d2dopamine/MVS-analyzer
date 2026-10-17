@@ -1,0 +1,139 @@
+{
+  "schema": "mvs-round52-registry-delivery/v1",
+  "suite": "MVS-Benchmark-Suite/1.0.0",
+  "benchmarks": 8,
+  "observations": 96,
+  "newScientificRuns": 0,
+  "nistDatasetRuns": 0,
+  "productionFilesUnchanged": 47,
+  "readmeUnchanged": true,
+  "validationTests": {
+    "run": 778,
+    "passed": 774,
+    "skipped": 4
+  },
+  "pythonTests": {
+    "run": 154,
+    "passed": 139,
+    "skipped": 15
+  },
+  "registryTests": 32,
+  "actualRegistryTamperingRejected": 11,
+  "staticCommands": [
+    {
+      "command": [
+        "tools/check_source.py"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "tools/check_cli_contract.py"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "tools/test_backups.py"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "tools/test_source.py"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "tools/test_paper_benchmark.py"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "tools/test_paper_benchmark_runner.py"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "tools/test_release_bundle.py"
+      ],
+      "exitCode": 1
+    },
+    {
+      "command": [
+        "tools/test_source_pins.py"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "tools/test_root_layout.py"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "tools/test_colab_connection.py"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "tools/test_ui_patch.py"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "tools/test_round2.py"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "tools/check_csharp_structure.py"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "tools/test_failure_reporting.py"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "tools/build_notebooks.py",
+        "--check"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "tools/migrate_root_layout.py"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "validation/benchmark_suite.py",
+        "--root",
+        ".",
+        "--check"
+      ],
+      "exitCode": 0
+    }
+  ],
+  "scientificStatus": "NO-GO unchanged",
+  "independentScientificValidation": false,
+  "files": {
+    "validation/benchmark-suite-v1.json": "f6fe18944569bcc361eb08e8bb9d30b401ca1c74000fcf7393e0808401051dcb",
+    "validation/benchmark_suite.py": "5081b2f0ab71c5d0ac3062a56f20d813886d52532d3a2889f2dff3e42f844137",
+    "validation/test_benchmark_suite.py": "357e84694ed6cd1bae0889d6999bbc4a110aef57ff8f72805e46d29e9ad7d47b",
+    "docs/BENCHMARK_SUITE.md": "70c7653c0a63d914d8d65573f59416010667b261bea454abef44df871d50821d"
+  },
+  "packagingFailureRetained": "Initial fresh-unzip runtime-bundle link check rejected source-only JSON links; corrected documentation scope, strict check retained."
+}

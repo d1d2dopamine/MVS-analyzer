@@ -28,11 +28,13 @@ class SourcePinTests(unittest.TestCase):
         self.v2_only = 'Core/V2Only.cs'
         self.prior_only = 'Core/PriorOnly.cs'
         self.round38_only = 'Core/Round38Only.cs'
+        self.round42_only = 'Core/Round42Only.cs'
         self.original = {'note': 'Historical immutable anchors', 'sha256': {
             self.name: digest(b'original'), self.other: digest(b'untouched'),
             self.v2_only: digest(b'v2-only-original'),
             self.prior_only: digest(b'prior-only-original'),
-            self.round38_only: digest(b'round38-only-original')}}
+            self.round38_only: digest(b'round38-only-original'),
+            self.round42_only: digest(b'round42-only-original')}}
         self.previous = {'note': 'Older explicit review', 'sha256': {self.name: {
             'originalSha256': digest(b'original'), 'sha256': digest(b'previous')}}}
         self.previous['sha256'][self.prior_only] = {
@@ -72,6 +74,16 @@ class SourcePinTests(unittest.TestCase):
                     'reason': 'Synthetic reviewed transition from an original anchor.',
                     'evidence': ['docs/synthetic-round38-review.md'],
                     'limitation': 'Earlier provenance is inherited without new claims.'}}}}
+        self.round42 = copy.deepcopy(self.round38)
+        self.round42.update(schema='mvs-source-pin-revisions/v5', stage=42,
+                            note='Synthetic Round42 review, not scientific proof.')
+        record = self.round42['revisions'].pop(self.round38_only)
+        record.update(originalSha256=digest(b'round42-only-original'),
+                      previousSha256=digest(b'round42-only-original'),
+                      sha256=digest(b'round42-only-current'))
+        record['review']['stages'] = [42]
+        self.round42['revisions'][self.round42_only] = record
+        (self.root/self.round42_only).write_bytes(b'round42-only-current')
         (self.root/self.prior_only).write_bytes(b'prior-only-current')
         (self.root/self.round38_only).write_bytes(b'round38-only-current')
         (self.root/self.name).write_bytes(b'round36')
@@ -95,6 +107,8 @@ class SourcePinTests(unittest.TestCase):
         self.write('source-pin-revisions-v3.json', self.successor)
         self.round38['previousReviewedManifestSha256'] = digest((self.root/'validation/source-pin-revisions-v3.json').read_bytes())
         self.write('source-pin-revisions-v4.json', self.round38)
+        self.round42['previousReviewedManifestSha256'] = digest((self.root/'validation/source-pin-revisions-v4.json').read_bytes())
+        self.write('source-pin-revisions-v5.json', self.round42)
 
     def resolve(self, name=None):
         name = name or self.name
@@ -130,7 +144,7 @@ class SourcePinTests(unittest.TestCase):
     def test_missing_each_manifest_fails_closed(self):
         for name in ('ui-patch-baseline.json', 'checkpoint-source-baseline.json',
                      'source-pin-revisions-v2.json', 'source-pin-revisions-v3.json',
-                     'source-pin-revisions-v4.json'):
+                     'source-pin-revisions-v4.json', 'source-pin-revisions-v5.json'):
             with self.subTest(name=name):
                 p=self.root/'validation'/name; raw=p.read_bytes(); p.unlink()
                 with self.assertRaises(pins.SourcePinError): self.resolve()
@@ -139,7 +153,7 @@ class SourcePinTests(unittest.TestCase):
     def test_duplicate_keys_in_each_manifest_are_rejected(self):
         for name in ('ui-patch-baseline.json', 'checkpoint-source-baseline.json',
                      'source-pin-revisions-v2.json', 'source-pin-revisions-v3.json',
-                     'source-pin-revisions-v4.json'):
+                     'source-pin-revisions-v4.json', 'source-pin-revisions-v5.json'):
             with self.subTest(name=name):
                 p=self.root/'validation'/name; raw=p.read_bytes()
                 p.write_bytes(b'{"duplicate":1,"duplicate":2}')
@@ -148,7 +162,7 @@ class SourcePinTests(unittest.TestCase):
 
     def test_malformed_json_encoding_and_root_are_rejected(self):
         for name in ('source-pin-revisions-v2.json', 'source-pin-revisions-v3.json',
-                     'source-pin-revisions-v4.json'):
+                     'source-pin-revisions-v4.json', 'source-pin-revisions-v5.json'):
             p=self.root/'validation'/name; original=p.read_bytes()
             for raw in (b'{', b'\xff', b'[]', b'{"x":NaN}', b'null'):
                 with self.subTest(name=name, raw=raw):
@@ -597,6 +611,252 @@ class SourcePinTests(unittest.TestCase):
         self.assertIn('Broken Round38 revision chain',result.stdout)
 
 
+    def round42_transition(self, name, previous, current=b'new-round42-source'):
+        item=copy.deepcopy(self.round42['revisions'][self.round42_only])
+        item['originalSha256']=self.original['sha256'][name]
+        item['previousSha256']=previous
+        item['sha256']=digest(current)
+        old=self.round38['revisions'].get(name,self.successor['revisions'].get(name,self.reviewed['revisions'].get(name)))
+        if old is not None:
+            item['review']['completeness']=old['review']['completeness']
+        self.round42['revisions'][name]=item
+        (self.root/name).write_bytes(current)
+        self.write_all()
+
+    def test_v5_transitions_from_original_checkpoint_v2_and_v3(self):
+        cases=((self.other,digest(b'untouched')),
+               (self.prior_only,digest(b'prior-only-current')),
+               (self.v2_only,digest(b'v2-only-current')),
+               (self.name,digest(b'round36')),
+               (self.round38_only,digest(b'round38-only-current')))
+        for name,previous in cases:
+            with self.subTest(source=name):
+                content=('round42 '+name).encode()
+                self.round42_transition(name,previous,content)
+                self.assertEqual(self.resolve(name),digest(content))
+                self.check_sources()
+
+    def test_v5_previous_hash_must_be_effective_for_each_retained_layer(self):
+        cases=((self.other,digest(b'untouched'),[digest(b'original')]),
+               (self.prior_only,digest(b'prior-only-current'),[digest(b'prior-only-original')]),
+               (self.v2_only,digest(b'v2-only-current'),[digest(b'v2-only-original')]),
+               (self.name,digest(b'round36'),[digest(b'original'),digest(b'previous'),digest(b'current')]))
+        for name,previous,wrong in cases:
+            self.round42_transition(name,previous)
+            for value in wrong+['f'*64]:
+                with self.subTest(source=name,wrong=value):
+                    item=copy.deepcopy(self.round42)
+                    item['revisions'][name]['previousSha256']=value
+                    self.write('source-pin-revisions-v5.json',item)
+                    with self.assertRaisesRegex(pins.SourcePinError,'Broken Round42 revision chain'):
+                        self.resolve(self.round42_only)
+            self.write_all()
+
+    def test_v5_expected_hash_is_not_derived_from_live_source(self):
+        (self.root/self.round42_only).unlink()
+        self.assertEqual(self.resolve(self.round42_only),digest(b'round42-only-current'))
+        with self.assertRaises(FileNotFoundError): self.check_sources()
+
+    def test_v5_drift_and_rollback_fail_consumer_contract(self):
+        for content in (b'unreviewed round42 drift',b'round42-only-original'):
+            with self.subTest(content=content):
+                (self.root/self.round42_only).write_bytes(content)
+                self.assertEqual(self.resolve(self.round42_only),digest(b'round42-only-current'))
+                with self.assertRaises(AssertionError): self.check_sources()
+
+    def test_v5_hash_is_bound_to_exact_v4_bytes(self):
+        p=self.root/'validation/source-pin-revisions-v4.json'
+        p.write_bytes(p.read_bytes()+b' ')
+        with self.assertRaisesRegex(pins.SourcePinError,'Reviewed v4 manifest bytes changed'):
+            self.resolve(self.other)
+
+    def test_v5_wrong_v4_manifest_hash_rejected(self):
+        self.round42['previousReviewedManifestSha256']='f'*64
+        self.write('source-pin-revisions-v5.json',self.round42)
+        with self.assertRaisesRegex(pins.SourcePinError,'Reviewed v4 manifest bytes changed'):
+            self.resolve()
+
+    def test_v5_original_hash_must_preserve_original_anchor(self):
+        self.round42['revisions'][self.round42_only]['originalSha256']=digest(b'round42-only-current')
+        self.write('source-pin-revisions-v5.json',self.round42)
+        with self.assertRaisesRegex(pins.SourcePinError,'Round42 original anchor mismatch'):
+            self.resolve(self.other)
+
+    def test_v5_redundant_revision_rejected(self):
+        self.round42['revisions'][self.round42_only]['sha256']=digest(b'round42-only-original')
+        self.write('source-pin-revisions-v5.json',self.round42)
+        with self.assertRaisesRegex(pins.SourcePinError,'Redundant Round42 revision'):
+            self.resolve()
+
+    def test_v5_all_entries_validated_before_resolving_other_source(self):
+        self.round42['revisions'][self.round42_only]['sha256']='invalid'
+        self.write('source-pin-revisions-v5.json',self.round42)
+        for name in (self.other,self.prior_only,self.v2_only,self.name):
+            with self.subTest(source=name):
+                with self.assertRaisesRegex(pins.SourcePinError,'Invalid SHA256'):
+                    self.resolve(name)
+
+    def test_v5_malformed_hashes_rejected(self):
+        for value in ('A'*64,'a'*63,'a'*65,'',None,123,True,[],{}):
+            for field in ('originalSha256','previousSha256','sha256','previousReviewedManifestSha256'):
+                with self.subTest(value=value,field=field):
+                    item=copy.deepcopy(self.round42)
+                    target=item if field=='previousReviewedManifestSha256' else item['revisions'][self.round42_only]
+                    target[field]=value
+                    self.write('source-pin-revisions-v5.json',item)
+                    with self.assertRaisesRegex(pins.SourcePinError,'Invalid SHA256'): self.resolve()
+
+    def test_v5_noncanonical_and_unknown_source_paths_rejected(self):
+        for name in ('.','Core/\x00.cs','Core/\n.cs','Core/\x7f.cs','../Core/Revised.cs',
+                     '/Core/Revised.cs','Core/./Revised.cs','Core//Revised.cs',
+                     r'Core\Revised.cs','C:Revised.cs','Core/New.cs'):
+            with self.subTest(name=name):
+                item=copy.deepcopy(self.round42)
+                item['revisions'][name]=item['revisions'].pop(self.round42_only)
+                self.write('source-pin-revisions-v5.json',item)
+                with self.assertRaisesRegex(pins.SourcePinError,'source path|Round42 source'):
+                    self.resolve(self.other)
+
+    def test_v5_missing_and_extra_fields_rejected_at_every_level(self):
+        for level in ('manifest','entry','review'):
+            original=self.round42 if level=='manifest' else self.round42['revisions'][self.round42_only]
+            if level=='review': original=original['review']
+            for field in list(original)+['extra']:
+                with self.subTest(level=level,field=field):
+                    item=copy.deepcopy(self.round42)
+                    target=item if level=='manifest' else item['revisions'][self.round42_only]
+                    if level=='review': target=target['review']
+                    if field=='extra': target[field]='unrecognized'
+                    else: del target[field]
+                    self.write('source-pin-revisions-v5.json',item)
+                    with self.assertRaisesRegex(pins.SourcePinError,'Round42 .*fields|structured Round42 review'):
+                        self.resolve()
+
+    def test_v5_malformed_manifest_schema_stage_scope_and_revisions_rejected(self):
+        changes={'schema':['mvs-source-pin-revisions/v4',None],
+                 'stage':[35,36,37,39,41,43,True,42.0,'42'],
+                 'note':['',' ',None,[]], 'revisions':[{},[],None]}
+        for field,values in changes.items():
+            for value in values:
+                with self.subTest(field=field,value=value):
+                    item=copy.deepcopy(self.round42);item[field]=value
+                    self.write('source-pin-revisions-v5.json',item)
+                    with self.assertRaises(pins.SourcePinError): self.resolve()
+
+    def test_v5_malformed_entry_and_review_objects_rejected(self):
+        for value in (None,[],False,'reviewed'):
+            for target in ('entry','review'):
+                with self.subTest(value=value,target=target):
+                    item=copy.deepcopy(self.round42)
+                    if target=='entry': item['revisions'][self.round42_only]=value
+                    else: item['revisions'][self.round42_only]['review']=value
+                    self.write('source-pin-revisions-v5.json',item)
+                    with self.assertRaises(pins.SourcePinError): self.resolve()
+
+    def test_v5_missing_or_malformed_review_data_rejected(self):
+        changes={'completeness':['invented-proof',None],
+                 'transitionCompleteness':['reviewed-current-with-historical-gap','',None],
+                 'stages':[[],[36],[37],[39],[42,42],[True],[42.0],42,None],
+                 'reason':['',' ',None,[]], 'limitation':['',' ',None,[]],
+                 'evidence':[[],None,'docs/review.md',['docs/review.md','docs/review.md'],
+                             ['../review.md'],['/review.md'],['docs/./review.md'],
+                             ['docs//review.md'],['docs\\review.md'],['docs/\nreview.md'],[None],[{}]]}
+        for field,values in changes.items():
+            for value in values:
+                with self.subTest(field=field,value=value):
+                    item=copy.deepcopy(self.round42)
+                    item['revisions'][self.round42_only]['review'][field]=value
+                    self.write('source-pin-revisions-v5.json',item)
+                    with self.assertRaises(pins.SourcePinError): self.resolve()
+
+    def test_v5_preserves_inherited_v2_and_v3_gap_labels(self):
+        for name,previous in ((self.v2_only,digest(b'v2-only-current')),(self.name,digest(b'round36'))):
+            self.reviewed['revisions'][name]['review']['completeness']='reviewed-current-with-historical-gap'
+            if name in self.successor['revisions']:
+                self.successor['revisions'][name]['review']['completeness']='reviewed-current-with-historical-gap'
+            self.round42_transition(name,previous)
+            self.check_sources()
+            item=copy.deepcopy(self.round42)
+            item['revisions'][name]['review']['completeness']='complete-retained-chain'
+            self.write('source-pin-revisions-v5.json',item)
+            with self.subTest(source=name):
+                with self.assertRaisesRegex(pins.SourcePinError,'Round42 historical completeness changed'):
+                    self.resolve(self.other)
+            self.write_all()
+
+    def test_v5_cannot_invent_a_gap_for_direct_applicable_anchors(self):
+        for name,previous in ((self.other,digest(b'untouched')),
+                              (self.prior_only,digest(b'prior-only-current'))):
+            self.round42_transition(name,previous)
+            item=copy.deepcopy(self.round42)
+            item['revisions'][name]['review']['completeness']='reviewed-current-with-historical-gap'
+            self.write('source-pin-revisions-v5.json',item)
+            with self.subTest(source=name):
+                with self.assertRaisesRegex(pins.SourcePinError,'Round42 historical completeness changed'):
+                    self.resolve()
+            self.write_all()
+
+    def test_v5_nested_duplicate_keys_rejected(self):
+        original=json.dumps(self.round42)
+        for key,value in (('sha256',digest(b'round42-only-current')),
+                          ('transitionCompleteness','complete-reviewed-transition')):
+            field=json.dumps(key)+': '+json.dumps(value)
+            raw=original.replace(field,field+', '+field,1)
+            with self.subTest(key=key):
+                (self.root/'validation/source-pin-revisions-v5.json').write_text(raw)
+                with self.assertRaisesRegex(pins.SourcePinError,'Duplicate manifest key'):
+                    self.resolve()
+
+    def test_v5_nonfinite_values_rejected_at_every_level(self):
+        original=json.dumps(self.round42)
+        for literal in ('NaN','Infinity','-Infinity'):
+            for field,value in (('stage','42'),('sha256',json.dumps(digest(b'round42-only-current'))),
+                                ('reason',json.dumps('Synthetic reviewed transition from an original anchor.'))):
+                old=json.dumps(field)+': '+value
+                self.assertIn(old,original)
+                raw=original.replace(old,json.dumps(field)+': '+literal,1)
+                with self.subTest(literal=literal,field=field):
+                    (self.root/'validation/source-pin-revisions-v5.json').write_text(raw)
+                    with self.assertRaisesRegex(pins.SourcePinError,'Nonfinite manifest value'):
+                        self.resolve()
+
+    def test_optimized_python_cannot_disable_v5_contract(self):
+        self.round42['revisions'][self.round42_only]['previousSha256']='f'*64;self.write_all()
+        code="import sys; from pathlib import Path; sys.path.insert(0,sys.argv[1]); import source_pins as p; p.ROOT=Path(sys.argv[2]);\ntry: p.expected_source_hash(sys.argv[3],sys.argv[4])\nexcept p.SourcePinError as e: print(e)\nelse: raise SystemExit('invalid v5 manifest accepted')"
+        result=subprocess.run([sys.executable,'-O','-c',code,str(Path(pins.__file__).parent),str(self.root),self.name,self.original['sha256'][self.name]],capture_output=True,text=True,timeout=10)
+        self.assertEqual(result.returncode,0,result.stderr)
+        self.assertIn('Broken Round42 revision chain',result.stdout)
+
+    def test_v5_rejects_manifest_rollback_to_each_historical_hash(self):
+        self.round38_transition(self.name, digest(b'round36'))
+        self.round42_transition(self.name, digest(b'new-round38-source'))
+        for content in (b'original', b'previous', b'current', b'round36'):
+            item=copy.deepcopy(self.round42)
+            item['revisions'][self.name]['sha256']=digest(content)
+            self.write('source-pin-revisions-v5.json',item)
+            with self.subTest(content=content):
+                with self.assertRaisesRegex(pins.SourcePinError,'rolls back to historical source'):
+                    self.resolve(self.other)
+
+    def test_v5_preserves_latest_v4_gap_label(self):
+        self.reviewed['revisions'][self.name]['review']['completeness']='reviewed-current-with-historical-gap'
+        self.successor['revisions'][self.name]['review']['completeness']='reviewed-current-with-historical-gap'
+        self.round38_transition(self.name, digest(b'round36'))
+        self.round42_transition(self.name, digest(b'new-round38-source'))
+        self.check_sources()
+        self.round42['revisions'][self.name]['review']['completeness']='complete-retained-chain'
+        self.write_all()
+        with self.assertRaisesRegex(pins.SourcePinError,'Round42 historical completeness changed'):
+            self.resolve(self.other)
+
+    def test_v5_rejects_stale_v4_previous_hash(self):
+        self.round42_transition(self.round38_only, digest(b'round38-only-current'))
+        self.round42['revisions'][self.round38_only]['previousSha256']=digest(b'round38-only-original')
+        self.write_all()
+        with self.assertRaisesRegex(pins.SourcePinError,'Broken Round42 revision chain'):
+            self.resolve(self.other)
+
+
 class RepositoryPinTests(unittest.TestCase):
     def test_reviewed_repository_sources_match(self):
         anchors,_=pins._contract()
@@ -610,6 +870,7 @@ class RepositoryPinTests(unittest.TestCase):
             'checkpoint-source-baseline.json': '77e5002db1ddf0bd3deb3b623f137273067ff37a5d26950de7db60edc5feb53f',
             'source-pin-revisions-v2.json': '2ace7d73f042dff2b3f0bca5d206c7e0f22d70e54fce41588ccb622c94eb0923',
             'source-pin-revisions-v3.json': 'b576b1cf0097da8ecbce5fc1f4e25317d459f8f58c0632ebe7f2b03c3f6262c1',
+            'source-pin-revisions-v4.json': 'badcf959206502ccd3f29435ef985ba42ce7ed169c2570066732b8dee17e1011',
         }
         for name, sha in expected.items():
             with self.subTest(manifest=name):
@@ -632,7 +893,7 @@ class RepositoryPinTests(unittest.TestCase):
                           if item['review']['completeness'] == 'reviewed-current-with-historical-gap'}, gaps)
 
     def test_all_review_evidence_paths_exist(self):
-        for manifest in ('source-pin-revisions-v2.json','source-pin-revisions-v3.json','source-pin-revisions-v4.json'):
+        for manifest in ('source-pin-revisions-v2.json','source-pin-revisions-v3.json','source-pin-revisions-v4.json', 'source-pin-revisions-v5.json'):
             _,reviewed=pins._read(manifest)
             for name,record in reviewed['revisions'].items():
                 for evidence in record['review']['evidence']:
@@ -699,8 +960,41 @@ class RepositoryPinTests(unittest.TestCase):
                 self.assertEqual(record['review']['stages'],[38])
                 self.assertEqual(set(record['review']['evidence']),
                                  {'docs/ROUND38_BENCHMARK_OUTPUT_RU.md','validation/round38-results.json'})
-        anchors,effective=pins._contract()
-        self.assertEqual({name for name in anchors if round36[name]!=effective[name]},set(expected))
+        round38=dict(round36)
+        for name,record in v4['revisions'].items(): round38[name]=record['sha256']
+        self.assertEqual({name for name in round36 if round36[name]!=round38[name]},set(expected))
+
+    def test_round42_scope_effective_prior_hashes_and_completeness_are_explicit(self):
+        _,original=pins._read('ui-patch-baseline.json')
+        _,previous=pins._read('checkpoint-source-baseline.json')
+        effective=dict(original['sha256'])
+        historical_reviews={}
+        for name,record in previous['sha256'].items(): effective[name]=record['sha256']
+        for manifest in ('source-pin-revisions-v2.json','source-pin-revisions-v3.json',
+                         'source-pin-revisions-v4.json'):
+            raw,layer=pins._read(manifest)
+            for name,record in layer['revisions'].items():
+                effective[name]=record['sha256']
+                historical_reviews[name]=record['review']['completeness']
+        _,v5=pins._read('source-pin-revisions-v5.json')
+        self.assertEqual(v5['stage'],42)
+        self.assertEqual(v5['previousReviewedManifestSha256'],digest(raw))
+        changed={'Benchmark/BenchmarkMath.cs','Benchmark/BenchmarkRunner.cs',
+                 'Benchmark/BenchmarkReport.cs','Benchmark/BenchmarkFigures.cs',
+                 'Benchmark/BenchmarkCommandLine.cs'}
+        self.assertEqual(set(v5['revisions']),changed)
+        for name,record in v5['revisions'].items():
+            with self.subTest(source=name):
+                self.assertEqual(record['originalSha256'],original['sha256'][name])
+                self.assertEqual(record['previousSha256'],effective[name])
+                self.assertEqual(record['review']['completeness'],
+                                 historical_reviews.get(name,'complete-retained-chain'))
+                self.assertEqual(record['review']['transitionCompleteness'],'complete-reviewed-transition')
+                self.assertEqual(record['review']['stages'],[42])
+                self.assertEqual(set(record['review']['evidence']),
+                                 {'docs/ROUND42_KENDALL_CORRECTION_RU.md','validation/round42-results.json'})
+        anchors,current=pins._contract()
+        self.assertEqual({name for name in anchors if effective[name]!=current[name]},changed)
 
 
 if __name__=='__main__':

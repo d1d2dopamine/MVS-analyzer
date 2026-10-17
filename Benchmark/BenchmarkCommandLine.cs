@@ -91,7 +91,10 @@ internal static class BenchmarkCommandLine
             Console.WriteLine();
             Console.WriteLine("MVS benchmark " + BenchmarkProtocol.Version);
             Console.WriteLine("  protocol hash   " + BenchmarkProtocol.Hash);
-            Console.WriteLine("  protocol frozen " + (BenchmarkProtocol.HashIsFrozen ? "yes" : "NO - results are not comparable"));
+            Console.WriteLine("  protocol frozen " + (BenchmarkProtocol.HashIsFrozen ? "yes (text only; method identity also required)" : "NO - results are not comparable"));
+            string? stabilityMethod = BackupSession.Pending is { } pending ? pending.Request.BenchmarkStabilityMethod : BenchmarkStabilityMethod.CurrentId;
+            Console.WriteLine("  stability method " + BenchmarkStabilityMethod.ResolveId(stabilityMethod));
+            Console.WriteLine("  comparison key   " + BenchmarkStabilityMethod.ComparisonKey(stabilityMethod));
             Console.WriteLine("  profile         " + profile.Id + "  (" + profile.Estimate + ")");
             Console.WriteLine("  seed            " + seed.ToString(CultureInfo.InvariantCulture));
             Console.WriteLine("  output          " + output);
@@ -123,6 +126,7 @@ internal static class BenchmarkCommandLine
 
             outputFolder?.Invoke(report.Folder);
             BenchmarkOutcome outcome = report.Outcome;
+            Console.WriteLine("  result comparison key " + BenchmarkStabilityMethod.ComparisonKey(outcome.StabilityMethod));
             Console.WriteLine();
             Console.WriteLine("Done in " + ((int)outcome.Duration.TotalSeconds).ToString(CultureInfo.InvariantCulture) + " s.");
             Console.WriteLine("  " + report.Folder);

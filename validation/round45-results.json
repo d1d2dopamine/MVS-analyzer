@@ -1,0 +1,1230 @@
+{
+  "schema": "mvs-round45-result/v1",
+  "scientific_go": false,
+  "production_changes": false,
+  "new_data": false,
+  "binding_sha256": "5189f7d718c8ae74861b31ee0ce1244c68c5e93719f7ea88fd9a50534de23144",
+  "case_counts": {
+    "cleanup_unknown": 0,
+    "completed_native": 120,
+    "failed": 0,
+    "killed": 0,
+    "matched": 120,
+    "not_started": 0,
+    "planned": 120,
+    "requested": 120,
+    "started": 120
+  },
+  "half_counts": {
+    "cleanup_unknown_cases": 0,
+    "independently_matched": 240,
+    "killed_or_interrupted": 0,
+    "native_status_counts": {
+      "completed": 240
+    },
+    "planned": 240
+  },
+  "cost": {
+    "wall_seconds": 154.80349241501244,
+    "peak_sampled_aggregate_rss_bytes": 573272064,
+    "scope": "single diagnostic capture plus per-case verification; not a matched performance comparison"
+  },
+  "summaries": {
+    "heterogeneity": {
+      "covariance_sign_counts": {
+        "negative": 20,
+        "positive": 1216,
+        "zero": 204
+      },
+      "defined_covariance_fraction": {
+        "denominator": 1440,
+        "numerator": 1440
+      },
+      "fields": {
+        "correlation": {
+          "finite_count": 1236,
+          "maximum": 1.0,
+          "median": 0.9999999999999999,
+          "minimum": -0.002005014798291893,
+          "observed_valid_count": 1440,
+          "planned_count": 1440,
+          "undefined_by_reason": {
+            "constant_marginal": 204
+          },
+          "undefined_count": 204
+        },
+        "covariance": {
+          "finite_count": 1440,
+          "maximum": {
+            "denominator": 124875,
+            "numerator": 992,
+            "value": 0.007943943943943944
+          },
+          "median": {
+            "denominator": 499500,
+            "numerator": 997,
+            "value": 0.001995995995995996
+          },
+          "minimum": {
+            "denominator": 249750,
+            "numerator": -1,
+            "value": -4.004004004004004e-06
+          },
+          "observed_valid_count": 1440,
+          "planned_count": 1440,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "difference": {
+          "finite_count": 1440,
+          "maximum": {
+            "denominator": 200,
+            "numerator": 1,
+            "value": 0.005
+          },
+          "median": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "minimum": {
+            "denominator": 250,
+            "numerator": -1,
+            "value": -0.004
+          },
+          "observed_valid_count": 1440,
+          "planned_count": 1440,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "independent_mc_sd": {
+          "finite_count": 1440,
+          "maximum": 0.004107538420011658,
+          "median": 0.0019989987483727935,
+          "minimum": 0.0,
+          "observed_valid_count": 1440,
+          "planned_count": 1440,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "independent_variance": {
+          "finite_count": 1440,
+          "maximum": {
+            "denominator": 199800000,
+            "numerator": 3371,
+            "value": 1.687187187187187e-05
+          },
+          "median": {
+            "denominator": 124875000,
+            "numerator": 499,
+            "value": 3.995995995995996e-06
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "observed_valid_count": 1440,
+          "planned_count": 1440,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "paired_mc_sd": {
+          "finite_count": 1440,
+          "maximum": 0.0022369631208412903,
+          "median": 0.0,
+          "minimum": 0.0,
+          "observed_valid_count": 1440,
+          "planned_count": 1440,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "paired_variance": {
+          "finite_count": 1440,
+          "maximum": {
+            "denominator": 999000000,
+            "numerator": 4999,
+            "value": 5.004004004004004e-06
+          },
+          "median": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "observed_valid_count": 1440,
+          "planned_count": 1440,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "variance_left": {
+          "finite_count": 1440,
+          "maximum": {
+            "denominator": 111000,
+            "numerator": 991,
+            "value": 0.008927927927927928
+          },
+          "median": {
+            "denominator": 249750,
+            "numerator": 499,
+            "value": 0.001997997997997998
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "observed_valid_count": 1440,
+          "planned_count": 1440,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "variance_ratio": {
+          "finite_count": 1317,
+          "maximum": {
+            "denominator": 499,
+            "numerator": 500,
+            "value": 1.002004008016032
+          },
+          "median": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "observed_valid_count": 1440,
+          "planned_count": 1440,
+          "undefined_by_reason": {
+            "zero_independent_variance": 123
+          },
+          "undefined_count": 123
+        },
+        "variance_reduction": {
+          "finite_count": 1440,
+          "maximum": {
+            "denominator": 15609375,
+            "numerator": 248,
+            "value": 1.588788788788789e-05
+          },
+          "median": {
+            "denominator": 249750000,
+            "numerator": 997,
+            "value": 3.991991991991992e-06
+          },
+          "minimum": {
+            "denominator": 124875000,
+            "numerator": -1,
+            "value": -8.008008008008007e-09
+          },
+          "observed_valid_count": 1440,
+          "planned_count": 1440,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "variance_right": {
+          "finite_count": 1440,
+          "maximum": {
+            "denominator": 124875,
+            "numerator": 992,
+            "value": 0.007943943943943944
+          },
+          "median": {
+            "denominator": 249750,
+            "numerator": 499,
+            "value": 0.001997997997997998
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "observed_valid_count": 1440,
+          "planned_count": 1440,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        }
+      },
+      "marginal_rate_context": {
+        "finite_count": 2880,
+        "maximum": {
+          "denominator": 1000,
+          "numerator": 9,
+          "value": 0.009
+        },
+        "minimum": {
+          "denominator": 1,
+          "numerator": 0,
+          "value": 0.0
+        },
+        "planned_count": 2880,
+        "undefined_count": 0
+      },
+      "positive_covariance_fraction": {
+        "denominator": 1440,
+        "numerator": 1216
+      },
+      "weighting": "equal pair-half weights; dependent computations, not independent sample size"
+    },
+    "location": {
+      "covariance_sign_counts": {
+        "negative": 1,
+        "positive": 1412,
+        "zero": 27
+      },
+      "defined_covariance_fraction": {
+        "denominator": 1440,
+        "numerator": 1440
+      },
+      "fields": {
+        "correlation": {
+          "finite_count": 1413,
+          "maximum": 1.0000000000000002,
+          "median": 0.9432886123533605,
+          "minimum": -0.002004008016032064,
+          "observed_valid_count": 1440,
+          "planned_count": 1440,
+          "undefined_by_reason": {
+            "constant_marginal": 27
+          },
+          "undefined_count": 27
+        },
+        "covariance": {
+          "finite_count": 1440,
+          "maximum": {
+            "denominator": 83250,
+            "numerator": 20833,
+            "value": 0.25024624624624625
+          },
+          "median": {
+            "denominator": 124875,
+            "numerator": 26599,
+            "value": 0.213005005005005
+          },
+          "minimum": {
+            "denominator": 249750,
+            "numerator": -1,
+            "value": -4.004004004004004e-06
+          },
+          "observed_valid_count": 1440,
+          "planned_count": 1440,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "difference": {
+          "finite_count": 1440,
+          "maximum": {
+            "denominator": 250,
+            "numerator": 17,
+            "value": 0.068
+          },
+          "median": {
+            "denominator": 1000,
+            "numerator": -1,
+            "value": -0.001
+          },
+          "minimum": {
+            "denominator": 1000,
+            "numerator": -63,
+            "value": -0.063
+          },
+          "observed_valid_count": 1440,
+          "planned_count": 1440,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "independent_mc_sd": {
+          "finite_count": 1440,
+          "maximum": 0.02237175664751196,
+          "median": 0.021148812533714388,
+          "minimum": 0.0,
+          "observed_valid_count": 1440,
+          "planned_count": 1440,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "independent_variance": {
+          "finite_count": 1440,
+          "maximum": {
+            "denominator": 22200000,
+            "numerator": 11111,
+            "value": 0.0005004954954954955
+          },
+          "median": {
+            "denominator": 39960000,
+            "numerator": 17873,
+            "value": 0.0004472722722722723
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "observed_valid_count": 1440,
+          "planned_count": 1440,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "paired_mc_sd": {
+          "finite_count": 1440,
+          "maximum": 0.009116694253626921,
+          "median": 0.004566382797341004,
+          "minimum": 0.0,
+          "observed_valid_count": 1440,
+          "planned_count": 1440,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "paired_variance": {
+          "finite_count": 1440,
+          "maximum": {
+            "denominator": 333000000,
+            "numerator": 27677,
+            "value": 8.311411411411412e-05
+          },
+          "median": {
+            "denominator": 27000000,
+            "numerator": 563,
+            "value": 2.0851851851851852e-05
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "observed_valid_count": 1440,
+          "planned_count": 1440,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "variance_left": {
+          "finite_count": 1440,
+          "maximum": {
+            "denominator": 999,
+            "numerator": 250,
+            "value": 0.2502502502502503
+          },
+          "median": {
+            "denominator": 249750,
+            "numerator": 55939,
+            "value": 0.22397997997997998
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "observed_valid_count": 1440,
+          "planned_count": 1440,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "variance_ratio": {
+          "finite_count": 1419,
+          "maximum": {
+            "denominator": 499,
+            "numerator": 500,
+            "value": 1.002004008016032
+          },
+          "median": {
+            "denominator": 473295,
+            "numerator": 26951,
+            "value": 0.05694334400321153
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "observed_valid_count": 1440,
+          "planned_count": 1440,
+          "undefined_by_reason": {
+            "zero_independent_variance": 21
+          },
+          "undefined_count": 21
+        },
+        "variance_reduction": {
+          "finite_count": 1440,
+          "maximum": {
+            "denominator": 41625000,
+            "numerator": 20833,
+            "value": 0.0005004924924924925
+          },
+          "median": {
+            "denominator": 62437500,
+            "numerator": 26599,
+            "value": 0.00042601001001001
+          },
+          "minimum": {
+            "denominator": 124875000,
+            "numerator": -1,
+            "value": -8.008008008008007e-09
+          },
+          "observed_valid_count": 1440,
+          "planned_count": 1440,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "variance_right": {
+          "finite_count": 1440,
+          "maximum": {
+            "denominator": 999,
+            "numerator": 250,
+            "value": 0.2502502502502503
+          },
+          "median": {
+            "denominator": 249750,
+            "numerator": 55939,
+            "value": 0.22397997997997998
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "observed_valid_count": 1440,
+          "planned_count": 1440,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        }
+      },
+      "marginal_rate_context": {
+        "finite_count": 2880,
+        "maximum": {
+          "denominator": 1,
+          "numerator": 1,
+          "value": 1.0
+        },
+        "minimum": {
+          "denominator": 1000,
+          "numerator": 99,
+          "value": 0.099
+        },
+        "planned_count": 2880,
+        "undefined_count": 0
+      },
+      "positive_covariance_fraction": {
+        "denominator": 1440,
+        "numerator": 1412
+      },
+      "weighting": "equal pair-half weights; dependent computations, not independent sample size"
+    },
+    "null": {
+      "covariance_sign_counts": {
+        "negative": 8180,
+        "positive": 3642,
+        "zero": 4018
+      },
+      "defined_covariance_fraction": {
+        "denominator": 15840,
+        "numerator": 15840
+      },
+      "fields": {
+        "correlation": {
+          "finite_count": 11822,
+          "maximum": 1.0,
+          "median": -0.0014163382470519272,
+          "minimum": -0.005951793538189438,
+          "observed_valid_count": 15840,
+          "planned_count": 15840,
+          "undefined_by_reason": {
+            "constant_marginal": 4018
+          },
+          "undefined_count": 4018
+        },
+        "covariance": {
+          "finite_count": 15840,
+          "maximum": {
+            "denominator": 333000,
+            "numerator": 2317,
+            "value": 0.006957957957957958
+          },
+          "median": {
+            "denominator": 999000,
+            "numerator": -1,
+            "value": -1.001001001001001e-06
+          },
+          "minimum": {
+            "denominator": 199800,
+            "numerator": -7,
+            "value": -3.503503503503503e-05
+          },
+          "observed_valid_count": 15840,
+          "planned_count": 15840,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "difference": {
+          "finite_count": 15840,
+          "maximum": {
+            "denominator": 1000,
+            "numerator": 9,
+            "value": 0.009
+          },
+          "median": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "minimum": {
+            "denominator": 1000,
+            "numerator": -7,
+            "value": -0.007
+          },
+          "observed_valid_count": 15840,
+          "planned_count": 15840,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "independent_mc_sd": {
+          "finite_count": 15840,
+          "maximum": 0.003985710210976945,
+          "median": 0.001998497934448268,
+          "minimum": 0.0,
+          "observed_valid_count": 15840,
+          "planned_count": 15840,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "independent_variance": {
+          "finite_count": 15840,
+          "maximum": {
+            "denominator": 33300000,
+            "numerator": 529,
+            "value": 1.5885885885885887e-05
+          },
+          "median": {
+            "denominator": 33300000,
+            "numerator": 133,
+            "value": 3.993993993993994e-06
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "observed_valid_count": 15840,
+          "planned_count": 15840,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "paired_mc_sd": {
+          "finite_count": 15840,
+          "maximum": 0.0034652572787612764,
+          "median": 0.0017326286393806382,
+          "minimum": 0.0,
+          "observed_valid_count": 15840,
+          "planned_count": 15840,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "paired_variance": {
+          "finite_count": 15840,
+          "maximum": {
+            "denominator": 249750000,
+            "numerator": 2999,
+            "value": 1.2008008008008008e-05
+          },
+          "median": {
+            "denominator": 999000000,
+            "numerator": 2999,
+            "value": 3.002002002002002e-06
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "observed_valid_count": 15840,
+          "planned_count": 15840,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "variance_left": {
+          "finite_count": 15840,
+          "maximum": {
+            "denominator": 111000,
+            "numerator": 991,
+            "value": 0.008927927927927928
+          },
+          "median": {
+            "denominator": 249750,
+            "numerator": 499,
+            "value": 0.001997997997997998
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "observed_valid_count": 15840,
+          "planned_count": 15840,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "variance_ratio": {
+          "finite_count": 15238,
+          "maximum": {
+            "denominator": 5963,
+            "numerator": 5998,
+            "value": 1.005869528760691
+          },
+          "median": {
+            "denominator": 999,
+            "numerator": 1000,
+            "value": 1.001001001001001
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "observed_valid_count": 15840,
+          "planned_count": 15840,
+          "undefined_by_reason": {
+            "zero_independent_variance": 602
+          },
+          "undefined_count": 602
+        },
+        "variance_reduction": {
+          "finite_count": 15840,
+          "maximum": {
+            "denominator": 166500000,
+            "numerator": 2317,
+            "value": 1.3915915915915916e-05
+          },
+          "median": {
+            "denominator": 499500000,
+            "numerator": -1,
+            "value": -2.002002002002002e-09
+          },
+          "minimum": {
+            "denominator": 99900000,
+            "numerator": -7,
+            "value": -7.007007007007007e-08
+          },
+          "observed_valid_count": 15840,
+          "planned_count": 15840,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "variance_right": {
+          "finite_count": 15840,
+          "maximum": {
+            "denominator": 333000,
+            "numerator": 2317,
+            "value": 0.006957957957957958
+          },
+          "median": {
+            "denominator": 249750,
+            "numerator": 499,
+            "value": 0.001997997997997998
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "observed_valid_count": 15840,
+          "planned_count": 15840,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        }
+      },
+      "marginal_rate_context": {
+        "finite_count": 31680,
+        "maximum": {
+          "denominator": 1000,
+          "numerator": 9,
+          "value": 0.009
+        },
+        "minimum": {
+          "denominator": 1,
+          "numerator": 0,
+          "value": 0.0
+        },
+        "planned_count": 31680,
+        "undefined_count": 0
+      },
+      "positive_covariance_fraction": {
+        "denominator": 15840,
+        "numerator": 3642
+      },
+      "weighting": "equal pair-half weights; dependent computations, not independent sample size"
+    },
+    "variability": {
+      "covariance_sign_counts": {
+        "negative": 1760,
+        "positive": 3149,
+        "zero": 131
+      },
+      "defined_covariance_fraction": {
+        "denominator": 5040,
+        "numerator": 5040
+      },
+      "fields": {
+        "correlation": {
+          "finite_count": 4909,
+          "maximum": 1.0,
+          "median": 0.21515865007287813,
+          "minimum": -0.011451215811497927,
+          "observed_valid_count": 5040,
+          "planned_count": 5040,
+          "undefined_by_reason": {
+            "constant_marginal": 131
+          },
+          "undefined_count": 131
+        },
+        "covariance": {
+          "finite_count": 5040,
+          "maximum": {
+            "denominator": 83250,
+            "numerator": 1067,
+            "value": 0.012816816816816817
+          },
+          "median": {
+            "denominator": 124875,
+            "numerator": 122,
+            "value": 0.000976976976976977
+          },
+          "minimum": {
+            "denominator": 124875,
+            "numerator": -16,
+            "value": -0.00012812812812812812
+          },
+          "observed_valid_count": 5040,
+          "planned_count": 5040,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "difference": {
+          "finite_count": 5040,
+          "maximum": {
+            "denominator": 125,
+            "numerator": 2,
+            "value": 0.016
+          },
+          "median": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "minimum": {
+            "denominator": 250,
+            "numerator": -3,
+            "value": -0.012
+          },
+          "observed_valid_count": 5040,
+          "planned_count": 5040,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "independent_mc_sd": {
+          "finite_count": 5040,
+          "maximum": 0.0056994283470786335,
+          "median": 0.0033072553481607583,
+          "minimum": 0.0,
+          "observed_valid_count": 5040,
+          "planned_count": 5040,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "independent_variance": {
+          "finite_count": 5040,
+          "maximum": {
+            "denominator": 333000000,
+            "numerator": 10817,
+            "value": 3.248348348348348e-05
+          },
+          "median": {
+            "denominator": 999000000,
+            "numerator": 10927,
+            "value": 1.0937937937937938e-05
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "observed_valid_count": 5040,
+          "planned_count": 5040,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "paired_mc_sd": {
+          "finite_count": 5040,
+          "maximum": 0.004894891210227247,
+          "median": 0.002827011141115647,
+          "minimum": 0.0,
+          "observed_valid_count": 5040,
+          "planned_count": 5040,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "paired_variance": {
+          "finite_count": 5040,
+          "maximum": {
+            "denominator": 15609375,
+            "numerator": 374,
+            "value": 2.395995995995996e-05
+          },
+          "median": {
+            "denominator": 62437500,
+            "numerator": 499,
+            "value": 7.991991991991992e-06
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "observed_valid_count": 5040,
+          "planned_count": 5040,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "variance_left": {
+          "finite_count": 5040,
+          "maximum": {
+            "denominator": 27750,
+            "numerator": 491,
+            "value": 0.017693693693693693
+          },
+          "median": {
+            "denominator": 39960,
+            "numerator": 199,
+            "value": 0.00497997997997998
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "observed_valid_count": 5040,
+          "planned_count": 5040,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "variance_ratio": {
+          "finite_count": 5039,
+          "maximum": {
+            "denominator": 1813,
+            "numerator": 1833,
+            "value": 1.0110314396028681
+          },
+          "median": {
+            "denominator": 2487,
+            "numerator": 1999,
+            "value": 0.8037796542018496
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "observed_valid_count": 5040,
+          "planned_count": 5040,
+          "undefined_by_reason": {
+            "zero_independent_variance": 1
+          },
+          "undefined_count": 1
+        },
+        "variance_reduction": {
+          "finite_count": 5040,
+          "maximum": {
+            "denominator": 41625000,
+            "numerator": 1067,
+            "value": 2.5633633633633633e-05
+          },
+          "median": {
+            "denominator": 31218750,
+            "numerator": 61,
+            "value": 1.953953953953954e-06
+          },
+          "minimum": {
+            "denominator": 15609375,
+            "numerator": -4,
+            "value": -2.5625625625625623e-07
+          },
+          "observed_valid_count": 5040,
+          "planned_count": 5040,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        },
+        "variance_right": {
+          "finite_count": 5040,
+          "maximum": {
+            "denominator": 27750,
+            "numerator": 491,
+            "value": 0.017693693693693693
+          },
+          "median": {
+            "denominator": 39960,
+            "numerator": 199,
+            "value": 0.00497997997997998
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "observed_valid_count": 5040,
+          "planned_count": 5040,
+          "undefined_by_reason": {},
+          "undefined_count": 0
+        }
+      },
+      "marginal_rate_context": {
+        "finite_count": 10080,
+        "maximum": {
+          "denominator": 500,
+          "numerator": 9,
+          "value": 0.018
+        },
+        "minimum": {
+          "denominator": 1,
+          "numerator": 0,
+          "value": 0.0
+        },
+        "planned_count": 10080,
+        "undefined_count": 0
+      },
+      "positive_covariance_fraction": {
+        "denominator": 5040,
+        "numerator": 3149
+      },
+      "weighting": "equal pair-half weights; dependent computations, not independent sample size"
+    }
+  },
+  "independent_audit": {
+    "status": "passed",
+    "method": "Independent strict reader, raw bit decoder, all-field binary64/class comparison, direct centered sample moments with exact rational arithmetic; no driver statistical functions imported.",
+    "binding_sha256": "5189f7d718c8ae74861b31ee0ce1244c68c5e93719f7ea88fd9a50534de23144",
+    "pinned_files_verified": 550,
+    "halves_audited": 240,
+    "calibration_rows_exactly_matched": 2880,
+    "top_level_row_properties_matched": 72000,
+    "trace_symbols_audited": 20160000,
+    "raw_trace_bytes_audited": 5040000,
+    "nonfinite_trace_codes": 0,
+    "pair_records_audited": 23760,
+    "max_wilson_reconstruction_absolute_error": 0.0,
+    "max_score_reconstruction_absolute_error": 0.0,
+    "all_mde_reconstructions_bit_exact": true,
+    "summary_denominators_verified": true,
+    "reviewer_calibrations_executed": 0,
+    "scientific_go": false,
+    "findings": {
+      "location": {
+        "planned_pairs": 1440,
+        "covariance_signs": {
+          "negative": 1,
+          "positive": 1412,
+          "zero": 27
+        },
+        "variance_ratio": {
+          "finite_count": 1419,
+          "maximum": {
+            "denominator": 499,
+            "numerator": 500,
+            "value": 1.002004008016032
+          },
+          "median": {
+            "denominator": 473295,
+            "numerator": 26951,
+            "value": 0.05694334400321153
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "observed_valid_count": 1440,
+          "planned_count": 1440,
+          "undefined_by_reason": {
+            "zero_independent_variance": 21
+          },
+          "undefined_count": 21
+        },
+        "marginal_rate_context": {
+          "finite_count": 2880,
+          "maximum": {
+            "denominator": 1,
+            "numerator": 1,
+            "value": 1.0
+          },
+          "minimum": {
+            "denominator": 1000,
+            "numerator": 99,
+            "value": 0.099
+          },
+          "planned_count": 2880,
+          "undefined_count": 0
+        }
+      },
+      "variability": {
+        "planned_pairs": 5040,
+        "covariance_signs": {
+          "negative": 1760,
+          "positive": 3149,
+          "zero": 131
+        },
+        "variance_ratio": {
+          "finite_count": 5039,
+          "maximum": {
+            "denominator": 1813,
+            "numerator": 1833,
+            "value": 1.0110314396028681
+          },
+          "median": {
+            "denominator": 2487,
+            "numerator": 1999,
+            "value": 0.8037796542018496
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "observed_valid_count": 5040,
+          "planned_count": 5040,
+          "undefined_by_reason": {
+            "zero_independent_variance": 1
+          },
+          "undefined_count": 1
+        },
+        "marginal_rate_context": {
+          "finite_count": 10080,
+          "maximum": {
+            "denominator": 500,
+            "numerator": 9,
+            "value": 0.018
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "planned_count": 10080,
+          "undefined_count": 0
+        }
+      },
+      "heterogeneity": {
+        "planned_pairs": 1440,
+        "covariance_signs": {
+          "negative": 20,
+          "positive": 1216,
+          "zero": 204
+        },
+        "variance_ratio": {
+          "finite_count": 1317,
+          "maximum": {
+            "denominator": 499,
+            "numerator": 500,
+            "value": 1.002004008016032
+          },
+          "median": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "observed_valid_count": 1440,
+          "planned_count": 1440,
+          "undefined_by_reason": {
+            "zero_independent_variance": 123
+          },
+          "undefined_count": 123
+        },
+        "marginal_rate_context": {
+          "finite_count": 2880,
+          "maximum": {
+            "denominator": 1000,
+            "numerator": 9,
+            "value": 0.009
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "planned_count": 2880,
+          "undefined_count": 0
+        }
+      },
+      "null": {
+        "planned_pairs": 15840,
+        "covariance_signs": {
+          "negative": 8180,
+          "positive": 3642,
+          "zero": 4018
+        },
+        "variance_ratio": {
+          "finite_count": 15238,
+          "maximum": {
+            "denominator": 5963,
+            "numerator": 5998,
+            "value": 1.005869528760691
+          },
+          "median": {
+            "denominator": 999,
+            "numerator": 1000,
+            "value": 1.001001001001001
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "observed_valid_count": 15840,
+          "planned_count": 15840,
+          "undefined_by_reason": {
+            "zero_independent_variance": 602
+          },
+          "undefined_count": 602
+        },
+        "marginal_rate_context": {
+          "finite_count": 31680,
+          "maximum": {
+            "denominator": 1000,
+            "numerator": 9,
+            "value": 0.009
+          },
+          "minimum": {
+            "denominator": 1,
+            "numerator": 0,
+            "value": 0.0
+          },
+          "planned_count": 31680,
+          "undefined_count": 0
+        }
+      }
+    }
+  },
+  "regression": {
+    "native_synthetic_groups_passed": 8,
+    "python_targeted_passed": 26,
+    "validation_total": 586,
+    "validation_passed": 582,
+    "validation_skipped": 4,
+    "validation_skip_reason": "prior separate saved-export harness absent; no skipped Round45 checks"
+  },
+  "limitations": [
+    "Reused synthetic development inputs; no independent research validation.",
+    "Same recipe with exact retained-row parity, not recovery of original historical per-replication codes.",
+    "Variance ratios estimate conditional Monte Carlo comparison uncertainty; no new metric-selection or power improvement demonstrated.",
+    "Undefined ratios retained explicitly; constant events are not useful power.",
+    "Scientific NO-GO and prior rejected experimental gates unchanged."
+  ]
+}

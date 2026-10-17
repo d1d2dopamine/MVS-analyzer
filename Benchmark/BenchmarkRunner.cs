@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
@@ -139,6 +140,9 @@ internal sealed class BenchmarkOutcome
     // Kept separately so historical summaries still contain only the first replay.
     public ConditionSummary? DeterminismSecondSummary { get; init; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? StabilityMethod { get; init; }
+
     public TimeSpan Duration => FinishedUtc - StartedUtc;
 
     public ConditionSummary? Find(string id)
@@ -208,7 +212,8 @@ internal static class BenchmarkRunner
 
     internal sealed record PilotCheckpoint(int Metric, List<string> Notes);
     internal sealed record StabilityCheckpoint(double Tau, bool Matched, int Top, bool Failed,
-        string? Error = null, int? TopRight = null, bool DiagnosticsRetained = false);
+        string? Error = null, int? TopRight = null, bool DiagnosticsRetained = false,
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? StabilityMethod = null);
 
     internal sealed class ConditionPlan
     {
@@ -247,6 +252,11 @@ internal static class BenchmarkRunner
         IProgress<ProgressInfo>? progress,
         CancellationToken token)
     {
+        // Validate all retained units before Begin can publish or a cached result can return.
+        var pending = BackupSession.Pending;
+        string? stabilityMethod = pending is null ? BenchmarkStabilityMethod.CurrentId : pending.Request.BenchmarkStabilityMethod;
+        BenchmarkStabilityMethod.ResolveId(stabilityMethod);
+        if (pending is not null) BenchmarkStabilityMethod.ValidateBackup(pending);
         DateTime started = DateTime.UtcNow;
         var notes = new List<string>();
         ulong runSeed = (ulong)(uint)seed;
@@ -262,7 +272,7 @@ internal static class BenchmarkRunner
         if (BackupSession.Pending?.Request.RealData is { } restoredReal)
         { real = restoredReal; notes.AddRange(BackupSession.Pending.Request.RealDataNotes ?? new()); }
         else real = BenchmarkDatasets.LoadReal(realDataFolder, MinMeasurements, notes);
-        using var backup = BackupSession.Begin(new BackupRequest { Kind = "benchmark", Benchmark = profile, Seed = seed, RealData = real, RealDataNotes = new List<string>(notes) });
+        using var backup = BackupSession.Begin(new BackupRequest { Kind = "benchmark", Benchmark = profile, Seed = seed, RealData = real, RealDataNotes = new List<string>(notes), BenchmarkStabilityMethod = stabilityMethod });
         if (backup.Try<BenchmarkOutcome>("result", out var restoredResult)) return restoredResult;
         if (backup.WasRestored) notes.Add("Resumed from completed checkpoints. Duration covers the final execution segment only; cross-platform floating-point replay is not guaranteed bit-identical.");
 
@@ -321,7 +331,7 @@ internal static class BenchmarkRunner
             summaries.Add(RunCondition(plan, runSeed, calibrations, threads, counter, progress, russian, token, backup, plan.Condition.Id));
         }
 
-        StabilitySummary stability = RunStability(gaitHeavy, runSeed, profile.StabilityRepeats, calibrations, threads, counter, progress, russian, token, backup);
+        StabilitySummary stability = RunStability(gaitHeavy, runSeed, profile.StabilityRepeats, calibrations, threads, counter, progress, russian, token, backup, stabilityMethod);
 
         ConditionSummary firstPass = RunCondition(determinism, runSeed, calibrations, threads, counter, progress, russian, token, backup, "replay-first");
         ConditionSummary secondPass = RunCondition(determinism, runSeed, calibrations, threads, counter, progress, russian, token, backup, "replay-second");
@@ -341,6 +351,7 @@ internal static class BenchmarkRunner
             Conditions = summaries,
             DeterminismSecondSummary = secondPass,
             Stability = stability,
+            StabilityMethod = stabilityMethod,
             DeterminismFirst = firstPass.DecisionDigest,
             DeterminismSecond = secondPass.DecisionDigest,
             LockedPilotMetric = pilot,
@@ -361,6 +372,7 @@ internal static class BenchmarkRunner
             Conditions = outcome.Conditions,
             DeterminismSecondSummary = outcome.DeterminismSecondSummary,
             Stability = outcome.Stability,
+            StabilityMethod = outcome.StabilityMethod,
             DeterminismFirst = outcome.DeterminismFirst,
             DeterminismSecond = outcome.DeterminismSecond,
             LockedPilotMetric = outcome.LockedPilotMetric,
@@ -671,7 +683,7 @@ internal static class BenchmarkRunner
 
     private static StabilitySummary RunStability(
         BenchmarkDesign design, ulong runSeed, int repeats, int calibrations, int threads,
-        WorkCounter counter, IProgress<ProgressInfo>? progress, bool russian, CancellationToken token, BackupSession backup)
+        WorkCounter counter, IProgress<ProgressInfo>? progress, bool russian, CancellationToken token, BackupSession backup, string? stabilityMethod)
     {
         int metrics = AnalysisEngine.MetricKeys.Length;
         var tau = new double[repeats];
@@ -699,7 +711,9 @@ internal static class BenchmarkRunner
                 int seedRight = NextSeed(random);
                 double[] scoresLeft = Scores(Calibrate(left, calibrations, seedLeft, token), metrics);
                 double[] scoresRight = Scores(Calibrate(right, calibrations, seedRight, token), metrics);
-                tau[index] = BenchmarkMath.KendallTau(scoresLeft, scoresRight);
+                tau[index] = BenchmarkStabilityMethod.Calculate(scoresLeft, scoresRight, stabilityMethod);
+                if (stabilityMethod == BenchmarkStabilityMethod.CurrentId && !double.IsFinite(tau[index]))
+                    error = "undefined_tau: nonfinite scores, insufficient pairs, or zero rank variance";
                 int topLeft = ArgMax(scoresLeft);
                 int topRight = ArgMax(scoresRight);
                 rightTop = topRight;
@@ -717,7 +731,7 @@ internal static class BenchmarkRunner
                 tau[index] = double.NaN;
                 top[index] = -1;
             }
-            return new StabilityCheckpoint(tau[index], matched[index], top[index], broke[index], error, rightTop, true);
+            return new StabilityCheckpoint(tau[index], matched[index], top[index], broke[index], error, rightTop, true, stabilityMethod);
             });
             records[index] = saved;
             tau[index] = saved.Tau; matched[index] = saved.Matched; top[index] = saved.Top; broke[index] = saved.Failed;

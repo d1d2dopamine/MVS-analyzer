@@ -1,0 +1,126 @@
+{
+  "stage": 49,
+  "protocolId": "round49-variance-bootstrap-contract-v1",
+  "status": "passed",
+  "binding": {
+    "fixtureSha256": "3bbfb01e70e374553dfa92dae9bf52ad8b2df728687810661a1b4223a1477cfd",
+    "protocolSha256": "a84c0394871edb2eba44f7c0b1225c88697267701ce64ff89b86038aa033a6a1",
+    "sourceSha256": {
+      "Core/VarianceAnalysis.cs": "0dd3cb00151058b0042a0cbc03e161ec5a39869c726d39d3576fa17cd9463a7a",
+      "Core/ScientificInfrastructure.cs": "7e2947c272e7f3aaecade2829367cf0cdfd3206c67006f6c163b826da3d60d1a",
+      "Core/AnalysisEngine.cs": "bc4caa7600034781861784cedaf64cc19d22ecc5eb26841ada291c0c6d66bd05",
+      "Core/RunRecording.cs": "5fb027bd2328dd9b5b7a9d3d0a4b8e1953715d6e1e227c34fccb54bb661ac5aa",
+      "Core/Models.cs": "d4f51d62c5972d866af3bf59a224b7a314df43c02d4475547ed83405a969d706",
+      "MvsAnalyzer.Core/MvsAnalyzer.Core.csproj": "549e42589f6e2ae9ecb18b4bae63c123d37cc0c5ed74d924abfc4db5530650c2",
+      "SharedSources.props": "a86d92f474867e834c2c7d6155122a709cae56394d6d4a5f6aa203b691881dd6",
+      "validation/variance_bootstrap_contract/Program.cs": "9dda403e2c1459b2d005e41a3838cf63c42b7c543318b76ce5c2d047dc74cf8e",
+      "validation/variance_bootstrap_contract/VarianceBootstrapContract.csproj": "8f1e165cacaca51dd16c515478454f3a0cd1613751e491b354e303c3d636a107",
+      "validation/variance_bootstrap_contract.py": "f81b87d9172da767a0f4fa5d674add9692d4f8db5e702403b6a942362d37ae5b",
+      "validation/test_variance_bootstrap_contract.py": "7f30a0391275ae36acec649ec627ecdd8d22cc9b00ca878d1a2d6bae0bc213c2"
+    },
+    "harnessAssemblySha256": "e5ffc99f88d4655d04c2af6d6307c9041f5ab6428cca1b2b8b91853c9acfc4d6",
+    "coreAssemblySha256": "4c8655b54f502b8d3cfeb215e6e53af66beb2db3909a54711e6828abe81cd4c3"
+  },
+  "sealSha256": "a616e0dab5db254452c26ba150cf6fc2d105936a3a81b9af2b54fa49c64b9752",
+  "generateCases": 6,
+  "runCases": 14,
+  "cachedReads": 19241,
+  "uniformDraws": 106,
+  "fitCalls": 0,
+  "statisticCalls": 0,
+  "optimizerCalls": 0,
+  "intervalBranchChecked": false,
+  "productionChanged": false,
+  "scientificReadiness": "NO-GO unchanged",
+  "nativeProcess": {
+    "exitCode": 0,
+    "timedOut": false,
+    "elapsedSeconds": 0.4672120329923928,
+    "stdoutSha256": "590f65f04f21533b8292f2f30d47b0c5e0f0ed4add71103693899795d440cea9",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdoutBytes": 5421124,
+    "stderrBytes": 0
+  },
+  "cases": [
+    {
+      "id": "G01",
+      "passed": true
+    },
+    {
+      "id": "G02",
+      "passed": true
+    },
+    {
+      "id": "G03",
+      "passed": true
+    },
+    {
+      "id": "G04",
+      "passed": true
+    },
+    {
+      "id": "G05",
+      "passed": true
+    },
+    {
+      "id": "G06",
+      "passed": true
+    },
+    {
+      "id": "R01",
+      "passed": true
+    },
+    {
+      "id": "R02",
+      "passed": true
+    },
+    {
+      "id": "R03",
+      "passed": true
+    },
+    {
+      "id": "R04",
+      "passed": true
+    },
+    {
+      "id": "R05",
+      "passed": true
+    },
+    {
+      "id": "R06",
+      "passed": true
+    },
+    {
+      "id": "R07",
+      "passed": true
+    },
+    {
+      "id": "R08",
+      "passed": true
+    },
+    {
+      "id": "R09",
+      "passed": true
+    },
+    {
+      "id": "R10",
+      "passed": true
+    },
+    {
+      "id": "R11",
+      "passed": true
+    },
+    {
+      "id": "R12",
+      "passed": true
+    },
+    {
+      "id": "R13",
+      "passed": true
+    },
+    {
+      "id": "R14",
+      "passed": true
+    }
+  ]
+}

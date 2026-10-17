@@ -42,12 +42,14 @@ internal static class BenchmarkFigures
 
     public static List<string> Generate(BenchmarkOutcome outcome, string folder, bool russian)
     {
+        BenchmarkStabilityMethod.ValidateOutcome(outcome);
         Directory.CreateDirectory(folder);
         var files = new List<string>();
-        string stamp = L(russian, "seed ", "seed ") + outcome.Seed.ToString(CultureInfo.InvariantCulture) +
-            "  ·  " + BenchmarkProtocol.Version +
-            "  ·  " + L(russian, "protocol ", "протокол ") + Short(BenchmarkProtocol.Hash) +
-            "  ·  " + L(russian, "formula ", "формула ") + Short(OutputExporter.FormulaHash);
+        // Compact method-first stamp: full identities remain in the accompanying manifest.
+        string stamp = (outcome.StabilityMethod == null ? "tau: legacy/unversioned" : "tau-b-v2") +
+            " / " + Short(BenchmarkStabilityMethod.HashFor(outcome.StabilityMethod)) +
+            "  · P " + Short(BenchmarkProtocol.Hash) +
+            "  · seed " + outcome.Seed.ToString(CultureInfo.InvariantCulture);
         string brand = "MVS Analyzer  ·  " + outcome.RunId;
 
         foreach (FigureSize size in new[] { Print, Story, Square, Landscape })

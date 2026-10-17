@@ -8,6 +8,7 @@ if (args.Length == 3 && args[0] == "--export-huber-diagnostics") { HuberDiagnost
 if (args.Length == 3 && args[0] == "--export-multiplicity-diagnostics") { MultiplicityChecks.Export(args[1], args[2]); return 0; }
 if (args.Length == 3 && args[0] == "--export-maxt-diagnostics") { MaxTChecks.Export(args[1], args[2]); return 0; }
 if (args.Length == 2 && args[0] == "--journal-process-probe") return RunAuditorProcessProbe.Run(args[1]);
+if (args.Length == 1 && args[0] == "--test-failure-reporting-fixture") return TestReportChecks.Fixture(Console.Out);
 if (args.Length != 0) { Console.Error.WriteLine("Unknown test harness arguments."); return 2; }
 Environment.SetEnvironmentVariable("MVS_DISABLE_BACKUPS", "1");
 var tests = new (string Name, Action Run)[]
@@ -37,9 +38,8 @@ var tests = new (string Name, Action Run)[]
     ("The environment fingerprint is stable and honest", EnvironmentFingerprint),
     ("A remote job survives the round trip", RemoteJobRoundTrip),
     ("Command line options are read the same way twice", CliArgumentReading)
-}.Concat(ImportBoundaryChecks.All).Concat(ApplicationDataChecks.All).Concat(RunAuditorChecks.All).Concat(CliArgumentChecks.All).Concat(HuberNumericalChecks.All).Concat(BenchmarkDiagnosticChecks.All).Concat(MultiplicityChecks.All).Concat(MaxTChecks.All).Concat(AvailabilityChecks.All).Concat(ScientificChecks.All).Concat(RankTestChecks.All).Concat(SerializationChecks.All).Concat(ColabChecks.All).Concat(BackupChecks.All).Concat(BackupRetryChecks.All).Concat(BackupProvenanceChecks.All).Concat(RunRecordingChecks.All).ToArray();
-int failed=0;foreach(var test in tests){try{test.Run();Console.WriteLine($"PASS  {test.Name}");}catch(Exception ex){failed++;Console.WriteLine($"FAIL  {test.Name}: {ex.Message}");}}
-Console.WriteLine($"{tests.Length-failed}/{tests.Length} tests passed");return failed==0?0:1;
+}.Concat(ImportBoundaryChecks.All).Concat(ApplicationDataChecks.All).Concat(RunAuditorChecks.All).Concat(CliArgumentChecks.All).Concat(HuberNumericalChecks.All).Concat(BenchmarkDiagnosticChecks.All).Concat(BenchmarkTauChecks.All).Concat(BenchmarkTauExportChecks.All).Concat(MultiplicityChecks.All).Concat(MaxTChecks.All).Concat(AvailabilityChecks.All).Concat(ScientificChecks.All).Concat(RankTestChecks.All).Concat(SerializationChecks.All).Concat(ColabChecks.All).Concat(BackupChecks.All).Concat(BackupRetryChecks.All).Concat(BackupProvenanceChecks.All).Concat(RunRecordingChecks.All).Concat(TestReportChecks.All).ToArray();
+return TestReport.Run(tests, Console.Out);
 
 static void ProcessingLimits(){var rows=Data(8,10,100,40).Concat(Data(8,10,250,40,"B")).ToList();var data=AnalysisEngine.Build(rows,150,5000,6);Assert(data.Observations.All(x=>x.Value>=150),"Configured minimum was ignored");Assert(data.MinValueApplied==150&&data.MinMeasurementsApplied==6,"Applied limits not recorded");}
 static void MultiGroupBuild(){var rows=Data(6,10,100,2,"A").Concat(Data(6,10,120,2,"B")).Concat(Data(6,10,140,2,"C")).ToList();var data=AnalysisEngine.Build(rows);Assert(data.GroupNames.Length==3&&data.GroupCounts.All(x=>x==6),"Three-group data was not built");}

@@ -1,0 +1,943 @@
+{
+  "boundary_disagreements": [],
+  "counts": {
+    "audited_historical_symbols": 20160000,
+    "cases": 120,
+    "entity_condition_vectors": 15360,
+    "half_condition_blocks": 960,
+    "halves": 240,
+    "historical_count_cells": 11520,
+    "metric_rank_records": 11520,
+    "observation_values": 614400
+  },
+  "production_changes": false,
+  "rows": [
+    {
+      "available": 240,
+      "condition": "identity",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "median",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.4752604166666667,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "identity",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "standard_deviation",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.505078125,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "identity",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "coefficient_of_variation",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.5111979166666667,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "identity",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "mad",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.512890625,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "identity",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "iqr",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.5100260416666667,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "identity",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "normalized_mad",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.5175130208333333,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "identity",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "normalized_iqr",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 1,
+      "natural_family": false,
+      "ordering_probability_mean": 0.5139322916666667,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 1,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "identity",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "mean",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.4752604166666667,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "identity",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "rms",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.4752604166666667,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "identity",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "range",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.4931640625,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "identity",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "geometric_mean",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.475390625,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "identity",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "trimmed_mean_20",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.47454427083333334,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "location",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "median",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 128,
+      "natural_family": true,
+      "ordering_probability_mean": 0.9217447916666667,
+      "paired_decision_changes": {
+        "gain": 128,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 112
+      },
+      "reference_rejections": 128,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "location",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "standard_deviation",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.505078125,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "location",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "coefficient_of_variation",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 1,
+      "natural_family": false,
+      "ordering_probability_mean": 0.37643229166666664,
+      "paired_decision_changes": {
+        "gain": 1,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 239
+      },
+      "reference_rejections": 1,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "location",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "mad",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.512890625,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "location",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "iqr",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.5100260416666667,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "location",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "normalized_mad",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.3942057291666667,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "location",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "normalized_iqr",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 1,
+      "natural_family": false,
+      "ordering_probability_mean": 0.38958333333333334,
+      "paired_decision_changes": {
+        "gain": 1,
+        "loss": 1,
+        "unavailable": 0,
+        "unchanged": 238
+      },
+      "reference_rejections": 1,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "location",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "mean",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 128,
+      "natural_family": true,
+      "ordering_probability_mean": 0.9216796875,
+      "paired_decision_changes": {
+        "gain": 128,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 112
+      },
+      "reference_rejections": 128,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "location",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "rms",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 128,
+      "natural_family": false,
+      "ordering_probability_mean": 0.9217447916666667,
+      "paired_decision_changes": {
+        "gain": 128,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 112
+      },
+      "reference_rejections": 128,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "location",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "range",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.4931640625,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "location",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "geometric_mean",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 128,
+      "natural_family": true,
+      "ordering_probability_mean": 0.9219401041666667,
+      "paired_decision_changes": {
+        "gain": 128,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 112
+      },
+      "reference_rejections": 128,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "location",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "trimmed_mean_20",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 130,
+      "natural_family": true,
+      "ordering_probability_mean": 0.921875,
+      "paired_decision_changes": {
+        "gain": 130,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 110
+      },
+      "reference_rejections": 130,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "variability",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "median",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.4752604166666667,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "variability",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "standard_deviation",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": true,
+      "ordering_probability_mean": 0.6274088541666667,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "variability",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "coefficient_of_variation",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": true,
+      "ordering_probability_mean": 0.6357421875,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "variability",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "mad",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 2,
+      "natural_family": true,
+      "ordering_probability_mean": 0.6305989583333333,
+      "paired_decision_changes": {
+        "gain": 2,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 238
+      },
+      "reference_rejections": 2,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "variability",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "iqr",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 2,
+      "natural_family": true,
+      "ordering_probability_mean": 0.6240885416666667,
+      "paired_decision_changes": {
+        "gain": 2,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 238
+      },
+      "reference_rejections": 2,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "variability",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "normalized_mad",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 3,
+      "natural_family": true,
+      "ordering_probability_mean": 0.6407552083333333,
+      "paired_decision_changes": {
+        "gain": 3,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 237
+      },
+      "reference_rejections": 3,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "variability",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "normalized_iqr",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 3,
+      "natural_family": true,
+      "ordering_probability_mean": 0.6357421875,
+      "paired_decision_changes": {
+        "gain": 2,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 238
+      },
+      "reference_rejections": 3,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "variability",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "mean",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.4752604166666667,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "variability",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "rms",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.47565104166666666,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "variability",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "range",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": true,
+      "ordering_probability_mean": 0.6001953125,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "variability",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "geometric_mean",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.4749348958333333,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "variability",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "trimmed_mean_20",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.47454427083333334,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "heterogeneity",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "median",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": true,
+      "ordering_probability_mean": 0.47532552083333335,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "heterogeneity",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "standard_deviation",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.505078125,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "heterogeneity",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "coefficient_of_variation",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.5109375,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "heterogeneity",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "mad",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.512890625,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "heterogeneity",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "iqr",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.5100260416666667,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "heterogeneity",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "normalized_mad",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.5185546875,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "heterogeneity",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "normalized_iqr",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 1,
+      "natural_family": false,
+      "ordering_probability_mean": 0.51484375,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 1,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "heterogeneity",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "mean",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": true,
+      "ordering_probability_mean": 0.47506510416666664,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "heterogeneity",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "rms",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.475,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "heterogeneity",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "range",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": false,
+      "ordering_probability_mean": 0.4931640625,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "heterogeneity",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "geometric_mean",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": true,
+      "ordering_probability_mean": 0.4749348958333333,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    },
+    {
+      "available": 240,
+      "condition": "heterogeneity",
+      "denominator_halves": 240,
+      "interpretation": "descriptive paired deterministic response; not power, independent validation, or a ranking",
+      "metric": "trimmed_mean_20",
+      "native_reference_decision_disagreements": 0,
+      "native_rejections": 0,
+      "natural_family": true,
+      "ordering_probability_mean": 0.4755859375,
+      "paired_decision_changes": {
+        "gain": 0,
+        "loss": 0,
+        "unavailable": 0,
+        "unchanged": 240
+      },
+      "reference_rejections": 0,
+      "unavailable": 0
+    }
+  ],
+  "schema": "mvs-scenario-mechanism-summaries/v1",
+  "scientific_go": false,
+  "synthetic": false,
+  "attempts": [
+    {
+      "status": "technical_failure",
+      "bind_sha256": "57ab87bc09c0b87201a7826d784346dabef883db411f23657ff45eb19a09049f",
+      "wall_seconds": 7.3605677080049645
+    },
+    {
+      "status": "completed",
+      "bind_sha256": "080bd936d12ee7cbd6d060d98cb9b07730ac15ac9da3f36f67e90f881c477114",
+      "wall_seconds": 95.90167538600508
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "schema": "mvs-nist-univariate-protocol/v1",
+  "id": "MVS-NUM-NIST-UNIVARIATE-1.0.0",
+  "status": "fixed-before-native-evaluation",
+  "datasetNames": [
+    "PiDigits",
+    "Lottery",
+    "Lew",
+    "Mavro",
+    "Michelso",
+    "NumAcc1",
+    "NumAcc2",
+    "NumAcc3",
+    "NumAcc4"
+  ],
+  "datasetCounts": [
+    5000,
+    218,
+    200,
+    50,
+    100,
+    3,
+    1001,
+    1001,
+    1001
+  ],
+  "totalValues": 8574,
+  "operations": [
+    "mean",
+    "standardDeviation"
+  ],
+  "requestedNumericalRows": 18,
+  "relativeTolerance": "1e-10",
+  "primaryGate": "Exact Fraction abs(native_binary64 - published_decimal) <= abs(published_decimal)/10**10; all18 nonzero",
+  "certifiedReferencePolicy": "NumAcc1-4 exact; remaining fields half last printed decimal quantum; exact Fraction interval mean / squared SD verification",
+  "precisionDiagnostic": {
+    "digits": [
+      100,
+      200
+    ],
+    "absoluteRelativeAgreement": "1e-90 * max(1,abs(reference200))"
+  },
+  "inputManifestSha256": "dac0101222a8df5f3cd6910bdf89c1c49e2f19fc97db3496a8438d5cb56b2860",
+  "documentSha256": "edc0f4fba494ea66e3c2a1bb704c976b119293da804153bd982c92ffa1bec116",
+  "nativeMaxInputBytes": 16777216,
+  "nativeTimeoutSeconds": 120,
+  "totalNativeInvocationCap": 20,
+  "nativeCumulativeWallCapSeconds": 120,
+  "newScientificSamples": false,
+  "productionChanges": false,
+  "scientificStatus": "NO-GO unchanged"
+}

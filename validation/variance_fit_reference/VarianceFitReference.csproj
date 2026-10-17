@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>MvsAnalyzer.Core.Tests</AssemblyName>
+    <RootNamespace>MvsVarianceFitReference</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Deterministic>true</Deterministic>
+    <SelfContained>false</SelfContained>
+    <UseAppHost>false</UseAppHost>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../MvsAnalyzer.Core/MvsAnalyzer.Core.csproj" />
+    <!-- These are provenance bytes, never additional compiled implementations. -->
+    <EmbeddedResource Include="../../Core/VarianceAnalysis.cs" LogicalName="source/Core/VarianceAnalysis.cs" />
+    <EmbeddedResource Include="../../Core/NumericalMethods.cs" LogicalName="source/Core/NumericalMethods.cs" />
+    <EmbeddedResource Include="../../MvsAnalyzer.Core/MvsAnalyzer.Core.csproj" LogicalName="source/MvsAnalyzer.Core/MvsAnalyzer.Core.csproj" />
+    <EmbeddedResource Include="../../SharedSources.props" LogicalName="source/SharedSources.props" />
+    <EmbeddedResource Include="Program.cs" LogicalName="source/validation/variance_fit_reference/Program.cs" />
+    <EmbeddedResource Include="VarianceFitReference.csproj" LogicalName="source/validation/variance_fit_reference/VarianceFitReference.csproj" />
+  </ItemGroup>
+</Project>

@@ -51,6 +51,7 @@ internal static class BenchmarkReport
             throw new InvalidDataException("Choose a folder for the benchmark output first.");
 
         BenchmarkOutcome outcome = BenchmarkRunner.Run(profile, seed, realDataFolder, russian, progress, token);
+        BenchmarkStabilityMethod.ValidateOutcome(outcome);
 
         string folder = Unique(Path.Combine(root, "MVS_Benchmark_" + outcome.RunId));
         Directory.CreateDirectory(folder);
@@ -62,7 +63,7 @@ internal static class BenchmarkReport
         {
             string path = Path.Combine(directory, name);
             observeWrite?.Invoke(path, false);
-            Write(directory, name, content);
+            Write(directory, name, name.EndsWith(".csv", StringComparison.Ordinal) ? WithStabilityIdentity(content, outcome) : content);
             observeWrite?.Invoke(path, true);
             return path;
         }
@@ -87,7 +88,8 @@ internal static class BenchmarkReport
             WriteObserved(folder, "benchmark_stability.csv", StabilityCsv(outcome)),
             WriteObserved(folder, "benchmark_stability_replications.csv", StabilityReplicationsCsv(outcome)),
             WriteObserved(folder, "benchmark_verdicts.csv", VerdictsCsv(outcome)),
-            WriteObserved(folder, "benchmark_protocol.txt", BenchmarkProtocol.Specification)
+            WriteObserved(folder, "benchmark_protocol.txt", BenchmarkProtocol.Specification),
+            WriteObserved(folder, "benchmark_stability_method.txt", StabilityIdentityText(outcome))
         };
         files.Add(WriteObserved(folder, "benchmark_manifest.json", Manifest(outcome, figures, files)));
 
@@ -383,10 +385,59 @@ internal static class BenchmarkReport
 
     private static string JsonNumber(double value) => double.IsFinite(value) ? N(value) : "null";
 
+    internal static string StabilityIdentityText(BenchmarkOutcome outcome)
+    {
+        BenchmarkStabilityMethod.ValidateOutcome(outcome);
+        return "Protocol text: " + BenchmarkProtocol.Version + "\nProtocol text SHA256: " + BenchmarkProtocol.Hash +
+            "\nStability method: " + BenchmarkStabilityMethod.ResolveId(outcome.StabilityMethod) +
+            "\nMethod specification SHA256: " + BenchmarkStabilityMethod.HashFor(outcome.StabilityMethod) +
+            "\nComposite comparability key: " + BenchmarkStabilityMethod.ComparisonKey(outcome.StabilityMethod) +
+            "\nProvenance: " + (outcome.StabilityMethod == null ? "legacy_unversioned; original executable identity was not recorded" : "explicit_method_identity") +
+            "\nThe frozen protocol text alone does not identify diagnostic arithmetic. Tau affects hypothesis C and Overall.\n" +
+            "Undefined tau is excluded from both tau and top-one denominators under the existing aggregation policy; requested and failed counts remain reported.\n\n" +
+            BenchmarkStabilityMethod.SpecificationFor(outcome.StabilityMethod) + "\n";
+    }
+
+    // Append identity without reparsing/reformatting any existing field. Respect quoted newlines.
+    internal static string WithStabilityIdentity(string csv, BenchmarkOutcome outcome)
+    {
+        BenchmarkStabilityMethod.ValidateOutcome(outcome);
+        string suffix = "," + C(BenchmarkStabilityMethod.ResolveId(outcome.StabilityMethod)) + "," +
+            C(BenchmarkStabilityMethod.HashFor(outcome.StabilityMethod)) + "," +
+            C(BenchmarkStabilityMethod.ComparisonKey(outcome.StabilityMethod));
+        var result = new StringBuilder(csv.Length + suffix.Length * 8);
+        bool quoted = false, header = true;
+        for (int i = 0; i < csv.Length; i++)
+        {
+            char c = csv[i];
+            if (c == '"')
+            {
+                if (quoted && i + 1 < csv.Length && csv[i + 1] == '"') { result.Append("\"\""); i++; continue; }
+                quoted = !quoted;
+            }
+            if (c == '\n' && !quoted)
+            {
+                if (result.Length > 0 && result[^1] == '\r') result.Length--;
+                result.Append(header ? ",stability_method,stability_method_hash,comparability_key" : suffix).Append('\n');
+                header = false;
+            }
+            else result.Append(c);
+        }
+        if (quoted) throw new InvalidDataException("Unterminated exported CSV field.");
+        if (csv.Length > 0 && csv[^1] != '\n') result.Append(header ? ",stability_method,stability_method_hash,comparability_key" : suffix);
+        return result.ToString();
+    }
+
     internal static string Manifest(BenchmarkOutcome outcome, List<string> figures, List<string> files)
     {
         var text = new StringBuilder();
+        BenchmarkStabilityMethod.ValidateOutcome(outcome);
         text.Append("{\n");
+        text.Append("  \"stabilityMethod\": \"").Append(J(BenchmarkStabilityMethod.ResolveId(outcome.StabilityMethod))).Append("\",\n");
+        text.Append("  \"stabilityMethodHash\": \"").Append(J(BenchmarkStabilityMethod.HashFor(outcome.StabilityMethod))).Append("\",\n");
+        text.Append("  \"comparabilityKey\": \"").Append(J(BenchmarkStabilityMethod.ComparisonKey(outcome.StabilityMethod))).Append("\",\n");
+        text.Append("  \"stabilityMethodProvenance\": \"").Append(outcome.StabilityMethod == null ? "legacy_unversioned" : "explicit_method_identity").Append("\",\n");
+        text.Append("  \"protocolIdentityScope\": \"Frozen protocol text only; comparability also requires stability method identity.\",\n");
         text.Append("  \"diagnosticsVersion\": \"").Append(DiagnosticsVersion).Append("\",\n");
         text.Append("  \"diagnosticsMissingReplications\": ").Append(I(DiagnosticRows(outcome).Count(r => r.Item?.Diagnostics == null))).Append(",\n");
         text.Append("  \"diagnosticsMissingStabilityReplications\": ").Append(I(Enumerable.Range(0, outcome.Profile.StabilityRepeats).Count(i => outcome.Stability.ReplicationRecords == null || i >= outcome.Stability.ReplicationRecords.Length || !outcome.Stability.ReplicationRecords[i].DiagnosticsRetained))).Append(",\n");
@@ -528,6 +579,8 @@ internal static class BenchmarkReport
         text.Append(T(russian, "| Protocol hash | `", "| Хеш протокола | `")).Append(BenchmarkProtocol.Hash).Append("` |\n");
         text.Append(T(russian, "| Protocol unchanged | ", "| Протокол не изменялся | "))
             .Append(BenchmarkProtocol.HashIsFrozen ? T(russian, "yes", "да") : T(russian, "**NO**", "**НЕТ**")).Append(" |\n");
+        text.Append(T(russian, "| Stability method | ", "| Метод устойчивости | ")).Append(BenchmarkStabilityMethod.ResolveId(outcome.StabilityMethod)).Append(" |\n");
+        text.Append(T(russian, "| Composite comparison key | `", "| Составной ключ сопоставимости | `")).Append(BenchmarkStabilityMethod.ComparisonKey(outcome.StabilityMethod)).Append("` |\n");
         text.Append(T(russian, "| Engine | ", "| Движок | ")).Append(AnalysisEngine.EngineVersion).Append(" |\n");
         text.Append(T(russian, "| Formula | ", "| Формула | ")).Append(OutputExporter.FormulaVersion)
             .Append(" (`").Append(OutputExporter.FormulaHash).Append("`) |\n");
@@ -535,6 +588,12 @@ internal static class BenchmarkReport
         text.Append(T(russian, "| Environment | ", "| Окружение | ")).Append(BenchmarkEnvironment.ShortHash).Append(" |\n");
         text.Append(T(russian, "| Threads | ", "| Потоков | ")).Append(I(outcome.Threads)).Append(" |\n\n");
 
+        text.Append(T(russian,
+            "Protocol unchanged means the declared text is unchanged, not identical diagnostic arithmetic. Tau affects hypothesis C and Overall. ",
+            "Неизменность протокола относится к его тексту, а не к одинаковой арифметике диагностики. Тау влияет на гипотезу C и общий итог. "));
+        text.Append(outcome.StabilityMethod == null
+            ? T(russian, "Legacy unversioned result: corrected tau-b was not applied; original executable identity is unknown.\n\n", "Исторический результат без версии метода: исправленная тау-b не применена; исходный исполняемый файл не установлен.\n\n")
+            : T(russian, "Corrected tau-b method explicitly recorded.\n\n", "Версия исправленного метода тау-b записана явно.\n\n"));
         text.Append(T(russian, "## Verdict\n\n", "## Итог\n\n"));
         string overall = outcome.Overall == "go"
             ? T(russian, "**ALL PRE-REGISTERED THRESHOLDS WERE MET.**", "**ВСЕ ЗАРАНЕЕ ЗАПИСАННЫЕ ПОРОГИ ПРОЙДЕНЫ.**")
@@ -691,6 +750,9 @@ internal static class BenchmarkReport
                 .Append(",\"profile\":\"").Append(J(outcome.Profile.Id))
                 .Append("\",\"protocol\":\"").Append(J(BenchmarkProtocol.Version))
                 .Append("\",\"protocolHash\":\"").Append(J(BenchmarkProtocol.Hash))
+                .Append("\",\"stabilityMethod\":\"").Append(J(BenchmarkStabilityMethod.ResolveId(outcome.StabilityMethod)))
+                .Append("\",\"stabilityMethodHash\":\"").Append(J(BenchmarkStabilityMethod.HashFor(outcome.StabilityMethod)))
+                .Append("\",\"comparabilityKey\":\"").Append(J(BenchmarkStabilityMethod.ComparisonKey(outcome.StabilityMethod)))
                 .Append("\",\"engine\":\"").Append(J(AnalysisEngine.EngineVersion))
                 .Append("\",\"formulaHash\":\"").Append(J(OutputExporter.FormulaHash))
                 .Append("\",\"overall\":\"").Append(J(outcome.Overall))

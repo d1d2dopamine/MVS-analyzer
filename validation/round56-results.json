@@ -1,0 +1,55 @@
+{
+  "schema": "mvs-round56-engineering-summary/v1",
+  "status": "supplemental_engineering_parity_verified",
+  "original_attempt_status": "technical_failure",
+  "original_binding_sha256": "2363e75727952c7ebb042441e4e4ad5175417071242fe6f3b9d69de92872d026",
+  "supplemental_binding_sha256": "2dc8efde60a97d58da812f541b0f1322c1452446ab852ff17af203b661c47861",
+  "original_result_sha256": "449d1d814fe8b9d951af85981b7e7ad7b1b87f4f22edc3ee05b7c5069616668b",
+  "supplemental_result_sha256": "534238b8f6813304dcf8aab8d2fe7a0e9c6d416cddb35e02e389e4afda1c8c10",
+  "actual_native_calculations": 4,
+  "original_call_recomputed": false,
+  "new_scientific_datasets": 0,
+  "study_execution_authorized": false,
+  "fixture_rows": [
+    1280,
+    80
+  ],
+  "pairs": [
+    {
+      "callbacks": 1103,
+      "matched": true,
+      "payload_sha256": "188f26a0ec65ff9d64686a7403fa38a8f09ab58b286c746203e3f42c40251a69",
+      "trace_sha256": "a34dbdc1e239ac8eb98d02b92e66c69743ad3bf8b12a09fce5bc0c6005bd09d5"
+    },
+    {
+      "callbacks": 1103,
+      "matched": true,
+      "payload_sha256": "b936c5a9b33191ebe6a2af8188dea2cd25e17d626962eaa8f1786c7a4b112496",
+      "trace_sha256": "5c8aedaed2f0f335b3932ce77916abfd3371727aa2ed588b08b10d33bedeb4c3"
+    }
+  ],
+  "total_callback_records": 4412,
+  "paired_callback_comparisons": 2206,
+  "numeric_tolerance": 0,
+  "original_call_lifecycle_seconds": 1.708501710993005,
+  "remaining_call_lifecycle_seconds": [
+    1.927287458005594,
+    1.2792579430097248,
+    1.375832262012409
+  ],
+  "combined_computation_lifecycle_seconds": 6.4486076059693005,
+  "diagnosis_pause_included_in_compute_time": false,
+  "max_sampled_rss_bytes": 57180160,
+  "combined_child_cpu_seconds": 6.138923,
+  "original_plus_supplemental_retained_bytes": 1954556,
+  "readiness": {
+    "case_schema": "verified_with_literal_and_negative_tests",
+    "generator_mechanics": "verified_with_scripted_draws_and_test_namespace",
+    "reserved_study_streams_instantiated": false,
+    "native_adapter": "two_literal_sizes_paired_exact",
+    "report_contract": "synthetic_oracles_and_native_fixture_validation",
+    "large_study_coordinator": "not_implemented",
+    "final_execution_admission": "blocked"
+  },
+  "statistical_gain_assessed": false
+}

@@ -1,0 +1,3659 @@
+{
+  "stage": 50,
+  "kind": "prespecified-small-paired-development-pilot",
+  "productionChanged": false,
+  "scientificActivation": false,
+  "scientificReadiness": "NO-GO",
+  "protocolSha256": "eccb4e6a817483a61efcaefdfbde211b284a417074d4d305a0c3b4d462d6eb75",
+  "bindingSha256": "02ff2826c4d20d051960a5e51dd82d7c797deb283628b34fde8030490c47642e",
+  "requested": 192,
+  "completed": 192,
+  "conditions": [
+    {
+      "analytic_references": {
+        "between": {
+          "marginal": {
+            "failure_bounds": [
+              0.0,
+              0.0
+            ],
+            "nonreject": 32,
+            "operational_rate": 0.0,
+            "pointwise_wilson_95": [
+              0,
+              0.1071791982550706
+            ],
+            "reject": 0,
+            "requested": 32,
+            "unavailable": 0,
+            "unavailable_counted_nonreject_for_operational_rate": true
+          },
+          "variance_minus_reference": {
+            "difference_left_minus_right": 0.0,
+            "discordance_97_5_cp": {
+              "left_only": [
+                0.0,
+                0.12797599984079655
+              ],
+              "right_only": [
+                0.0,
+                0.12797599984079655
+              ]
+            },
+            "left": {
+              "failure_bounds": [
+                0.0,
+                0.0
+              ],
+              "nonreject": 32,
+              "operational_rate": 0.0,
+              "pointwise_wilson_95": [
+                0,
+                0.1071791982550706
+              ],
+              "reject": 0,
+              "requested": 32,
+              "unavailable": 0,
+              "unavailable_counted_nonreject_for_operational_rate": true
+            },
+            "operational_2x2": [
+              [
+                32,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "operational_order": [
+              "not_reject_including_unavailable",
+              "reject"
+            ],
+            "paired_3x3": [
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                32,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ]
+            ],
+            "pointwise_conservative_95_difference_interval": [
+              -0.12797599984079655,
+              0.12797599984079655
+            ],
+            "requested": 32,
+            "right": {
+              "failure_bounds": [
+                0.0,
+                0.0
+              ],
+              "nonreject": 32,
+              "operational_rate": 0.0,
+              "pointwise_wilson_95": [
+                0,
+                0.1071791982550706
+              ],
+              "reject": 0,
+              "requested": 32,
+              "unavailable": 0,
+              "unavailable_counted_nonreject_for_operational_rate": true
+            },
+            "simultaneous_coverage_claim": false,
+            "state_order": [
+              "reject",
+              "nonreject",
+              "unavailable"
+            ]
+          }
+        },
+        "within": {
+          "marginal": {
+            "failure_bounds": [
+              0.0,
+              0.0
+            ],
+            "nonreject": 32,
+            "operational_rate": 0.0,
+            "pointwise_wilson_95": [
+              0,
+              0.1071791982550706
+            ],
+            "reject": 0,
+            "requested": 32,
+            "unavailable": 0,
+            "unavailable_counted_nonreject_for_operational_rate": true
+          },
+          "variance_minus_reference": {
+            "difference_left_minus_right": 0.0,
+            "discordance_97_5_cp": {
+              "left_only": [
+                0.0,
+                0.12797599984079655
+              ],
+              "right_only": [
+                0.0,
+                0.12797599984079655
+              ]
+            },
+            "left": {
+              "failure_bounds": [
+                0.0,
+                0.0
+              ],
+              "nonreject": 32,
+              "operational_rate": 0.0,
+              "pointwise_wilson_95": [
+                0,
+                0.1071791982550706
+              ],
+              "reject": 0,
+              "requested": 32,
+              "unavailable": 0,
+              "unavailable_counted_nonreject_for_operational_rate": true
+            },
+            "operational_2x2": [
+              [
+                32,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "operational_order": [
+              "not_reject_including_unavailable",
+              "reject"
+            ],
+            "paired_3x3": [
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                32,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ]
+            ],
+            "pointwise_conservative_95_difference_interval": [
+              -0.12797599984079655,
+              0.12797599984079655
+            ],
+            "requested": 32,
+            "right": {
+              "failure_bounds": [
+                0.0,
+                0.0
+              ],
+              "nonreject": 32,
+              "operational_rate": 0.0,
+              "pointwise_wilson_95": [
+                0,
+                0.1071791982550706
+              ],
+              "reject": 0,
+              "requested": 32,
+              "unavailable": 0,
+              "unavailable_counted_nonreject_for_operational_rate": true
+            },
+            "simultaneous_coverage_claim": false,
+            "state_order": [
+              "reject",
+              "nonreject",
+              "unavailable"
+            ]
+          }
+        }
+      },
+      "both_components_reject": {
+        "failure_bounds": [
+          0.0,
+          0.0
+        ],
+        "nonreject": 32,
+        "operational_rate": 0.0,
+        "pointwise_wilson_95": [
+          0,
+          0.1071791982550706
+        ],
+        "reject": 0,
+        "requested": 32,
+        "unavailable": 0,
+        "unavailable_counted_nonreject_for_operational_rate": true
+      },
+      "completed_native_cases": 32,
+      "components": {
+        "between": {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        "within": {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        }
+      },
+      "condition": {
+        "gaussian_between_reference_applicable": true,
+        "gaussian_within_reference_applicable": true,
+        "group0": {
+          "between_sd": 1,
+          "mean": 20,
+          "within_sd": 1
+        },
+        "group1": {
+          "between_sd": 1,
+          "mean": 20,
+          "within_sd": 1
+        },
+        "id": "C0",
+        "index": 0,
+        "latent_distribution": "gaussian",
+        "name": "gaussian_global_null",
+        "relative_changes": {
+          "between_sd": 0,
+          "between_variance": 0,
+          "mean": 0.0,
+          "within_sd": 0,
+          "within_variance": 0
+        },
+        "truth": {
+          "between_null": true,
+          "legacy_equal_distribution_null": true,
+          "within_null": true
+        }
+      },
+      "condition_index": 0,
+      "global_variance_minus_legacy": {
+        "difference_left_minus_right": 0.0,
+        "discordance_97_5_cp": {
+          "left_only": [
+            0.0,
+            0.12797599984079655
+          ],
+          "right_only": [
+            0.0,
+            0.12797599984079655
+          ]
+        },
+        "left": {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        "operational_2x2": [
+          [
+            32,
+            0
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "operational_order": [
+          "not_reject_including_unavailable",
+          "reject"
+        ],
+        "paired_3x3": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            32,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "pointwise_conservative_95_difference_interval": [
+          -0.12797599984079655,
+          0.12797599984079655
+        ],
+        "requested": 32,
+        "right": {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        "simultaneous_coverage_claim": false,
+        "state_order": [
+          "reject",
+          "nonreject",
+          "unavailable"
+        ]
+      },
+      "legacy_metrics": [
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        }
+      ],
+      "status_counts": {
+        "completed": 32
+      }
+    },
+    {
+      "analytic_references": {
+        "between": {
+          "marginal": {
+            "failure_bounds": [
+              0.03125,
+              0.03125
+            ],
+            "nonreject": 31,
+            "operational_rate": 0.03125,
+            "pointwise_wilson_95": [
+              0.005537860164003122,
+              0.15744263820012558
+            ],
+            "reject": 1,
+            "requested": 32,
+            "unavailable": 0,
+            "unavailable_counted_nonreject_for_operational_rate": true
+          },
+          "variance_minus_reference": {
+            "difference_left_minus_right": 0.0,
+            "discordance_97_5_cp": {
+              "left_only": [
+                0.0,
+                0.12797599984079655
+              ],
+              "right_only": [
+                0.0,
+                0.12797599984079655
+              ]
+            },
+            "left": {
+              "failure_bounds": [
+                0.03125,
+                0.03125
+              ],
+              "nonreject": 31,
+              "operational_rate": 0.03125,
+              "pointwise_wilson_95": [
+                0.005537860164003122,
+                0.15744263820012558
+              ],
+              "reject": 1,
+              "requested": 32,
+              "unavailable": 0,
+              "unavailable_counted_nonreject_for_operational_rate": true
+            },
+            "operational_2x2": [
+              [
+                31,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "operational_order": [
+              "not_reject_including_unavailable",
+              "reject"
+            ],
+            "paired_3x3": [
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                0,
+                31,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ]
+            ],
+            "pointwise_conservative_95_difference_interval": [
+              -0.12797599984079655,
+              0.12797599984079655
+            ],
+            "requested": 32,
+            "right": {
+              "failure_bounds": [
+                0.03125,
+                0.03125
+              ],
+              "nonreject": 31,
+              "operational_rate": 0.03125,
+              "pointwise_wilson_95": [
+                0.005537860164003122,
+                0.15744263820012558
+              ],
+              "reject": 1,
+              "requested": 32,
+              "unavailable": 0,
+              "unavailable_counted_nonreject_for_operational_rate": true
+            },
+            "simultaneous_coverage_claim": false,
+            "state_order": [
+              "reject",
+              "nonreject",
+              "unavailable"
+            ]
+          }
+        },
+        "within": {
+          "marginal": {
+            "failure_bounds": [
+              0.03125,
+              0.03125
+            ],
+            "nonreject": 31,
+            "operational_rate": 0.03125,
+            "pointwise_wilson_95": [
+              0.005537860164003122,
+              0.15744263820012558
+            ],
+            "reject": 1,
+            "requested": 32,
+            "unavailable": 0,
+            "unavailable_counted_nonreject_for_operational_rate": true
+          },
+          "variance_minus_reference": {
+            "difference_left_minus_right": 0.0,
+            "discordance_97_5_cp": {
+              "left_only": [
+                0.0,
+                0.12797599984079655
+              ],
+              "right_only": [
+                0.0,
+                0.12797599984079655
+              ]
+            },
+            "left": {
+              "failure_bounds": [
+                0.03125,
+                0.03125
+              ],
+              "nonreject": 31,
+              "operational_rate": 0.03125,
+              "pointwise_wilson_95": [
+                0.005537860164003122,
+                0.15744263820012558
+              ],
+              "reject": 1,
+              "requested": 32,
+              "unavailable": 0,
+              "unavailable_counted_nonreject_for_operational_rate": true
+            },
+            "operational_2x2": [
+              [
+                31,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "operational_order": [
+              "not_reject_including_unavailable",
+              "reject"
+            ],
+            "paired_3x3": [
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                0,
+                31,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ]
+            ],
+            "pointwise_conservative_95_difference_interval": [
+              -0.12797599984079655,
+              0.12797599984079655
+            ],
+            "requested": 32,
+            "right": {
+              "failure_bounds": [
+                0.03125,
+                0.03125
+              ],
+              "nonreject": 31,
+              "operational_rate": 0.03125,
+              "pointwise_wilson_95": [
+                0.005537860164003122,
+                0.15744263820012558
+              ],
+              "reject": 1,
+              "requested": 32,
+              "unavailable": 0,
+              "unavailable_counted_nonreject_for_operational_rate": true
+            },
+            "simultaneous_coverage_claim": false,
+            "state_order": [
+              "reject",
+              "nonreject",
+              "unavailable"
+            ]
+          }
+        }
+      },
+      "both_components_reject": {
+        "failure_bounds": [
+          0.0,
+          0.0
+        ],
+        "nonreject": 32,
+        "operational_rate": 0.0,
+        "pointwise_wilson_95": [
+          0,
+          0.1071791982550706
+        ],
+        "reject": 0,
+        "requested": 32,
+        "unavailable": 0,
+        "unavailable_counted_nonreject_for_operational_rate": true
+      },
+      "completed_native_cases": 32,
+      "components": {
+        "between": {
+          "failure_bounds": [
+            0.03125,
+            0.03125
+          ],
+          "nonreject": 31,
+          "operational_rate": 0.03125,
+          "pointwise_wilson_95": [
+            0.005537860164003122,
+            0.15744263820012558
+          ],
+          "reject": 1,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        "within": {
+          "failure_bounds": [
+            0.03125,
+            0.03125
+          ],
+          "nonreject": 31,
+          "operational_rate": 0.03125,
+          "pointwise_wilson_95": [
+            0.005537860164003122,
+            0.15744263820012558
+          ],
+          "reject": 1,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        }
+      },
+      "condition": {
+        "gaussian_between_reference_applicable": true,
+        "gaussian_within_reference_applicable": true,
+        "group0": {
+          "between_sd": 1,
+          "mean": 20,
+          "within_sd": 1
+        },
+        "group1": {
+          "between_sd": 1,
+          "mean": 22,
+          "within_sd": 1
+        },
+        "id": "C1",
+        "index": 1,
+        "latent_distribution": "gaussian",
+        "name": "gaussian_location_only",
+        "relative_changes": {
+          "between_sd": 0,
+          "between_variance": 0,
+          "mean": 0.1,
+          "within_sd": 0,
+          "within_variance": 0
+        },
+        "truth": {
+          "between_null": true,
+          "legacy_equal_distribution_null": false,
+          "within_null": true
+        }
+      },
+      "condition_index": 1,
+      "global_variance_minus_legacy": {
+        "difference_left_minus_right": -0.9375,
+        "discordance_97_5_cp": {
+          "left_only": [
+            0.0,
+            0.12797599984079655
+          ],
+          "right_only": [
+            0.7692924087273689,
+            0.9947084003557078
+          ]
+        },
+        "left": {
+          "failure_bounds": [
+            0.0625,
+            0.0625
+          ],
+          "nonreject": 30,
+          "operational_rate": 0.0625,
+          "pointwise_wilson_95": [
+            0.017310567031640967,
+            0.2014712314415458
+          ],
+          "reject": 2,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        "operational_2x2": [
+          [
+            0,
+            30
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "operational_order": [
+          "not_reject_including_unavailable",
+          "reject"
+        ],
+        "paired_3x3": [
+          [
+            2,
+            0,
+            0
+          ],
+          [
+            30,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "pointwise_conservative_95_difference_interval": [
+          -0.9947084003557078,
+          -0.6413164088865724
+        ],
+        "requested": 32,
+        "right": {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        "simultaneous_coverage_claim": false,
+        "state_order": [
+          "reject",
+          "nonreject",
+          "unavailable"
+        ]
+      },
+      "legacy_metrics": [
+        {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.125,
+            0.125
+          ],
+          "nonreject": 28,
+          "operational_rate": 0.125,
+          "pointwise_wilson_95": [
+            0.04970134387480073,
+            0.2806830548165022
+          ],
+          "reject": 4,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        }
+      ],
+      "status_counts": {
+        "completed": 32
+      }
+    },
+    {
+      "analytic_references": {
+        "between": {
+          "marginal": {
+            "failure_bounds": [
+              0.0,
+              1.0
+            ],
+            "nonreject": 0,
+            "operational_rate": 0.0,
+            "pointwise_wilson_95": [
+              0,
+              0.1071791982550706
+            ],
+            "reject": 0,
+            "requested": 32,
+            "unavailable": 32,
+            "unavailable_counted_nonreject_for_operational_rate": true
+          },
+          "variance_minus_reference": {
+            "difference_left_minus_right": 0.0,
+            "discordance_97_5_cp": {
+              "left_only": [
+                0.0,
+                0.12797599984079655
+              ],
+              "right_only": [
+                0.0,
+                0.12797599984079655
+              ]
+            },
+            "left": {
+              "failure_bounds": [
+                0.0,
+                0.0
+              ],
+              "nonreject": 32,
+              "operational_rate": 0.0,
+              "pointwise_wilson_95": [
+                0,
+                0.1071791982550706
+              ],
+              "reject": 0,
+              "requested": 32,
+              "unavailable": 0,
+              "unavailable_counted_nonreject_for_operational_rate": true
+            },
+            "operational_2x2": [
+              [
+                32,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "operational_order": [
+              "not_reject_including_unavailable",
+              "reject"
+            ],
+            "paired_3x3": [
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                32
+              ],
+              [
+                0,
+                0,
+                0
+              ]
+            ],
+            "pointwise_conservative_95_difference_interval": [
+              -0.12797599984079655,
+              0.12797599984079655
+            ],
+            "requested": 32,
+            "right": {
+              "failure_bounds": [
+                0.0,
+                1.0
+              ],
+              "nonreject": 0,
+              "operational_rate": 0.0,
+              "pointwise_wilson_95": [
+                0,
+                0.1071791982550706
+              ],
+              "reject": 0,
+              "requested": 32,
+              "unavailable": 32,
+              "unavailable_counted_nonreject_for_operational_rate": true
+            },
+            "simultaneous_coverage_claim": false,
+            "state_order": [
+              "reject",
+              "nonreject",
+              "unavailable"
+            ]
+          }
+        },
+        "within": {
+          "marginal": {
+            "failure_bounds": [
+              1.0,
+              1.0
+            ],
+            "nonreject": 0,
+            "operational_rate": 1.0,
+            "pointwise_wilson_95": [
+              0.8928208017449293,
+              1
+            ],
+            "reject": 32,
+            "requested": 32,
+            "unavailable": 0,
+            "unavailable_counted_nonreject_for_operational_rate": true
+          },
+          "variance_minus_reference": {
+            "difference_left_minus_right": 0.0,
+            "discordance_97_5_cp": {
+              "left_only": [
+                0.0,
+                0.12797599984079655
+              ],
+              "right_only": [
+                0.0,
+                0.12797599984079655
+              ]
+            },
+            "left": {
+              "failure_bounds": [
+                1.0,
+                1.0
+              ],
+              "nonreject": 0,
+              "operational_rate": 1.0,
+              "pointwise_wilson_95": [
+                0.8928208017449293,
+                1
+              ],
+              "reject": 32,
+              "requested": 32,
+              "unavailable": 0,
+              "unavailable_counted_nonreject_for_operational_rate": true
+            },
+            "operational_2x2": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                32
+              ]
+            ],
+            "operational_order": [
+              "not_reject_including_unavailable",
+              "reject"
+            ],
+            "paired_3x3": [
+              [
+                32,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ]
+            ],
+            "pointwise_conservative_95_difference_interval": [
+              -0.12797599984079655,
+              0.12797599984079655
+            ],
+            "requested": 32,
+            "right": {
+              "failure_bounds": [
+                1.0,
+                1.0
+              ],
+              "nonreject": 0,
+              "operational_rate": 1.0,
+              "pointwise_wilson_95": [
+                0.8928208017449293,
+                1
+              ],
+              "reject": 32,
+              "requested": 32,
+              "unavailable": 0,
+              "unavailable_counted_nonreject_for_operational_rate": true
+            },
+            "simultaneous_coverage_claim": false,
+            "state_order": [
+              "reject",
+              "nonreject",
+              "unavailable"
+            ]
+          }
+        }
+      },
+      "both_components_reject": {
+        "failure_bounds": [
+          0.0,
+          0.0
+        ],
+        "nonreject": 32,
+        "operational_rate": 0.0,
+        "pointwise_wilson_95": [
+          0,
+          0.1071791982550706
+        ],
+        "reject": 0,
+        "requested": 32,
+        "unavailable": 0,
+        "unavailable_counted_nonreject_for_operational_rate": true
+      },
+      "completed_native_cases": 32,
+      "components": {
+        "between": {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        "within": {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        }
+      },
+      "condition": {
+        "gaussian_between_reference_applicable": false,
+        "gaussian_within_reference_applicable": true,
+        "group0": {
+          "between_sd": 1,
+          "mean": 20,
+          "within_sd": 1
+        },
+        "group1": {
+          "between_sd": 1,
+          "mean": 20,
+          "within_sd": 2
+        },
+        "id": "C2",
+        "index": 2,
+        "latent_distribution": "gaussian",
+        "name": "gaussian_within_only",
+        "relative_changes": {
+          "between_sd": 0,
+          "between_variance": 0,
+          "mean": 0.0,
+          "within_sd": 1,
+          "within_variance": 3
+        },
+        "truth": {
+          "between_null": true,
+          "legacy_equal_distribution_null": false,
+          "within_null": false
+        }
+      },
+      "condition_index": 2,
+      "global_variance_minus_legacy": {
+        "difference_left_minus_right": 0.0,
+        "discordance_97_5_cp": {
+          "left_only": [
+            0.0,
+            0.12797599984079655
+          ],
+          "right_only": [
+            0.0,
+            0.12797599984079655
+          ]
+        },
+        "left": {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        "operational_2x2": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            32
+          ]
+        ],
+        "operational_order": [
+          "not_reject_including_unavailable",
+          "reject"
+        ],
+        "paired_3x3": [
+          [
+            32,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "pointwise_conservative_95_difference_interval": [
+          -0.12797599984079655,
+          0.12797599984079655
+        ],
+        "requested": 32,
+        "right": {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        "simultaneous_coverage_claim": false,
+        "state_order": [
+          "reject",
+          "nonreject",
+          "unavailable"
+        ]
+      },
+      "legacy_metrics": [
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        }
+      ],
+      "status_counts": {
+        "completed": 32
+      }
+    },
+    {
+      "analytic_references": {
+        "between": {
+          "marginal": {
+            "failure_bounds": [
+              0.53125,
+              0.53125
+            ],
+            "nonreject": 15,
+            "operational_rate": 0.53125,
+            "pointwise_wilson_95": [
+              0.3644951711897464,
+              0.6913061289193116
+            ],
+            "reject": 17,
+            "requested": 32,
+            "unavailable": 0,
+            "unavailable_counted_nonreject_for_operational_rate": true
+          },
+          "variance_minus_reference": {
+            "difference_left_minus_right": -0.0625,
+            "discordance_97_5_cp": {
+              "left_only": [
+                0.00039300969541375153,
+                0.18343510046636374
+              ],
+              "right_only": [
+                0.015183005426179293,
+                0.273816902501243
+              ]
+            },
+            "left": {
+              "failure_bounds": [
+                0.46875,
+                0.46875
+              ],
+              "nonreject": 17,
+              "operational_rate": 0.46875,
+              "pointwise_wilson_95": [
+                0.30869387108068835,
+                0.6355048288102536
+              ],
+              "reject": 15,
+              "requested": 32,
+              "unavailable": 0,
+              "unavailable_counted_nonreject_for_operational_rate": true
+            },
+            "operational_2x2": [
+              [
+                14,
+                3
+              ],
+              [
+                1,
+                14
+              ]
+            ],
+            "operational_order": [
+              "not_reject_including_unavailable",
+              "reject"
+            ],
+            "paired_3x3": [
+              [
+                14,
+                1,
+                0
+              ],
+              [
+                3,
+                14,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ]
+            ],
+            "pointwise_conservative_95_difference_interval": [
+              -0.2734238928058293,
+              0.16825209504018446
+            ],
+            "requested": 32,
+            "right": {
+              "failure_bounds": [
+                0.53125,
+                0.53125
+              ],
+              "nonreject": 15,
+              "operational_rate": 0.53125,
+              "pointwise_wilson_95": [
+                0.3644951711897464,
+                0.6913061289193116
+              ],
+              "reject": 17,
+              "requested": 32,
+              "unavailable": 0,
+              "unavailable_counted_nonreject_for_operational_rate": true
+            },
+            "simultaneous_coverage_claim": false,
+            "state_order": [
+              "reject",
+              "nonreject",
+              "unavailable"
+            ]
+          }
+        },
+        "within": {
+          "marginal": {
+            "failure_bounds": [
+              0.03125,
+              0.03125
+            ],
+            "nonreject": 31,
+            "operational_rate": 0.03125,
+            "pointwise_wilson_95": [
+              0.005537860164003122,
+              0.15744263820012558
+            ],
+            "reject": 1,
+            "requested": 32,
+            "unavailable": 0,
+            "unavailable_counted_nonreject_for_operational_rate": true
+          },
+          "variance_minus_reference": {
+            "difference_left_minus_right": 0.0,
+            "discordance_97_5_cp": {
+              "left_only": [
+                0.0,
+                0.12797599984079655
+              ],
+              "right_only": [
+                0.0,
+                0.12797599984079655
+              ]
+            },
+            "left": {
+              "failure_bounds": [
+                0.03125,
+                0.03125
+              ],
+              "nonreject": 31,
+              "operational_rate": 0.03125,
+              "pointwise_wilson_95": [
+                0.005537860164003122,
+                0.15744263820012558
+              ],
+              "reject": 1,
+              "requested": 32,
+              "unavailable": 0,
+              "unavailable_counted_nonreject_for_operational_rate": true
+            },
+            "operational_2x2": [
+              [
+                31,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "operational_order": [
+              "not_reject_including_unavailable",
+              "reject"
+            ],
+            "paired_3x3": [
+              [
+                1,
+                0,
+                0
+              ],
+              [
+                0,
+                31,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ]
+            ],
+            "pointwise_conservative_95_difference_interval": [
+              -0.12797599984079655,
+              0.12797599984079655
+            ],
+            "requested": 32,
+            "right": {
+              "failure_bounds": [
+                0.03125,
+                0.03125
+              ],
+              "nonreject": 31,
+              "operational_rate": 0.03125,
+              "pointwise_wilson_95": [
+                0.005537860164003122,
+                0.15744263820012558
+              ],
+              "reject": 1,
+              "requested": 32,
+              "unavailable": 0,
+              "unavailable_counted_nonreject_for_operational_rate": true
+            },
+            "simultaneous_coverage_claim": false,
+            "state_order": [
+              "reject",
+              "nonreject",
+              "unavailable"
+            ]
+          }
+        }
+      },
+      "both_components_reject": {
+        "failure_bounds": [
+          0.03125,
+          0.03125
+        ],
+        "nonreject": 31,
+        "operational_rate": 0.03125,
+        "pointwise_wilson_95": [
+          0.005537860164003122,
+          0.15744263820012558
+        ],
+        "reject": 1,
+        "requested": 32,
+        "unavailable": 0,
+        "unavailable_counted_nonreject_for_operational_rate": true
+      },
+      "completed_native_cases": 32,
+      "components": {
+        "between": {
+          "failure_bounds": [
+            0.46875,
+            0.46875
+          ],
+          "nonreject": 17,
+          "operational_rate": 0.46875,
+          "pointwise_wilson_95": [
+            0.30869387108068835,
+            0.6355048288102536
+          ],
+          "reject": 15,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        "within": {
+          "failure_bounds": [
+            0.03125,
+            0.03125
+          ],
+          "nonreject": 31,
+          "operational_rate": 0.03125,
+          "pointwise_wilson_95": [
+            0.005537860164003122,
+            0.15744263820012558
+          ],
+          "reject": 1,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        }
+      },
+      "condition": {
+        "gaussian_between_reference_applicable": true,
+        "gaussian_within_reference_applicable": true,
+        "group0": {
+          "between_sd": 1,
+          "mean": 20,
+          "within_sd": 1
+        },
+        "group1": {
+          "between_sd": 2,
+          "mean": 20,
+          "within_sd": 1
+        },
+        "id": "C3",
+        "index": 3,
+        "latent_distribution": "gaussian",
+        "name": "gaussian_between_only",
+        "relative_changes": {
+          "between_sd": 1,
+          "between_variance": 3,
+          "mean": 0.0,
+          "within_sd": 0,
+          "within_variance": 0
+        },
+        "truth": {
+          "between_null": false,
+          "legacy_equal_distribution_null": false,
+          "within_null": true
+        }
+      },
+      "condition_index": 3,
+      "global_variance_minus_legacy": {
+        "difference_left_minus_right": 0.4375,
+        "discordance_97_5_cp": {
+          "left_only": [
+            0.24333683714526785,
+            0.6466027339542235
+          ],
+          "right_only": [
+            0.0,
+            0.12797599984079655
+          ]
+        },
+        "left": {
+          "failure_bounds": [
+            0.46875,
+            0.46875
+          ],
+          "nonreject": 17,
+          "operational_rate": 0.46875,
+          "pointwise_wilson_95": [
+            0.30869387108068835,
+            0.6355048288102536
+          ],
+          "reject": 15,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        "operational_2x2": [
+          [
+            17,
+            0
+          ],
+          [
+            14,
+            1
+          ]
+        ],
+        "operational_order": [
+          "not_reject_including_unavailable",
+          "reject"
+        ],
+        "paired_3x3": [
+          [
+            1,
+            14,
+            0
+          ],
+          [
+            0,
+            17,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "pointwise_conservative_95_difference_interval": [
+          0.1153608373044713,
+          0.6466027339542235
+        ],
+        "requested": 32,
+        "right": {
+          "failure_bounds": [
+            0.03125,
+            0.03125
+          ],
+          "nonreject": 31,
+          "operational_rate": 0.03125,
+          "pointwise_wilson_95": [
+            0.005537860164003122,
+            0.15744263820012558
+          ],
+          "reject": 1,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        "simultaneous_coverage_claim": false,
+        "state_order": [
+          "reject",
+          "nonreject",
+          "unavailable"
+        ]
+      },
+      "legacy_metrics": [
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.03125,
+            0.03125
+          ],
+          "nonreject": 31,
+          "operational_rate": 0.03125,
+          "pointwise_wilson_95": [
+            0.005537860164003122,
+            0.15744263820012558
+          ],
+          "reject": 1,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        }
+      ],
+      "status_counts": {
+        "completed": 32
+      }
+    },
+    {
+      "analytic_references": {
+        "between": {
+          "marginal": {
+            "failure_bounds": [
+              0.0,
+              1.0
+            ],
+            "nonreject": 0,
+            "operational_rate": 0.0,
+            "pointwise_wilson_95": [
+              0,
+              0.1071791982550706
+            ],
+            "reject": 0,
+            "requested": 32,
+            "unavailable": 32,
+            "unavailable_counted_nonreject_for_operational_rate": true
+          },
+          "variance_minus_reference": {
+            "difference_left_minus_right": 0.53125,
+            "discordance_97_5_cp": {
+              "left_only": [
+                0.3248238455626893,
+                0.7302096908763122
+              ],
+              "right_only": [
+                0.0,
+                0.12797599984079655
+              ]
+            },
+            "left": {
+              "failure_bounds": [
+                0.53125,
+                0.53125
+              ],
+              "nonreject": 15,
+              "operational_rate": 0.53125,
+              "pointwise_wilson_95": [
+                0.3644951711897464,
+                0.6913061289193116
+              ],
+              "reject": 17,
+              "requested": 32,
+              "unavailable": 0,
+              "unavailable_counted_nonreject_for_operational_rate": true
+            },
+            "operational_2x2": [
+              [
+                15,
+                0
+              ],
+              [
+                17,
+                0
+              ]
+            ],
+            "operational_order": [
+              "not_reject_including_unavailable",
+              "reject"
+            ],
+            "paired_3x3": [
+              [
+                0,
+                0,
+                17
+              ],
+              [
+                0,
+                0,
+                15
+              ],
+              [
+                0,
+                0,
+                0
+              ]
+            ],
+            "pointwise_conservative_95_difference_interval": [
+              0.19684784572189273,
+              0.7302096908763122
+            ],
+            "requested": 32,
+            "right": {
+              "failure_bounds": [
+                0.0,
+                1.0
+              ],
+              "nonreject": 0,
+              "operational_rate": 0.0,
+              "pointwise_wilson_95": [
+                0,
+                0.1071791982550706
+              ],
+              "reject": 0,
+              "requested": 32,
+              "unavailable": 32,
+              "unavailable_counted_nonreject_for_operational_rate": true
+            },
+            "simultaneous_coverage_claim": false,
+            "state_order": [
+              "reject",
+              "nonreject",
+              "unavailable"
+            ]
+          }
+        },
+        "within": {
+          "marginal": {
+            "failure_bounds": [
+              1.0,
+              1.0
+            ],
+            "nonreject": 0,
+            "operational_rate": 1.0,
+            "pointwise_wilson_95": [
+              0.8928208017449293,
+              1
+            ],
+            "reject": 32,
+            "requested": 32,
+            "unavailable": 0,
+            "unavailable_counted_nonreject_for_operational_rate": true
+          },
+          "variance_minus_reference": {
+            "difference_left_minus_right": 0.0,
+            "discordance_97_5_cp": {
+              "left_only": [
+                0.0,
+                0.12797599984079655
+              ],
+              "right_only": [
+                0.0,
+                0.12797599984079655
+              ]
+            },
+            "left": {
+              "failure_bounds": [
+                1.0,
+                1.0
+              ],
+              "nonreject": 0,
+              "operational_rate": 1.0,
+              "pointwise_wilson_95": [
+                0.8928208017449293,
+                1
+              ],
+              "reject": 32,
+              "requested": 32,
+              "unavailable": 0,
+              "unavailable_counted_nonreject_for_operational_rate": true
+            },
+            "operational_2x2": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                32
+              ]
+            ],
+            "operational_order": [
+              "not_reject_including_unavailable",
+              "reject"
+            ],
+            "paired_3x3": [
+              [
+                32,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0
+              ]
+            ],
+            "pointwise_conservative_95_difference_interval": [
+              -0.12797599984079655,
+              0.12797599984079655
+            ],
+            "requested": 32,
+            "right": {
+              "failure_bounds": [
+                1.0,
+                1.0
+              ],
+              "nonreject": 0,
+              "operational_rate": 1.0,
+              "pointwise_wilson_95": [
+                0.8928208017449293,
+                1
+              ],
+              "reject": 32,
+              "requested": 32,
+              "unavailable": 0,
+              "unavailable_counted_nonreject_for_operational_rate": true
+            },
+            "simultaneous_coverage_claim": false,
+            "state_order": [
+              "reject",
+              "nonreject",
+              "unavailable"
+            ]
+          }
+        }
+      },
+      "both_components_reject": {
+        "failure_bounds": [
+          0.53125,
+          0.53125
+        ],
+        "nonreject": 15,
+        "operational_rate": 0.53125,
+        "pointwise_wilson_95": [
+          0.3644951711897464,
+          0.6913061289193116
+        ],
+        "reject": 17,
+        "requested": 32,
+        "unavailable": 0,
+        "unavailable_counted_nonreject_for_operational_rate": true
+      },
+      "completed_native_cases": 32,
+      "components": {
+        "between": {
+          "failure_bounds": [
+            0.53125,
+            0.53125
+          ],
+          "nonreject": 15,
+          "operational_rate": 0.53125,
+          "pointwise_wilson_95": [
+            0.3644951711897464,
+            0.6913061289193116
+          ],
+          "reject": 17,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        "within": {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        }
+      },
+      "condition": {
+        "gaussian_between_reference_applicable": false,
+        "gaussian_within_reference_applicable": true,
+        "group0": {
+          "between_sd": 1,
+          "mean": 20,
+          "within_sd": 1
+        },
+        "group1": {
+          "between_sd": 2,
+          "mean": 20,
+          "within_sd": 2
+        },
+        "id": "C4",
+        "index": 4,
+        "latent_distribution": "gaussian",
+        "name": "gaussian_combined",
+        "relative_changes": {
+          "between_sd": 1,
+          "between_variance": 3,
+          "mean": 0.0,
+          "within_sd": 1,
+          "within_variance": 3
+        },
+        "truth": {
+          "between_null": false,
+          "legacy_equal_distribution_null": false,
+          "within_null": false
+        }
+      },
+      "condition_index": 4,
+      "global_variance_minus_legacy": {
+        "difference_left_minus_right": 0.0,
+        "discordance_97_5_cp": {
+          "left_only": [
+            0.0,
+            0.12797599984079655
+          ],
+          "right_only": [
+            0.0,
+            0.12797599984079655
+          ]
+        },
+        "left": {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        "operational_2x2": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            32
+          ]
+        ],
+        "operational_order": [
+          "not_reject_including_unavailable",
+          "reject"
+        ],
+        "paired_3x3": [
+          [
+            32,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "pointwise_conservative_95_difference_interval": [
+          -0.12797599984079655,
+          0.12797599984079655
+        ],
+        "requested": 32,
+        "right": {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        "simultaneous_coverage_claim": false,
+        "state_order": [
+          "reject",
+          "nonreject",
+          "unavailable"
+        ]
+      },
+      "legacy_metrics": [
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            1.0,
+            1.0
+          ],
+          "nonreject": 0,
+          "operational_rate": 1.0,
+          "pointwise_wilson_95": [
+            0.8928208017449293,
+            1
+          ],
+          "reject": 32,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        }
+      ],
+      "status_counts": {
+        "completed": 32
+      }
+    },
+    {
+      "analytic_references": {
+        "between": {
+          "marginal": {
+            "failure_bounds": [
+              0.0,
+              1.0
+            ],
+            "nonreject": 0,
+            "operational_rate": 0.0,
+            "pointwise_wilson_95": [
+              0,
+              0.1071791982550706
+            ],
+            "reject": 0,
+            "requested": 32,
+            "unavailable": 32,
+            "unavailable_counted_nonreject_for_operational_rate": true
+          },
+          "variance_minus_reference": {
+            "difference_left_minus_right": 0.09375,
+            "discordance_97_5_cp": {
+              "left_only": [
+                0.015183005426179293,
+                0.273816902501243
+              ],
+              "right_only": [
+                0.0,
+                0.12797599984079655
+              ]
+            },
+            "left": {
+              "failure_bounds": [
+                0.09375,
+                0.09375
+              ],
+              "nonreject": 29,
+              "operational_rate": 0.09375,
+              "pointwise_wilson_95": [
+                0.032401551298366194,
+                0.24218154728387864
+              ],
+              "reject": 3,
+              "requested": 32,
+              "unavailable": 0,
+              "unavailable_counted_nonreject_for_operational_rate": true
+            },
+            "operational_2x2": [
+              [
+                29,
+                0
+              ],
+              [
+                3,
+                0
+              ]
+            ],
+            "operational_order": [
+              "not_reject_including_unavailable",
+              "reject"
+            ],
+            "paired_3x3": [
+              [
+                0,
+                0,
+                3
+              ],
+              [
+                0,
+                0,
+                29
+              ],
+              [
+                0,
+                0,
+                0
+              ]
+            ],
+            "pointwise_conservative_95_difference_interval": [
+              -0.11279299441461726,
+              0.273816902501243
+            ],
+            "requested": 32,
+            "right": {
+              "failure_bounds": [
+                0.0,
+                1.0
+              ],
+              "nonreject": 0,
+              "operational_rate": 0.0,
+              "pointwise_wilson_95": [
+                0,
+                0.1071791982550706
+              ],
+              "reject": 0,
+              "requested": 32,
+              "unavailable": 32,
+              "unavailable_counted_nonreject_for_operational_rate": true
+            },
+            "simultaneous_coverage_claim": false,
+            "state_order": [
+              "reject",
+              "nonreject",
+              "unavailable"
+            ]
+          }
+        },
+        "within": {
+          "marginal": {
+            "failure_bounds": [
+              0.0,
+              1.0
+            ],
+            "nonreject": 0,
+            "operational_rate": 0.0,
+            "pointwise_wilson_95": [
+              0,
+              0.1071791982550706
+            ],
+            "reject": 0,
+            "requested": 32,
+            "unavailable": 32,
+            "unavailable_counted_nonreject_for_operational_rate": true
+          },
+          "variance_minus_reference": {
+            "difference_left_minus_right": 0.09375,
+            "discordance_97_5_cp": {
+              "left_only": [
+                0.015183005426179293,
+                0.273816902501243
+              ],
+              "right_only": [
+                0.0,
+                0.12797599984079655
+              ]
+            },
+            "left": {
+              "failure_bounds": [
+                0.09375,
+                0.09375
+              ],
+              "nonreject": 29,
+              "operational_rate": 0.09375,
+              "pointwise_wilson_95": [
+                0.032401551298366194,
+                0.24218154728387864
+              ],
+              "reject": 3,
+              "requested": 32,
+              "unavailable": 0,
+              "unavailable_counted_nonreject_for_operational_rate": true
+            },
+            "operational_2x2": [
+              [
+                29,
+                0
+              ],
+              [
+                3,
+                0
+              ]
+            ],
+            "operational_order": [
+              "not_reject_including_unavailable",
+              "reject"
+            ],
+            "paired_3x3": [
+              [
+                0,
+                0,
+                3
+              ],
+              [
+                0,
+                0,
+                29
+              ],
+              [
+                0,
+                0,
+                0
+              ]
+            ],
+            "pointwise_conservative_95_difference_interval": [
+              -0.11279299441461726,
+              0.273816902501243
+            ],
+            "requested": 32,
+            "right": {
+              "failure_bounds": [
+                0.0,
+                1.0
+              ],
+              "nonreject": 0,
+              "operational_rate": 0.0,
+              "pointwise_wilson_95": [
+                0,
+                0.1071791982550706
+              ],
+              "reject": 0,
+              "requested": 32,
+              "unavailable": 32,
+              "unavailable_counted_nonreject_for_operational_rate": true
+            },
+            "simultaneous_coverage_claim": false,
+            "state_order": [
+              "reject",
+              "nonreject",
+              "unavailable"
+            ]
+          }
+        }
+      },
+      "both_components_reject": {
+        "failure_bounds": [
+          0.03125,
+          0.03125
+        ],
+        "nonreject": 31,
+        "operational_rate": 0.03125,
+        "pointwise_wilson_95": [
+          0.005537860164003122,
+          0.15744263820012558
+        ],
+        "reject": 1,
+        "requested": 32,
+        "unavailable": 0,
+        "unavailable_counted_nonreject_for_operational_rate": true
+      },
+      "completed_native_cases": 32,
+      "components": {
+        "between": {
+          "failure_bounds": [
+            0.09375,
+            0.09375
+          ],
+          "nonreject": 29,
+          "operational_rate": 0.09375,
+          "pointwise_wilson_95": [
+            0.032401551298366194,
+            0.24218154728387864
+          ],
+          "reject": 3,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        "within": {
+          "failure_bounds": [
+            0.09375,
+            0.09375
+          ],
+          "nonreject": 29,
+          "operational_rate": 0.09375,
+          "pointwise_wilson_95": [
+            0.032401551298366194,
+            0.24218154728387864
+          ],
+          "reject": 3,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        }
+      },
+      "condition": {
+        "gaussian_between_reference_applicable": false,
+        "gaussian_within_reference_applicable": false,
+        "group0": {
+          "between_sd": 1,
+          "mean": 20,
+          "within_sd": 1
+        },
+        "group1": {
+          "between_sd": 1,
+          "mean": 20,
+          "within_sd": 1
+        },
+        "id": "C5",
+        "index": 5,
+        "latent_distribution": "standardized_t5",
+        "name": "standardized_t5_global_null_stress",
+        "relative_changes": {
+          "between_sd": 0,
+          "between_variance": 0,
+          "mean": 0.0,
+          "within_sd": 0,
+          "within_variance": 0
+        },
+        "truth": {
+          "between_null": true,
+          "legacy_equal_distribution_null": true,
+          "within_null": true
+        }
+      },
+      "condition_index": 5,
+      "global_variance_minus_legacy": {
+        "difference_left_minus_right": 0.15625,
+        "discordance_97_5_cp": {
+          "left_only": [
+            0.04417632684843521,
+            0.35259355796636044
+          ],
+          "right_only": [
+            0.0,
+            0.12797599984079655
+          ]
+        },
+        "left": {
+          "failure_bounds": [
+            0.15625,
+            0.15625
+          ],
+          "nonreject": 27,
+          "operational_rate": 0.15625,
+          "pointwise_wilson_95": [
+            0.0686442028250571,
+            0.3175414959753039
+          ],
+          "reject": 5,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        "operational_2x2": [
+          [
+            27,
+            0
+          ],
+          [
+            5,
+            0
+          ]
+        ],
+        "operational_order": [
+          "not_reject_including_unavailable",
+          "reject"
+        ],
+        "paired_3x3": [
+          [
+            0,
+            5,
+            0
+          ],
+          [
+            0,
+            27,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "pointwise_conservative_95_difference_interval": [
+          -0.08379967299236134,
+          0.35259355796636044
+        ],
+        "requested": 32,
+        "right": {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        "simultaneous_coverage_claim": false,
+        "state_order": [
+          "reject",
+          "nonreject",
+          "unavailable"
+        ]
+      },
+      "legacy_metrics": [
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        },
+        {
+          "failure_bounds": [
+            0.0,
+            0.0
+          ],
+          "nonreject": 32,
+          "operational_rate": 0.0,
+          "pointwise_wilson_95": [
+            0,
+            0.1071791982550706
+          ],
+          "reject": 0,
+          "requested": 32,
+          "unavailable": 0,
+          "unavailable_counted_nonreject_for_operational_rate": true
+        }
+      ],
+      "status_counts": {
+        "completed": 32
+      }
+    }
+  ],
+  "runtime": {
+    "lifecycle_wall_seconds": 666.5365791039949,
+    "wall_seconds_through_result_serialization": 667.6336285640136,
+    "peak_aggregate_rss_bytes_sampled": 549027840,
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "independentAudit": {
+    "review_id": "round50-final-independent-retained-audit-v1",
+    "status": "pass",
+    "method": "Independent retained-file arithmetic and hash review; no new datasets, RNG calls, native runs or fitted-model simulations.",
+    "binding_sha256": "02ff2826c4d20d051960a5e51dd82d7c797deb283628b34fde8030490c47642e",
+    "bound_files_verified": 2761,
+    "sealed_files_verified": 215,
+    "zip_sha256": "99cc0f8edabec0aa1b0e67dad6850c51e8a24b3a41d9bb1826d78c93baa0bd02",
+    "raw_datasets_verified": 192,
+    "raw_observations_verified": 245760,
+    "worker_streams_verified": 8,
+    "callback_entries_verified": 211776,
+    "reference_finite_count_range": [
+      199,
+      199
+    ],
+    "internal_failures": {
+      "reference": 0,
+      "null": 0,
+      "alternative": 0,
+      "grid": 0,
+      "interval": 0
+    },
+    "counts_per_condition": [
+      {
+        "condition": 0,
+        "variance_any": 0,
+        "legacy_any": 0,
+        "within": 0,
+        "between": 0,
+        "both": 0,
+        "variance_unavailable": 0,
+        "legacy_unavailable": 0,
+        "gaussian_within_reference": 0,
+        "gaussian_between_reference": 0,
+        "gaussian_within_reference_applicable_cases": 32,
+        "gaussian_between_reference_applicable_cases": 32
+      },
+      {
+        "condition": 1,
+        "variance_any": 2,
+        "legacy_any": 32,
+        "within": 1,
+        "between": 1,
+        "both": 0,
+        "variance_unavailable": 0,
+        "legacy_unavailable": 0,
+        "gaussian_within_reference": 1,
+        "gaussian_between_reference": 1,
+        "gaussian_within_reference_applicable_cases": 32,
+        "gaussian_between_reference_applicable_cases": 32
+      },
+      {
+        "condition": 2,
+        "variance_any": 32,
+        "legacy_any": 32,
+        "within": 32,
+        "between": 0,
+        "both": 0,
+        "variance_unavailable": 0,
+        "legacy_unavailable": 0,
+        "gaussian_within_reference": 32,
+        "gaussian_between_reference": null,
+        "gaussian_within_reference_applicable_cases": 32,
+        "gaussian_between_reference_applicable_cases": 0
+      },
+      {
+        "condition": 3,
+        "variance_any": 15,
+        "legacy_any": 1,
+        "within": 1,
+        "between": 15,
+        "both": 1,
+        "variance_unavailable": 0,
+        "legacy_unavailable": 0,
+        "gaussian_within_reference": 1,
+        "gaussian_between_reference": 17,
+        "gaussian_within_reference_applicable_cases": 32,
+        "gaussian_between_reference_applicable_cases": 32
+      },
+      {
+        "condition": 4,
+        "variance_any": 32,
+        "legacy_any": 32,
+        "within": 32,
+        "between": 17,
+        "both": 17,
+        "variance_unavailable": 0,
+        "legacy_unavailable": 0,
+        "gaussian_within_reference": 32,
+        "gaussian_between_reference": null,
+        "gaussian_within_reference_applicable_cases": 32,
+        "gaussian_between_reference_applicable_cases": 0
+      },
+      {
+        "condition": 5,
+        "variance_any": 5,
+        "legacy_any": 0,
+        "within": 3,
+        "between": 3,
+        "both": 1,
+        "variance_unavailable": 0,
+        "legacy_unavailable": 0,
+        "gaussian_within_reference": null,
+        "gaussian_between_reference": null,
+        "gaussian_within_reference_applicable_cases": 0,
+        "gaussian_between_reference_applicable_cases": 0
+      }
+    ],
+    "timing": {
+      "wall_through_serialization_seconds": 667.6336285640136,
+      "native_workload_wall_range_seconds": [
+        8.1017834,
+        22.9659721
+      ],
+      "native_workload_wall_median_seconds": 19.83201435,
+      "sum_native_workload_cpu_seconds": 146.27999979999998,
+      "legacy_observed_wall_median_seconds": 0.0010609,
+      "sampled_peak_aggregate_rss_bytes": 549027840,
+      "sum_worker_native_process_cpu_seconds": 152.9099999,
+      "sum_instrumented_run_wall_seconds": 3719.6917189,
+      "interpretation": "Wall includes streamed observer serialization, pipe backpressure, scheduling and host validation; CPU/wall mismatch does not establish harder optimization or intrinsic inferential speed."
+    },
+    "limitations": [
+      "All confidence intervals remain pointwise, not simultaneous.",
+      "n32 cannot certify nominal size or calibration.",
+      "C1 routes test different null families.",
+      "C5 heavy-tail variance-family5/32 is an assumption-stress warning.",
+      "Timing compares complete variance reporting workload with observed-only legacy family and includes observer tracing; it is not intrinsic inference-speed comparison."
+    ]
+  },
+  "checks": {
+    "validation": {
+      "run": 738,
+      "passed": 734,
+      "skipped": 4,
+      "skipReason": "external native regression evidence not configured"
+    },
+    "python": {
+      "run": 154,
+      "passed": 139,
+      "skipped": 15,
+      "skipReason": "14 actual Windows tests and1 native MCP fixture unavailable"
+    },
+    "newDriverTests": 30,
+    "initialPythonInvocation": "Missing PYTHONPATH caused6 import errors; original log retained. Corrected exact CI invocation passed."
+  },
+  "optionalEvidence": {
+    "filename": "MVS-analyzer-round50-RAW-EVIDENCE.zip",
+    "requiredForBuildOrCi": false
+  }
+}

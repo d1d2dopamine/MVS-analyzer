@@ -1,0 +1,6377 @@
+{
+  "best_comparator_mismatches": 0,
+  "finite_field_comparison": "binary64 exact; nonfinite classes explicit",
+  "interval_validation_tolerance": 1e-15,
+  "limitations": [
+    "Posthoc development diagnosis of historical same-recipe replays; not new prospective scientific evidence.",
+    "Wilson overlap is a selection heuristic, not equality/equivalence/noninferiority testing; literal native competitive labels are not established inferential claims.",
+    "Both-empty agreement is shared abstention; cross-pair contributions reuse the same halves and are not independent observations.",
+    "Candidate-set and singleton targets differ; descriptive differences do not establish scientific superiority.",
+    "No p-values, significance tests, new stability threshold, calibration, regeneration, or metric activation; scientific NO-GO unchanged."
+  ],
+  "native_build_invocations": 720,
+  "native_reference_mismatches": 0,
+  "native_summarize_invocations": 720,
+  "no_calibration_regeneration_or_metric_activation": true,
+  "requested_pairs": 120,
+  "schema": "mvs-candidate-report/v1",
+  "scientific_acceptance": false,
+  "source_input_binary_runtime_pins_unchanged": true,
+  "status": "completed",
+  "technical_acceptance": true,
+  "tracks": {
+    "heterogeneity": {
+      "all_pairs": {
+        "candidate_chance": {
+          "category_product_match_count": 14400,
+          "cross_jaccard": {
+            "denominator": 14400,
+            "sum": {
+              "decimal": 14400.0,
+              "denominator": 1,
+              "numerator": 14400
+            },
+            "undefined_reason": null,
+            "value": {
+              "decimal": 1.0,
+              "denominator": 1,
+              "numerator": 1
+            }
+          },
+          "cross_pair_count": 14400,
+          "denominator": 120,
+          "exact": {
+            "adjusted": null,
+            "excess": {
+              "decimal": 0.0,
+              "denominator": 1,
+              "numerator": 0
+            },
+            "observed": {
+              "decimal": 1.0,
+              "denominator": 1,
+              "numerator": 1
+            },
+            "reference": {
+              "decimal": 1.0,
+              "denominator": 1,
+              "numerator": 1
+            },
+            "undefined_reason": "degenerate_marginals"
+          },
+          "explicit_cross_match_count": 14400,
+          "jaccard": {
+            "adjusted": null,
+            "excess": {
+              "decimal": 0.0,
+              "denominator": 1,
+              "numerator": 0
+            },
+            "observed": {
+              "decimal": 1.0,
+              "denominator": 1,
+              "numerator": 1
+            },
+            "reference": {
+              "decimal": 1.0,
+              "denominator": 1,
+              "numerator": 1
+            },
+            "undefined_reason": "degenerate_marginals"
+          },
+          "left_categories": [
+            {
+              "count": 120,
+              "set": [
+                "geometric_mean",
+                "mean",
+                "median",
+                "trimmed_mean_20"
+              ]
+            }
+          ],
+          "right_categories": [
+            {
+              "count": 120,
+              "set": [
+                "geometric_mean",
+                "mean",
+                "median",
+                "trimmed_mean_20"
+              ]
+            }
+          ],
+          "undefined_reason": null
+        },
+        "denominator": 120,
+        "exact_candidate": {
+          "count": 120,
+          "denominator": 120,
+          "undefined_reason": null,
+          "value": {
+            "decimal": 1.0,
+            "denominator": 1,
+            "numerator": 1
+          }
+        },
+        "exact_set_minus_singleton": {
+          "decimal": 0.49166666666666664,
+          "denominator": 120,
+          "numerator": 59
+        },
+        "mean_jaccard": {
+          "denominator": 120,
+          "sum": {
+            "decimal": 120.0,
+            "denominator": 1,
+            "numerator": 120
+          },
+          "undefined_reason": null,
+          "value": {
+            "decimal": 1.0,
+            "denominator": 1,
+            "numerator": 1
+          }
+        },
+        "set_overlap_minus_singleton": {
+          "decimal": 0.49166666666666664,
+          "denominator": 120,
+          "numerator": 59
+        },
+        "singleton_agreement": {
+          "count": 61,
+          "denominator": 120,
+          "undefined_reason": null,
+          "value": {
+            "decimal": 0.5083333333333333,
+            "denominator": 120,
+            "numerator": 61
+          }
+        },
+        "singleton_chance": {
+          "category_product_match_count": 7753,
+          "cross_jaccard": {
+            "denominator": 14400,
+            "sum": {
+              "decimal": 7753.0,
+              "denominator": 1,
+              "numerator": 7753
+            },
+            "undefined_reason": null,
+            "value": {
+              "decimal": 0.5384027777777778,
+              "denominator": 14400,
+              "numerator": 7753
+            }
+          },
+          "cross_pair_count": 14400,
+          "denominator": 120,
+          "exact": {
+            "adjusted": {
+              "decimal": -0.06514216939972921,
+              "denominator": 6647,
+              "numerator": -433
+            },
+            "excess": {
+              "decimal": -0.030069444444444444,
+              "denominator": 14400,
+              "numerator": -433
+            },
+            "observed": {
+              "decimal": 0.5083333333333333,
+              "denominator": 120,
+              "numerator": 61
+            },
+            "reference": {
+              "decimal": 0.5384027777777778,
+              "denominator": 14400,
+              "numerator": 7753
+            },
+            "undefined_reason": null
+          },
+          "explicit_cross_match_count": 7753,
+          "jaccard": {
+            "adjusted": {
+              "decimal": -0.06514216939972921,
+              "denominator": 6647,
+              "numerator": -433
+            },
+            "excess": {
+              "decimal": -0.030069444444444444,
+              "denominator": 14400,
+              "numerator": -433
+            },
+            "observed": {
+              "decimal": 0.5083333333333333,
+              "denominator": 120,
+              "numerator": 61
+            },
+            "reference": {
+              "decimal": 0.5384027777777778,
+              "denominator": 14400,
+              "numerator": 7753
+            },
+            "undefined_reason": null
+          },
+          "left_categories": [
+            {
+              "count": 1,
+              "set": [
+                "geometric_mean"
+              ]
+            },
+            {
+              "count": 26,
+              "set": [
+                "mean"
+              ]
+            },
+            {
+              "count": 83,
+              "set": [
+                "median"
+              ]
+            },
+            {
+              "count": 10,
+              "set": [
+                "trimmed_mean_20"
+              ]
+            }
+          ],
+          "right_categories": [
+            {
+              "count": 2,
+              "set": [
+                "geometric_mean"
+              ]
+            },
+            {
+              "count": 32,
+              "set": [
+                "mean"
+              ]
+            },
+            {
+              "count": 83,
+              "set": [
+                "median"
+              ]
+            },
+            {
+              "count": 3,
+              "set": [
+                "trimmed_mean_20"
+              ]
+            }
+          ],
+          "undefined_reason": null
+        }
+      },
+      "both_empty_agreement_contribution": {
+        "count": 0,
+        "denominator": 120,
+        "undefined_reason": null,
+        "value": {
+          "decimal": 0.0,
+          "denominator": 1,
+          "numerator": 0
+        }
+      },
+      "both_nonempty": {
+        "candidate_chance": {
+          "category_product_match_count": 14400,
+          "cross_jaccard": {
+            "denominator": 14400,
+            "sum": {
+              "decimal": 14400.0,
+              "denominator": 1,
+              "numerator": 14400
+            },
+            "undefined_reason": null,
+            "value": {
+              "decimal": 1.0,
+              "denominator": 1,
+              "numerator": 1
+            }
+          },
+          "cross_pair_count": 14400,
+          "denominator": 120,
+          "exact": {
+            "adjusted": null,
+            "excess": {
+              "decimal": 0.0,
+              "denominator": 1,
+              "numerator": 0
+            },
+            "observed": {
+              "decimal": 1.0,
+              "denominator": 1,
+              "numerator": 1
+            },
+            "reference": {
+              "decimal": 1.0,
+              "denominator": 1,
+              "numerator": 1
+            },
+            "undefined_reason": "degenerate_marginals"
+          },
+          "explicit_cross_match_count": 14400,
+          "jaccard": {
+            "adjusted": null,
+            "excess": {
+              "decimal": 0.0,
+              "denominator": 1,
+              "numerator": 0
+            },
+            "observed": {
+              "decimal": 1.0,
+              "denominator": 1,
+              "numerator": 1
+            },
+            "reference": {
+              "decimal": 1.0,
+              "denominator": 1,
+              "numerator": 1
+            },
+            "undefined_reason": "degenerate_marginals"
+          },
+          "left_categories": [
+            {
+              "count": 120,
+              "set": [
+                "geometric_mean",
+                "mean",
+                "median",
+                "trimmed_mean_20"
+              ]
+            }
+          ],
+          "right_categories": [
+            {
+              "count": 120,
+              "set": [
+                "geometric_mean",
+                "mean",
+                "median",
+                "trimmed_mean_20"
+              ]
+            }
+          ],
+          "undefined_reason": null
+        },
+        "conditioning": "Original matched indices with both candidate sets nonempty; marginals and n_B squared cross-pairs restricted to the same indices",
+        "denominator": 120,
+        "exact_candidate": {
+          "count": 120,
+          "denominator": 120,
+          "undefined_reason": null,
+          "value": {
+            "decimal": 1.0,
+            "denominator": 1,
+            "numerator": 1
+          }
+        },
+        "exact_set_minus_singleton": {
+          "decimal": 0.49166666666666664,
+          "denominator": 120,
+          "numerator": 59
+        },
+        "mean_jaccard": {
+          "denominator": 120,
+          "sum": {
+            "decimal": 120.0,
+            "denominator": 1,
+            "numerator": 120
+          },
+          "undefined_reason": null,
+          "value": {
+            "decimal": 1.0,
+            "denominator": 1,
+            "numerator": 1
+          }
+        },
+        "set_overlap_minus_singleton": {
+          "decimal": 0.49166666666666664,
+          "denominator": 120,
+          "numerator": 59
+        },
+        "singleton_agreement": {
+          "count": 61,
+          "denominator": 120,
+          "undefined_reason": null,
+          "value": {
+            "decimal": 0.5083333333333333,
+            "denominator": 120,
+            "numerator": 61
+          }
+        },
+        "singleton_chance": {
+          "category_product_match_count": 7753,
+          "cross_jaccard": {
+            "denominator": 14400,
+            "sum": {
+              "decimal": 7753.0,
+              "denominator": 1,
+              "numerator": 7753
+            },
+            "undefined_reason": null,
+            "value": {
+              "decimal": 0.5384027777777778,
+              "denominator": 14400,
+              "numerator": 7753
+            }
+          },
+          "cross_pair_count": 14400,
+          "denominator": 120,
+          "exact": {
+            "adjusted": {
+              "decimal": -0.06514216939972921,
+              "denominator": 6647,
+              "numerator": -433
+            },
+            "excess": {
+              "decimal": -0.030069444444444444,
+              "denominator": 14400,
+              "numerator": -433
+            },
+            "observed": {
+              "decimal": 0.5083333333333333,
+              "denominator": 120,
+              "numerator": 61
+            },
+            "reference": {
+              "decimal": 0.5384027777777778,
+              "denominator": 14400,
+              "numerator": 7753
+            },
+            "undefined_reason": null
+          },
+          "explicit_cross_match_count": 7753,
+          "jaccard": {
+            "adjusted": {
+              "decimal": -0.06514216939972921,
+              "denominator": 6647,
+              "numerator": -433
+            },
+            "excess": {
+              "decimal": -0.030069444444444444,
+              "denominator": 14400,
+              "numerator": -433
+            },
+            "observed": {
+              "decimal": 0.5083333333333333,
+              "denominator": 120,
+              "numerator": 61
+            },
+            "reference": {
+              "decimal": 0.5384027777777778,
+              "denominator": 14400,
+              "numerator": 7753
+            },
+            "undefined_reason": null
+          },
+          "left_categories": [
+            {
+              "count": 1,
+              "set": [
+                "geometric_mean"
+              ]
+            },
+            {
+              "count": 26,
+              "set": [
+                "mean"
+              ]
+            },
+            {
+              "count": 83,
+              "set": [
+                "median"
+              ]
+            },
+            {
+              "count": 10,
+              "set": [
+                "trimmed_mean_20"
+              ]
+            }
+          ],
+          "right_categories": [
+            {
+              "count": 2,
+              "set": [
+                "geometric_mean"
+              ]
+            },
+            {
+              "count": 32,
+              "set": [
+                "mean"
+              ]
+            },
+            {
+              "count": 83,
+              "set": [
+                "median"
+              ]
+            },
+            {
+              "count": 3,
+              "set": [
+                "trimmed_mean_20"
+              ]
+            }
+          ],
+          "undefined_reason": null
+        }
+      },
+      "denominator": 120,
+      "empty_counts": {
+        "both_empty": 0,
+        "both_nonempty": 120,
+        "left": 0,
+        "left_only_empty": 0,
+        "right": 0,
+        "right_only_empty": 0
+      },
+      "exact_candidate": {
+        "count": 120,
+        "denominator": 120,
+        "undefined_reason": null,
+        "value": {
+          "decimal": 1.0,
+          "denominator": 1,
+          "numerator": 1
+        }
+      },
+      "family": [
+        "median",
+        "mean",
+        "geometric_mean",
+        "trimmed_mean_20"
+      ],
+      "jaccard": {
+        "count": 120,
+        "max": {
+          "decimal": 1.0,
+          "denominator": 1,
+          "numerator": 1
+        },
+        "mean": {
+          "denominator": 120,
+          "sum": {
+            "decimal": 120.0,
+            "denominator": 1,
+            "numerator": 120
+          },
+          "undefined_reason": null,
+          "value": {
+            "decimal": 1.0,
+            "denominator": 1,
+            "numerator": 1
+          }
+        },
+        "median": {
+          "decimal": 1.0,
+          "denominator": 1,
+          "numerator": 1
+        },
+        "min": {
+          "decimal": 1.0,
+          "denominator": 1,
+          "numerator": 1
+        },
+        "q1": {
+          "decimal": 1.0,
+          "denominator": 1,
+          "numerator": 1
+        },
+        "q3": {
+          "decimal": 1.0,
+          "denominator": 1,
+          "numerator": 1
+        },
+        "quantile_method": "type-7 exact rational interpolation"
+      },
+      "jaccard_empty_contributions": {
+        "both_empty_sum": {
+          "decimal": 0.0,
+          "denominator": 1,
+          "numerator": 0
+        },
+        "denominator": 120,
+        "one_empty_sum": {
+          "decimal": 0.0,
+          "denominator": 1,
+          "numerator": 0
+        }
+      },
+      "mean_absolute_size_difference": {
+        "denominator": 120,
+        "sum": {
+          "decimal": 0.0,
+          "denominator": 1,
+          "numerator": 0
+        },
+        "undefined_reason": null,
+        "value": {
+          "decimal": 0.0,
+          "denominator": 1,
+          "numerator": 0
+        }
+      },
+      "nonempty_exact_match": {
+        "count": 120,
+        "denominator": 120,
+        "undefined_reason": null,
+        "value": {
+          "decimal": 1.0,
+          "denominator": 1,
+          "numerator": 1
+        }
+      },
+      "real_best_match": {
+        "count": 61,
+        "denominator": 120,
+        "undefined_reason": null,
+        "value": {
+          "decimal": 0.5083333333333333,
+          "denominator": 120,
+          "numerator": 61
+        }
+      },
+      "sides": {
+        "left": {
+          "candidate_inclusion": {
+            "coefficient_of_variation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "geometric_mean": {
+              "count": 120,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 1.0,
+                "denominator": 1,
+                "numerator": 1
+              }
+            },
+            "iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mean": {
+              "count": 120,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 1.0,
+                "denominator": 1,
+                "numerator": 1
+              }
+            },
+            "median": {
+              "count": 120,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 1.0,
+                "denominator": 1,
+                "numerator": 1
+              }
+            },
+            "normalized_iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "range": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "rms": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "standard_deviation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "trimmed_mean_20": {
+              "count": 120,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 1.0,
+                "denominator": 1,
+                "numerator": 1
+              }
+            }
+          },
+          "candidates": {
+            "histogram": {
+              "0": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "1": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "2": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "3": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "4": {
+                "count": 120,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 1.0,
+                  "denominator": 1,
+                  "numerator": 1
+                }
+              }
+            },
+            "summary": {
+              "count": 120,
+              "max": {
+                "decimal": 4.0,
+                "denominator": 1,
+                "numerator": 4
+              },
+              "mean": {
+                "denominator": 120,
+                "sum": {
+                  "decimal": 480.0,
+                  "denominator": 1,
+                  "numerator": 480
+                },
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 4.0,
+                  "denominator": 1,
+                  "numerator": 4
+                }
+              },
+              "median": {
+                "decimal": 4.0,
+                "denominator": 1,
+                "numerator": 4
+              },
+              "min": {
+                "decimal": 4.0,
+                "denominator": 1,
+                "numerator": 4
+              },
+              "q1": {
+                "decimal": 4.0,
+                "denominator": 1,
+                "numerator": 4
+              },
+              "q3": {
+                "decimal": 4.0,
+                "denominator": 1,
+                "numerator": 4
+              },
+              "quantile_method": "type-7 exact rational interpolation"
+            }
+          },
+          "empty_reason_counts": {
+            "applicable_natural_rows_fail_null_control": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "no_applicable_natural_family": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            }
+          },
+          "full_family": {
+            "count": 120,
+            "denominator": 120,
+            "undefined_reason": null,
+            "value": {
+              "decimal": 1.0,
+              "denominator": 1,
+              "numerator": 1
+            }
+          },
+          "qualified": {
+            "histogram": {
+              "0": {
+                "count": 120,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 1.0,
+                  "denominator": 1,
+                  "numerator": 1
+                }
+              },
+              "1": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "2": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "3": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "4": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              }
+            },
+            "summary": {
+              "count": 120,
+              "max": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "mean": {
+                "denominator": 120,
+                "sum": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                },
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "median": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "min": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "q1": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "q3": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "quantile_method": "type-7 exact rational interpolation"
+            }
+          },
+          "qualified_inclusion": {
+            "coefficient_of_variation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "geometric_mean": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mean": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "median": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "range": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "rms": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "standard_deviation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "trimmed_mean_20": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            }
+          },
+          "statuses": {
+            "qualified": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "unavailable": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "uncertain": {
+              "count": 120,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 1.0,
+                "denominator": 1,
+                "numerator": 1
+              }
+            }
+          },
+          "winner_frequencies": {
+            "coefficient_of_variation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "geometric_mean": {
+              "count": 1,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.008333333333333333,
+                "denominator": 120,
+                "numerator": 1
+              }
+            },
+            "iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mean": {
+              "count": 26,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.21666666666666667,
+                "denominator": 60,
+                "numerator": 13
+              }
+            },
+            "median": {
+              "count": 83,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.6916666666666667,
+                "denominator": 120,
+                "numerator": 83
+              }
+            },
+            "none": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "range": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "rms": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "standard_deviation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "trimmed_mean_20": {
+              "count": 10,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.08333333333333333,
+                "denominator": 12,
+                "numerator": 1
+              }
+            }
+          }
+        },
+        "right": {
+          "candidate_inclusion": {
+            "coefficient_of_variation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "geometric_mean": {
+              "count": 120,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 1.0,
+                "denominator": 1,
+                "numerator": 1
+              }
+            },
+            "iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mean": {
+              "count": 120,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 1.0,
+                "denominator": 1,
+                "numerator": 1
+              }
+            },
+            "median": {
+              "count": 120,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 1.0,
+                "denominator": 1,
+                "numerator": 1
+              }
+            },
+            "normalized_iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "range": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "rms": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "standard_deviation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "trimmed_mean_20": {
+              "count": 120,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 1.0,
+                "denominator": 1,
+                "numerator": 1
+              }
+            }
+          },
+          "candidates": {
+            "histogram": {
+              "0": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "1": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "2": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "3": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "4": {
+                "count": 120,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 1.0,
+                  "denominator": 1,
+                  "numerator": 1
+                }
+              }
+            },
+            "summary": {
+              "count": 120,
+              "max": {
+                "decimal": 4.0,
+                "denominator": 1,
+                "numerator": 4
+              },
+              "mean": {
+                "denominator": 120,
+                "sum": {
+                  "decimal": 480.0,
+                  "denominator": 1,
+                  "numerator": 480
+                },
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 4.0,
+                  "denominator": 1,
+                  "numerator": 4
+                }
+              },
+              "median": {
+                "decimal": 4.0,
+                "denominator": 1,
+                "numerator": 4
+              },
+              "min": {
+                "decimal": 4.0,
+                "denominator": 1,
+                "numerator": 4
+              },
+              "q1": {
+                "decimal": 4.0,
+                "denominator": 1,
+                "numerator": 4
+              },
+              "q3": {
+                "decimal": 4.0,
+                "denominator": 1,
+                "numerator": 4
+              },
+              "quantile_method": "type-7 exact rational interpolation"
+            }
+          },
+          "empty_reason_counts": {
+            "applicable_natural_rows_fail_null_control": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "no_applicable_natural_family": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            }
+          },
+          "full_family": {
+            "count": 120,
+            "denominator": 120,
+            "undefined_reason": null,
+            "value": {
+              "decimal": 1.0,
+              "denominator": 1,
+              "numerator": 1
+            }
+          },
+          "qualified": {
+            "histogram": {
+              "0": {
+                "count": 120,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 1.0,
+                  "denominator": 1,
+                  "numerator": 1
+                }
+              },
+              "1": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "2": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "3": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "4": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              }
+            },
+            "summary": {
+              "count": 120,
+              "max": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "mean": {
+                "denominator": 120,
+                "sum": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                },
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "median": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "min": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "q1": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "q3": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "quantile_method": "type-7 exact rational interpolation"
+            }
+          },
+          "qualified_inclusion": {
+            "coefficient_of_variation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "geometric_mean": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mean": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "median": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "range": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "rms": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "standard_deviation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "trimmed_mean_20": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            }
+          },
+          "statuses": {
+            "qualified": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "unavailable": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "uncertain": {
+              "count": 120,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 1.0,
+                "denominator": 1,
+                "numerator": 1
+              }
+            }
+          },
+          "winner_frequencies": {
+            "coefficient_of_variation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "geometric_mean": {
+              "count": 2,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.016666666666666666,
+                "denominator": 60,
+                "numerator": 1
+              }
+            },
+            "iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mean": {
+              "count": 32,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.26666666666666666,
+                "denominator": 15,
+                "numerator": 4
+              }
+            },
+            "median": {
+              "count": 83,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.6916666666666667,
+                "denominator": 120,
+                "numerator": 83
+              }
+            },
+            "none": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "range": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "rms": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "standard_deviation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "trimmed_mean_20": {
+              "count": 3,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.025,
+                "denominator": 40,
+                "numerator": 1
+              }
+            }
+          }
+        }
+      },
+      "size_pair_crosstab": {
+        "0": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        },
+        "1": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        },
+        "2": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        },
+        "3": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        },
+        "4": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 120
+        }
+      },
+      "track": "heterogeneity",
+      "union_nonempty_jaccard": {
+        "denominator": 120,
+        "sum": {
+          "decimal": 120.0,
+          "denominator": 1,
+          "numerator": 120
+        },
+        "undefined_reason": null,
+        "value": {
+          "decimal": 1.0,
+          "denominator": 1,
+          "numerator": 1
+        }
+      }
+    },
+    "location": {
+      "all_pairs": {
+        "candidate_chance": {
+          "category_product_match_count": 13692,
+          "cross_jaccard": {
+            "denominator": 14400,
+            "sum": {
+              "decimal": 14103.0,
+              "denominator": 1,
+              "numerator": 14103
+            },
+            "undefined_reason": null,
+            "value": {
+              "decimal": 0.979375,
+              "denominator": 1600,
+              "numerator": 1567
+            }
+          },
+          "cross_pair_count": 14400,
+          "denominator": 120,
+          "exact": {
+            "adjusted": {
+              "decimal": -0.01694915254237288,
+              "denominator": 59,
+              "numerator": -1
+            },
+            "excess": {
+              "decimal": -0.0008333333333333334,
+              "denominator": 1200,
+              "numerator": -1
+            },
+            "observed": {
+              "decimal": 0.95,
+              "denominator": 20,
+              "numerator": 19
+            },
+            "reference": {
+              "decimal": 0.9508333333333333,
+              "denominator": 1200,
+              "numerator": 1141
+            },
+            "undefined_reason": null
+          },
+          "explicit_cross_match_count": 13692,
+          "jaccard": {
+            "adjusted": {
+              "decimal": -0.010101010101010102,
+              "denominator": 99,
+              "numerator": -1
+            },
+            "excess": {
+              "decimal": -0.00020833333333333335,
+              "denominator": 4800,
+              "numerator": -1
+            },
+            "observed": {
+              "decimal": 0.9791666666666666,
+              "denominator": 48,
+              "numerator": 47
+            },
+            "reference": {
+              "decimal": 0.979375,
+              "denominator": 1600,
+              "numerator": 1567
+            },
+            "undefined_reason": null
+          },
+          "left_categories": [
+            {
+              "count": 117,
+              "set": [
+                "geometric_mean",
+                "mean",
+                "median",
+                "trimmed_mean_20"
+              ]
+            },
+            {
+              "count": 2,
+              "set": [
+                "geometric_mean",
+                "mean",
+                "trimmed_mean_20"
+              ]
+            },
+            {
+              "count": 1,
+              "set": [
+                "median",
+                "trimmed_mean_20"
+              ]
+            }
+          ],
+          "right_categories": [
+            {
+              "count": 117,
+              "set": [
+                "geometric_mean",
+                "mean",
+                "median",
+                "trimmed_mean_20"
+              ]
+            },
+            {
+              "count": 3,
+              "set": [
+                "median",
+                "trimmed_mean_20"
+              ]
+            }
+          ],
+          "undefined_reason": null
+        },
+        "denominator": 120,
+        "exact_candidate": {
+          "count": 114,
+          "denominator": 120,
+          "undefined_reason": null,
+          "value": {
+            "decimal": 0.95,
+            "denominator": 20,
+            "numerator": 19
+          }
+        },
+        "exact_set_minus_singleton": {
+          "decimal": 0.7,
+          "denominator": 10,
+          "numerator": 7
+        },
+        "mean_jaccard": {
+          "denominator": 120,
+          "sum": {
+            "decimal": 117.5,
+            "denominator": 2,
+            "numerator": 235
+          },
+          "undefined_reason": null,
+          "value": {
+            "decimal": 0.9791666666666666,
+            "denominator": 48,
+            "numerator": 47
+          }
+        },
+        "set_overlap_minus_singleton": {
+          "decimal": 0.7291666666666666,
+          "denominator": 48,
+          "numerator": 35
+        },
+        "singleton_agreement": {
+          "count": 30,
+          "denominator": 120,
+          "undefined_reason": null,
+          "value": {
+            "decimal": 0.25,
+            "denominator": 4,
+            "numerator": 1
+          }
+        },
+        "singleton_chance": {
+          "category_product_match_count": 3701,
+          "cross_jaccard": {
+            "denominator": 14400,
+            "sum": {
+              "decimal": 3701.0,
+              "denominator": 1,
+              "numerator": 3701
+            },
+            "undefined_reason": null,
+            "value": {
+              "decimal": 0.2570138888888889,
+              "denominator": 14400,
+              "numerator": 3701
+            }
+          },
+          "cross_pair_count": 14400,
+          "denominator": 120,
+          "exact": {
+            "adjusted": {
+              "decimal": -0.009440134592017946,
+              "denominator": 10699,
+              "numerator": -101
+            },
+            "excess": {
+              "decimal": -0.007013888888888889,
+              "denominator": 14400,
+              "numerator": -101
+            },
+            "observed": {
+              "decimal": 0.25,
+              "denominator": 4,
+              "numerator": 1
+            },
+            "reference": {
+              "decimal": 0.2570138888888889,
+              "denominator": 14400,
+              "numerator": 3701
+            },
+            "undefined_reason": null
+          },
+          "explicit_cross_match_count": 3701,
+          "jaccard": {
+            "adjusted": {
+              "decimal": -0.009440134592017946,
+              "denominator": 10699,
+              "numerator": -101
+            },
+            "excess": {
+              "decimal": -0.007013888888888889,
+              "denominator": 14400,
+              "numerator": -101
+            },
+            "observed": {
+              "decimal": 0.25,
+              "denominator": 4,
+              "numerator": 1
+            },
+            "reference": {
+              "decimal": 0.2570138888888889,
+              "denominator": 14400,
+              "numerator": 3701
+            },
+            "undefined_reason": null
+          },
+          "left_categories": [
+            {
+              "count": 30,
+              "set": [
+                "geometric_mean"
+              ]
+            },
+            {
+              "count": 23,
+              "set": [
+                "mean"
+              ]
+            },
+            {
+              "count": 40,
+              "set": [
+                "median"
+              ]
+            },
+            {
+              "count": 27,
+              "set": [
+                "trimmed_mean_20"
+              ]
+            }
+          ],
+          "right_categories": [
+            {
+              "count": 28,
+              "set": [
+                "geometric_mean"
+              ]
+            },
+            {
+              "count": 26,
+              "set": [
+                "mean"
+              ]
+            },
+            {
+              "count": 37,
+              "set": [
+                "median"
+              ]
+            },
+            {
+              "count": 29,
+              "set": [
+                "trimmed_mean_20"
+              ]
+            }
+          ],
+          "undefined_reason": null
+        }
+      },
+      "both_empty_agreement_contribution": {
+        "count": 0,
+        "denominator": 120,
+        "undefined_reason": null,
+        "value": {
+          "decimal": 0.0,
+          "denominator": 1,
+          "numerator": 0
+        }
+      },
+      "both_nonempty": {
+        "candidate_chance": {
+          "category_product_match_count": 13692,
+          "cross_jaccard": {
+            "denominator": 14400,
+            "sum": {
+              "decimal": 14103.0,
+              "denominator": 1,
+              "numerator": 14103
+            },
+            "undefined_reason": null,
+            "value": {
+              "decimal": 0.979375,
+              "denominator": 1600,
+              "numerator": 1567
+            }
+          },
+          "cross_pair_count": 14400,
+          "denominator": 120,
+          "exact": {
+            "adjusted": {
+              "decimal": -0.01694915254237288,
+              "denominator": 59,
+              "numerator": -1
+            },
+            "excess": {
+              "decimal": -0.0008333333333333334,
+              "denominator": 1200,
+              "numerator": -1
+            },
+            "observed": {
+              "decimal": 0.95,
+              "denominator": 20,
+              "numerator": 19
+            },
+            "reference": {
+              "decimal": 0.9508333333333333,
+              "denominator": 1200,
+              "numerator": 1141
+            },
+            "undefined_reason": null
+          },
+          "explicit_cross_match_count": 13692,
+          "jaccard": {
+            "adjusted": {
+              "decimal": -0.010101010101010102,
+              "denominator": 99,
+              "numerator": -1
+            },
+            "excess": {
+              "decimal": -0.00020833333333333335,
+              "denominator": 4800,
+              "numerator": -1
+            },
+            "observed": {
+              "decimal": 0.9791666666666666,
+              "denominator": 48,
+              "numerator": 47
+            },
+            "reference": {
+              "decimal": 0.979375,
+              "denominator": 1600,
+              "numerator": 1567
+            },
+            "undefined_reason": null
+          },
+          "left_categories": [
+            {
+              "count": 117,
+              "set": [
+                "geometric_mean",
+                "mean",
+                "median",
+                "trimmed_mean_20"
+              ]
+            },
+            {
+              "count": 2,
+              "set": [
+                "geometric_mean",
+                "mean",
+                "trimmed_mean_20"
+              ]
+            },
+            {
+              "count": 1,
+              "set": [
+                "median",
+                "trimmed_mean_20"
+              ]
+            }
+          ],
+          "right_categories": [
+            {
+              "count": 117,
+              "set": [
+                "geometric_mean",
+                "mean",
+                "median",
+                "trimmed_mean_20"
+              ]
+            },
+            {
+              "count": 3,
+              "set": [
+                "median",
+                "trimmed_mean_20"
+              ]
+            }
+          ],
+          "undefined_reason": null
+        },
+        "conditioning": "Original matched indices with both candidate sets nonempty; marginals and n_B squared cross-pairs restricted to the same indices",
+        "denominator": 120,
+        "exact_candidate": {
+          "count": 114,
+          "denominator": 120,
+          "undefined_reason": null,
+          "value": {
+            "decimal": 0.95,
+            "denominator": 20,
+            "numerator": 19
+          }
+        },
+        "exact_set_minus_singleton": {
+          "decimal": 0.7,
+          "denominator": 10,
+          "numerator": 7
+        },
+        "mean_jaccard": {
+          "denominator": 120,
+          "sum": {
+            "decimal": 117.5,
+            "denominator": 2,
+            "numerator": 235
+          },
+          "undefined_reason": null,
+          "value": {
+            "decimal": 0.9791666666666666,
+            "denominator": 48,
+            "numerator": 47
+          }
+        },
+        "set_overlap_minus_singleton": {
+          "decimal": 0.7291666666666666,
+          "denominator": 48,
+          "numerator": 35
+        },
+        "singleton_agreement": {
+          "count": 30,
+          "denominator": 120,
+          "undefined_reason": null,
+          "value": {
+            "decimal": 0.25,
+            "denominator": 4,
+            "numerator": 1
+          }
+        },
+        "singleton_chance": {
+          "category_product_match_count": 3701,
+          "cross_jaccard": {
+            "denominator": 14400,
+            "sum": {
+              "decimal": 3701.0,
+              "denominator": 1,
+              "numerator": 3701
+            },
+            "undefined_reason": null,
+            "value": {
+              "decimal": 0.2570138888888889,
+              "denominator": 14400,
+              "numerator": 3701
+            }
+          },
+          "cross_pair_count": 14400,
+          "denominator": 120,
+          "exact": {
+            "adjusted": {
+              "decimal": -0.009440134592017946,
+              "denominator": 10699,
+              "numerator": -101
+            },
+            "excess": {
+              "decimal": -0.007013888888888889,
+              "denominator": 14400,
+              "numerator": -101
+            },
+            "observed": {
+              "decimal": 0.25,
+              "denominator": 4,
+              "numerator": 1
+            },
+            "reference": {
+              "decimal": 0.2570138888888889,
+              "denominator": 14400,
+              "numerator": 3701
+            },
+            "undefined_reason": null
+          },
+          "explicit_cross_match_count": 3701,
+          "jaccard": {
+            "adjusted": {
+              "decimal": -0.009440134592017946,
+              "denominator": 10699,
+              "numerator": -101
+            },
+            "excess": {
+              "decimal": -0.007013888888888889,
+              "denominator": 14400,
+              "numerator": -101
+            },
+            "observed": {
+              "decimal": 0.25,
+              "denominator": 4,
+              "numerator": 1
+            },
+            "reference": {
+              "decimal": 0.2570138888888889,
+              "denominator": 14400,
+              "numerator": 3701
+            },
+            "undefined_reason": null
+          },
+          "left_categories": [
+            {
+              "count": 30,
+              "set": [
+                "geometric_mean"
+              ]
+            },
+            {
+              "count": 23,
+              "set": [
+                "mean"
+              ]
+            },
+            {
+              "count": 40,
+              "set": [
+                "median"
+              ]
+            },
+            {
+              "count": 27,
+              "set": [
+                "trimmed_mean_20"
+              ]
+            }
+          ],
+          "right_categories": [
+            {
+              "count": 28,
+              "set": [
+                "geometric_mean"
+              ]
+            },
+            {
+              "count": 26,
+              "set": [
+                "mean"
+              ]
+            },
+            {
+              "count": 37,
+              "set": [
+                "median"
+              ]
+            },
+            {
+              "count": 29,
+              "set": [
+                "trimmed_mean_20"
+              ]
+            }
+          ],
+          "undefined_reason": null
+        }
+      },
+      "denominator": 120,
+      "empty_counts": {
+        "both_empty": 0,
+        "both_nonempty": 120,
+        "left": 0,
+        "left_only_empty": 0,
+        "right": 0,
+        "right_only_empty": 0
+      },
+      "exact_candidate": {
+        "count": 114,
+        "denominator": 120,
+        "undefined_reason": null,
+        "value": {
+          "decimal": 0.95,
+          "denominator": 20,
+          "numerator": 19
+        }
+      },
+      "family": [
+        "median",
+        "mean",
+        "geometric_mean",
+        "trimmed_mean_20"
+      ],
+      "jaccard": {
+        "count": 120,
+        "max": {
+          "decimal": 1.0,
+          "denominator": 1,
+          "numerator": 1
+        },
+        "mean": {
+          "denominator": 120,
+          "sum": {
+            "decimal": 117.5,
+            "denominator": 2,
+            "numerator": 235
+          },
+          "undefined_reason": null,
+          "value": {
+            "decimal": 0.9791666666666666,
+            "denominator": 48,
+            "numerator": 47
+          }
+        },
+        "median": {
+          "decimal": 1.0,
+          "denominator": 1,
+          "numerator": 1
+        },
+        "min": {
+          "decimal": 0.5,
+          "denominator": 2,
+          "numerator": 1
+        },
+        "q1": {
+          "decimal": 1.0,
+          "denominator": 1,
+          "numerator": 1
+        },
+        "q3": {
+          "decimal": 1.0,
+          "denominator": 1,
+          "numerator": 1
+        },
+        "quantile_method": "type-7 exact rational interpolation"
+      },
+      "jaccard_empty_contributions": {
+        "both_empty_sum": {
+          "decimal": 0.0,
+          "denominator": 1,
+          "numerator": 0
+        },
+        "denominator": 120,
+        "one_empty_sum": {
+          "decimal": 0.0,
+          "denominator": 1,
+          "numerator": 0
+        }
+      },
+      "mean_absolute_size_difference": {
+        "denominator": 120,
+        "sum": {
+          "decimal": 10.0,
+          "denominator": 1,
+          "numerator": 10
+        },
+        "undefined_reason": null,
+        "value": {
+          "decimal": 0.08333333333333333,
+          "denominator": 12,
+          "numerator": 1
+        }
+      },
+      "nonempty_exact_match": {
+        "count": 114,
+        "denominator": 120,
+        "undefined_reason": null,
+        "value": {
+          "decimal": 0.95,
+          "denominator": 20,
+          "numerator": 19
+        }
+      },
+      "real_best_match": {
+        "count": 30,
+        "denominator": 120,
+        "undefined_reason": null,
+        "value": {
+          "decimal": 0.25,
+          "denominator": 4,
+          "numerator": 1
+        }
+      },
+      "sides": {
+        "left": {
+          "candidate_inclusion": {
+            "coefficient_of_variation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "geometric_mean": {
+              "count": 119,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.9916666666666667,
+                "denominator": 120,
+                "numerator": 119
+              }
+            },
+            "iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mean": {
+              "count": 119,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.9916666666666667,
+                "denominator": 120,
+                "numerator": 119
+              }
+            },
+            "median": {
+              "count": 118,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.9833333333333333,
+                "denominator": 60,
+                "numerator": 59
+              }
+            },
+            "normalized_iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "range": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "rms": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "standard_deviation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "trimmed_mean_20": {
+              "count": 120,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 1.0,
+                "denominator": 1,
+                "numerator": 1
+              }
+            }
+          },
+          "candidates": {
+            "histogram": {
+              "0": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "1": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "2": {
+                "count": 1,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.008333333333333333,
+                  "denominator": 120,
+                  "numerator": 1
+                }
+              },
+              "3": {
+                "count": 2,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.016666666666666666,
+                  "denominator": 60,
+                  "numerator": 1
+                }
+              },
+              "4": {
+                "count": 117,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.975,
+                  "denominator": 40,
+                  "numerator": 39
+                }
+              }
+            },
+            "summary": {
+              "count": 120,
+              "max": {
+                "decimal": 4.0,
+                "denominator": 1,
+                "numerator": 4
+              },
+              "mean": {
+                "denominator": 120,
+                "sum": {
+                  "decimal": 476.0,
+                  "denominator": 1,
+                  "numerator": 476
+                },
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 3.966666666666667,
+                  "denominator": 30,
+                  "numerator": 119
+                }
+              },
+              "median": {
+                "decimal": 4.0,
+                "denominator": 1,
+                "numerator": 4
+              },
+              "min": {
+                "decimal": 2.0,
+                "denominator": 1,
+                "numerator": 2
+              },
+              "q1": {
+                "decimal": 4.0,
+                "denominator": 1,
+                "numerator": 4
+              },
+              "q3": {
+                "decimal": 4.0,
+                "denominator": 1,
+                "numerator": 4
+              },
+              "quantile_method": "type-7 exact rational interpolation"
+            }
+          },
+          "empty_reason_counts": {
+            "applicable_natural_rows_fail_null_control": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "no_applicable_natural_family": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            }
+          },
+          "full_family": {
+            "count": 117,
+            "denominator": 120,
+            "undefined_reason": null,
+            "value": {
+              "decimal": 0.975,
+              "denominator": 40,
+              "numerator": 39
+            }
+          },
+          "qualified": {
+            "histogram": {
+              "0": {
+                "count": 80,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.6666666666666666,
+                  "denominator": 3,
+                  "numerator": 2
+                }
+              },
+              "1": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "2": {
+                "count": 1,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.008333333333333333,
+                  "denominator": 120,
+                  "numerator": 1
+                }
+              },
+              "3": {
+                "count": 1,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.008333333333333333,
+                  "denominator": 120,
+                  "numerator": 1
+                }
+              },
+              "4": {
+                "count": 38,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.31666666666666665,
+                  "denominator": 60,
+                  "numerator": 19
+                }
+              }
+            },
+            "summary": {
+              "count": 120,
+              "max": {
+                "decimal": 4.0,
+                "denominator": 1,
+                "numerator": 4
+              },
+              "mean": {
+                "denominator": 120,
+                "sum": {
+                  "decimal": 157.0,
+                  "denominator": 1,
+                  "numerator": 157
+                },
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 1.3083333333333333,
+                  "denominator": 120,
+                  "numerator": 157
+                }
+              },
+              "median": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "min": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "q1": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "q3": {
+                "decimal": 4.0,
+                "denominator": 1,
+                "numerator": 4
+              },
+              "quantile_method": "type-7 exact rational interpolation"
+            }
+          },
+          "qualified_inclusion": {
+            "coefficient_of_variation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "geometric_mean": {
+              "count": 39,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.325,
+                "denominator": 40,
+                "numerator": 13
+              }
+            },
+            "iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mean": {
+              "count": 39,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.325,
+                "denominator": 40,
+                "numerator": 13
+              }
+            },
+            "median": {
+              "count": 39,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.325,
+                "denominator": 40,
+                "numerator": 13
+              }
+            },
+            "normalized_iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "range": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "rms": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "standard_deviation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "trimmed_mean_20": {
+              "count": 40,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.3333333333333333,
+                "denominator": 3,
+                "numerator": 1
+              }
+            }
+          },
+          "statuses": {
+            "qualified": {
+              "count": 40,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.3333333333333333,
+                "denominator": 3,
+                "numerator": 1
+              }
+            },
+            "unavailable": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "uncertain": {
+              "count": 80,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.6666666666666666,
+                "denominator": 3,
+                "numerator": 2
+              }
+            }
+          },
+          "winner_frequencies": {
+            "coefficient_of_variation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "geometric_mean": {
+              "count": 30,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.25,
+                "denominator": 4,
+                "numerator": 1
+              }
+            },
+            "iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mean": {
+              "count": 23,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.19166666666666668,
+                "denominator": 120,
+                "numerator": 23
+              }
+            },
+            "median": {
+              "count": 40,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.3333333333333333,
+                "denominator": 3,
+                "numerator": 1
+              }
+            },
+            "none": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "range": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "rms": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "standard_deviation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "trimmed_mean_20": {
+              "count": 27,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.225,
+                "denominator": 40,
+                "numerator": 9
+              }
+            }
+          }
+        },
+        "right": {
+          "candidate_inclusion": {
+            "coefficient_of_variation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "geometric_mean": {
+              "count": 117,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.975,
+                "denominator": 40,
+                "numerator": 39
+              }
+            },
+            "iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mean": {
+              "count": 117,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.975,
+                "denominator": 40,
+                "numerator": 39
+              }
+            },
+            "median": {
+              "count": 120,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 1.0,
+                "denominator": 1,
+                "numerator": 1
+              }
+            },
+            "normalized_iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "range": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "rms": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "standard_deviation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "trimmed_mean_20": {
+              "count": 120,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 1.0,
+                "denominator": 1,
+                "numerator": 1
+              }
+            }
+          },
+          "candidates": {
+            "histogram": {
+              "0": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "1": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "2": {
+                "count": 3,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.025,
+                  "denominator": 40,
+                  "numerator": 1
+                }
+              },
+              "3": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "4": {
+                "count": 117,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.975,
+                  "denominator": 40,
+                  "numerator": 39
+                }
+              }
+            },
+            "summary": {
+              "count": 120,
+              "max": {
+                "decimal": 4.0,
+                "denominator": 1,
+                "numerator": 4
+              },
+              "mean": {
+                "denominator": 120,
+                "sum": {
+                  "decimal": 474.0,
+                  "denominator": 1,
+                  "numerator": 474
+                },
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 3.95,
+                  "denominator": 20,
+                  "numerator": 79
+                }
+              },
+              "median": {
+                "decimal": 4.0,
+                "denominator": 1,
+                "numerator": 4
+              },
+              "min": {
+                "decimal": 2.0,
+                "denominator": 1,
+                "numerator": 2
+              },
+              "q1": {
+                "decimal": 4.0,
+                "denominator": 1,
+                "numerator": 4
+              },
+              "q3": {
+                "decimal": 4.0,
+                "denominator": 1,
+                "numerator": 4
+              },
+              "quantile_method": "type-7 exact rational interpolation"
+            }
+          },
+          "empty_reason_counts": {
+            "applicable_natural_rows_fail_null_control": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "no_applicable_natural_family": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            }
+          },
+          "full_family": {
+            "count": 117,
+            "denominator": 120,
+            "undefined_reason": null,
+            "value": {
+              "decimal": 0.975,
+              "denominator": 40,
+              "numerator": 39
+            }
+          },
+          "qualified": {
+            "histogram": {
+              "0": {
+                "count": 82,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.6833333333333333,
+                  "denominator": 60,
+                  "numerator": 41
+                }
+              },
+              "1": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "2": {
+                "count": 3,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.025,
+                  "denominator": 40,
+                  "numerator": 1
+                }
+              },
+              "3": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "4": {
+                "count": 35,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.2916666666666667,
+                  "denominator": 24,
+                  "numerator": 7
+                }
+              }
+            },
+            "summary": {
+              "count": 120,
+              "max": {
+                "decimal": 4.0,
+                "denominator": 1,
+                "numerator": 4
+              },
+              "mean": {
+                "denominator": 120,
+                "sum": {
+                  "decimal": 146.0,
+                  "denominator": 1,
+                  "numerator": 146
+                },
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 1.2166666666666666,
+                  "denominator": 60,
+                  "numerator": 73
+                }
+              },
+              "median": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "min": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "q1": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "q3": {
+                "decimal": 4.0,
+                "denominator": 1,
+                "numerator": 4
+              },
+              "quantile_method": "type-7 exact rational interpolation"
+            }
+          },
+          "qualified_inclusion": {
+            "coefficient_of_variation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "geometric_mean": {
+              "count": 35,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.2916666666666667,
+                "denominator": 24,
+                "numerator": 7
+              }
+            },
+            "iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mean": {
+              "count": 35,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.2916666666666667,
+                "denominator": 24,
+                "numerator": 7
+              }
+            },
+            "median": {
+              "count": 38,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.31666666666666665,
+                "denominator": 60,
+                "numerator": 19
+              }
+            },
+            "normalized_iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "range": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "rms": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "standard_deviation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "trimmed_mean_20": {
+              "count": 38,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.31666666666666665,
+                "denominator": 60,
+                "numerator": 19
+              }
+            }
+          },
+          "statuses": {
+            "qualified": {
+              "count": 38,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.31666666666666665,
+                "denominator": 60,
+                "numerator": 19
+              }
+            },
+            "unavailable": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "uncertain": {
+              "count": 82,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.6833333333333333,
+                "denominator": 60,
+                "numerator": 41
+              }
+            }
+          },
+          "winner_frequencies": {
+            "coefficient_of_variation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "geometric_mean": {
+              "count": 28,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.23333333333333334,
+                "denominator": 30,
+                "numerator": 7
+              }
+            },
+            "iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mean": {
+              "count": 26,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.21666666666666667,
+                "denominator": 60,
+                "numerator": 13
+              }
+            },
+            "median": {
+              "count": 37,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.30833333333333335,
+                "denominator": 120,
+                "numerator": 37
+              }
+            },
+            "none": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "range": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "rms": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "standard_deviation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "trimmed_mean_20": {
+              "count": 29,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.24166666666666667,
+                "denominator": 120,
+                "numerator": 29
+              }
+            }
+          }
+        }
+      },
+      "size_pair_crosstab": {
+        "0": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        },
+        "1": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0
+        },
+        "2": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 1
+        },
+        "3": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 2
+        },
+        "4": {
+          "0": 0,
+          "1": 0,
+          "2": 3,
+          "3": 0,
+          "4": 114
+        }
+      },
+      "track": "location",
+      "union_nonempty_jaccard": {
+        "denominator": 120,
+        "sum": {
+          "decimal": 117.5,
+          "denominator": 2,
+          "numerator": 235
+        },
+        "undefined_reason": null,
+        "value": {
+          "decimal": 0.9791666666666666,
+          "denominator": 48,
+          "numerator": 47
+        }
+      }
+    },
+    "variability": {
+      "all_pairs": {
+        "candidate_chance": {
+          "category_product_match_count": 11646,
+          "cross_jaccard": {
+            "denominator": 14400,
+            "sum": {
+              "decimal": 13937.466666666667,
+              "denominator": 15,
+              "numerator": 209062
+            },
+            "undefined_reason": null,
+            "value": {
+              "decimal": 0.9678796296296296,
+              "denominator": 108000,
+              "numerator": 104531
+            }
+          },
+          "cross_pair_count": 14400,
+          "denominator": 120,
+          "exact": {
+            "adjusted": {
+              "decimal": -0.0457516339869281,
+              "denominator": 153,
+              "numerator": -7
+            },
+            "excess": {
+              "decimal": -0.00875,
+              "denominator": 800,
+              "numerator": -7
+            },
+            "observed": {
+              "decimal": 0.8,
+              "denominator": 5,
+              "numerator": 4
+            },
+            "reference": {
+              "decimal": 0.80875,
+              "denominator": 800,
+              "numerator": 647
+            },
+            "undefined_reason": null
+          },
+          "explicit_cross_match_count": 11646,
+          "jaccard": {
+            "adjusted": {
+              "decimal": -0.013054400197669151,
+              "denominator": 24283,
+              "numerator": -317
+            },
+            "excess": {
+              "decimal": -0.0004193121693121693,
+              "denominator": 756000,
+              "numerator": -317
+            },
+            "observed": {
+              "decimal": 0.9674603174603175,
+              "denominator": 1260,
+              "numerator": 1219
+            },
+            "reference": {
+              "decimal": 0.9678796296296296,
+              "denominator": 108000,
+              "numerator": 104531
+            },
+            "undefined_reason": null
+          },
+          "left_categories": [
+            {
+              "count": 1,
+              "set": [
+                "coefficient_of_variation",
+                "iqr",
+                "mad",
+                "normalized_iqr",
+                "normalized_mad"
+              ]
+            },
+            {
+              "count": 1,
+              "set": [
+                "coefficient_of_variation",
+                "iqr",
+                "mad",
+                "normalized_iqr",
+                "normalized_mad",
+                "range"
+              ]
+            },
+            {
+              "count": 108,
+              "set": [
+                "coefficient_of_variation",
+                "iqr",
+                "mad",
+                "normalized_iqr",
+                "normalized_mad",
+                "range",
+                "standard_deviation"
+              ]
+            },
+            {
+              "count": 8,
+              "set": [
+                "coefficient_of_variation",
+                "iqr",
+                "mad",
+                "normalized_iqr",
+                "normalized_mad",
+                "standard_deviation"
+              ]
+            },
+            {
+              "count": 1,
+              "set": [
+                "iqr",
+                "mad",
+                "normalized_iqr",
+                "normalized_mad"
+              ]
+            },
+            {
+              "count": 1,
+              "set": [
+                "iqr",
+                "mad",
+                "normalized_iqr",
+                "normalized_mad",
+                "range",
+                "standard_deviation"
+              ]
+            }
+          ],
+          "right_categories": [
+            {
+              "count": 1,
+              "set": [
+                "coefficient_of_variation",
+                "iqr",
+                "mad",
+                "normalized_iqr",
+                "normalized_mad"
+              ]
+            },
+            {
+              "count": 107,
+              "set": [
+                "coefficient_of_variation",
+                "iqr",
+                "mad",
+                "normalized_iqr",
+                "normalized_mad",
+                "range",
+                "standard_deviation"
+              ]
+            },
+            {
+              "count": 11,
+              "set": [
+                "coefficient_of_variation",
+                "iqr",
+                "mad",
+                "normalized_iqr",
+                "normalized_mad",
+                "standard_deviation"
+              ]
+            },
+            {
+              "count": 1,
+              "set": [
+                "iqr",
+                "mad",
+                "normalized_iqr",
+                "normalized_mad",
+                "range",
+                "standard_deviation"
+              ]
+            }
+          ],
+          "undefined_reason": null
+        },
+        "denominator": 120,
+        "exact_candidate": {
+          "count": 96,
+          "denominator": 120,
+          "undefined_reason": null,
+          "value": {
+            "decimal": 0.8,
+            "denominator": 5,
+            "numerator": 4
+          }
+        },
+        "exact_set_minus_singleton": {
+          "decimal": 0.5916666666666667,
+          "denominator": 120,
+          "numerator": 71
+        },
+        "mean_jaccard": {
+          "denominator": 120,
+          "sum": {
+            "decimal": 116.0952380952381,
+            "denominator": 21,
+            "numerator": 2438
+          },
+          "undefined_reason": null,
+          "value": {
+            "decimal": 0.9674603174603175,
+            "denominator": 1260,
+            "numerator": 1219
+          }
+        },
+        "set_overlap_minus_singleton": {
+          "decimal": 0.7591269841269841,
+          "denominator": 2520,
+          "numerator": 1913
+        },
+        "singleton_agreement": {
+          "count": 25,
+          "denominator": 120,
+          "undefined_reason": null,
+          "value": {
+            "decimal": 0.20833333333333334,
+            "denominator": 24,
+            "numerator": 5
+          }
+        },
+        "singleton_chance": {
+          "category_product_match_count": 2625,
+          "cross_jaccard": {
+            "denominator": 14400,
+            "sum": {
+              "decimal": 2625.0,
+              "denominator": 1,
+              "numerator": 2625
+            },
+            "undefined_reason": null,
+            "value": {
+              "decimal": 0.18229166666666666,
+              "denominator": 192,
+              "numerator": 35
+            }
+          },
+          "cross_pair_count": 14400,
+          "denominator": 120,
+          "exact": {
+            "adjusted": {
+              "decimal": 0.03184713375796178,
+              "denominator": 157,
+              "numerator": 5
+            },
+            "excess": {
+              "decimal": 0.026041666666666668,
+              "denominator": 192,
+              "numerator": 5
+            },
+            "observed": {
+              "decimal": 0.20833333333333334,
+              "denominator": 24,
+              "numerator": 5
+            },
+            "reference": {
+              "decimal": 0.18229166666666666,
+              "denominator": 192,
+              "numerator": 35
+            },
+            "undefined_reason": null
+          },
+          "explicit_cross_match_count": 2625,
+          "jaccard": {
+            "adjusted": {
+              "decimal": 0.03184713375796178,
+              "denominator": 157,
+              "numerator": 5
+            },
+            "excess": {
+              "decimal": 0.026041666666666668,
+              "denominator": 192,
+              "numerator": 5
+            },
+            "observed": {
+              "decimal": 0.20833333333333334,
+              "denominator": 24,
+              "numerator": 5
+            },
+            "reference": {
+              "decimal": 0.18229166666666666,
+              "denominator": 192,
+              "numerator": 35
+            },
+            "undefined_reason": null
+          },
+          "left_categories": [
+            {
+              "count": 13,
+              "set": [
+                "coefficient_of_variation"
+              ]
+            },
+            {
+              "count": 27,
+              "set": [
+                "iqr"
+              ]
+            },
+            {
+              "count": 27,
+              "set": [
+                "mad"
+              ]
+            },
+            {
+              "count": 21,
+              "set": [
+                "normalized_iqr"
+              ]
+            },
+            {
+              "count": 17,
+              "set": [
+                "normalized_mad"
+              ]
+            },
+            {
+              "count": 15,
+              "set": [
+                "standard_deviation"
+              ]
+            }
+          ],
+          "right_categories": [
+            {
+              "count": 7,
+              "set": [
+                "coefficient_of_variation"
+              ]
+            },
+            {
+              "count": 30,
+              "set": [
+                "iqr"
+              ]
+            },
+            {
+              "count": 28,
+              "set": [
+                "mad"
+              ]
+            },
+            {
+              "count": 21,
+              "set": [
+                "normalized_iqr"
+              ]
+            },
+            {
+              "count": 16,
+              "set": [
+                "normalized_mad"
+              ]
+            },
+            {
+              "count": 1,
+              "set": [
+                "range"
+              ]
+            },
+            {
+              "count": 17,
+              "set": [
+                "standard_deviation"
+              ]
+            }
+          ],
+          "undefined_reason": null
+        }
+      },
+      "both_empty_agreement_contribution": {
+        "count": 0,
+        "denominator": 120,
+        "undefined_reason": null,
+        "value": {
+          "decimal": 0.0,
+          "denominator": 1,
+          "numerator": 0
+        }
+      },
+      "both_nonempty": {
+        "candidate_chance": {
+          "category_product_match_count": 11646,
+          "cross_jaccard": {
+            "denominator": 14400,
+            "sum": {
+              "decimal": 13937.466666666667,
+              "denominator": 15,
+              "numerator": 209062
+            },
+            "undefined_reason": null,
+            "value": {
+              "decimal": 0.9678796296296296,
+              "denominator": 108000,
+              "numerator": 104531
+            }
+          },
+          "cross_pair_count": 14400,
+          "denominator": 120,
+          "exact": {
+            "adjusted": {
+              "decimal": -0.0457516339869281,
+              "denominator": 153,
+              "numerator": -7
+            },
+            "excess": {
+              "decimal": -0.00875,
+              "denominator": 800,
+              "numerator": -7
+            },
+            "observed": {
+              "decimal": 0.8,
+              "denominator": 5,
+              "numerator": 4
+            },
+            "reference": {
+              "decimal": 0.80875,
+              "denominator": 800,
+              "numerator": 647
+            },
+            "undefined_reason": null
+          },
+          "explicit_cross_match_count": 11646,
+          "jaccard": {
+            "adjusted": {
+              "decimal": -0.013054400197669151,
+              "denominator": 24283,
+              "numerator": -317
+            },
+            "excess": {
+              "decimal": -0.0004193121693121693,
+              "denominator": 756000,
+              "numerator": -317
+            },
+            "observed": {
+              "decimal": 0.9674603174603175,
+              "denominator": 1260,
+              "numerator": 1219
+            },
+            "reference": {
+              "decimal": 0.9678796296296296,
+              "denominator": 108000,
+              "numerator": 104531
+            },
+            "undefined_reason": null
+          },
+          "left_categories": [
+            {
+              "count": 1,
+              "set": [
+                "coefficient_of_variation",
+                "iqr",
+                "mad",
+                "normalized_iqr",
+                "normalized_mad"
+              ]
+            },
+            {
+              "count": 1,
+              "set": [
+                "coefficient_of_variation",
+                "iqr",
+                "mad",
+                "normalized_iqr",
+                "normalized_mad",
+                "range"
+              ]
+            },
+            {
+              "count": 108,
+              "set": [
+                "coefficient_of_variation",
+                "iqr",
+                "mad",
+                "normalized_iqr",
+                "normalized_mad",
+                "range",
+                "standard_deviation"
+              ]
+            },
+            {
+              "count": 8,
+              "set": [
+                "coefficient_of_variation",
+                "iqr",
+                "mad",
+                "normalized_iqr",
+                "normalized_mad",
+                "standard_deviation"
+              ]
+            },
+            {
+              "count": 1,
+              "set": [
+                "iqr",
+                "mad",
+                "normalized_iqr",
+                "normalized_mad"
+              ]
+            },
+            {
+              "count": 1,
+              "set": [
+                "iqr",
+                "mad",
+                "normalized_iqr",
+                "normalized_mad",
+                "range",
+                "standard_deviation"
+              ]
+            }
+          ],
+          "right_categories": [
+            {
+              "count": 1,
+              "set": [
+                "coefficient_of_variation",
+                "iqr",
+                "mad",
+                "normalized_iqr",
+                "normalized_mad"
+              ]
+            },
+            {
+              "count": 107,
+              "set": [
+                "coefficient_of_variation",
+                "iqr",
+                "mad",
+                "normalized_iqr",
+                "normalized_mad",
+                "range",
+                "standard_deviation"
+              ]
+            },
+            {
+              "count": 11,
+              "set": [
+                "coefficient_of_variation",
+                "iqr",
+                "mad",
+                "normalized_iqr",
+                "normalized_mad",
+                "standard_deviation"
+              ]
+            },
+            {
+              "count": 1,
+              "set": [
+                "iqr",
+                "mad",
+                "normalized_iqr",
+                "normalized_mad",
+                "range",
+                "standard_deviation"
+              ]
+            }
+          ],
+          "undefined_reason": null
+        },
+        "conditioning": "Original matched indices with both candidate sets nonempty; marginals and n_B squared cross-pairs restricted to the same indices",
+        "denominator": 120,
+        "exact_candidate": {
+          "count": 96,
+          "denominator": 120,
+          "undefined_reason": null,
+          "value": {
+            "decimal": 0.8,
+            "denominator": 5,
+            "numerator": 4
+          }
+        },
+        "exact_set_minus_singleton": {
+          "decimal": 0.5916666666666667,
+          "denominator": 120,
+          "numerator": 71
+        },
+        "mean_jaccard": {
+          "denominator": 120,
+          "sum": {
+            "decimal": 116.0952380952381,
+            "denominator": 21,
+            "numerator": 2438
+          },
+          "undefined_reason": null,
+          "value": {
+            "decimal": 0.9674603174603175,
+            "denominator": 1260,
+            "numerator": 1219
+          }
+        },
+        "set_overlap_minus_singleton": {
+          "decimal": 0.7591269841269841,
+          "denominator": 2520,
+          "numerator": 1913
+        },
+        "singleton_agreement": {
+          "count": 25,
+          "denominator": 120,
+          "undefined_reason": null,
+          "value": {
+            "decimal": 0.20833333333333334,
+            "denominator": 24,
+            "numerator": 5
+          }
+        },
+        "singleton_chance": {
+          "category_product_match_count": 2625,
+          "cross_jaccard": {
+            "denominator": 14400,
+            "sum": {
+              "decimal": 2625.0,
+              "denominator": 1,
+              "numerator": 2625
+            },
+            "undefined_reason": null,
+            "value": {
+              "decimal": 0.18229166666666666,
+              "denominator": 192,
+              "numerator": 35
+            }
+          },
+          "cross_pair_count": 14400,
+          "denominator": 120,
+          "exact": {
+            "adjusted": {
+              "decimal": 0.03184713375796178,
+              "denominator": 157,
+              "numerator": 5
+            },
+            "excess": {
+              "decimal": 0.026041666666666668,
+              "denominator": 192,
+              "numerator": 5
+            },
+            "observed": {
+              "decimal": 0.20833333333333334,
+              "denominator": 24,
+              "numerator": 5
+            },
+            "reference": {
+              "decimal": 0.18229166666666666,
+              "denominator": 192,
+              "numerator": 35
+            },
+            "undefined_reason": null
+          },
+          "explicit_cross_match_count": 2625,
+          "jaccard": {
+            "adjusted": {
+              "decimal": 0.03184713375796178,
+              "denominator": 157,
+              "numerator": 5
+            },
+            "excess": {
+              "decimal": 0.026041666666666668,
+              "denominator": 192,
+              "numerator": 5
+            },
+            "observed": {
+              "decimal": 0.20833333333333334,
+              "denominator": 24,
+              "numerator": 5
+            },
+            "reference": {
+              "decimal": 0.18229166666666666,
+              "denominator": 192,
+              "numerator": 35
+            },
+            "undefined_reason": null
+          },
+          "left_categories": [
+            {
+              "count": 13,
+              "set": [
+                "coefficient_of_variation"
+              ]
+            },
+            {
+              "count": 27,
+              "set": [
+                "iqr"
+              ]
+            },
+            {
+              "count": 27,
+              "set": [
+                "mad"
+              ]
+            },
+            {
+              "count": 21,
+              "set": [
+                "normalized_iqr"
+              ]
+            },
+            {
+              "count": 17,
+              "set": [
+                "normalized_mad"
+              ]
+            },
+            {
+              "count": 15,
+              "set": [
+                "standard_deviation"
+              ]
+            }
+          ],
+          "right_categories": [
+            {
+              "count": 7,
+              "set": [
+                "coefficient_of_variation"
+              ]
+            },
+            {
+              "count": 30,
+              "set": [
+                "iqr"
+              ]
+            },
+            {
+              "count": 28,
+              "set": [
+                "mad"
+              ]
+            },
+            {
+              "count": 21,
+              "set": [
+                "normalized_iqr"
+              ]
+            },
+            {
+              "count": 16,
+              "set": [
+                "normalized_mad"
+              ]
+            },
+            {
+              "count": 1,
+              "set": [
+                "range"
+              ]
+            },
+            {
+              "count": 17,
+              "set": [
+                "standard_deviation"
+              ]
+            }
+          ],
+          "undefined_reason": null
+        }
+      },
+      "denominator": 120,
+      "empty_counts": {
+        "both_empty": 0,
+        "both_nonempty": 120,
+        "left": 0,
+        "left_only_empty": 0,
+        "right": 0,
+        "right_only_empty": 0
+      },
+      "exact_candidate": {
+        "count": 96,
+        "denominator": 120,
+        "undefined_reason": null,
+        "value": {
+          "decimal": 0.8,
+          "denominator": 5,
+          "numerator": 4
+        }
+      },
+      "family": [
+        "standard_deviation",
+        "coefficient_of_variation",
+        "mad",
+        "iqr",
+        "normalized_mad",
+        "normalized_iqr",
+        "range"
+      ],
+      "jaccard": {
+        "count": 120,
+        "max": {
+          "decimal": 1.0,
+          "denominator": 1,
+          "numerator": 1
+        },
+        "mean": {
+          "denominator": 120,
+          "sum": {
+            "decimal": 116.0952380952381,
+            "denominator": 21,
+            "numerator": 2438
+          },
+          "undefined_reason": null,
+          "value": {
+            "decimal": 0.9674603174603175,
+            "denominator": 1260,
+            "numerator": 1219
+          }
+        },
+        "median": {
+          "decimal": 1.0,
+          "denominator": 1,
+          "numerator": 1
+        },
+        "min": {
+          "decimal": 0.6666666666666666,
+          "denominator": 3,
+          "numerator": 2
+        },
+        "q1": {
+          "decimal": 1.0,
+          "denominator": 1,
+          "numerator": 1
+        },
+        "q3": {
+          "decimal": 1.0,
+          "denominator": 1,
+          "numerator": 1
+        },
+        "quantile_method": "type-7 exact rational interpolation"
+      },
+      "jaccard_empty_contributions": {
+        "both_empty_sum": {
+          "decimal": 0.0,
+          "denominator": 1,
+          "numerator": 0
+        },
+        "denominator": 120,
+        "one_empty_sum": {
+          "decimal": 0.0,
+          "denominator": 1,
+          "numerator": 0
+        }
+      },
+      "mean_absolute_size_difference": {
+        "denominator": 120,
+        "sum": {
+          "decimal": 27.0,
+          "denominator": 1,
+          "numerator": 27
+        },
+        "undefined_reason": null,
+        "value": {
+          "decimal": 0.225,
+          "denominator": 40,
+          "numerator": 9
+        }
+      },
+      "nonempty_exact_match": {
+        "count": 96,
+        "denominator": 120,
+        "undefined_reason": null,
+        "value": {
+          "decimal": 0.8,
+          "denominator": 5,
+          "numerator": 4
+        }
+      },
+      "real_best_match": {
+        "count": 25,
+        "denominator": 120,
+        "undefined_reason": null,
+        "value": {
+          "decimal": 0.20833333333333334,
+          "denominator": 24,
+          "numerator": 5
+        }
+      },
+      "sides": {
+        "left": {
+          "candidate_inclusion": {
+            "coefficient_of_variation": {
+              "count": 118,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.9833333333333333,
+                "denominator": 60,
+                "numerator": 59
+              }
+            },
+            "geometric_mean": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "iqr": {
+              "count": 120,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 1.0,
+                "denominator": 1,
+                "numerator": 1
+              }
+            },
+            "mad": {
+              "count": 120,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 1.0,
+                "denominator": 1,
+                "numerator": 1
+              }
+            },
+            "mean": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "median": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_iqr": {
+              "count": 120,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 1.0,
+                "denominator": 1,
+                "numerator": 1
+              }
+            },
+            "normalized_mad": {
+              "count": 120,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 1.0,
+                "denominator": 1,
+                "numerator": 1
+              }
+            },
+            "range": {
+              "count": 110,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.9166666666666666,
+                "denominator": 12,
+                "numerator": 11
+              }
+            },
+            "rms": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "standard_deviation": {
+              "count": 117,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.975,
+                "denominator": 40,
+                "numerator": 39
+              }
+            },
+            "trimmed_mean_20": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            }
+          },
+          "candidates": {
+            "histogram": {
+              "0": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "1": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "2": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "3": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "4": {
+                "count": 1,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.008333333333333333,
+                  "denominator": 120,
+                  "numerator": 1
+                }
+              },
+              "5": {
+                "count": 1,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.008333333333333333,
+                  "denominator": 120,
+                  "numerator": 1
+                }
+              },
+              "6": {
+                "count": 10,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.08333333333333333,
+                  "denominator": 12,
+                  "numerator": 1
+                }
+              },
+              "7": {
+                "count": 108,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.9,
+                  "denominator": 10,
+                  "numerator": 9
+                }
+              }
+            },
+            "summary": {
+              "count": 120,
+              "max": {
+                "decimal": 7.0,
+                "denominator": 1,
+                "numerator": 7
+              },
+              "mean": {
+                "denominator": 120,
+                "sum": {
+                  "decimal": 825.0,
+                  "denominator": 1,
+                  "numerator": 825
+                },
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 6.875,
+                  "denominator": 8,
+                  "numerator": 55
+                }
+              },
+              "median": {
+                "decimal": 7.0,
+                "denominator": 1,
+                "numerator": 7
+              },
+              "min": {
+                "decimal": 4.0,
+                "denominator": 1,
+                "numerator": 4
+              },
+              "q1": {
+                "decimal": 7.0,
+                "denominator": 1,
+                "numerator": 7
+              },
+              "q3": {
+                "decimal": 7.0,
+                "denominator": 1,
+                "numerator": 7
+              },
+              "quantile_method": "type-7 exact rational interpolation"
+            }
+          },
+          "empty_reason_counts": {
+            "applicable_natural_rows_fail_null_control": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "no_applicable_natural_family": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            }
+          },
+          "full_family": {
+            "count": 108,
+            "denominator": 120,
+            "undefined_reason": null,
+            "value": {
+              "decimal": 0.9,
+              "denominator": 10,
+              "numerator": 9
+            }
+          },
+          "qualified": {
+            "histogram": {
+              "0": {
+                "count": 120,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 1.0,
+                  "denominator": 1,
+                  "numerator": 1
+                }
+              },
+              "1": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "2": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "3": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "4": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "5": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "6": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "7": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              }
+            },
+            "summary": {
+              "count": 120,
+              "max": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "mean": {
+                "denominator": 120,
+                "sum": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                },
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "median": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "min": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "q1": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "q3": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "quantile_method": "type-7 exact rational interpolation"
+            }
+          },
+          "qualified_inclusion": {
+            "coefficient_of_variation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "geometric_mean": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mean": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "median": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "range": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "rms": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "standard_deviation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "trimmed_mean_20": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            }
+          },
+          "statuses": {
+            "qualified": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "unavailable": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "uncertain": {
+              "count": 120,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 1.0,
+                "denominator": 1,
+                "numerator": 1
+              }
+            }
+          },
+          "winner_frequencies": {
+            "coefficient_of_variation": {
+              "count": 13,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.10833333333333334,
+                "denominator": 120,
+                "numerator": 13
+              }
+            },
+            "geometric_mean": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "iqr": {
+              "count": 27,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.225,
+                "denominator": 40,
+                "numerator": 9
+              }
+            },
+            "mad": {
+              "count": 27,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.225,
+                "denominator": 40,
+                "numerator": 9
+              }
+            },
+            "mean": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "median": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "none": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_iqr": {
+              "count": 21,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.175,
+                "denominator": 40,
+                "numerator": 7
+              }
+            },
+            "normalized_mad": {
+              "count": 17,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.14166666666666666,
+                "denominator": 120,
+                "numerator": 17
+              }
+            },
+            "range": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "rms": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "standard_deviation": {
+              "count": 15,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.125,
+                "denominator": 8,
+                "numerator": 1
+              }
+            },
+            "trimmed_mean_20": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            }
+          }
+        },
+        "right": {
+          "candidate_inclusion": {
+            "coefficient_of_variation": {
+              "count": 119,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.9916666666666667,
+                "denominator": 120,
+                "numerator": 119
+              }
+            },
+            "geometric_mean": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "iqr": {
+              "count": 120,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 1.0,
+                "denominator": 1,
+                "numerator": 1
+              }
+            },
+            "mad": {
+              "count": 120,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 1.0,
+                "denominator": 1,
+                "numerator": 1
+              }
+            },
+            "mean": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "median": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_iqr": {
+              "count": 120,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 1.0,
+                "denominator": 1,
+                "numerator": 1
+              }
+            },
+            "normalized_mad": {
+              "count": 120,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 1.0,
+                "denominator": 1,
+                "numerator": 1
+              }
+            },
+            "range": {
+              "count": 108,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.9,
+                "denominator": 10,
+                "numerator": 9
+              }
+            },
+            "rms": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "standard_deviation": {
+              "count": 119,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.9916666666666667,
+                "denominator": 120,
+                "numerator": 119
+              }
+            },
+            "trimmed_mean_20": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            }
+          },
+          "candidates": {
+            "histogram": {
+              "0": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "1": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "2": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "3": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "4": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "5": {
+                "count": 1,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.008333333333333333,
+                  "denominator": 120,
+                  "numerator": 1
+                }
+              },
+              "6": {
+                "count": 12,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.1,
+                  "denominator": 10,
+                  "numerator": 1
+                }
+              },
+              "7": {
+                "count": 107,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.8916666666666667,
+                  "denominator": 120,
+                  "numerator": 107
+                }
+              }
+            },
+            "summary": {
+              "count": 120,
+              "max": {
+                "decimal": 7.0,
+                "denominator": 1,
+                "numerator": 7
+              },
+              "mean": {
+                "denominator": 120,
+                "sum": {
+                  "decimal": 826.0,
+                  "denominator": 1,
+                  "numerator": 826
+                },
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 6.883333333333334,
+                  "denominator": 60,
+                  "numerator": 413
+                }
+              },
+              "median": {
+                "decimal": 7.0,
+                "denominator": 1,
+                "numerator": 7
+              },
+              "min": {
+                "decimal": 5.0,
+                "denominator": 1,
+                "numerator": 5
+              },
+              "q1": {
+                "decimal": 7.0,
+                "denominator": 1,
+                "numerator": 7
+              },
+              "q3": {
+                "decimal": 7.0,
+                "denominator": 1,
+                "numerator": 7
+              },
+              "quantile_method": "type-7 exact rational interpolation"
+            }
+          },
+          "empty_reason_counts": {
+            "applicable_natural_rows_fail_null_control": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "no_applicable_natural_family": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            }
+          },
+          "full_family": {
+            "count": 107,
+            "denominator": 120,
+            "undefined_reason": null,
+            "value": {
+              "decimal": 0.8916666666666667,
+              "denominator": 120,
+              "numerator": 107
+            }
+          },
+          "qualified": {
+            "histogram": {
+              "0": {
+                "count": 120,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 1.0,
+                  "denominator": 1,
+                  "numerator": 1
+                }
+              },
+              "1": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "2": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "3": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "4": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "5": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "6": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "7": {
+                "count": 0,
+                "denominator": 120,
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              }
+            },
+            "summary": {
+              "count": 120,
+              "max": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "mean": {
+                "denominator": 120,
+                "sum": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                },
+                "undefined_reason": null,
+                "value": {
+                  "decimal": 0.0,
+                  "denominator": 1,
+                  "numerator": 0
+                }
+              },
+              "median": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "min": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "q1": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "q3": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              },
+              "quantile_method": "type-7 exact rational interpolation"
+            }
+          },
+          "qualified_inclusion": {
+            "coefficient_of_variation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "geometric_mean": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "mean": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "median": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_iqr": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_mad": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "range": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "rms": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "standard_deviation": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "trimmed_mean_20": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            }
+          },
+          "statuses": {
+            "qualified": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "unavailable": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "uncertain": {
+              "count": 120,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 1.0,
+                "denominator": 1,
+                "numerator": 1
+              }
+            }
+          },
+          "winner_frequencies": {
+            "coefficient_of_variation": {
+              "count": 7,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.058333333333333334,
+                "denominator": 120,
+                "numerator": 7
+              }
+            },
+            "geometric_mean": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "iqr": {
+              "count": 30,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.25,
+                "denominator": 4,
+                "numerator": 1
+              }
+            },
+            "mad": {
+              "count": 28,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.23333333333333334,
+                "denominator": 30,
+                "numerator": 7
+              }
+            },
+            "mean": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "median": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "none": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "normalized_iqr": {
+              "count": 21,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.175,
+                "denominator": 40,
+                "numerator": 7
+              }
+            },
+            "normalized_mad": {
+              "count": 16,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.13333333333333333,
+                "denominator": 15,
+                "numerator": 2
+              }
+            },
+            "range": {
+              "count": 1,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.008333333333333333,
+                "denominator": 120,
+                "numerator": 1
+              }
+            },
+            "rms": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            },
+            "standard_deviation": {
+              "count": 17,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.14166666666666666,
+                "denominator": 120,
+                "numerator": 17
+              }
+            },
+            "trimmed_mean_20": {
+              "count": 0,
+              "denominator": 120,
+              "undefined_reason": null,
+              "value": {
+                "decimal": 0.0,
+                "denominator": 1,
+                "numerator": 0
+              }
+            }
+          }
+        }
+      },
+      "size_pair_crosstab": {
+        "0": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0
+        },
+        "1": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0
+        },
+        "2": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0
+        },
+        "3": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 0
+        },
+        "4": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 1,
+          "7": 0
+        },
+        "5": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 1
+        },
+        "6": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 10
+        },
+        "7": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 1,
+          "6": 11,
+          "7": 96
+        }
+      },
+      "track": "variability",
+      "union_nonempty_jaccard": {
+        "denominator": 120,
+        "sum": {
+          "decimal": 116.0952380952381,
+          "denominator": 21,
+          "numerator": 2438
+        },
+        "undefined_reason": null,
+        "value": {
+          "decimal": 0.9674603174603175,
+          "denominator": 1260,
+          "numerator": 1219
+        }
+      }
+    }
+  },
+  "validated_pairs": 120,
+  "execution_cost": {
+    "completed_processes": 120,
+    "not_started_indices": [],
+    "observed_peak_child_rss_bytes": 53956608,
+    "requested": 120,
+    "rss_observation_interval_seconds": 0.02,
+    "schema": "mvs-candidate-execution/v1",
+    "stop_reasons": [],
+    "timing_interpretation": "Actual monotonic wall elapsed; blocking wait plus watchdog, no throughput or poll-bias claim.",
+    "wall_seconds": 32.42493973199453
+  },
+  "independent_audit": {
+    "passed": true,
+    "audit_sha256": "1418d89ff87b78bf5c4e95f9c51ac55d9c3e81f8fb9114d86588b2d7840c2068",
+    "half_track_evaluations": 720,
+    "paired_records": 360,
+    "bound_hashes": 546
+  },
+  "validation_tests": {
+    "run": 560,
+    "passed": 556,
+    "skipped": 4,
+    "skip_reason": "Prior saved native export harness evidence not re-executed in discovery; source unchanged."
+  }
+}

@@ -1,0 +1,2471 @@
+{
+  "schema_version": 1,
+  "suite_id": "MVS-Benchmark-Suite",
+  "suite_version": "1.0.0",
+  "sources": [
+    {
+      "id": "nist-strd-howto",
+      "role": "numerical_reference_scope",
+      "url": "https://www.itl.nist.gov/div898/strd/general/howto.html"
+    },
+    {
+      "id": "nist-strd-faq",
+      "role": "numerical_reference_limitations",
+      "url": "https://www.itl.nist.gov/div898/strd/general/faq.html"
+    },
+    {
+      "id": "ademp",
+      "role": "simulation_planning_framework",
+      "url": "https://doi.org/10.1002/sim.8086"
+    },
+    {
+      "id": "ademp-author-manuscript",
+      "role": "primary_author_manuscript",
+      "url": "https://arxiv.org/html/1712.03198v3"
+    }
+  ],
+  "nist_support": [
+    {
+      "operation": "arithmetic_mean",
+      "status": "mapped_not_run",
+      "source_url": "https://www.nist.gov/itl/sed/statistical-reference-datasets/strd-background-information/univariate-summary-statistics",
+      "code_refs": [
+        {
+          "path": "Core/MetricRegistry.cs",
+          "sha256": "5a61012f1914f72850df690358a16c1fe162aa09ba5b2a1ce6e9f8f68d05fa04",
+          "lines": [
+            108,
+            124
+          ]
+        },
+        {
+          "path": "Core/MetricRegistry.cs",
+          "sha256": "5a61012f1914f72850df690358a16c1fe162aa09ba5b2a1ce6e9f8f68d05fa04",
+          "lines": [
+            167,
+            175
+          ]
+        }
+      ],
+      "reason_ru": "The actual workspace uses values.Average() at line 174. This is an appropriate operation candidate only; no numerical accuracy result has been obtained. No NIST execution or certification is claimed."
+    },
+    {
+      "operation": "sample_standard_deviation",
+      "status": "mapped_not_run",
+      "source_url": "https://www.nist.gov/itl/sed/statistical-reference-datasets/strd-background-information/univariate-summary-statistics",
+      "code_refs": [
+        {
+          "path": "Core/MetricRegistry.cs",
+          "sha256": "5a61012f1914f72850df690358a16c1fe162aa09ba5b2a1ce6e9f8f68d05fa04",
+          "lines": [
+            108,
+            118
+          ]
+        },
+        {
+          "path": "Core/MetricRegistry.cs",
+          "sha256": "5a61012f1914f72850df690358a16c1fe162aa09ba5b2a1ce6e9f8f68d05fa04",
+          "lines": [
+            167,
+            175
+          ]
+        },
+        {
+          "path": "Core/ScientificInfrastructure.cs",
+          "sha256": "7e2947c272e7f3aaecade2829367cf0cdfd3206c67006f6c163b826da3d60d1a",
+          "lines": [
+            172,
+            175
+          ]
+        }
+      ],
+      "reason_ru": "The workspace takes sqrt(ScientificMath.Variance(values)); the implementation computes deviations about values.Average(), squares and sums, then divides by n-1. No accuracy result has been obtained. No NIST execution or certification is claimed."
+    },
+    {
+      "operation": "lag_1_autocorrelation",
+      "status": "unsupported",
+      "source_url": "https://www.nist.gov/itl/sed/statistical-reference-datasets/strd-background-information/univariate-summary-statistics",
+      "code_refs": [],
+      "reason_ru": "No production lag-1 autocorrelation implementation found in reviewed source. The univariate suite must remain partially mapped. No NIST execution or certification is claimed."
+    },
+    {
+      "operation": "one_way_anova_statistics",
+      "status": "unsupported",
+      "source_url": "https://www.nist.gov/itl/sed/statistical-reference-datasets/strd-background-information/analysis-variance",
+      "code_refs": [],
+      "reason_ru": "No operation-equivalent ANOVA table/F-statistic API found. Do not relabel Kruskal-Wallis or random-intercept variance fitting as StRD ANOVA support. No NIST execution or certification is claimed."
+    },
+    {
+      "operation": "linear_least_squares_regression",
+      "status": "unsupported",
+      "source_url": "https://www.nist.gov/itl/sed/statistical-reference-datasets/strd-background-information/linear-regression",
+      "code_refs": [],
+      "reason_ru": "No production ordinary linear least-squares API with coefficients, coefficient uncertainty, residual SD, R-squared and regression ANOVA outputs found. A time slope within MELSM does not establish StRD linear-regression coverage. No NIST execution or certification is claimed."
+    },
+    {
+      "operation": "nonlinear_least_squares_regression",
+      "status": "unsupported",
+      "source_url": "https://www.nist.gov/itl/sed/statistical-reference-datasets/strd-background-information/nonlinear-regression",
+      "code_refs": [],
+      "reason_ru": "A generic optimizer is not an existing NIST-model nonlinear least-squares operation. A new residual/model adapter, NIST start-value policy and output/uncertainty contract would be additional work; it must not be counted as current support. No NIST execution or certification is claimed."
+    }
+  ],
+  "benchmarks": [
+    {
+      "id": "MVS-BENCH-1.2.0",
+      "name_en": "Historical MVS Synthetic Benchmark",
+      "version": "1.2.0",
+      "category": "development_simulation",
+      "nature": "historical_development",
+      "execution_status": "completed",
+      "gate_status": "historical_no_go",
+      "retrospective_registration": true,
+      "independent_scientific_validation": false,
+      "ademp": {
+        "aims": "Assess shopping-related null rejection, sensitivity relative to internal comparators, and recommendation stability.",
+        "data": "Synthetic gait/voice condition matrix under the original MVS-BENCH-1.2.0 protocol; 5370 replication rows plus120 stability rows, not proven independent datasets.",
+        "estimands": "Declared summary-family/group comparisons and historical A/B/C criteria, exactly as preserved; no new gate.",
+        "methods": "[{\"id\": \"cherry_pick\", \"name\": \"Try all twelve, report the best\"}, {\"id\": \"bonferroni\", \"name\": \"Try all twelve, Bonferroni\"}, {\"id\": \"fixed_median\", \"name\": \"Median, fixed in advance\"}, {\"id\": \"fixed_cv\", \"name\": \"Coefficient of variation, fixed in advance\"}, {\"id\": \"mvs_pilot\", \"name\": \"MVS, metric locked on a pilot\"}, {\"id\": \"mvs_strict\", \"name\": \"MVS, gate respected\"}, {\"id\": \"mvs_lenient\", \"name\": \"MVS, gate ignored\"}, {\"id\": \"mvs_registry_corrected\", \"name\": \"MVS, all applicable metrics with registry correction\"}]",
+        "performance": "Historical development: primary-null default 18/1,000; location ×1.05 default 35/250; dispersion ×1.30 default 72/250; winner agreement 27/120. Hypothesis B fails; C is inconclusive; historical overall NO-GO. Report 5,490 work units and 5,370 replication rows only as execution denominators.",
+        "truth": "Null/alternative status is condition-specific; primary_null has equal groups, location105 and dispersion130 are alternatives."
+      },
+      "methods": [
+        {
+          "id": "cherry_pick",
+          "version": "MVS-BENCH-1.2.0:method=cherry_pick; original implementation recorded in pinned protocol"
+        },
+        {
+          "id": "bonferroni",
+          "version": "MVS-BENCH-1.2.0:method=bonferroni; original implementation recorded in pinned protocol"
+        },
+        {
+          "id": "fixed_median",
+          "version": "MVS-BENCH-1.2.0:method=fixed_median; original implementation recorded in pinned protocol"
+        },
+        {
+          "id": "fixed_cv",
+          "version": "MVS-BENCH-1.2.0:method=fixed_cv; original implementation recorded in pinned protocol"
+        },
+        {
+          "id": "mvs_pilot",
+          "version": "MVS-BENCH-1.2.0:method=mvs_pilot; original implementation recorded in pinned protocol"
+        },
+        {
+          "id": "mvs_strict",
+          "version": "MVS-BENCH-1.2.0:method=mvs_strict; original implementation recorded in pinned protocol"
+        },
+        {
+          "id": "mvs_lenient",
+          "version": "MVS-BENCH-1.2.0:method=mvs_lenient; original implementation recorded in pinned protocol"
+        },
+        {
+          "id": "mvs_registry_corrected",
+          "version": "MVS-BENCH-1.2.0:method=mvs_registry_corrected; original implementation recorded in pinned protocol"
+        }
+      ],
+      "identity": {
+        "protocol_id": "MVS-BENCH-1.2.0",
+        "protocol_refs": [
+          {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/benchmark_protocol.txt",
+            "sha256": "b81be4a1a86e8ba4b013eb63b75256d16e439fb824e7fa68efae5f28e48de268"
+          },
+          {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/benchmark_manifest.json",
+            "sha256": "4dd862d8aacc3592c018215f33494534ebfb6452b2324968b738521d37f808af"
+          },
+          {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/execution.json",
+            "sha256": "d4faf5c751e18d13445f7a3f85be71f5132e3fb838d7e51175b8ec91ad42d605"
+          },
+          {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/verification.json",
+            "sha256": "587e7fe8758933d49d1797ce23c95b79732d491f450a82955aa7746c2b1b96c6"
+          },
+          {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/benchmark_summary.csv",
+            "sha256": "fd7a967562dbf8f7a9d855fe2e4a729be8d201df7833b7cbea144987a03eeb2a"
+          },
+          {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/benchmark_replications.csv",
+            "sha256": "e22c3d0e7d8151e71e582841c652fcc4b8888a3d2f730ba34e407024ed01bf03"
+          },
+          {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/benchmark_stability_replications.csv",
+            "sha256": "f43adc15a64f22386a47684644c1f523d359cb00efa2ceb956564b08cb55621f"
+          },
+          {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/failed_attempt1.json",
+            "sha256": "4309e49eea570c8f5fd2076e7d40d7d824c920121de1854132c5185e4ba9fa56"
+          },
+          {
+            "path": "benchmark_history/1.4.0-engine-1.6.0-MVS-BENCH-1.2.0/benchmark_manifest.json",
+            "sha256": "31b47552b4a25ab008773d3f17f7e0b80e63f9c7dc9b69f73f18299f7c8a2b00"
+          },
+          {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/historical_comparison.json",
+            "sha256": "db8fbb33e76c56c4d29720ac2bd1bfa010eb09bd158d6b9226001a381d5bf421"
+          },
+          {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc"
+          }
+        ],
+        "data_id": "original-retained-round6-inputs-and-execution",
+        "data_hash": null,
+        "data_limitations_ru": "Полные входные идентичности и отдельные хеши находятся в исходном протоколе/свидетельствах. Единого хеша всех независимых наборов здесь не заявлено; optional RAW отдельно. Исторические данные уже просмотрены."
+      },
+      "uncertainty_ru": "Retained pointwise Wilson intervals and Monte Carlo standard errors are in the CSV; empirical error frequencies do not certify population control. Held-out oracle is an internal cross-fit synthetic comparator, not an externally independent validation cohort.",
+      "failures_ru": "Полный учёт отказов сохранён в перечисленных исходных протоколах/результатах; отсутствие ошибок исполнения не означает научную валидность.",
+      "stopping_ru": "Исходный фиксированный протокол и сохранённые попытки; новые расчёты для реестра не запускались.",
+      "comparability_ru": "Исторический NO-GO сохранён. 5490 — рабочие единицы, не независимые выборки; старый повтор результата не добавляет независимой валидации. Полная методика и версии заданы перечисленными протоколами; строки разных протоколов нельзя трактовать как before/after одного алгоритма.",
+      "conclusion_ru": "Исторический NO-GO сохранён. 5490 — рабочие единицы, не независимые выборки; старый повтор результата не добавляет независимой валидации.",
+      "observations": [
+        {
+          "label_ru": "primary_null/cherry_pick",
+          "reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/0/rejections"
+          },
+          "value": 178,
+          "unit": "count",
+          "denominator": 1000,
+          "denominator_reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/0/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Исторический NO-GO сохранён. 5490 — рабочие единицы, не независимые выборки; старый повтор результата не добавляет независимой валидации.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "primary_null/fixed_median",
+          "reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/2/rejections"
+          },
+          "value": 48,
+          "unit": "count",
+          "denominator": 1000,
+          "denominator_reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/2/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Исторический NO-GO сохранён. 5490 — рабочие единицы, не независимые выборки; старый повтор результата не добавляет независимой валидации.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "primary_null/fixed_cv",
+          "reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/3/rejections"
+          },
+          "value": 58,
+          "unit": "count",
+          "denominator": 1000,
+          "denominator_reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/3/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Исторический NO-GO сохранён. 5490 — рабочие единицы, не независимые выборки; старый повтор результата не добавляет независимой валидации.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "primary_null/mvs_strict",
+          "reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/5/rejections"
+          },
+          "value": 46,
+          "unit": "count",
+          "denominator": 1000,
+          "denominator_reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/5/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Исторический NO-GO сохранён. 5490 — рабочие единицы, не независимые выборки; старый повтор результата не добавляет независимой валидации.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "primary_null/mvs_registry_corrected",
+          "reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/7/rejections"
+          },
+          "value": 18,
+          "unit": "count",
+          "denominator": 1000,
+          "denominator_reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/7/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Исторический NO-GO сохранён. 5490 — рабочие единицы, не независимые выборки; старый повтор результата не добавляет независимой валидации.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "power_location_105/cherry_pick",
+          "reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/24/rejections"
+          },
+          "value": 141,
+          "unit": "count",
+          "denominator": 250,
+          "denominator_reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/24/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Исторический NO-GO сохранён. 5490 — рабочие единицы, не независимые выборки; старый повтор результата не добавляет независимой валидации.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "power_location_105/fixed_median",
+          "reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/26/rejections"
+          },
+          "value": 115,
+          "unit": "count",
+          "denominator": 250,
+          "denominator_reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/26/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Исторический NO-GO сохранён. 5490 — рабочие единицы, не независимые выборки; старый повтор результата не добавляет независимой валидации.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "power_location_105/fixed_cv",
+          "reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/27/rejections"
+          },
+          "value": 23,
+          "unit": "count",
+          "denominator": 250,
+          "denominator_reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/27/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Исторический NO-GO сохранён. 5490 — рабочие единицы, не независимые выборки; старый повтор результата не добавляет независимой валидации.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "power_location_105/mvs_strict",
+          "reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/29/rejections"
+          },
+          "value": 110,
+          "unit": "count",
+          "denominator": 250,
+          "denominator_reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/29/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Исторический NO-GO сохранён. 5490 — рабочие единицы, не независимые выборки; старый повтор результата не добавляет независимой валидации.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "power_location_105/mvs_registry_corrected",
+          "reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/31/rejections"
+          },
+          "value": 35,
+          "unit": "count",
+          "denominator": 250,
+          "denominator_reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/31/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Исторический NO-GO сохранён. 5490 — рабочие единицы, не независимые выборки; старый повтор результата не добавляет независимой валидации.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "power_dispersion_130/cherry_pick",
+          "reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/80/rejections"
+          },
+          "value": 182,
+          "unit": "count",
+          "denominator": 250,
+          "denominator_reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/80/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Исторический NO-GO сохранён. 5490 — рабочие единицы, не независимые выборки; старый повтор результата не добавляет независимой валидации.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "power_dispersion_130/fixed_median",
+          "reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/82/rejections"
+          },
+          "value": 14,
+          "unit": "count",
+          "denominator": 250,
+          "denominator_reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/82/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Исторический NO-GO сохранён. 5490 — рабочие единицы, не независимые выборки; старый повтор результата не добавляет независимой валидации.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "power_dispersion_130/fixed_cv",
+          "reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/83/rejections"
+          },
+          "value": 137,
+          "unit": "count",
+          "denominator": 250,
+          "denominator_reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/83/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Исторический NO-GO сохранён. 5490 — рабочие единицы, не независимые выборки; старый повтор результата не добавляет независимой валидации.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "power_dispersion_130/mvs_strict",
+          "reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/85/rejections"
+          },
+          "value": 14,
+          "unit": "count",
+          "denominator": 250,
+          "denominator_reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/85/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Исторический NO-GO сохранён. 5490 — рабочие единицы, не независимые выборки; старый повтор результата не добавляет независимой валидации.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "power_dispersion_130/mvs_registry_corrected",
+          "reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/87/rejections"
+          },
+          "value": 72,
+          "unit": "count",
+          "denominator": 250,
+          "denominator_reference": {
+            "path": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0/diagnostic_verification.json",
+            "sha256": "4645c376de79891092fd1f2e63db868b2f5c3630c8b093b2b9f33dc23b1d64fc",
+            "pointer": "/requested_denominator_rates/87/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Исторический NO-GO сохранён. 5490 — рабочие единицы, не независимые выборки; старый повтор результата не добавляет независимой валидации.",
+          "truth": "alternative"
+        }
+      ]
+    },
+    {
+      "id": "MVS-DEV-GLOBAL-RANK-1.0.0",
+      "name_en": "Global Rank Development Comparison",
+      "version": "1.0.0",
+      "category": "development_simulation",
+      "nature": "historical_development",
+      "execution_status": "completed",
+      "gate_status": "inconclusive",
+      "retrospective_registration": true,
+      "independent_scientific_validation": false,
+      "ademp": {
+        "aims": "Assess a test-only global max-rank procedure on the fixed development matrix.",
+        "data": "1300 paired datasets; four200-case nulls and two250-case alternatives,999 shared entity-label assignments per case.",
+        "estimands": "Global distribution equality under entity-label exchangeability; not omnibus sensitivity or latent-component identification.",
+        "methods": "{\"candidate\": \"same-draw global maximum exact rank statistic\", \"fixedCv\": \"prespecified same-draw marginal coefficient-of-variation permutation test, strictp<.05\", \"fixedMedian\": \"prespecified same-draw marginal median permutation test, strictp<.05\", \"permutationBonferroni\": \"same999 draws, marginal permutation p-values with Bonferroni12\", \"shipped\": \"shipped raw rank p-values with Bonferroni12\"}",
+        "performance": "1,300/1,300 cases completed. Primary heavy-tail null: global candidate 19/200, Wilson 95% [0.061663, 0.143602], versus shipped 7/200 and same-draw permutation Bonferroni 6/200. Candidate power 79/250 and 125/250 versus shipped 35/250 and 72/250. Null advancement inconclusive; no activation. Supporting Round28 independent arithmetic reconstruction matched all 200 original null cases and 199,800 assignments; it adds no scientific samples.",
+        "truth": "Conditions0..3 are null;4..5 are location/dispersion alternatives; no holdout generated."
+      },
+      "methods": [
+        {
+          "id": "shipped",
+          "version": "R27-GLOBAL-MAXRANK-DEV-1:method=shipped; original implementation recorded in pinned protocol"
+        },
+        {
+          "id": "candidate",
+          "version": "R27-GLOBAL-MAXRANK-DEV-1:method=candidate; original implementation recorded in pinned protocol"
+        },
+        {
+          "id": "permutationBonferroni",
+          "version": "R27-GLOBAL-MAXRANK-DEV-1:method=permutationBonferroni; original implementation recorded in pinned protocol"
+        },
+        {
+          "id": "fixedMedian",
+          "version": "R27-GLOBAL-MAXRANK-DEV-1:method=fixedMedian; original implementation recorded in pinned protocol"
+        },
+        {
+          "id": "fixedCv",
+          "version": "R27-GLOBAL-MAXRANK-DEV-1:method=fixedCv; original implementation recorded in pinned protocol"
+        }
+      ],
+      "identity": {
+        "protocol_id": "R27-GLOBAL-MAXRANK-DEV-1",
+        "protocol_refs": [
+          {
+            "path": "docs/ROUND27_GLOBAL_RANK_PROTOCOL.md",
+            "sha256": "420e70d1b203815eefb6cd92d9407c2fdc4db5484188da25aba56b17e0160a6e"
+          },
+          {
+            "path": "validation/global-rank-development-v1.json",
+            "sha256": "3720b31511e9b44cc7dde194cc6b9fc0bc8ae5942293560080797c2eb5bf0330"
+          },
+          {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c"
+          },
+          {
+            "path": "validation/global-rank-fixtures-v1.json",
+            "sha256": "6deb504907cca453a000caa3433da3cd45a2a8556dd8d12c6e732616e5400c78"
+          },
+          {
+            "path": "docs/ROUND27_GLOBAL_RANK_EXPERIMENT.md",
+            "sha256": "46df1be19b30406f7805b615bc0a9884dd7121152bc8e5b0cf3159853a587035"
+          }
+        ],
+        "data_id": "original-retained-round27-inputs-and-execution",
+        "data_hash": null,
+        "data_limitations_ru": "Полные входные идентичности и отдельные хеши находятся в исходном протоколе/свидетельствах. Единого хеша всех независимых наборов здесь не заявлено; optional RAW отдельно. Исторические данные уже просмотрены."
+      },
+      "uncertainty_ru": "Four null pointwise Wilson95 intervals and four conservative paired95 intervals, not simultaneous; power gains cannot override failed null advancement gate.",
+      "failures_ru": "{\"full_replay\": {\"completed\": 1300, \"elapsedSeconds\": 159, \"endUtc\": \"2026-10-16T14:44:16Z\", \"failures\": 0, \"mismatches\": 0, \"planned\": 1300, \"startUtc\": \"2026-10-16T14:41:37Z\"}, \"initial_replay\": {\"completed\": 288, \"failed\": 9, \"not-started\": 1003}, \"meaning\": \"Initial watchdog failure preserved; complete1300-case replay later repeated under new source attestation, no selected successful subset.\"}",
+      "stopping_ru": "Исходный фиксированный протокол и сохранённые попытки; новые расчёты для реестра не запускались.",
+      "comparability_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки. Полная методика и версии заданы перечисленными протоколами; строки разных протоколов нельзя трактовать как before/after одного алгоритма.",
+      "conclusion_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+      "observations": [
+        {
+          "label_ru": "condition0/shipped",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/0/methods/shipped/rejections"
+          },
+          "value": 7,
+          "unit": "count",
+          "denominator": 200,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/0/methods/shipped/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "condition0/candidate",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/0/methods/candidate/rejections"
+          },
+          "value": 19,
+          "unit": "count",
+          "denominator": 200,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/0/methods/candidate/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "condition0/permutationBonferroni",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/0/methods/permutationBonferroni/rejections"
+          },
+          "value": 6,
+          "unit": "count",
+          "denominator": 200,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/0/methods/permutationBonferroni/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "condition0/fixedMedian",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/0/methods/fixedMedian/rejections"
+          },
+          "value": 16,
+          "unit": "count",
+          "denominator": 200,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/0/methods/fixedMedian/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "condition0/fixedCv",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/0/methods/fixedCv/rejections"
+          },
+          "value": 16,
+          "unit": "count",
+          "denominator": 200,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/0/methods/fixedCv/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "condition1/shipped",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/1/methods/shipped/rejections"
+          },
+          "value": 4,
+          "unit": "count",
+          "denominator": 200,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/1/methods/shipped/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "condition1/candidate",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/1/methods/candidate/rejections"
+          },
+          "value": 10,
+          "unit": "count",
+          "denominator": 200,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/1/methods/candidate/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "condition1/permutationBonferroni",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/1/methods/permutationBonferroni/rejections"
+          },
+          "value": 4,
+          "unit": "count",
+          "denominator": 200,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/1/methods/permutationBonferroni/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "condition1/fixedMedian",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/1/methods/fixedMedian/rejections"
+          },
+          "value": 7,
+          "unit": "count",
+          "denominator": 200,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/1/methods/fixedMedian/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "condition1/fixedCv",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/1/methods/fixedCv/rejections"
+          },
+          "value": 12,
+          "unit": "count",
+          "denominator": 200,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/1/methods/fixedCv/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "condition2/shipped",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/2/methods/shipped/rejections"
+          },
+          "value": 5,
+          "unit": "count",
+          "denominator": 200,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/2/methods/shipped/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "condition2/candidate",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/2/methods/candidate/rejections"
+          },
+          "value": 8,
+          "unit": "count",
+          "denominator": 200,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/2/methods/candidate/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "condition2/permutationBonferroni",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/2/methods/permutationBonferroni/rejections"
+          },
+          "value": 6,
+          "unit": "count",
+          "denominator": 200,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/2/methods/permutationBonferroni/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "condition2/fixedMedian",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/2/methods/fixedMedian/rejections"
+          },
+          "value": 10,
+          "unit": "count",
+          "denominator": 200,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/2/methods/fixedMedian/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "condition2/fixedCv",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/2/methods/fixedCv/rejections"
+          },
+          "value": 14,
+          "unit": "count",
+          "denominator": 200,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/2/methods/fixedCv/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "condition3/shipped",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/3/methods/shipped/rejections"
+          },
+          "value": 2,
+          "unit": "count",
+          "denominator": 200,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/3/methods/shipped/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "condition3/candidate",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/3/methods/candidate/rejections"
+          },
+          "value": 9,
+          "unit": "count",
+          "denominator": 200,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/3/methods/candidate/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "condition3/permutationBonferroni",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/3/methods/permutationBonferroni/rejections"
+          },
+          "value": 4,
+          "unit": "count",
+          "denominator": 200,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/3/methods/permutationBonferroni/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "condition3/fixedMedian",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/3/methods/fixedMedian/rejections"
+          },
+          "value": 7,
+          "unit": "count",
+          "denominator": 200,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/3/methods/fixedMedian/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "condition3/fixedCv",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/3/methods/fixedCv/rejections"
+          },
+          "value": 7,
+          "unit": "count",
+          "denominator": 200,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/3/methods/fixedCv/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "condition4/shipped",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/4/methods/shipped/rejections"
+          },
+          "value": 35,
+          "unit": "count",
+          "denominator": 250,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/4/methods/shipped/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "condition4/candidate",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/4/methods/candidate/rejections"
+          },
+          "value": 79,
+          "unit": "count",
+          "denominator": 250,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/4/methods/candidate/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "condition4/permutationBonferroni",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/4/methods/permutationBonferroni/rejections"
+          },
+          "value": 43,
+          "unit": "count",
+          "denominator": 250,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/4/methods/permutationBonferroni/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "condition4/fixedMedian",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/4/methods/fixedMedian/rejections"
+          },
+          "value": 112,
+          "unit": "count",
+          "denominator": 250,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/4/methods/fixedMedian/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "condition4/fixedCv",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/4/methods/fixedCv/rejections"
+          },
+          "value": 22,
+          "unit": "count",
+          "denominator": 250,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/4/methods/fixedCv/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "condition5/shipped",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/5/methods/shipped/rejections"
+          },
+          "value": 72,
+          "unit": "count",
+          "denominator": 250,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/5/methods/shipped/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "condition5/candidate",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/5/methods/candidate/rejections"
+          },
+          "value": 125,
+          "unit": "count",
+          "denominator": 250,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/5/methods/candidate/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "condition5/permutationBonferroni",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/5/methods/permutationBonferroni/rejections"
+          },
+          "value": 78,
+          "unit": "count",
+          "denominator": 250,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/5/methods/permutationBonferroni/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "condition5/fixedMedian",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/5/methods/fixedMedian/rejections"
+          },
+          "value": 14,
+          "unit": "count",
+          "denominator": 250,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/5/methods/fixedMedian/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "condition5/fixedCv",
+          "reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/5/methods/fixedCv/rejections"
+          },
+          "value": 135,
+          "unit": "count",
+          "denominator": 250,
+          "denominator_reference": {
+            "path": "validation/round27-results.json",
+            "sha256": "9b13a26bad0ddcb2496e79f136dec4284a0c66476c7ce1da447612ba253e169c",
+            "pointer": "/development/conditions/5/methods/fixedCv/plannedDenominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не активирован: основной null19/200, исходный экран inconclusive. Проверка Round28 подтвердила арифметику, а не добавила выборки.",
+          "truth": "alternative"
+        }
+      ]
+    },
+    {
+      "id": "MVS-NUM-NORMAL-TAIL-1.0.0",
+      "name_en": "Normal-Tail Numerical Comparison",
+      "version": "1.0.0",
+      "category": "numerical_reference",
+      "nature": "numerical_contract",
+      "execution_status": "completed",
+      "gate_status": "candidate_no_go",
+      "retrospective_registration": true,
+      "independent_scientific_validation": false,
+      "ademp": {
+        "aims": "Compare normal-tail numerical accuracy and policy decisions for one isolated return-expression substitution.",
+        "data": "3173 binary64 scalar inputs,8specials,165rank fixtures and365threshold-policy comparisons; deterministic grids, not sampled studies.",
+        "estimands": "Normal two-sided tail probability and native decision-policy output; unchanged rank arithmetic.",
+        "methods": "{\"A\": \"actual shipped NormalCdf/native Mann–Whitney path\", \"B\": \"isolated final-tail expression using Math.NET Numerics5.0.0; unchanged native rank body and decision policy\", \"H\": \"independent mpmath100/200-digit normal probability with explicit nearest-even binary64 conversion\", \"S\": \"SciPy1.17.0 ordinary survival probability; separate logsf diagnostic\", \"control\": \"unchanged Kruskal–Wallis\"}",
+        "performance": "3,173 scalars, eight specials and 165 native rank cases. Candidate has 170 scalar failures, 5/365 threshold-policy mismatches and zero rank failures; premature zeros fall from 2,108 to zero. Isolated primitive throughput median ratio is 4.454. Candidate NO-GO; numerical edge-case and cost contract, not a practical error-rate estimate.",
+        "truth": "High-precision100/200-digit reference with explicit binary64 rounding; deterministic numerical truth."
+      },
+      "methods": [
+        {
+          "id": "A",
+          "version": "Round32 original protocol + pre-execution amendment v2 (document-defined identity):method=A; original implementation recorded in pinned protocol"
+        },
+        {
+          "id": "B",
+          "version": "Round32 original protocol + pre-execution amendment v2 (document-defined identity):method=B; original implementation recorded in pinned protocol"
+        },
+        {
+          "id": "H",
+          "version": "Round32 original protocol + pre-execution amendment v2 (document-defined identity):method=H; original implementation recorded in pinned protocol"
+        },
+        {
+          "id": "S",
+          "version": "Round32 original protocol + pre-execution amendment v2 (document-defined identity):method=S; original implementation recorded in pinned protocol"
+        },
+        {
+          "id": "control",
+          "version": "Round32 original protocol + pre-execution amendment v2 (document-defined identity):method=control; original implementation recorded in pinned protocol"
+        }
+      ],
+      "identity": {
+        "protocol_id": "Round32 original protocol + pre-execution amendment v2 (document-defined identity)",
+        "protocol_refs": [
+          {
+            "path": "docs/ROUND32_NORMAL_TAIL_PROTOCOL_ORIGINAL_RU.md",
+            "sha256": "86d4f5e87b06e7755ce2c9f301ac23ae5d087c1817fb20a5c064e91e52f994b0"
+          },
+          {
+            "path": "docs/ROUND32_NORMAL_TAIL_PROTOCOL_AMENDMENT.md",
+            "sha256": "5b81f65830cee7a46a5f9096c7d053bb714a2e377f1d67f90259fd8e9e04c492"
+          },
+          {
+            "path": "validation/round32-results.json",
+            "sha256": "a02de37a953c89c2296bfc2ac8a21b45a8fd661183a52fed96b5cec0a91ba3f2"
+          },
+          {
+            "path": "validation/round32-freeze.json",
+            "sha256": "b1cef37c95615c4f089e9dd0388d5f4f837e861d305620147af7b65d8d6fd7b1"
+          },
+          {
+            "path": "docs/ROUND32_NORMAL_TAIL_COMPARISON.md",
+            "sha256": "509204a1ba34efaadd27d6996ecd6e29cf17f85e8dd8f94c5bf7bbcd6585e2a7"
+          }
+        ],
+        "data_id": "original-retained-round32-inputs-and-execution",
+        "data_hash": null,
+        "data_limitations_ru": "Полные входные идентичности и отдельные хеши находятся в исходном протоколе/свидетельствах. Единого хеша всех независимых наборов здесь не заявлено; optional RAW отдельно. Исторические данные уже просмотрены."
+      },
+      "uncertainty_ru": "Deterministic grid errors, no statistical confidence interval. Timing is repeated warm-file-cache isolated Linux harness measurement, not Windows compatibility or end-to-end MVS slowdown.",
+      "failures_ru": "Полный учёт отказов сохранён в перечисленных исходных протоколах/результатах; отсутствие ошибок исполнения не означает научную валидность.",
+      "stopping_ru": "Numerical failure is an informative terminal outcome; no tolerance relaxation, selective retries, production activation or threshold change.",
+      "comparability_ru": "Кандидат не принят. Строгие численные нарушения и пять несовпадений правил принятия решения не равны частоте ошибок реальных исследований; те же пять есть и в исходном методе. Полная методика и версии заданы перечисленными протоколами; строки разных протоколов нельзя трактовать как before/after одного алгоритма.",
+      "conclusion_ru": "Кандидат не принят. Строгие численные нарушения и пять несовпадений правил принятия решения не равны частоте ошибок реальных исследований; те же пять есть и в исходном методе.",
+      "observations": [
+        {
+          "label_ru": "candidate scalar failures",
+          "reference": {
+            "path": "validation/round32-results.json",
+            "sha256": "a02de37a953c89c2296bfc2ac8a21b45a8fd661183a52fed96b5cec0a91ba3f2",
+            "pointer": "/scalarCandidateFailureCount"
+          },
+          "value": 170,
+          "unit": "count",
+          "denominator": 3173,
+          "denominator_reference": {
+            "path": "validation/round32-results.json",
+            "sha256": "a02de37a953c89c2296bfc2ac8a21b45a8fd661183a52fed96b5cec0a91ba3f2",
+            "pointer": "/counts/scalar"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не принят. Строгие численные нарушения и пять несовпадений правил принятия решения не равны частоте ошибок реальных исследований; те же пять есть и в исходном методе.",
+          "truth": "numerical"
+        },
+        {
+          "label_ru": "candidate threshold-policy mismatches",
+          "reference": {
+            "path": "validation/round32-results.json",
+            "sha256": "a02de37a953c89c2296bfc2ac8a21b45a8fd661183a52fed96b5cec0a91ba3f2",
+            "pointer": "/decisions/thresholdCandidateMismatchCount"
+          },
+          "value": 5,
+          "unit": "count",
+          "denominator": 365,
+          "denominator_reference": {
+            "path": "validation/round32-results.json",
+            "sha256": "a02de37a953c89c2296bfc2ac8a21b45a8fd661183a52fed96b5cec0a91ba3f2",
+            "pointer": "/decisions/thresholdCount"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не принят. Строгие численные нарушения и пять несовпадений правил принятия решения не равны частоте ошибок реальных исследований; те же пять есть и в исходном методе.",
+          "truth": "numerical"
+        },
+        {
+          "label_ru": "rank failures",
+          "reference": {
+            "path": "validation/round32-results.json",
+            "sha256": "a02de37a953c89c2296bfc2ac8a21b45a8fd661183a52fed96b5cec0a91ba3f2",
+            "pointer": "/rankFailureCount"
+          },
+          "value": 0,
+          "unit": "count",
+          "denominator": 165,
+          "denominator_reference": {
+            "path": "validation/round32-results.json",
+            "sha256": "a02de37a953c89c2296bfc2ac8a21b45a8fd661183a52fed96b5cec0a91ba3f2",
+            "pointer": "/counts/ranks"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Кандидат не принят. Строгие численные нарушения и пять несовпадений правил принятия решения не равны частоте ошибок реальных исследований; те же пять есть и в исходном методе.",
+          "truth": "numerical"
+        }
+      ]
+    },
+    {
+      "id": "MVS-REPLAY-STABILITY-1.0.0",
+      "name_en": "Kendall Tau-b Stability Replay",
+      "version": "1.0.0",
+      "category": "stability_diagnostic",
+      "nature": "historical_development",
+      "execution_status": "completed",
+      "gate_status": "descriptive_only",
+      "retrospective_registration": true,
+      "independent_scientific_validation": false,
+      "ademp": {
+        "aims": "Measure corrected tau-b impact while requiring exact agreement with retained legacy diagnostics.",
+        "data": "Same120 historical split recipes reconstructed; original full score vectors were not retained.",
+        "estimands": "Rank association and winner agreement under repeated development splits, not detection power.",
+        "methods": "Legacy unversioned arithmetic vs corrected kendall-tau-b-v2 on the same newly retained projected12-score vector pairs; original retained legacy diagnostics checked for exact agreement.",
+        "performance": "120/120 reconstructed recipes match all retained legacy diagnostics. Median tau changes from 0.714259874 to 0.720023041; winner agreement remains 27/120. Zero undefined, failed or missing cases. Supporting Round42 checks corrected tau-b arithmetic separately; replay does not recover original unretained vectors or provide independent scientific validation.",
+        "truth": "No independent population truth for stability; exact legacy diagnostic matching is an engineering constraint."
+      },
+      "methods": [
+        {
+          "id": "legacy",
+          "version": "R43-SAME-120-STABILITY-REPLAY-1:method=legacy; original implementation recorded in pinned protocol"
+        },
+        {
+          "id": "candidate",
+          "version": "R43-SAME-120-STABILITY-REPLAY-1:method=candidate; original implementation recorded in pinned protocol"
+        }
+      ],
+      "identity": {
+        "protocol_id": "R43-SAME-120-STABILITY-REPLAY-1",
+        "protocol_refs": [
+          {
+            "path": "docs/ROUND43_STABILITY_REPLAY_PROTOCOL.md",
+            "sha256": "edbe810cf74a0cfc8cd16f598a11cac9d95f1d9a5cf6e6889bf59855552876f7"
+          },
+          {
+            "path": "validation/stability-replay-protocol-v1.json",
+            "sha256": "bb94422017c04e6b9229dd7cd0165ef751446cd957de437823f12b0dd13b938d"
+          },
+          {
+            "path": "validation/round43-results.json",
+            "sha256": "6996afb13305985faf795e8fc2311f380e16a68b3c2f0473cdb066b2ea7f7102"
+          }
+        ],
+        "data_id": "original-retained-round43-inputs-and-execution",
+        "data_hash": null,
+        "data_limitations_ru": "Полные входные идентичности и отдельные хеши находятся в исходном протоколе/свидетельствах. Единого хеша всех независимых наборов здесь не заявлено; optional RAW отдельно. Исторические данные уже просмотрены."
+      },
+      "uncertainty_ru": "Descriptive reused-development split diagnostics; no independent scientific validation or external generalization interval. No original vectors were retained, so exact old-diagnostic agreement does not prove recovered original-vector byte identity.",
+      "failures_ru": "Полный учёт отказов сохранён в перечисленных исходных протоколах/результатах; отсутствие ошибок исполнения не означает научную валидность.",
+      "stopping_ru": "[\"No original score vectors were retained: these are reconstructed same-recipe vectors, not recovered original scores or proof of byte identity.\", \"Development-only diagnostic replay; scientific NO-GO remains unchanged.\", \"Top-one agreement uses the existing finite-tau denominator and can change solely because that denominator changes.\", \"No retries, replacement seeds, selected splits, or new scientific validation datasets.\"]",
+      "comparability_ru": "Исправлено измерение tau, но совпадение победителя остаётся27/120; оригинальные потерянные векторы не восстановлены доказанно. Полная методика и версии заданы перечисленными протоколами; строки разных протоколов нельзя трактовать как before/after одного алгоритма.",
+      "conclusion_ru": "Исправлено измерение tau, но совпадение победителя остаётся27/120; оригинальные потерянные векторы не восстановлены доказанно.",
+      "observations": [
+        {
+          "label_ru": "corrected winner matches over requested",
+          "reference": {
+            "path": "validation/round43-results.json",
+            "sha256": "6996afb13305985faf795e8fc2311f380e16a68b3c2f0473cdb066b2ea7f7102",
+            "pointer": "/corrected_matched_finite_count"
+          },
+          "value": 27,
+          "unit": "count",
+          "denominator": 120,
+          "denominator_reference": {
+            "path": "validation/round43-results.json",
+            "sha256": "6996afb13305985faf795e8fc2311f380e16a68b3c2f0473cdb066b2ea7f7102",
+            "pointer": "/original_requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Исправлено измерение tau, но совпадение победителя остаётся27/120; оригинальные потерянные векторы не восстановлены доказанно.",
+          "truth": "not_applicable"
+        },
+        {
+          "label_ru": "corrected winner matches over finite tau",
+          "reference": {
+            "path": "validation/round43-results.json",
+            "sha256": "6996afb13305985faf795e8fc2311f380e16a68b3c2f0473cdb066b2ea7f7102",
+            "pointer": "/corrected_matched_finite_count"
+          },
+          "value": 27,
+          "unit": "count",
+          "denominator": 120,
+          "denominator_reference": {
+            "path": "validation/round43-results.json",
+            "sha256": "6996afb13305985faf795e8fc2311f380e16a68b3c2f0473cdb066b2ea7f7102",
+            "pointer": "/corrected_finite_count"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Исправлено измерение tau, но совпадение победителя остаётся27/120; оригинальные потерянные векторы не восстановлены доказанно.",
+          "truth": "not_applicable"
+        },
+        {
+          "label_ru": "corrected undefined cases",
+          "reference": {
+            "path": "validation/round43-results.json",
+            "sha256": "6996afb13305985faf795e8fc2311f380e16a68b3c2f0473cdb066b2ea7f7102",
+            "pointer": "/corrected_undefined_count"
+          },
+          "value": 0,
+          "unit": "count",
+          "denominator": 120,
+          "denominator_reference": {
+            "path": "validation/round43-results.json",
+            "sha256": "6996afb13305985faf795e8fc2311f380e16a68b3c2f0473cdb066b2ea7f7102",
+            "pointer": "/original_requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Исправлено измерение tau, но совпадение победителя остаётся27/120; оригинальные потерянные векторы не восстановлены доказанно.",
+          "truth": "not_applicable"
+        }
+      ]
+    },
+    {
+      "id": "MVS-DEV-PAIRED-CANDIDATES-1.0.0",
+      "name_en": "Paired Candidate-Set Development Comparison",
+      "version": "1.0.0",
+      "category": "stability_diagnostic",
+      "nature": "historical_development",
+      "execution_status": "technical_failure_with_supplemental_audit",
+      "gate_status": "descriptive_only",
+      "retrospective_registration": true,
+      "independent_scientific_validation": false,
+      "ademp": {
+        "aims": "Assess selectivity and stability of paired conditional-power candidate sets.",
+        "data": "Saved Round45 paired outcomes:120splits,two halves,three tracks; no new data or calibration.",
+        "estimands": "Conditional simulation-power contrasts with exact paired McNemar/Holm within each half-track; set stability is descriptive.",
+        "methods": "{\"new\": \"family-power-exact-mcnemar-holm-v1-test-only\", \"old\": \"family-power-ci-overlap-v1\"}",
+        "performance": "15,840 directed tests on 720 half-tracks, with zero unavailable families. Exact set agreement old→new: location 114→51/120, variability 96→106/120, heterogeneity 120→120/120. Initial technical failure remains recorded; a separate complete arithmetic audit passed. Selectivity and descriptive chance-adjusted agreement do not establish utility or activation.",
+        "truth": "No established superiority truth for selected metric sets; agreement/chance baselines are not utility or power."
+      },
+      "methods": [
+        {
+          "id": "new",
+          "version": "R46-EXACT-PAIRED-CANDIDATE-COMPARISON-1:method=new; original implementation recorded in pinned protocol"
+        },
+        {
+          "id": "old",
+          "version": "R46-EXACT-PAIRED-CANDIDATE-COMPARISON-1:method=old; original implementation recorded in pinned protocol"
+        }
+      ],
+      "identity": {
+        "protocol_id": "R46-EXACT-PAIRED-CANDIDATE-COMPARISON-1",
+        "protocol_refs": [
+          {
+            "path": "docs/ROUND46_PAIRED_CANDIDATE_PROTOCOL.md",
+            "sha256": "6abfdf814332d9547809e8863504764305ed7a319b7cabff28522ce42046b2c7"
+          },
+          {
+            "path": "validation/paired-candidate-comparison-protocol-v1.json",
+            "sha256": "d45176ba84a1797cc2005a40f5e29eb2c3f141478b4eba5d34fabd43960e28e0"
+          },
+          {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b"
+          }
+        ],
+        "data_id": "original-retained-round46-inputs-and-execution",
+        "data_hash": null,
+        "data_limitations_ru": "Полные входные идентичности и отдельные хеши находятся в исходном протоколе/свидетельствах. Единого хеша всех независимых наборов здесь не заявлено; optional RAW отдельно. Исторические данные уже просмотрены."
+      },
+      "uncertainty_ru": "Exact p-values concern conditional simulation kernel; Holm scope one half-track only, not720families or experimental history. All120×120 cross-pair baselines are descriptive frequencies, not independent tests. No new uncertainty over biological populations.",
+      "failures_ru": "{\"audit\": {\"all_summary_fields_exact\": true, \"binding_sha256\": \"666dd09547d226b4d07ed927daf0bf67bd5f104620bb0e765c747cc725844cef\", \"counts\": {\"half_tracks\": 720, \"native_build_invocations\": 720, \"native_summarize_invocations\": 720, \"ordered_tests\": 15840, \"pair_tracks\": 360, \"traces\": 240}, \"elapsed_seconds\": 13.10783660299785, \"full_native_payloads_checked\": 120, \"holm_algorithm\": \"exact rational canonical ranking and full-family strict 1/20 step-down\", \"original_attempt_status\": \"technical_failure\", \"original_attempt_unchanged_by_this_result\": true, \"pin_checks_before_and_after\": {\"all_pins\": 3594, \"input_files\": 2058}, \"raw_decode\": \"independent strided least-significant two-bit planes, all 84 coordinates\", \"schema\": \"mvs-paired-candidate-independent-audit/v1\", \"scientific_acceptance\": false, \"scope\": \"independent recomputation of the same frozen checks only; no new native/main/calibration execution\", \"status\": \"passed\", \"summary_tracks_checked\": [\"location\", \"variability\", \"heterogeneity\"], \"supplemental_manifest_sha256\": \"40178c8ea3ddbd61c69a7e656c392409ae823ff1eadeb2274358111053f22760\", \"tail_algorithm\": \"integer binomial recurrence and suffix sums; no combination summation or project imports\", \"valid\": true, \"verifier_sha256\": \"8c9b6deda5ed6f87e716f0de0a3225d8061492eb4f178ba7581c322e8112ef84\"}, \"original_error\": \"ValueError: verifier failed with exit 1\", \"original_status\": \"technical_failure\", \"supplemental_verification\": {\"calibrations\": 0, \"error\": null, \"independent_quantitative_verification\": \"same frozen tests recomputed\", \"main_analysis_invocations\": 0, \"manifest_sha256\": \"40178c8ea3ddbd61c69a7e656c392409ae823ff1eadeb2274358111053f22760\", \"native_processes_started\": 0, \"original_attempt_promoted\": false, \"original_attempt_status\": \"technical_failure\", \"original_binding_sha256\": \"666dd09547d226b4d07ed927daf0bf67bd5f104620bb0e765c747cc725844cef\", \"original_result_tree_unchanged\": true, \"retry_permitted\": false, \"schema\": \"mvs-r46-supplemental-run/v1\", \"scientific_go\": false, \"status\": \"completed\"}}",
+      "stopping_ru": "One bounded retained-data analysis; no recalibration, regeneration, replacement, threshold/rule search. Supplemental authorized verifier fixed path-order discrepancy only; original failure not promoted.",
+      "comparability_ru": "Сужение списка ухудшило повторяемость уровня114→51/120. Первоначальный technical_failure сохранён; отдельный аудит не переписал его в PASS. Полная методика и версии заданы перечисленными протоколами; строки разных протоколов нельзя трактовать как before/after одного алгоритма.",
+      "conclusion_ru": "Сужение списка ухудшило повторяемость уровня114→51/120. Первоначальный technical_failure сохранён; отдельный аудит не переписал его в PASS.",
+      "observations": [
+        {
+          "label_ru": "location/old exact agreement",
+          "reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/0/methods/old/all_pairs/exact_numerator"
+          },
+          "value": 114,
+          "unit": "count",
+          "denominator": 120,
+          "denominator_reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/0/methods/old/all_pairs/denominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Сужение списка ухудшило повторяемость уровня114→51/120. Первоначальный technical_failure сохранён; отдельный аудит не переписал его в PASS.",
+          "truth": "not_applicable"
+        },
+        {
+          "label_ru": "location/new exact agreement",
+          "reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/0/methods/new/all_pairs/exact_numerator"
+          },
+          "value": 51,
+          "unit": "count",
+          "denominator": 120,
+          "denominator_reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/0/methods/new/all_pairs/denominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Сужение списка ухудшило повторяемость уровня114→51/120. Первоначальный technical_failure сохранён; отдельный аудит не переписал его в PASS.",
+          "truth": "not_applicable"
+        },
+        {
+          "label_ru": "location/decrease set size",
+          "reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/0/new_minus_old/cardinality_change_counts/decrease"
+          },
+          "value": 94,
+          "unit": "count",
+          "denominator": 240,
+          "denominator_reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/0/new_minus_old/denominator_halves"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Сужение списка ухудшило повторяемость уровня114→51/120. Первоначальный technical_failure сохранён; отдельный аудит не переписал его в PASS.",
+          "truth": "not_applicable"
+        },
+        {
+          "label_ru": "location/equal set size",
+          "reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/0/new_minus_old/cardinality_change_counts/equal"
+          },
+          "value": 146,
+          "unit": "count",
+          "denominator": 240,
+          "denominator_reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/0/new_minus_old/denominator_halves"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Сужение списка ухудшило повторяемость уровня114→51/120. Первоначальный technical_failure сохранён; отдельный аудит не переписал его в PASS.",
+          "truth": "not_applicable"
+        },
+        {
+          "label_ru": "location/increase set size",
+          "reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/0/new_minus_old/cardinality_change_counts/increase"
+          },
+          "value": 0,
+          "unit": "count",
+          "denominator": 240,
+          "denominator_reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/0/new_minus_old/denominator_halves"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Сужение списка ухудшило повторяемость уровня114→51/120. Первоначальный technical_failure сохранён; отдельный аудит не переписал его в PASS.",
+          "truth": "not_applicable"
+        },
+        {
+          "label_ru": "variability/old exact agreement",
+          "reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/1/methods/old/all_pairs/exact_numerator"
+          },
+          "value": 96,
+          "unit": "count",
+          "denominator": 120,
+          "denominator_reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/1/methods/old/all_pairs/denominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Сужение списка ухудшило повторяемость уровня114→51/120. Первоначальный technical_failure сохранён; отдельный аудит не переписал его в PASS.",
+          "truth": "not_applicable"
+        },
+        {
+          "label_ru": "variability/new exact agreement",
+          "reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/1/methods/new/all_pairs/exact_numerator"
+          },
+          "value": 106,
+          "unit": "count",
+          "denominator": 120,
+          "denominator_reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/1/methods/new/all_pairs/denominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Сужение списка ухудшило повторяемость уровня114→51/120. Первоначальный technical_failure сохранён; отдельный аудит не переписал его в PASS.",
+          "truth": "not_applicable"
+        },
+        {
+          "label_ru": "variability/decrease set size",
+          "reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/1/new_minus_old/cardinality_change_counts/decrease"
+          },
+          "value": 1,
+          "unit": "count",
+          "denominator": 240,
+          "denominator_reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/1/new_minus_old/denominator_halves"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Сужение списка ухудшило повторяемость уровня114→51/120. Первоначальный technical_failure сохранён; отдельный аудит не переписал его в PASS.",
+          "truth": "not_applicable"
+        },
+        {
+          "label_ru": "variability/equal set size",
+          "reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/1/new_minus_old/cardinality_change_counts/equal"
+          },
+          "value": 228,
+          "unit": "count",
+          "denominator": 240,
+          "denominator_reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/1/new_minus_old/denominator_halves"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Сужение списка ухудшило повторяемость уровня114→51/120. Первоначальный technical_failure сохранён; отдельный аудит не переписал его в PASS.",
+          "truth": "not_applicable"
+        },
+        {
+          "label_ru": "variability/increase set size",
+          "reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/1/new_minus_old/cardinality_change_counts/increase"
+          },
+          "value": 11,
+          "unit": "count",
+          "denominator": 240,
+          "denominator_reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/1/new_minus_old/denominator_halves"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Сужение списка ухудшило повторяемость уровня114→51/120. Первоначальный technical_failure сохранён; отдельный аудит не переписал его в PASS.",
+          "truth": "not_applicable"
+        },
+        {
+          "label_ru": "heterogeneity/old exact agreement",
+          "reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/2/methods/old/all_pairs/exact_numerator"
+          },
+          "value": 120,
+          "unit": "count",
+          "denominator": 120,
+          "denominator_reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/2/methods/old/all_pairs/denominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Сужение списка ухудшило повторяемость уровня114→51/120. Первоначальный technical_failure сохранён; отдельный аудит не переписал его в PASS.",
+          "truth": "not_applicable"
+        },
+        {
+          "label_ru": "heterogeneity/new exact agreement",
+          "reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/2/methods/new/all_pairs/exact_numerator"
+          },
+          "value": 120,
+          "unit": "count",
+          "denominator": 120,
+          "denominator_reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/2/methods/new/all_pairs/denominator"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Сужение списка ухудшило повторяемость уровня114→51/120. Первоначальный technical_failure сохранён; отдельный аудит не переписал его в PASS.",
+          "truth": "not_applicable"
+        },
+        {
+          "label_ru": "heterogeneity/decrease set size",
+          "reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/2/new_minus_old/cardinality_change_counts/decrease"
+          },
+          "value": 0,
+          "unit": "count",
+          "denominator": 240,
+          "denominator_reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/2/new_minus_old/denominator_halves"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Сужение списка ухудшило повторяемость уровня114→51/120. Первоначальный technical_failure сохранён; отдельный аудит не переписал его в PASS.",
+          "truth": "not_applicable"
+        },
+        {
+          "label_ru": "heterogeneity/equal set size",
+          "reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/2/new_minus_old/cardinality_change_counts/equal"
+          },
+          "value": 240,
+          "unit": "count",
+          "denominator": 240,
+          "denominator_reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/2/new_minus_old/denominator_halves"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Сужение списка ухудшило повторяемость уровня114→51/120. Первоначальный technical_failure сохранён; отдельный аудит не переписал его в PASS.",
+          "truth": "not_applicable"
+        },
+        {
+          "label_ru": "heterogeneity/increase set size",
+          "reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/2/new_minus_old/cardinality_change_counts/increase"
+          },
+          "value": 0,
+          "unit": "count",
+          "denominator": 240,
+          "denominator_reference": {
+            "path": "validation/round46-results.json",
+            "sha256": "395dbf2032877e0c7a288aea7ffe96327c0dd4114fa861cea75f8ac2d739139b",
+            "pointer": "/summaries/tracks/2/new_minus_old/denominator_halves"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Сужение списка ухудшило повторяемость уровня114→51/120. Первоначальный technical_failure сохранён; отдельный аудит не переписал его в PASS.",
+          "truth": "not_applicable"
+        }
+      ]
+    },
+    {
+      "id": "MVS-NUM-VARIANCE-FIT-1.0.0",
+      "name_en": "Gaussian Variance-Fit Numerical Reference",
+      "version": "1.0.0",
+      "category": "numerical_reference",
+      "nature": "numerical_contract",
+      "execution_status": "completed",
+      "gate_status": "predeclared_numerical_pass",
+      "retrospective_registration": true,
+      "independent_scientific_validation": false,
+      "ademp": {
+        "aims": "Check implemented Gaussian ML/REML fitting against independent numerical and analytic calculations.",
+        "data": "18fixed numerical cases and2constant guards,9reference problems with64fixedstarts total across all9 problems; no simulated evaluation sample.",
+        "estimands": "Declared normalized-box Gaussian random-intercept objective, parameters and LR contrasts.",
+        "methods": "Production sufficient-statistic Nelder–Mead Fit vs independently constructed dense raw covariance/GLS ML–REML likelihood with SciPyL-BFGS-B analytic gradient, fixed boundary faces and starts; analytic balanced anchors and60-digit mpmath checks.",
+        "performance": "18/18 numerical rows and 2/2 degenerate guard rows pass; nine independent reference problems with 64 fixed optimizer attempts total across all nine problems. Maximum objective gap 1.14005e-7 and likelihood-ratio error 1.53806e-7. Numerical contract only; no statistical calibration, coverage or global optimizer guarantee.",
+        "truth": "Independent dense covariance likelihood, analytic balanced anchors and high-precision checks define fixed-case numerical references."
+      },
+      "methods": [
+        {
+          "id": "production",
+          "version": "round48-variance-fit-v1:method=production; original implementation recorded in pinned protocol"
+        },
+        {
+          "id": "independent_reference",
+          "version": "round48-variance-fit-v1:method=independent_reference; original implementation recorded in pinned protocol"
+        }
+      ],
+      "identity": {
+        "protocol_id": "round48-variance-fit-v1",
+        "protocol_refs": [
+          {
+            "path": "docs/ROUND48_VARIANCE_FIT_PROTOCOL.md",
+            "sha256": "3ed6924c458266542a4348e77e33fbe4f3aee91753b3c6d16162919e3b2b5484"
+          },
+          {
+            "path": "validation/round48-results.json",
+            "sha256": "12b1b99189755068d7d1531d11e49c3cacfe906fe47fa09096604b02b0824465"
+          },
+          {
+            "path": "validation/variance-fit-fixtures-v1.json",
+            "sha256": "dd7e80d2d331a8ad557541ebcce6ffb808fb8f13402bc4ddba44de2b7e205b60"
+          }
+        ],
+        "data_id": "original-retained-round48-inputs-and-execution",
+        "data_hash": null,
+        "data_limitations_ru": "Полные входные идентичности и отдельные хеши находятся в исходном протоколе/свидетельствах. Единого хеша всех независимых наборов здесь не заявлено; optional RAW отдельно. Исторические данные уже просмотрены."
+      },
+      "uncertainty_ru": "Deterministic absolute/relative numerical errors; no statistical confidence interval. No bias/coverage/typeI/power/non-Gaussian/end-to-end bootstrap evidence.",
+      "failures_ru": "18численных и2guardслучая завершены; все 64 оптимизационные попытки суммарно по девяти эталонным задачам сохранены; fixed-case tolerances не менялись.",
+      "stopping_ru": "Exactly20candidateFits,9reference problems,64fixedoptimizerattempts; reference180s/96000objective/128highprecision caps; oracle inconclusive stops before candidateFits. No sampled data/RNG/resampling.",
+      "comparability_ru": "Численный контракт выполнен на фиксированных случаях. Это не контроль ошибки первого рода, покрытия или мощности. Полная методика и версии заданы перечисленными протоколами; строки разных протоколов нельзя трактовать как before/after одного алгоритма.",
+      "conclusion_ru": "Численный контракт выполнен на фиксированных случаях. Это не контроль ошибки первого рода, покрытия или мощности.",
+      "observations": [
+        {
+          "label_ru": "nativeFitCalls",
+          "reference": {
+            "path": "validation/round48-results.json",
+            "sha256": "12b1b99189755068d7d1531d11e49c3cacfe906fe47fa09096604b02b0824465",
+            "pointer": "/nativeFitCalls"
+          },
+          "value": 20,
+          "unit": "diagnostic",
+          "denominator": null,
+          "denominator_reference": null,
+          "denominator_note_ru": "Детерминированное диагностическое значение, не доля научных повторов.",
+          "interpretation_ru": "Численный контракт выполнен на фиксированных случаях. Это не контроль ошибки первого рода, покрытия или мощности.",
+          "truth": "numerical"
+        },
+        {
+          "label_ru": "numericalCases",
+          "reference": {
+            "path": "validation/round48-results.json",
+            "sha256": "12b1b99189755068d7d1531d11e49c3cacfe906fe47fa09096604b02b0824465",
+            "pointer": "/numericalCases"
+          },
+          "value": 18,
+          "unit": "diagnostic",
+          "denominator": null,
+          "denominator_reference": null,
+          "denominator_note_ru": "Детерминированное диагностическое значение, не доля научных повторов.",
+          "interpretation_ru": "Численный контракт выполнен на фиксированных случаях. Это не контроль ошибки первого рода, покрытия или мощности.",
+          "truth": "numerical"
+        },
+        {
+          "label_ru": "constantGuardCases",
+          "reference": {
+            "path": "validation/round48-results.json",
+            "sha256": "12b1b99189755068d7d1531d11e49c3cacfe906fe47fa09096604b02b0824465",
+            "pointer": "/constantGuardCases"
+          },
+          "value": 2,
+          "unit": "diagnostic",
+          "denominator": null,
+          "denominator_reference": null,
+          "denominator_note_ru": "Детерминированное диагностическое значение, не доля научных повторов.",
+          "interpretation_ru": "Численный контракт выполнен на фиксированных случаях. Это не контроль ошибки первого рода, покрытия или мощности.",
+          "truth": "numerical"
+        },
+        {
+          "label_ru": "maximumObjectiveGap",
+          "reference": {
+            "path": "validation/round48-results.json",
+            "sha256": "12b1b99189755068d7d1531d11e49c3cacfe906fe47fa09096604b02b0824465",
+            "pointer": "/maximumObjectiveGap"
+          },
+          "value": 1.1400495658620002e-07,
+          "unit": "diagnostic",
+          "denominator": null,
+          "denominator_reference": null,
+          "denominator_note_ru": "Детерминированное диагностическое значение, не доля научных повторов.",
+          "interpretation_ru": "Численный контракт выполнен на фиксированных случаях. Это не контроль ошибки первого рода, покрытия или мощности.",
+          "truth": "numerical"
+        },
+        {
+          "label_ru": "maximumLrError",
+          "reference": {
+            "path": "validation/round48-results.json",
+            "sha256": "12b1b99189755068d7d1531d11e49c3cacfe906fe47fa09096604b02b0824465",
+            "pointer": "/maximumLrError"
+          },
+          "value": 1.5380615181470603e-07,
+          "unit": "diagnostic",
+          "denominator": null,
+          "denominator_reference": null,
+          "denominator_note_ru": "Детерминированное диагностическое значение, не доля научных повторов.",
+          "interpretation_ru": "Численный контракт выполнен на фиксированных случаях. Это не контроль ошибки первого рода, покрытия или мощности.",
+          "truth": "numerical"
+        }
+      ]
+    },
+    {
+      "id": "MVS-CONTRACT-VARIANCE-BOOTSTRAP-1.0.0",
+      "name_en": "Variance Generator and Report Contract",
+      "version": "1.0.0",
+      "category": "engineering_contract",
+      "nature": "engineering_contract",
+      "execution_status": "completed",
+      "gate_status": "descriptive_only",
+      "retrospective_registration": true,
+      "independent_scientific_validation": false,
+      "ademp": {
+        "aims": "Verify generator and bootstrap-report aggregation semantics without executing fitted-model simulation.",
+        "data": "6literal-uniform generator cases and14scripted cached-report cases;0Fit/Statistic/optimizer calls.",
+        "estimands": "Generation algebra, finite-reference plus-one p, fixedBonferroni2, failure denominator and status contracts.",
+        "methods": "ProductionGenerate with literal uniform tape vs independent Gaussian-algebra expectations; productionRun report aggregation with frozen scripted cached fit/statistic inputs vs independent count/p/Wilson/adjustment/status formulas.",
+        "performance": "6/6 generator cases and 14/14 scripted report cases pass, using 19,241 cached reads and 106 uniform draws. Zero Fit, Statistic or optimizer calls. Interval branch deferred; deterministic integration contract only, not end-to-end bootstrap validation.",
+        "truth": "Literal algebra/count fixtures supply deterministic truth; this is not measured coverage or false-positive calibration."
+      },
+      "methods": [
+        {
+          "id": "production",
+          "version": "round49-variance-bootstrap-contract-v1:method=production; original implementation recorded in pinned protocol"
+        },
+        {
+          "id": "independent_reference",
+          "version": "round49-variance-bootstrap-contract-v1:method=independent_reference; original implementation recorded in pinned protocol"
+        }
+      ],
+      "identity": {
+        "protocol_id": "round49-variance-bootstrap-contract-v1",
+        "protocol_refs": [
+          {
+            "path": "docs/ROUND49_VARIANCE_BOOTSTRAP_PROTOCOL.md",
+            "sha256": "a84c0394871edb2eba44f7c0b1225c88697267701ce64ff89b86038aa033a6a1"
+          },
+          {
+            "path": "validation/round49-results.json",
+            "sha256": "7b69d95af732bbbd29f8ce6fd3dc41059a72cd31d947d8fc5b119094ceaddb4d"
+          },
+          {
+            "path": "validation/variance-bootstrap-fixtures-v1.json",
+            "sha256": "3bbfb01e70e374553dfa92dae9bf52ad8b2df728687810661a1b4223a1477cfd"
+          }
+        ],
+        "data_id": "original-retained-round49-inputs-and-execution",
+        "data_hash": null,
+        "data_limitations_ru": "Полные входные идентичности и отдельные хеши находятся в исходном протоколе/свидетельствах. Единого хеша всех независимых наборов здесь не заявлено; optional RAW отдельно. Исторические данные уже просмотрены."
+      },
+      "uncertainty_ru": "Wilson intervals are checked as report formulas on scripted counts, not measured inferential coverage.",
+      "failures_ru": "6generator+14scriptedreportcases пройдены; interval branch deferred; cache misses обязаны завершаться ошибкой вместо скрытого Fit.",
+      "stopping_ru": "Exactly6Generate/14Run/19241cache reads/106uniforms;30s/no retries; any cachemiss,extra call,exception or assertionfailure stops.",
+      "comparability_ru": "Детерминированный контракт выполнен; fitted bootstrap и interval coverage здесь не проверялись. Полная методика и версии заданы перечисленными протоколами; строки разных протоколов нельзя трактовать как before/after одного алгоритма.",
+      "conclusion_ru": "Детерминированный контракт выполнен; fitted bootstrap и interval coverage здесь не проверялись.",
+      "observations": [
+        {
+          "label_ru": "status",
+          "reference": {
+            "path": "validation/round49-results.json",
+            "sha256": "7b69d95af732bbbd29f8ce6fd3dc41059a72cd31d947d8fc5b119094ceaddb4d",
+            "pointer": "/status"
+          },
+          "value": "passed",
+          "unit": "text",
+          "denominator": null,
+          "denominator_reference": null,
+          "denominator_note_ru": "Детерминированное диагностическое значение, не доля научных повторов.",
+          "interpretation_ru": "Детерминированный контракт выполнен; fitted bootstrap и interval coverage здесь не проверялись.",
+          "truth": "numerical"
+        }
+      ]
+    },
+    {
+      "id": "MVS-DEV-VARIANCE-LEGACY-1.0.0",
+      "name_en": "Paired Variance and Legacy Sensitivity Pilot",
+      "version": "1.0.0",
+      "category": "development_simulation",
+      "nature": "historical_development",
+      "execution_status": "completed",
+      "gate_status": "descriptive_only",
+      "retrospective_registration": true,
+      "independent_scientific_validation": false,
+      "ademp": {
+        "aims": "Compare existing component and observed-summary routes on the same repeated-measurement inputs.",
+        "data": "192datasets,32percondition;2groups×16entities×40repeats; Gaussian null/location/within/between/combined plus standardizedt5 equal-distribution stress.",
+        "estimands": "H_W:sigma0²=sigma1² and H_B:tau0²=tau1² with nuisance freedom vs12summary rank hypotheses; different claims must stay distinct.",
+        "methods": "{\"analytic_references\": {\"between\": {\"adjustment\": 2, \"alternative_diagnostic_conditions\": [3], \"conditions\": [0, 1, 3], \"df_denominator\": 15, \"df_numerator\": 15, \"null_distribution_valid_conditions\": [0, 1], \"p\": \"same two-sided F formula\", \"statistic\": \"sample variance of G1 entity means / sample variance of G0 entity means\", \"stress_inapplicable\": true, \"unequal_within_conditions_unavailable\": [2, 4]}, \"source\": \"https://itl.nist.gov/div898/handbook/eda/section3/eda359.htm\", \"within\": {\"Q\": \"sum within-entity squared residuals from raw observations\", \"adjustment\": 2, \"conditions\": [0, 1, 2, 3, 4], \"df_denominator\": 624, \"df_numerator\": 624, \"p\": \"min(1,2*min(scipy.stats.f.cdf(F,df1,df0),scipy.stats.f.sf(F,df1,df0)))\", \"statistic\": \"(Q1/624)/(Q0/624)\"}}, \"legacy\": {\"calibration_or_selection_included\": false, \"decision\": \"any finite shipped adjusted p <0.05\", \"fixed_family_size\": 12, \"individual_metric_diagnostics\": \"all12 fixed slots, no selected best metric\", \"label\": \"legacy12summaryBonf_observed_family\", \"not_full_deployed_pipeline\": true, \"production_metrics\": true, \"production_rank_test\": \"shipped two-group Mann-Whitney including ties and continuity arithmetic\"}, \"variance\": {\"alpha\": 0.05, \"between_effect\": 2, \"decision_family\": 2, \"full_reference_grid\": 0.005, \"full_reference_reject_max_exceedances\": 3, \"no_cache_replay\": true, \"reference_p\": \"(1+k)/(m+1), k=count(reference>=observed), m=finite reference count\", \"reference_replications\": 199, \"repetitions\": 100, \"strict_adjusted_p_lt_alpha\": true, \"within_effect\": 2}}",
+        "performance": "192/192 paired datasets completed, 32 per condition and zero unavailable. Variance/legacy rejection numerators: C0 0/0, C1 2/32, C2 32/32, C3 15/1, C4 32/32, C5 t5 null 5/0; every denominator is 32. C3 paired difference 0.4375, conservative pointwise 95% interval [0.115361, 0.646603]. C5 variance Wilson 95% interval [0.068644, 0.317541]. Different hypothesis families, small development pilot, no overall winner.",
+        "truth": "C0,C5 global null;C1 is component null but summary alternative;C2 within alternative/between null;C3 between alternative/within null;C4 both alternatives."
+      },
+      "methods": [
+        {
+          "id": "variance",
+          "version": "round50-small-paired-variance-legacy-v1:method=variance; original implementation recorded in pinned protocol"
+        },
+        {
+          "id": "legacy",
+          "version": "round50-small-paired-variance-legacy-v1:method=legacy; original implementation recorded in pinned protocol"
+        },
+        {
+          "id": "analytic_references",
+          "version": "round50-small-paired-variance-legacy-v1:method=analytic_references; original implementation recorded in pinned protocol"
+        }
+      ],
+      "identity": {
+        "protocol_id": "round50-small-paired-variance-legacy-v1",
+        "protocol_refs": [
+          {
+            "path": "docs/ROUND50_VARIANCE_COMPARISON_PROTOCOL.md",
+            "sha256": "ae296f941a8d024083a76e2b5fea454af332e1f8a77dfe0497c0b11f62849946"
+          },
+          {
+            "path": "validation/variance-sensitivity-protocol-v1.json",
+            "sha256": "eccb4e6a817483a61efcaefdfbde211b284a417074d4d305a0c3b4d462d6eb75"
+          },
+          {
+            "path": "docs/ROUND50_VARIANCE_COST_PROTOCOL.md",
+            "sha256": "14eb09c29e8179a87f82bf88b49d5bd47f212eb5ecbbef0ea970c99728870aba"
+          },
+          {
+            "path": "validation/variance-cost-protocol-v1.json",
+            "sha256": "e0abc7a5849f24cf61ec0fdf634e9bcc79534de2a75abb761dfdd48b8c93e87a"
+          },
+          {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383"
+          }
+        ],
+        "data_id": "original-retained-round50-inputs-and-execution",
+        "data_hash": null,
+        "data_limitations_ru": "Полные входные идентичности и отдельные хеши находятся в исходном протоколе/свидетельствах. Единого хеша всех независимых наборов здесь не заявлено; optional RAW отдельно. Исторические данные уже просмотрены."
+      },
+      "uncertainty_ru": "{\"component_diagnosis\": true, \"denominator\": 32, \"failure_bounds\": \"[reject/32,(reject+unavailable)/32]\", \"global_tables\": [\"paired3x3 reject/nonreject/unavailable\", \"operational2x2 with unavailable counted nonreject\"], \"inferential_significance_tests\": false, \"marginal_interval\": \"pointwise95% Wilson\", \"paired_difference_interval\": \"pointwise>=95% conservative:97.5% two-sided Clopper-Pearson for each discordance probability, then[L10-U01,U10-L01] clipped[-1,1]\", \"precision\": {\"worst_normal_halfwidth\": 0.17323797804370974, \"z\": 1.959963984540054, \"zero_event_wilson_upper\": 0.1071791982550706}, \"simultaneous_coverage_claim\": false, \"unavailable_not_dropped\": true}",
+      "failures_ru": "192/192 завершены;0недоступных решений;0внутреннихreference/null/alternative/grid/interval failures. Все192 входят в знаменатели. Неприменимые F-ориентиры не заменены нулями.",
+      "stopping_ru": "complete192 tasks or hard cap/fatal infrastructure error; no outcome-driven stopping or replacement",
+      "comparability_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл. Полная методика и версии заданы перечисленными протоколами; строки разных протоколов нельзя трактовать как before/after одного алгоритма.",
+      "conclusion_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+      "observations": [
+        {
+          "label_ru": "C0 variance rejections",
+          "reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/0/global_variance_minus_legacy/left/reject"
+          },
+          "value": 0,
+          "unit": "count",
+          "denominator": 32,
+          "denominator_reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/0/global_variance_minus_legacy/left/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "C0 legacy rejections",
+          "reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/0/global_variance_minus_legacy/right/reject"
+          },
+          "value": 0,
+          "unit": "count",
+          "denominator": 32,
+          "denominator_reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/0/global_variance_minus_legacy/right/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "C0 within rejections",
+          "reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/0/components/within/reject"
+          },
+          "value": 0,
+          "unit": "count",
+          "denominator": 32,
+          "denominator_reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/0/components/within/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "C0 between rejections",
+          "reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/0/components/between/reject"
+          },
+          "value": 0,
+          "unit": "count",
+          "denominator": 32,
+          "denominator_reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/0/components/between/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "C1 variance rejections",
+          "reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/1/global_variance_minus_legacy/left/reject"
+          },
+          "value": 2,
+          "unit": "count",
+          "denominator": 32,
+          "denominator_reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/1/global_variance_minus_legacy/left/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "C1 legacy rejections",
+          "reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/1/global_variance_minus_legacy/right/reject"
+          },
+          "value": 32,
+          "unit": "count",
+          "denominator": 32,
+          "denominator_reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/1/global_variance_minus_legacy/right/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "C1 within rejections",
+          "reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/1/components/within/reject"
+          },
+          "value": 1,
+          "unit": "count",
+          "denominator": 32,
+          "denominator_reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/1/components/within/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "C1 between rejections",
+          "reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/1/components/between/reject"
+          },
+          "value": 1,
+          "unit": "count",
+          "denominator": 32,
+          "denominator_reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/1/components/between/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "C2 variance rejections",
+          "reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/2/global_variance_minus_legacy/left/reject"
+          },
+          "value": 32,
+          "unit": "count",
+          "denominator": 32,
+          "denominator_reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/2/global_variance_minus_legacy/left/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "C2 legacy rejections",
+          "reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/2/global_variance_minus_legacy/right/reject"
+          },
+          "value": 32,
+          "unit": "count",
+          "denominator": 32,
+          "denominator_reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/2/global_variance_minus_legacy/right/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "C2 within rejections",
+          "reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/2/components/within/reject"
+          },
+          "value": 32,
+          "unit": "count",
+          "denominator": 32,
+          "denominator_reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/2/components/within/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "C2 between rejections",
+          "reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/2/components/between/reject"
+          },
+          "value": 0,
+          "unit": "count",
+          "denominator": 32,
+          "denominator_reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/2/components/between/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "C3 variance rejections",
+          "reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/3/global_variance_minus_legacy/left/reject"
+          },
+          "value": 15,
+          "unit": "count",
+          "denominator": 32,
+          "denominator_reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/3/global_variance_minus_legacy/left/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "C3 legacy rejections",
+          "reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/3/global_variance_minus_legacy/right/reject"
+          },
+          "value": 1,
+          "unit": "count",
+          "denominator": 32,
+          "denominator_reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/3/global_variance_minus_legacy/right/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "C3 within rejections",
+          "reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/3/components/within/reject"
+          },
+          "value": 1,
+          "unit": "count",
+          "denominator": 32,
+          "denominator_reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/3/components/within/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "C3 between rejections",
+          "reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/3/components/between/reject"
+          },
+          "value": 15,
+          "unit": "count",
+          "denominator": 32,
+          "denominator_reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/3/components/between/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "C4 variance rejections",
+          "reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/4/global_variance_minus_legacy/left/reject"
+          },
+          "value": 32,
+          "unit": "count",
+          "denominator": 32,
+          "denominator_reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/4/global_variance_minus_legacy/left/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "C4 legacy rejections",
+          "reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/4/global_variance_minus_legacy/right/reject"
+          },
+          "value": 32,
+          "unit": "count",
+          "denominator": 32,
+          "denominator_reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/4/global_variance_minus_legacy/right/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "C4 within rejections",
+          "reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/4/components/within/reject"
+          },
+          "value": 32,
+          "unit": "count",
+          "denominator": 32,
+          "denominator_reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/4/components/within/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "C4 between rejections",
+          "reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/4/components/between/reject"
+          },
+          "value": 17,
+          "unit": "count",
+          "denominator": 32,
+          "denominator_reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/4/components/between/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+          "truth": "alternative"
+        },
+        {
+          "label_ru": "C5 variance rejections",
+          "reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/5/global_variance_minus_legacy/left/reject"
+          },
+          "value": 5,
+          "unit": "count",
+          "denominator": 32,
+          "denominator_reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/5/global_variance_minus_legacy/left/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "C5 legacy rejections",
+          "reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/5/global_variance_minus_legacy/right/reject"
+          },
+          "value": 0,
+          "unit": "count",
+          "denominator": 32,
+          "denominator_reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/5/global_variance_minus_legacy/right/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "C5 within rejections",
+          "reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/5/components/within/reject"
+          },
+          "value": 3,
+          "unit": "count",
+          "denominator": 32,
+          "denominator_reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/5/components/within/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+          "truth": "null"
+        },
+        {
+          "label_ru": "C5 between rejections",
+          "reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/5/components/between/reject"
+          },
+          "value": 3,
+          "unit": "count",
+          "denominator": 32,
+          "denominator_reference": {
+            "path": "validation/round50-results.json",
+            "sha256": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+            "pointer": "/conditions/5/components/between/requested"
+          },
+          "denominator_note_ru": "Исходный запрошенный знаменатель из сохранённого результата; не переопределён по успешным случаям. Для stability это пары/случаи, не независимые люди.",
+          "interpretation_ru": "Межобъектное изменение15/32 против1/32, но t5-null5/32 против0/32. Малый пилот не обосновывает замену метода или общий победный балл.",
+          "truth": "null"
+        }
+      ]
+    }
+  ]
+}

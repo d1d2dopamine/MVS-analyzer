@@ -1,0 +1,483 @@
+{
+  "schema": "mvs-prospective-ademp/v1",
+  "protocol_id": "MVS-STAT-COMPONENTS-PROSPECTIVE-1.0.0",
+  "status": "design_frozen_execution_blocked",
+  "evidence_role": "prospective_design_no_outcomes",
+  "suite_version": "1.1.0",
+  "study_phase": "independent_seed_evaluation_of_preselected_methods",
+  "outer_repetitions_per_cell": 1000,
+  "cells": [
+    {
+      "index": 0,
+      "id": "C00",
+      "name": "gaussian_global_null",
+      "entities_per_group": 16,
+      "repeats_per_entity": 40,
+      "group0": {
+        "mean": 20,
+        "within_sd": 1,
+        "between_sd": 1
+      },
+      "group1": {
+        "mean": 20,
+        "within_sd": 1,
+        "between_sd": 1
+      },
+      "within_distribution": "gaussian",
+      "between_distribution": "gaussian",
+      "truth": {
+        "within_null": true,
+        "between_null": true,
+        "variance_family_null": true,
+        "summary_global_null": true
+      }
+    },
+    {
+      "index": 1,
+      "id": "C01",
+      "name": "gaussian_location_only",
+      "entities_per_group": 16,
+      "repeats_per_entity": 40,
+      "group0": {
+        "mean": 20,
+        "within_sd": 1,
+        "between_sd": 1
+      },
+      "group1": {
+        "mean": 22,
+        "within_sd": 1,
+        "between_sd": 1
+      },
+      "within_distribution": "gaussian",
+      "between_distribution": "gaussian",
+      "truth": {
+        "within_null": true,
+        "between_null": true,
+        "variance_family_null": true,
+        "summary_global_null": false
+      }
+    },
+    {
+      "index": 2,
+      "id": "C02",
+      "name": "gaussian_within_sd_x2",
+      "entities_per_group": 16,
+      "repeats_per_entity": 40,
+      "group0": {
+        "mean": 20,
+        "within_sd": 1,
+        "between_sd": 1
+      },
+      "group1": {
+        "mean": 20,
+        "within_sd": 2,
+        "between_sd": 1
+      },
+      "within_distribution": "gaussian",
+      "between_distribution": "gaussian",
+      "truth": {
+        "within_null": false,
+        "between_null": true,
+        "variance_family_null": false,
+        "summary_global_null": false
+      }
+    },
+    {
+      "index": 3,
+      "id": "C03",
+      "name": "gaussian_between_sd_x2",
+      "entities_per_group": 16,
+      "repeats_per_entity": 40,
+      "group0": {
+        "mean": 20,
+        "within_sd": 1,
+        "between_sd": 1
+      },
+      "group1": {
+        "mean": 20,
+        "within_sd": 1,
+        "between_sd": 2
+      },
+      "within_distribution": "gaussian",
+      "between_distribution": "gaussian",
+      "truth": {
+        "within_null": true,
+        "between_null": false,
+        "variance_family_null": false,
+        "summary_global_null": false
+      }
+    },
+    {
+      "index": 4,
+      "id": "C04",
+      "name": "gaussian_both_sd_x2",
+      "entities_per_group": 16,
+      "repeats_per_entity": 40,
+      "group0": {
+        "mean": 20,
+        "within_sd": 1,
+        "between_sd": 1
+      },
+      "group1": {
+        "mean": 20,
+        "within_sd": 2,
+        "between_sd": 2
+      },
+      "within_distribution": "gaussian",
+      "between_distribution": "gaussian",
+      "truth": {
+        "within_null": false,
+        "between_null": false,
+        "variance_family_null": false,
+        "summary_global_null": false
+      }
+    },
+    {
+      "index": 5,
+      "id": "C05",
+      "name": "t5_both_global_null",
+      "entities_per_group": 16,
+      "repeats_per_entity": 40,
+      "group0": {
+        "mean": 20,
+        "within_sd": 1,
+        "between_sd": 1
+      },
+      "group1": {
+        "mean": 20,
+        "within_sd": 1,
+        "between_sd": 1
+      },
+      "within_distribution": "standardized_t5",
+      "between_distribution": "standardized_t5",
+      "truth": {
+        "within_null": true,
+        "between_null": true,
+        "variance_family_null": true,
+        "summary_global_null": true
+      }
+    },
+    {
+      "index": 6,
+      "id": "C06",
+      "name": "gaussian_within_sd_x1_25",
+      "entities_per_group": 16,
+      "repeats_per_entity": 40,
+      "group0": {
+        "mean": 20,
+        "within_sd": 1,
+        "between_sd": 1
+      },
+      "group1": {
+        "mean": 20,
+        "within_sd": 1.25,
+        "between_sd": 1
+      },
+      "within_distribution": "gaussian",
+      "between_distribution": "gaussian",
+      "truth": {
+        "within_null": false,
+        "between_null": true,
+        "variance_family_null": false,
+        "summary_global_null": false
+      }
+    },
+    {
+      "index": 7,
+      "id": "C07",
+      "name": "gaussian_between_sd_x1_25",
+      "entities_per_group": 16,
+      "repeats_per_entity": 40,
+      "group0": {
+        "mean": 20,
+        "within_sd": 1,
+        "between_sd": 1
+      },
+      "group1": {
+        "mean": 20,
+        "within_sd": 1,
+        "between_sd": 1.25
+      },
+      "within_distribution": "gaussian",
+      "between_distribution": "gaussian",
+      "truth": {
+        "within_null": true,
+        "between_null": false,
+        "variance_family_null": false,
+        "summary_global_null": false
+      }
+    },
+    {
+      "index": 8,
+      "id": "C08",
+      "name": "t5_residual_global_null",
+      "entities_per_group": 16,
+      "repeats_per_entity": 40,
+      "group0": {
+        "mean": 20,
+        "within_sd": 1,
+        "between_sd": 1
+      },
+      "group1": {
+        "mean": 20,
+        "within_sd": 1,
+        "between_sd": 1
+      },
+      "within_distribution": "standardized_t5",
+      "between_distribution": "gaussian",
+      "truth": {
+        "within_null": true,
+        "between_null": true,
+        "variance_family_null": true,
+        "summary_global_null": true
+      }
+    },
+    {
+      "index": 9,
+      "id": "C09",
+      "name": "t5_intercept_global_null",
+      "entities_per_group": 16,
+      "repeats_per_entity": 40,
+      "group0": {
+        "mean": 20,
+        "within_sd": 1,
+        "between_sd": 1
+      },
+      "group1": {
+        "mean": 20,
+        "within_sd": 1,
+        "between_sd": 1
+      },
+      "within_distribution": "gaussian",
+      "between_distribution": "standardized_t5",
+      "truth": {
+        "within_null": true,
+        "between_null": true,
+        "variance_family_null": true,
+        "summary_global_null": true
+      }
+    },
+    {
+      "index": 10,
+      "id": "C10",
+      "name": "small_gaussian_global_null",
+      "entities_per_group": 8,
+      "repeats_per_entity": 5,
+      "group0": {
+        "mean": 20,
+        "within_sd": 1,
+        "between_sd": 1
+      },
+      "group1": {
+        "mean": 20,
+        "within_sd": 1,
+        "between_sd": 1
+      },
+      "within_distribution": "gaussian",
+      "between_distribution": "gaussian",
+      "truth": {
+        "within_null": true,
+        "between_null": true,
+        "variance_family_null": true,
+        "summary_global_null": true
+      }
+    },
+    {
+      "index": 11,
+      "id": "C11",
+      "name": "small_t5_both_global_null",
+      "entities_per_group": 8,
+      "repeats_per_entity": 5,
+      "group0": {
+        "mean": 20,
+        "within_sd": 1,
+        "between_sd": 1
+      },
+      "group1": {
+        "mean": 20,
+        "within_sd": 1,
+        "between_sd": 1
+      },
+      "within_distribution": "standardized_t5",
+      "between_distribution": "standardized_t5",
+      "truth": {
+        "within_null": true,
+        "between_null": true,
+        "variance_family_null": true,
+        "summary_global_null": true
+      }
+    }
+  ],
+  "methods": [
+    {
+      "id": "gaussian_component_family_B199_E100_v1",
+      "family_size": 2,
+      "alpha": 0.05,
+      "component_alpha": 0.025,
+      "rejection": "adjusted_p_strictly_less_than_alpha",
+      "reference_replications": 199,
+      "evaluation_repetitions": 100,
+      "within_effect": 2,
+      "between_effect": 2,
+      "minimum_finite_reference_fraction": 0.9,
+      "p_formula": "(1+inclusive_exceedances)/(finite_reference_count+1)",
+      "zero_failure_largest_rejecting_exceedance": 3
+    },
+    {
+      "id": "summary12_asymptotic_MW_Bonferroni_v1",
+      "family_size": 12,
+      "alpha": 0.05,
+      "rejection": "adjusted_p_strictly_less_than_alpha",
+      "metric_keys": [
+        "median",
+        "standard_deviation",
+        "coefficient_of_variation",
+        "mad",
+        "iqr",
+        "normalized_mad",
+        "normalized_iqr",
+        "mean",
+        "rms",
+        "range",
+        "geometric_mean",
+        "trimmed_mean_20"
+      ],
+      "minimum_entities_per_group": 4,
+      "nonfinite_summary_policy": "preserve_production_filter_report_per_metric_counts",
+      "incomplete_family_policy": "available_rejection_positive_otherwise_unknown"
+    }
+  ],
+  "rng": {
+    "generator": "numpy.random.PCG64",
+    "numpy_version": "2.3.5",
+    "seed_sequence": "numpy.random.SeedSequence",
+    "master": 2026101754,
+    "phase": 1,
+    "data_stream": 0,
+    "native_seed_stream": 1,
+    "coordinates": [
+      "master",
+      "phase",
+      "stream",
+      "cell_index",
+      "replication_zero_based"
+    ],
+    "draw_order": "group_entity_intercepts_then_group_entity_repeat_residuals",
+    "distribution_draws": "standard_normal_or_standard_t_df5_times_sqrt_3_over_5",
+    "native_seed_derivation": "1540000000+1000*cell_index+replication_zero_based",
+    "state_retention": "before_and_after_each_data_generation_plus_native_seed_and_internal_algorithm_identity",
+    "shared_data_between_methods": true,
+    "reuse_historical_data": false,
+    "native_seed_base": 1540000000
+  },
+  "inference": {
+    "null_endpoint_count": 31,
+    "simultaneous_family": "all_31_true_null_cell_endpoint_pairs",
+    "confidence": 0.95,
+    "tail_allocation": "0.025/31_per_bound",
+    "bounds": "exact_Clopper_Pearson",
+    "inflation_rule": "simultaneous_lower_bound_exceeds_endpoint_nominal_alpha",
+    "no_inflation_detected_status": "inconclusive_not_validation",
+    "acceptance_tolerance": null,
+    "power_intervals": "marginal_two_sided_95_percent_exact_Clopper_Pearson",
+    "paired_differences": "conservative_discordance_CP_97_5_percent_union_bound",
+    "paired_scope": "12_named_family_any_rejection_differences_descriptive_distinct_nulls_disclosed",
+    "power_superiority_gate": null,
+    "alternative_endpoints": {
+      "within_component": [
+        "C02",
+        "C04",
+        "C06"
+      ],
+      "between_component": [
+        "C03",
+        "C04",
+        "C07"
+      ],
+      "both_components_correctly_detected": [
+        "C04"
+      ],
+      "family_any_operating_outcomes": "all_12_cells_with_null_truth_labels"
+    }
+  },
+  "failure_policy": {
+    "dataset_replacement": false,
+    "retry_limit": 0,
+    "drop_failed_repetitions": false,
+    "method_failure": "retain_other_method_and_all_attempted_denominators",
+    "family_outcome": "true_if_any_available_rejection_false_only_if_all_members_available_else_unknown",
+    "rate_bounds": "observed_rejections_over_R_to_observed_rejections_plus_unknown_over_R",
+    "technical_halt": "stop_on_identity_schema_hash_or_deterministic_harness_corruption_preserve_all_attempts",
+    "resource_halt": "incomplete_no_extrapolated_completion",
+    "resume": "same_manifest_same_case_no_recompute_unknown_partial_work",
+    "stop_rule": "fixed_1000_each_no_significance_based_stopping"
+  },
+  "budget": {
+    "max_workers": 8,
+    "max_aggregate_rss_bytes": 2147483648,
+    "max_case_wall_seconds": 300,
+    "proposed_total_wall_seconds": 86400,
+    "historical_seconds": 667.6336285640136,
+    "historical_datasets": 192,
+    "linear_reference_seconds_for_12000": 41727.10178525085,
+    "cost_status": "unverified_extrapolation_requires_admission_no_run_authorization",
+    "storage_status": "missing_measured_evidence_retention_admission",
+    "historical_logical_evidence_bytes_approx": 105900000,
+    "linear_logical_evidence_bytes_for_12000_approx": 6618750000
+  },
+  "readiness": {
+    "adapter": "missing",
+    "binary_runtime_binding": "missing",
+    "cost_admission": "missing",
+    "final_execution_freeze": "missing",
+    "data_generated": false
+  },
+  "excluded_candidate": {
+    "id": "within_entity_variance_welch_centered_bootstrap_v1",
+    "status": "design_only_requires_separate_protocol_and_asymmetric_tail_nulls",
+    "admitted": false
+  },
+  "source_bindings": {
+    "Core/VarianceAnalysis.cs": "0dd3cb00151058b0042a0cbc03e161ec5a39869c726d39d3576fa17cd9463a7a",
+    "Core/AnalysisEngine.cs": "bc4caa7600034781861784cedaf64cc19d22ecc5eb26841ada291c0c6d66bd05",
+    "Core/MetricRegistry.cs": "5a61012f1914f72850df690358a16c1fe162aa09ba5b2a1ce6e9f8f68d05fa04",
+    "Core/MetricAvailability.cs": "1202a2d2a7961a3bd1c593b08b269fc598a0b8653e6c569aa67986c43e463bf3",
+    "Core/ScientificInfrastructure.cs": "7e2947c272e7f3aaecade2829367cf0cdfd3206c67006f6c163b826da3d60d1a",
+    "Core/NumericalMethods.cs": "bee20900e007f6d9c390898c82671751af910cecfb0095c190f22698adab7a4e",
+    "validation/benchmark-suite-v1.json": "f6fe18944569bcc361eb08e8bb9d30b401ca1c74000fcf7393e0808401051dcb",
+    "validation/benchmark-suite-v1.1.json": "86a0246be1643305c88a611663a066fb7561b73a9ca1ec83c4e36f959a7c1c2b",
+    "validation/round50-results.json": "b6152481350b6d56c818ce7d359e488121678e05fb89b9e51f442a9448806383",
+    "validation/variance-sensitivity-protocol-v1.json": "eccb4e6a817483a61efcaefdfbde211b284a417074d4d305a0c3b4d462d6eb75",
+    "validation/nist-univariate-protocol-v1.json": "f823ac0ad8c5c40e6ecfd2c742d003ee94252f97c8be1370b70036e3321e4b19",
+    "validation/round53-results.json": "7c3859c5b419f0121d529294a040bd2123511dbb4f60aa5adf2929fc4454bb8a",
+    "validation/variance_sensitivity/Program.cs": "8593a9e8ecf48d65a4c5dbea9f881ee3a74cdc2b0b9e5281ed762459ba5d22f4"
+  },
+  "input_policy": {
+    "minimum_measurements": 2,
+    "minimum_value": -1000000,
+    "maximum_value": 1000000,
+    "retention": "exact_ordered_rows_and_binary64_values_or_both_methods_unavailable",
+    "redraw_for_positivity": false,
+    "transformations": false
+  },
+  "engineering_probe": {
+    "status": "specified_not_executed",
+    "fixture_source": "validation/variance_sensitivity/Program.cs",
+    "fixture_function": "Fixture",
+    "fixture_kind": "fixed_deterministic_formula_no_rng_no_study_coordinates",
+    "fresh_sequential_calls": 3,
+    "fresh_parallel_calls": 8,
+    "max_total_calls": 11,
+    "max_total_wall_seconds": 300,
+    "method_configuration": "gaussian_component_family_B199_E100_v1",
+    "admission_wall_projection": "2*max(sequential_case_seconds,parallel_batch_seconds)*12000/8<=86400",
+    "admission_storage": "2*max_retained_case_bytes*12000+1073741824<=available_storage_bytes",
+    "scientific_outcome_use": "none",
+    "admission_limits": "fixture_only_no_worst_case_runtime_guarantee",
+    "native_seed": 52000000,
+    "per_process_cpu_limit": 1,
+    "backups": "disabled_no_restore_or_cache_replay",
+    "completeness": "existing_Round50_Complete_observer_all_callbacks_once_all_keys_counts_finite_and_ownership_each_call",
+    "measured_work": "input_build_full_variance_run_summary_route_serialization_and_process_lifecycle"
+  }
+}

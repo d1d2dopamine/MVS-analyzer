@@ -1,0 +1,9 @@
+# Round56 technical continuation
+
+The original frozen four-call attempt is preserved as `technical_failure`. Its first native process (large direct reference) completed with exit0, but the verification callback interpreted a supplied `stdout.jsonl` file path as a case-directory name. The host therefore stopped before launching slots1–3. The first full payload and1103 observer records pass validation with the correct directory argument. This is an engineering harness defect, not a failed statistical comparison.
+
+The correction converts the callback output-file path to its parent directory and has an integration regression using the actual supervisor. This supplementary protocol binds the original result, seal, first output, requests and source identities. It executes only the three previously unstarted slots: large serialized, small direct reference, small serialized. The first call is reused as retained evidence without recomputation. No algorithm, data, seed, numerical tolerance, comparison field or candidate choice changes.
+
+The original failed result is never overwritten or retrospectively called successful. A successful supplementary result is labeled separately. The total is at most four native calculations across both attempts. The remaining shared computation budget is300seconds minus the original elapsed time; diagnosis/review downtime is excluded and disclosed. Retained-byte accounting includes the original attempt. No statistical study data are generated, and no large-study launch is authorized.
+
+Machine identities and allowed source changes are fixed in `validation/prospective-case-continuation-v1.json` in the full source archive. The two pre-fix verification source files and all failed preparation/original-attempt artifacts are retained in the optional verification companion. Both the original failure and supplementary outcome must be reported together.

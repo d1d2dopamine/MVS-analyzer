@@ -1,0 +1,79 @@
+{
+  "all_120_legacy_diagnostics_exact": true,
+  "bind_sha256": "36912dcc45f2d2d1d27c0ace940ed2c63125b892088455f9f3d420cca6182eea",
+  "comparison_errors": [],
+  "corrected_finite_count": 120,
+  "corrected_lower_quartile_tau": 0.6496307431924471,
+  "corrected_matched_finite_count": 27,
+  "corrected_matched_over_requested": 0.225,
+  "corrected_median_tau": 0.7200230411059789,
+  "corrected_top_one_agreement": 0.225,
+  "corrected_undefined_count": 0,
+  "execution_errors": [],
+  "execution_failed_count": 0,
+  "limitations": [
+    "No original score vectors were retained: these are reconstructed same-recipe vectors, not recovered original scores or proof of byte identity.",
+    "Development-only diagnostic replay; scientific NO-GO remains unchanged.",
+    "Top-one agreement uses the existing finite-tau denominator and can change solely because that denominator changes.",
+    "No retries, replacement seeds, selected splits, or new scientific validation datasets."
+  ],
+  "not_started_count": 0,
+  "original_execution_failed": 0,
+  "original_legacy_usable": 120,
+  "original_matched": 27,
+  "original_requested": 120,
+  "original_tau_summary": {
+    "lower_quartile": 0.6456412871350481,
+    "max": 0.9459922805717786,
+    "median": 0.7142598735636067,
+    "min": 0.41275041275061913
+  },
+  "original_top_one_agreement": 0.225,
+  "replay_diagnostic_cases": 120,
+  "replay_execution_or_diagnostics_failed_count": 0,
+  "replay_missing_count": 0,
+  "resources": {
+    "bind_sha256": "36912dcc45f2d2d1d27c0ace940ed2c63125b892088455f9f3d420cca6182eea",
+    "elapsed_seconds": 122.32150348300638,
+    "end_hash_verification": "passed",
+    "peak_aggregate_rss_bytes": 543313920,
+    "post_deadline_cleanup_seconds": 0,
+    "scientific_elapsed_seconds": 122.32150484499289,
+    "stop_reasons": []
+  },
+  "same_recipe_replay_matching_retained_diagnostics": true,
+  "scientific_go": false,
+  "top_one_denominator": "finite corrected tau cases only; can differ from original 120",
+  "changed_tau_cases": 47,
+  "unchanged_tau_cases": 73,
+  "decreased_tau_cases": 0,
+  "independentAudit": {
+    "passed": true,
+    "legacyCases": 120,
+    "correctedCases": 120,
+    "boundFiles": 421,
+    "dataHashes": 480,
+    "scoreProjections": 240,
+    "reportSha256": "bad98bc75d6ad407bab51adf89dfbe6e59bea522488c1bea0014b5463abffa0d"
+  },
+  "optionalRawEvidence": [
+    {
+      "filename": "MVS-analyzer-round43-RAW-EVIDENCE-1-of-2.zip",
+      "sha256": "b0dd6ce51d797c1cc61518464281520233c11d3112364fa4994cfe746341e2a3",
+      "bytes": 15682791,
+      "caseIndices": [
+        0,
+        59
+      ]
+    },
+    {
+      "filename": "MVS-analyzer-round43-RAW-EVIDENCE-2-of-2.zip",
+      "sha256": "d1ef58b338e81d550c516c8dda2c2159b1fd00ec816c54b2aa5d96058dec223a",
+      "bytes": 15678950,
+      "caseIndices": [
+        60,
+        119
+      ]
+    }
+  ]
+}

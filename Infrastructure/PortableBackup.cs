@@ -33,6 +33,8 @@ internal sealed record BackupRequest
     public List<RealDataset>? RealData { get; init; }
     public List<string>? RealDataNotes { get; init; }
     public BackupContext? Context { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BenchmarkStabilityMethod { get; init; }
 }
 internal sealed record BackupDocument
 {
@@ -82,6 +84,8 @@ internal sealed class BackupSession : IRunRecording
     }
     internal static BackupSession Begin(BackupRequest request)
     {
+        BenchmarkStabilityMethod.ValidateRequest(request);
+        if (pending.Value is { } pendingDocument) BenchmarkStabilityMethod.ValidateBackup(pendingDocument);
         // Nested scientific work belongs to its outer operation; do not create thousands of child backups.
         if (active.Value != null || Environment.GetEnvironmentVariable("MVS_DISABLE_BACKUPS") == "1") return Disabled;
         BackupDocument? saved = pending.Value;
@@ -156,6 +160,7 @@ internal sealed class BackupSession : IRunRecording
             d.Request == null || d.Units == null || d.Environments == null || !new[] { "benchmark", "calibrate", "analyze", "variance", "estimation", "melsm" }.Contains(d.Request.Kind))
             throw new InvalidDataException("Invalid backup identity or operation.");
         if (d.RequestHash != ScientificMath.Hash(Pack(d.Request))) throw new InvalidDataException("Backup settings/input checksum mismatch.");
+        BenchmarkStabilityMethod.ValidateBackup(d);
         if (d.Units.Count > 250000 || d.Units.Any(x => x.Key.Length > 200) || d.Environments.Count > 100) throw new InvalidDataException("Backup exceeds safe limits.");
     }
     internal static byte[] Encode(BackupDocument document)

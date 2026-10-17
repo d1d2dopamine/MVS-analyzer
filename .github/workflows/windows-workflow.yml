@@ -51,12 +51,24 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           python -c "from importlib.metadata import version; assert version('mcp') == '1.30.0'; print('official mcp', version('mcp'))"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-      - name: Build native CLI and run portable core checks
+      - name: Run portable native core checks
         run: |
+          Write-Output 'COMMAND core-tests: dotnet run MvsAnalyzer.Core.Tests (Release)'
           dotnet run --project MvsAnalyzer.Core.Tests/MvsAnalyzer.Core.Tests.csproj -c Release 2>&1 | Tee-Object "$env:MVS_GATE_ROOT\core-tests.log"
+          $code = $LASTEXITCODE
+          @{ command = 'core-tests'; exitCode = $code } | ConvertTo-Json | Set-Content "$env:MVS_GATE_ROOT\core-tests-status.json"
+          if ($code -ne 0) { exit $code }
+      - name: Verify controlled native failure diagnostics
+        run: |
+          python tools/test_failure_reporting.py --assembly MvsAnalyzer.Core.Tests/bin/Release/net8.0/MvsAnalyzer.Core.Tests.dll --out "$env:MVS_GATE_ROOT\failure-reporter" 2>&1 | Tee-Object "$env:MVS_GATE_ROOT\failure-reporter.log"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Publish native Windows CLI
+        run: |
+          Write-Output 'COMMAND publish-cli: dotnet publish CLI (Release win-x64)'
           dotnet publish MvsAnalyzer.Cli/MvsAnalyzer.Cli.csproj -c Release -r win-x64 --self-contained true -p:DebugType=None -p:DebugSymbols=false -o "$env:MVS_GATE_ROOT\cli" 2>&1 | Tee-Object "$env:MVS_GATE_ROOT\build.log"
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $code = $LASTEXITCODE
+          @{ command = 'publish-cli'; exitCode = $code } | ConvertTo-Json | Set-Content "$env:MVS_GATE_ROOT\publish-cli-status.json"
+          if ($code -ne 0) { exit $code }
       - name: Build independent read-only ACL witness
         run: |
           dotnet build tools/windows_acl_probe/WindowsAclProbe.csproj -c Release -o "$env:MVS_GATE_ROOT\acl-probe" 2>&1 | Tee-Object "$env:MVS_GATE_ROOT\acl-probe-build.log"
@@ -104,6 +116,8 @@ jobs:
           name: windows-workflow-${{ matrix.os }}
           path: |
             ${{ env.MVS_GATE_ROOT }}/*.log
+            ${{ env.MVS_GATE_ROOT }}/*-status.json
+            ${{ env.MVS_GATE_ROOT }}/failure-reporter/**
             ${{ env.MVS_GATE_ROOT }}/artifact-counts.json
             ${{ env.MVS_GATE_ROOT }}/win32-counts.json
             ${{ env.MVS_GATE_ROOT }}/acceptance/**

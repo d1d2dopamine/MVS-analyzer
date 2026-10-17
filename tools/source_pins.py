@@ -156,7 +156,7 @@ def _contract():
     # Round38 can revise any anchored source, including a source whose most
     # recent retained review is the original or checkpoint layer, not v2/v3.
     # Always compare against the effective map after validating every old layer.
-    _, round38 = _read('source-pin-revisions-v4.json')
+    round38_raw, round38 = _read('source-pin-revisions-v4.json')
     _require(set(round38) == {'schema', 'stage', 'note',
                               'previousReviewedManifestSha256', 'revisions'},
              'Unexpected Round38 manifest fields')
@@ -205,6 +205,64 @@ def _contract():
         for field in ('reason', 'limitation'):
             _require(type(review[field]) is str and bool(review[field].strip()),
                      'Missing Round38 review ' + field + ': ' + name)
+        expected[name] = revision['sha256']
+    # Round42 is mandatory and binds the exact byte-preserved v4 review.
+    _, round42 = _read('source-pin-revisions-v5.json')
+    _require(set(round42) == {'schema', 'stage', 'note',
+                              'previousReviewedManifestSha256', 'revisions'},
+             'Unexpected Round42 manifest fields')
+    _require(round42['schema'] == 'mvs-source-pin-revisions/v5' and
+             type(round42['stage']) is int and round42['stage'] == 42,
+             'Unsupported Round42 manifest version')
+    _require(type(round42['note']) is str and bool(round42['note'].strip()),
+             'Missing Round42 review scope')
+    _hash(round42['previousReviewedManifestSha256'], 'previousReviewedManifestSha256')
+    _require(round42['previousReviewedManifestSha256'] == hashlib.sha256(round38_raw).hexdigest(),
+             'Reviewed v4 manifest bytes changed')
+    round42_updates = round42['revisions']
+    _require(type(round42_updates) is dict and bool(round42_updates), 'Missing Round42 revisions')
+    for name, revision in round42_updates.items():
+        _path(name)
+        _require(name in anchors and type(revision) is dict, 'Unknown Round42 source: ' + name)
+        _require(set(revision) == {'originalSha256', 'previousSha256', 'sha256', 'review'},
+                 'Unexpected Round42 entry fields: ' + name)
+        for field in ('originalSha256', 'previousSha256', 'sha256'):
+            _hash(revision[field], name + ' ' + field)
+        _require(revision['originalSha256'] == anchors[name], 'Round42 original anchor mismatch: ' + name)
+        _require(revision['previousSha256'] == expected[name], 'Broken Round42 revision chain: ' + name)
+        _require(revision['sha256'] != expected[name], 'Redundant Round42 revision: ' + name)
+        historical_hashes = {anchors[name]}
+        if name in old:
+            historical_hashes.add(old[name]['sha256'])
+        for layer in (revisions, updates, round38_updates):
+            if name in layer:
+                historical_hashes.add(layer[name]['sha256'])
+        _require(revision['sha256'] not in historical_hashes,
+                 'Round42 revision rolls back to historical source: ' + name)
+        review = revision['review']
+        _require(type(review) is dict and set(review) == {'completeness', 'transitionCompleteness',
+                                                         'stages', 'reason', 'evidence', 'limitation'},
+                 'Missing structured Round42 review: ' + name)
+        # Inherit the latest applicable review without inventing old history.
+        previous_review = round38_updates.get(name, updates.get(name, revisions.get(name)))
+        completeness = (previous_review['review']['completeness'] if previous_review is not None
+                        else 'complete-retained-chain')
+        _require(review['completeness'] == completeness,
+                 'Round42 historical completeness changed: ' + name)
+        _require(review['transitionCompleteness'] == 'complete-reviewed-transition',
+                 'Incomplete Round42 transition review: ' + name)
+        _require(type(review['stages']) is list and review['stages'] == [42] and
+                 type(review['stages'][0]) is int,
+                 'Invalid Round42 review stages: ' + name)
+        _require(type(review['evidence']) is list and bool(review['evidence']),
+                 'Missing Round42 review evidence: ' + name)
+        for path in review['evidence']:
+            _path(path)
+        _require(len(set(review['evidence'])) == len(review['evidence']),
+                 'Duplicate Round42 review evidence: ' + name)
+        for field in ('reason', 'limitation'):
+            _require(type(review[field]) is str and bool(review[field].strip()),
+                     'Missing Round42 review ' + field + ': ' + name)
         expected[name] = revision['sha256']
     return anchors, expected
 

@@ -1,0 +1,193 @@
+{
+  "schemaVersion": "mvs-focused-family-protocol/v1",
+  "protocolId": "R41-RETAINED-FOCUSED-FAMILIES-1",
+  "frozenUtc": "2026-10-16T21:08:38.135173+00:00",
+  "studyStatus": "posthoc_development_diagnostic_not_preregistered_validation",
+  "archiveRoot": "benchmark_history/1.4.0-engine-1.6.2-MVS-BENCH-1.2.0",
+  "inputSha256": {
+    "benchmark_replications.csv": "e22c3d0e7d8151e71e582841c652fcc4b8888a3d2f730ba34e407024ed01bf03",
+    "benchmark_replication_metrics.csv": "28e564d6e4acaa43736054b90c14afc5ac015366337dbc6d98e1003b712381f2",
+    "benchmark_replication_procedures.csv": "59dfaf350313340d69d1f94be5982a160fa1d548e14be4b3d32fcccf4a242d07",
+    "benchmark_stability_replications.csv": "f43adc15a64f22386a47684644c1f523d359cb00efa2ceb956564b08cb55621f",
+    "benchmark_summary.csv": "fd7a967562dbf8f7a9d855fe2e4a729be8d201df7833b7cbea144987a03eeb2a",
+    "benchmark_manifest.json": "4dd862d8aacc3592c018215f33494534ebfb6452b2324968b738521d37f808af",
+    "benchmark_protocol.txt": "b81be4a1a86e8ba4b013eb63b75256d16e439fb824e7fa68efae5f28e48de268",
+    "SHA256SUMS.txt": "1396607134b95b04645b19001270f9f403b4beb118aea44db4f54ee4c97fc320"
+  },
+  "sourceSha256": {
+    "Core/MetricRegistry.cs": "5a61012f1914f72850df690358a16c1fe162aa09ba5b2a1ce6e9f8f68d05fa04",
+    "Core/ScientificInfrastructure.cs": "7e2947c272e7f3aaecade2829367cf0cdfd3206c67006f6c163b826da3d60d1a",
+    "Core/AnalysisEngine.cs": "bc4caa7600034781861784cedaf64cc19d22ecc5eb26841ada291c0c6d66bd05",
+    "Benchmark/BenchmarkRunner.cs": "621f0b00907a69d491ed68d699d9c1738ba43de454d0624317e8396d9cc54792",
+    "Core/CalibrationRecommendations.cs": "c1b5089a40ba56c5e1bba957216a019d01994bc18729b86afdbf862afe462c1c"
+  },
+  "metricKeys": [
+    "median",
+    "standard_deviation",
+    "coefficient_of_variation",
+    "mad",
+    "iqr",
+    "normalized_mad",
+    "normalized_iqr",
+    "mean",
+    "rms",
+    "range",
+    "geometric_mean",
+    "trimmed_mean_20"
+  ],
+  "families": {
+    "all12": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "location4": [
+      0,
+      7,
+      10,
+      11
+    ],
+    "variability7": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      9
+    ],
+    "absolute4": [
+      1,
+      3,
+      4,
+      9
+    ],
+    "relative3": [
+      2,
+      5,
+      6
+    ],
+    "magnitude1": [
+      8
+    ]
+  },
+  "partition": [
+    "location4",
+    "absolute4",
+    "relative3",
+    "magnitude1"
+  ],
+  "alpha": 0.05,
+  "decision": "min(1, p * fixed_integer_multiplier) < alpha using binary64 multiplication; unavailable slots retain full denominator",
+  "mainConditions": {
+    "primary_null": 1000,
+    "power_location_100": 250,
+    "power_location_102": 250,
+    "power_location_105": 250,
+    "power_location_110": 250,
+    "power_location_120": 250,
+    "power_dispersion_102": 250,
+    "power_dispersion_105": 250,
+    "power_dispersion_110": 250,
+    "power_dispersion_120": 250,
+    "power_dispersion_130": 250,
+    "robust_null_2": 250,
+    "robust_null_5": 250,
+    "robust_null_10": 250,
+    "shape_normal_null": 250,
+    "shape_lognormal_null": 250,
+    "design_voice_null": 250,
+    "design_voice_location_105": 250
+  },
+  "replayConditions": {
+    "determinism_replay": {
+      "replay-first": 60,
+      "replay-second": 60
+    }
+  },
+  "expectedCases": 5370,
+  "expectedMainCases": 5250,
+  "expectedMetricsPerCase": 12,
+  "expectedProceduresPerCase": 8,
+  "expectedStabilitySplits": 120,
+  "nullConditions": [
+    "primary_null",
+    "power_location_100",
+    "robust_null_2",
+    "robust_null_5",
+    "robust_null_10",
+    "shape_normal_null",
+    "shape_lognormal_null",
+    "design_voice_null"
+  ],
+  "simultaneousPartitionMultiplier": 4,
+  "uncontrolledUnion": "diagnostic only: any of four focused decisions; not a valid data-selected default",
+  "missingPolicy": "Absent/duplicate/malformed retained evidence aborts. Failed cases retained as failed, no p fabrication; all-requested rejection rate counts failures as nonrejections. Available=false requires null p and does not shrink denominator. All unavailable is distinct from observed nonrejection.",
+  "reportPlan": {
+    "interval": "Wilson 95%, z=1.959963984540054",
+    "paired": "candidate-only and baseline-only counts; delta=(gains-losses)/requested; descriptive without selection gate",
+    "stability": "Existing whole-registry tau only. Exact top-1, family confusion and agreement, independent-marginal expected agreement sum(left_count*right_count)/n^2, Cohen kappa if denominator nonzero. Coarsening is not improved ranking or candidate-set reconstruction.",
+    "allConditions": "No scenario-dependent family selection. Every fixed diagnostic row on every scientific condition and replay phase separately.",
+    "decisionGate": "No statistical GO/activation gate. Engineering acceptance requires complete input integrity, all baseline12 archive decisions exact, all native/reference results exact including nulls/status, and zero retained output mismatches."
+  },
+  "priorInspectedResults": {
+    "source": "Read-only mechanism audit before this freeze; retrospective exploratory arithmetic, not new validation",
+    "location105": {
+      "all12": 35,
+      "location4": 66,
+      "denominator": 250
+    },
+    "dispersion130": {
+      "all12": 72,
+      "variability7": 97,
+      "denominator": 250
+    },
+    "primaryNull": {
+      "all12": 18,
+      "location4": 16,
+      "variability7": 23,
+      "denominator": 1000
+    },
+    "twoFamilyHalfAlpha": {
+      "location105": 42,
+      "dispersion130": 69
+    },
+    "stability": {
+      "exactMatches": 27,
+      "registeredFamilyMatches": 97,
+      "splits": 120
+    }
+  },
+  "transformFixture": {
+    "values": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      32,
+      64,
+      128
+    ],
+    "additiveShift": 100,
+    "positiveMultiplier": 2,
+    "relativeTolerance": 1e-12,
+    "purpose": "Deterministic algebraic interpretation checks; not a population-level statistical experiment"
+  },
+  "executionBudget": {
+    "nativeTimeoutSeconds": 120,
+    "maximumCases": 6000,
+    "maximumInputBytes": 8388608,
+    "noNewDataOrRandomDraws": true
+  },
+  "scientificReadiness": "NO-GO unchanged; no holdout generation or production activation"
+}

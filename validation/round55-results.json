@@ -1,0 +1,48 @@
+{
+  "schema": "mvs-round55-engineering-summary/v1",
+  "status": "engineering_complete",
+  "scientific_datasets_generated": 0,
+  "science_execution_authorized": false,
+  "binding_sha256": "d0f987d2c1d2f1748ac518d15bca4c092683bda2ec3a87c1aa32e13bd845afca",
+  "result_sha256": "37a9d8420a6bed68e4693f5e9717074a0b91577e091645788634bf06084f6ce2",
+  "seal_sha256": "91db1ca61b44e91d7307409f226fc702a9bd77136f65ff7a2b2550a2e3e9a3f1",
+  "calls_planned": 11,
+  "calls_completed": 11,
+  "callbacks_per_call": 1103,
+  "total_matched_callbacks": 12133,
+  "historical_reference_calls": 2,
+  "numeric_tolerance": 0,
+  "excluded_payload_fields": [
+    "call"
+  ],
+  "elapsed_seconds": 7.688051550008822,
+  "sequential_lifecycle_seconds": [
+    1.723258245998295,
+    1.7821367520082276,
+    1.634992286999477
+  ],
+  "parallel_batch_lifecycle_seconds": 2.2810547720000613,
+  "host_child_cpu_seconds": 21.585621,
+  "peak_sampled_aggregate_rss_bytes": 474898432,
+  "native_parallel_peak_sum_bytes": 474898432,
+  "retained_bytes_including_seal": 7090038,
+  "admission": {
+    "available_storage_bytes": 25170853888,
+    "budget_eligible": true,
+    "historical_linear_reference_hours": 11.590861607014126,
+    "historical_linear_reference_seconds": 41727.10178525085,
+    "historical_reference_is_distinct": true,
+    "interpretation": "functional parity and fixed-fixture resource screen only; no speed claim, worst-case guarantee or scientific launch authorization",
+    "projected_wall_hours": 1.9008789766667178,
+    "projected_wall_seconds": 6843.164316000184,
+    "science_execution_authorized": false,
+    "storage_required_bytes": 16116605824
+  },
+  "failures": [],
+  "limitations": [
+    "One fixed engineering fixture; no new outer statistical datasets.",
+    "Sampled RSS and output limits are not OS hard quotas.",
+    "The 1.90-hour literal-fixture projection does not replace the historical 11.59-hour distinct-workload extrapolation.",
+    "General study executor, generator, report verification and final execution authorization remain pending."
+  ]
+}

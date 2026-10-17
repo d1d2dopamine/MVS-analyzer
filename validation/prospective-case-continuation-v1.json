@@ -1,0 +1,25 @@
+{
+  "schema": "mvs-prospective-case-continuation/v1",
+  "purpose": "technical_continuation_only_unstarted_slots",
+  "original_binding_sha256": "2363e75727952c7ebb042441e4e4ad5175417071242fe6f3b9d69de92872d026",
+  "original_result_sha256": "449d1d814fe8b9d951af85981b7e7ad7b1b87f4f22edc3ee05b7c5069616668b",
+  "original_seal_sha256": "a0e6cfd1c6fe41f898de15ac2f3791664e5f3638cab945a7f057e8681612ffe0",
+  "retained_slot": 0,
+  "new_slots": [
+    1,
+    2,
+    3
+  ],
+  "new_call_count": 3,
+  "total_call_count": 4,
+  "recompute_completed": false,
+  "original_status_remains": "technical_failure",
+  "allowed_changed_source_sha256": {
+    "validation/prospective_case_verification.py": "b63ddaacda973a9304967e4b96fbc067c2ea1d5019bd8a47f648e90454122f14",
+    "validation/test_prospective_case_verification.py": "92d6048ef005a93be494e700b19751ed0a775f6418a7fb50a7baeff151bff43f"
+  },
+  "wall_budget": "300 seconds minus original elapsed_seconds; diagnosis pause excluded and reported",
+  "retained_output_budget_includes_original": true,
+  "scientific_datasets_generated": 0,
+  "study_execution_authorized": false
+}
