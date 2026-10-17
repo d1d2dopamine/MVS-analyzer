@@ -20,7 +20,7 @@ jobs:
         run: dotnet publish/cli/mvs.dll estimation --out diagnostics/estimation --target mean --shape normal --repetitions 1000 --bootstrap 399
       - name: MELSM fit diagnostics (experimental)
         run: dotnet publish/cli/mvs.dll melsm --in examples/repeated_conditions.csv --out diagnostics/melsm --quadrature 15
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: scientific-diagnostics-not-a-validation-certificate
