@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
+      - uses: actions/setup-python@v7.1.0
         with:
           python-version: '3.12'
       - name: Validate source metadata, notebooks and method hashes
@@ -62,7 +62,7 @@ jobs:
           dotnet-version: |
             8.0.x
             8.0.425
-      - uses: actions/setup-python@v7
+      - uses: actions/setup-python@v7.1.0
         with:
           python-version: '3.12'
       - name: Portable scientific regressions
